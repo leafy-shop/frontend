@@ -7,6 +7,8 @@ let origin = 'http://localhost:5000'
 
 let url = `${origin}/api/products`
 let login_url = `${origin}/api/authentication`
+
+`${import.meta.env.BASE_URL}`;
 // axios({
 //   method: 'get',
 //   url: '/api/users',
