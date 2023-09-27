@@ -3,12 +3,13 @@ import HelloWorld from './components/HelloWorld.vue'
 import axios from 'axios';
 import { onBeforeMount, ref } from "vue"
 
-let origin = 'http://localhost:5000'
+// let origin = 'http://localhost:5000'
+let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 let url = `${origin}/api/products`
 let login_url = `${origin}/api/authentication`
 
-`${import.meta.env.BASE_URL}`;
+
 // axios({
 //   method: 'get',
 //   url: '/api/users',
@@ -23,6 +24,7 @@ let status = ref(0)
 let credentials = {withCredentials: true}
 
 let test = async () => {
+  console.log(import.meta.env.VITE_BASE_URL)
   try {
     let res = await axios.get(url,credentials)
     console.log(res.status)
