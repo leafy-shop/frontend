@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       '/api':{
         // target: 'http://intproj21.sit.kmutt.ac.th',
-        target: 'http://10.4.85.30:5000',
+        target: 'http://capstone23.sit.kmutt.ac.th:5000',
         changeOrigin:true,
         secure:false,
         // rewrite:  (path)=>path.replace(/^\/api/,'')
