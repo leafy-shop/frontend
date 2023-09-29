@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server:{
-    base: '/pl4',
+    base: '/pl4/',
     proxy: {
       '/api':{
         // target: 'http://capstone23.sit.kmutt.ac.th',
