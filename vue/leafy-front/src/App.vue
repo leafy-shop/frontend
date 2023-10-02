@@ -1,8 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import axios from 'axios';
+import axios from 'axios-https-proxy-fix';
 import { onBeforeMount, ref } from "vue"
-
 // let origin = 'http://localhost:5000'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
@@ -21,7 +20,24 @@ let login_url = `${origin}/api/authentication`
 let response = ref()
 let error = ref()
 let status = ref(0)
-let credentials = {withCredentials: true}
+let credentials = {
+  withCredentials: true,
+  host: import.meta.env.VITE_HOST,
+  port: import.meta.env.VITE_PORT,
+  auth: {
+    "email": "sahatat44@gmail.com",
+    "password": "abcd1234"
+  }
+}
+
+// const proxy = {
+//   host: 'some_ip',
+//   port: some_port_number,
+//   auth: {
+//     username: 'some_login',
+//     password: 'some_pass'
+//   }
+// };
 
 let test = async () => {
   console.log(import.meta.env.VITE_BASE_URL)
