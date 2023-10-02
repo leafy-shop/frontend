@@ -1,6 +1,6 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import axios from 'axios-https-proxy-fix';
+import axios from 'axios';
 import { onBeforeMount, ref } from "vue"
 // let origin = 'http://localhost:5000'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -22,11 +22,6 @@ let error = ref()
 let status = ref(0)
 let credentials = {
   withCredentials: true,
-  proxy: {
-    protocol: 'http',
-    host: import.meta.env.VITE_HOST,
-    port: import.meta.env.VITE_PORT,
-  }
 }
 
 // const proxy = {
