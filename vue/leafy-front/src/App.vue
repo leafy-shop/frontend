@@ -26,12 +26,7 @@ let credentials = {
     protocol: 'http',
     host: import.meta.env.VITE_HOST,
     port: import.meta.env.VITE_PORT,
-    auth: {
-      "email": "sahatat44@gmail.com",
-      "password": "abcd1234"
-    }
   }
-
 }
 
 // const proxy = {
