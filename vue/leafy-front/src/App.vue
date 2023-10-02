@@ -22,12 +22,16 @@ let error = ref()
 let status = ref(0)
 let credentials = {
   withCredentials: true,
-  host: import.meta.env.VITE_HOST,
-  port: import.meta.env.VITE_PORT,
-  auth: {
-    "email": "sahatat44@gmail.com",
-    "password": "abcd1234"
+  proxy: {
+    protocol: 'http',
+    host: import.meta.env.VITE_HOST,
+    port: import.meta.env.VITE_PORT,
+    auth: {
+      "email": "sahatat44@gmail.com",
+      "password": "abcd1234"
+    }
   }
+
 }
 
 // const proxy = {
