@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { onBeforeMount, ref } from "vue"
 // let origin = 'http://localhost:5000'
-let origin = `${import.meta.env.BASE_URL}`;
+let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 let url = `${origin}/api/products`
 let login_url = `${origin}/api/authentication`
@@ -21,13 +21,13 @@ axios.defaults.withCredentials = true;
 let response = ref()
 let error = ref()
 let status = ref(0)
-let credentials = {
-  proxy: {
-    protocol: 'http',
-    host: '149.129.239.170',
-    port: 5000,
-  }
-}
+// let credentials = {
+//   proxy: {
+//     protocol: 'http',
+//     host: '149.129.239.170',
+//     port: 5000,
+//   }
+// }
 
 let test = async () => {
   console.log(import.meta.env.BASE_URL)

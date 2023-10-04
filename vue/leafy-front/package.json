@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --base=/pl4",
+    "dev": "vite",
     "build": "vite build --base=/pl4",
     "preview": "vite preview"
   },
