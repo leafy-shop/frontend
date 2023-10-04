@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { onBeforeMount, ref } from "vue"
 // let origin = 'http://localhost:5000'
-let origin = `${import.meta.env.BASE_URL}` == '/pl4' ? 'http://localhost:5000' : `${import.meta.env.BASE_URL}`;
+let origin = `${import.meta.env.BASE_URL}`;
 
 let url = `${origin}/api/products`
 let login_url = `${origin}/api/authentication`
