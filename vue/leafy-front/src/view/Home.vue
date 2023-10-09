@@ -62,6 +62,7 @@ let login = async () => {
     console.log(res.status)
     // status.value = res.status
     // response.value = res.data
+    console.log(res.data)
     localStorage.setItem("token",res.data.token)
     localStorage.setItem("refreshToken",res.data.refreshToken)
     return res.data
