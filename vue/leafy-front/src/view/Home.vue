@@ -10,14 +10,6 @@ let login_url = `${origin}/api/authentication`
 
 axios.defaults.withCredentials = true;
 
-// axios({
-//   method: 'get',
-//   url: '/api/users',
-//   // data: {
-//   //   firstName: 'Fred',
-//   //   lastName: 'Flintstone'
-//   // }
-// });
 let response = ref()
 let error = ref()
 let status = ref(0)
@@ -29,64 +21,71 @@ let status = ref(0)
 //   }
 // }
 
-let test = async () => {
-  console.log(import.meta.env.BASE_URL)
-  // try {
-  //   let res = await axios.get(url,credentials)
-  //   console.log(res.status)
-  //   status.value = res.status
-  //   response.value = res.data
-  //   return res.data
-  // } catch (err) {
-  //   error.value = err.response.data
-  //   status.value = err.response.status
-  // }
-  try {
-    let res = await fetch(url, {
-      method: "GET",
-      headers: {
-      "Content-Type": "application/json",
-      },
-      credentials: "include"
-    })
-    response.value = await res.json()
-    status.value = res.status
-    return response.value
-  } catch (err) {
-    error.value = err.message
-    status.value = err.status
+let config = {
+  headers: {
+    Authorization: localStorage.getItem("token")
   }
 }
 
-let login = async () => {
+let test = async () => {
+  try {
+    let res = await axios.get(url, config)
+    console.log(res.status)
+    status.value = res.status
+    response.value = res.data
+    return res.data
+  } catch (err) {
+    error.value = err.response.data
+    status.value = err.response.status
+  }
   // try {
-  //   let user = {"email": "sahatat44@gmail.com","password": "abcd1234"}
-  //   let res = await axios.post(login_url,user,credentials)
-  //   console.log(res.status)
-  //   // status.value = res.status
-  //   // response.value = res.data
-  //   return res.data
+  //   let res = await fetch(url, {
+  //     method: "GET",
+  //     headers: {
+  //     "Content-Type": "application/json",
+  //     },
+  //     credentials: "include"
+  //   })
+  //   response.value = await res.json()
+  //   status.value = res.status
+  //   return response.value
   // } catch (err) {
-  //   error.value = err.response.data
-  //   status.value = err.response.status
+  //   error.value = err.message
+  //   status.value = err.status
   // }
+}
+
+let login = async () => {
   try {
     let user = {"email": "sahatat44@gmail.com","password": "abcd1234"}
-    let res = await fetch(login_url, {
-      method: "POST",
-      headers: {
-      "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-      credentials: "include"
-    })
-    response.value = res.json()
-    status.value = res.status
-    return response.value
+    let res = await axios.post(login_url,user)
+    console.log(res.status)
+    // status.value = res.status
+    // response.value = res.data
+    localStorage.setItem("token",res.data.token)
+    localStorage.setItem("refreshToken",res.data.refreshToken)
+    return res.data
   } catch (err) {
-    error.value = err.message
-    status.value = err.status
+    error.value = err.response.data
+    status.value = err.response.status
   }
+  // try {
+  //   let user = {"email": "sahatat44@gmail.com","password": "abcd1234"}
+  //   let res = await fetch(login_url, {
+  //     method: "POST",
+  //     headers: {
+  //     "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(user),
+  //     credentials: "include"
+  //   })
+  //   response.value = res.json()
+  //   status.value = res.status
+  //   return response.value
+  // } catch (err) {
+  //   error.value = err.message
+  //   status.value = err.status
+  // }
 }
 
 onBeforeMount(() => {
