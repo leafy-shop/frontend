@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from '../view/Home.vue'
-const history=createWebHistory(import.meta.env.VITE_BASE_URL)
+const history=createWebHistory("/pl4")
 
 const routes=[
     {   path:'/',
