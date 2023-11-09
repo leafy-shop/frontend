@@ -4,7 +4,7 @@
     <div class="main_menu">
         <div class="main_menu_container">
             <div class="element_link">
-                <img src="../assets/vue.svg" alt="leafy_icon" class="leafy_icon">
+                <img src="../assets/LEAFY_logo.png" alt="leafy_icon" class="leafy_icon">
                 <div class="container_link">
                     <button class="link">
                         Home
@@ -73,7 +73,7 @@
 }
 .leafy_icon{
     width:114px;
-    height:28px;
+    height:27px;
     padding-right:10px;
     margin:auto 0 auto 0;
 }
