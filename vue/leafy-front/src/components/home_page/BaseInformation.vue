@@ -15,7 +15,7 @@
                 Shop Collection >
             </button>
         </div>
-        <img class="info_image" src="../../assets/vue.svg" alt="info_image">
+        <img class="info_image" src="../../assets/home_p/home_information.jpg" alt="info_image">
     </div>
     <div class="information_life_greener">
         <h3>
@@ -44,8 +44,13 @@
     height:425px;
     position:relative;
     background-color: rgb(167, 167, 167);
+    overflow: hidden;
 
 }
+/* .container_information img{
+    width: 100%;
+    height: auto;
+} */
 .information_perfect_plant{
     position:absolute;
     width:600px;
@@ -88,8 +93,11 @@ hr{
     
 }
 .info_image{
+    position: absolute;
     width: 100%;
-    height: 100%;
+    height: auto;
+    top: -300px;
+    left: 0;
     z-index: 1;
 }
 

@@ -28,13 +28,11 @@ const scroll =(type)=>{
                         View
                     </button>
                     
-                </div>        
+                </div> 
             </div>
-           
         </div>
         <button @click="scroll('previous')" class="scroll_button_pre" >previous</button>
         <button @click="scroll('next')" class="scroll_button_next">next</button>
-        
     </div>
 </template>
 <style scoped>
@@ -63,12 +61,14 @@ const scroll =(type)=>{
 }
 .designer_list{
     display: flex;
+
     flex-direction: row;
     width:fit-content;
     height:fit-content;
-    margin:auto;
+    margin:auto 3% auto 3%;
     justify-content: center;
     align-items: center;
+    gap: 1%;
     /* background-color: red; */
     /* overflow:auto; */
     
@@ -136,7 +136,7 @@ const scroll =(type)=>{
     border:none;
     border-radius: 50%;
     position:absolute;
-    left:14%;
+    left:220px;
     top:40%;
 }
 .scroll_button_pre:hover{
@@ -149,7 +149,7 @@ const scroll =(type)=>{
     border:none;
     border-radius: 50%;
     position:absolute;
-    right:14%;
+    right:220px;
     top:40%;
 }
 .scroll_button_next:hover{

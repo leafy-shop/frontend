@@ -4,7 +4,7 @@
 <template>
     <div class="container_history">
         <div class="wrapper_history_img">
-            <img src="../../assets/vue.svg" alt="history_img">
+            <img src="../../assets/home_p/home_history.png" alt="history_img">
         </div>
         <div class="wrapper_history">
             <h3>
@@ -31,22 +31,25 @@
     
 } */
 .wrapper_history_img{
-    flex-grow: 8;
-    /* width:608px;
-    height:500px; */
+    /* flex-grow: 8; */
+    width:40%;
+    height:auto;
     overflow:hidden;
     
 
 
 }
 .wrapper_history_img img{
-    width:100%;
-    height:100%;
+    width:608px;
+    height:500px;
+    justify-content: center;
+    align-items: center;
     /* background-color: blue; */
 }
 .wrapper_history{
-    flex-grow: 10;
-    /* width:; */
+    /* flex-grow: 10; */
+    width:60%;
+    height:auto;
     display:flex;
     padding:0px 30px 0px 30px;
     flex-direction: column;
