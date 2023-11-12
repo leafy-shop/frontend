@@ -1,4 +1,5 @@
 <script setup>
+import js from '../../JS/function.js'
 
 const scroll =(type)=>{
     const designerList = document.querySelector(".wrapper_list")
@@ -9,6 +10,9 @@ const scroll =(type)=>{
     
     console.log(type)
     // console.log(n)
+}
+const testing=()=>{
+    js.function_Status('scroll',false,'selector_name and type must not undefined !')
 }
 </script>
 <template>
@@ -23,7 +27,7 @@ const scroll =(type)=>{
                         Namedfgdgdfgdfgsdfsdfsdfsfsdfsdfsdfsdf
                     </h3>
                     <p>
-                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.                    </p>
+                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,                  </p>
                     <button>
                         View
                     </button>
@@ -31,8 +35,8 @@ const scroll =(type)=>{
                 </div> 
             </div>
         </div>
-        <button @click="scroll('previous')" class="scroll_button_pre" >previous</button>
-        <button @click="scroll('next')" class="scroll_button_next">next</button>
+        <button @click="js.scroll('previous','.wrapper_list')" class="scroll_button_pre" >previous</button>
+        <button @click="js.scroll('next','.wrapper_list')" class="scroll_button_next">next</button>
     </div>
 </template>
 <style scoped>
@@ -116,9 +120,11 @@ const scroll =(type)=>{
     width:248px;
     height:119px;
     margin:auto;
-    overflow: hidden;
-    text-overflow: ellipsis; 
     font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .designer button{
