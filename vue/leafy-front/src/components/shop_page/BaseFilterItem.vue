@@ -24,6 +24,7 @@ const categoryArr =[
                 </div>
             </div>
         </div>
+        <hr>
         <div class="price">
             <h4>
                 Filter by price
@@ -39,6 +40,7 @@ const categoryArr =[
                 </button>
             </div>
         </div>
+        <hr>
         <div class="point">
             <h4>
                 Point
@@ -75,27 +77,52 @@ const categoryArr =[
                 </button>
             </div>
         </div>
-
+        <hr>
         <div class="pop_tag">
             <h4>
                 Popular Tags
             </h4>
-            <div class="tag_list">
-                <button>testing2</button>
-                <button>testin</button>
-                <button>testing55</button>
-                <button>tes</button>
-                <button>testing2</button>
-                <button>testin</button>
-                <button>testing55</button>
-                <button>tes</button>
+            <div class="wrapper_tag">
+                <ul class="tag_list">
+                    <li>
+                        <button>Best Product</button>
+                    </li>
+                    <li>
+                        <button>New Arrivals</button>
+                    </li>
+                    <li>
+                        <button>Plants</button>
+                    </li>
+                    <li>
+                        <button>Indoor Plants</button>
+                    </li>
+                    <li>
+                        <button>testing2</button>
+                    </li>
+                    <li>
+                        <button>testin</button>
+                    </li>
+                    <li>
+                        <button>testing55</button>
+                    </li>
+                    <li>
+                        <button>tes</button>
+                    </li>
+                </ul>
             </div>
+            
+        </div>
+        <hr>
+        <div class="clear_b">
+            <button>
+                Clear
+            </button>
         </div>
     </div>
 </template>
 <style scoped>
 .wrapper_filter{
-    width: fit-content;
+    width: 216px;
     height: fit-content;
     margin: 20px;
     
@@ -112,11 +139,11 @@ const categoryArr =[
     display: flex;
     flex-direction: column;
 }
-.category_list div{
+.category_item{
     /* display: flex; */
     height: fit-content;
     width: fit-content;
-    margin-top: 12px;
+    margin: 12px 0px 0px 5px;
 }
 .category_list div input{
     /* display: flex; */
@@ -132,17 +159,17 @@ const categoryArr =[
 
 .price{
     display: flex;
-    width: fit-content;
-    height: 96px;
+    width: 216px;
+    height: fit-content;
     flex-direction: column;
     font-size: 24px;
 }
 
 .price_filter{
     display: flex;
-    width: fit-content;
+    width: 216px;
     height: fit-content;
-    margin-top: 10px;
+    margin-top: 12px;
     justify-content: center;
     align-items: center;
 }
@@ -151,27 +178,29 @@ const categoryArr =[
     height: auto;
     width: auto;
     align-items: center;
-    margin: 0px 8px;
+    margin: 0px 3px;
 }
 .price_filter input{
     width: 78px;
-    height: 28px;
-    padding: 1px 3px;
+    height: 24px;
+    padding: 0px 1px ;
     font-size: 14px;
+    border: none;
 }
 .price_button{
     width: 28px;
     height: 28px;
-    margin: auto 8px;
+    margin: auto 0px auto 8px;
     background-color: #26AC34;
     color: white;
     border-radius: 4px;
     border: none;
+    cursor: pointer;
 }
 
 .point{
-    width: fit-content;
-    height: 184px;
+    width: 216px;
+    height: fit-content;
     font-size: 24px;
 }
 
@@ -193,9 +222,52 @@ const categoryArr =[
     width: 40%;
 }
 
-.tag_list{
-    display: inline-flex;
+.pop_tag{
+    font-size: 24px;
+}
+.wrapper_tag{
+
     width: 216px;
     height: fit-content;
+   
+}
+.tag_list{
+
+    list-style: none;
+    margin: 8px 0px 0px 0px;
+
+}
+.tag_list li{
+    
+    display: inline-flex;
+    margin: 4px;
+
+}
+.tag_list li button{
+    padding: 8px;
+    border: none;
+    font-size: 12px;
+    border-radius: 8px;
+    background-color: #E0E0E0;
+    color: #757575;
+    cursor: pointer;
+}
+
+hr{
+    margin: 20px 0px ;
+}
+.clear_b{
+    width: 216px;
+    height: 40px;
+   
+}
+.clear_b button{
+    width: inherit;
+    height: inherit;
+    background-color: #26AC34;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    
 }
 </style>
