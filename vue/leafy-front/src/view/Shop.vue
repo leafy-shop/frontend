@@ -2,6 +2,7 @@
 import BaseMenu from '../components/BaseMenu.vue';
 import baseFooter from '../components/basefooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
+import BaseProductList from '../components/shop_page/BaseProductList.vue';
 </script>
 <template>
     <BaseMenu/>
@@ -15,6 +16,7 @@ import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
     <div class="shop_content">
         <div class="wrapper_content">
             <BaseFilterItem/>
+            <BaseProductList/>
         </div>
     </div>
     <baseFooter/>
