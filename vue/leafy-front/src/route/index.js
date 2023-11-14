@@ -9,12 +9,9 @@ const routes=[
         component: Home,
     },
     {   path:'/shop',
-        name:'Home',
+        name:'Shop',
         component: Shop,
-    },
-    
-    
-    
+    }    
 ]
 
 const router=createRouter({history,routes})
