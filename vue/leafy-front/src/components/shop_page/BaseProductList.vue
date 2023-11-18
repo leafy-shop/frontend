@@ -64,6 +64,9 @@ const productList=[
     height: 220px;
 }
 
+.product_info{
+    background-color: gray;
+}
 .product_info h4:nth-child(1){
     font-size: 20px;
     font-weight: 500;
