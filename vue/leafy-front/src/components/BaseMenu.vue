@@ -27,12 +27,15 @@
             </div>
             <div class="element_service"> 
                 <div class="service_container_search">
-                    <img class="search_icon" src="../assets/vue.svg" alt="search_icon">
+                    <img class="search_icon" src="../assets/icon/magnifying.svg" alt="search_icon">
                     <input type="text" placeholder="Search">
                 </div>
+                <button class="cart_b">
+                    <img src="../assets/icon/cart_icon.svg" alt="cart_icon">
+                </button>
                 <button class="service_sign-in">
                         Sign in
-                    </button>    
+                </button>    
             </div>
         </div>
         
@@ -73,7 +76,7 @@
 }
 .leafy_icon{
     width:114px;
-    height:27px;
+    height:28px;
     padding-right:10px;
     margin:auto 0 auto 0;
 }
@@ -92,6 +95,7 @@
     color:#252525;
     cursor: pointer;
     border:none;
+    background-color: inherit;
 }
 
 .link:focus{
@@ -108,27 +112,38 @@
 }
 .service_container_search{
     display:flex;
+    width: 220px;
+    height:40px;
+    border-radius: 8px;
+    justify-content: center;
+    background-color:#F5F5F5;
+    color:  #BDBDBD;
 }
 .search_icon{
     width:20px;
     height: 20px;
-    margin:auto 3px auto 3px;
+    margin:auto 12px auto 0px;
 }
-input{
-    width:200px;
-    height:40;
-    padding:6px;
+.service_container_search input{
+    
+    width:148px;
+    height:24px;
+    /* align-items: center; */
+    margin: auto 0px;
+    /* padding:6px; */
     font-weight: 300;
     border:none;
+    background-color: inherit;
     /* border-radius: ; */
     outline:inherit;
+
 }
 
 .service_sign-in{
     width:77px;
     height:40px;
     border:none;
-    padding:8px, 12px, 8px, 12px;
+    padding: 8px,12px;
     border-radius: 4px;
     background-color: #26AC34;
     color:#FFFFFF;
@@ -137,5 +152,19 @@ input{
 }
 .service_sign-in:hover{
     background-color: gray;
+}
+
+.cart_b{
+    display: flex;
+    margin: 0px 20px;
+    align-items: center;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+}
+.cart_b img{
+    width: 24px;
+    height: 24px;
+
 }
 </style>
