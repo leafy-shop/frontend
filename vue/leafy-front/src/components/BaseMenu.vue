@@ -48,25 +48,28 @@
     
 }
 .main_menu{
+    display: flex;
     width:100%;
     height:80px;
     
     margin:auto;
     background-color: white;
+    justify-content: center;
 }
 .main_menu_container{
-    width:100%;
-    height:100%;
+    width:1120px;
+    height:inherit;
     
-    margin:auto;
+    /* margin:auto; */
     
     display: flex;
+    justify-content: space-between;
 }
 .element_link{
-    flex-grow:8;
+    /* flex-grow:8; */
     display: flex;
-    padding:10px;
-    margin:auto;
+    /* padding:10px; */
+    margin:auto 0px;
     width: fit-content;
     height:fit-content;
     
@@ -77,20 +80,21 @@
 .leafy_icon{
     width:114px;
     height:28px;
-    padding-right:10px;
+    /* padding-right:10px; */
     margin:auto 0 auto 0;
 }
 .container_link{
     display:flex;
-    padding:8px 0px 8px 0px;
+    width: fit-content;
+    height: 40px;
+    /* padding:8px 0px 8px 0px; */
     
 }
 .link{
-    padding: 3px;
-    margin:0px 15px 0px 15px;
-    
-    width:fit-content;
-    height: fit-content;
+    width: fit-content;
+    height: 24px;
+    /* padding: 3px; */
+    margin:auto 0px auto 32px;
 
     color:#252525;
     cursor: pointer;
@@ -103,12 +107,12 @@
 }
 
 .element_service{
-    flex-grow:6;
+    /* flex-grow:6; */
     padding:10px;
     display:flex;
     width: fit-content;
     height:fit-content;
-    margin:auto;
+    margin:auto 0px;
 }
 .service_container_search{
     display:flex;
