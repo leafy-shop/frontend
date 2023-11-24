@@ -29,7 +29,7 @@ let config = {
 
 let test = async () => {
   try {
-    let res = await axios.get(url, config)
+    let res = await axios.get(url)
     console.log(res.status)
     status.value = res.status
     response.value = res.data
@@ -63,8 +63,8 @@ let login = async () => {
     // status.value = res.status
     // response.value = res.data
     console.log(res.data)
-    localStorage.setItem("token",res.data.token)
-    localStorage.setItem("refreshToken",res.data.refreshToken)
+    // localStorage.setItem("token",res.data.token)
+    // localStorage.setItem("refreshToken",res.data.refreshToken)
     return res.data
   } catch (err) {
     error.value = err.response.data
