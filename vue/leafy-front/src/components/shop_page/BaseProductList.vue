@@ -1,20 +1,57 @@
 <script setup>
-import{ref} from'vue'
-const productList=[
-    {name:"Good Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
-    {name:"Plants",price:80,sold:8,star:5},
+import{ref,onBeforeMount, computed} from'vue'
+import api from '../../JS/api'
+import validation from '../../JS/validation'
+const productList=ref([])
+
+const currentPage=ref(1)
+const maxPage=computed(()=>{
+    let page = 16/15
+    // allItems.value
+    return Math.ceil(page)
+})
+const allItems=ref(0)
+
+const getProduct=async(page)=>{
+
+    let {status,data} =await api.getAllProduct(page)
+    // console.log(data)
+    productList.value=data.productList
+    allItems.value=data.allItems
+}
+
+// if change page input must be a number only
+const changePage=(number)=>{
+    console.log(typeof(number))
     
-]
+    let status =validation.number(number,true)
+    currentPage.value = status==true?number:Math.abs(parseInt(number))
+    
+    // currentPage.value=Math.abs(parseInt(number))
+    getProduct(currentPage.value)
+}
+
+onBeforeMount(()=>{
+    getProduct(1)
+})
+// const productList=[
+//     {name:"Good Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+//     {name:"Plants",price:80,sold:8,star:5},
+    
+// ]
 </script>
 <template>
     <div class="wrapper_product_list">
@@ -40,6 +77,15 @@ const productList=[
                 </div>
             </div>
         </div>
+        <div class="link_page_container">
+            <ul>
+                <li v-for="(link,index) of maxPage" :key="index">
+                    <button @click="changePage(index+1)">
+                        {{ link }}
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 <style scoped>
@@ -51,6 +97,7 @@ const productList=[
 .grid_container{
     display: grid;
     grid-template-columns: auto auto auto;
+
     gap: 32px;
 }
 .grid_item{

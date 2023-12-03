@@ -1,6 +1,6 @@
 <script setup>
 import{ref,computed} from 'vue'
-import js from '../../JS/function'
+import js from '../../JS/validation'
 const starAverage=ref(4.8)
 const starAmount=ref(Math.floor(starAverage.value))
 const reviewAmount=ref(1001)

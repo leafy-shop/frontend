@@ -1,4 +1,10 @@
 <script setup>
+import { useRouter } from 'vue-router';
+
+const myRouter =useRouter()
+const goHome=()=>myRouter.push({name:'Home'})
+const goSignin=()=>myRouter.push({name:'Login'})
+const goShop=()=>myRouter.push({name:'Shop'})
 </script>
 <template>
     <div class="main_menu">
@@ -6,10 +12,10 @@
             <div class="element_link">
                 <img src="../assets/LEAFY_logo.png" alt="leafy_icon" class="leafy_icon">
                 <div class="container_link">
-                    <button class="link">
+                    <button @click="goHome" class="link">
                         Home
                     </button>
-                    <button class="link">
+                    <button @click="goShop" class="link">
                         Shop
                     </button>
                     <button class="link">
@@ -33,7 +39,7 @@
                 <button class="cart_b">
                     <img src="../assets/icon/cart_icon.svg" alt="cart_icon">
                 </button>
-                <button class="service_sign-in">
+                <button @click="goSignin" class="service_sign-in">
                         Sign in
                 </button>    
             </div>

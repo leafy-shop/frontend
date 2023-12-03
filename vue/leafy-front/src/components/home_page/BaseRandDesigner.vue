@@ -1,5 +1,5 @@
 <script setup>
-import js from '../../JS/function.js'
+import js from '../../JS/validation.js'
 
 const scroll =(type)=>{
     const designerList = document.querySelector(".wrapper_list")

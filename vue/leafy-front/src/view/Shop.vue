@@ -46,7 +46,8 @@ import BaseProductList from '../components/shop_page/BaseProductList.vue';
 
 .shop_content{
     display: flex;
-    height: 1672px;
+    /* height: 1672px; */
+    height: fit-content;
     width: auto;
     align-items: center;
     justify-content: center;
@@ -55,6 +56,8 @@ import BaseProductList from '../components/shop_page/BaseProductList.vue';
     display: flex;
     flex-direction: row;
     width: fit-content;
-    height: 1632px;
+    /* height: 1632px; */
+    height: 2024px;
+
 }
 </style>
