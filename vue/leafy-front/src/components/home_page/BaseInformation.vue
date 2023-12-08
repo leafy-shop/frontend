@@ -41,7 +41,7 @@
 }
 .container_information{
     width:auto;
-    height:425px;
+    height:452px;
     position:relative;
     background-color: rgb(167, 167, 167);
     overflow: hidden;
@@ -52,23 +52,29 @@
     height: auto;
 } */
 .information_perfect_plant{
-    position:absolute;
-    width:600px;
-    height:auto;
-    padding:3px;
-    left:180px;
-    top:100px;
+    /* position:absolute; */
+    position:relative;
+    box-sizing: border-box;
+    width:100%;
+    height:100%;
+    padding:100px 160px;
+    /* left:180px;
+    top:100px; */
     z-index: 3;
     /* background-color: white; */
 }
 .information_perfect_plant h1{
+    width: 394px;
+    height: 72px;
     font-weight: 700;
     font-size: 48px;
-    margin:0px 0px 20px 0px;
+    /* margin:0px 0px 20px 0px; */
+    /* text-justify: center; */
+    line-height: 150%;
     color:#252525;
 }
 .information_perfect_plant p{
-    margin: 20px 0px 0px 0px;
+    width: 576px;
     color:#252525;
 }
 .information_perfect_plant button{
@@ -89,6 +95,7 @@
 hr{
     width:96px;
     height:8px;
+    margin: 20px 0px;
     background-color: #252525;
     
 }
@@ -103,31 +110,36 @@ hr{
 
 .information_life_greener{
     width:auto;
-    height:auto;
-    padding-top:5px; 
+    height:292px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding:40px 160px ; 
 }
 .information_life_greener h3{
     width:1120px;
-    height:auto;
-    margin:auto;
-    margin-top:60px;
-    margin-bottom: 30px;
-    text-align: center;
+    height:32px;
+    display: flex;
+    margin: 20px auto ;
+    justify-content: center;
     font-size: 20px;
     text-transform: uppercase;
-    
+    border-bottom: 1px solid ;
+    border-color: #E0E0E0;
     color:#252525;
     
 }
 .information_life_greener div{
     width:1120px;
-    height: auto;
-    margin:auto;
-    margin-bottom:40px;
+    height: 120px;
+    margin:20px auto 0px auto;
+    
 }
 .information_life_greener div p{
     text-align: center;
     font-size: 16px;
     font-weight: 400;
+    line-height: 150%; /* 24px */
+    letter-spacing: 0.2px;
 }
 </style>

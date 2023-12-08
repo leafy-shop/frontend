@@ -124,7 +124,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
     display:flex;
     width: 220px;
     height:40px;
-    border-radius: 8px;
+    border-radius: 4px;
     justify-content: center;
     background-color:#F5F5F5;
     color:  #BDBDBD;

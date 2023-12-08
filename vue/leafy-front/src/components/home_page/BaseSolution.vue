@@ -5,7 +5,7 @@
 <div class="solution">
     <div class="container_solution">
         <div>
-            <img src="../../assets/vue.svg" alt="recommend_icon">
+            <img src="../../assets/home_p/icon/recommend.png" alt="recommend_icon">
             <h3>
                 Recommend
             </h3>
@@ -14,7 +14,7 @@
             </p>
         </div>
         <div>
-            <img src="../../assets/vue.svg" alt="Delivery_icon">
+            <img src="../../assets/home_p/icon/delivery.png" alt="Delivery_icon">
             <h3>
                 Free Delivery
             </h3>
@@ -23,7 +23,7 @@
             </p>
         </div>
         <div>
-            <img src="../../assets/vue.svg" alt="communicate_icon">
+            <img src="../../assets/home_p/icon/communicate.png" alt="communicate_icon">
             <h3>
                 Communicate
             </h3>
@@ -32,7 +32,7 @@
             </p>
         </div>
         <div>
-            <img src="../../assets/vue.svg" alt="inspiration_icon">
+            <img src="../../assets/home_p/icon/inspiration.png" alt="inspiration_icon">
             <h3>
                 Inspiration
             </h3>
@@ -56,31 +56,36 @@
     width:auto;
     height: 100%;
     align-items: center;
-  justify-content: center;
-    margin:auto;
+    justify-content: center;
+    gap: 32px;
+    /* margin:auto; */
     /* padding:3px; */
     
 }
 .container_solution div{
-    width: 226px;
-    height: auto;
-    margin:0 20px 0 20px;
+    width: 256px;
+    height: 164px;
+    display: flex;
+    flex-direction: column;
+    /* margin:0 16px 0 16px; */
     text-align: center;
+    
     
 
 }
 .container_solution div img{
     width:100px;
     height: 100px;
+    margin: auto;
 }
 
 .container_solution div h3{
     font-size: 18px;
-    margin:10px 0px 10px 0px;
+    margin:12px 0px 0px 0px;
 
 }
 .container_solution div p{
     font-size: 16px;
-    margin:10px 0px 10px 0px;
+    
 }
 </style>
