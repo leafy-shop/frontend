@@ -57,7 +57,7 @@ let test = async () => {
 
 let login = async () => {
   try {
-    let user = {"email": "sahatat44@gmail.com","password": "abcd1234"}
+    let user = {"email_phone": "sahatat44@gmail.com","password": "abcd1234"}
     let res = await axios.post(login_url,user)
     console.log(res.status)
     // status.value = res.status
