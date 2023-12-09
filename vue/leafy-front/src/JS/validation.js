@@ -1,20 +1,21 @@
  const ft ={
-    scroll (type=undefined,class_name=undefined){
-        console.log(type)
-        type=undefined
+    scroll (type=undefined,class_name=undefined,amountMove=undefined){
+        // console.log(type)
+        // console.log(class_name)
+        // type=undefined
         if(class_name==undefined ||type==undefined){
             
-            this.function_Status('scroll',false,'class_name and type must not undefined !')
+            this.function_Status('scroll',false,'class_name and type must not undefined !'+'\n'+` type : ${type}`+'\n'+` class name : ${class_name}`)
             
         }else{
             const designerList = document.querySelector(`${class_name}`)
             const direction= type==="previous"?-1:1
-            const scrollAmount = designerList.clientWidth*direction
-            // console.log("scroll Amout :"+scrollAmount)
+            //สำหรับเคลื่อนที่ว่าจะไปตำแหน่งไหน ใส่เลขเองหรือตามขนาดของแทคนั้น
+            const scrollAmount = amountMove==undefined?designerList.clientWidth*direction:amountMove*direction
+            console.log("scroll Amout :"+scrollAmount)
             designerList.scrollBy({left:scrollAmount,behavior:"smooth"})
         }
-        // console.log(type)
-        // console.log(n)
+
     },
     function_Status (ft_name='',useable=false,message=''){
         if(!useable){

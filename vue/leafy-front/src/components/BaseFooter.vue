@@ -124,10 +124,10 @@ const information=[
             <h4>
                 2023 Leafy. All rights reserved.
             </h4>
-            <button>
+            <!-- <button>
                 <img src="../assets/vue.svg" alt="chat_icon">
                 <span>chat</span>
-            </button>
+            </button> -->
         </div>
 
 

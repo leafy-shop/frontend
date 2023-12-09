@@ -49,16 +49,20 @@
 <style scoped>
 .wrapper_plant_inspo{
     display: flex;
-    width: auto;
-    height: 714px;
+    width: 100%;
+    height: 688px;
     flex-direction: column;
     justify-content: center;
-
+    box-sizing: border-box;
+    background-color: #F5F5F5;
 }
 .wrapper_plant_inspo h3{
+    width: 1120px;
+    height: 36px;
     text-align: center;
     font-size: 24px;
-    padding:20px;
+    padding:12px 0px;
+    margin: 0px auto 0px auto;
     text-transform: capitalize;
 }
 .container_plant_inspo{
@@ -66,7 +70,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    margin-top: 20px;
+    gap: 32px;
 }
 .plant_type{
     display: flex;
@@ -80,22 +85,31 @@
 .plant_type img{
     width: 352px;
     height: 360px;
-    border-radius: 10px;
+    border-radius: 8px;
     
 }
 .plant_type h4{
-    font-size: 22px;
+    font-size: 18px;
+    
     margin-top: 20px;
 }
 .plant_type p{
     margin-top: 10px;
 }
 .plant_type button{
-    width: 60px;
-    height: 30px;
+    width: 64px;
+    height: 36px;
     margin-top: 10px ;
-    border-color:rgb(133, 133, 133) ;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 144%; /* 20.16px */
+    letter-spacing: 0.2px;
+    padding: 8px 12px;
+    border: 1px solid;
+    border-color:#E0E0E0;
     border-radius: 4px;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
     
 }
 </style>
