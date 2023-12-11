@@ -4,14 +4,13 @@ import BaseInfomation from '../components/home_page/BaseInformation.vue'
 import BaseSolution from '../components/home_page/BaseSolution.vue'
 import BaseRandDesigner from '../components/home_page/BaseRandDesigner.vue'
 import BaseHistory from '../components/home_page/BaseHistory.vue'
-import BaseLandScapeDesign from '../components/home_page/Baselandscapedesign.vue'
+import BaseLandScapeDesign from '../components/home_page/BaseLandScapeDesign.vue' 
 import BasePlantInspo from '../components/home_page/BasePlantInspo.vue'
-import BaseFooter from '../components/Basefooter.vue'
+import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 </script>
-
 <template>
-    <BaseMenu/>
+     <BaseMenu/>
     <BaseInfomation/>
     <BaseSolution/>
     <BaseRandDesigner/>
@@ -25,7 +24,6 @@ import BaseReview from '../components/home_page/BaseReview.vue'
         <span>chat</span>
     </button>
 </template>
-
 <style scoped>
 
 .chat{
