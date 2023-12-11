@@ -16,7 +16,7 @@ const getProduct=async(page)=>{
 
     let {status,data} =await fetch.getAllProduct(page)
     // console.log(data)
-    productList.value=data.productList
+    productList.value=data.list
     allItems.value=data.allItems
 }
 
