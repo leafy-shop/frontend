@@ -1,5 +1,7 @@
 <script setup>
-
+import { useRouter } from 'vue-router';
+const myRouter=useRouter()
+const goShop=()=>myRouter.push({name:'Shop'})
 </script>
 <template>
     <div class="container_information">
@@ -11,7 +13,7 @@
             <p>
                 A beautiful house is as much about its surroundings as its bricks and mortar, something that the best garden designers all understand. We've completely updated our list of the finest of them all.
             </p>
-            <button>
+            <button @click="goShop">
                 Shop Collection >
             </button>
         </div>
