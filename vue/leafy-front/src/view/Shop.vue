@@ -1,6 +1,6 @@
 <script setup>
 import BaseMenu from '../components/BaseMenu.vue';
-import baseFooter from '../components/basefooter.vue';
+import baseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 </script>
