@@ -6,7 +6,7 @@ import BaseRandDesigner from '../components/home_page/BaseRandDesigner.vue'
 import BaseHistory from '../components/home_page/BaseHistory.vue'
 import BaseLandScapeDesign from '../components/home_page/baselandscapedesign.vue'
 import BasePlantInspo from '../components/home_page/BasePlantInspo.vue'
-import BaseFooter from '../components/basefooter.vue'
+import BaseFooter from '../components/Basefooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 </script>
 
