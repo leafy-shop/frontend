@@ -43,6 +43,7 @@ import BaseReview from '../components/home_page/BaseReview.vue'
     box-shadow: 0px 0px 10px 0px rgba(4, 6, 15, 0.20);
     border: none;
     z-index: 99;
+    cursor: pointer;
 }
 .chat img{
     width: 20px;
@@ -55,4 +56,5 @@ import BaseReview from '../components/home_page/BaseReview.vue'
     text-transform: capitalize;
     font-weight: 500;
 }
+
 </style>

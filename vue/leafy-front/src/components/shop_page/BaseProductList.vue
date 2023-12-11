@@ -1,6 +1,6 @@
 <script setup>
 import{ref,onBeforeMount, computed} from'vue'
-import api from '../../JS/api'
+import fetch from '../../JS/api'
 import validation from '../../JS/validation'
 const productList=ref([])
 
@@ -14,7 +14,7 @@ const allItems=ref(0)
 
 const getProduct=async(page)=>{
 
-    let {status,data} =await api.getAllProduct(page)
+    let {status,data} =await fetch.getAllProduct(page)
     // console.log(data)
     productList.value=data.productList
     allItems.value=data.allItems

@@ -186,6 +186,7 @@ const information=[
     border-radius: 4px;
     border:none;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .container_information{
@@ -223,6 +224,7 @@ const information=[
     cursor: pointer;
     text-align: left;
     font-size: 12px;
+    background-color: inherit;
 }
 
 
@@ -243,6 +245,7 @@ const information=[
     cursor: pointer;
     text-align: left;
     font-size: 12px;
+    background-color: inherit;
 }
 
 .container_business{
@@ -285,7 +288,7 @@ div > .wrapper_payment {
     height: fit-content; 
     border:none;
     cursor: pointer;
-    
+    background-color: inherit;
 }
 .wrapper_payment button img{
     width: 100%;
@@ -306,6 +309,7 @@ div > .wrapper_logistic{
     height: fit-content; 
     border: none;
     cursor: pointer;
+    background-color: inherit;
 }
 .wrapper_logistic button img{
     width: 100%;
@@ -335,6 +339,7 @@ div > .wrapper_follow_link{
 .wrapper_follow_link button{
     border:none;
     cursor: pointer;
+    background-color: inherit;
 }
 .wrapper_follow_link button img{
     width: 20px;
@@ -345,11 +350,12 @@ div > .wrapper_follow_link{
     display: flex;
     width: auto;
     height: 68px;
-    padding-right:40px;
+    padding:24px 160px;
     justify-content: end;
     align-items: center;
     border-top: 1px solid;
     border-color: rgb(197, 197, 197);
+    box-sizing: border-box;
 }
 .copylight img{
     width: 20px;
@@ -361,7 +367,7 @@ div > .wrapper_follow_link{
     font-size: 14px;
     font-weight: 500;
 }
-.copylight button{
+/* .copylight button{
     display: flex;
     width: 95px;
     height: 40px;
@@ -385,6 +391,6 @@ div > .wrapper_follow_link{
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 500;
-}
+} */
 
 </style>
