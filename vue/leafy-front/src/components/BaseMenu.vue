@@ -267,6 +267,7 @@ const showMenu2 = ref(true)
        
     }
     .main_menu_container{
+        width: inherit;
         height: 40px;
         padding: 20px 44px;
         box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
