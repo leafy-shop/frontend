@@ -10,7 +10,7 @@ import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 </script>
 <template>
-     <BaseMenu/>
+    <BaseMenu class="menu"/>
     <BaseInfomation/>
     <BaseSolution/>
     <BaseRandDesigner/>
@@ -53,6 +53,11 @@ import BaseReview from '../components/home_page/BaseReview.vue'
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 500;
+}
+.menu{
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
 </style>

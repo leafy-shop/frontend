@@ -57,6 +57,9 @@
             
         }
         return returnStatus
+    },
+    clickingTest(text){
+        console.log("clicking : "+text)
     }
 }
 

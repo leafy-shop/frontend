@@ -1,6 +1,6 @@
 <script setup>
 import BaseMenu from '../components/BaseMenu.vue';
-import baseFooter from '../components/BaseFooter.vue';
+import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 </script>
@@ -19,7 +19,7 @@ import BaseProductList from '../components/shop_page/BaseProductList.vue';
             <BaseProductList/>
         </div>
     </div>
-    <baseFooter/>
+    <BaseFooter/>
 </template>
 <style scoped>
 .shop_title{
