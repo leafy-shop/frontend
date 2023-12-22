@@ -7,7 +7,7 @@ const goHome=()=>myRouter.push({name:'Home'})
 const goSignin=()=>myRouter.push({name:'Login'})
 const goShop=()=>myRouter.push({name:'Shop'})
 
-const showMenu2 = ref(true)
+const showMenu2 = ref(false)
 </script>
 <template>
     <div class="main_menu">
@@ -258,7 +258,7 @@ const showMenu2 = ref(true)
 
 
 
-@media (width < 1440px){
+@media (width <= 744px){
     .container_link, .service_sign-in, .search_icon{
         display: none;
     }
@@ -343,7 +343,7 @@ const showMenu2 = ref(true)
         background-color: #26AC34;
         color: white;
         border: none;
-        border-radius: 14px;
+        border-radius: 4px;
         cursor: pointer;
     }
     .service_container_2 div{
@@ -418,7 +418,7 @@ const showMenu2 = ref(true)
 
 }
 
-@media (width < 376px){
+@media (width <= 376px){
     .main_menu{
         height: 60px;
     }

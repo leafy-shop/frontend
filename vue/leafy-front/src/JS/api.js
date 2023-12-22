@@ -1,5 +1,6 @@
 import axios from 'axios';
 import validation from '../JS/validation'
+import cookie from './cookie'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 axios.defaults.withCredentials = true;
 
@@ -34,6 +35,8 @@ const ft={
                 let userInfo={"email_phone":email,"password":password}
                 let res =await axios.post(url,userInfo)
                 console.log(res.data)
+                cookie.encrypt(res.data)
+                cookie.decrypt()
                 validation.function_Status("login",true)
                 return true
             } catch (error) {
