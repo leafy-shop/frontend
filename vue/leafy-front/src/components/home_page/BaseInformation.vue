@@ -17,7 +17,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
                 Shop Collection >
             </button>
         </div>
-        <img class="info_image" src="../../assets/home_p/home_information.jpg" alt="info_image">
+        <img class="info_image" src="../../assets/home_p/home_information.png" alt="info_image">
     </div>
     <div class="information_life_greener">
         <h3>
@@ -45,9 +45,10 @@ const goShop=()=>myRouter.push({name:'Shop'})
     width:auto;
     height:452px;
     position:relative;
-    background-color: rgb(167, 167, 167);
+    /* background-color: rgb(167, 167, 167); */
     overflow: hidden;
-    background-color: #E0E0E0;
+    background-color: #EAE9E5;
+    background-image: linear-gradient(#EAE9E5,#E7E8E3);
 }
 /* .container_information img{
     width: 100%;
@@ -109,11 +110,12 @@ hr{
 }
 .info_image{
     position: absolute;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
     /* top: -300px; */
+    /* right: 0; */
     right: 0;
-    bottom: -300px;
+    top: 0;
     z-index: 1;
 }
 
@@ -193,8 +195,10 @@ hr{
         font-size: 14px;
     }
     .info_image{
-        width: 100%;
-        top:-20%;
+        width: auto;
+        height: 100%;
+        right: 0;
+        bottom: 0;
     }
 
     .information_life_greener{
@@ -246,8 +250,9 @@ hr{
         margin-top: 12px;
     }
     .info_image{
-        width: 100%;
-        top:10%;
+        width: inherit;
+        right: 0;
+        bottom: 0;
     }
     .information_life_greener{
         height: 188px;

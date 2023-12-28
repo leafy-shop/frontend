@@ -50,12 +50,14 @@
 }
 .solution{
     width: auto;
-    height: 296px;
+    height: 284px;
+    padding: 60px 160px;
+    box-sizing: border-box;
 }
 .container_solution{
     display:flex;
-    width:auto;
-    height: 100%;
+    width: inherit;
+    height: fit-content;
     align-items: center;
     justify-content: center;
     gap: 32px;
@@ -64,8 +66,8 @@
     
 }
 .container_solution div{
-    width: 256px;
-    height: 164px;
+    width: fit-content;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     /* margin:0 16px 0 16px; */
@@ -77,7 +79,7 @@
 .container_solution div img{
     width:100px;
     height: 100px;
-    margin: auto;
+    margin: 0px auto ;
 }
 
 .container_solution div h3{
@@ -87,6 +89,56 @@
 }
 .container_solution div p{
     font-size: 16px;
+    
+}
+
+@media (width <=744px){
+    .solution{
+        height: 236px;
+        padding: 40px 44px;
+    }
+    .container_solution{
+        gap: 16px;
+    }
+    .container_solution div{
+        width: 152px;
+        height: 156px;
+    }
+    .container_solution div img{
+        width: 80px;
+        height: auto;
+    }
+    .container_solution div h3{
+        font-size: 16px;
+    }
+    .container_solution div p{
+        font-size: 14px;
+    }
+}
+
+@media (width <=376px){
+    .solution{
+        height: 120px;
+        padding: 28px 16px;
+    }
+    .container_solution{
+        gap: 8px;
+    }
+    .container_solution div{
+        width: 80px;
+        height: 64px;
+    }
+    .container_solution div img{
+        width: 48px;
+        height: auto;
+    }
+    .container_solution div h3{
+        font-size: 10px;
+        margin-top: 4px;
+    }
+    .container_solution div p{
+        display: none;
+    }
     
 }
 </style>
