@@ -1,26 +1,25 @@
 <script setup>
-import{ref} from 'vue'
-const email =ref('')
-const customerService=[
-    {name:"How To Buy",link:''},
-    {name:"How To Sell",link:''},
-    {name:"Payment Methods",link:''},
-    {name:"Shipping & Delivery",link:''},
-    {name:"Return & Refund",link:''},
-    {name:"Contact Us",link:''}
+import { ref } from 'vue'
+const email = ref('')
+const customerService = [
+    { name: "How To Buy", link: '' },
+    { name: "How To Sell", link: '' },
+    { name: "Payment Methods", link: '' },
+    { name: "Shipping & Delivery", link: '' },
+    { name: "Return & Refund", link: '' },
+    { name: "Contact Us", link: '' }
 ]
-const information=[
-    {name:"About Us",link:''},
-    {name:"Leafy Policies",link:''},
-    {name:"Privacy Policy",link:''},
-    {name:"Cookies",link:''},
-    {name:"Terms & Conditions",link:''}
+const information = [
+    { name: "About Us", link: '' },
+    { name: "Leafy Policies", link: '' },
+    { name: "Privacy Policy", link: '' },
+    { name: "Cookies", link: '' },
+    { name: "Terms & Conditions", link: '' }
 ]
 </script>
 <template>
     <footer class="container_footer">
         <div class="register">
-            <img src="../assets/home_p/home_footer_register.jpg" alt="background_img">
             <h3>
                 BECOME A LEAFY
             </h3>
@@ -33,6 +32,7 @@ const information=[
                     SIGN UP
                 </button>
             </div>
+            <img src="../assets/home_p/home_footer_register.jpg" alt="background_img">
         </div>
 
         <div class="container_information">
@@ -41,7 +41,7 @@ const information=[
                     <h3>
                         customer service
                     </h3>
-                    <button v-for="(service,index) of customerService" :key="index">{{ service.name }}</button>   
+                    <button v-for="(service, index) of customerService" :key="index">{{ service.name }}</button>
 
                 </div>
 
@@ -49,7 +49,7 @@ const information=[
                     <h3>
                         information
                     </h3>
-                    <button v-for="(info,index) of information" :key="index">{{ info.name }}</button>
+                    <button v-for="(info, index) of information" :key="index">{{ info.name }}</button>
                 </div>
 
                 <div class="container_business">
@@ -60,18 +60,18 @@ const information=[
                         <div class="wrapper_payment">
                             <button>
                                 <img src="../assets/icon/visa_icon.png" alt="visa_icon">
-                            </button>    
+                            </button>
                             <button>
                                 <img src="../assets/icon/master_card_icon.png" alt="master_card_icon">
-                            </button>    
+                            </button>
                             <button>
                                 <img src="../assets/icon/jcb_icon.png" alt="jcb_icon">
-                            </button> 
+                            </button>
                             <button>
-                                <img src="../assets/icon/cash_on_icon.png" alt="cash_on_icon">                                
-                            </button> 
+                                <img src="../assets/icon/cash_on_icon.png" alt="cash_on_icon">
+                            </button>
                         </div>
-                        
+
                     </div>
                     <div class="logistic">
                         <h3>
@@ -80,14 +80,14 @@ const information=[
                         <div class="wrapper_logistic">
                             <button>
                                 <img src="../assets/icon/thaipost_icon.png" alt="visa_icon">
-                            </button>  
+                            </button>
                             <button>
                                 <img src="../assets/icon/kerry_icon.png" alt="visa_icon">
-                            </button> 
+                            </button>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
 
                 <div class="follow">
@@ -113,7 +113,7 @@ const information=[
                     </div>
                 </div>
 
-                
+
 
 
             </div>
@@ -134,68 +134,79 @@ const information=[
     </footer>
 </template>
 <style scoped>
-.container_footer{
+.container_footer {
     width: auto;
-    height:fit-content;
-    margin-top:5 0px;
-}
-.register{
-    width:auto;
-    height:204px;
-    position: relative;
-    padding: 0% 10% 0% 10%;
-    display:flex;
-    flex-direction: column;
-    background-color: green;
-    justify-content: center;
-    overflow:hidden;
-}
-.register img{
-    position:absolute;
-    left:0;
-    bottom:  -590px;
-    width:100%;
-    height:auto;
-    z-index: 1;
-}
-.register h3{
-    font-size: 20px;
-    color:#FFFFFF;
-    z-index: 2;
-}
-.register p{
-    margin: 15px 0px 15px 0px;
-    color:#FFFFFF;
-    z-index: 2;
-}
-.container_sign_up{
-    z-index: 2;
-}
-.container_sign_up input{
-    width:280px;
-    height: 30px;
-    padding:3px 5px 3px 5px;
-    border-radius: 4px;
-    /* outline: none; */
-    border:none;
-    
-}
-.container_sign_up button{
-    width:83px;
-    height:36px;
-    border-radius: 4px;
-    border:none;
-    margin-left: 10px;
-    cursor: pointer;
+    height: fit-content;
+    margin-top: 5 0px;
 }
 
-.container_information{
-    width:auto;
-    height:264px;
-    
+.register {
+    width: auto;
+    height: 204px;
+    position: relative;
+    padding: 0% 10%;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    justify-content: center;
+    overflow: hidden;
 }
-.wrapper_information{
-    width:auto;
+
+.register img {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+    opacity: 50%;
+    /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), url(<path-to-image>), lightgray 50% / cover no-repeat; */
+}
+
+.register h3 {
+    font-size: 20px;
+    color: #FFFFFF;
+    z-index: 2;
+}
+
+.register p {
+    margin: 15px 0px 15px 0px;
+    color: #FFFFFF;
+    z-index: 2;
+}
+
+.container_sign_up {
+    z-index: 2;
+}
+
+.container_sign_up input {
+    width: 280px;
+    height: 30px;
+    padding: 3px 5px 3px 5px;
+    border-radius: 4px;
+    /* outline: none; */
+    border: none;
+}
+
+.container_sign_up button {
+    width: 83px;
+    height: 36px;
+    border-radius: 4px;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+    background-color: green;
+    color: white;
+}
+
+.container_information {
+    width: auto;
+    height: 264px;
+
+}
+
+.wrapper_information {
+    width: auto;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -203,23 +214,27 @@ const information=[
     align-items: center;
     gap: 4%;
 }
-.wrapper_information div{
-    width:256px;
-    height:180px;
+
+.wrapper_information div {
+    width: 256px;
+    height: 180px;
 }
-.service{
+
+.service {
     display: flex;
     flex-direction: column;
 }
-.service h3{
+
+.service h3 {
     margin-bottom: 10px;
     text-transform: uppercase;
     font-size: 12px;
 }
-.service button{
-    width:fit-content;
+
+.service button {
+    width: fit-content;
     height: auto;
-    border:none;
+    border: none;
     padding: 5px;
     cursor: pointer;
     text-align: left;
@@ -228,19 +243,21 @@ const information=[
 }
 
 
-.information{
+.information {
     display: flex;
     flex-direction: column;
 }
-.information h3{
+
+.information h3 {
     margin-bottom: 10px;
     text-transform: uppercase;
     font-size: 12px;
 }
-.information button{
-    width:fit-content;
+
+.information button {
+    width: fit-content;
     height: auto;
-    border:none;
+    border: none;
     padding: 5px;
     cursor: pointer;
     text-align: left;
@@ -248,30 +265,32 @@ const information=[
     background-color: inherit;
 }
 
-.container_business{
+.container_business {
     display: flex;
     flex-direction: column;
 }
-.container_business h3{
+
+.container_business h3 {
     text-transform: uppercase;
     font-size: 12px;
 }
-div > .payment{
+
+div>.payment {
     /* display: flex; */
     width: auto;
-    height:50%;
+    height: 50%;
     /* flex-direction: column; */
 
 }
 
-div >.logistic{
+div>.logistic {
     /* display: flex; */
     width: auto;
     height: 50%;
     /* flex-direction: column; */
 }
 
-div > .wrapper_payment {
+div>.wrapper_payment {
     display: flex;
     width: auto;
     height: fit-content;
@@ -279,94 +298,101 @@ div > .wrapper_payment {
     align-items: center;
     /* justify-content: center; */
     gap: 10%;
-
-
 }
 
 .wrapper_payment button {
-    width:40px;
-    height: fit-content; 
-    border:none;
-    cursor: pointer;
-    background-color: inherit;
-}
-.wrapper_payment button img{
-    width: 100%;
-    height: auto;
-}
-
-div > .wrapper_logistic{
-    display: flex;
-    width: auto;
+    width: 40px;
     height: fit-content;
-    margin: 10px 0px 10px 0px;
-    align-items: center;
-    /* justify-content: center; */
-    gap: 10%;
-}
-.wrapper_logistic button{
-    width:40px;
-    height: fit-content; 
     border: none;
     cursor: pointer;
     background-color: inherit;
 }
-.wrapper_logistic button img{
+
+.wrapper_payment button img {
     width: 100%;
     height: auto;
 }
 
-.follow{
+div>.wrapper_logistic {
+    display: flex;
+    width: auto;
+    height: fit-content;
+    margin: 10px 0px 10px 0px;
+    align-items: center;
+    /* justify-content: center; */
+    gap: 10%;
+}
+
+.wrapper_logistic button {
+    width: 40px;
+    height: fit-content;
+    border: none;
+    cursor: pointer;
+    background-color: inherit;
+}
+
+.wrapper_logistic button img {
+    width: 100%;
+    height: auto;
+}
+
+.follow {
     display: flex;
     flex-direction: column;
 }
-.follow h3{
+
+.follow h3 {
     font-size: 12px;
     text-transform: uppercase;
 }
-.follow p{
-    font-size: 12px;
-    margin-top: 6% ;
 
+.follow p {
+    font-size: 12px;
+    margin-top: 6%;
 }
-div > .wrapper_follow_link{
+
+div>.wrapper_follow_link {
     display: flex;
     width: auto;
     height: fit-content;
     margin: 6% 0px auto 0px;
     gap: 10px;
 }
-.wrapper_follow_link button{
-    border:none;
+
+.wrapper_follow_link button {
+    border: none;
     cursor: pointer;
     background-color: inherit;
 }
-.wrapper_follow_link button img{
+
+.wrapper_follow_link button img {
     width: 20px;
     height: 20px;
 }
 
-.copylight{
+.copylight {
     display: flex;
     width: auto;
     height: 68px;
-    padding:24px 160px;
+    padding: 24px 160px;
     justify-content: end;
     align-items: center;
     border-top: 1px solid;
     border-color: rgb(197, 197, 197);
     box-sizing: border-box;
 }
-.copylight img{
+
+.copylight img {
     width: 20px;
     height: 20px;
     margin: 3px;
-
 }
-.copylight h4{
+
+.copylight h4 {
     font-size: 14px;
     font-weight: 500;
 }
+
 /* .copylight button{
     display: flex;
     width: 95px;
@@ -393,4 +419,97 @@ div > .wrapper_follow_link{
     font-weight: 500;
 } */
 
+@media (width <=744px) {
+    .container_sign_up {
+        z-index: 2;
+    }
+
+    .register img {
+        left: 0;
+        top: 0;
+    }
+
+    .container_sign_up input {
+        width: 280px;
+        height: 30px;
+        padding: 3px 5px;
+        border-radius: 4px;
+        /* outline: none; */
+        border: none;
+    }
+
+    .container_sign_up button {
+        width: 83px;
+        height: 36px;
+        border-radius: 4px;
+        border: none;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+}
+
+@media (width <=376px) {
+    .register {
+        align-items: center;
+        gap: 12px;
+        align-self: stretch;
+        text-align: center;
+    }
+
+    .register img {
+        left: 0;
+        top: 0px;
+        z-index: 1;
+    }
+
+    .register h3 {
+        font-size: 20px;
+    }
+
+    .register p {
+        font-size: 12px;
+        margin: 0px;
+    }
+
+    .container_sign_up {
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        align-self: stretch;
+    }
+
+    .container_sign_up input {
+        width: 280px;
+        height: 30px;
+        padding: 3px 5px;
+        border-radius: 4px;
+        /* outline: none; */
+        /* width: 320px;
+        height: 20px;
+        padding: 4px 12px;
+        box-sizing: border-box; */
+
+        display: flex;
+        padding: 4px 8px;
+        align-items: center;
+        align-self: stretch;
+    }
+
+    .container_sign_up button {
+        width: 320px;
+        height: 20px;
+        padding: 4px 12px;
+        font-size: 14px;
+        box-sizing: border-box;
+        /* height: 36px;
+        border-radius: 4px;
+        border: none;
+        margin-left: 10px; */
+
+        /* display: flex; */
+        /* cursor: pointer; */
+    }
+}
 </style>

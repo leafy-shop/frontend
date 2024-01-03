@@ -206,10 +206,8 @@ const designerList =[
        
     }
     .designer_list{
-        
         margin-inline:min(2.151dvw,16px);
         gap: min(2.151dvw,16px);
-
     }
     .designer{
         width: min(23.656dvw,176px);
