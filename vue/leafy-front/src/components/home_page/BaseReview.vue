@@ -4,6 +4,7 @@ import js from '../../JS/validation'
 const starAverage=ref(4.8)
 const starAmount=ref(Math.floor(starAverage.value))
 const reviewAmount=ref(1001)
+//1001
 const amountMove=848
 const calculateReview=computed(()=>{
     // console.log(reviewAmount.value)
