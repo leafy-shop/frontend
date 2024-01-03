@@ -23,10 +23,10 @@
                 <div class="plant_type">
                     <img src="../../assets/home_p/home_plant_style_hanging.png" alt="larg_tall_img">
                     <h4>
-                        Large & Tall Plants
+                        Trailing & Hanging Plants
                     </h4>
                     <p>
-                        Floor standing plants for instant wellbeing greenery. Choose from elegant indoor palms, stylish fiddle leaf figs and beautiful indoor trees.
+                        Create a sanctuary of lush green trails with Golden Pothos plants or add some romance with the leaves of a Philodendron Sweetheart indoor plant.
                     </p>
                     <button>
                         Shop
@@ -35,10 +35,10 @@
                 <div class="plant_type">
                     <img src="../../assets/home_p/home_plant_style_house.png" alt="larg_tall_img">
                     <h4>
-                        Large & Tall Plants
+                        Easy Care Houseplants
                     </h4>
                     <p>
-                        Floor standing plants for instant wellbeing greenery. Choose from elegant indoor palms, stylish fiddle leaf figs and beautiful indoor trees.
+                        Choose from the sculpted good looks of Sansevieria houseplants to rugged and resilient indoor Yucca plants or relax with on trend ZZ houseplants.
                     </p>
                     <button>
                         Shop
