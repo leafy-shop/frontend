@@ -112,10 +112,6 @@ const information = [
                         </button>
                     </div>
                 </div>
-
-
-
-
             </div>
 
         </div>
@@ -144,7 +140,7 @@ const information = [
     width: auto;
     height: 204px;
     position: relative;
-    padding: 0% 10%;
+    padding: 40px 160px;
     display: flex;
     flex-direction: column;
     background-color: black;
@@ -202,7 +198,6 @@ const information = [
 .container_information {
     width: auto;
     height: 264px;
-
 }
 
 .wrapper_information {
@@ -424,6 +419,12 @@ div>.wrapper_follow_link {
         z-index: 2;
     }
 
+    .register {
+        gap: 12px;
+        align-self: stretch;
+        padding: 20px 44px;
+    }
+
     .register img {
         left: 0;
         top: 0;
@@ -446,6 +447,189 @@ div>.wrapper_follow_link {
         margin-left: 10px;
         cursor: pointer;
     }
+
+    .container_information {
+        width: auto;
+        height: 264px;
+    }
+
+    .wrapper_information {
+        width: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        padding: 0px 44px;
+    }
+
+    .wrapper_information div {
+        width: 256px;
+        height: 180px;
+    }
+
+    .service {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service h3 {
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    .service button {
+        width: fit-content;
+        height: auto;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        text-align: left;
+        font-size: 10px;
+        background-color: inherit;
+    }
+
+    .information {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .information h3 {
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    .information button {
+        width: fit-content;
+        height: auto;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        text-align: left;
+        font-size: 10px;
+        background-color: inherit;
+    }
+
+    .container_business h3 {
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    div>.payment {
+        width: auto;
+        height: 50%;
+    }
+
+    div>.logistic {
+        width: auto;
+        height: 50%;
+    }
+
+    div>.wrapper_payment {
+        display: flex;
+        width: auto;
+        height: fit-content;
+        margin: 10px 0px 10px 0px;
+        align-items: center;
+        /* justify-content: center; */
+        gap: 10%;
+    }
+
+    .wrapper_payment button {
+        width: 40px;
+        height: fit-content;
+        border: none;
+        cursor: pointer;
+        background-color: inherit;
+    }
+
+    .wrapper_payment button img {
+        width: 100%;
+        height: auto;
+    }
+
+    div>.wrapper_logistic {
+        display: flex;
+        width: auto;
+        height: fit-content;
+        margin: 10px 0px 10px 0px;
+        align-items: center;
+        /* justify-content: center; */
+        gap: 10%;
+    }
+
+    .wrapper_logistic button {
+        width: 40px;
+        height: fit-content;
+        border: none;
+        cursor: pointer;
+        background-color: inherit;
+    }
+
+    .wrapper_logistic button img {
+        width: 100%;
+        height: auto;
+    }
+
+    .follow {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .follow h3 {
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+    .follow p {
+        font-size: 12px;
+        margin-top: 6%;
+    }
+
+    div>.wrapper_follow_link {
+        display: flex;
+        width: auto;
+        height: fit-content;
+        margin: 6% 0px auto 0px;
+        gap: 10px;
+    }
+
+    .wrapper_follow_link button {
+        border: none;
+        cursor: pointer;
+        background-color: inherit;
+    }
+
+    .wrapper_follow_link button img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .copylight {
+        display: flex;
+        width: auto;
+        height: 68px;
+        padding: 24px 160px;
+        justify-content: end;
+        align-items: center;
+        border-top: 1px solid;
+        border-color: rgb(197, 197, 197);
+        box-sizing: border-box;
+    }
+
+    .copylight img {
+        width: 20px;
+        height: 20px;
+        margin: 3px;
+    }
+
+    .copylight h4 {
+        font-size: 14px;
+        font-weight: 500;
+    }
 }
 
 @media (width <=376px) {
@@ -453,22 +637,25 @@ div>.wrapper_follow_link {
         align-items: center;
         gap: 12px;
         align-self: stretch;
-        text-align: center;
+        padding: 28px 16px;
     }
 
     .register img {
         left: 0;
-        top: 0px;
         z-index: 1;
+        width: 100%;
+        height: 100%;
     }
 
     .register h3 {
         font-size: 20px;
+        text-align: center;
     }
 
     .register p {
         font-size: 12px;
         margin: 0px;
+        text-align: center;
     }
 
     .container_sign_up {
@@ -481,35 +668,50 @@ div>.wrapper_follow_link {
     }
 
     .container_sign_up input {
-        width: 280px;
-        height: 30px;
-        padding: 3px 5px;
-        border-radius: 4px;
-        /* outline: none; */
-        /* width: 320px;
-        height: 20px;
-        padding: 4px 12px;
-        box-sizing: border-box; */
-
         display: flex;
-        padding: 4px 8px;
+        width: 320px;
+        padding: 4px 12px;
         align-items: center;
         align-self: stretch;
+        margin: 0px;
     }
 
     .container_sign_up button {
-        width: 320px;
-        height: 20px;
+        display: flex;
+        width: 344px;
         padding: 4px 12px;
-        font-size: 14px;
+        align-items: center;
+        align-self: stretch;
+        justify-content: center;
+        margin: auto;
         box-sizing: border-box;
-        /* height: 36px;
-        border-radius: 4px;
-        border: none;
-        margin-left: 10px; */
+    }
 
-        /* display: flex; */
-        /* cursor: pointer; */
+    .container_information {
+        display: none;
+        height: 0px;
+    }
+
+    .copylight {
+        display: flex;
+        height: auto;
+        padding: 16px;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid;
+        border-color: rgb(197, 197, 197);
+        box-sizing: border-box;
+    }
+
+    .copylight img {
+        width: 20px;
+        height: 20px;
+        margin: 3px;
+    }
+
+    .copylight h4 {
+        font-size: 14px;
+        font-weight: 500;
     }
 }
 </style>

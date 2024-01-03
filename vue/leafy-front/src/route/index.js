@@ -26,11 +26,11 @@ router.beforeEach((to)=>{
     // console.log(document.cookie)
     // token=Cookies.get("token")
     // console.log(keyPass)
-    if(to.name=="Shop"&&keyPass==undefined){
-        
-        alert("U so bad!!!")
-        return "/"
-    }
+
+    // if(to.name=="Shop"&&keyPass==undefined){
+    //     alert("U so bad!!!")
+    //     return "/"
+    // }
 })
 router.beforeResolve((to)=>{
     // console.log(token)
