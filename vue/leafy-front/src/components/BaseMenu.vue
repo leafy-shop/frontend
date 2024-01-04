@@ -12,10 +12,12 @@ const showMenu2 = ref(false)
 <template>
     <div class="main_menu">
         <div class="main_menu_container">
+            <!-- burger icon -->
             <div @click="showMenu2=!showMenu2" class="burger_icon">
                 <img v-show="!showMenu2" src="../assets/icon/hamberger_menu_icon.png" alt="hamberger_icon">
                 <img v-show="showMenu2" src="../assets/icon/cross_icon.svg" alt="close_icon">
             </div>
+            <!-- link and logo -->
             <div class="element_link">
                 <img src="../assets/LEAFY_logo.png" alt="leafy_icon" class="leafy_icon">
                 <div class="container_link">
@@ -35,8 +37,6 @@ const showMenu2 = ref(false)
                         Contract
                     </button>    
                 </div>
-                
-                
             </div>
             <div class="element_service"> 
                 <!-- search input -->
@@ -112,15 +112,19 @@ const showMenu2 = ref(false)
 }
 .main_menu{
     display: flex;
-    width:100%;
+    width:auto;
     height:80px;
-    margin:auto;
+    /* margin:auto; */
     background-color: white;
     justify-content: center;
+    padding: 20px 160px;
+    box-sizing: border-box;
+    /* justify-content: space-between; */
 }
 .main_menu_container{
-    width:1120px;
-    height:inherit;
+    /* width:1120px; */
+    width:100%;
+    height:fit-content;
     
     /* margin:auto; */
     
@@ -131,32 +135,33 @@ const showMenu2 = ref(false)
     /* flex-grow:8; */
     display: flex;
     /* padding:10px; */
-    margin:auto 0px;
+    /* margin:auto 0px; */
     width: fit-content;
     height:fit-content;
-    
+    gap: 32px;
     justify-content: center;
 
     
 }
 .leafy_icon{
-    width:114px;
-    height:28px;
+    width:auto;
+    height:33px;
     /* padding-right:10px; */
     margin:auto 0 auto 0;
 }
 .container_link{
     display:flex;
     width: fit-content;
-    height: 40px;
-    /* padding:8px 0px 8px 0px; */
-    
+    height: fit-content;
+    padding:8px 0px;
+    gap: 32px;
+    align-items: center;
 }
 .link{
     width: fit-content;
     height: 24px;
     /* padding: 3px; */
-    margin:auto 0px auto 32px;
+    /* margin:auto 0px auto 32px; */
 
     color:#252525;
     cursor: pointer;
@@ -170,29 +175,33 @@ const showMenu2 = ref(false)
 
 .element_service{
     /* flex-grow:6; */
-    padding:10px;
+    /* padding:10px; */
     display:flex;
     width: fit-content;
     height:fit-content;
     margin:auto 0px;
+    gap: 20px;
 }
 .service_container_search{
     display:flex;
-    width: 220px;
+    width: 320px;
     height:40px;
+    padding: 8px 12px;
     border-radius: 4px;
     justify-content: center;
     background-color:#F5F5F5;
     color:  #BDBDBD;
+    box-sizing: border-box;
+    gap: 12px;
 }
 .search_icon{
     width:20px;
     height: 20px;
-    margin:auto 12px auto 0px;
+    /* margin:auto 12px auto 0px; */
 }
 .service_container_search input{
     
-    width:148px;
+    width:inherit;
     height:24px;
     /* align-items: center; */
     margin: auto 0px;
@@ -222,7 +231,7 @@ const showMenu2 = ref(false)
 
 .cart_b{
     display: flex;
-    margin: 0px 20px;
+    /* margin: 0px 20px; */
     align-items: center;
     background-color: inherit;
     border: none;

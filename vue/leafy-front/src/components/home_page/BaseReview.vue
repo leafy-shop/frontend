@@ -4,8 +4,8 @@ import js from '../../JS/validation'
 const starAverage=ref(4.8)
 const starAmount=ref(Math.floor(starAverage.value))
 const reviewAmount=ref(1001)
-//1001
-const amountMove=848
+//1001 848
+const amountMove=undefined
 const calculateReview=computed(()=>{
     // console.log(reviewAmount.value)
     const value=reviewAmount.value.toString()
@@ -91,52 +91,54 @@ const reviewArr=ref([
 .wrapper{
     
     width: auto;
-    height: 348px;
-    padding: 60px 160px;
+    height: min(24.167dvw,348px);
+    padding: min(4.167dvw,60px) min(11.111dvw,160px);
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
 }
 .container_review{
     display: flex;
-    width: 100%;
+    width: auto;
     height: 100%;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
+    justify-content: center;
+    align-items: center;
 }
 .overall_review{
     display: flex;
-    width: 200px;
-    height:228px;
-    padding: 20px;
+    width: min(13.889dvw,200px);
+    height:min(15.833dvw,228px);
+    padding: min(1.389dvw,20px);
     flex-direction: column;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: min(0.556dvw,8px);
     text-align: center;
     box-sizing: border-box;
     background-color: #EEEEEE;
+    gap: min(0.556dvw,8px);
 }
 .overall_review h3{
-    
-    font-size: 18px;
+    font-size: min(1.25dvw,18px);
     text-transform: uppercase;
 }
 .overall_review h4{
-    margin-top: 8px;
-    font-size: 14px;
+    /* margin-top: 8px; */
+    font-size: min(0.972dvw,14px);
 }
-.star_review{
+/* .star_review{
     margin-top: 8px;
-}
+} */
 .star_review img{
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
 }
 
 .wrapper_review{
 
-    width:840px; 
-    height:244px;
-    overflow: auto;
+    width:min(58.333dvw,840px); 
+    height:min(15.833dvw,228px);
+    overflow-x: auto;
     
 }
 .wrapper_review::-webkit-scrollbar{
@@ -147,75 +149,75 @@ const reviewArr=ref([
     height: fit-content;
     width: fit-content;
     justify-content: center;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 
 .review{
     display: flex;
-    width: 204px;
-    height: 228px;
+    width: min(14.167dvw,204px);
+    height: min(15.833dvw,228px);
     flex-direction: column;
     /* margin: 0px 20px; */
-    padding: 20px;
+    padding: min(1.389dvw,20px);
     box-sizing: border-box;
     background-color: #EEEEEE;
-    border-radius: 8px;
+    border-radius: min(0.556dvw,8px);
 }
 
 .personal_info{
     display: flex;
     width: 100%;
-    height: 20px;
+    height: min(1.389dvw,20px);
     
     
 }
 .personal_info h4{
-    /* display: flex; */
-    /* flex-grow: 4; */
-    height: 20px;
-    width: 82px;
-    margin-right: 8px;
 
-
+    height: min(1.389dvw,20px);
+    width: min(5.694dvw,82px);
+    margin-right: min(0.556dvw,8px);
+    font-size: min(1.111dvw,16px);
     overflow: hidden;
     text-overflow: ellipsis;
-    /* text-overflow: clip; */
     white-space: nowrap;
 }
 .personal_info div{
-    /* flex-grow: 1; */
-    width: 60px;
-    height: 12px;
-    /* margin:0px 10px; */
+    display: flex;
+    width: min(4.167dvw,60px);
+    height: min(0.833dvw,12px);
+    align-items: center;
 }
 .personal_info div img{
-    width: 12px;
-    height: 12px;
+    width: min(0.833dvw,12px);
+    height: min(0.833dvw,12px);
 }
 .comment{
-
-    display: block;
     width: auto;
-    height: 120px;
-    margin-top: 8px;
+    height: min(8.333dvw,120px);
+    margin-top: min(0.556dvw,8px);
+    /* overflow: hidden; */
 }
 .comment p{
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
    width: inherit;
-   height: inherit;
-   font-size: 14px;
+   height: fit-content;
+   font-size: min(0.972dvw,14px);
    overflow: hidden;
-   text-overflow: ellipsis; 
-   white-space: pre-wrap;
-   /* overflow-wrap: break-word; */
-    word-break: break-word;
+
 }
 
 .date{
-    height: 12px;
-    width: 100%;
-    margin-top: 28px;
-    font-size: 10px;
+    height: min(0.833dvw,12px);
+    width: auto;
+    margin-top: min(1.944dvw,28px);
+    font-size: min(0.694dvw,10px);
     text-align: right;
+    font-style: normal;
+    font-weight: 100;
+    line-height: 120%; /* 12px */
+    letter-spacing: 0.2px;
 }
 
 .review_slide{
@@ -226,11 +228,133 @@ const reviewArr=ref([
     
 }
 .review_slide img{
-    width: 28px;
-    height: 28px;
+    width: min(1.944dvw,28px);
+    height: min(1.944dvw,28px);
 
 }
 .review_slide img:hover{
     cursor: pointer;
+}
+@media (width<=744px){
+    .wrapper{
+        height: min(34.409dvw,256px);
+        padding: min(5.376dvw,40px) min(5.914dvw,44px);
+    }
+    .container_review{
+        gap: min(0.538dvw,4px);
+    }
+    .overall_review{
+        width: min(18.817dvw,140px);
+        height: min(23.656dvw,176px);
+        padding: min(2.151dvw,16px);
+    }
+    .overall_review h3{
+        font-size: min(2.151dvw,16px);
+    }
+    .overall_review h4{
+        font-size: min(1.613dvw,12px);
+    }
+    .star_review img{
+        width: min(1.613dvw,12px);
+        height: min(1.613dvw,12px);
+    }
+    .wrapper_review{
+        width: min(62.903dvw,468px);
+        height: min(23.656dvw,176px);
+    }
+    .review_list{
+        gap: min(0.538dvw,4px);
+    }
+    .review{
+        width: min(20.43dvw,152px);
+        height: min(23.656dvw,176px);
+        padding: min(2.151dvw,16px);
+    }
+    .personal_info h4{
+        height: min(2.151dvw,16px);
+        width: min(7.796dvw,58px);
+        font-size: min(1.613dvw,12px);
+        margin-right: 0px;
+    }
+    .personal_info div{
+        width: auto;
+        height: min(2.151dvw,16px);
+    }
+    .personal_info div img{
+        width: min(1.075dvw,8px);
+        height: min(1.075dvw,8px);
+    }
+    .comment{
+        height: min(11.828dvw,88px);
+        margin-top: min(1.075dvw,8px);
+    }
+    .comment p{
+        -webkit-line-clamp: 5;
+        font-size: min(1.613dvw,12px);
+        
+    }
+    .date{
+        margin-top: min(2.688dvw,20px);
+    }
+    .review_slide img{
+        width: min(2.688dvw,20px);
+        height: min(2.688dvw,20px);
+    }
+
+}
+
+@media (width <=376px){
+    .wrapper{
+        height: 152px;
+        padding: min(7.447dvw,28px) min(4.255dvw,16px);
+    }
+    .container_review{
+        gap: 0px;
+    }
+    .overall_review{
+        display: none;
+    }
+    .wrapper_review{
+        width: 344px;
+        height: 96px;
+    }
+    .review_list{
+        gap: 4px;
+    }
+    .review{
+        width: 92px;
+        height: 96px;
+        padding: 8px;
+    }
+    .personal_info{
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .personal_info h4{
+        width: auto;
+        height: fit-content;
+        font-size: 10px;
+    }
+    .personal_info div{
+        width: auto;
+        height: fit-content;
+    }
+    .comment{
+        height: 28px;
+    }
+    .comment p{
+        -webkit-line-clamp: 2;
+        font-size: 10px;
+    }
+    .date{
+        font-size: 8px;
+        margin-top: 12px;
+    }
+    .review_slide{
+        display: none;
+    }
+   
 }
 </style>
