@@ -1,21 +1,38 @@
 <script setup>
+import { onBeforeMount, ref } from 'vue';
 import js from '../../JS/validation.js'
+import fetch from '../../JS/api.js'
+
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
+const designerList = ref([])
+
 //950
 //(window.innerWidth*288)/1440
 const amountMove=undefined
-const designerList =[
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Loremasdfasdfnasdnflkasdj asdlkfjalsdjfoasdjfoiwqjrteksflgj slkdjkfoj "},
-    {name : "Susa baka",description : "It is a long established fact "},
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of"},
-    {name : "Susa baka",description : "It is a "},
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem sd "},
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "},
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when "},
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable "},
-    {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem "},
-    {name : "Susa baka",description : "It is a long "},
+// const designerList = [
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Loremasdfasdfnasdnflkasdj asdlkfjalsdjfoasdjfoiwqjrteksflgj slkdjkfoj"},
+//     {name : "Susa baka",description : "It is a long established fact"},
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of"},
+//     {name : "Susa baka",description : "It is a "},
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem sd "},
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "},
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when "},
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable "},
+//     {name : "Susa baka",description : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem "},
+//     {name : "Susa baka",description : "It is a long "},
+// ]
 
-]
+const getGardenDesigner=async()=>{
+    let {status,data} = await fetch.getGardenDesigner()
+    // console.log(designerList.value)
+    // console.log(data)
+    designerList.value=data.list
+}
+
+onBeforeMount(()=>{
+    getGardenDesigner()
+})
 
 </script>
 <template>
@@ -28,7 +45,8 @@ const designerList =[
             <div class="designer_list">
                 <div v-for="(designer,index) in designerList " :key="index" class="designer">
                     <div class="user_img">
-                        <img src="../../assets/home_p/I.jpg" alt="user_img">
+                        <img v-if="designer.image" :src="`${origin}/api/image/users/${designer.userId}/${designer.image}`" alt="user_img">
+                        <img v-else src="./../../assets/home_p/I.jpg" alt="user_img">
                     </div>
                     <h3>
                         {{designer.name}}

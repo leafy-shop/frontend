@@ -2,16 +2,16 @@ import cryptoJs from 'crypto-js';
 import Cookies from 'js-cookie';
 import validation from './validation'
 const key=`${import.meta.env.BASE_INFORMATION_COOKIE}`
-const cookieName='information'
+// const cookieName='information'
 let cookie = {
 
-    encrypt(obj={}){
+    encrypt(obj={}, cookieName='information'){
       // console.log('Testing : '+JSON.stringify(obj))
       let encryptData = cryptoJs.AES.encrypt(JSON.stringify(obj),key).toString()
       this.set(cookieName,encryptData)
       // console.log(encryptData)
     },
-    decrypt(){
+    decrypt(cookieName='information'){
       let cookieValue=this.get(cookieName)
       if(cookieValue==undefined){
         validation.function_Status('Decrypt',false,'cookie is null')
