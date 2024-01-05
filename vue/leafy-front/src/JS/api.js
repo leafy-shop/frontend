@@ -60,6 +60,7 @@ const fetch = {
                 validation.function_Status('get all icon garden designer', true,)
                 returnData.status = res.status == 200
                 returnData.data = res.data
+                console.log(returnData)
             }
             return returnData
 

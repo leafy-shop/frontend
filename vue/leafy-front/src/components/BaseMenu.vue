@@ -19,7 +19,9 @@ const showMenu2 = ref(false)
             </div>
             <!-- link and logo -->
             <div class="element_link">
-                <img src="../assets/LEAFY_logo.png" alt="leafy_icon" class="leafy_icon">
+                <div class="leafy_icon">
+                    <img src="../assets/LEAFY_logo.png" alt="leafy_icon" >
+                </div>
                 <div class="container_link">
                     <button @click="goHome" class="link">
                         Home
@@ -105,20 +107,22 @@ const showMenu2 = ref(false)
     </div>
 </template>
 <style scoped>
-*{
+/* *{
     font-size: 16px;
     font-weight: 700;
     
-}
+} */
 .main_menu{
     display: flex;
     width:auto;
-    height:80px;
+    height:min(5.556dvw,80px);
     /* margin:auto; */
     background-color: white;
     justify-content: center;
-    padding: 20px 160px;
+    padding: min(1.389dvw,20px) min(11.111dvw,160px);
     box-sizing: border-box;
+    box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+
     /* justify-content: space-between; */
 }
 .main_menu_container{
@@ -138,35 +142,40 @@ const showMenu2 = ref(false)
     /* margin:auto 0px; */
     width: fit-content;
     height:fit-content;
-    gap: 32px;
+    gap: min(2.222dvw,32px);
     justify-content: center;
 
     
 }
 .leafy_icon{
-    width:auto;
-    height:33px;
-    /* padding-right:10px; */
-    margin:auto 0 auto 0;
+    display: flex;
+    width:min(4.792dvw,69px);
+    height:auto;
+    justify-content: center;
+    align-items: center;
+}
+.leafy_icon img{
+    width: inherit;
+    height: auto;
+
 }
 .container_link{
     display:flex;
     width: fit-content;
     height: fit-content;
-    padding:8px 0px;
-    gap: 32px;
+    padding:min(0.556dvw,8px) 0px;
+    gap: min(2.222dvw,32px);
     align-items: center;
 }
 .link{
     width: fit-content;
-    height: 24px;
-    /* padding: 3px; */
-    /* margin:auto 0px auto 32px; */
-
+    height: min(1.667dvw,24px);
     color:#252525;
     cursor: pointer;
     border:none;
     background-color: inherit;
+    font-size: min(1.111dvw,16px);
+    font-weight: 700;
 }
 
 .link:focus{
@@ -180,29 +189,29 @@ const showMenu2 = ref(false)
     width: fit-content;
     height:fit-content;
     margin:auto 0px;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
 }
 .service_container_search{
     display:flex;
-    width: 320px;
-    height:40px;
-    padding: 8px 12px;
-    border-radius: 4px;
+    width: min(22.222dvw,320px);
+    height:min(2.778dvw,40px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
     justify-content: center;
     background-color:#F5F5F5;
     color:  #BDBDBD;
     box-sizing: border-box;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .search_icon{
-    width:20px;
-    height: 20px;
+    width:min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     /* margin:auto 12px auto 0px; */
 }
 .service_container_search input{
     
     width:inherit;
-    height:24px;
+    height:min(1.667dvw,24px);
     /* align-items: center; */
     margin: auto 0px;
     /* padding:6px; */
@@ -215,15 +224,16 @@ const showMenu2 = ref(false)
 }
 
 .service_sign-in{
-    width:77px;
-    height:40px;
+    width:min(5.347dvw,77px);
+    height:min(2.778dvw,40px);
     border:none;
-    padding: 8px,12px;
-    border-radius: 4px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
     background-color: #26AC34;
     color:#FFFFFF;
     font-weight: 500;
     cursor: pointer;
+    font-size: min(1.111dvw,16px);
 }
 .service_sign-in:hover{
     background-color: gray;
@@ -231,6 +241,8 @@ const showMenu2 = ref(false)
 
 .cart_b{
     display: flex;
+    height: fit-content;
+    width: fit-content;
     /* margin: 0px 20px; */
     align-items: center;
     background-color: inherit;
@@ -238,8 +250,8 @@ const showMenu2 = ref(false)
     cursor: pointer;
 }
 .cart_b img{
-    width: 24px;
-    height: 24px;
+    width: min(1.667dvw,24px);
+    height: min(1.667dvw,24px);
 
 }
 .burger_icon{
@@ -249,8 +261,8 @@ const showMenu2 = ref(false)
     display: none;
 }
 .profile_icon{
-    width: 40px;
-    height: 40px;
+    width: min(2.778dvw,40px);
+    height: min(2.778dvw,40px);
     border: none;
     background-color: gray;
     border-radius: 50%;
@@ -268,6 +280,10 @@ const showMenu2 = ref(false)
 
 
 @media (width <= 744px){
+    .main_menu{
+        height: min(10.753dvw,80px);
+        padding: min(2.688dvw,20px) min(5.914dvw,44px);
+    }
     .container_link, .service_sign-in, .search_icon{
         display: none;
     }
@@ -276,18 +292,18 @@ const showMenu2 = ref(false)
        
     }
     .main_menu_container{
-        width: inherit;
-        height: 40px;
-        padding: 20px 44px;
-        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        height: 100%;
+        /* height: 40px; */
+        /* padding: 20px 44px; */
         z-index: 1001;
+        align-items: center;
     }
     .main_menu_container_2{
         display: flex;
         width: 100%;
         height: 100dvh;
         position: absolute;
-        top: 80px;
+        top: min(10.753dvw,80px);
         flex-direction: column;
         z-index: 1000;
     }
@@ -379,15 +395,15 @@ const showMenu2 = ref(false)
         cursor: pointer;
     }
     .leafy_icon{
-        display: block;
-        width: 69px;
-        height: auto;
+        width: min(9.274dvw,69px);
+        /* height: min(4.435dvw,33px); */
+        /* margin: auto 0px; */
     }
     .burger_icon {
         display: block;
-        width: 24px;
-        height: 24px;
-        margin: auto 0px;
+        width: min(3.226dvw,24px);
+        height: min(3.226dvw,24px);
+        margin: 0px;
         cursor: pointer;
     }
     .burger_icon img{
@@ -396,27 +412,32 @@ const showMenu2 = ref(false)
     }
     .element_service{
         padding: 0px;
-        gap: 16px;
+        gap: min(2.151dvw,16px);
+        margin:0px;
     }
     .service_container_search{
         /* display: block; */
         background-color: inherit;
         width: fit-content;
+        height:fit-content;
+        padding: 0px;
+        justify-content: center;
+        margin:auto 0px;
     }
     .cart_b{
         display: block;
         margin:auto 0px;
     }
     .cart_b img{
-        width: 24px;
-        height: 24px;
+        width: min(3.226dvw,24px);
+        height: min(3.226dvw,24px);
         cursor: pointer;
     }
 
     .search_icon_2{
         display: block;
-        width: 24px;
-        height: 24px;
+        width: min(3.226dvw,24px);
+        height: min(3.226dvw,24px);
  
         margin: auto 0px auto 0px;
     }
@@ -430,11 +451,12 @@ const showMenu2 = ref(false)
 @media (width <= 376px){
     .main_menu{
         height: 60px;
+        padding: min(3.191dvw,12px) min(4.255dvw,16px);
     }
-    .main_menu_container{
+    /* .main_menu_container{
         height: 44px;
-        padding: 8px 16px;
-    }
+        
+    } */
     .main_menu_container_2{
         top: 60px;
     }
@@ -450,6 +472,23 @@ const showMenu2 = ref(false)
         width: inherit;
         height: 96px;
         gap: 20px;
+    }
+    .burger_icon{
+        height: min(6.383dvw,24px);
+        width: min(6.383dvw,24px);
+    }
+    .cart_b img{
+        width: min(6.383dvw,24px);
+        height: min(6.383dvw,24px);
+        cursor: pointer;
+    }
+    .search_icon_2{
+        width: min(6.383dvw,24px) ;
+        height: min(6.383dvw,24px) ;
+    }
+    .leafy_icon{
+        width: 69px;
+        height: min(9.574dvw,36px);
     }
 }
 </style>

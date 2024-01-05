@@ -14,7 +14,7 @@ const reviewArr=ref([])
 
 const getAllReviews = async () => {
     let {status, data} = await fetch.getAllReview()
-    // console.log(data.list)
+    console.log(data.list)
     reviewArr.value = data.list
     starAverage.value = data.avg_rating
     rating.value = Math.floor(starAverage.value)

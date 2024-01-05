@@ -63,7 +63,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
     box-sizing: border-box;
     width:inherit;
     height:inherit;
-    padding:100px 160px;
+    padding:min(6.944dvw,100px) min(11.111dvw,160px);
     /* left:180px;
     top:100px; */
     z-index: 3;

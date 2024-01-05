@@ -41,7 +41,9 @@ const information = [
                     <h3>
                         customer service
                     </h3>
-                    <button v-for="(service, index) of customerService" :key="index">{{ service.name }}</button>
+                    <div>
+                        <button v-for="(service, index) of customerService" :key="index">{{ service.name }}</button>
+                    </div>
 
                 </div>
 
@@ -197,7 +199,9 @@ const information = [
 
 .container_information {
     width: auto;
-    height: 264px;
+    height: 260px;
+    padding: 60px 160px;
+    box-sizing: border-box;
 }
 
 .wrapper_information {
