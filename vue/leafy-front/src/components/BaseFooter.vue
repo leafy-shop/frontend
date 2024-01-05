@@ -19,22 +19,23 @@ const information = [
 </script>
 <template>
     <footer class="container_footer">
-        <div class="register">
-            <h3>
-                BECOME A LEAFY
-            </h3>
-            <p>
-                SIGN UP FOR INSPO & OFFERS IN YOUR INBOX
-            </p>
-            <div class="container_sign_up">
-                <input v-model="email" type="text" placeholder="Enter your email address...">
-                <button @click="console.log(email)">
-                    SIGN UP
-                </button>
+        <div class="wrapper_register">
+            <div class="register">
+                <h3>
+                    BECOME A LEAFY
+                </h3>
+                <p>
+                    SIGN UP FOR INSPO & OFFERS IN YOUR INBOX
+                </p>
+                <div class="container_sign_up">
+                    <input v-model="email" type="text" placeholder="Enter your email address...">
+                    <button @click="console.log(email)">
+                        SIGN UP
+                    </button>
+                </div>
             </div>
             <img src="../assets/home_p/home_footer_register.jpg" alt="background_img">
         </div>
-
         <div class="container_information">
             <div class="wrapper_information">
                 <div class="service">
@@ -51,7 +52,9 @@ const information = [
                     <h3>
                         information
                     </h3>
-                    <button v-for="(info, index) of information" :key="index">{{ info.name }}</button>
+                    <div>
+                        <button v-for="(info, index) of information" :key="index">{{ info.name }}</button>
+                    </div>
                 </div>
 
                 <div class="container_business">
@@ -135,173 +138,216 @@ const information = [
 .container_footer {
     width: auto;
     height: fit-content;
-    margin-top: 5 0px;
+    margin-top: min(0.347dvw,5px) 0px;
 }
-
-.register {
+.wrapper_register{
     width: auto;
-    height: 204px;
-    position: relative;
-    padding: 40px 160px;
+    height: min(14.167dvw,204px);
     display: flex;
     flex-direction: column;
+    position: relative;
     background-color: black;
     justify-content: center;
+    box-sizing: border-box;
     overflow: hidden;
+    /* z-index: ; */
+    box-sizing: border-box;
+
+}
+.register {
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+    height: inherit;
+    /* position: relative; */
+    padding: min(2.778dvw,40px) min(11.111dvw,160px);
+    gap: 16px;
+    z-index: 2;
+    box-sizing: border-box;
 }
 
-.register img {
+.wrapper_register img {
     position: absolute;
     left: 0;
-    top: 0px;
+    top:0;
     width: 100%;
     height: auto;
     z-index: 1;
+    opacity: 100%;
     opacity: 50%;
     /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), url(<path-to-image>), lightgray 50% / cover no-repeat; */
 }
 
 .register h3 {
-    font-size: 20px;
+    font-size: min(1.389dvw,20px);
     color: #FFFFFF;
-    z-index: 2;
+    /* z-index: 2; */
 }
 
 .register p {
-    margin: 15px 0px 15px 0px;
+    font-size: min(1.111dvw,16px);
+    /* margin: min(1.042dvw,15px) 0px; */
     color: #FFFFFF;
-    z-index: 2;
 }
 
 .container_sign_up {
-    z-index: 2;
+    display: flex;
+    height: min(2.5dvw,36px);
+    gap: min(0.556dvw,8px);
 }
 
 .container_sign_up input {
-    width: 280px;
-    height: 30px;
-    padding: 3px 5px 3px 5px;
-    border-radius: 4px;
+    width: min(22.222dvw,320px);
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
     /* outline: none; */
     border: none;
+    box-sizing: border-box;
+    font-size: min(0.972dvw,14px);
+
 }
 
 .container_sign_up button {
-    width: 83px;
-    height: 36px;
-    border-radius: 4px;
+    width: min(5.764dvw,83px);
+    height: min(2.5dvw,36px);
+    border-radius: min(0.278dvw,4px);
     border: none;
-    margin-left: 10px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    /* margin-left: min(0.694dvw,10px); */
     cursor: pointer;
     background-color: green;
     color: white;
+    box-sizing: border-box;
+    font-size: min(0.972dvw,14px);
 }
 
 .container_information {
     width: auto;
-    height: 260px;
-    padding: 60px 160px;
+    height: min(18.056dvw,260px);
+    padding: min(4.167dvw,60px) min(11.111dvw,160px);
     box-sizing: border-box;
 }
 
 .wrapper_information {
     width: auto;
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 4%;
+    gap: min(2.222dvw,32px);
 }
 
 .wrapper_information div {
-    width: 256px;
-    height: 180px;
+    width: min(17.778dvw,256px);
+    height: min(9.722dvw,140px);
 }
 
 .service {
     display: flex;
     flex-direction: column;
+    gap: min(0.833dvw,12px);
 }
-
+.service div {
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+}
 .service h3 {
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
 }
 
-.service button {
+.service div button {
     width: fit-content;
-    height: auto;
+    height: fit-content;
     border: none;
-    padding: 5px;
+    /* padding: 5px; */
     cursor: pointer;
     text-align: left;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     background-color: inherit;
+    font-weight: 400;
+    line-height: 136%; /* 16.32px */
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #616161;
 }
 
 
 .information {
     display: flex;
     flex-direction: column;
+    gap: min(0.833dvw,12px);
 }
-
+.information div{
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+}
 .information h3 {
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
 }
 
-.information button {
+.information div button {
     width: fit-content;
     height: auto;
     border: none;
-    padding: 5px;
+    /* padding: 5px; */
     cursor: pointer;
     text-align: left;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     background-color: inherit;
+    font-weight: 400;
+    line-height: 136%; /* 16.32px */
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #616161;
 }
 
 .container_business {
     display: flex;
     flex-direction: column;
+    gap: min(1.389dvw,20px);
 }
 
 .container_business h3 {
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
 }
 
 div>.payment {
-    /* display: flex; */
-    width: auto;
-    height: 50%;
-    /* flex-direction: column; */
+    display: flex;
+    width: fit-content;
+    height: min(3.333dvw,48px);
+    gap: min(0.833dvw,12px);
+    flex-direction: column;
 
 }
 
 div>.logistic {
-    /* display: flex; */
+    display: flex;
     width: auto;
-    height: 50%;
-    /* flex-direction: column; */
+    height: min(3.333dvw,48px);
+    gap: min(0.833dvw,12px);
+    flex-direction: column;
 }
 
 div>.wrapper_payment {
     display: flex;
     width: auto;
     height: fit-content;
-    margin: 10px 0px 10px 0px;
+    /* margin: 10px 0px 10px 0px; */
     align-items: center;
     /* justify-content: center; */
-    gap: 10%;
+    gap: 12px;
 }
 
 .wrapper_payment button {
-    width: 40px;
-    height: fit-content;
+    width: min(2.778dvw,40px);
+    height: min(1.389dvw,20px);
     border: none;
     cursor: pointer;
     background-color: inherit;
@@ -316,15 +362,15 @@ div>.wrapper_logistic {
     display: flex;
     width: auto;
     height: fit-content;
-    margin: 10px 0px 10px 0px;
+    /* margin: 10px 0px 10px 0px; */
     align-items: center;
     /* justify-content: center; */
-    gap: 10%;
+    gap: min(0.833dvw,12px);
 }
 
 .wrapper_logistic button {
-    width: 40px;
-    height: fit-content;
+    width: min(2.778dvw,40px);
+    height: min(1.389dvw,20px);
     border: none;
     cursor: pointer;
     background-color: inherit;
@@ -338,25 +384,29 @@ div>.wrapper_logistic {
 .follow {
     display: flex;
     flex-direction: column;
+    gap: min(0.833dvw,12px);
 }
 
 .follow h3 {
-    font-size: 12px;
+    font-size:min(0.833dvw,12px);
     text-transform: uppercase;
 }
 
 .follow p {
-    font-size: 12px;
-    margin-top: 6%;
+    font-size: min(0.833dvw,12px);
+    /* margin-top: 6%; */
+    line-height: 136%; /* 16.32px */
+    letter-spacing: min(0.014dvw,0.2px);  
 }
 
 div>.wrapper_follow_link {
     display: flex;
     width: auto;
     height: fit-content;
-    margin: 6% 0px auto 0px;
-    gap: 10px;
+    /* margin: 6% 0px auto 0px; */
+    gap: min(0.694dvw,10px);
 }
+
 
 .wrapper_follow_link button {
     border: none;
@@ -365,356 +415,212 @@ div>.wrapper_follow_link {
 }
 
 .wrapper_follow_link button img {
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
 }
 
 .copylight {
     display: flex;
     width: auto;
-    height: 68px;
-    padding: 24px 160px;
+    height: min(4.722dvw,68px);
+    padding: min(1.667dvw,24px) min(11.111dvw,160px);
     justify-content: end;
     align-items: center;
-    border-top: 1px solid;
+    border-top: min(0.069dvw,1px) solid;
     border-color: rgb(197, 197, 197);
     box-sizing: border-box;
+    gap: min(0.278dvw,4px);
+    justify-content: center;
 }
 
 .copylight img {
-    width: 20px;
-    height: 20px;
-    margin: 3px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
 }
 
 .copylight h4 {
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 500;
 }
 
-/* .copylight button{
-    display: flex;
-    width: 95px;
-    height: 40px;
-    margin: auto 10px auto 10px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-    background-color: #26AC34;
-    box-shadow: 0px 0px 10px 0px rgba(4, 6, 15, 0.20);
-    border: none;
-
-}
-.copylight button img{
-    width: 20px;
-    height: 20px;
-    
-}
-.copylight button span{
-    margin: auto 5px auto 5px;
-    color: white;
-    font-size: 16px;
-    text-transform: capitalize;
-    font-weight: 500;
-} */
 
 @media (width <=744px) {
-    .container_sign_up {
-        z-index: 2;
-    }
+    
 
+
+    .wrapper_register{
+        height: min(19.892dvw,148px);
+    }
     .register {
-        gap: 12px;
-        align-self: stretch;
-        padding: 20px 44px;
+        padding: min(2.688dvw,20px) min(5.914dvw,44px);
+        gap: min(1.613dvw,12px);
     }
 
-    .register img {
-        left: 0;
-        top: 0;
+
+    .register h3 {
+        font-size: min(2.419dvw,18px);
+
+    }
+
+    .register p {
+        font-size: min(1.882dvw,14px);
+    }
+
+    .container_sign_up {
+        display: flex;
+        height: min(4.839dvw,36px);
+        gap: min(1.075dvw,8px);
     }
 
     .container_sign_up input {
-        width: 280px;
-        height: 30px;
-        padding: 3px 5px;
+        width: min( 43.011dvw,320px);
+        height: min( 4.839dvw,36px);
+        padding: min( 4.839dvw,8px) min( 1.613dvw,12px);
         border-radius: 4px;
-        /* outline: none; */
-        border: none;
+        font-size: min( 1.882dvw,14px);
     }
 
     .container_sign_up button {
-        width: 83px;
-        height: 36px;
-        border-radius: 4px;
-        border: none;
-        margin-left: 10px;
-        cursor: pointer;
+        width: min( 11.156dvw,83px);
+        height: min( 4.839dvw,36px);
+        border-radius: min( 0.538vw,4px);
+        padding: min( 1.075dvw,8px) min( 1.613dvw,12px);
+        font-size: min( 1.882dvw,14px);
     }
 
     .container_information {
         width: auto;
-        height: 264px;
+        height: min(29.032dvw,216px);
+        padding: min(5.376dvw,40px) min(5.914dvw,44px);
+
     }
 
     .wrapper_information {
-        width: auto;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        padding: 0px 44px;
+        gap: min(2.151dvw,16px);
     }
 
     .wrapper_information div {
-        width: 256px;
-        height: 180px;
+        width: min(20.43dvw,152px);
+        height: min(18.28dvw,136px);
     }
 
-    .service {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .service h3 {
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        font-size: 10px;
-    }
-
-    .service button {
-        width: fit-content;
-        height: auto;
-        border: none;
-        padding: 5px;
-        cursor: pointer;
-        text-align: left;
-        font-size: 10px;
-        background-color: inherit;
-    }
-
-    .information {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .information h3 {
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        font-size: 10px;
-    }
-
-    .information button {
-        width: fit-content;
-        height: auto;
-        border: none;
-        padding: 5px;
-        cursor: pointer;
-        text-align: left;
-        font-size: 10px;
-        background-color: inherit;
-    }
-
-    .container_business h3 {
-        text-transform: uppercase;
-        font-size: 10px;
-    }
-
-    div>.payment {
-        width: auto;
-        height: 50%;
-    }
-
-    div>.logistic {
-        width: auto;
-        height: 50%;
+    .service h3, .service div button, 
+    .information h3, .information button  {
+        font-size: min(1.344dvw,10px);
     }
 
     div>.wrapper_payment {
-        display: flex;
-        width: auto;
+        display: grid;
+        grid-template-columns: auto auto auto;
         height: fit-content;
-        margin: 10px 0px 10px 0px;
-        align-items: center;
-        /* justify-content: center; */
-        gap: 10%;
+        gap: min(1.075dvw,8px);
     }
-
+    div>.wrapper_logistic{
+        height: fit-content;
+        gap: min(1.075dvw,8px);
+    }
     .wrapper_payment button {
-        width: 40px;
-        height: fit-content;
-        border: none;
-        cursor: pointer;
-        background-color: inherit;
-    }
+        width: min(5.376dvw,40px);
+        height: min(2.688dvw,20px);
 
-    .wrapper_payment button img {
-        width: 100%;
-        height: auto;
     }
-
-    div>.wrapper_logistic {
-        display: flex;
-        width: auto;
-        height: fit-content;
-        margin: 10px 0px 10px 0px;
-        align-items: center;
-        /* justify-content: center; */
-        gap: 10%;
-    }
-
     .wrapper_logistic button {
-        width: 40px;
-        height: fit-content;
-        border: none;
-        cursor: pointer;
-        background-color: inherit;
+        width: min(5.376dvw,40px);
+        height: min(2.688dvw,20px);
+
     }
 
-    .wrapper_logistic button img {
-        width: 100%;
-        height: auto;
-    }
 
-    .follow {
-        display: flex;
-        flex-direction: column;
-    }
+    .follow h3, .follow p {
+        font-size: min(1.344dvw,10px);
 
-    .follow h3 {
-        font-size: 12px;
-        text-transform: uppercase;
-    }
-
-    .follow p {
-        font-size: 12px;
-        margin-top: 6%;
     }
 
     div>.wrapper_follow_link {
-        display: flex;
-        width: auto;
         height: fit-content;
-        margin: 6% 0px auto 0px;
-        gap: 10px;
-    }
-
-    .wrapper_follow_link button {
-        border: none;
-        cursor: pointer;
-        background-color: inherit;
+        gap: min(1.075dvw,8px);
     }
 
     .wrapper_follow_link button img {
-        width: 20px;
-        height: 20px;
+        width: min(2.016dvw,15px);
+        height: min(2.016dvw,15px);
     }
 
     .copylight {
-        display: flex;
-        width: auto;
-        height: 68px;
-        padding: 24px 160px;
-        justify-content: end;
-        align-items: center;
-        border-top: 1px solid;
-        border-color: rgb(197, 197, 197);
-        box-sizing: border-box;
+        height: min(6.452dvw,48px);
+        padding: min(2.151dvw,16px) min(5.914dvw,44px);
     }
 
     .copylight img {
-        width: 20px;
-        height: 20px;
-        margin: 3px;
+        width: min(2.151dvw,16px);
+        height: min(2.151dvw,16px);
     }
 
     .copylight h4 {
-        font-size: 14px;
-        font-weight: 500;
+        font-size: min(1.613dvw,12px);
     }
 }
 
 @media (width <=376px) {
+    .wrapper_register{
+        height: min(47.872dvw,180px);
+    }
     .register {
-        align-items: center;
-        gap: 12px;
-        align-self: stretch;
-        padding: 28px 16px;
+        /* align-items: center; */
+        gap: min(3.191dvw,12px);
+        /* align-self: stretch; */
+        padding: min(7.447dvw,28px) min(4.255dvw,16px);
+        
     }
-
-    .register img {
-        left: 0;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-    }
-
     .register h3 {
-        font-size: 20px;
+        font-size: min(4.255dvw,16px);
         text-align: center;
     }
 
     .register p {
-        font-size: 12px;
+        font-size: min(3.191dvw,12px);
         margin: 0px;
         text-align: center;
     }
 
     .container_sign_up {
-        z-index: 2;
+        width: min(91.489dvw,344px);
+        height: min(15.957dvw,60px);
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        align-self: stretch;
+        gap: min(2.128dvw,8px);
     }
 
     .container_sign_up input {
-        display: flex;
-        width: 320px;
-        padding: 4px 12px;
-        align-items: center;
-        align-self: stretch;
-        margin: 0px;
+        width: inherit;
+        height: min(6.383dvw,24px);
+        padding: min(1.064dvw,4px) min(2.128dvw,8px);
+        font-size: min(3.191dvw,12px);
+
     }
 
     .container_sign_up button {
-        display: flex;
-        width: 344px;
-        padding: 4px 12px;
-        align-items: center;
-        align-self: stretch;
-        justify-content: center;
-        margin: auto;
-        box-sizing: border-box;
+        width: inherit;
+        height: min(7.447dvw,28px);
+        padding: min(1.064dvw,4px) min(2.128dvw,8px);
+        font-size: min(3.723dvw,14px);
     }
 
     .container_information {
         display: none;
-        height: 0px;
     }
 
     .copylight {
-        display: flex;
-        height: auto;
-        padding: 16px;
-        justify-content: center;
-        align-items: center;
-        border-top: 1px solid;
-        border-color: rgb(197, 197, 197);
-        box-sizing: border-box;
+        padding: min(1.064dvw,4px);
     }
 
     .copylight img {
-        width: 20px;
-        height: 20px;
-        margin: 3px;
+        width: min(3.191dvw,12px);
+        height: min(3.191dvw,12px);
     }
 
     .copylight h4 {
-        font-size: 14px;
+        font-size: min(2.66dvw,10px);
         font-weight: 500;
     }
 }

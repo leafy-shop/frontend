@@ -8,6 +8,7 @@ import BaseLandScapeDesign from '../components/home_page/BaseLandScapeDesign.vue
 import BasePlantInspo from '../components/home_page/BasePlantInspo.vue'
 import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
+import BaseChat from '../components/BaseChat.vue'
 </script>
 <template>
     <BaseMenu class="menu"/>
@@ -19,10 +20,11 @@ import BaseReview from '../components/home_page/BaseReview.vue'
     <BasePlantInspo/>
     <BaseReview/>
     <BaseFooter/>
-    <button class="chat">
+    <!-- <button class="chat">
         <img src="../assets/icon/chat_icon.svg" alt="chat_icon">
         <span>chat</span>
-    </button>
+    </button> -->
+    <BaseChat/>
 </template>
 <style scoped>
 
