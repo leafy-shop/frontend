@@ -13,7 +13,6 @@ const maxPage=computed(()=>{
 const allItems=ref(0)
 
 const getProduct=async(page)=>{
-
     let {status,data} =await fetch.getAllProduct(page)
     // console.log(data)
     productList.value=data.list

@@ -1,38 +1,68 @@
 <script setup>
-import{ref,computed} from 'vue'
+import{ref,computed, onBeforeMount} from 'vue'
 import js from '../../JS/validation'
-const starAverage=ref(4.8)
-const starAmount=ref(Math.floor(starAverage.value))
-const reviewAmount=ref(1001)
-//1001 848
-const amountMove=undefined
-const calculateReview=computed(()=>{
+import fetch from '../../JS/api';
+import { DateTime } from 'luxon';
+
+const starAverage=ref(0)
+const rating=ref(0)
+const reviewAmount=ref(0)
+//1001
+const amountMove=848
+
+const reviewArr=ref([])
+
+const getAllReviews = async () => {
+    let {status, data} = await fetch.getAllReview()
+    // console.log(data.list)
+    reviewArr.value = data.list
+    starAverage.value = data.avg_rating
+    rating.value = Math.floor(starAverage.value)
+    reviewAmount.value = data.allItems
+}
+
+const calculateReview = computed(()=>{
     // console.log(reviewAmount.value)
     const value=reviewAmount.value.toString()
     let returnData=undefined
     if(value.length>4){
-       returnData=value.substring(0,value.length-3)+'K'
+        returnData=value.substring(0,value.length-3)+'K'
         
-    }else return value
+    } else return value
     
     return returnData
     // reviewAmount.value>1000?reviewAmount.substring()
 })
 
-const reviewArr=ref([
-    {name:"Zeed Paap",starAmount:3,comment:"Good website",time:''},
-    {name:"Ramato A",starAmount:5,comment:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt maiores perferendis, debitis sequi recusandae nisi enim expedita rerum voluptatem quis dignissimos, harum maxime? Sint cupiditate dolore eos est quas quae.",time:''},
-    {name:"Ramato B",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramato C",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramatosdf asfd",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramato D",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramato E",starAmount:5,comment:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt maiores perferendis, debitis sequi recusandae nisi enim expedita rerum voluptatem quis dignissimos, harum maxime? Sint cupiditate dolore eos est quas quae.",time:''},
-    {name:"Ramatosdf asfd",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramato F",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramato G",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramatosdf G",starAmount:5,comment:"I like this!!",time:''},
-    {name:"Ramato H",starAmount:5,comment:"I like this!!",time:''}
-])
+// const calculateDayLeft = () => {
+//     const inputDate = '12/22/2023, 15:36:47';
+//     const timeZone = 'Asia/Bangkok'; // Replace this with the IANA timezone you desire
+
+//     const dateTime = DateTime.fromFormat(inputDate, 'MM/dd/yyyy, HH:mm:ss', { zone: timeZone });
+//     const unixTimestamp = dateTime.toMillis();
+
+//     console.log(unixTimestamp);
+// }
+
+onBeforeMount(()=>{
+    getAllReviews()
+})
+
+// const reviewArr=ref([
+//     {name:"Zeed Paap",rating:3,comment:"Good website",time:''},
+//     {name:"Ramato A",rating:5,comment:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt maiores perferendis, debitis sequi recusandae nisi enim expedita rerum voluptatem quis dignissimos, harum maxime? Sint cupiditate dolore eos est quas quae.",time:''},
+//     {name:"Ramato B",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramato C",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramatosdf asfd",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramato D",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramato E",rating:5,comment:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt maiores perferendis, debitis sequi recusandae nisi enim expedita rerum voluptatem quis dignissimos, harum maxime? Sint cupiditate dolore eos est quas quae.",time:''},
+//     {name:"Ramatosdf asfd",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramato F",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramato G",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramatosdf G",rating:5,comment:"I like this!!",time:''},
+//     {name:"Ramato H",rating:5,comment:"I like this!!",time:''}
+// ])
+
 </script>
 <template>
     <div class="wrapper">
@@ -42,7 +72,7 @@ const reviewArr=ref([
                     EXCELLENT
                 </h3>
                 <div class="star_review">
-                    <img v-for="(star,index) of starAmount>5?5:starAmount" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
+                    <img v-for="(star,index) of rating>5?5:rating" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
                 </div>
                 <h4>
                     {{ starAverage }} average
@@ -63,7 +93,7 @@ const reviewArr=ref([
                             {{ data.name }}                            
                             </h4>
                             <div>
-                                <img v-for="(star,index) of data.starAmount>5?5:data.starAmount" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
+                                <img v-for="(star,index) of data.rating>5?5:data.rating" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
                             </div>
                         </div>
 
@@ -73,7 +103,7 @@ const reviewArr=ref([
                             </p>
                         </div>
                         <div class="date">
-                            5 day ago
+                            {{ Math.floor(data.time) }} {{ data.time > 2 ? "days": "day"}} ago
                         </div>
                     </div>
                 </div>

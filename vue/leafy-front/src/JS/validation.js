@@ -16,7 +16,6 @@
             console.log("scroll Amout :"+scrollAmount)
             designerList.scrollBy({left:scrollAmount,behavior:"smooth"})
         }
-
     },
     function_Status (ft_name='',useable=false,message=''){
         if(!useable){
@@ -26,9 +25,6 @@
             console.log(`function : ${ft_name}`,'\n',`Status : ${useable}`,'\n',`Message : ${message}`)
             return true
         }
-
-       
-        
     },
     number(number,positive=false){
         let returnStatus=false

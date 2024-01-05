@@ -3,6 +3,7 @@ import Home from '../view/Home.vue'
 import Shop from '../view/Shop.vue'
 import Login from '../view/Login.vue'
 import cookie from '../JS/cookie'
+import fetch from '../JS/api'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 let keyPass= cookie.decrypt()
 const history=createWebHistory('/pl4')
@@ -22,7 +23,10 @@ const routes=[
 
 ]
 const router=createRouter({history,routes})
-router.beforeEach((to)=>{
+
+router.beforeEach(async (to)=>{
+    await fetch.getRefresh()
+    
     // console.log(document.cookie)
     // token=Cookies.get("token")
     // console.log(keyPass)
@@ -34,7 +38,6 @@ router.beforeEach((to)=>{
 })
 router.beforeResolve((to)=>{
     // console.log(token)
-    
 })
 
 export default router

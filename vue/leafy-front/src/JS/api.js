@@ -4,51 +4,140 @@ import cookie from './cookie'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 axios.defaults.withCredentials = true;
 
+let returnData = { status: 500, data: undefined }
 
-const ft={
-    getAllProduct:async (page=1)=>{
-        let returnData={status:false,data:undefined}
+const fetch = {
+    // homepage page
+    getGardenDesigner: async () => {
+        // let returnData={status:false,data:undefined}
         try {
-            let productList =[]
-            let url = `${origin}/api/products?sort=desc&page=${page}`
+            let url = `${origin}/api/users/garden_designer`
             let res = await axios.get(url)
 
-            if(res.data.page==0||res.data.page==undefined||res.data.page==null){
-                validation.function_Status('get all product',false,"cannot get all product from back-end!!!")
-            }else{
-                validation.function_Status('get all product',true,)
-                returnData.status=true
-                returnData.data=res.data
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get all garden designer', false, "cannot get all garden designer from back-end!!!")
+            } else {
+                validation.function_Status('get all garden designer', true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
             }
             return returnData
 
         } catch (error) {
-            validation.function_Status('get all product',false,error)
+            validation.function_Status('get all garden designer', false, error)
             return returnData
         }
-        
     },
-    login:async (email=undefined,password=undefined)=>{
-        if(email!=undefined||password!=undefined){
-            try {
-                let url = `${origin}/api/authentication`
-                let userInfo={"email_phone":email,"password":password}
-                let res =await axios.post(url,userInfo)
-                console.log(res.data)
-                cookie.encrypt(res.data)
-                cookie.decrypt()
-                validation.function_Status("login",true)
-                return true
-            } catch (error) {
-                validation.function_Status("login",false,error)
-                return false
+    getAllReview: async () => {
+        // let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/products/all/reviews?page=1`
+            let res = await axios.get(url)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get all reviews', false, "cannot get all latest product reviews from back-end!!!")
+            } else {
+                validation.function_Status('get all reviews', true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
             }
-            
-        }else{
-            validation.function_Status("login",false,"cannot login!!!"+'\n'+"because email or password is wrong format")
-            return false
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get all reviews', false, error)
+            return returnData
+        }
+    },
+    // Image provider
+    getImage: async (endpoint, id) => {
+        try {
+            let url = `${origin}/api/image/${endpoint}/${id}`
+            let res = await axios.get(url)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get all icon garden designer', false, "cannot get all icon garden designer from back-end!!!")
+            } else {
+                validation.function_Status('get all icon garden designer', true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get all icon garden designer', false, error)
+            return returnData
+        }
+    },
+
+    // product shop page
+    getAllProduct: async (page = 1) => {
+        // let returnData={status:false,data:undefined}
+        try {
+            // let productList =[]
+            let url = `${origin}/api/products?sort=desc&page=${page}`
+            let res = await axios.get(url)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get all product', false, "cannot get all product from back-end!!!")
+            } else {
+                validation.function_Status('get all product', true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get all product', false, error)
+            return returnData
         }
 
-    }
+    },
+
+    // authentication
+    login: async (email = undefined, password = undefined) => {
+        if (email != undefined || password != undefined) {
+            try {
+                let url = `${origin}/api/authentication`
+                let userInfo = { "email_phone": email, "password": password }
+                let res = await axios.post(url, userInfo)
+                console.log(res.data)
+                cookie.encrypt(res.data, "information")
+                // cookie.decrypt("information")
+                validation.function_Status("login", true)
+                return true
+            } catch (error) {
+                validation.function_Status("login", false, error)
+                return false
+            }
+
+        } else {
+            validation.function_Status("login", false, "cannot login!!!" + '\n' + "because email or password is wrong format")
+            return false
+        }
+    },
+    getRefresh: async () => {
+        let information = cookie.decrypt("information")
+        let returnData = { status: 500, data: undefined }
+        // console.log(information.email)
+        if (information !== undefined) {
+            try {
+                let url = `${origin}/api/authentication/refresh`
+
+                let userInfo = { "email_phone": information.email }
+
+                let res = await axios.post(url, userInfo)
+                validation.function_Status("refresh", true)
+
+                returnData.data = res.data
+                returnData.status = res.status
+
+                return returnData
+            } catch (error) {
+                validation.function_Status("refresh", false, error)
+                return false
+            }
+        }
+        return -1
+    },
 }
-export default ft
+export default fetch
