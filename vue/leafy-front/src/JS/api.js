@@ -96,19 +96,35 @@ const fetch = {
 
     // authentication
     login: async (email = undefined, password = undefined) => {
+        let returnData ={
+            msg:"",
+            status:undefined
+        }
         if (email != undefined || password != undefined) {
             try {
                 let url = `${origin}/api/authentication`
                 let userInfo = { "email_phone": email, "password": password }
                 let res = await axios.post(url, userInfo)
-                console.log(res.data)
+                // console.log(res.data)
                 cookie.encrypt(res.data, "information")
                 // cookie.decrypt("information")
                 validation.function_Status("login", true)
-                return true
+                returnData.status=true
+                return returnData
             } catch (error) {
                 validation.function_Status("login", false, error)
-                return false
+                console.log(error) 
+
+                console.log(error.response.status) 
+                // error 404
+                if(error.response.status==404){
+                    returnData.msg=error.response.data.error
+                    returnData.status=false
+                }else{
+                // error
+                    console.log("another error")
+                }
+                return returnData
             }
 
         } else {

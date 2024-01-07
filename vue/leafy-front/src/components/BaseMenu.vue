@@ -4,8 +4,9 @@ import{ref}from 'vue'
 import validation from '../JS/validation'
 const myRouter =useRouter()
 const goHome=()=>myRouter.push({name:'Home'})
-const goSignin=()=>myRouter.push({name:'Login'})
+const goSignin=()=>myRouter.push({name:'SignIn'})
 const goShop=()=>myRouter.push({name:'Shop'})
+const goCartList=()=>myRouter.push({name:'CartList'})
 
 const showMenu2 = ref(false)
 </script>
@@ -48,7 +49,7 @@ const showMenu2 = ref(false)
                     <input type="text" placeholder="Search">
                 </div>
                 <!-- cart icon -->
-                <button @click="validation.clickingTest('cart')" class="cart_b">
+                <button @click="goCartList" class="cart_b">
                     <img src="../assets/icon/cart_icon.svg" alt="cart_icon">
                 </button>
                 <!-- profile -->
@@ -86,11 +87,11 @@ const showMenu2 = ref(false)
                     </button>
                 </div>
                 <div class="service_container_2">
-                    <button @click="validation.clickingTest('link Sign-in')">
+                    <button @click="goSignin">
                         Sign in
                     </button>
                     <div>
-                        <span @click="validation.clickingTest('link sign-up')">
+                        <span>
                             Create a new account
                         </span> 
                         <hr> 
@@ -241,7 +242,7 @@ const showMenu2 = ref(false)
 
 .cart_b{
     display: flex;
-    height: fit-content;
+    height: auto;
     width: fit-content;
     /* margin: 0px 20px; */
     align-items: center;
@@ -378,14 +379,14 @@ const showMenu2 = ref(false)
         gap: 16px;
         justify-content: center;
     }
-    .service_container_2 div  span:nth-child(1){
+    /* .service_container_2 div  span:nth-child(1){
         font-size: 14px;
         font-weight: 400;
-        line-height: 144%; /* 20.16px */
+        line-height: 144%;
         letter-spacing: 0.2px;
         color: #757575;
         cursor: pointer;
-    }
+    } */
     .service_container_2 div  span:nth-child(3){
         font-size: 14px;
         font-weight: 700;
