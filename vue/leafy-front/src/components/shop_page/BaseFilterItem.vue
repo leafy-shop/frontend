@@ -1,15 +1,53 @@
 <script setup>
-import {ref}from 'vue'
-const categoryInput=ref(undefined)
+import {ref, computed}from 'vue'
 
-const categoryArr =[
-    {name:"Plant",value:'plant'},
-    {name:"Flower",value:'flower'},
-    {name:"Cactus",value:'cactus'},
-    {name:"Seed",value:'seed'},
-    {name:"Equirement",value:'equirement'},
-    {name:"Meterial",value:'meterial'},
+const props = defineProps({
+    category: {
+        type: Array,
+        default: []
+    },
+    min: {
+        type: Number,
+        default: 0
+    },
+    max: {
+        type: Number,
+        default: Infinity
+    },
+    rating: {
+        type: Number,
+        default: 0
+    },
+    tag: {
+        type: Array,
+        default: []
+    }
+})
+
+defineEmits(["categoryList"])
+
+let filterItem = computed(()=>{
+    console.log(props)
+    return { category: props.category, min: props.min, max: props.max, rating: props.rating, tag: props.tag }
+})
+
+const categoryArr = [
+    {name:"Plant",value:'plant', selected: false},
+    {name:"Flower",value:'flower', selected: false},
+    {name:"Cactus",value:'cactus', selected: false},
+    {name:"Seed",value:'seed', selected: false},
+    {name:"Equirement",value:'equirement', selected: false},
+    {name:"Meterial",value:'meterial', selected: false},
 ]
+
+const tagArr = [
+    {name:"Best Product", value:"best product", selected: false},
+    {name:"New Arrivals", value:"new arrivals", selected: false},
+    {name:"Plants", value:"plants", selected: false},
+    {name:"Indoor Plants", value:"indoor plants", selected: false},
+    {name:"lilac", value:"lilac", selected: false}
+]
+
 </script>
 <template>
     <div class="wrapper_filter">
@@ -18,8 +56,8 @@ const categoryArr =[
                 Category
             </h4>
             <div class="category_list">
-                <div @click="categoryInput=cate.value"  v-for="(cate,index) of categoryArr" :key="index" class="category_item">
-                    <input  type="checkbox" :id="cate.name" >
+                <div  v-for="(cate,index) of categoryArr" :key="index" class="category_item">
+                    <input @click="$emit('categoryList',cate.name)" type="checkbox" :id="cate.name" :value="cate.value" v-model="cate.selected">
                     <label :for="cate.name">{{ cate.name }}</label> 
                 </div>
             </div>
@@ -30,11 +68,11 @@ const categoryArr =[
                 Filter by price
             </h4>
             <div class="price_filter">
-                <input type="number" placeholder="฿Min">
+                <input type="number" placeholder="฿Min" :v-model="min">
                 <h4>
                     -
                 </h4>
-                <input type="number" placeholder="฿Max">
+                <input type="number" placeholder="฿Max" :v-model="max">
                 <button class="price_button">
                     &gt;
                 </button>
@@ -83,30 +121,9 @@ const categoryArr =[
                 Popular Tags
             </h4>
             <div class="wrapper_tag">
-                <ul class="tag_list">
-                    <li>
-                        <button>Best Product</button>
-                    </li>
-                    <li>
-                        <button>New Arrivals</button>
-                    </li>
-                    <li>
-                        <button>Plants</button>
-                    </li>
-                    <li>
-                        <button>Indoor Plants</button>
-                    </li>
-                    <li>
-                        <button>testing2</button>
-                    </li>
-                    <li>
-                        <button>testin</button>
-                    </li>
-                    <li>
-                        <button>testing55</button>
-                    </li>
-                    <li>
-                        <button>tes</button>
+                <ul class="tag_list" >
+                    <li v-for="tag in tagArr">
+                        <button>{{ tag.name }}</button>
                     </li>
                 </ul>
             </div>

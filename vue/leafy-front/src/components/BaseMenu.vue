@@ -1,13 +1,33 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import{ref}from 'vue'
+import {ref, computed} from 'vue'
 import validation from '../JS/validation'
+// import { defineStore } from 'pinia'
+// import { productFilterStore } from '../store/baseFilter'
+
 const myRouter =useRouter()
 const goHome=()=>myRouter.push({name:'Home'})
 const goSignin=()=>myRouter.push({name:'Login'})
 const goShop=()=>myRouter.push({name:'Shop'})
 
+const props = defineProps({
+    search: {
+        type: String,
+        require: true
+    }
+})
+
+let searchItem = computed(()=>{
+    console.log(props.search)
+    return { search: props.search }
+})
+
+defineEmits(['search'])
+
 const showMenu2 = ref(false)
+
+// const search = ref("")
+
 </script>
 <template>
     <div class="main_menu">
@@ -43,9 +63,9 @@ const showMenu2 = ref(false)
             <div class="element_service"> 
                 <!-- search input -->
                 <div class="service_container_search">
-                    <img @click="validation.clickingTest('search')" class="search_icon" src="../assets/icon/magnifying.svg" alt="search_icon">
+                    <img @click="$emit('search',1,searchItem.search)" class="search_icon" src="../assets/icon/magnifying.svg" alt="search_icon">
                     <img @click="validation.clickingTest('search2')" src="../assets/icon/search_icon_2.png" alt="search_icon_2.png" class="search_icon_2">
-                    <input type="text" placeholder="Search">
+                    <input type="text" placeholder="Search" v-model="searchItem.search">
                 </div>
                 <!-- cart icon -->
                 <button @click="validation.clickingTest('cart')" class="cart_b">

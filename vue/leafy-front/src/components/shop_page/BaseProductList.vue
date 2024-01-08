@@ -1,10 +1,53 @@
 <script setup>
-import{ref,onBeforeMount, computed} from'vue'
-import fetch from '../../JS/api'
-import validation from '../../JS/validation'
-const productList=ref([])
+import{ref, computed} from'vue'
 
-const currentPage=ref(1)
+let props = defineProps({
+    category: {
+        type: Array,
+        default: []
+    },
+    minPrice: {
+        type: Number,
+        default: 0
+    },
+    maxPrice: {
+        type: Number,
+        default: Infinity
+    },
+    rating: {
+        type: Number,
+        default: 0
+    },
+    tag: {
+        type: Array,
+        default: []
+    },
+    searchItem: {
+        type: String,
+        default: ""
+    },
+    currentPage: {
+        type: Number,
+        require: true
+    },
+    productList: {
+        type: Array,
+        require: true
+    },
+    allItems: {
+        type: Number,
+        require: true
+    },
+    totalPage: {
+        type: Number,
+        require: true
+    }
+})
+
+defineEmits(["getProduct","changePage"])
+
+const currentPage=ref(props.currentPage)
+
 const maxPage=computed(()=>{
     let page = 16/15
     // allItems.value
@@ -12,27 +55,6 @@ const maxPage=computed(()=>{
 })
 const allItems=ref(0)
 
-const getProduct=async(page)=>{
-    let {status,data} =await fetch.getAllProduct(page)
-    // console.log(data)
-    productList.value=data.list
-    allItems.value=data.allItems
-}
-
-// if change page input must be a number only
-const changePage=(number)=>{
-    console.log(typeof(number))
-    
-    let status =validation.number(number,true)
-    currentPage.value = status==true?number:Math.abs(parseInt(number))
-    
-    // currentPage.value=Math.abs(parseInt(number))
-    getProduct(currentPage.value)
-}
-
-onBeforeMount(()=>{
-    getProduct(1)
-})
 // const productList=[
 //     {name:"Good Plants",price:80,sold:8,star:5},
 //     {name:"Plants",price:80,sold:8,star:5},
