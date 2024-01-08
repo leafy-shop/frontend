@@ -3,9 +3,11 @@ import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
-import {ref, onBeforeMount} from 'vue'
+import {ref, onBeforeMount, onMounted, onUnmounted } from 'vue'
 import fetch from '../JS/api';
+import {useRoute} from 'vue-router'
 
+const myRoute = useRoute()
 const category_list = ref([])
 
 const min_price = ref(0)
@@ -15,7 +17,7 @@ const rating = ref(0)
 
 const tag = ref([])
 
-const searchItem = ref("")
+const searchItem = ref(myRoute.params.name ? myRoute.params.name : "")
 
 const currentPage = ref(1)
 const allItems = ref(0)
@@ -26,16 +28,6 @@ const productList = ref([])
 const getSearchItem = async (currentPage, search) => {
     console.log(search)
     searchItem.value = search
-    await getProduct(currentPage)
-}
-
-const getFilterItem =  async (currentPage, category_list_param=[], min_price_param=0,
-    max_price_param=Infinity, rating_param=0, tag_param=[]) => {
-    category_list.value = category_list_param
-    min_price.value = min_price_param
-    max_price.value = max_price_param
-    rating.value = rating_param
-    tag.value = tag_param
     await getProduct(currentPage)
 }
 
@@ -60,6 +52,16 @@ const changePage=(number)=>{
 }
 
 // ----------------- filter base ---------------------
+
+const getFilterItem =  async (currentPage, category_list_param=[], min_price_param=0,
+    max_price_param=Infinity, rating_param=0, tag_param=[]) => {
+    category_list.value = category_list_param
+    min_price.value = min_price_param
+    max_price.value = max_price_param
+    rating.value = rating_param
+    tag.value = tag_param
+    await getProduct(currentPage)
+}
 
 const categoryList = (i) => {
     // categoryInput.value = categoryArr.filter(cate => cate.selected)

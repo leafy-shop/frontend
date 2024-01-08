@@ -26,8 +26,8 @@ const showPassword=computed(()=>{
 </script>
 <template>
     <BaseMenu/>
-    <div class="signIn">
-        <div class="container_signIn">
+    <div class="signIn" >
+        <div class="container_signIn" @keydown.enter="login">
             <h3>
                 Sign in
             </h3>
@@ -38,7 +38,7 @@ const showPassword=computed(()=>{
                     <img src="../assets/icon/close_eye_icon.svg" alt="close_eye">
                 </button>
             </div>
-            <button class="signIn_button" @click="login"> 
+            <button class="signIn_button" @click="login" > 
                 Sign in
             </button>
             <h4>

@@ -10,14 +10,16 @@ import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 import BaseChat from '../components/BaseChat.vue'
 import {ref} from 'vue'
-import axios from 'axios'
-import fetch from '../JS/api'
+import {useRouter} from 'vue-router'
+
+const myRouter =useRouter()
+const goShop=()=>myRouter.push({name:'Shop'})
 
 let searchItem = ref("")
 
 </script>
 <template>
-    <BaseMenu class="menu" :search="searchItem" @search="getSearchItem"/>
+    <BaseMenu class="menu" :search="searchItem" @click="goShop()"/>
     <BaseInfomation/>
     <BaseSolution/>
     <BaseRandDesigner/>
