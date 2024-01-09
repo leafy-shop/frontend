@@ -24,17 +24,20 @@ const routes=[
 ]
 const router=createRouter({history,routes})
 
-router.beforeEach(async (to)=>{
+router.beforeEach(async (to, next)=>{
+    // console.log("test")
     await fetch.getRefresh()
+    // console.log(user)
     
     // console.log(document.cookie)
     // token=Cookies.get("token")
     // console.log(keyPass)
 
-    // if(to.name=="Shop"&&keyPass==undefined){
-    //     alert("U so bad!!!")
+    // if(to.name=="Shop"){
+    //     // alert("U so bad!!!")
     //     return "/"
     // }
+    
 })
 router.beforeResolve((to)=>{
     // console.log(token)

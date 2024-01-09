@@ -18,7 +18,6 @@ const props = defineProps({
 })
 
 let searchItem = computed(() => {
-    console.log(props.search)
     return { search: props.search }
 })
 

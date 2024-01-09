@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed}from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
     category: {
@@ -8,7 +8,7 @@ const props = defineProps({
     },
     min: {
         type: Number,
-        default: 0
+        default: -Infinity
     },
     max: {
         type: Number,
@@ -21,32 +21,23 @@ const props = defineProps({
     tag: {
         type: Array,
         default: []
+    },
+    categoryArr: {
+        type: Array,
+        default: []
+    },
+    tagArr: {
+        type: Array,
+        default: []
     }
 })
 
-defineEmits(["categoryList"])
+defineEmits(["categoryList", "baseFilterItem", "clear"])
 
-let filterItem = computed(()=>{
+let filterItem = computed(() => {
     console.log(props)
     return { category: props.category, min: props.min, max: props.max, rating: props.rating, tag: props.tag }
 })
-
-const categoryArr = [
-    {name:"Plant",value:'plant', selected: false},
-    {name:"Flower",value:'flower', selected: false},
-    {name:"Cactus",value:'cactus', selected: false},
-    {name:"Seed",value:'seed', selected: false},
-    {name:"Equirement",value:'equirement', selected: false},
-    {name:"Meterial",value:'meterial', selected: false},
-]
-
-const tagArr = [
-    {name:"Best Product", value:"best product", selected: false},
-    {name:"New Arrivals", value:"new arrivals", selected: false},
-    {name:"Plants", value:"plants", selected: false},
-    {name:"Indoor Plants", value:"indoor plants", selected: false},
-    {name:"lilac", value:"lilac", selected: false}
-]
 
 </script>
 <template>
@@ -56,9 +47,10 @@ const tagArr = [
                 Category
             </h4>
             <div class="category_list">
-                <div  v-for="(cate,index) of categoryArr" :key="index" class="category_item">
-                    <input @click="$emit('categoryList',cate.name)" type="checkbox" :id="cate.name" :value="cate.value" v-model="cate.selected">
-                    <label :for="cate.name">{{ cate.name }}</label> 
+                <div v-for="(cate, index) of categoryArr" :key="index" class="category_item">
+                    <input @click="$emit('categoryList', cate.value)" type="checkbox" :id="cate.name" :value="cate.value"
+                        v-model="cate.selected">
+                    <label :for="cate.name">{{ cate.name }}</label>
                 </div>
             </div>
         </div>
@@ -68,14 +60,14 @@ const tagArr = [
                 Filter by price
             </h4>
             <div class="price_filter">
-                <input type="number" placeholder="฿Min" :v-model="min">
+                <input type="number" placeholder="฿Min" v-model="filterItem.min">
                 <h4>
                     -
                 </h4>
-                <input type="number" placeholder="฿Max" :v-model="max">
-                <button class="price_button">
+                <input type="number" placeholder="฿Max" v-model="filterItem.max">
+                <!-- <button class="price_button">
                     &gt;
-                </button>
+                </button> -->
             </div>
         </div>
         <hr>
@@ -84,7 +76,40 @@ const tagArr = [
                 Point
             </h4>
             <div class="point_list">
-                <button class="point_item">
+                <input type="radio" id="5" value="5" v-model="filterItem.rating" />
+                <label for="5">
+                    <div>
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </label>
+                <input type="radio" id="4" value="4" v-model="filterItem.rating" />
+                <label for="4">
+                    <div>
+                        ⭐⭐⭐⭐
+                    </div>
+                    <h4>
+                        over
+                    </h4>
+                </label>
+                <input type="radio" id="3" value="3" v-model="filterItem.rating" />
+                <label for="3">
+                    <div>
+                        ⭐⭐⭐
+                    </div>
+                    <h4>
+                        over
+                    </h4>
+                </label>
+                <input type="radio" id="2" value="2" v-model="filterItem.rating" />
+                <label for="2">
+                    <div>
+                        ⭐⭐
+                    </div>
+                    <h4>
+                        over
+                    </h4>
+                </label>
+                <!-- <button >
                     <div>
                         ⭐⭐⭐⭐⭐
                     </div>                    
@@ -112,7 +137,7 @@ const tagArr = [
                     <h4>
                         over
                     </h4>                   
-                </button>
+                </button> -->
             </div>
         </div>
         <hr>
@@ -121,60 +146,71 @@ const tagArr = [
                 Popular Tags
             </h4>
             <div class="wrapper_tag">
-                <ul class="tag_list" >
+                <ul class="tag_list">
                     <li v-for="tag in tagArr">
                         <button>{{ tag.name }}</button>
                     </li>
                 </ul>
             </div>
-            
+
         </div>
         <hr>
         <div class="clear_b">
-            <button>
+            <button
+                @click="$emit('baseFilterItem', 1, filterItem.category, filterItem.min, filterItem.max, filterItem.rating, filterItem.tag)">
+                apply {{ filterItem.rating }}
+            </button>
+        </div>
+        <div class="clear_b">
+            <button @click="$emit('clear')">
                 Clear
             </button>
         </div>
     </div>
 </template>
 <style scoped>
-.wrapper_filter{
+.wrapper_filter {
     width: 216px;
     height: fit-content;
     margin: 20px;
-    
+
 }
 
-.category{
+.category {
     width: 216px;
     height: 248px;
 }
-.category h4{
+
+.category h4 {
     font-size: 24px;
 }
-.category_list{
+
+.category_list {
     display: flex;
     flex-direction: column;
 }
-.category_item{
+
+.category_item {
     /* display: flex; */
     height: fit-content;
     width: fit-content;
     margin: 12px 0px 0px 5px;
 }
-.category_list div input{
+
+.category_list div input {
     /* display: flex; */
     width: 16px;
     height: 16px;
     margin: auto;
     border-color: #26AC34;
 }
-.category_list div label{
+
+.category_list div label {
     font-size: 14px;
     margin-left: 8px;
-} 
+}
 
-.price{
+.price {
     display: flex;
     width: 216px;
     height: fit-content;
@@ -182,7 +218,7 @@ const tagArr = [
     font-size: 24px;
 }
 
-.price_filter{
+.price_filter {
     display: flex;
     width: 216px;
     height: fit-content;
@@ -190,21 +226,24 @@ const tagArr = [
     justify-content: center;
     align-items: center;
 }
-.price_filter h4{
+
+.price_filter h4 {
     display: flex;
     height: auto;
     width: auto;
     align-items: center;
     margin: 0px 3px;
 }
-.price_filter input{
+
+.price_filter input {
     width: 78px;
     height: 24px;
-    padding: 0px 1px ;
+    padding: 0px 1px;
     font-size: 14px;
     border: none;
 }
-.price_button{
+
+.price_button {
     width: 28px;
     height: 28px;
     margin: auto 0px auto 8px;
@@ -215,52 +254,59 @@ const tagArr = [
     cursor: pointer;
 }
 
-.point{
+.point {
     width: 216px;
     height: fit-content;
     font-size: 24px;
 }
 
-.point_list{
+.point_list {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
 }
-.point_item{
+
+.point_item {
     display: flex;
     width: 216px;
     border: none;
 }
-.point_item div{
+
+.point_item div {
     /* flex-grow: 5; */
     width: 60%;
 }
-.point_item h4{
+
+.point_item h4 {
     width: 40%;
 }
 
-.pop_tag{
+.pop_tag {
     font-size: 24px;
 }
-.wrapper_tag{
+
+.wrapper_tag {
 
     width: 216px;
     height: fit-content;
-   
+
 }
-.tag_list{
+
+.tag_list {
 
     list-style: none;
     margin: 8px 0px 0px 0px;
 
 }
-.tag_list li{
-    
+
+.tag_list li {
+
     display: inline-flex;
     margin: 4px;
 
 }
-.tag_list li button{
+
+.tag_list li button {
     padding: 8px;
     border: none;
     font-size: 12px;
@@ -270,21 +316,22 @@ const tagArr = [
     cursor: pointer;
 }
 
-hr{
-    margin: 20px 0px ;
+hr {
+    margin: 20px 0px;
 }
-.clear_b{
+
+.clear_b {
     width: 216px;
     height: 40px;
-   
+    margin: 8px 0px;
 }
-.clear_b button{
+
+.clear_b button {
     width: inherit;
     height: inherit;
     background-color: #26AC34;
     color: white;
     border: none;
     border-radius: 4px;
-    
-}
-</style>
+
+}</style>

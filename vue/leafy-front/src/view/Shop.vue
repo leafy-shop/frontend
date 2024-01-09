@@ -3,14 +3,15 @@ import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
-import {ref, onBeforeMount, onMounted, onUnmounted } from 'vue'
+import {ref, onBeforeMount, onUpdated } from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
 
 const myRoute = useRoute()
+
 const category_list = ref([])
 
-const min_price = ref(0)
+const min_price = ref(-Infinity)
 const max_price = ref(Infinity)
 
 const rating = ref(0)
@@ -32,8 +33,13 @@ const getSearchItem = async (currentPage, search) => {
 }
 
 const getProduct=async(page)=>{
-    let {status,data} =await fetch.getAllProduct(page, searchItem.value, category_list.value.join(","),
-    min_price.value, max_price.value, rating.value, tag.value.join(","))
+    console.log(category_list.value.join())
+    console.log(min_price.value)
+    console.log(max_price.value)
+    console.log(rating.value)
+    console.log(tag.value.join())
+    let {status,data} =await fetch.getAllProduct(page, searchItem.value, category_list.value.join(),
+    min_price.value, max_price.value, rating.value, tag.value.join())
     // console.log(data)
     productList.value=data.list
     allItems.value=data.allItems
@@ -41,20 +47,38 @@ const getProduct=async(page)=>{
 }
 
 // if change page input must be a number only
-const changePage=(number)=>{
+const changePage=async (number)=>{
     console.log(typeof(number))
     
     let status = validation.number(number,true)
     currentPage.value = status==true?number:Math.abs(parseInt(number))
     
     // currentPage.value=Math.abs(parseInt(number))
-    getProduct(currentPage.value)
+    await getProduct(currentPage.value)
 }
 
 // ----------------- filter base ---------------------
 
-const getFilterItem =  async (currentPage, category_list_param=[], min_price_param=0,
-    max_price_param=Infinity, rating_param=0, tag_param=[]) => {
+const categoryArr = [
+    {name:"Plant",value:'plant', selected: false},
+    {name:"Flower",value:'flower', selected: false},
+    {name:"Cactus",value:'cactus', selected: false},
+    {name:"Seed",value:'seed', selected: false},
+    {name:"Equirement",value:'equirement', selected: false},
+    {name:"Meterial",value:'meterial', selected: false},
+]
+
+const tagArr = [
+    {name:"Best Product", value:"best product", selected: false},
+    {name:"New Arrivals", value:"new arrivals", selected: false},
+    {name:"Plants", value:"plants", selected: false},
+    {name:"Indoor Plants", value:"indoor plants", selected: false},
+    {name:"lilac", value:"lilac", selected: false}
+]
+
+const getFilterItem = async (currentPage, category_list_param=[], min_price_param=0,max_price_param=Infinity, rating_param=0, tag_param=[]) => {
+    console.log(category_list_param)
+    // console.log(currentPage)
     category_list.value = category_list_param
     min_price.value = min_price_param
     max_price.value = max_price_param
@@ -78,11 +102,22 @@ const categoryList = (i) => {
     console.log(category_list.value)
 }
 
-
+const clearFilterItem = async () => {
+    category_list.value = []
+    min_price.value = -Infinity
+    max_price.value = Infinity
+    rating.value = 0
+    tag.value = []
+    await getProduct(currentPage.value)
+}
 
 onBeforeMount(()=>{
     getProduct(currentPage.value)
 })
+
+// onUpdated(()=> {
+//     getFilterItem(currentPage.value, category_list.value, min_price.value, max_price.value, rating.value, tag.value)
+// })
 
 </script>
 <template>
@@ -96,7 +131,10 @@ onBeforeMount(()=>{
 
     <div class="shop_content">
         <div class="wrapper_content">
-            <BaseFilterItem :category="category_list" @categoryList="categoryList"/>
+            <BaseFilterItem :category="category_list" @categoryList="categoryList" @baseFilterItem="getFilterItem"
+            :min="min_price" :max="max_price" :rating="rating" :currentPage="currentPage" @clear="clearFilterItem"
+            :category-arr="categoryArr" :tag-arr="tagArr"/>
+
             <BaseProductList :productList="productList" :category="category_list"
             :min-price="min_price" :max-price="max_price" :rating="rating" :tag="tag" :search-item="searchItem"
             :currentPage="currentPage" :totalPage="totalPage"

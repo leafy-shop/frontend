@@ -77,8 +77,8 @@ const fetch = {
             // let productList =[]
             let url = `${origin}/api/products?page=${page}`
             if (searchItem.length !== 0) url = url + `&product=${searchItem}`
-            if (type.length !== 0) url = url + `&type=${type.join(",")}`
-            if (min !== 0) url = url + `&min_price=${min}`
+            if (type.length !== 0) url = url + `&type=${type}`
+            if (min > 0) url = url + `&min_price=${min}`
             if (max !== Infinity) url = url + `&max_price=${max}`
             if (rating !== 0) url = url + `&rating=${rating}`
             if (tag.length !== 0) url = url + `&tag=${tag}`
