@@ -19,8 +19,8 @@ const props = defineProps({
         default: 0
     },
     tag: {
-        type: Array,
-        default: []
+        type: String,
+        default: ""
     },
     categoryArr: {
         type: Array,
@@ -60,11 +60,11 @@ let filterItem = computed(() => {
                 Filter by price
             </h4>
             <div class="price_filter">
-                <input type="number" placeholder="฿Min" v-model="filterItem.min">
+                <input type="number" placeholder="฿Min" v-model="filterItem.min" @input="filterItem.min = filterItem.min < 0 ? -Infinity : filterItem.min">
                 <h4>
                     -
                 </h4>
-                <input type="number" placeholder="฿Max" v-model="filterItem.max">
+                <input type="number" placeholder="฿Max" v-model="filterItem.max" @input="filterItem.max = filterItem.max < 0 ? Infinity : filterItem.max">
                 <!-- <button class="price_button">
                     &gt;
                 </button> -->
@@ -76,7 +76,7 @@ let filterItem = computed(() => {
                 Point
             </h4>
             <div class="point_list">
-                <input type="radio" id="5" value="5" v-model="filterItem.rating" />
+                <!-- <input type="radio" id="5" value="5" v-model="filterItem.rating" />
                 <label for="5">
                     <div>
                         ⭐⭐⭐⭐⭐
@@ -108,13 +108,13 @@ let filterItem = computed(() => {
                     <h4>
                         over
                     </h4>
-                </label>
-                <!-- <button >
+                </label> -->
+                <button class="point_item" @click="filterItem.rating = 5">
                     <div>
                         ⭐⭐⭐⭐⭐
                     </div>                    
                 </button>
-                <button class="point_item">
+                <button class="point_item" @click="filterItem.rating = 4">
                     <div>
                         ⭐⭐⭐⭐
                     </div> 
@@ -122,7 +122,7 @@ let filterItem = computed(() => {
                         over
                     </h4>                   
                 </button>
-                <button class="point_item">
+                <button class="point_item" @click="filterItem.rating = 3">
                     <div>
                         ⭐⭐⭐
                     </div>  
@@ -130,14 +130,14 @@ let filterItem = computed(() => {
                         over
                     </h4>                   
                 </button>
-                <button class="point_item">
+                <button class="point_item" @click="filterItem.rating = 2">
                     <div>
                         ⭐⭐
                     </div>  
                     <h4>
                         over
                     </h4>                   
-                </button> -->
+                </button>
             </div>
         </div>
         <hr>
@@ -148,7 +148,7 @@ let filterItem = computed(() => {
             <div class="wrapper_tag">
                 <ul class="tag_list">
                     <li v-for="tag in tagArr">
-                        <button>{{ tag.name }}</button>
+                        <button @click="filterItem.tag = tag.value">{{ tag.name }}</button>
                     </li>
                 </ul>
             </div>
@@ -334,4 +334,5 @@ hr {
     border: none;
     border-radius: 4px;
 
-}</style>
+}
+</style>

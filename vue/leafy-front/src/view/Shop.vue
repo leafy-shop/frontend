@@ -6,6 +6,7 @@ import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import {ref, onBeforeMount, onUpdated } from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
+import validation from '../JS/validation'
 
 const myRoute = useRoute()
 
@@ -16,7 +17,7 @@ const max_price = ref(Infinity)
 
 const rating = ref(0)
 
-const tag = ref([])
+const tag = ref("")
 
 const searchItem = ref(myRoute.params.name ? myRoute.params.name : "")
 
@@ -37,9 +38,9 @@ const getProduct=async(page)=>{
     console.log(min_price.value)
     console.log(max_price.value)
     console.log(rating.value)
-    console.log(tag.value.join())
+    console.log(tag.value)
     let {status,data} =await fetch.getAllProduct(page, searchItem.value, category_list.value.join(),
-    min_price.value, max_price.value, rating.value, tag.value.join())
+    min_price.value, max_price.value, rating.value, tag.value)
     // console.log(data)
     productList.value=data.list
     allItems.value=data.allItems
@@ -73,10 +74,12 @@ const tagArr = [
     {name:"New Arrivals", value:"new arrivals", selected: false},
     {name:"Plants", value:"plants", selected: false},
     {name:"Indoor Plants", value:"indoor plants", selected: false},
-    {name:"lilac", value:"lilac", selected: false}
+    {name:"Lilac", value:"lilac", selected: false},
+    {name:"Jar", value:"jar", selected: false},
+    {name:"Pot", value:"pot", selected: false},
 ]
 
-const getFilterItem = async (currentPage, category_list_param=[], min_price_param=0,max_price_param=Infinity, rating_param=0, tag_param=[]) => {
+const getFilterItem = async (currentPage, category_list_param=[], min_price_param=-Infinity,max_price_param=Infinity, rating_param=0, tag_param=[]) => {
     console.log(category_list_param)
     // console.log(currentPage)
     category_list.value = category_list_param
@@ -107,7 +110,7 @@ const clearFilterItem = async () => {
     min_price.value = -Infinity
     max_price.value = Infinity
     rating.value = 0
-    tag.value = []
+    tag.value = ""
     await getProduct(currentPage.value)
 }
 

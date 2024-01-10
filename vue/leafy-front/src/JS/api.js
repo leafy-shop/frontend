@@ -81,7 +81,7 @@ const fetch = {
             if (min > 0) url = url + `&min_price=${min}`
             if (max !== Infinity) url = url + `&max_price=${max}`
             if (rating !== 0) url = url + `&rating=${rating}`
-            if (tag.length !== 0) url = url + `&tag=${tag}`
+            if (tag !== "") url = url + `&tag=${tag}`
 
             console.log(url)
 

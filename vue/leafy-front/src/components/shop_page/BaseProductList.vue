@@ -2,30 +2,6 @@
 import{ref, computed} from'vue'
 
 let props = defineProps({
-    category: {
-        type: Array,
-        default: []
-    },
-    minPrice: {
-        type: Number,
-        default: 0
-    },
-    maxPrice: {
-        type: Number,
-        default: Infinity
-    },
-    rating: {
-        type: Number,
-        default: 0
-    },
-    tag: {
-        type: Array,
-        default: []
-    },
-    searchItem: {
-        type: String,
-        default: ""
-    },
     currentPage: {
         type: Number,
         require: true
@@ -48,12 +24,12 @@ defineEmits(["getProduct","changePage"])
 
 const currentPage=ref(props.currentPage)
 
-const maxPage=computed(()=>{
-    let page = 16/15
-    // allItems.value
-    return Math.ceil(page)
-})
-const allItems=ref(0)
+// const maxPage=computed(()=>{
+//     let page = 16/15
+//     // allItems.value
+//     return Math.ceil(page)
+// })
+// const allItems=ref(0)
 
 // const productList=[
 //     {name:"Good Plants",price:80,sold:8,star:5},
@@ -100,8 +76,8 @@ const allItems=ref(0)
         </div>
         <div class="link_page_container">
             <ul>
-                <li v-for="(link,index) of maxPage" :key="index">
-                    <button @click="changePage(index+1)">
+                <li v-for="(link,index) of totalPage" :key="index">
+                    <button @click="$emit('changePage',index+1)">
                         {{ link }}
                     </button>
                 </li>
