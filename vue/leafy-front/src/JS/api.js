@@ -71,11 +71,20 @@ const fetch = {
     },
 
     // product shop page
-    getAllProduct: async (page = 1) => {
+    getAllProduct: async (page = 1, searchItem = "", type = [], min = 0, max = Infinity, rating = 0, tag = []) => {
         // let returnData={status:false,data:undefined}
         try {
             // let productList =[]
-            let url = `${origin}/api/products?sort=desc&page=${page}`
+            let url = `${origin}/api/products?page=${page}`
+            if (searchItem.length !== 0) url = url + `&product=${searchItem}`
+            if (type.length !== 0) url = url + `&type=${type}`
+            if (min > 0) url = url + `&min_price=${min}`
+            if (max !== Infinity) url = url + `&max_price=${max}`
+            if (rating !== 0) url = url + `&rating=${rating}`
+            if (tag !== "") url = url + `&tag=${tag}`
+
+            console.log(url)
+
             let res = await axios.get(url)
 
             if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {

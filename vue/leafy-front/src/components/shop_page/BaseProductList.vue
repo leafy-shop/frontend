@@ -1,38 +1,36 @@
 <script setup>
-import{ref,onBeforeMount, computed} from'vue'
-import fetch from '../../JS/api'
-import validation from '../../JS/validation'
-const productList=ref([])
+import{ref, computed} from'vue'
 
-const currentPage=ref(1)
-const maxPage=computed(()=>{
-    let page = 16/15
-    // allItems.value
-    return Math.ceil(page)
+let props = defineProps({
+    currentPage: {
+        type: Number,
+        require: true
+    },
+    productList: {
+        type: Array,
+        require: true
+    },
+    allItems: {
+        type: Number,
+        require: true
+    },
+    totalPage: {
+        type: Number,
+        require: true
+    }
 })
-const allItems=ref(0)
 
-const getProduct=async(page)=>{
-    let {status,data} =await fetch.getAllProduct(page)
-    // console.log(data)
-    productList.value=data.list
-    allItems.value=data.allItems
-}
+defineEmits(["getProduct","changePage"])
 
-// if change page input must be a number only
-const changePage=(number)=>{
-    console.log(typeof(number))
-    
-    let status =validation.number(number,true)
-    currentPage.value = status==true?number:Math.abs(parseInt(number))
-    
-    // currentPage.value=Math.abs(parseInt(number))
-    getProduct(currentPage.value)
-}
+const currentPage=ref(props.currentPage)
 
-onBeforeMount(()=>{
-    getProduct(1)
-})
+// const maxPage=computed(()=>{
+//     let page = 16/15
+//     // allItems.value
+//     return Math.ceil(page)
+// })
+// const allItems=ref(0)
+
 // const productList=[
 //     {name:"Good Plants",price:80,sold:8,star:5},
 //     {name:"Plants",price:80,sold:8,star:5},
@@ -78,8 +76,8 @@ onBeforeMount(()=>{
         </div>
         <div class="link_page_container">
             <ul>
-                <li v-for="(link,index) of maxPage" :key="index">
-                    <button @click="changePage(index+1)">
+                <li v-for="(link,index) of totalPage" :key="index">
+                    <button @click="$emit('changePage',index+1)">
                         {{ link }}
                     </button>
                 </li>

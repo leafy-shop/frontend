@@ -9,9 +9,17 @@ import BasePlantInspo from '../components/home_page/BasePlantInspo.vue'
 import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 import BaseChat from '../components/BaseChat.vue'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+
+const myRouter =useRouter()
+const goShop=()=>myRouter.push({name:'Shop'})
+
+let searchItem = ref("")
+
 </script>
 <template>
-    <BaseMenu class="menu"/>
+    <BaseMenu class="menu" :search="searchItem" @click="goShop()"/>
     <BaseInfomation/>
     <BaseSolution/>
     <BaseRandDesigner/>

@@ -27,7 +27,7 @@ let cookie = {
         return Cookies.get(cname)
     },
     set(cname, cvalue){
-      Cookies.set(cname,cvalue)
+      Cookies.set(cname,cvalue, { expires: 1, sameSite: 'strict' })
         // const d = new Date();
         // d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
         // let expires = "expires="+d.toUTCString();
