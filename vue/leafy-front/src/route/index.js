@@ -6,6 +6,7 @@ import cookie from '../JS/cookie'
 import fetch from '../JS/api'
 import NotFound from '../view/NotFound.vue'
 import CartList from '../view/Cart.vue'
+import Profile from '../view/Profile.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -14,7 +15,7 @@ const routes=[
         name:'Home',
         component: Home,
     },
-    {   path:'/shop',
+    {   path:'/shop/:search?',
         name:'Shop',
         component: Shop,
     },
@@ -28,6 +29,11 @@ const routes=[
         component:CartList
     },
     {
+        path:'/user-profile/:name/:id',
+        name:'Profile',
+        component:Profile
+    },
+    {
         path:'/:pathMatch(.*)*',
         name:'NotFound',
         component:NotFound,
@@ -36,16 +42,19 @@ const routes=[
 ]
 const router=createRouter({history,routes})
 
-router.beforeEach(async (to, next)=>{
-    // console.log("test")
-    await fetch.getRefresh()
-    keyPass= cookie.get("information")
-    console.log(keyPass)
 
+router.beforeEach((to,from)=>{
+    // await fetch.getRefresh()
+    keyPass= cookie.get("information")
+    // console.log(keyPass)
+    
     if(to.name=="SignIn"&&keyPass!=undefined){
         
-        alert("don't do that pls !!!")
-        return "/"
+        // alert("don't do that pls !!!")
+        return {name:'Home'}
+    }
+    if(to.name=="CartList"&&keyPass==undefined){
+        return {name:"SignIn"}
     }
     // console.log(document.cookie)
     // token=Cookies.get("token")
@@ -57,7 +66,8 @@ router.beforeEach(async (to, next)=>{
     // }
     
 })
-router.beforeResolve((to)=>{
+router.beforeResolve((to,from)=>{
+    
     // console.log(token)
     // if(to.name="SignIn"){
     //     if(keyPass==undefined){

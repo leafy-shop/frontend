@@ -71,17 +71,18 @@ const fetch = {
     },
 
     // product shop page
-    getAllProduct: async (page = 1, searchItem = "", type = [], min = 0, max = Infinity, rating = 0, tag = []) => {
-        // let returnData={status:false,data:undefined}
+    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = []) => {
+        let returnData={status:false,data:undefined}
         try {
             // let productList =[]
+
             let url = `${origin}/api/products?page=${page}`
-            if (searchItem.length !== 0) url = url + `&product=${searchItem}`
-            if (type.length !== 0) url = url + `&type=${type}`
-            if (min > 0) url = url + `&min_price=${min}`
-            if (max !== Infinity) url = url + `&max_price=${max}`
-            if (rating !== 0) url = url + `&rating=${rating}`
-            if (tag !== "") url = url + `&tag=${tag}`
+            if (searchItem.length !== 0) url = url + `&product=${searchItem}`;
+            if (type.length !== 0) url = url + `&type=${type}`;
+            if (min > 0) url = url + `&min_price=${min}`;
+            if (max !== Infinity&&max!=undefined) url = url + `&max_price=${max}`;
+            if (rating !== 0) url = url + `&rating=${rating}`;
+            if (tag !== "") url = url + `&tag=${tag}`;
 
             console.log(url)
 
@@ -126,7 +127,7 @@ const fetch = {
 
                 console.log(error.response.status) 
                 // error 404
-                if(error.response.status==404){
+                if(error.response.status==404||error.response.status==401){
                     returnData.msg=error.response.data.error
                     returnData.status=false
                 }else{

@@ -1,54 +1,13 @@
 <script setup>
-import{ref, computed} from'vue'
 
 let props = defineProps({
-    currentPage: {
-        type: Number,
-        require: true
-    },
-    productList: {
-        type: Array,
-        require: true
-    },
-    allItems: {
-        type: Number,
-        require: true
-    },
-    totalPage: {
-        type: Number,
-        require: true
+    productList :{
+        type:Object,
+        require:true,
+        default:{}
     }
-})
-
-defineEmits(["getProduct","changePage"])
-
-const currentPage=ref(props.currentPage)
-
-// const maxPage=computed(()=>{
-//     let page = 16/15
-//     // allItems.value
-//     return Math.ceil(page)
-// })
-// const allItems=ref(0)
-
-// const productList=[
-//     {name:"Good Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
-//     {name:"Plants",price:80,sold:8,star:5},
     
-// ]
+})
 </script>
 <template>
     <div class="wrapper_product_list">
@@ -74,7 +33,7 @@ const currentPage=ref(props.currentPage)
                 </div>
             </div>
         </div>
-        <div class="link_page_container">
+        <!-- <div class="link_page_container">
             <ul>
                 <li v-for="(link,index) of totalPage" :key="index">
                     <button @click="$emit('changePage',index+1)">
@@ -82,7 +41,7 @@ const currentPage=ref(props.currentPage)
                     </button>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </template>
 <style scoped>

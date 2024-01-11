@@ -1,12 +1,15 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref, computed} from 'vue'
+import { ref, computed,onBeforeMount} from 'vue'
 import validation from '../JS/validation'
+import cookie from '../JS/cookie';
 const myRouter =useRouter()
 const goHome=()=>myRouter.push({name:'Home'})
 const goSignin=()=>myRouter.push({name:'SignIn'})
 const goShop=()=>myRouter.push({name:'Shop'})
 const goCartList=()=>myRouter.push({name:'CartList'})
+const goProfile=()=>myRouter.push({name:'Profile',params:{name:'mago',id:'11'}})
+
 // import { defineStore } from 'pinia'
 // import { productFilterStore } from '../store/baseFilter'
 
@@ -22,6 +25,11 @@ let searchItem = computed(() => {
 })
 
 defineEmits(['search'])
+
+const keyPass = ref(undefined)
+onBeforeMount(()=>{
+    keyPass.value = cookie.get("information")
+})
 
 const showMenu2 = ref(false)
 
@@ -77,9 +85,13 @@ const showMenu2 = ref(false)
                     <img src="../assets/vue.svg" alt="profile" loading="lazy">
                 </button>
                 <!-- sign-in -->
-                <button @click="goSignin" class="service_sign-in">
-                    Sign in
+                <button v-if="keyPass==undefined" @click="goSignin" class="service_sign-in">
+                        Sign in
                 </button>
+                <!-- user profile -->
+                <button @click="goProfile" v-else class="user_profile">
+                        <img src="../assets/icon/user_icon.png" alt="user_icon">
+                </button>    
             </div>
         </div>
         <div v-show="showMenu2" class="main_menu_container_2">
@@ -89,12 +101,12 @@ const showMenu2 = ref(false)
                         <img src="../assets/icon/home.png" alt="home_icon">
                         <h3> Home</h3>
                     </button>
-                    <button @click="validation.clickingTest('link shop')">
-                        <img src="../assets/icon/shop.png" alt="shop_icon">
+                    <button  @click="validation.clickingTest('link shop')">
+                        <img  src="../assets/icon/Shop.png" alt="shop_icon">
                         <h3> Shop</h3>
                     </button>
                     <button @click="validation.clickingTest('link gallery')">
-                        <img src="../assets/icon/gallery.png" alt="gallery_icon">
+                        <img  src="../assets/icon/gallery.png" alt="gallery_icon">
                         <h3> Gallery</h3>
                     </button>
                     <button @click="validation.clickingTest('link about')">
@@ -106,20 +118,48 @@ const showMenu2 = ref(false)
                         <h3> Contact</h3>
                     </button>
                 </div>
+                
                 <div class="service_container_2">
-                    <button @click="goSignin">
-                        Sign in
-                    </button>
-                    <div>
-                        <span>
-                            Create a new account
-                        </span>
-                        <hr>
-                        <span @click="validation.clickingTest('link sign-in')">
-                            Sign In
-                        </span>
+                    <div v-if="keyPass!=undefined" class="service_with_keyPass">
+                        <div class="user_2">
+                            <div class="icon_2">
+                                <img src="../assets/icon/user_icon.png" alt="user_icon">
+                            </div>
+                            <div class="information_2">
+                                <h4>
+                                    whitney Francis
+                                </h4>
+                                <h5>
+                                    francis@gmail.com
+                                </h5>
+                            </div>
+                        </div>
+                        <button @click="goProfile" class="account_bt">
+                            Your Profile
+                        </button>
+                        <button class="account_bt">
+                            Seeting
+                        </button>
+                        <button class="signOut">
+                            Sign Out
+                        </button>
                     </div>
-                </div>
+                    <div v-else class="service_no_keyPass">
+                        <button @click="goSignin">
+                            Sign in
+                        </button>
+                        <div>
+                            <span>
+                                Create a new account
+                            </span> 
+                            <hr> 
+                            <span @click="validation.clickingTest('link sign-in')">
+                                Sign Up
+                            </span>
+                        </div>
+                    </div>
+                    
+                </div>    
             </div>
 
             <div @click="showMenu2 = !showMenu2" class="action_area"></div>
@@ -128,12 +168,10 @@ const showMenu2 = ref(false)
     </div>
 </template>
 <style scoped>
-/* *{
-    font-size: 16px;
-    font-weight: 700;
-    
-} */
-.main_menu {
+*{
+   box-sizing: border-box;
+}
+.main_menu{
     display: flex;
     width: auto;
     height: min(5.556dvw, 80px);
@@ -270,7 +308,20 @@ const showMenu2 = ref(false)
     background-color: gray;
 }
 
-.cart_b {
+.user_profile{
+    width: min(2.778dvw,40px);
+    height: min(2.778dvw,40px);
+    border-radius: 50%;
+    border: 0px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.user_profile img{
+    width: inherit;
+    height: inherit;
+}
+
+.cart_b{
     display: flex;
     height: auto;
     width: fit-content;
@@ -364,11 +415,11 @@ const showMenu2 = ref(false)
         display: flex;
         flex-direction: column;
         width: 100%;
-        height: 452px;
+        height: fit-content;
         background-color: white;
-        padding: 32px 44px;
+        padding: min(5.914dvw,44px) min(5.914dvw,44px);
         box-sizing: border-box;
-        gap: 32px;
+        gap: min(4.301dvw,32px);
         z-index: 999;
     }
 
@@ -376,8 +427,8 @@ const showMenu2 = ref(false)
         display: flex;
         flex-direction: column;
         width: inherit;
-        height: 248px;
-        gap: 32px;
+        height: fit-content;
+        gap: min(3.763dvw,28px);
     }
 
     .link_list button {
@@ -388,26 +439,35 @@ const showMenu2 = ref(false)
         background-color: inherit;
         cursor: pointer;
     }
-
-    .link_list button img {
+    .link_list button h3{
+        width: fit-content;
+        height: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%; /* 24px */
+        letter-spacing: 0.2px;
+    }
+    .link_list button img{
         width: 24px;
         height: inherit;
         margin-right: 16px;
     }
-
-    .service_container_2 {
+    .service_container_2{
+        width: auto;
+        height: fit-content;
+    }
+    .service_no_keyPass{
         display: flex;
         flex-direction: column;
         width: inherit;
-        height: 108px;
-        padding-top: 24px;
+        height: fit-content;
+        padding-top: 28px;
         border-top: 1px solid;
         border-color: #E0E0E0;
         box-sizing: border-box;
-        gap: 24px;
+        gap: 28px;
     }
-
-    .service_container_2 button {
+    .service_no_keyPass button{
         width: inherit;
         height: 40px;
         padding: 8px 12px;
@@ -418,8 +478,7 @@ const showMenu2 = ref(false)
         border-radius: 4px;
         cursor: pointer;
     }
-
-    .service_container_2 div {
+    .service_no_keyPass div{
         display: flex;
         width: inherit;
         height: fit-content;
@@ -434,7 +493,7 @@ const showMenu2 = ref(false)
         color: #757575;
         cursor: pointer;
     } */
-    .service_container_2 div  span:nth-child(3){
+    .service_no_keyPass div  span:nth-child(3){
         font-size: 14px;
         font-weight: 700;
         line-height: 144%;
@@ -444,8 +503,82 @@ const showMenu2 = ref(false)
         cursor: pointer;
     }
 
-    .leafy_icon {
-        width: min(9.274dvw, 69px);
+    .service_with_keyPass{
+        display: flex;
+        flex-direction: column;
+        width: inherit;
+        height: fit-content;
+        padding-top: 28px;
+        border-top: 1px solid;
+        border-color: #E0E0E0;
+        box-sizing: border-box;
+        gap: 28px;
+    }
+    .user_2{
+        display: flex;
+        width: 100%;
+        height: 44px;
+        flex-direction: row;
+        gap: 12px;
+    }
+    .icon_2{
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: #E0E0E0;
+        overflow: hidden;
+    }
+    .icon_2 img{
+        width: inherit;
+        height: inherit;
+    }
+    .information_2{
+        display: flex;
+        flex-direction: column;
+    }
+    .information_2 h4{
+        width: 100%;
+        height: 24px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 150%; /* 24px */
+        letter-spacing: 0.2px;
+    }
+    .information_2 h5{
+        width: 100%;
+        height: 24px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 144%; /* 20.16px */
+        letter-spacing: 0.2px;
+    }
+    .account_bt{
+        height: auto;
+        font-size: 16px;
+        border: 0px;
+        background:inherit;
+        text-align: left;
+        font-weight: 500;
+        line-height: 150%; /* 24px */
+        letter-spacing: 0.2px;
+        cursor: pointer;
+    }
+    .signOut{
+        width: auto;
+        height: 40px;
+        padding: 8px 12px;
+        background:#26AC34;
+        border-radius: 4px;
+        border: 0px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%; /* 24px */
+        letter-spacing: 0.2px;
+        cursor: pointer;
+    }
+    .leafy_icon{
+        width: min(9.274dvw,69px);
         /* height: min(4.435dvw,33px); */
         /* margin: auto 0px; */
     }
@@ -478,8 +611,10 @@ const showMenu2 = ref(false)
         justify-content: center;
         margin: auto 0px;
     }
-
-    .cart_b {
+    .user_profile{
+        display: none;
+    }
+    .cart_b{
         display: block;
         margin: auto 0px;
     }
@@ -518,21 +653,62 @@ const showMenu2 = ref(false)
     .main_menu_container_2 {
         top: 60px;
     }
-
-    .container_link_2 {
-        width: inherit;
-        height: 376px;
-        padding: 16px;
+    .container_link_2{
+       width: inherit;
+       /* height: 376px; */
+       height: fit-content;
+       padding: min(4.255dvw,16px);
+    }
+    .link_list{
+        gap: min(6.383dvw,24px);
+    }
+    .link_list button h3{
+        font-size: 14px;
     }
 
-    .link_list {
-        gap: 24px;
+    .service_no_keyPass{
+        padding-top: 16px;
+        gap: 16px;
     }
-
-    .service_container_2 {
-        width: inherit;
-        height: 96px;
-        gap: 20px;
+    .service_no_keyPass button{
+        height: 36px;
+        font-size: 14px;
+    }
+    .service_no_keyPass div{
+        gap: 12px;
+    }
+    .service_no_keyPass div span{
+        font-size: 12px;
+    }
+    .service_no_keyPass div  span:nth-child(3){
+        font-size: 12px;
+    }
+    .service_with_keyPass{       
+        padding-top: 24px;
+        gap: 16px;
+    }
+    .user_2{
+        height: 36px;
+    }
+    .icon_2{
+        width: 36px;
+        height: 36px;
+    }
+    .information_2 h4{
+        height: 20px;
+        font-size: 14px;
+    }
+    .information_2 h5{
+        height: 16px;
+        font-size: 12px;
+    }
+    .account_bt{
+        height: 20px;
+        font-size: 14px;
+    }
+    .signOut{
+        height: 36px;
+        font-size: 14px;
     }
 
     .burger_icon {

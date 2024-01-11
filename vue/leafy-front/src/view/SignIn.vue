@@ -148,6 +148,7 @@ const showPassword=computed(()=>{
     height: fit-content;
     gap: 12px;
 }
+
 .wrapper_errorMsg{
     display: flex;
     width: auto;
@@ -191,7 +192,7 @@ const showPassword=computed(()=>{
     height: min(3.333dvw,48px);
     font-size: min(1.111dvw,16px);
     font-weight: 400;
-    
+    /* border-color: #E0E0E0; */
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     
 }
@@ -202,6 +203,9 @@ const showPassword=computed(()=>{
     border-color: #E0E0E0;
     background-color: #FFF;
 } 
+.email:focus-within{
+    outline: auto;
+}
 .password{
     width: 100%;
     height: 100%;

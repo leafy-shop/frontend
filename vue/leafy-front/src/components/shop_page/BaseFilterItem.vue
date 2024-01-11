@@ -1,44 +1,75 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onUpdated } from 'vue'
 
-const props = defineProps({
-    category: {
-        type: Array,
-        default: []
-    },
-    min: {
-        type: Number,
-        default: -Infinity
-    },
-    max: {
-        type: Number,
-        default: Infinity
-    },
-    rating: {
-        type: Number,
-        default: 0
-    },
-    tag: {
-        type: String,
-        default: ""
-    },
-    categoryArr: {
-        type: Array,
-        default: []
-    },
-    tagArr: {
-        type: Array,
-        default: []
+const emit = defineEmits(["filterItem"])
+
+const category=ref([])
+const min=ref(undefined)
+const max=ref(undefined)
+const rating=ref(undefined)
+const tag=ref("")
+
+let categoryArr = [
+    {name:"Plant",value:'plant',selected:false},
+    {name:"Flower",value:'flower',selected:false},
+    {name:"Cactus",value:'cactus',selected:false},
+    {name:"Seed",value:'seed',selected:false},
+    {name:"Equirement",value:'equirement',selected:false},
+    {name:"Meterial",value:'meterial',selected:false},
+]
+const tagArr = [
+    {name:"Best Product", value:"best product"},
+    {name:"New Arrivals", value:"new arrivals"},
+    {name:"Plants", value:"plants"},
+    {name:"Indoor Plants", value:"indoor plants"},
+    {name:"Lilac", value:"lilac"},
+    {name:"Jar", value:"jar"},
+    {name:"Pot", value:"pot"},
+]
+
+const applyFilter=()=>{
+    emit('filterItem', {
+        category: category.value, 
+        min: min.value, 
+        max: max.value, 
+        rating: rating.value, 
+        tag: tag.value })
+    console.log( categoryArr)
+}
+const clearFilterItem =() => {
+    
+    let checked=document.getElementsByName("category_check")
+    // let checked=document.getElementsByClassName("category_check")
+    checked.checked=false
+    category.value = []
+    min.value = undefined
+    max.value = undefined
+    rating.value = undefined
+    tag.value = ""
+    applyFilter()
+    // categoryArr = categoryArr.map(cate=>{
+    
+    //     cate.selected=false 
+    //     return cate
+    // })
+}
+// function for select category
+const categorySelector =(categoryName)=>{
+
+    if (category.value.includes(categoryName)) {
+        const index = category.value.indexOf(categoryName);
+        if (index > -1) { // only splice array when item is found
+            category.value.splice(index, 1); // 2nd parameter means remove one item only
+        }
+    } else {
+        category.value.push(categoryName)
     }
+    console.log(category.value)
+}
+
+onUpdated(()=>{
+    // console.log("rating : "+rating.value)
 })
-
-defineEmits(["categoryList", "baseFilterItem", "clear"])
-
-let filterItem = computed(() => {
-    console.log(props)
-    return { category: props.category, min: props.min, max: props.max, rating: props.rating, tag: props.tag }
-})
-
 </script>
 <template>
     <div class="wrapper_filter">
@@ -48,9 +79,9 @@ let filterItem = computed(() => {
             </h4>
             <div class="category_list">
                 <div v-for="(cate, index) of categoryArr" :key="index" class="category_item">
-                    <input @click="$emit('categoryList', cate.value)" type="checkbox" :id="cate.name" :value="cate.value"
-                        v-model="cate.selected">
+                    <input   @click="categorySelector(cate.value)"   type="checkbox" name="category_check" >
                     <label :for="cate.name">{{ cate.name }}</label>
+                    <label :for="cate.name">{{ cate.selected }}</label>
                 </div>
             </div>
         </div>
@@ -60,11 +91,11 @@ let filterItem = computed(() => {
                 Filter by price
             </h4>
             <div class="price_filter">
-                <input type="number" placeholder="฿Min" v-model="filterItem.min" @input="filterItem.min = filterItem.min < 0 ? -Infinity : filterItem.min">
+                <input type="number" placeholder="฿Min" v-model="min" >
                 <h4>
                     -
                 </h4>
-                <input type="number" placeholder="฿Max" v-model="filterItem.max" @input="filterItem.max = filterItem.max < 0 ? Infinity : filterItem.max">
+                <input type="number" placeholder="฿Max" v-model="max" >
                 <!-- <button class="price_button">
                     &gt;
                 </button> -->
@@ -109,35 +140,47 @@ let filterItem = computed(() => {
                         over
                     </h4>
                 </label> -->
-                <button class="point_item" @click="filterItem.rating = 5">
+                <div v-for="(value,index) in 5" :key="index">
+                    <input  class="point_item" type="radio" :id="`rating_${value}`" name="rating"  :value="value" v-model="rating"/>
+                    <label :for="`rating_${value}`">
+                        <div v-for="(v,i) in value" :key="i">
+                            ⭐
+                        </div>  
+                    </label>                    
+                </div>
+                
+                <!-- <input class="point_item" v-model="rating" :value="1">
                     <div>
                         ⭐⭐⭐⭐⭐
                     </div>                    
-                </button>
-                <button class="point_item" @click="filterItem.rating = 4">
+                </input>
+                <input class="point_item" @click="filterItem.rating = 4">
                     <div>
                         ⭐⭐⭐⭐
                     </div> 
                     <h4>
                         over
                     </h4>                   
-                </button>
-                <button class="point_item" @click="filterItem.rating = 3">
+                </input>
+                <input class="point_item" @click="filterItem.rating = 3">
                     <div>
                         ⭐⭐⭐
                     </div>  
                     <h4>
                         over
                     </h4>                   
-                </button>
-                <button class="point_item" @click="filterItem.rating = 2">
+                </input>
+                <input type="checkbox" class="point_item" @click="filterItem.rating = 2">
+                <label for="">
                     <div>
                         ⭐⭐
                     </div>  
                     <h4>
                         over
-                    </h4>                   
-                </button>
+                    </h4> 
+                </label> -->
+                                      
+                <!-- </input> -->
             </div>
         </div>
         <hr>
@@ -148,7 +191,9 @@ let filterItem = computed(() => {
             <div class="wrapper_tag">
                 <ul class="tag_list">
                     <li v-for="tag in tagArr">
-                        <button @click="filterItem.tag = tag.value">{{ tag.name }}</button>
+                        <!-- <button @click="filterItem.tag = tag.value">{{ tag.name }}</button> -->
+                        <button >{{ tag.name }}</button>
+
                     </li>
                 </ul>
             </div>
@@ -156,13 +201,19 @@ let filterItem = computed(() => {
         </div>
         <hr>
         <div class="clear_b">
-            <button
+            <!-- <button
                 @click="$emit('baseFilterItem', 1, filterItem.category, filterItem.min, filterItem.max, filterItem.rating, filterItem.tag)">
                 apply {{ filterItem.rating }}
+            </button> -->
+            <button @click="applyFilter">
+                 apply <!--{{ filterItem.rating }} -->
             </button>
         </div>
         <div class="clear_b">
-            <button @click="$emit('clear')">
+            <!-- <button @click="$emit('clear')">
+                Clear
+            </button> -->
+            <button @click="clearFilterItem">
                 Clear
             </button>
         </div>
