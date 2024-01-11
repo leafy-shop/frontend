@@ -155,14 +155,14 @@ let filterItem = computed(() => {
 
         </div>
         <hr>
-        <div class="clear_b">
+        <div class="clear_b" @click="$emit('baseFilterItem', 1, filterItem.category, filterItem.min, filterItem.max, filterItem.rating, filterItem.tag)">
             <button
-                @click="$emit('baseFilterItem', 1, filterItem.category, filterItem.min, filterItem.max, filterItem.rating, filterItem.tag)">
+                >
                 apply {{ filterItem.rating }}
             </button>
         </div>
-        <div class="clear_b">
-            <button @click="$emit('clear')">
+        <div class="clear_b" @click="$emit('clear')">
+            <button >
                 Clear
             </button>
         </div>

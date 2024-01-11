@@ -60,14 +60,14 @@ const changePage=async (number)=>{
 
 // ----------------- filter base ---------------------
 
-const categoryArr = [
+let categoryArr = ref([
     {name:"Plant",value:'plant', selected: false},
     {name:"Flower",value:'flower', selected: false},
     {name:"Cactus",value:'cactus', selected: false},
     {name:"Seed",value:'seed', selected: false},
     {name:"Equirement",value:'equirement', selected: false},
     {name:"Meterial",value:'meterial', selected: false},
-]
+])
 
 const tagArr = [
     {name:"Best Product", value:"best product", selected: false},
@@ -111,6 +111,10 @@ const clearFilterItem = async () => {
     max_price.value = Infinity
     rating.value = 0
     tag.value = ""
+    categoryArr.value = categoryArr.value.map(cate => {
+        cate.selected = false
+        return cate
+    }) // disable checked value
     await getProduct(currentPage.value)
 }
 
