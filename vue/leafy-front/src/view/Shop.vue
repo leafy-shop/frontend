@@ -27,11 +27,12 @@ const totalPage = ref(1)
 
 const productList = ref([])
 
-const getSearchItem = async (currentPage, search) => {
-    console.log(search)
-    searchItem.value = search
-    await getProduct(currentPage)
-}
+// const getSearchItem = async (search) => {
+//     // currentPage.value=1
+//     console.log(search)
+//     // searchItem.value = search
+//     // await getProduct(currentPage.value)
+// }
 
 const getProduct=async(page)=>{
     console.log(categoryFilter.value.join())
@@ -50,7 +51,7 @@ const getProduct=async(page)=>{
 
 // if change page input must be a number only
 const changePage=async (number)=>{
-    console.log(typeof(number))
+    // console.log(typeof(number))
     
     let status = validation.number(number,true)
     currentPage.value = status==true?number:Math.abs(parseInt(number))
@@ -78,7 +79,7 @@ const getFilterItem=async(data)=>{
 
 </script>
 <template>
-    <BaseMenu :search="searchItem" @search="getSearchItem"/>
+    <BaseMenu class="menu" :search="searchItem" />
     <div class="shop_title">
         <h3>
             Shop
@@ -89,7 +90,7 @@ const getFilterItem=async(data)=>{
     <div class="shop_content">
         <div class="wrapper_content">
             <BaseFilterItem @filter-item="getFilterItem"/>
-            <div>
+            <!-- <div>
                 <BaseProductList :productList="productList"/>
                 <div class="link_page_container">
                     <ul>
@@ -100,33 +101,46 @@ const getFilterItem=async(data)=>{
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
             
         </div>
     </div>
     <BaseFooter/>
 </template>
 <style scoped>
+*{
+    box-sizing: border-box;
+    /* position: relative; */
+}
 .shop_title{
     display: flex;
     position: relative;
     width: auto;
-    height: 232px;
+    height: min(16.111dvw,232px);
+    /* height: fit-content; */
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* z-index: 1; */
+    
 }
 .shop_title h3{
-    font-size: 48px;
+    position: absolute;
+    width: 100%;
+    height: inherit;
+    padding: min(5.556dvw,80px) min(11.111dvw,160px);
+    font-size: min(3.333dvw,48px);
     color: white;
-    z-index: 3;
+    text-align: center;
+    /* z-index: 3; */
 }
 .shop_title img{
-    position: absolute;
+    
     /* opacity: 10%; */
     width: 100%;
-    top: -750px;
-    z-index: 1;
+    height: auto;
+    /* top: -750px; */
+    /* z-index: -1; */
 }
 
 .shop_content{
@@ -134,15 +148,35 @@ const getFilterItem=async(data)=>{
     /* height: 1672px; */
     height: fit-content;
     width: auto;
+    padding:min(1.389dvw,20px) 0px ;
     align-items: center;
     justify-content: center;
+    background-color: #F5F5F5;
 }
 .wrapper_content{
     display: flex;
     flex-direction: row;
-    width: fit-content;
+    width: inherit;
     /* height: 1632px; */
-    height: 2024px;
+    height: inherit;
+    
+}
+.menu{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
 
+@media (width<=744px){
+    .shop_title{
+        height: min(23.656dvw,176px);
+    }
+    .shop_title h3{
+        padding: min(8.065dvw,60px) min(5.914dvw,44px);
+        font-size: min(5.376dvw,40px);
+    }
+    .shop_content{
+        padding: min(2.688dvw,20px) 0px;
+    }
 }
 </style>

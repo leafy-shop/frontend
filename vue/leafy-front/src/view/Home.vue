@@ -15,11 +15,11 @@ import {useRouter} from 'vue-router'
 const myRouter =useRouter()
 const goShop=()=>myRouter.push({name:'Shop'})
 
-let searchItem = ref("")
+// let searchItem = ref("")
 
 </script>
 <template>
-    <BaseMenu class="menu" :search="searchItem" @click="goShop()"/>
+    <BaseMenu class="menu" />
     <BaseInfomation/>
     <BaseSolution/>
     <BaseRandDesigner/>
@@ -36,7 +36,7 @@ let searchItem = ref("")
 </template>
 <style scoped>
 
-.chat{
+/* .chat{
     display: flex;
     position: fixed;
     right: 5px;
@@ -63,7 +63,7 @@ let searchItem = ref("")
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 500;
-}
+} */
 .menu{
     position: sticky;
     top: 0;

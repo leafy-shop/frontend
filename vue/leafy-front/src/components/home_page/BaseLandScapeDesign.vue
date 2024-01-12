@@ -1,5 +1,7 @@
 <script setup>
-
+import {useRouter} from 'vue-router'
+const myRouter = useRouter()
+const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:search}})
 </script>
 <template>
     <div class="wrapper_content">
@@ -7,37 +9,37 @@
             LANDSCAPE DESIGN STYLE
         </h3>
         <div class="container_content">
-            <div class="content_item">
+            <div @click="goGallery('modern')" class="content_item">
                 <img src="../../assets/home_p/home_design_content_modern.png" alt="modern_style_img">
                 <h4>
                     Modern Style
                 </h4>
             </div>
-            <div class="content_item">
+            <div @click="goGallery('tropical')" class="content_item">
                 <img src="../../assets/home_p/home_design_content_tropical.png" alt="tropical_style_img">
                 <h4>
                     Tropical Style
                 </h4>
             </div>  
-            <div class="content_item">
+            <div @click="goGallery('japanese')" class="content_item">
                 <img src="../../assets/home_p/home_design_content_japanese.png" alt="japanese_style_img">
                 <h4>
                     Japanese Style
                 </h4>
             </div> 
-            <div class="content_item">
+            <div @click="goGallery('english')" class="content_item">
                 <img src="../../assets/home_p/home_design_content_english.png" alt="english_style_img">
                 <h4>
                     English Style
                 </h4>
             </div>     
-            <div class="content_item">
+            <div @click="goGallery('europe')" class="content_item">
                 <img src="../../assets/home_p/home_design_content_europe.png" alt="europe_style_img">
                 <h4>
                     Europe Style
                 </h4>
             </div> 
-            <div class="content_item">
+            <div @click="goGallery('desert')" class="content_item">
                 <img src="../../assets/home_p/home_design_content_desert.png" alt="desert_style_img">
                 <h4>
                     Desert Style
@@ -89,7 +91,7 @@
     
     width: fit-content;
     height: fit-content;
-    
+    cursor: pointer;
 }
 .content_item img{
     /* width: 352px;

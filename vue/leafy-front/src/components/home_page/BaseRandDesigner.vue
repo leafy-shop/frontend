@@ -2,8 +2,11 @@
 import { onBeforeMount, ref } from 'vue';
 import js from '../../JS/validation.js'
 import fetch from '../../JS/api.js'
-
+import {useRouter}from 'vue-router'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
+
+const myRouter = useRouter()
+const goGalleryDetail=(id)=>myRouter.push({name:'GalleryDetail',params:{id:id}})
 
 const designerList = ref([])
 
@@ -26,7 +29,7 @@ const amountMove=undefined
 const getGardenDesigner=async()=>{
     let {status,data} = await fetch.getGardenDesigner()
     // console.log(designerList.value)
-    // console.log(data)
+    console.log(data.list)
     designerList.value=data.list
 }
 
@@ -43,7 +46,7 @@ onBeforeMount(()=>{
         </button>
         <div class="wrapper_list">
             <div class="designer_list">
-                <div v-for="(designer,index) in designerList " :key="index" class="designer">
+                <div  v-for="(designer,index) in designerList " :key="index" class="designer">
                     <div class="user_img">
                         <img v-if="designer.image" :src="`${origin}/api/image/users/${designer.userId}/${designer.image}`" alt="user_img">
                         <img v-else src="./../../assets/home_p/I.jpg" alt="user_img">
@@ -57,7 +60,7 @@ onBeforeMount(()=>{
                         </p>
                     </div>
                     
-                    <button>
+                    <button @click="goGalleryDetail(designer.userId)">
                         View
                     </button>
                     

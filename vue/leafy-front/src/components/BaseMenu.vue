@@ -1,34 +1,59 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 import { ref, computed,onBeforeMount} from 'vue'
 import validation from '../JS/validation'
 import cookie from '../JS/cookie';
-const myRouter =useRouter()
-const goHome=()=>myRouter.push({name:'Home'})
-const goSignin=()=>myRouter.push({name:'SignIn'})
-const goShop=()=>myRouter.push({name:'Shop'})
-const goCartList=()=>myRouter.push({name:'CartList'})
-const goProfile=()=>myRouter.push({name:'Profile',params:{name:'mago',id:'11'}})
-
-// import { defineStore } from 'pinia'
-// import { productFilterStore } from '../store/baseFilter'
-
+// const {params} =useRoute()
+const emit= defineEmits(['search'])
 const props = defineProps({
     search: {
         type: String,
         require: true
     }
 })
-
-let searchItem = computed(() => {
-    return { search: props.search }
+// this for check now in shop page?
+const isShopPage=computed(()=>{
+    // console.log(window.location.href.split("/").includes("shop"))
+    return window.location.href.split("/").includes("shop")
 })
+// this search attribute
+const search =ref('')
+// and this compute value for assign value
+// const searchCompute=computed(()=>{
+    // let isShop = window.location.href.split("/").includes("shop")
+    // return search.value = isShop==true?params.search:""
+//     return search.value = props.search
+// })
 
-defineEmits(['search'])
+const myRouter =useRouter()
+const goHome=()=>myRouter.push({name:'Home'})
+const goSignin=()=>myRouter.push({name:'SignIn'})
+const goShop=()=>{
+    if(isShopPage.value){
+        // return emit("search",{search:search.value})
+        return myRouter.push({name:'Shop',params:{search:search.value}})
+    }else{
+        return myRouter.push({name:'Shop',params:{search:search.value}})
+    }
+}
+const goCartList=()=>myRouter.push({name:'CartList'})
+const goProfile=(name='mago',id=11)=>myRouter.push({name:'Profile',params:{name:name,id:id}})
 
+
+
+
+
+// import { defineStore } from 'pinia'
+// import { productFilterStore } from '../store/baseFilter'
+
+
+// let searchItem = computed(() => {
+//     return { search: props.search }
+// })
 const keyPass = ref(undefined)
 onBeforeMount(()=>{
     keyPass.value = cookie.get("information")
+    search.value=props.search
 })
 
 const showMenu2 = ref(false)
@@ -69,12 +94,14 @@ const showMenu2 = ref(false)
             </div>
             <div class="element_service">
                 <!-- search input -->
-                <div class="service_container_search" @keydown.enter="$emit('search', 1, searchItem.search)">
-                    <img @click="$emit('search', 1, searchItem.search)"  class="search_icon"
+                <div class="service_container_search" >
+                    <label for="search">
+                        <img @click=""  class="search_icon"
                         src="../assets/icon/magnifying.svg" alt="search_icon">
-                    <img @click="$emit('search', 1, searchItem.search)" src="../assets/icon/search_icon_2.png"
+                    </label>
+                    <img @click="" src="../assets/icon/search_icon_2.png"
                         alt="search_icon_2.png" class="search_icon_2">
-                    <input type="text" placeholder="Search" v-model="searchItem.search">
+                    <input id="search" @keypress.enter="goShop" type="text" placeholder="Search" v-model="search">
                 </div>
                 <!-- cart icon -->
                 <button @click="goCartList" class="cart_b">
@@ -172,6 +199,7 @@ const showMenu2 = ref(false)
    box-sizing: border-box;
 }
 .main_menu{
+    
     display: flex;
     width: auto;
     height: min(5.556dvw, 80px);
@@ -269,6 +297,7 @@ const showMenu2 = ref(false)
     box-sizing: border-box;
     gap: min(0.833dvw, 12px);
 }
+
 
 .search_icon {
     width: min(1.389dvw, 20px);

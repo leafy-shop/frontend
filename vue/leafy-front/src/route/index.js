@@ -7,6 +7,9 @@ import fetch from '../JS/api'
 import NotFound from '../view/NotFound.vue'
 import CartList from '../view/Cart.vue'
 import Profile from '../view/Profile.vue'
+import Gallery from '../view/Gallery.vue'
+import GalleryDetail from '../view/GalleryDetail.vue'
+import SignUp from '../view/SignUp.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -24,6 +27,11 @@ const routes=[
         component: SignIn,
     },
     {
+        path:'/sign-up/:email?',
+        name:'SignUp',
+        component:SignUp
+    },
+    {
         path:'/cart-list',
         name:'CartList',
         component:CartList
@@ -32,6 +40,16 @@ const routes=[
         path:'/user-profile/:name/:id',
         name:'Profile',
         component:Profile
+    },
+    {
+        path:'/gallery/:search?',
+        name:"Gallery",
+        component:Gallery
+    },
+    {
+        path:'/gallery-detail/:id',
+        name:'GalleryDetail',
+        component:GalleryDetail
     },
     {
         path:'/:pathMatch(.*)*',
@@ -56,6 +74,7 @@ router.beforeEach((to,from)=>{
     if(to.name=="CartList"&&keyPass==undefined){
         return {name:"SignIn"}
     }
+    // alert('this new page')
     // console.log(document.cookie)
     // token=Cookies.get("token")
     // console.log(keyPass)
