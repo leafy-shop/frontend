@@ -8,6 +8,10 @@ const props =defineProps({
         type:Boolean,
         require:true,
         default:false
+    },
+    sortTypeArr:{
+        type:Array,
+        require:true
     }
 })
 const category=ref([])
@@ -48,14 +52,7 @@ const tagArr = [
     {name:"Pot", value:"pot"},
     {name:"Tool", value:"tool"},
 ]
-const sortArr=[
-    {name:"Popular",value:"popular"},
-    {name:"New Arrival",value:"new arrival"},
-    {name:"Top Sales",value:"top sales"},
-    {name:"Low - High",value:"low - high"},
-    {name:"High - Low",value:"high - low"},
 
-]
 const navigationTo=()=>{
     // let element = document.getElementsByClassName("wrapper_filter")
     // return navigate.scrollIntoView({behavior:'smooth'})
@@ -224,7 +221,7 @@ onUpdated(()=>{
                     Sort By
                 </h4>
                 <div class="sort_list">
-                    <div v-for="(sort,index) of sortArr" :key="index" class="sort_item">
+                    <div v-for="(sort,index) of props.sortTypeArr" :key="index" class="sort_item">
                         <input type="radio" :id="`sort_${index}`" :value="sort.value" v-model="sortBy">
                         <label :for="`sort_${index}`">{{ sort.name }}</label>
                     </div>
