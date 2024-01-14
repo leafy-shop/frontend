@@ -3,6 +3,7 @@ import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
+import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
 import {ref, onBeforeMount, onUpdated } from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
@@ -18,14 +19,26 @@ const maxFilter = ref(undefined)
 const ratingFilter = ref(0)
 // tag
 const tagFilter = ref("")
-
+// this for check if we have params 
 const searchItem = ref(myRoute.params.search ? myRoute.params.search : "")
-
+//for change page product list
 const currentPage = ref(1)
 const allItems = ref(0)
 const totalPage = ref(1)
-
+// this attribute for receive data when get from api
 const productList = ref([])
+
+// this share center for open and close filter
+const isShowFilter=ref(undefined)
+
+
+const sortTypeArr =[
+    {name:"Popular",value:"popular"},
+    {name:"New Arrival",value:"new arrival"},
+    {name:"Top Sales",value:"top sales"},
+    {name:"Low - High",value:"low - high"},
+    {name:"High - Low",value:"high - low"},
+]
 
 // const getSearchItem = async (search) => {
 //     // currentPage.value=1
@@ -76,6 +89,12 @@ const getFilterItem=async(data)=>{
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
 }
+const getSortItem=(data)=>{
+    let {show}=data
+   return isShowFilter.value=show
+}
+
+
 
 </script>
 <template>
@@ -89,8 +108,12 @@ const getFilterItem=async(data)=>{
 
     <div class="shop_content">
         <div class="wrapper_content">
-            <BaseFilterItem @filter-item="getFilterItem"/>
-            <!-- <div>
+            <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="getSortItem" :sort-type-arr="sortTypeArr" />
+            <div class="wrapper_productList">
+                <BaseSortItem @sort-item="getSortItem" 
+                :is-show-filter="isShowFilter"  
+                :change-page="{currentPage:currentPage,totalPage:totalPage}"
+                />
                 <BaseProductList :productList="productList"/>
                 <div class="link_page_container">
                     <ul>
@@ -101,7 +124,7 @@ const getFilterItem=async(data)=>{
                         </li>
                     </ul>
                 </div>
-            </div> -->
+            </div>
             
         </div>
     </div>
@@ -159,12 +182,41 @@ const getFilterItem=async(data)=>{
     width: inherit;
     /* height: 1632px; */
     height: inherit;
+    gap: min(2.222dvw,32px);
     
+}
+.wrapper_productList{
+    display: flex;
+    width: min(57.778dvw,832px);
+    height: inherit;
+    flex-direction: column;
+    gap: min(1.389dvw,20px);
 }
 .menu{
     position: sticky;
     top: 0;
     z-index: 999;
+}
+
+.link_page_container{
+    display: flex;
+    width: 100%;
+    height: 36px;
+    justify-content: center;
+    align-items: center;
+}
+.link_page_container ul{
+    display: flex;
+    width: 317px;
+    height: inherit;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+.link_page_container ul li{
+    width: 40px;
+    height: 36px;
+    list-style: none;
 }
 
 @media (width<=744px){
@@ -176,7 +228,30 @@ const getFilterItem=async(data)=>{
         font-size: min(5.376dvw,40px);
     }
     .shop_content{
-        padding: min(2.688dvw,20px) 0px;
+        padding: min(2.688dvw,20px) min(5.914dvw,44px);
     }
+    .wrapper_content{
+        gap: min(2.151dvw,16px);
+    }
+    .wrapper_productList{
+        width: min(65.591dvw,488px);
+    }
+}
+
+@media (width<=376px){
+    .wrapper_productList{
+        width: 100%;
+        padding: min(3.191dvw,12px) min(8.511dvw,16px);
+        /* justify-content: center; */
+    }
+    .shop_content{
+        /* display: flex; */
+        width: 100%;
+        padding: 0px;
+        background: #EEE;
+    }
+    /* .wrapper_content{
+        flex-direction: column;
+    } */
 }
 </style>

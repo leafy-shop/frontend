@@ -72,6 +72,7 @@ const showMenu2 = ref(false)
             <!-- link and logo -->
             <div class="element_link">
                 <div class="leafy_icon">
+                    <!-- <img src="../assets/LEAFY_leaf_logo.png" alt="leafy_icon"> -->
                     <img src="../assets/LEAFY_logo.png" alt="leafy_icon">
                 </div>
                 <div class="container_link">
@@ -88,7 +89,7 @@ const showMenu2 = ref(false)
                         About
                     </button>
                     <button class="link">
-                        Contract
+                        Contact
                     </button>
                 </div>
             </div>
@@ -105,7 +106,12 @@ const showMenu2 = ref(false)
                 </div>
                 <!-- cart icon -->
                 <button @click="goCartList" class="cart_b">
-                    <img src="../assets/icon/cart_icon.svg" alt="cart_icon">
+                    <!-- <img src="../assets/icon/cart_icon.svg" alt="cart_icon"> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 17.9928C9.672 17.9928 9 18.6648 9 19.4928C9 20.3208 9.672 20.9928 10.5 20.9928C11.328 20.9928 12 20.3208 12 19.4928C12 18.6648 11.328 17.9928 10.5 17.9928Z" fill="#252525"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 17.9928C16.672 17.9928 16 18.6648 16 19.4928C16 20.3208 16.672 20.9928 17.5 20.9928C18.328 20.9928 19 20.3208 19 19.4928C19 18.6648 18.328 17.9928 17.5 17.9928Z" fill="#252525"/>
+                        <path d="M3 5H5.331C6.297 5 7.126 5.691 7.299 6.642L8.701 14.358C8.874 15.309 9.703 16 10.669 16H17.494C18.386 16 19.17 15.41 19.416 14.553L20.961 9.181C21.136 8.572 20.707 7.955 20.074 7.908L8 7" stroke="#252525" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </button>
                 <!-- profile -->
                 <button v-show="false" class="profile_icon">
@@ -248,7 +254,6 @@ const showMenu2 = ref(false)
 .leafy_icon img {
     width: inherit;
     height: auto;
-
 }
 
 .container_link {
@@ -263,16 +268,23 @@ const showMenu2 = ref(false)
 .link {
     width: fit-content;
     height: min(1.667dvw, 24px);
-    color: #252525;
+    color: #212121;
     cursor: pointer;
     border: none;
     background-color: inherit;
     font-size: min(1.111dvw, 16px);
     font-weight: 700;
 }
-
+.link:hover {
+    color: #212121;
+    border-bottom: 2px solid #26AC34;
+    padding-bottom: 4px;
+}
 .link:focus {
     color: #26AC34;
+}
+.link:active {
+    color: #FFCE3D;
 }
 
 .element_service {
@@ -285,6 +297,7 @@ const showMenu2 = ref(false)
     gap: min(1.389dvw, 20px);
 }
 
+
 .service_container_search {
     display: flex;
     width: min(22.222dvw, 320px);
@@ -296,8 +309,14 @@ const showMenu2 = ref(false)
     color: #BDBDBD;
     box-sizing: border-box;
     gap: min(0.833dvw, 12px);
+    border: min(0.069dvw, 1px) solid #FFF;
 }
 
+.service_container_search:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    background-color: #fff;
+    box-shadow: 0px 0px 0px 4px #FFF, 0px 0px 0px 2px #26AC34;
+}
 
 .search_icon {
     width: min(1.389dvw, 20px);
@@ -306,7 +325,6 @@ const showMenu2 = ref(false)
 }
 
 .service_container_search input {
-
     width: inherit;
     height: min(1.667dvw, 24px);
     /* align-items: center; */
@@ -317,7 +335,7 @@ const showMenu2 = ref(false)
     background-color: inherit;
     /* border-radius: ; */
     outline: inherit;
-
+    color: #212121;
 }
 
 .service_sign-in {
@@ -331,10 +349,14 @@ const showMenu2 = ref(false)
     font-weight: 500;
     cursor: pointer;
     font-size: min(1.111dvw, 16px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 
 .service_sign-in:hover {
-    background-color: gray;
+    border: min(0.069dvw, 1px) solid #26AC34;
+    color: #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 
 .user_profile{
@@ -364,7 +386,10 @@ const showMenu2 = ref(false)
 .cart_b img {
     width: min(1.667dvw, 24px);
     height: min(1.667dvw, 24px);
+}
 
+.cart_b svg path:hover {
+    fill: #26AC34;
 }
 
 .burger_icon {
@@ -446,7 +471,7 @@ const showMenu2 = ref(false)
         width: 100%;
         height: fit-content;
         background-color: white;
-        padding: min(5.914dvw,44px) min(5.914dvw,44px);
+        padding: min(4.301dvw,32px) min(4.301dvw,32px) min(5.914dvw,44px) min(4.301dvw,32px);
         box-sizing: border-box;
         gap: min(4.301dvw,32px);
         z-index: 999;
@@ -457,16 +482,18 @@ const showMenu2 = ref(false)
         flex-direction: column;
         width: inherit;
         height: fit-content;
-        gap: min(3.763dvw,28px);
+        gap: min(0.583dvw,4px);
     }
 
     .link_list button {
         display: flex;
         width: inherit;
-        height: 24px;
+        height: min(6.452dvw,48px);
         border: none;
         background-color: inherit;
         cursor: pointer;
+        padding: min(1.613dvw, 12px);
+        align-items: center;
     }
     .link_list button h3{
         width: fit-content;
@@ -475,26 +502,37 @@ const showMenu2 = ref(false)
         font-weight: 500;
         line-height: 150%; /* 24px */
         letter-spacing: 0.2px;
+        display: flex;
+        align-items: center;
     }
     .link_list button img{
         width: 24px;
-        height: inherit;
+        height: auto;
         margin-right: 16px;
+    }
+    .link_list button:hover {
+        color: #26AC34;
+        /* background-color: #26AC34; */
+        border-radius: 4px;
+        background: #FAFAFA;
     }
     .service_container_2{
         width: auto;
         height: fit-content;
+        padding: 0 min(1.613dvw,12px);
     }
     .service_no_keyPass{
         display: flex;
         flex-direction: column;
         width: inherit;
         height: fit-content;
+        /* padding: 0 min(1.613dvw,12px); */
         padding-top: 28px;
-        border-top: 1px solid;
-        border-color: #E0E0E0;
+        border-top: 1px solid #E0E0E0;
+        /* border-color: #E0E0E0; */
         box-sizing: border-box;
         gap: 28px;
+        color: #757575;
     }
     .service_no_keyPass button{
         width: inherit;
@@ -757,7 +795,7 @@ const showMenu2 = ref(false)
     }
 
     .leafy_icon {
-        width: 69px;
+        width: min(18.351dvw,69px);
         height: min(9.574dvw, 36px);
     }
 }</style>
