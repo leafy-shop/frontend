@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import {useRouter} from 'vue-router'
+const myRouter=useRouter()
+const goSignUp=(email)=>myRouter.push({name:'SignUp',params:{email:email}})
 const email = ref('')
 const customerService = [
     { name: "How To Buy", link: '' },
@@ -29,7 +32,7 @@ const information = [
                 </p>
                 <div class="container_sign_up">
                     <input v-model="email" type="text" placeholder="Enter your email address...">
-                    <button @click="console.log(email)">
+                    <button @click="goSignUp(email)">
                         SIGN UP
                     </button>
                 </div>

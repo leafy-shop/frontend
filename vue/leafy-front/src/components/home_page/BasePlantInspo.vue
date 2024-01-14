@@ -1,5 +1,7 @@
 <script setup>
-
+import { useRouter } from 'vue-router';
+const myRouter=useRouter()
+const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",params:{search:searchValue}})
 </script>
 <template>
     <div class="wrapper_plant_inspo">
@@ -16,7 +18,7 @@
                     <p>
                         Floor standing plants for instant wellbeing greenery. Choose from elegant indoor palms, stylish fiddle leaf figs and beautiful indoor trees.
                     </p>
-                    <button>
+                    <button @click="goShop('larg plant')">
                         Shop
                     </button>
                 </div>
@@ -28,7 +30,7 @@
                     <p>
                         Create a sanctuary of lush green trails with Golden Pothos plants or add some romance with the leaves of a Philodendron Sweetheart indoor plant.
                     </p>
-                    <button>
+                    <button @click="goShop('hanging Plant')">
                         Shop
                     </button>
                 </div>
@@ -40,7 +42,7 @@
                     <p>
                         Choose from the sculpted good looks of Sansevieria houseplants to rugged and resilient indoor Yucca plants or relax with on trend ZZ houseplants.
                     </p>
-                    <button>
+                    <button @click="goShop('house Plant')">
                         Shop
                     </button>
                 </div>

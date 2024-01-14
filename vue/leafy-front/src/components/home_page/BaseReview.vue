@@ -324,6 +324,7 @@ onBeforeMount(()=>{
         
     }
     .date{
+        font-size: min(1.344dvw,10px);
         margin-top: min(2.688dvw,20px);
     }
     .review_slide img{
@@ -370,6 +371,10 @@ onBeforeMount(()=>{
     .personal_info div{
         width: auto;
         height: fit-content;
+    }
+    .personal_info div img{
+        width: min(2.128dvw,8px);
+        height: min(2.128dvw,8px);
     }
     .comment{
         height: 28px;
