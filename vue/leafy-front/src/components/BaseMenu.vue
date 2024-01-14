@@ -757,7 +757,7 @@ const showMenu2 = ref(false)
     }
 
     .leafy_icon {
-        width: 69px;
+        width: min(18.351dvw,69px);
         height: min(9.574dvw, 36px);
     }
 }</style>

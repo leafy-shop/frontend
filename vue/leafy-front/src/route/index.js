@@ -10,6 +10,7 @@ import Profile from '../view/Profile.vue'
 import Gallery from '../view/Gallery.vue'
 import GalleryDetail from '../view/GalleryDetail.vue'
 import SignUp from '../view/SignUp.vue'
+import ProductDetail from '../view/ProductDetail.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -21,6 +22,11 @@ const routes=[
     {   path:'/shop/:search?',
         name:'Shop',
         component: Shop,
+    },
+    {
+        path:'/product-detail/:id',
+        name:'ProductDetail',
+        component: ProductDetail
     },
     {   path:'/sign-in',
         name:'SignIn',
