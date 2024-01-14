@@ -125,9 +125,9 @@ const information = [
         </div>
         <div class="copylight">
             <img src="../assets/copylight.svg" alt="copylight_icon">
-            <h4>
+            <h5>
                 2023 Leafy. All rights reserved.
-            </h4>
+            </h5>
             <!-- <button>
                 <img src="../assets/vue.svg" alt="chat_icon">
                 <span>chat</span>
@@ -400,6 +400,7 @@ div>.wrapper_logistic {
     /* margin-top: 6%; */
     line-height: 136%; /* 16.32px */
     letter-spacing: min(0.014dvw,0.2px);  
+    color: #616161;
 }
 
 div>.wrapper_follow_link {
@@ -441,9 +442,10 @@ div>.wrapper_follow_link {
     height: min(1.389dvw,20px);
 }
 
-.copylight h4 {
+.copylight h5 {
     font-size: min(0.972dvw,14px);
-    font-weight: 500;
+    font-weight: 400;
+    color: #616161;
 }
 
 
@@ -559,8 +561,10 @@ div>.wrapper_follow_link {
         height: min(2.151dvw,16px);
     }
 
-    .copylight h4 {
+    .copylight h5 {
         font-size: min(1.613dvw,12px);
+        font-weight: 400;
+        color: #616161;
     }
 }
 
@@ -622,9 +626,10 @@ div>.wrapper_follow_link {
         height: min(3.191dvw,12px);
     }
 
-    .copylight h4 {
+    .copylight h5 {
         font-size: min(2.66dvw,10px);
-        font-weight: 500;
+        font-weight: 400;
+        color: #616161;
     }
 }
 </style>
