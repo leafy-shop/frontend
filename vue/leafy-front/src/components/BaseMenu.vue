@@ -129,7 +129,7 @@ const showMenu2 = ref(false)
                         <h3> Home</h3>
                     </button>
                     <button  @click="validation.clickingTest('link shop')">
-                        <img  src="../assets/icon/Shop.png" alt="shop_icon">
+                        <img  src="../assets/icon/shop.png" alt="shop_icon">
                         <h3> Shop</h3>
                     </button>
                     <button @click="validation.clickingTest('link gallery')">
