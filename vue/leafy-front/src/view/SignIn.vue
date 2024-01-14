@@ -88,10 +88,10 @@ const showPassword=computed(()=>{
                 </h4>
                 <div class="other_login">
                     <button>
-                        <img src="../assets/icon/Google.png" alt="google">
+                        <img src="../assets/icon/google.png" alt="google">
                     </button>
                     <button>
-                        <img src="../assets/icon/Facebook_color.png" alt="facebook">
+                        <img src="../assets/icon/facebook_color.png" alt="facebook">
                     </button>
                 </div>
             </div>
