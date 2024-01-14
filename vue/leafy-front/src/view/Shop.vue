@@ -3,6 +3,7 @@ import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
+import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
 import {ref, onBeforeMount, onUpdated } from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
@@ -26,6 +27,8 @@ const allItems = ref(0)
 const totalPage = ref(1)
 
 const productList = ref([])
+
+const isShowFilter=ref(undefined)
 
 // const getSearchItem = async (search) => {
 //     // currentPage.value=1
@@ -76,6 +79,12 @@ const getFilterItem=async(data)=>{
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
 }
+const getSortItem=(data)=>{
+    let {show}=data
+   return isShowFilter.value=show
+}
+
+
 
 </script>
 <template>
@@ -89,9 +98,10 @@ const getFilterItem=async(data)=>{
 
     <div class="shop_content">
         <div class="wrapper_content">
-            <BaseFilterItem @filter-item="getFilterItem"/>
-            <!-- <div>
-                <BaseProductList :productList="productList"/>
+            <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="getSortItem" />
+            <div>
+                <BaseSortItem @sort-item="getSortItem" :is-show-filter="isShowFilter" />
+                <!-- <BaseProductList :productList="productList"/>
                 <div class="link_page_container">
                     <ul>
                         <li v-for="(link,index) of totalPage" :key="index">
@@ -100,8 +110,8 @@ const getFilterItem=async(data)=>{
                             </button>
                         </li>
                     </ul>
-                </div>
-            </div> -->
+                </div> -->
+            </div>
             
         </div>
     </div>
@@ -179,4 +189,9 @@ const getFilterItem=async(data)=>{
         padding: min(2.688dvw,20px) 0px;
     }
 }
+/* @media (width<=376px){
+    .wrapper_content{
+        flex-direction: column;
+    }
+} */
 </style>
