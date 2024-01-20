@@ -9,12 +9,16 @@ const goShop=()=>myRouter.push({name:'Shop'})
             <h1>
                 Perfect Plant
             </h1>
-            <hr>
+            <!-- <hr> -->
+            <div class="hrLine"></div>
             <p>
                 A beautiful house is as much about its surroundings as its bricks and mortar, something that the best garden designers all understand. We've completely updated our list of the finest of them all.
             </p>
             <button @click="goShop">
-                Shop Collection >
+                Shop Collection
+                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.29279 14.7069C7.10532 14.5194 7 14.2651 7 13.9999C7 13.7348 7.10532 13.4804 7.29279 13.2929L10.5858 9.99992L7.29279 6.70692C7.11063 6.51832 7.00983 6.26571 7.01211 6.00352C7.01439 5.74132 7.11956 5.49051 7.30497 5.3051C7.49038 5.11969 7.74119 5.01452 8.00339 5.01224C8.26558 5.00997 8.51818 5.11076 8.70679 5.29292L12.7068 9.29292C12.8943 9.48045 12.9996 9.73475 12.9996 9.99992C12.9996 10.2651 12.8943 10.5194 12.7068 10.7069L8.70679 14.7069C8.51926 14.8944 8.26495 14.9997 7.99979 14.9997C7.73462 14.9997 7.48031 14.8944 7.29279 14.7069Z" fill="white"/>
+                </svg>
             </button>
         </div>
         <img class="info_image" src="../../assets/home_p/home_information.png" alt="info_image">
@@ -43,7 +47,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
 }
 .container_information{
     width:auto;
-    height:452px;
+    height: min(31.389dvw, 452px);
     position:relative;
     /* background-color: rgb(167, 167, 167); */
     overflow: hidden;
@@ -57,23 +61,24 @@ const goShop=()=>myRouter.push({name:'Shop'})
 .information_perfect_plant{
     display: flex;
     flex-direction: column;
-    gap: 20px;
-
-    position:relative;
+    gap: min(1.389dvw, 20px);
+    align-items: flex-start;
+    align-self: stretch;
+    position: relative;
     box-sizing: border-box;
-    width:inherit;
-    height:inherit;
-    padding:min(6.944dvw,100px) min(11.111dvw,160px);
+    width: inherit;
+    height: inherit;
+    padding: min(6.944dvw,100px) min(11.111dvw,160px);
     /* left:180px;
     top:100px; */
     z-index: 3;
     /* background-color: white; */
 }
 .information_perfect_plant h1{
-    width: 394px;
-    height: 72px;
+    width: min(27.361dvw, 394px);
+    height: min(5dvw, 72px);
     font-weight: 700;
-    font-size: 48px;
+    font-size: min(3.333dvw, 48px);
     /* margin:0px 0px 20px 0px; */
     /* text-justify: center; */
     line-height: 150%;
@@ -81,30 +86,47 @@ const goShop=()=>myRouter.push({name:'Shop'})
 }
 .information_perfect_plant p{
     /* display: flex; */
-    width: 576px;
-    height: 72px;
+    font-size: min(1.111dvw, 16px);
+    width: min(40dvw, 567px);
+    height: min(5dvw, 72px);
     font-weight: 400;
     color:#252525;
 }
-.information_perfect_plant button{
-    width:165px;
-    height:40px;
-    /* margin-top:18px; */
-    border:none;
-    padding: 8px 8px 8px 12px;
-    border-radius: 8px;
+.information_perfect_plant button {
+    /* width: min(11.458dvw, 165px);
+    height: min(2.778dvw, 40px); */
+    border: min(0.069dvw, 1px) solid #26AC34;
+    padding: min(0.556dvw, 8px) min(0.556dvw, 8px) min(0.556dvw, 8px) min(0.833dvw, 12px);
     font-weight: 500;
     background-color: #26AC34;
     color:white;
     cursor: pointer;
+    font-size: min(1.111dvw, 16px);
+    letter-spacing: min(0.014dvw, 0.2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: min(0.278dvw, 4px);
+    border-radius: min(0.278dvw, 4px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
 
-}
 .information_perfect_plant button:hover{
-    background-color: gray;
+    border: min(0.069dvw, 1px) solid #26AC34;
+    color: #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
-hr{
-    width:96px;
-    height:8px;
+.information_perfect_plant svg{
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
+}
+.information_perfect_plant path:hover{
+    fill: #26AC34;
+}
+.hrLine {
+    width: min(6.667dvw, 96px);
+    height: min(0.556dvw, 8px);
     background-color: #252525;
     box-sizing: border-box;
 }
@@ -120,24 +142,24 @@ hr{
 }
 
 .information_life_greener{
-    width:auto;
-    height:292px;
+    width: auto;
+    height: min(20.278dvw, 292px);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    padding:40px 160px ; 
-    gap: 20px;
+    padding: min(2.778dvw, 40px) min(11.111dvw, 160px);
+    gap: min(1.389dvw, 20px);
 }
 .information_life_greener h3{
     width:inherit;
-    height:72px;
+    height: min(5dvw, 72px);
     display: flex;
-    padding: 20px 0px;
+    padding: min(1.389dvw, 20px) 0px;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: min(1.389dvw, 20px);
     text-transform: uppercase;
-    border-bottom: 1px solid ;
+    border-bottom: min(0.069dvw, 1px) solid ;
     border-color: #E0E0E0;
     color:#252525;
     box-sizing: border-box;
@@ -146,10 +168,9 @@ hr{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     /* gap: 6px; */
     width:auto;
-    height: 120px;
+    height: min(8.333dvw, 120px);
     margin: auto;
     box-sizing: border-box;
     /* margin:20px auto 0px auto; */
@@ -157,42 +178,53 @@ hr{
 }
 .information_life_greener div p{
     text-align: center;
-    font-size: 16px;
+    font-size: min(1.111dvw, 16px);
     font-weight: 400;
     line-height: 150%; /* 24px */
-    letter-spacing: 0.2px;
+    letter-spacing: min(0.014dvw, 0.2px);
 }
 
 @media (width <= 744px){
     .container_information{
         width: auto;
-        height: 308px;
+        height: min(41.398dvw, 308px);
     }
     .information_perfect_plant{
         display: flex;
         flex-direction: column;
-        gap: 16px;
-        padding: 40px 44px;
+        gap: min(1.111dvw, 16px);
+        padding: min(5.376dvw, 40px) min(5.914dvw, 44px);
         
     }
     .information_perfect_plant h1{
-        width: 356px;
-        height: 60px;
-        font-size: 40px;
+        width: min(47.849dvw, 356px);
+        height: min(8.065dvw, 60px);
+        font-size: min(5.376dvw, 40px);
     }
     .information_perfect_plant p{
-        width: 356px;
-        height: 80px;
-        font-size: 14px;
+        width: min(47.849dvw, 356px);
+        height: min(10.753dvw, 80px);
+        font-size: min(1.882dvw, 14px);
     }
-    hr{
-        width: 96px;
-        height: 4px;
+    .hrLine {
+        width: min(6.667dvw, 96px);
+        height: min(0.538dvw, 4px);
+        background-color: #252525;
+        box-sizing: border-box;
     }
     .information_perfect_plant button{
-        width: 146px;
-        height: 36px;
-        font-size: 14px;
+        width: min(19.624dvw, 146px);
+        height: min(4.839dvw, 36px);
+        font-size: min(1.882dvw, 14px);
+        border-radius: min(0.538dvw, 4px);
+        padding: min(1.075dvw, 8px) min(1.075dvw, 8px) min(1.075dvw, 8px) min(1.613dvw, 12px);
+    }
+    .information_perfect_plant svg{
+        width: min(2.151dvw, 16px);
+        height: min(2.151dvw, 16px);
+    }
+    .information_perfect_plant path:hover{
+        fill: #26AC34;
     }
     .info_image{
         width: auto;
@@ -202,52 +234,63 @@ hr{
     }
 
     .information_life_greener{
-        height: 236px;
-        padding: 20px 44px;
+        height: min(31.72dvw, 236px);
+        padding: 20px min(5.914dvw, 44px);
     }
     .information_life_greener h3{
         width: inherit;
-        height: 60px;
-        font-size: 18px;
-        padding: 16px 0px;
+        height: min(8.065dvw, 60px);
+        font-size: min(2.419dvw, 18px);
+        padding: min(1.111dvw, 16px) 0px;
     }
     .information_life_greener div{
         width: inherit;
-        height: 100px;
+        height: min(13.441dvw, 100px);
     }
     .information_life_greener div p{
-        font-size: 14px;
+        font-size: min(1.882dvw, 14px);
     }
 }
 
 @media (width<=376px){
     .container_information{
         width: auto;
-        height: 226px;
+        height: min(60.106dvw, 226px);
         background-color: #E7E8E3;
     }
     .information_perfect_plant{
-        padding: 28px 16px;
-        gap: 8px;
+        padding: min(7.447dvw, 28px) min(4.255dvw, 16px);
+        gap: min(2.128dvw, 8px);
     }
     .information_perfect_plant h1{
-        width: 292px;
-        height: 36px;
-        font-size: 24px;
+        width: min(77.66dvw, 292px);
+        height: min(9.574dvw, 36px);
+        font-size: min(6.383dvw, 24px);
     }
-    hr{
-        width: 48px;
-        height: 2px;
-        /* margin: 8px 0px 8px 8px; */
+    .hrLine {
+        width: min(12.766dvw, 48px);
+        height: min(0.532dvw, 2px);
+        background-color: #252525;
+        box-sizing: border-box;
     }
     .information_perfect_plant p{
-        width: 292px;
-        height: 64px;
-        font-size: 12px;
+        width: min(77.66dvw, 292px);
+        height: min(17.021dvw, 64px);
+        font-size: min(3.192dvw, 12px);
     }
     .information_perfect_plant button{
-        height: 32px;
-        margin-top: 12px;
+        width: min(35.106dvw, 132px);
+        height: min(8.511dvw, 32px);
+        font-size: min(3.191dvw, 12px);
+        border-radius: min(1.064dvw, 4px);
+        padding: min(2.128dvw, 8px) min(2.128dvw, 8px) min(2.128dvw, 8px) min(3.191dvw, 12px);
+    }
+    .information_perfect_plant svg{
+        width: min(4.255dvw, 16px);
+        height: min(4.255dvw, 16px);
+    }
+    .information_perfect_plant path:hover{
+        fill: #26AC34;
     }
     .info_image{
         width: inherit;
@@ -255,23 +298,23 @@ hr{
         bottom: 0;
     }
     .information_life_greener{
-        height: 188px;
-        padding: 20px 16px;
-        gap: 8px;
+        height: min(50dvw, 188px);
+        padding: min(5.319dvw, 20px) min(4.255dvw, 16px);
+        gap: min(2.128dvw, 8px);
     }
     .information_life_greener h3{
-        height: 20px;
-        padding: 0px 0px 8px 0px;
-        font-size: 14px;
+        height: min(5.319dvw, 20px);
+        padding: 0px 0px min(2.128dvw, 8px) 0px;
+        font-size: min(3.723dvw, 14px);
     }
     .information_life_greener div{
-        height: 112px;
+        height: min(29.787dvw, 112px);
         margin: 0px;
     }
     .information_life_greener div p{
-        font-size: 12px;
+        font-size: min(3.192dvw, 12px);
         line-height: 136%; /* 16.32px */
-        letter-spacing: 0.2px;
+        letter-spacing: min(0.053dvw, 0.2px);
     }
 }
 </style>
