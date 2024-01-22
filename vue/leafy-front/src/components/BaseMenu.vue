@@ -540,7 +540,7 @@ const showMenu2 = ref(false)
         width: 100%;
         height: fit-content;
         background-color: white;
-        padding: min(4.301dvw,32px) min(4.301dvw,32px) min(4.301dvw,32px) min(4.301dvw,32px);
+        padding: min(3.763dvw, 28px) min(4.301dvw,32px) min(4.301dvw,32px) min(4.301dvw,32px);
         box-sizing: border-box;
         gap: min(3.763dvw, 28px);
         z-index: 999;

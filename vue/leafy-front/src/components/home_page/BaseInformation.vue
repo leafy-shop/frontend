@@ -69,10 +69,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
     width: inherit;
     height: inherit;
     padding: min(6.944dvw,100px) min(11.111dvw,160px);
-    /* left:180px;
-    top:100px; */
     z-index: 3;
-    /* background-color: white; */
 }
 .information_perfect_plant h1{
     width: min(27.361dvw, 394px);
@@ -146,12 +143,14 @@ const goShop=()=>myRouter.push({name:'Shop'})
     height: min(20.278dvw, 292px);
     box-sizing: border-box;
     display: flex;
+    padding: min(1.389dvw, 20px) min(11.111dvw, 160px) min(2.778dvw, 40px) min(11.111dvw, 160px);
     flex-direction: column;
-    padding: min(2.778dvw, 40px) min(11.111dvw, 160px);
+    align-items: center;
     gap: min(1.389dvw, 20px);
+    align-self: stretch;
 }
 .information_life_greener h3{
-    width:inherit;
+    width: auto;
     height: min(5dvw, 72px);
     display: flex;
     padding: min(1.389dvw, 20px) 0px;
@@ -163,6 +162,8 @@ const goShop=()=>myRouter.push({name:'Shop'})
     border-color: #E0E0E0;
     color:#252525;
     box-sizing: border-box;
+    align-self: stretch;
+    letter-spacing: min(0.017dvw, 0.24px);
 }
 .information_life_greener div{
     display: flex;
@@ -174,7 +175,6 @@ const goShop=()=>myRouter.push({name:'Shop'})
     margin: auto;
     box-sizing: border-box;
     /* margin:20px auto 0px auto; */
-    
 }
 .information_life_greener div p{
     text-align: center;
@@ -194,7 +194,6 @@ const goShop=()=>myRouter.push({name:'Shop'})
         flex-direction: column;
         gap: min(1.111dvw, 16px);
         padding: min(5.376dvw, 40px) min(5.914dvw, 44px);
-        
     }
     .information_perfect_plant h1{
         width: min(47.849dvw, 356px);
@@ -235,13 +234,15 @@ const goShop=()=>myRouter.push({name:'Shop'})
 
     .information_life_greener{
         height: min(31.72dvw, 236px);
-        padding: 20px min(5.914dvw, 44px);
+        padding: min(2.688dvw, 20px) min(5.914dvw, 44px) min(5.376dvw, 40px) min(5.914dvw, 44px);
+        gap: min(2.151dvw, 16px);
     }
     .information_life_greener h3{
         width: inherit;
         height: min(8.065dvw, 60px);
         font-size: min(2.419dvw, 18px);
         padding: min(1.111dvw, 16px) 0px;
+        letter-spacing: min(0.027dvw, 0.2px);
     }
     .information_life_greener div{
         width: inherit;
@@ -249,6 +250,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
     }
     .information_life_greener div p{
         font-size: min(1.882dvw, 14px);
+        letter-spacing: min(0.027dvw, 0.2px);
     }
 }
 
@@ -299,17 +301,18 @@ const goShop=()=>myRouter.push({name:'Shop'})
     }
     .information_life_greener{
         height: min(50dvw, 188px);
-        padding: min(5.319dvw, 20px) min(4.255dvw, 16px);
-        gap: min(2.128dvw, 8px);
+        padding: min(3.191dvw, 12px) min(4.255dvw, 16px) min(6.383dvw, 24px) min(4.255dvw, 16px);
+        gap: min(3.191dvw, 12px);
     }
     .information_life_greener h3{
-        height: min(5.319dvw, 20px);
-        padding: 0px 0px min(2.128dvw, 8px) 0px;
+        height: min(11.702dvw, 44px);
+        padding: min(3.191dvw, 12px) 0px;
         font-size: min(3.723dvw, 14px);
+        letter-spacing: min(0.053dvw, 0.2px);
     }
     .information_life_greener div{
         height: min(29.787dvw, 112px);
-        margin: 0px;
+        /* margin: 0px; */
     }
     .information_life_greener div p{
         font-size: min(3.192dvw, 12px);
