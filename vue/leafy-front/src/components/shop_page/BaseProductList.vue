@@ -1,4 +1,5 @@
 <script setup>
+import{useRouter} from 'vue-router'
 
 let props = defineProps({
     productList :{
@@ -8,11 +9,14 @@ let props = defineProps({
     }
     
 })
+const myRouter=useRouter()
+const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
+
 </script>
 <template>
     <div class="wrapper_product_list">
         <div class="grid_container">
-            <button v-for="(product,index) of productList" :key="index" class="grid_item">
+            <button @click="goProductDetail(product.itemId)" v-for="(product,index) of productList" :key="index" class="grid_item">
                 <div class="product_img">
                     <img src="../../assets/vue.svg" :alt="product.name">
                 </div>
@@ -74,6 +78,7 @@ let props = defineProps({
     border-radius: min(0.556dvw,8px);
     overflow: hidden;
     border: none;
+    cursor: pointer;
 }
 .product_img{
     display: flex;
