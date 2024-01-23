@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onUpdated } from 'vue'
-
+import { ref, computed, onUpdated,onMounted } from 'vue'
+import validation from '../../JS/validation'
 const emit = defineEmits(["filterItem","closeFilter"])
 
 const props =defineProps({
@@ -70,7 +70,7 @@ const applyFilter=()=>{
         sort:sortBy.value
     })
     console.log( categoryArr)
-    navigationTo()
+    validation.navigationTo()
 }
 const clearFilterItem =() => {
     //get element and change HTML tag attribute checked
@@ -95,20 +95,37 @@ const clearFilterItem =() => {
 
 
 // function for select category
-const arraySelector =(inputName="",arr=[])=>{
-    console.log("thsi is "+inputName)
-    console.log("this is "+arr)
-
+const arraySelector =(inputName="",arr=[],cName)=>{
+    let eSelected = document.getElementsByClassName(cName)
+    // console.log("thsi is "+inputName)
+    // console.log("this is "+arr)
+    console.log(cName)
+    console.log(eSelected)
     if (arr.includes(inputName)) {
         const index = arr.indexOf(inputName);
         if (index > -1) { // only splice array when item is found
             arr.splice(index, 1); // 2nd parameter means remove one item only
         }
+        //this for hinden select
+        if(cName!=undefined){
+            for(let i=0;i<eSelected.length;i++){
+            eSelected[i].removeAttribute('style')
+            }
+        }
     } else {
         arr.push(inputName)
+        //this for show selected
+        if(cName!=undefined){
+            for(let i=0;i<eSelected.length;i++){
+                eSelected[i].setAttribute('style',"background-color:#26AC34;color:#FFF;")
+            }
+        }
+        // if(cName!=undefined)eSelected.style.background-color='#26AC34'
+        
     }
     console.log(arr)
 }
+
 
 
 onUpdated(()=>{
@@ -180,9 +197,9 @@ onUpdated(()=>{
             </h4>
             <div class="wrapper_tag">
                 <ul class="tag_list">
-                    <li v-for="t in tagArr">
+                    <li v-for="(t,index) in tagArr" :key="index">
                         <!-- <button @click="filterItem.tag = tag.value">{{ tag.name }}</button> -->
-                        <button @click="arraySelector(t.value,tag)">
+                        <button @click="arraySelector(t.value,tag,`tag_${index}`)" :class="`tag_${index}`">
                             {{ t.name }}
                         </button>
 
@@ -289,13 +306,13 @@ onUpdated(()=>{
                 </h4>
                 <div class="wrapper_tag">
                     <ul class="tag_list">
-                        <li v-for="t in tagArr">
-                            <!-- <button @click="filterItem.tag = tag.value">{{ tag.name }}</button> -->
-                            <button @click="arraySelector(t.value,tag)">
-                                {{ t.name }}
-                            </button>
+                        <li v-for="(t,index) in tagArr" :key="index">
+                        <!-- <button @click="filterItem.tag = tag.value">{{ tag.name }}</button> -->
+                        <button @click="arraySelector(t.value,tag,`tag_${index}`)" :class="`tag_${index}`" >
+                            {{ t.name }}
+                        </button>
 
-                        </li>
+                    </li>
                     </ul>
                 </div>
 

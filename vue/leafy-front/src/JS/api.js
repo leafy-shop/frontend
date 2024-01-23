@@ -103,7 +103,17 @@ const fetch = {
         }
 
     },
-
+    getProductDetail: async(productId)=>{
+        let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/products?page=${page}`
+            let res = await axios.get(url)
+        } catch (error) {
+            validation.function_Status('get all product', false, error)
+            return returnData
+        }
+        
+    },
     // authentication
     login: async (email = undefined, password = undefined) => {
         let returnData ={
