@@ -4,7 +4,7 @@ import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
-import {ref, onBeforeMount, onUpdated } from 'vue'
+import {ref, onBeforeMount, onUpdated ,onMounted} from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
 import validation from '../JS/validation'
@@ -95,7 +95,9 @@ const getSortItem=(data)=>{
    return isShowFilter.value=show
 }
 
-
+onMounted(()=>{
+    validation.navigationTo()
+})
 
 </script>
 <template>
@@ -115,7 +117,7 @@ const getSortItem=(data)=>{
                 :is-show-filter="isShowFilter"  
                 :change-page="{currentPage:currentPage,totalPage:totalPage}"
                 />
-                <BaseProductList :productList="productList"/>
+                <BaseProductList :productList="productList" :size="100" :gridColumn="3"/>
                 <div class="link_page_container">
                     <ul>
                         <li v-for="(link,index) of totalPage" :key="index">

@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onUpdated } from 'vue'
-
+import { ref, computed, onUpdated,onMounted } from 'vue'
+import validation from '../../JS/validation'
 const emit = defineEmits(["filterItem","closeFilter"])
 
 const props =defineProps({
@@ -70,7 +70,7 @@ const applyFilter=()=>{
         sort:sortBy.value
     })
     console.log( categoryArr)
-    navigationTo()
+    validation.navigationTo()
 }
 const clearFilterItem =() => {
     //get element and change HTML tag attribute checked
@@ -125,6 +125,7 @@ const arraySelector =(inputName="",arr=[],cName)=>{
     }
     console.log(arr)
 }
+
 
 
 onUpdated(()=>{

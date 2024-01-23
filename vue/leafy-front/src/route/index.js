@@ -12,7 +12,7 @@ import GalleryDetail from '../view/GalleryDetail.vue'
 import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
-let keyPass= cookie.get("information")
+// let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
 const routes=[
     {   path:'/',
@@ -69,15 +69,15 @@ const router=createRouter({history,routes})
 
 router.beforeEach((to,from)=>{
     // await fetch.getRefresh()
-    keyPass= cookie.get("information")
+    // keyPass= cookie.get("information")
     // console.log(keyPass)
     
-    if(to.name=="SignIn"&&keyPass!=undefined){
+    if(to.name=="SignIn"&&cookie.checkKeyPass()){
         
         // alert("don't do that pls !!!")
         return {name:'Home'}
     }
-    if(to.name=="CartList"&&keyPass==undefined){
+    if(to.name=="CartList"&&!cookie.checkKeyPass()){
         return {name:"SignIn"}
     }
     // alert('this new page')

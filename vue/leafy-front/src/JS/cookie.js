@@ -23,6 +23,12 @@ let cookie = {
         return decryptData
       }
     },
+    checkKeyPass(){
+      let keyPass= this.get("information")
+      if(keyPass!=undefined)return true;
+      else return false
+    }
+    ,
     get(cname){
         return Cookies.get(cname)
     },

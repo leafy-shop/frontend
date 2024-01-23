@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import{useRouter} from 'vue-router'
 
 let props = defineProps({
@@ -6,9 +7,33 @@ let props = defineProps({
         type:Object,
         require:true,
         default:{}
+    },
+    size:{
+        type:Number,
+        require:true,
+        default:100
+    },
+    gridColumn:{
+        type:Number,
+        require:true,
+        default:3
     }
     
 })
+// for change css style
+const changeGridT=()=>{
+    let gridT=''
+    for(let i=0;i<props.gridColumn;i++){
+        gridT=gridT+'auto '
+    }
+    console.log(gridT)
+    return gridT
+}
+const changeSize=(number,unit='px')=>{
+        let changed = (props.size/100)*number
+        return `${changed+unit}`
+    }
+
 const myRouter=useRouter()
 const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 
@@ -67,13 +92,14 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     display: grid;
     width: inherit;
     height: fit-content;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: v-bind(changeGridT()) ;
     gap: min(2.222dvw,32px);
 }
 .grid_item{
     display: flex;
-    width: min(17.778dvw,256px);
-    height: min(23.333dvw,336px);
+    /*width: min(17.778dvw,256px);*/
+    width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256)));
+    height: min(v-bind(changeSize(23.333,'dvw')),v-bind(changeSize(336)));
     flex-direction: column;
     border-radius: min(0.556dvw,8px);
     overflow: hidden;
@@ -83,7 +109,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 .product_img{
     display: flex;
     width: inherit;
-    height: min(15.278dvw,220px);
+    height: min(v-bind(changeSize(15.278,'dvw')),v-bind(changeSize(220)));
     overflow: hidden;
 }
 .product_img img{
@@ -94,10 +120,10 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 .product_info{
     display: flex;
     width: inherit;
-    height: min(8.056dvw,116px);
+    height: min(v-bind(changeSize(8.056,'dvw')),v-bind(changeSize(116)));
     flex-direction: column;
-    padding: min(0.833dvw,12px);
-    gap: min(0.833dvw,12px);
+    padding: min(v-bind(changeSize(0.833,'dvw')),v-bind(changeSize(12)));
+    gap: min(v-bind(changeSize(0.833,'dvw')),v-bind(changeSize(12)));
     background-color: white;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -105,8 +131,8 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 .product_info h4{
     display: flex;
     width: 100%;
-    height: min(2.222dvw,32px);
-    font-size: min(1.389dvw,20px);
+    height: min(v-bind(changeSize(2.222,'dvw')),v-bind(changeSize(32)));
+    font-size: min(v-bind(changeSize(1.389,'dvw')),v-bind(changeSize(20)));
     font-weight: 500;
     line-height: 160%; /* 32px */
 }
@@ -114,29 +140,29 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 .info_quality{
     display: flex;
     width: 100%;
-    height: min(3.333dvw,48px);
+    height: min(v-bind(changeSize(3.333,'dvw')),v-bind(changeSize(48)));
     flex-direction: column;
-    gap: min(0.556dvw,8px);
+    gap: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
 
 }
 .info_quality h5{
     display: flex;
     width: fit-content;
-    height: min(1.667dvw,24px);
-    font-size: min(1.111dvw,16px);
+    height: min(v-bind(changeSize(1.667,'dvw')),v-bind(changeSize(24)));
+    font-size: min(v-bind(changeSize(1.111,'dvw')),v-bind(changeSize(16)));
     font-weight: 500;
     line-height: 150%; /* 24px */
-    letter-spacing: min(0.014dvw,0.2px);
+    letter-spacing: min(v-bind(changeSize(0.014,'dvw')),v-bind(changeSize(0.2)));
     color: #26AC34;
 }
 .info_quality h5 span{
-    font-size: min(0.833dvw,12px);
+    font-size: min(v-bind(changeSize(0.833,'dvw')),v-bind(changeSize(12)));
     font-weight: 400
 }
 .info_quality div{
     display: flex;
     width: auto;
-    height: min(1.111dvw,16px);
+    height: min(v-bind(changeSize(1.111,'dvw')),v-bind(changeSize(16)));
     justify-content: space-between;
 }
 .rating{
@@ -145,55 +171,55 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     height: fit-content;
 }
 .rating svg{
-    width: min(0.833dvw,12px);
-    height: min(0.833dvw,12px);
+    width: min(v-bind(changeSize(0.833,'dvw')),v-bind(changeSize(12)));
+    height: min(v-bind(changeSize(0.833,'dvw')),v-bind(changeSize(12)));
 }
 .sold{
     width: fit-content;
     height: inherit;
-    font-size: min(0.833dvw,12px);
+    font-size: min(v-bind(changeSize(0.833,'dvw')),v-bind(changeSize(12)));
 }
 
 @media(width<=744px){
     .grid_container{
-        gap: min(2.151dvw,16px);
+        gap: min(v-bind(changeSize(2.151,'dvw')),v-bind(changeSize(16)));
     }
     .grid_item{
-        width: min(20.43dvw,152px);
-        height: min(32.796dvw,244px);
+        width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152)));
+        height: min(v-bind(changeSize(32.796,"dvw")),v-bind(changeSize(244)));
     }
     .product_img{
-        height: min(19.892dvw,148px);
+        height: min(v-bind(changeSize(19.892,'dvw')),v-bind(changeSize(148)));
     }
     .product_info{
-        height: min(12.903dvw,96px);
-        padding: min(1.613dvw,12px) min(1.075dvw,8px);
-        gap: min(1.075dvw,8px);
+        height: min(v-bind(changeSize(12.903,'dvw')),v-bind(changeSize(96)));
+        padding: min(v-bind(changeSize(1.613,'dvw')),v-bind(changeSize(12))) min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
+        gap: min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
     }
     .product_info h4{
-        height: min(3.226dvw,24px);
-        font-size: min(2.151dvw,16px);
+        height: min(v-bind(changeSize(3.226,'dvw')),v-bind(changeSize(2)));
+        font-size: min(v-bind(changeSize(2.151,'dvw')),v-bind(changeSize(16)));
     }
     .info_quality{
-        height: min(5.376dvw,40px);
-        gap: min(1.075dvw,8px);
+        height: min(v-bind(changeSize(5.376,'dvw')),v-bind(changeSize(40)));
+        gap: min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
     }
     .info_quality h5{
-        height: min(2.688dvw,20px);
-        font-size: min(1.882dvw,14px);
+        height: min(v-bind(changeSize(2.688,'dvw')),v-bind(changeSize(20)));
+        font-size: min(v-bind(changeSize(1.882,'dvw')),v-bind(changeSize(14)));
     }
     .info_quality h5 span{
-        font-size: min(1.613dvw,12px);
+        font-size: min(v-bind(changeSize(1.613,'dvw')),v-bind(changeSize(12)));
     }
     .info_quality div{
-        height: min(1.613dvw,12px);
+        height: min(v-bind(changeSize(1.613,'dvw')),v-bind(changeSize(12)));
     }
     .rating svg{
-        width: min(1.613dvw,12px);
-        height: min(1.613dvw,12px);
+        width: min(v-bind(changeSize(1.613,'dvw')),v-bind(changeSize(12)));
+        height: min(v-bind(changeSize(1.613,'dvw')),v-bind(changeSize(12)));
     }
     .sold{
-        font-size: min(1.344dvw,10px);
+        font-size: min(v-bind(changeSize(1.344,'dvw')),v-bind(changeSize(10)));
     }
 }
 
