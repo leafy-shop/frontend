@@ -71,6 +71,7 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
     /* margin: 0px auto 0px auto; */
     padding: 12px 0px;
     box-sizing: border-box;
+    border-bottom: min(0.069dvw, 1px) solid #E0E0E0;
 }
 .container_content{
     display: grid;

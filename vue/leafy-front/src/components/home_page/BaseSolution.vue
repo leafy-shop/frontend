@@ -48,93 +48,92 @@
     margin:0;
     background-color: #F5F5F5;
 }
-.solution{
+.solution {
     width: auto;
-    height: 284px;
-    padding: 60px 160px;
+    height: min(19.722dvw, 284px);
+    padding: min(4.167dvw, 60px) min(11.111dvw, 160px);
     box-sizing: border-box;
 }
-.container_solution{
+.container_solution {
     display:flex;
     width: inherit;
     height: fit-content;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: min(2.222dvw, 32px);
     /* margin:auto; */
     /* padding:3px; */
     
 }
-.container_solution div{
-    width: fit-content;
+.container_solution div {
+    width: min(17.778dvw, 256px);
     height: fit-content;
     display: flex;
     flex-direction: column;
     /* margin:0 16px 0 16px; */
     text-align: center;
-    
-    
-
+    align-items: center;
+    gap: min(0.833dvw, 12px);
 }
 .container_solution div img{
-    width:100px;
-    height: 100px;
-    margin: 0px auto ;
+    width: min(6.944dvw, 100px);
+    height: min(6.944dvw, 100px);
+    /* margin: 0px auto ; */
 }
 
 .container_solution div h3{
-    font-size: 18px;
-    margin:12px 0px 0px 0px;
+    font-size: min(1.25dvw, 18px);
+    /* margin:12px 0px 0px 0px; */
 
 }
 .container_solution div p{
-    font-size: 16px;
-    
+    font-size: min(1.111dvw, 16px);
+    letter-spacing: min(0.014dvw, 0.2px);
 }
 
 @media (width <=744px){
     .solution{
-        height: 236px;
-        padding: 40px 44px;
+        height: min(31.72dvw, 236px);
+        padding: min(5.376dvw, 40px) min(5.914dvw, 44px);
     }
     .container_solution{
-        gap: 16px;
+        gap: min(2.151dvw, 16px);
     }
     .container_solution div{
-        width: 152px;
-        height: 156px;
+        width: min(20.43dvw, 152px);
+        height: min(20.968dvw, 156px);
     }
     .container_solution div img{
-        width: 80px;
+        width: min(10.753dvw, 80px);
         height: auto;
     }
     .container_solution div h3{
-        font-size: 16px;
+        font-size: min(2.151dvw, 16px);
     }
     .container_solution div p{
-        font-size: 14px;
+        font-size: min(1.882dvw, 14px);
     }
 }
 
 @media (width <=376px){
     .solution{
-        height: 120px;
-        padding: 28px 16px;
+        height: min(31.915dvw, 120px);
+        padding: min(7.713dvw, 28px) min(4.255dvw, 16px);
     }
     .container_solution{
-        gap: 8px;
+        gap: min(2.128dvw, 8px);
     }
     .container_solution div{
-        width: 80px;
-        height: 64px;
+        width: min(21.277dvw, 80px);
+        height: min(17.021dvw, 64px);
     }
     .container_solution div img{
-        width: 48px;
+        width: min(12.766dvw, 48px);
         height: auto;
     }
     .container_solution div h3{
-        font-size: 10px;
-        margin-top: 4px;
+        font-size: min(2.66dvw, 10px);
+        margin-top: min(1.064dvw, 4px);
     }
     .container_solution div p{
         display: none;
