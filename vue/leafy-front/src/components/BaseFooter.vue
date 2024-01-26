@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref ,onBeforeMount} from 'vue'
 import {useRouter} from 'vue-router'
+import cookie from '../JS/cookie';
 const myRouter=useRouter()
 const goSignUp=(email)=>myRouter.push({name:'SignUp',params:{email:email}})
 const email = ref('')
@@ -19,10 +20,16 @@ const information = [
     { name: "Cookies", link: '' },
     { name: "Terms & Conditions", link: '' }
 ]
+
+const showSignUp=ref(true)
+
+onBeforeMount(()=>{
+    showSignUp.value=cookie.checkKeyPass()==true?false:true
+})
 </script>
 <template>
     <footer class="container_footer">
-        <div class="wrapper_register">
+        <div v-show="showSignUp" class="wrapper_register">
             <div class="register">
                 <h3>
                     BECOME A LEAFY

@@ -9,14 +9,17 @@ import BasePlantInspo from '../components/home_page/BasePlantInspo.vue'
 import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 import BaseChat from '../components/BaseChat.vue'
-import {ref} from 'vue'
+import {ref,onMounted} from 'vue'
 import {useRouter} from 'vue-router'
+import validation from '../JS/validation'
 
 const myRouter =useRouter()
 const goShop=()=>myRouter.push({name:'Shop'})
 
 // let searchItem = ref("")
-
+onMounted(()=>{
+    validation.navigationTo()
+})
 </script>
 <template>
     <BaseMenu class="menu" />
@@ -34,7 +37,7 @@ const goShop=()=>myRouter.push({name:'Shop'})
     </button> -->
     <BaseChat/>
 </template>
-<style scoped>
+<style >
 
 /* .chat{
     display: flex;

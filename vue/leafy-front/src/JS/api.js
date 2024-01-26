@@ -71,7 +71,7 @@ const fetch = {
     },
 
     // product shop page
-    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = []) => {
+    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
         let returnData={status:false,data:undefined}
         try {
             // let productList =[]
@@ -83,6 +83,8 @@ const fetch = {
             if (max !== Infinity&&max!=undefined) url = url + `&max_price=${max}`;
             if (rating !== 0) url = url + `&rating=${rating}`;
             if (tag !== "") url = url + `&tag=${tag}`;
+            if (sort_name !== undefined) url = url + `&sort_name=${sort_name}`;
+            if (sort !== undefined) url = url + `&sort=${sort}`;
 
             console.log(url)
 
@@ -103,7 +105,17 @@ const fetch = {
         }
 
     },
-
+    getProductDetail: async(productId)=>{
+        let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/products?page=${page}`
+            let res = await axios.get(url)
+        } catch (error) {
+            validation.function_Status('get all product', false, error)
+            return returnData
+        }
+        
+    },
     // authentication
     login: async (email = undefined, password = undefined) => {
         let returnData ={

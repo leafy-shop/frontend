@@ -4,7 +4,7 @@ import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
-import {ref, onBeforeMount, onUpdated } from 'vue'
+import {ref, onBeforeMount, onUpdated ,onMounted} from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
 import validation from '../JS/validation'
@@ -31,13 +31,16 @@ const productList = ref([])
 // this share center for open and close filter
 const isShowFilter=ref(undefined)
 
+// sorting product
+const sortName = ref(undefined)
+const sort = ref(undefined)
 
-const sortTypeArr =[
-    {name:"Popular",value:"popular"},
-    {name:"New Arrival",value:"new arrival"},
-    {name:"Top Sales",value:"top sales"},
-    {name:"Low - High",value:"low - high"},
-    {name:"High - Low",value:"high - low"},
+const sortTypeArr = [
+    {name:"Popular",value: {name: "popular", type: 'desc'}},
+    {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
+    {name:"Top Sales",value: {name: "sales", type: 'desc'}},
+    {name:"Low - High",value: {name: "price", type: 'asc'}},
+    {name:"High - Low",value: {name: "price", type: 'desc'}},
 ]
 
 // const getSearchItem = async (search) => {
@@ -55,8 +58,9 @@ const getProduct=async(page)=>{
     console.log(tagFilter.value)
     
     let {status,data} =await fetch.getAllProduct(page, searchItem.value, categoryFilter.value.join(),
-    minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value)
-    console.log(data)
+    minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value)
+    console.log(data.list)
+    // productList.value=data
     productList.value=data.list
     allItems.value=data.allItems
     totalPage.value=data.allPage
@@ -79,22 +83,47 @@ onBeforeMount(()=>{
 
 const getFilterItem=async(data)=>{
     // filterData.value=data
-    let {category,max,min,rating,tag}=data
+    let {category,max,min,rating,tag,sortBy}=data
     categoryFilter.value=category
     maxFilter.value=max
     minFilter.value=min
     ratingFilter.value=rating
     tagFilter.value=tag
+    sortName.value=sortBy ? sortBy.name : undefined
+    sort.value= sortBy ? sortBy.type : undefined
     console.log(data)
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
 }
-const getSortItem=(data)=>{
+
+const showFilterItem=(data)=>{
     let {show}=data
-   return isShowFilter.value=show
+    // console.log(show)
+    return isShowFilter.value=show
 }
 
+const getSortItem=async(data)=>{
+    sortName.value = data.name 
+    sort.value = data.type
+    console.log(sort)
+    console.log(sortName)
+    await getProduct(currentPage.value)
+}
 
+const moveLeft = async (current) => {
+    console.log(currentPage.value)
+    currentPage.value = current > 1 ? current - 1 : 1
+    await getProduct(currentPage.value)
+}
+
+const moveRight = async (current) => {
+    currentPage.value = current < totalPage.value ? current + 1 : totalPage.value
+    await getProduct(currentPage.value)
+}
+
+onMounted(()=>{
+    validation.navigationTo()
+})
 
 </script>
 <template>
@@ -108,13 +137,17 @@ const getSortItem=(data)=>{
 
     <div class="shop_content">
         <div class="wrapper_content">
-            <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="getSortItem" :sort-type-arr="sortTypeArr" />
+            <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter"
+            @closeFilter="showFilterItem" :sort-type-arr="sortTypeArr" />
             <div class="wrapper_productList">
-                <BaseSortItem @sort-item="getSortItem" 
-                :is-show-filter="isShowFilter"  
+                <BaseSortItem @showFilter="showFilterItem" 
+                :is-show-filter="isShowFilter"
+                @sortItem="getSortItem"
+                @moveLeft="moveLeft" 
+                @moveRight="moveRight" 
                 :change-page="{currentPage:currentPage,totalPage:totalPage}"
                 />
-                <BaseProductList :productList="productList"/>
+                <BaseProductList :productList="productList" :size="100" :gridColumn="3"/>
                 <div class="link_page_container">
                     <ul>
                         <li v-for="(link,index) of totalPage" :key="index">
