@@ -41,18 +41,20 @@ onBeforeMount(()=>{
 <template>
 <div class="wrapper_designer">
     <div class="container_designer">
-        <button @click="js.scroll('previous','.wrapper_list',amountMove)" class="scroll_button pre" >
-            <!-- <img src="../../assets/home_p/icon/left.png" alt="previous"> -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-                <path d="M19.9998 25.3334L10.6665 16.0001L19.9998 6.66675" stroke="#212121" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
+        <div class="scroll_button">
+        <button @click="js.scroll('previous','.wrapper_list',amountMove)" class=" pre" >
+                <!-- <img src="../../assets/home_p/icon/left.png" alt="previous"> -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+                    <path d="M19.9998 25.3334L10.6665 16.0001L19.9998 6.66675" stroke="#212121" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
         <div class="wrapper_list">
             <div class="designer_list">
                 <div  v-for="(designer,index) in designerList " :key="index" class="designer">
                     <div class="user_img">
                         <img v-if="designer.image" :src="`${origin}/api/image/users/${designer.userId}/${designer.image}`" alt="user_img">
-                        <img v-else src="./../../assets/home_p/I.jpg" alt="user_img">
+                        <img v-else src="./../../assets/icon/user_icon.png" alt="user_img">
                     </div>
                     <div>
                         <h3>
@@ -71,17 +73,21 @@ onBeforeMount(()=>{
                 </div> 
             </div>
         </div>
-        <button @click="js.scroll('next','.wrapper_list',amountMove)" class="scroll_button next">
-            <!-- <img src="../../assets/home_p/icon/right.png" alt="next"> -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-                <path d="M12 6.66675L21.3333 16.0001L12 25.3334" stroke="#212121" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
+        <div class="scroll_button">
+            <button @click="js.scroll('next','.wrapper_list',amountMove)" class=" next">
+                <!-- <img src="../../assets/home_p/icon/right.png" alt="next"> -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+                    <path d="M12 6.66675L21.3333 16.0001L12 25.3334" stroke="#212121" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
     </div>
 </div>
 </template>
 <style scoped>
-
+*{
+    box-sizing: border-box;
+}
 .wrapper_designer{
     width: auto;
     height: min(33.056dvw,476px);
@@ -98,7 +104,7 @@ onBeforeMount(()=>{
     height: fit-content;
     align-items: center;
     justify-content: center;
-    /* gap: min(2.222dvw,32px); */
+    gap: min(2.222dvw,32px);
     background-color: inherit;
     /* border: 3px solid pink; */
     gap: min(2.222dvw,32px); 
@@ -111,8 +117,8 @@ onBeforeMount(()=>{
     /* width: auto; */
     /* width: min(68.889vw,992px); */
     /* width: min(77.778, 1120px); */
-    height: min(24.722dvw,356px);
-    overflow-x: auto;
+    height: min(25dvw,360px);
+    overflow-x: scroll;
     scroll-behavior: smooth;
     box-sizing: border-box;
     align-items: center;
@@ -125,6 +131,8 @@ onBeforeMount(()=>{
 .designer_list{
     display: flex;
     flex-direction: row;
+    width: fit-content;
+    height: min(25dvw,360px);
     /* width: min(64.444dvw, 928px); */
     /* width: auto; */
     /* height: min(24.722dvw,356px); */
@@ -214,28 +222,33 @@ onBeforeMount(()=>{
     background: #fff;
     border-color: #26AC34;
 }
+
 .scroll_button{
+    width: fit-content;
+    height: 100%;
+    /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05); */
+    /* position:absolute; */
+    /* left:220px;
+    top:40%; */
+}
+.scroll_button button{
     width: min(4.444dvw,64px);
     height: min(4.444dvw,64px);
     border: min(0.069dvw, 1px) solid;
     border-radius: 50%;
     background-color: inherit;
     border-color: #fff;
-    /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05); */
-    /* position:absolute; */
-    /* left:220px;
-    top:40%; */
 }
-.scroll_button:hover{
+.scroll_button button:hover{
     border-color: #26AC34;
     background-color: #fff;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
-.scroll_button svg{
+.scroll_button button svg{
     width: min(2.222dvw, 32px);
     height: min(2.222dvw, 32px);
 }
-.scroll_button svg path:hover{
+.scroll_button svg:hover path{
     stroke: #26AC34;
 }
 
