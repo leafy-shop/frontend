@@ -89,8 +89,8 @@ const getFilterItem=async(data)=>{
     minFilter.value=min
     ratingFilter.value=rating
     tagFilter.value=tag
-    sortName.value=sortBy.name
-    sort.value=sortBy.type
+    sortName.value=sortBy ? sortBy.name : undefined
+    sort.value= sortBy ? sortBy.type : undefined
     console.log(data)
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
