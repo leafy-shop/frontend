@@ -57,6 +57,12 @@
     },
     clickingTest(text){
         console.log("clicking : "+text)
+    },
+    navigationTo(type){
+        // let element = document.getElementsByClassName("wrapper_filter")
+        // return navigate.scrollIntoView({behavior:'smooth'})
+        if(type==undefined) return window.scrollTo({ top:0});
+        else return window.scrollTo({ top:0,behavior: "smooth"});
     }
 }
 
