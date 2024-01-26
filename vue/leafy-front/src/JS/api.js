@@ -71,7 +71,7 @@ const fetch = {
     },
 
     // product shop page
-    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = []) => {
+    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
         let returnData={status:false,data:undefined}
         try {
             // let productList =[]
@@ -83,6 +83,8 @@ const fetch = {
             if (max !== Infinity&&max!=undefined) url = url + `&max_price=${max}`;
             if (rating !== 0) url = url + `&rating=${rating}`;
             if (tag !== "") url = url + `&tag=${tag}`;
+            if (sort_name !== undefined) url = url + `&sort_name=${sort_name}`;
+            if (sort !== undefined) url = url + `&sort=${sort}`;
 
             console.log(url)
 
