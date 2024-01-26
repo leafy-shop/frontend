@@ -118,8 +118,8 @@ onBeforeMount(()=>{
     </div>
 </template>
 <style scoped>
-.wrapper{
-    
+.wrapper{ 
+    display: flex;
     width: auto;
     height: min(24.167dvw,348px);
     padding: min(4.167dvw,60px) min(11.111dvw,160px);

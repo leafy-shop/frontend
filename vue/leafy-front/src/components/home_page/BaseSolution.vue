@@ -50,7 +50,8 @@
 }
 .solution {
     width: auto;
-    height: min(19.722dvw, 284px);
+    /* height: min(19.722dvw, 284px); */
+    height: fit-content;
     padding: min(4.167dvw, 60px) min(11.111dvw, 160px);
     box-sizing: border-box;
 }
@@ -73,7 +74,7 @@
     /* margin:0 16px 0 16px; */
     text-align: center;
     align-items: center;
-    gap: min(0.833dvw, 12px);
+    /* gap: min(0.278dvw, 4px); */
 }
 .container_solution div img{
     width: min(6.944dvw, 100px);
@@ -83,12 +84,12 @@
 
 .container_solution div h3{
     font-size: min(1.25dvw, 18px);
-    /* margin:12px 0px 0px 0px; */
-
+    padding-top: min(0.833dvw, 12px);
 }
 .container_solution div p{
     font-size: min(1.111dvw, 16px);
     letter-spacing: min(0.014dvw, 0.2px);
+    padding-top: min(0.278dvw, 4px);
 }
 
 @media (width <=744px){
