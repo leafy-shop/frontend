@@ -12,6 +12,8 @@ import validation from '../JS/validation'
 import fetch from '../JS/api';
 const {params} =useRoute()
 
+
+
 onMounted(()=>{
     validation.navigationTo()
 })
