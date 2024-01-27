@@ -336,7 +336,7 @@ onBeforeMount(()=>{
 
 @media (width <=376px){
     .wrapper{
-        height: 152px;
+        height: min(40.426dvw,152px);
         padding: min(7.447dvw,28px) min(4.255dvw,16px);
     }
     .container_review{
@@ -346,27 +346,27 @@ onBeforeMount(()=>{
         display: none;
     }
     .wrapper_review{
-        width: 344px;
-        height: 96px;
+        width: min(91.489dvw,344px);
+        height: min(25.532dvw,96px);
     }
     .review_list{
-        gap: 4px;
+        gap: min(1.064dvw,4px);
     }
     .review{
-        width: 92px;
-        height: 96px;
-        padding: 8px;
+        width: min(24.468dvw,92px);
+        height: min(25.532dvw,96px);
+        padding: min(2.128dvw,8px);
     }
     .personal_info{
         height: 24px;
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: min(1.064dvw,4px);
     }
     .personal_info h4{
         width: auto;
         height: fit-content;
-        font-size: 10px;
+        font-size: min(2.66dvw,10px);
     }
     .personal_info div{
         width: auto;
@@ -377,15 +377,15 @@ onBeforeMount(()=>{
         height: min(2.128dvw,8px);
     }
     .comment{
-        height: 28px;
+        height: min(7.447dvw,28px);
     }
     .comment p{
         -webkit-line-clamp: 2;
-        font-size: 10px;
+        font-size: min(2.66dvw,10px);
     }
     .date{
-        font-size: 8px;
-        margin-top: 12px;
+        font-size: min(2.128dvw,8px);
+        margin-top: min(3.191dvw,12px);
     }
     .review_slide{
         display: none;
