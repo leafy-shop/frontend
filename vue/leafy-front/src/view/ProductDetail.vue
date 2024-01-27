@@ -1,6 +1,6 @@
 <script setup>
 import {useRoute} from 'vue-router'
-import {ref,onMounted} from 'vue'
+import {ref,onMounted, onBeforeMount} from 'vue'
 import BaseProductType from '../components/productDetail/BaseProductType.vue'
 import BaseStore from '../components/productDetail/BaseStore.vue'
 import BaseMenu from '../components/BaseMenu.vue'
@@ -12,7 +12,34 @@ import validation from '../JS/validation'
 import fetch from '../JS/api';
 const {params} =useRoute()
 
+// initial value for prop in component
+let productType = ref({})
+let store = ref({})
+let description = ref("")
 
+// selected styles
+let selectedStyle = ref({})
+let initial = 0
+
+const getProductDetail = async (id, selectedId) => {
+    // console.log(id)
+    let {status, data} = await fetch.getProductDetail(id)
+    // console.log(data)
+    productType.value.name = data.name
+    productType.value.totalRating = data.totalRating
+    productType.value.sold = data.sold
+    productType.value.price = data.price
+    productType.value.styles = data.styles
+    selectedStyle.value = productType.value.styles[selectedId]
+}
+
+const changeStyle = async (idx) => {
+    selectedStyle.value = productType.value.styles[idx]
+} 
+
+onBeforeMount(() => {
+    getProductDetail(params.id, initial)
+})
 
 onMounted(()=>{
     validation.navigationTo()
@@ -22,7 +49,7 @@ onMounted(()=>{
 <!-- this is pro detail {{ params.id }} -->
     <BaseMenu class="menu" />
     <div class="wrapper_content">
-        <BaseProductType/>
+        <BaseProductType :product-style="productType" :selected-style="selectedStyle" @selected-style="changeStyle"/>
         <BaseStore/>
         <BaseDescription/>
         <BaseReview/>

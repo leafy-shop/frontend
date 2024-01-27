@@ -108,10 +108,19 @@ const fetch = {
     getProductDetail: async(productId)=>{
         let returnData={status:false,data:undefined}
         try {
-            let url = `${origin}/api/products?page=${page}`
+            let url = `${origin}/api/products/${productId}`
             let res = await axios.get(url)
+
+            if (res.data == {} || res.data === null) {
+                validation.function_Status('get product detail id ' + productId, false, "cannot get product detail from back-end!!!")
+            } else {
+                validation.function_Status('get product detail id ' + productId, true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
         } catch (error) {
-            validation.function_Status('get all product', false, error)
+            validation.function_Status('get product detail id ' + productId, false, error)
             return returnData
         }
         
