@@ -149,6 +149,7 @@ onBeforeMount(()=>{
     width: auto;
     height: fit-content;
     margin-top: min(0.347dvw,5px) 0px;
+    background-color: #F5F5F5;
 }
 .wrapper_register{
     width: auto;
@@ -215,7 +216,6 @@ onBeforeMount(()=>{
     border: none;
     box-sizing: border-box;
     font-size: min(0.972dvw,14px);
-
 }
 
 .container_sign_up button {
@@ -457,9 +457,6 @@ div>.wrapper_follow_link {
 
 
 @media (width <=744px) {
-    
-
-
     .wrapper_register{
         height: min(19.892dvw,148px);
     }
@@ -545,7 +542,6 @@ div>.wrapper_follow_link {
 
     .follow h3, .follow p {
         font-size: min(1.344dvw,10px);
-
     }
 
     div>.wrapper_follow_link {
@@ -610,7 +606,6 @@ div>.wrapper_follow_link {
         height: min(6.383dvw,24px);
         padding: min(1.064dvw,4px) min(2.128dvw,8px);
         font-size: min(3.191dvw,12px);
-
     }
 
     .container_sign_up button {

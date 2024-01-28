@@ -221,6 +221,7 @@ onBeforeMount(()=>{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .designer button:hover{
     color: #26AC34;
@@ -243,6 +244,7 @@ onBeforeMount(()=>{
     border-radius: 50%;
     background-color: inherit;
     border-color: #fff;
+    cursor: pointer;
 }
 .scroll_button button:hover{
     border-color: #26AC34;
