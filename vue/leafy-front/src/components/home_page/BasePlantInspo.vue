@@ -146,6 +146,7 @@ const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",param
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .plant_type button:hover {
     color: #26AC34;

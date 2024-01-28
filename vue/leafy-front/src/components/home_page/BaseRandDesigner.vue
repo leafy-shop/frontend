@@ -107,7 +107,6 @@ onBeforeMount(()=>{
     gap: min(2.222dvw,32px);
     background-color: inherit;
     /* border: 3px solid pink; */
-    gap: min(2.222dvw,32px); 
 }
 .wrapper_list{
     /* position:relative; */
@@ -148,7 +147,8 @@ onBeforeMount(()=>{
 } 
 .designer{
     display: flex;
-    width: min(20dvw, 288px);
+    /* width: min(20dvw, 288px); */
+    width: fit-content;
     /* height:356px; */
     height: min(25dvw, 360px);
     /* height: 100%; */
@@ -207,6 +207,7 @@ onBeforeMount(()=>{
 
 .designer button{
     width: min(4.167dvw,60px);
+    /* width: fit-content; */
     height: min(2.5dvw,36px);
     margin: 0px auto 0px auto;
     font-size: min(0.972dvw,14px);
@@ -216,6 +217,11 @@ onBeforeMount(()=>{
     background-color: #FFFFFF;
     box-sizing: border-box;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 .designer button:hover{
     color: #26AC34;
@@ -256,24 +262,30 @@ onBeforeMount(()=>{
 
 @media (width <=744px){
     .wrapper_designer{
-        height: min(52.151dvw,388px);
+        height: min(53.226dvw,396px);
         padding: min(8.065dvw,60px) min(5.914dvw,44px);
         /* gap: clamp(1.111dvw,16px); */
     }
+    .container_designer{
+        gap: min(2.151dvw, 16px);
+    }
 
     .wrapper_list{
-        width: min(79.57dvw,592px);
-        height: min(36.022dvw,268px);
+        /* width: min(79.57dvw,592px); */
+        height: min(37.097dvw,276px);
        
     }
     .designer_list{
-        margin-inline:min(2.151dvw,16px);
+        height: min(37.097dvw,276px);
+        /* margin-inline:min(2.151dvw,16px); */
         gap: min(2.151dvw,16px);
     }
     .designer{
         width: min(23.656dvw,176px);
         height: min(36.022dvw,268px);
         padding:min(2.151dvw,16px);
+        border-radius: min(1.075dvw, 8px);
+        gap: min(1.613dvw, 12px);
     }
     .designer .user_img{
         width: min(10.753dvw,80px);
@@ -281,25 +293,47 @@ onBeforeMount(()=>{
     }
     .designer h3{
         font-size: min(2.151dvw,16px);
-        margin-top: min(1.613dvw,12px);
+        /* margin-top: min(1.613dvw,12px); */
     }
     .designer div{
-        height: min(10.753dvw,80px);
+        width: min(19.355, 144px);
+        height: min(14.516dvw,108px);
     }
     .designer div p{
         -webkit-line-clamp: 4;
         font-size: min(1.882dvw,14px);
+        padding-top: min(0.537dvw, 4px);
+        letter-spacing: min(0.027dvw, 0.2px);
+        color: #212121;
     }
     .designer button{
-        width: min(7.392dvw,55px);
+        /* width: min(7.392dvw,55px); */
+        width: fit-content;
         height: min(3.226dvw,24px);
         font-size: min(1.613dvw,12px);
         margin-top: min(1.613dvw,12px);
+        border: min(0.069dvw, 1px) solid;
+        border-radius:  min(0.537dvw, 4px);
+        border-color: #E0E0E0;
+        color: #212121;
+        padding: min(1.075dvw, 8px) min(1.613dvw, 12px);
+    /* margin: 0px auto 0px auto; */
+    /* font-size: min(0.972dvw,14px); */
     }
-    .scroll_button{
+    /* .scroll_button{
         width: min(4.301dvw,32px);
         height: min(4.301dvw,32px);
-        
+    } */
+    .scroll_button button{
+        width: min(4.301dvw, 32px);
+        height: min(4.301dvw, 32px);
+        border: min(0.134dvw, 1px) solid;
+        background-color: inherit;
+        border-color: #fff;
+    }
+    .scroll_button button svg{
+        width: min(2.151dvw,16px);
+        height: min(2.151dvw,16px);
     }
     .scroll_button img{
         width: min(2.151dvw,16px);
@@ -309,42 +343,55 @@ onBeforeMount(()=>{
 
 @media (width<=376px){
     .wrapper_designer{
-        height: min(71.277dvw,268px);
-        padding: min(7.447dvw,28px) min(3.191dvw,12px);
+        height: min(69.149dvw, 260px);
+        padding: min(7.447dvw,28px) min(4.255dvw,16px);
     }
     .wrapper_list{
-        width: min(93.617dvw,352px);
-        height: min(56.383dvw,212px);
+        /* width: min(93.617dvw,352px); */
+        height: min(54.255dvw,204px);
     }
     .designer_list{
-        margin-inline:(2.128dvw,8px);
+        height: min(54.255dvw,204px);
+        /* margin-inline:(2.128dvw,8px); */
         gap:min(2.128dvw,8px);
     }
     .designer{
-        width:min(44.681dvw,168px);
-        height: min(56.383dvw,212px);
-        padding: min(2.128dvw,8px);
+        width:min(44.681dvw, 168px);
+        height: min(54.255dvw,204px);
+        padding: min(2.128dvw, 8px);
+        border-radius: min(1.064dvw, 4px);
+        gap: min(2.128dvw, 8px);
     }
     .designer .user_img{
-        width: min(21.277dvw,80px);
-        height:min(21.277dvw,80px) ;
+        width: min(15.957dvw, 60px);
+        height: min(15.957dvw, 60px);
     }
     .designer h3{
         font-size: min(3.191dvw,12px);
-        margin-top: min(2.128dvw,8px);
+        /* margin-top: min(2.128dvw,8px); */
     }
     .designer div{
-        height: min(15.957dvw,60px);
+        width: min(40.426dvw, 152px);
+        height: min(21.277dvw, 80px);
     }
     .designer div p{
         -webkit-line-clamp: 3;
         font-size: min(3.191dvw,12px);
+        padding-top: min(1.064dvw, 4px);
+        letter-spacing: min(0.053dvw, 0.2px);
+        color: #212121;
     }
     .designer button{
-        width: min(14.628dvw,55px);
+        /* width: min(14.628dvw,55px); */
+        width: fit-content;
         height: min(6.383dvw,24px);
         font-size: min(3.191dvw,12px);
         margin-top: min(2.128dvw,8px);
+        border: min(0.266dvw, 1px) solid;
+        border-radius:  min(1.064dvw, 4px);
+        border-color: #E0E0E0;
+        color: #212121;
+        padding: min(1.064dvw, 4px) min(2.128dvw, 8px);
     }
     .scroll_button{
         display: none;

@@ -83,7 +83,10 @@ onBeforeMount(()=>{
             </div>
 
             <div @click="js.scroll('previous','.wrapper_review',amountMove)" class="review_slide">
-                <img src="../../assets/home_p/icon/left.png" alt="previous">
+                <!-- <img src="../../assets/home_p/icon/left.png" alt="previous"> -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7898 7.41015C18.0523 7.67268 18.1997 8.02872 18.1997 8.39994C18.1997 8.77117 18.0523 9.12721 17.7898 9.38974L13.1796 13.9999L17.7898 18.6101C18.0448 18.8742 18.1859 19.2278 18.1827 19.5949C18.1795 19.962 18.0323 20.3131 17.7727 20.5727C17.5132 20.8323 17.162 20.9795 16.795 20.9827C16.4279 20.9859 16.0742 20.8448 15.8102 20.5897L10.2102 14.9897C9.94773 14.7272 9.80029 14.3712 9.80029 13.9999C9.80029 13.6287 9.94773 13.2727 10.2102 13.0101L15.8102 7.41015C16.0727 7.14769 16.4288 7.00024 16.8 7.00024C17.1712 7.00024 17.5273 7.14769 17.7898 7.41015Z" fill="#424242"/>
+                </svg>
             </div>
             <div class="wrapper_review">
                 <div class="review_list">
@@ -109,7 +112,10 @@ onBeforeMount(()=>{
                 </div>
             </div>
             <div @click="js.scroll('next','.wrapper_review',amountMove)" class="review_slide">
-                <img src="../../assets/home_p/icon/right.png" alt="next">
+                <!-- <img src="../../assets/home_p/icon/right.png" alt="next"> -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2102 20.5898C9.94773 20.3273 9.80029 19.9712 9.80029 19.6C9.80029 19.2288 9.94773 18.8727 10.2102 18.6102L14.8204 14L10.2102 9.38981C9.95517 9.12577 9.81406 8.77212 9.81725 8.40505C9.82044 8.03797 9.96768 7.68683 10.2272 7.42726C10.4868 7.16769 10.838 7.02045 11.205 7.01726C11.5721 7.01408 11.9258 7.15519 12.1898 7.41021L17.7898 13.0102C18.0523 13.2727 18.1997 13.6288 18.1997 14C18.1997 14.3712 18.0523 14.7273 17.7898 14.9898L12.1898 20.5898C11.9273 20.8523 11.5712 20.9997 11.2 20.9997C10.8288 20.9997 10.4727 20.8523 10.2102 20.5898Z" fill="#424242"/>
+                </svg>
             </div>
             
         </div>
@@ -202,7 +208,6 @@ onBeforeMount(()=>{
     
 }
 .personal_info h4{
-
     height: min(1.389dvw,20px);
     width: min(5.694dvw,82px);
     margin-right: min(0.556dvw,8px);
@@ -252,18 +257,19 @@ onBeforeMount(()=>{
 
 .review_slide{
     display: flex;
-   
     justify-content: center;
     align-items: center;
-    
 }
-.review_slide img{
+.review_slide svg{
     width: min(1.944dvw,28px);
     height: min(1.944dvw,28px);
 
 }
-.review_slide img:hover{
+.review_slide svg:hover{
     cursor: pointer;
+}
+.review_slide svg path:hover{
+    fill: #26AC34;
 }
 @media (width<=744px){
     .wrapper{
@@ -336,7 +342,7 @@ onBeforeMount(()=>{
 
 @media (width <=376px){
     .wrapper{
-        height: min(40.426dvw,152px);
+        height: min(40.426dvw, 152px);
         padding: min(7.447dvw,28px) min(4.255dvw,16px);
     }
     .container_review{
@@ -346,27 +352,27 @@ onBeforeMount(()=>{
         display: none;
     }
     .wrapper_review{
-        width: min(91.489dvw,344px);
-        height: min(25.532dvw,96px);
+        width: min(91.489dvw, 344px);
+        height: min(25.532dvw, 96px);
     }
     .review_list{
-        gap: min(1.064dvw,4px);
+        gap: min(1.064dvw, 4px);
     }
     .review{
-        width: min(24.468dvw,92px);
-        height: min(25.532dvw,96px);
-        padding: min(2.128dvw,8px);
+        width: min(24.468dvw, 92px);
+        height: min(25.532dvw, 96px);
+        padding: min(2.128dvw, 8px);
     }
     .personal_info{
-        height: 24px;
+        height: min(6.383dvw, 24px);
         display: flex;
         flex-direction: column;
-        gap: min(1.064dvw,4px);
+        gap: min(1.064dvw, 4px);
     }
     .personal_info h4{
         width: auto;
         height: fit-content;
-        font-size: min(2.66dvw,10px);
+        font-size: min(2.66dvw, 10px);
     }
     .personal_info div{
         width: auto;
@@ -381,11 +387,11 @@ onBeforeMount(()=>{
     }
     .comment p{
         -webkit-line-clamp: 2;
-        font-size: min(2.66dvw,10px);
+        font-size: min(2.66dvw, 10px);
     }
     .date{
         font-size: min(2.128dvw,8px);
-        margin-top: min(3.191dvw,12px);
+        margin-top: min(3.191dvw, 12px);
     }
     .review_slide{
         display: none;
