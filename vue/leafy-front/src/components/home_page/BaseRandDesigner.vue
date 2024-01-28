@@ -58,8 +58,8 @@ onBeforeMount(()=>{
                     </div>
                     <div>
                         <h3>
-                            {{designer.name}}
-                            Test
+                            {{ designer.username }}
+                            <!-- Test -->
                         </h3>
                         <p>
                             {{ designer.description }}    

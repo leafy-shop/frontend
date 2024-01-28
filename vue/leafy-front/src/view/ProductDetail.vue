@@ -16,6 +16,8 @@ const {params} =useRoute()
 let productType = ref({})
 let store = ref({})
 let description = ref("")
+let reviews = ref([])
+let ratingReview = ref(0)
 
 // selected styles
 let selectedStyle = ref({})
@@ -23,14 +25,34 @@ let initial = 0
 
 const getProductDetail = async (id, selectedId) => {
     // console.log(id)
-    let {status, data} = await fetch.getProductDetail(id)
+    let responseProduct = await fetch.getProductDetail(id)
     // console.log(data)
-    productType.value.name = data.name
-    productType.value.totalRating = data.totalRating
-    productType.value.sold = data.sold
-    productType.value.price = data.price
-    productType.value.styles = data.styles
+    
+    // product type page
+    productType.value.itemId = params.id
+    productType.value.name = responseProduct.data.name
+    productType.value.totalRating = responseProduct.data.totalRating
+    productType.value.sold = responseProduct.data.sold
+    productType.value.price = responseProduct.data.price
+    productType.value.styles = responseProduct.data.styles
+    productType.value.image = responseProduct.data.image
     selectedStyle.value = productType.value.styles[selectedId]
+    // console.log(productType.value)
+    // console.log(selectedStyle.value)
+
+    // product owner page
+    let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
+    console.log(responseStore.data)
+    store.value = responseStore.data
+
+    // product description page
+    description.value = responseProduct.data.description
+
+    // product review page
+    let responseReview = await fetch.getProductReview(params.id)
+    console.log(responseReview.data)
+    reviews.value = responseReview.data.list
+    ratingReview.value = responseProduct.data.totalRating
 }
 
 const changeStyle = async (idx) => {
@@ -50,9 +72,9 @@ onMounted(()=>{
     <BaseMenu class="menu" />
     <div class="wrapper_content">
         <BaseProductType :product-style="productType" :selected-style="selectedStyle" @selected-style="changeStyle"/>
-        <BaseStore/>
-        <BaseDescription/>
-        <BaseReview/>
+        <BaseStore :owner="store"/>
+        <BaseDescription :description="description"/>
+        <BaseReview v-if="reviews.length" :product-review="reviews" :total-rating="ratingReview"/>
         <BaseRecommedation/>
     </div>
     <BaseFooter/>

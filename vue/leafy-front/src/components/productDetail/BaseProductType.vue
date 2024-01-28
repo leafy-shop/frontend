@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
+
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
 defineEmits(["selectedStyle"])
 
 let props = defineProps({
@@ -16,6 +19,8 @@ let props = defineProps({
 })
 
 let stepInput = ref(1)
+let slideImage = ref(0)
+let maxImage = ref(0)
 
 let detectNumber = (input) => {
     // console.log(input.target.value)
@@ -54,8 +59,25 @@ let productStyle = computed(() => {
 
 let selectedStyle = computed(() => {
     stepInput.value = 1
+    slideImage.value = 0
+    maxImage.value = (selectedStyle.images == undefined || selectedStyle.images.length < 1) ? 1 : selectedStyle.images.length - 1
     return props.selectedStyle
 })
+
+let selectedImage = (idx) => {
+    // console.log(idx)
+    slideImage.value = idx
+}
+
+let imageLeft = () => {
+    // console.log("T")
+    slideImage.value = slideImage.value ? slideImage.value - 1 : slideImage.value
+}
+
+let imageRight = () => {
+    // console.log("T")
+    slideImage.value = slideImage.value < maxImage.value ? slideImage.value + 1 : slideImage.value
+}
 
 </script>
 <template>
@@ -63,24 +85,30 @@ let selectedStyle = computed(() => {
         <div class="images">
             <div class="styles">
                 <ul>
-                    <li v-for="value in 10" :key="value">
-                        <button>
-                            <img src="../../assets/vue.svg" alt="image_style">
+                    <li v-for="(value, idx) in selectedStyle.images" :key="idx">
+                        <button @click="selectedImage(idx)">
+                            <!-- {{ `${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}` }} -->
+                            <!-- `${origin}/api/image/users/${designer.userId}/${designer.image}` -->
+                            <img :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
                         </button>
                     </li>
                 </ul>
             </div>
             <div class="show_image">
-                <img src="../../assets/vue.svg" alt="image_style">
-                <div>
-                    <button>
+                <img v-if="selectedStyle.images && selectedStyle.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`" alt="image_style">
+                <img v-else-if="productStyle.image && selectedStyle.images == undefined" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style">
+                <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style">
+                <img v-else src="../../assets/vue.svg" alt="image_style">
+                <!-- {{ productStyle }} -->
+                <div v-show="selectedStyle.images !== undefined && selectedStyle.images.length > 1">
+                    <button @click="imageLeft">
                         <!-- <img src="../../assets/home_p/icon/left.png" alt="previous"> -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M12.4001 15.5997L6.80011 9.99966L12.4001 4.39966" stroke="#212121" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </button>
-                    <button>
+                    <button @click="imageRight">
                         <!-- <img src="../../assets/home_p/icon/right.png" alt="next"> -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M7.6001 4.39966L13.2001 9.99966L7.6001 15.5997" stroke="#212121" stroke-width="2"
@@ -88,7 +116,6 @@ let selectedStyle = computed(() => {
                         </svg>
                     </button>
                 </div>
-
             </div>
         </div>
         <div class="information">
@@ -144,8 +171,11 @@ let selectedStyle = computed(() => {
                 </div>
                 <!-- for show type -->
                 <div v-for="(style, idx) in productStyle.styles" :key="idx">
-                    <button @click="$emit('selectedStyle', idx)">
-                        <img src="../../assets/vue.svg" alt="product_type">
+                    <button @click="$emit('selectedStyle', idx)"> 
+                        <img v-if="style.images !== undefined && style.images[0] !== undefined"
+                        :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.styles[idx].style}/${productStyle.styles[idx].images[0]}`"
+                        alt="product_type" width="88" height="88">
+                        <img v-else src="../../assets/vue.svg" alt="product_type" width="88" height="88">
                     </button>
                     <!-- <button>
                         <img src="../../assets/vue.svg" alt="product_type">

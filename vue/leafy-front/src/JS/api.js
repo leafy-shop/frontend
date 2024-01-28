@@ -105,6 +105,8 @@ const fetch = {
         }
 
     },
+
+    // product detail page
     getProductDetail: async(productId)=>{
         let returnData={status:false,data:undefined}
         try {
@@ -125,6 +127,49 @@ const fetch = {
         }
         
     },
+
+    getStore: async (owner) => {
+        // let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/users/views/${owner}`
+            let res = await axios.get(url)
+
+            if (res.data == null || res.data == undefined) {
+                validation.function_Status('get product owner ' + owner, false, "cannot get all garden designer from back-end!!!")
+            } else {
+                validation.function_Status('get product owner ' + owner, true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner', false, error)
+            return returnData
+        }
+    },
+    getProductReview: async (id, page=1) => {
+        // let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/products/${id}/reviews?&page=${page}`
+            let res = await axios.get(url)
+            console.log(res.data)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get product owner review', false, "cannot get all garden designer from back-end!!!")
+            } else {
+                validation.function_Status('get product owner review', true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner review', false, error)
+            return returnData
+        }
+    },
+
     // authentication
     login: async (email = undefined, password = undefined) => {
         let returnData ={
@@ -187,5 +232,30 @@ const fetch = {
         }
         return -1
     },
+    signOut: async () => {
+        let information = cookie.get("information")
+        let returnData = { status: 500, data: undefined }
+        // console.log(information.email)
+        
+        if (information !== undefined) {
+            try {
+                let url = `${origin}/api/authentication/signout`
+
+                let res = await axios.get(url)
+                validation.function_Status("sign out", true)
+
+                returnData.data = res.data
+                returnData.status = res.status
+
+                // remove information account in client cookie
+                cookie.remove("information")
+
+                return returnData
+            } catch (error) {
+                validation.function_Status("sign out", false, error)
+                return false
+            }
+        }
+    }
 }
 export default fetch
