@@ -67,7 +67,7 @@ const showPassword=computed(()=>{
                 Sign in
             </h3>
             <div class="wrapper_input">
-                <input :style="[signInStatus==false?'border-color:#FCA5A5;':'']" class="signIn_input email" v-model="email" type="text" placeholder="you@example.com">
+                <input :style="[signInStatus==false?'border-color:#FCA5A5;':'']" class="signIn_input email" v-model="email" type="text" placeholder="Email or Phone number">
                 <div :style="[signInStatus==false||passwordStatus==false?'border-color:#FCA5A5;':'']" class="wrapper_password">
                     <input class="signIn_input password" v-model="password" :type="showPassword" placeholder="password" >
                     <button @click="showPasswordStatus=!showPasswordStatus" >

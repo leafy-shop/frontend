@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter,useRoute } from 'vue-router';
-import { ref, computed,onBeforeMount} from 'vue'
+import { ref, computed,onBeforeMount, onMounted} from 'vue'
 import validation from '../JS/validation'
 import cookie from '../JS/cookie';
 // const {params} =useRoute()
@@ -11,11 +11,59 @@ const props = defineProps({
         require: true
     }
 })
-// this for check now in shop page?
+// this for check now in shop page? 
 const isShopPage=computed(()=>{
-    // console.log(window.location.href.split("/").includes("shop"))
     return window.location.href.split("/").includes("shop")
 })
+
+
+// for link in tablet and mobile phone
+const changeIconColor=(element)=>{
+    for(let i=0;i<element.getElementsByTagName('path').length;i++){
+
+        element.getElementsByTagName('path')[i].setAttribute('style','stroke: #26AC34')
+    }
+}
+
+// this function check current page and change color link that have same name
+const checkCurrentURL=()=>{
+    // console.log(testing.split("/"))
+    const location=window.location.href.split("/")[4]
+    console.log(window.width)
+    if(window.width<744){
+        console.log('hello')
+    }
+    if(location==''){
+        let link=document.getElementsByName('home')
+        for(let i =0;i<link.length;i++){
+            //change text
+            if(window.innerWidth>744){
+                link[i].setAttribute('style','color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+            }else{
+                link[i].setAttribute('style','color:#26AC34;border-bottom: none;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+
+            }
+            changeIconColor(link[i])
+        }
+       
+    }else{
+        console.log(window.innerWidth)
+        let link=document.getElementsByName(`${location}`)
+        for(let i=0;i<link.length;i++){
+            //change text
+            if(window.innerWidth>744){
+                link[i].setAttribute('style','color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+            }else{
+                link[i].setAttribute('style','color:#26AC34;border-bottom: none;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+
+            }
+
+            changeIconColor(link[i])
+        }
+    }
+    
+}
+
 // this search attribute
 const search =ref('')
 // and this compute value for assign value
@@ -39,17 +87,6 @@ const goShop=()=>{
 const goCartList=()=>myRouter.push({name:'CartList'})
 const goProfile=(name='mago',id=11)=>myRouter.push({name:'Profile',params:{name:name,id:id}})
 
-
-
-
-
-// import { defineStore } from 'pinia'
-// import { productFilterStore } from '../store/baseFilter'
-
-
-// let searchItem = computed(() => {
-//     return { search: props.search }
-// })
 const keyPass = ref(undefined)
 onBeforeMount(()=>{
     keyPass.value = cookie.get("information")
@@ -58,7 +95,9 @@ onBeforeMount(()=>{
 
 const showMenu2 = ref(false)
 
-// const search = ref("")
+onMounted(()=>{
+    checkCurrentURL()
+})
 
 </script>
 <template>
@@ -101,19 +140,19 @@ const showMenu2 = ref(false)
                     <img src="../assets/LEAFY_logo.png" alt="leafy_icon">
                 </div>
                 <div class="container_link">
-                    <button @click="goHome" class="link">
+                    <button @click="goHome" class="link" name="home">
                         Home
                     </button>
-                    <button @click="goShop" class="link">
+                    <button @click="goShop" class="link" name="shop">
                         Shop
                     </button>
-                    <button class="link">
+                    <button class="link" name="gallery">
                         Gallery
                     </button>
-                    <button class="link">
+                    <button class="link " name="about">
                         About
                     </button>
-                    <button class="link">
+                    <button class="link contact">
                         Contact
                     </button>
                 </div>
@@ -173,7 +212,7 @@ const showMenu2 = ref(false)
         <div v-show="showMenu2" class="main_menu_container_2">
             <div class="container_link_2">
                 <div class="link_list">
-                    <button @click="validation.clickingTest('link home')">
+                    <button @click="goHome" name="home">
                         <!-- <img src="../assets/icon/home.png" alt="home_icon"> -->
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M18.9755 8.11309L13.9755 3.74209C12.8445 2.75309 11.1555 2.75309 10.0245 3.74209L5.02451 8.11309C3.99951 9.00909 3.99951 10.1431 3.99951 11.0071V16.0031C3.99951 19.0011 4.99951 20.0001 7.99951 20.0001H15.9995C18.9995 20.0001 19.9995 19.0011 19.9995 16.0031V11.0071C19.9995 10.1431 19.9995 9.00909 18.9755 8.11309Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -181,9 +220,9 @@ const showMenu2 = ref(false)
                         </svg>
                         <h3> Home</h3>
                     </button>
-                    <button  @click="validation.clickingTest('link shop')">
+                    <button  @click="goShop" name="shop">
                         <!-- <img  src="../assets/icon/shop.png" alt="shop_icon"> -->
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg viewBox="0 0 24 24" fill="none"  xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M16.776 9.52449C16.868 9.32349 17.133 9.32349 17.224 9.52449C17.619 10.3885 18.492 10.9925 19.5 10.9925V10.9925C20.875 10.9925 22 9.86749 22 8.49249V8.49249V8.49249C22 7.50649 21.441 5.87549 21 4.99249C21 4.99249 20 2.99249 18.764 2.99249H5.236C4 2.99249 3 4.99249 3 4.99249C2.559 5.87549 2 7.50649 2 8.49249V8.49249C2 9.86749 3.125 10.9925 4.5 10.9925V10.9925C5.508 10.9925 6.381 10.3885 6.776 9.52449C6.868 9.32349 7.133 9.32349 7.224 9.52449C7.619 10.3885 8.492 10.9925 9.5 10.9925V10.9925C10.508 10.9925 11.381 10.3885 11.776 9.52449C11.868 9.32349 12.133 9.32349 12.224 9.52449C12.619 10.3885 13.492 10.9925 14.5 10.9925V10.9925C15.508 10.9925 16.381 10.3885 16.776 9.52449Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M4 10.9928V16.9928C4 19.9928 5 20.9928 8 20.9928H16C19 20.9928 20 19.9928 20 16.9928V10.9928" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15 20.9928H9V17.9928C9 16.8878 9.895 15.9928 11 15.9928H13C14.105 15.9928 15 16.8878 15 17.9928V20.9928Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -193,7 +232,7 @@ const showMenu2 = ref(false)
                         </svg>
                         <h3> Shop</h3>
                     </button>
-                    <button @click="validation.clickingTest('link gallery')">
+                    <button @click="validation.clickingTest('link gallery')" name="gallery">
                         <!-- <img  src="../assets/icon/gallery.png" alt="gallery_icon"> -->
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 10V10C4.567 10 3 8.433 3 6.5V6.5C3 4.567 4.567 3 6.5 3V3C8.433 3 10 4.567 10 6.5V6.5C10 8.433 8.433 10 6.5 10Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -203,7 +242,7 @@ const showMenu2 = ref(false)
                         </svg>
                         <h3> Gallery</h3>
                     </button>
-                    <button @click="validation.clickingTest('link about')">
+                    <button @click="validation.clickingTest('link about')" name="about">
                         <!-- <img src="../assets/icon/about.png" alt="about_icon"> -->
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 15.7463V11.7993" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -212,7 +251,7 @@ const showMenu2 = ref(false)
                         </svg>
                         <h3> About</h3>
                     </button>
-                    <button @click="validation.clickingTest('link contact')">
+                    <button @click="validation.clickingTest('link contact')" name="contact">
                         <!-- <img src="../assets/icon/contact.png" alt="contact_icon"> -->
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V6C3 14.284 9.716 21 18 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15.721C21.0001 15.511 20.934 15.3064 20.8112 15.136C20.6885 14.9657 20.5152 14.8383 20.316 14.772L15.823 13.274C15.5947 13.1981 15.3466 13.2071 15.1244 13.2993C14.9021 13.3915 14.7205 13.5607 14.613 13.776L13.483 16.033C11.0345 14.9267 9.07332 12.9655 7.967 10.517L10.224 9.387C10.4393 9.27945 10.6085 9.0979 10.7007 8.87564C10.7929 8.65339 10.8019 8.40534 10.726 8.177L9.228 3.684C9.16171 3.48496 9.03449 3.3118 8.86436 3.18905C8.69422 3.0663 8.48979 3.00016 8.28 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -239,6 +278,7 @@ const showMenu2 = ref(false)
                         <button @click="goProfile" class="account_bt">
                             My profile
                         </button>
+                       
                         <button class="account_bt">
                             Settings
                         </button>
@@ -345,9 +385,9 @@ const showMenu2 = ref(false)
     border-bottom: 2px solid #26AC34;
     padding-bottom: min(0.278dvw, 4px);
 }
-.link:focus {
+/* .link:focus {
     color: #26AC34;
-}
+} */
 .link:active {
     color: #FFCE3D;
 }
@@ -455,7 +495,7 @@ const showMenu2 = ref(false)
     height: min(1.667dvw, 24px);
 }
 
-.cart_b svg path:hover {
+.cart_b svg:hover path {
     /* fill: #26AC34; */
     stroke: #26AC34
 }
@@ -579,7 +619,7 @@ const showMenu2 = ref(false)
         height: min(3.226dvw, 24px);
         margin-right: min(2.151dvw, 16px);
     }
-    .link_list svg path:hover{
+    .link_list button:hover svg path{
         stroke: #26AC34;
         /* fill: #26AC34; */
     }
@@ -706,14 +746,15 @@ const showMenu2 = ref(false)
         letter-spacing: min(0.027dvw, 0.2px);
     }
     .account_bt{
-        height: auto;
-        font-size: min(0.027dvw, 16px);
+        height: 100%;
+        font-size: min(2.151dvw, 16px);
         border: 0px;
         background:inherit;
         text-align: left;
         font-weight: 500;
         line-height: 150%; /* 24px */
         letter-spacing: min(0.027dvw, 0.2px);
+        color: black;
         cursor: pointer;
     }
     .signOut{

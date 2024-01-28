@@ -1,5 +1,5 @@
 <script setup>
-import { ref ,onBeforeMount} from 'vue'
+import { ref ,onBeforeMount,onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import cookie from '../JS/cookie';
 const myRouter=useRouter()
@@ -22,7 +22,12 @@ const information = [
 ]
 
 const showSignUp=ref(true)
-
+onMounted(()=>{
+    let location =window.location.href.split('/')[4]
+    if(location.includes('sign')){
+        showSignUp.value=false
+    }
+})
 onBeforeMount(()=>{
     showSignUp.value=cookie.checkKeyPass()==true?false:true
 })
@@ -237,6 +242,7 @@ onBeforeMount(()=>{
     height: min(18.056dvw,260px);
     padding: min(4.167dvw,60px) min(11.111dvw,160px);
     box-sizing: border-box;
+    background-color: #EEE;
 }
 
 .wrapper_information {
