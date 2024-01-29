@@ -224,7 +224,7 @@ onUpdated(() => {
 
                 <div v-for="(value, index) in 5" class="point_item" :key="index">
                     <!-- <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)" v-model="rating" /> -->
-                    <label @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)"  :for="`rating_${value}`" :class="`rating_${value}`">
+                    <div @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)"  :for="`rating_${value}`" :class="`rating_${value}`">
 
                         <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf" :class="`point_item_full_${index}`">
                             <!-- {{ vf }} -->
@@ -241,7 +241,7 @@ onUpdated(() => {
                                     stroke="#FFCE3D" />
                             </svg>
                         </div>
-                    </label>
+                    </div>
                     <h5 v-if="index != 0">
                         Over
                     </h5>
@@ -339,7 +339,7 @@ onUpdated(() => {
                     <div v-for="(value, index) in 5" class="point_item" :key="index">
                         <!-- <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)"
                             v-model="rating" /> -->
-                        <label @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)" :for="`rating_${value}`" :class="`rating_${value}`">
+                        <div @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)" :for="`rating_${value}`" :class="`rating_${value}`">
 
                             <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf" :class="`point_item_full_${index}`">
                                 <!-- {{ vf }} -->
@@ -358,7 +358,7 @@ onUpdated(() => {
                                         stroke="#FFCE3D" />
                                 </svg>
                             </div>
-                        </label>
+                        </div>
                         <h5 v-if="index != 0">
                             Over
                         </h5>
@@ -565,7 +565,7 @@ onUpdated(() => {
     display: none;
 }
 
-.point_item label {
+.point_item div {
     display: flex;
     gap: min(0.278dvw, 4px);
     cursor: pointer;
@@ -574,19 +574,19 @@ onUpdated(() => {
     height: min(1.389dvw, 20px);
 }
 
-.point_item label div {
+.point_item div div {
     height: fit-content;
     width: fit-content;
 }
 
-.point_item label div svg {
+.point_item div div svg {
     width: min(1.389dvw, 20px);
     height: min(1.389dvw, 20px);
 }
 /* .point_item label div svg:nth-child(1):hover {
     fill: #26AC34;
 } */
-.point_item label div svg path:nth-child(1):hover {
+.point_item div div svg path:nth-child(1):hover {
     stroke: #26AC34;
 }
 
@@ -800,15 +800,15 @@ onUpdated(() => {
         gap: min(0.538dvw, 4px);
     }
 
-    .point_item label {
+    .point_item div {
         gap: min(0.538dvw, 4px);
         height: min(2.151dvw, 16px);
     }
-    .point_item label div {
+    .point_item div div {
         height: fit-content;
         width: fit-content;
     }
-    .point_item label div svg {
+    .point_item div div svg {
         width: min(2.151dvw, 16px);
         height: min(2.151dvw, 16px);
     }
@@ -902,6 +902,7 @@ onUpdated(() => {
     }
 
     .close_filter div {
+        display: flex;
         width: min(6.383dvw, 24px);
         height: min(6.383dvw, 24px);
     }
@@ -1048,11 +1049,11 @@ onUpdated(() => {
         gap: min(0.537dvw, 4px);
     }
 
-    .point_item label {
+    .point_item div {
         gap: min(0.537dvw, 4px);
     }
 
-    .point_item label div svg {
+    .point_item div div svg {
         height: min(4.255dvw, 16px);
         width: min(4.255dvw, 16px);
     }
