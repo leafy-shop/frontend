@@ -136,10 +136,30 @@ onBeforeMount(()=>{
 
         </div>
         <div class="copylight">
-            <img src="../assets/copylight.svg" alt="copylight_icon">
-            <h5>
-                2023 Leafy. All rights reserved.
-            </h5>
+            <div>
+                <h5>
+                    Privacy Policy
+                </h5>
+                <svg xmlns="http://www.w3.org/2000/svg" width="3" height="2" viewBox="0 0 3 2" fill="none">
+                    <circle cx="1.5" cy="1" r="1" fill="#9E9E9E"/>
+                </svg>
+                <h5>
+                    Terms & Conditions
+                </h5>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <circle cx="5.99995" cy="5.99995" r="4.3" stroke="#616161"/>
+                    <mask id="path-2-inside-1_2997_22034" fill="white">
+                        <path d="M7.60372 7.12285C7.80384 7.26297 7.85491 7.5425 7.68048 7.71355C7.42712 7.96199 7.12044 8.1525 6.78146 8.26922C6.30224 8.43423 5.78309 8.44329 5.29841 8.29511C4.81372 8.14692 4.38839 7.8491 4.08337 7.44433C3.77835 7.03956 3.60931 6.54861 3.60046 6.04186C3.59162 5.53511 3.74343 5.03856 4.03413 4.62339C4.32484 4.20822 4.73952 3.89574 5.21873 3.73073C5.69795 3.56572 6.21711 3.55666 6.70179 3.70484C7.04463 3.80966 7.35778 3.98935 7.61965 4.2288C7.79994 4.39366 7.75866 4.6748 7.56356 4.82182C7.36845 4.96884 7.0936 4.92287 6.89665 4.77833C6.76017 4.67817 6.60703 4.60097 6.44314 4.55086C6.13711 4.4573 5.80933 4.46302 5.50676 4.56721C5.20418 4.67139 4.94236 4.86869 4.75881 5.13082C4.57527 5.39295 4.47942 5.70646 4.485 6.02642C4.49059 6.34638 4.59732 6.65635 4.7899 6.91192C4.98249 7.16749 5.25104 7.35553 5.55706 7.44909C5.86308 7.54265 6.19087 7.53693 6.49344 7.43275C6.65548 7.37695 6.80584 7.29445 6.93874 7.18958C7.13052 7.03826 7.40361 6.98272 7.60372 7.12285Z"/>
+                    </mask>
+                    <path d="M7.60372 7.12285C7.80384 7.26297 7.85491 7.5425 7.68048 7.71355C7.42712 7.96199 7.12044 8.1525 6.78146 8.26922C6.30224 8.43423 5.78309 8.44329 5.29841 8.29511C4.81372 8.14692 4.38839 7.8491 4.08337 7.44433C3.77835 7.03956 3.60931 6.54861 3.60046 6.04186C3.59162 5.53511 3.74343 5.03856 4.03413 4.62339C4.32484 4.20822 4.73952 3.89574 5.21873 3.73073C5.69795 3.56572 6.21711 3.55666 6.70179 3.70484C7.04463 3.80966 7.35778 3.98935 7.61965 4.2288C7.79994 4.39366 7.75866 4.6748 7.56356 4.82182C7.36845 4.96884 7.0936 4.92287 6.89665 4.77833C6.76017 4.67817 6.60703 4.60097 6.44314 4.55086C6.13711 4.4573 5.80933 4.46302 5.50676 4.56721C5.20418 4.67139 4.94236 4.86869 4.75881 5.13082C4.57527 5.39295 4.47942 5.70646 4.485 6.02642C4.49059 6.34638 4.59732 6.65635 4.7899 6.91192C4.98249 7.16749 5.25104 7.35553 5.55706 7.44909C5.86308 7.54265 6.19087 7.53693 6.49344 7.43275C6.65548 7.37695 6.80584 7.29445 6.93874 7.18958C7.13052 7.03826 7.40361 6.98272 7.60372 7.12285Z" stroke="#616161" stroke-width="2" mask="url(#path-2-inside-1_2997_22034)"/>
+                </svg>                
+                <h5>
+                    2023 Leafy. All rights reserved.
+                </h5>                
+            </div>
+
             <!-- <button>
                 <img src="../assets/vue.svg" alt="chat_icon">
                 <span>chat</span>
@@ -158,7 +178,9 @@ onBeforeMount(()=>{
 }
 .wrapper_register{
     width: auto;
-    height: min(14.167dvw,204px);
+    /* height: min(14.167dvw,204px); */
+    height: fit-content;
+
     display: flex;
     flex-direction: column;
     position: relative;
@@ -208,7 +230,8 @@ onBeforeMount(()=>{
 
 .container_sign_up {
     display: flex;
-    height: min(2.5dvw,36px);
+    height: fit-content;
+    /* height: min(2.5dvw,36px); */
     gap: min(0.556dvw,8px);
 }
 
@@ -231,10 +254,11 @@ onBeforeMount(()=>{
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
     /* margin-left: min(0.694dvw,10px); */
     cursor: pointer;
-    background-color: green;
+    background-color: #26AC34;
     color: white;
     box-sizing: border-box;
     font-size: min(0.972dvw,14px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 
 .container_information {
@@ -449,22 +473,36 @@ div>.wrapper_follow_link {
     gap: min(0.278dvw,4px);
     justify-content: center;
 }
+.copylight div:nth-child(1){
+    display: none;
+}
+.copylight div:nth-child(2){
+        display: flex;
+        gap: min(0.278dvw,4px);
+    }
 
-.copylight img {
+.copylight div:nth-child(2) svg {
+    display: flex;
     width: min(1.389dvw,20px);
     height: min(1.389dvw,20px);
 }
 
-.copylight h5 {
+.copylight div h5 {
+    display: flex;
     font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #616161;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 
 @media (width <=744px) {
     .wrapper_register{
-        height: min(19.892dvw,148px);
+        /* height: min(19.892dvw,148px); */
+        height: fit-content;
+
     }
     .register {
         padding: min(2.688dvw,20px) min(5.914dvw,44px);
@@ -483,7 +521,8 @@ div>.wrapper_follow_link {
 
     .container_sign_up {
         display: flex;
-        height: min(4.839dvw,36px);
+        height: fit-content;
+        /* height: min(4.839dvw,36px); */
         gap: min(1.075dvw,8px);
     }
 
@@ -491,14 +530,14 @@ div>.wrapper_follow_link {
         width: min( 43.011dvw,320px);
         height: min( 4.839dvw,36px);
         padding: min( 4.839dvw,8px) min( 1.613dvw,12px);
-        border-radius: 4px;
+        border-radius: min( 0.538dvw,4px);
         font-size: min( 1.882dvw,14px);
     }
 
     .container_sign_up button {
         width: min( 11.156dvw,83px);
         height: min( 4.839dvw,36px);
-        border-radius: min( 0.538vw,4px);
+        border-radius: min( 0.538dvw,4px);
         padding: min( 1.075dvw,8px) min( 1.613dvw,12px);
         font-size: min( 1.882dvw,14px);
     }
@@ -519,8 +558,8 @@ div>.wrapper_follow_link {
         height: min(18.28dvw,136px);
     }
 
-    .service h3, .service div button, 
-    .information h3, .information button  {
+    .service > h3, .service div button, 
+    .information h3, .information div button  {
         font-size: min(1.344dvw,10px);
     }
 
@@ -564,13 +603,16 @@ div>.wrapper_follow_link {
         height: min(6.452dvw,48px);
         padding: min(2.151dvw,16px) min(5.914dvw,44px);
     }
-
-    .copylight img {
+    .copylight div:nth-child(2){
+        gap: min(0.538dvw,4px);
+    }
+    .copylight div:nth-child(2) svg{
+        
         width: min(2.151dvw,16px);
         height: min(2.151dvw,16px);
     }
 
-    .copylight h5 {
+    .copylight div h5 {
         font-size: min(1.613dvw,12px);
         font-weight: 400;
         color: #616161;
@@ -579,7 +621,8 @@ div>.wrapper_follow_link {
 
 @media (width <=376px) {
     .wrapper_register{
-        height: min(47.872dvw,180px);
+        height: fit-content;
+        /* height: min(47.872dvw,180px); */
     }
     .register {
         /* align-items: center; */
@@ -601,7 +644,8 @@ div>.wrapper_follow_link {
 
     .container_sign_up {
         width: min(91.489dvw,344px);
-        height: min(15.957dvw,60px);
+        height: fit-content;
+        /* height: min(15.957dvw,60px); */
         display: flex;
         flex-direction: column;
         gap: min(2.128dvw,8px);
@@ -612,13 +656,15 @@ div>.wrapper_follow_link {
         height: min(6.383dvw,24px);
         padding: min(1.064dvw,4px) min(2.128dvw,8px);
         font-size: min(3.191dvw,12px);
+         border-radius: min(1.064dvw,4px);
     }
 
     .container_sign_up button {
         width: inherit;
-        height: min(7.447dvw,28px);
+        height: min(6.383dvw,24px);
         padding: min(1.064dvw,4px) min(2.128dvw,8px);
         font-size: min(3.723dvw,14px);
+        border-radius: min(1.064dvw,4px);
     }
 
     .container_information {
@@ -626,15 +672,33 @@ div>.wrapper_follow_link {
     }
 
     .copylight {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: min(17.021dvw,64px);
         padding: min(1.064dvw,4px);
+        gap: min(2.128dvw,8px);
+        padding: min(4.255dvw,16px);
     }
-
-    .copylight img {
+    
+    .copylight div:nth-child(2){
+        gap: min(1.064dvw,4px);
+    }
+    .copylight div:nth-child(2) svg{
         width: min(3.191dvw,12px);
         height: min(3.191dvw,12px);
     }
-
-    .copylight h5 {
+    .copylight div:nth-child(1) {
+        display: flex;
+        flex-direction: row;
+        gap: min(2.128dvw,8px);
+    }
+    .copylight div:nth-child(1) svg{
+        margin: auto;
+        width: min(0.532dvw,2px);
+        height: min(0.532dvw,2px);
+    }
+    .copylight div h5 {
         font-size: min(2.66dvw,10px);
         font-weight: 400;
         color: #616161;

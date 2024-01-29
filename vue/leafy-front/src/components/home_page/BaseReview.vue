@@ -295,7 +295,8 @@ onBeforeMount(()=>{
         height: min(1.613dvw,12px);
     }
     .wrapper_review{
-        width: min(62.903dvw,468px);
+        /* width: min(62.903dvw,468px); */
+        width: min(62.366dvw,464px);
         height: min(23.656dvw,176px);
     }
     .review_list{
@@ -333,7 +334,7 @@ onBeforeMount(()=>{
         font-size: min(1.344dvw,10px);
         margin-top: min(2.688dvw,20px);
     }
-    .review_slide img{
+    .review_slide svg{
         width: min(2.688dvw,20px);
         height: min(2.688dvw,20px);
     }
