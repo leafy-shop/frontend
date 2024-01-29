@@ -16,8 +16,11 @@ const {params} =useRoute()
 let productType = ref({})
 let store = ref({})
 let description = ref("")
+
 let reviews = ref([])
 let ratingReview = ref(0)
+let sort = ref('newest')
+let currentPage = ref(1)
 
 // selected styles
 let selectedStyle = ref({})
@@ -42,14 +45,14 @@ const getProductDetail = async (id, selectedId) => {
 
     // product owner page
     let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
-    console.log(responseStore.data)
+    // console.log(responseStore.data)
     store.value = responseStore.data
 
     // product description page
     description.value = responseProduct.data.description
 
     // product review page
-    let responseReview = await fetch.getProductReview(params.id)
+    let responseReview = await fetch.getProductReview(params.id, currentPage.value)
     console.log(responseReview.data)
     reviews.value = responseReview.data.list
     ratingReview.value = responseProduct.data.totalRating
@@ -58,6 +61,10 @@ const getProductDetail = async (id, selectedId) => {
 const changeStyle = async (idx) => {
     selectedStyle.value = productType.value.styles[idx]
 } 
+
+const sortReview = async (sorted) => {
+    sort.value = sorted
+}
 
 onBeforeMount(() => {
     getProductDetail(params.id, initial)
@@ -74,7 +81,7 @@ onMounted(()=>{
         <BaseProductType :product-style="productType" :selected-style="selectedStyle" @selected-style="changeStyle"/>
         <BaseStore :owner="store"/>
         <BaseDescription :description="description"/>
-        <BaseReview v-if="reviews.length" :product-review="reviews" :total-rating="ratingReview"/>
+        <BaseReview v-if="reviews.length" :product-review="reviews" :total-rating="ratingReview" :sort="sort"/>
         <BaseRecommedation/>
     </div>
     <BaseFooter/>

@@ -1,4 +1,9 @@
 <script setup>
+import { ref } from 'vue'
+
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
+defineEmits(["sortReview"])
 
 let props = defineProps({
     productReview: {
@@ -8,8 +13,15 @@ let props = defineProps({
     totalRating: {
         type: Number,
         required: true
+    },
+    sort: {
+        type: String,
+        required: true
     }
 })
+
+// let sort = ref("")
+// let filter = ref("")
 
 </script>
 <template>
@@ -41,18 +53,21 @@ let props = defineProps({
                     <h6>
                         Sort:
                     </h6>
-                    <select name="Sort">
-                        <option value="" selected>Newest</option>
+                    <select name="Sort" :v-model="sort">
+                        <option value="newest" selected>Newest</option>
+                        <option value="oldest" selected>Oldest</option>
                     </select>
                 </button>
-                <button>
+                <!-- <button>
                     <h6>
                         Filter by:
                     </h6>
-                    <select name="Filter">
+                    <select name="Filter" v-model="filter">
+                        <option value="" selected>All</option>
+                        <option value="" selected>All</option>
                         <option value="" selected>All</option>
                     </select>
-                </button>
+                </button> -->
             </div>
         </div>
 
@@ -64,7 +79,8 @@ let props = defineProps({
                 <!-- info -->
                 <div>
                     <div>
-                        <img src="../../assets/vue.svg" alt="use_img">
+                        <img v-if="review.image" :src="`${origin}/api/image/users/${review.userId}/${review.image}`" alt="use_img">
+                        <img v-else src="../../assets/vue.svg" alt="use_img">
                     </div>
                     <div>
                         <h6>

@@ -60,7 +60,7 @@ const fetch = {
                 validation.function_Status('get all icon garden designer', true,)
                 returnData.status = res.status == 200
                 returnData.data = res.data
-                console.log(returnData)
+                // console.log(returnData)
             }
             return returnData
 
@@ -71,18 +71,18 @@ const fetch = {
     },
 
     // product shop page
-    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
+    getAllProduct: async (page = 1, limit=18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
         let returnData={status:false,data:undefined}
         try {
             // let productList =[]
 
-            let url = `${origin}/api/products?page=${page}`
+            let url = `${origin}/api/products?page=${page}&limit=${limit}`
             if (searchItem.length !== 0) url = url + `&product=${searchItem}`;
             if (type.length !== 0) url = url + `&type=${type}`;
             if (min > 0) url = url + `&min_price=${min}`;
             if (max !== Infinity&&max!=undefined) url = url + `&max_price=${max}`;
             if (rating !== 0) url = url + `&rating=${rating}`;
-            if (tag !== "") url = url + `&tag=${tag}`;
+            if (tag.length !== 0) url = url + `&tag=${tag}`;
             if (sort_name !== undefined) url = url + `&sort_name=${sort_name}`;
             if (sort !== undefined) url = url + `&sort=${sort}`;
 
@@ -148,10 +148,10 @@ const fetch = {
             return returnData
         }
     },
-    getProductReview: async (id, page=1) => {
+    getProductReview: async (id, page=1, sort='newest') => {
         // let returnData={status:false,data:undefined}
         try {
-            let url = `${origin}/api/products/${id}/reviews?&page=${page}`
+            let url = `${origin}/api/products/${id}/reviews?&page=${page}?sort=${sort}`
             let res = await axios.get(url)
             console.log(res.data)
 
@@ -182,7 +182,7 @@ const fetch = {
                 let userInfo = { "email_phone": email, "password": password }
                 let res = await axios.post(url, userInfo)
                 // console.log(res.data)
-                cookie.encrypt(res.data, "information")
+                // cookie.encrypt(res.data, "information")
                 // cookie.decrypt("information")
                 validation.function_Status("login", true)
                 returnData.status=true
