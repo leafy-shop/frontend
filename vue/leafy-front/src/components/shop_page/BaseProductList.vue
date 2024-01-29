@@ -135,6 +135,9 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     font-size: min(v-bind(changeSize(1.389,'dvw')),v-bind(changeSize(20)));
     font-weight: 500;
     line-height: 160%; /* 32px */
+    text-overflow: ellipsis;
+    text-align: start;
+    overflow: hidden;
 }
 
 .info_quality{

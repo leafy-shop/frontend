@@ -206,7 +206,9 @@ const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",param
 
 @media (width<=376px){
     .wrapper_plant_inspo{
-        padding: min(6.383dvw, 24px) min(4.255dvw, 16px) min(7.713dvw, 28px) min(4.255dvw, 16px);
+
+        /* padding: min(6.383dvw, 24px) min(4.255dvw, 16px) min(7.713dvw, 28px) min(4.255dvw, 16px); */
+        padding: min(6.383dvw, 24px) 0px min(7.713dvw, 28px) 0px;
         gap: min(2.128dvw, 8px);
         /* display: flex; */
     }
@@ -217,10 +219,16 @@ const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",param
         letter-spacing: min(0.053dvw, 0.2px);
     }
     .container_plant_inspo{
+        width: fit-content;
+        padding: 0px min(4.255dvw,16px);
         gap: min(2.128dvw, 8px);
     }
     .overflow_plant_inspo{
+        width: min(100dvw,376px);
         overflow-x: auto;
+    }
+    .overflow_plant_inspo::-webkit-scrollbar{
+        display: none;
     }
     .plant_type{
         width: min(44.681vw, 168px);

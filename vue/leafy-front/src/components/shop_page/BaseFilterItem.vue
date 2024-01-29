@@ -24,11 +24,13 @@ const sortBy = ref(undefined)
 // const showFilter=computed(()=>props.isShowFilter)
 // const isShowFilter=ref(showFilter.value)
 
-const closeFilter = () => {
+const closeFilter = (i) => {
     // console.log(isShowFilter)
     // props.isShowFilter=!props.isShowFilter
     console.log('close from filter : ' + !props.isShowFilter)
-    return emit('closeFilter', { show: !props.isShowFilter })
+    
+    return emit('closeFilter', { show: i==undefined?false:i})
+    // return emit('closeFilter', { show: i==undefined?!props.isShowFilter:i})
 }
 // this for show filter
 // const showFilter=ref(true)
@@ -60,7 +62,9 @@ const navigationTo = () => {
     return window.scrollTo({ top: 0, behavior: "smooth" })
 }
 
-const applyFilter = () => {
+const applyFilter = (cf) => {
+    if(cf!=undefined)closeFilter(cf);
+
     emit('filterItem', {
         category: category.value,
         min: min.value,
@@ -70,38 +74,10 @@ const applyFilter = () => {
         sortBy: sortBy.value
     })
     console.log(categoryArr)
-    validation.navigationTo()
+    validation.navigationTo(top)
+    
 }
-const clearFilterItem = () => {
-    //get element and change HTML tag attribute checked
-    let check = document.getElementsByClassName("category_check")
-    for (let i = 0; i < check.length; i++) {
-        check[i].checked = false
-    }
 
-    for (let i = 0; i < tagArr.length; i++) {
-        let eSelected = document.getElementsByClassName("tag_" + i)
-        console.log(eSelected)
-        for (let i = 0; i < eSelected.length; i++) {
-            eSelected[i].removeAttribute("style")
-        }
-    }
-
-    // tag_list.removeAttribute('style')
-
-    category.value = []
-    min.value = undefined
-    max.value = undefined
-    rating.value = undefined
-    tag.value = []
-    applyFilter()
-
-    // categoryArr.value = categoryArr.map(cate=>{
-
-    //     cate.selected=false 
-    //     return cate
-    // })
-}
 
 
 // function for select category
@@ -135,6 +111,74 @@ const arraySelector = (inputName = "", arr = [], cName) => {
     console.log(arr)
 }
 
+
+
+const removeAllRatingSelecter=()=>{
+    let pointList =document.getElementsByClassName('point_list')
+
+    for(let i=0;i<pointList.length;i++){
+        for(let p=0;p<pointList[i].getElementsByTagName('path').length;p++){
+            pointList[i].getElementsByTagName('path')[p].setAttribute('style','stroke: #FFCE3D')
+        }
+    }
+}
+
+// for change color rating button
+const ratingSelecter=(number,cName,full)=>{
+    let eSelected=document.getElementsByClassName(`${cName}`)
+
+    // remove all style first
+    removeAllRatingSelecter()
+
+    // change color and value
+    if(number!=rating.value){
+        // get position from selection of full start
+        let pointFull =document.getElementsByClassName(full)
+
+        // change stroke and fill color
+        // first change windows and phone then loop change stroke and change only full star
+        for(let i=0;i<eSelected.length;i++){
+            for(let p=0;p<eSelected[i].getElementsByTagName('path').length;p++){
+                eSelected[i].getElementsByTagName('path')[p].setAttribute('style','stroke: #26AC34;')
+                for(let q=0;q<pointFull.length;q++){
+                    pointFull[q].getElementsByTagName('path')[0].setAttribute('style','fill:#26AC34 ;')
+
+                }
+            }
+        }
+
+        rating.value=number
+    }else{
+        removeAllRatingSelecter()
+        rating.value=undefined
+    }
+    console.log(rating.value)
+}
+
+const clearFilterItem = () => {
+    //get element and change HTML tag attribute checked
+    let check = document.getElementsByClassName("category_check")
+    for (let i = 0; i < check.length; i++) {
+        check[i].checked = false
+    }
+
+    for (let i = 0; i < tagArr.length; i++) {
+        let eSelected = document.getElementsByClassName("tag_" + i)
+        console.log(eSelected)
+        for (let i = 0; i < eSelected.length; i++) {
+            eSelected[i].removeAttribute("style")
+        }
+    }
+    // remove all point
+    removeAllRatingSelecter()
+
+    category.value = []
+    min.value = undefined
+    max.value = undefined
+    rating.value = undefined
+    tag.value = []
+    applyFilter()
+}
 onUpdated(() => {
     // console.log("rating : "+rating.value)
     // console.log("sort : "+sortBy.value)
@@ -179,10 +223,10 @@ onUpdated(() => {
             <div class="point_list">
 
                 <div v-for="(value, index) in 5" class="point_item" :key="index">
-                    <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)" v-model="rating" />
-                    <label :for="`rating_${value}`">
+                    <!-- <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)" v-model="rating" /> -->
+                    <label @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)"  :for="`rating_${value}`" :class="`rating_${value}`">
 
-                        <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf">
+                        <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf" :class="`point_item_full_${index}`">
                             <!-- {{ vf }} -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path
@@ -239,7 +283,7 @@ onUpdated(() => {
                 <h4>
                     Filter
                 </h4>
-                <div @click="closeFilter">
+                <div @click="closeFilter(false)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M6 6L18 18M6 18L18 6L6 18Z" stroke="#212121" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" />
@@ -293,11 +337,11 @@ onUpdated(() => {
                 <div class="point_list">
 
                     <div v-for="(value, index) in 5" class="point_item" :key="index">
-                        <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)"
-                            v-model="rating" />
-                        <label :for="`rating_${value}`">
+                        <!-- <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)"
+                            v-model="rating" /> -->
+                        <label @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)" :for="`rating_${value}`" :class="`rating_${value}`">
 
-                            <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf">
+                            <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf" :class="`point_item_full_${index}`">
                                 <!-- {{ vf }} -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
                                     fill="none">
@@ -342,7 +386,7 @@ onUpdated(() => {
                 <button @click="clearFilterItem">
                     Clear
                 </button>
-                <button @click="applyFilter">
+                <button @click="applyFilter(false)">
                     apply
                 </button>
             </div>
@@ -397,6 +441,7 @@ onUpdated(() => {
     height: min(1.389dvw, 20px);
     width: fit-content;
     gap: min(0.556dvw, 8px);
+    
 }
 
 .category_item input {
@@ -405,6 +450,7 @@ onUpdated(() => {
     height: min(1.111dvw, 16px);
     margin: auto;
     accent-color: #168A22;
+    cursor: pointer;
 }
 
 .category_list div label {
@@ -413,6 +459,7 @@ onUpdated(() => {
     line-height: 144%;
     /* 20.16px */
     letter-spacing: min(0.014dvw, 0.2px);
+    cursor: pointer;
 }
 
 .price {
@@ -511,6 +558,7 @@ onUpdated(() => {
     height: min(1.389dvw, 20px);
     border: none;
     gap: min(0.278dvw, 4px);
+    cursor: pointer;
 }
 
 .point_item input {

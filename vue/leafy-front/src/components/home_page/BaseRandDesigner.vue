@@ -246,7 +246,7 @@ onBeforeMount(()=>{
     border-color: #fff;
     cursor: pointer;
 }
-.scroll_button button:hover{
+.scroll_button button:hover {
     border-color: #26AC34;
     background-color: #fff;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
@@ -255,7 +255,7 @@ onBeforeMount(()=>{
     width: min(2.222dvw, 32px);
     height: min(2.222dvw, 32px);
 }
-.scroll_button svg:hover path{
+.scroll_button button:hover svg path{
     stroke: #26AC34;
 }
 
