@@ -204,7 +204,7 @@ onMounted(()=>{
     /* height: 1672px; */
     height: fit-content;
     width: auto;
-    padding:min(1.389dvw,20px) 0px ;
+    padding: min(1.389dvw,20px) 0px;
     align-items: center;
     justify-content: center;
     background-color: #F5F5F5;

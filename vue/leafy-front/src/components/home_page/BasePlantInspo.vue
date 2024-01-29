@@ -161,7 +161,7 @@ const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",param
     }
     .wrapper_plant_inspo h3{
         /* height: min(6.452dvw, 48px); */
-        font-size: min(2.688dvw, 20px);
+        font-size: min(1.882dvw, 14px);
         padding: min(1.075dvw, 8px) 0px;
         letter-spacing: min(0.032dvw, 0.24px);
     }

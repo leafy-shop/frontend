@@ -362,10 +362,7 @@ onUpdated(() => {
     padding: min(1.389dvw, 20px) 0px;
     gap: min(1.389dvw, 20px);
     background-color: #F5F5F5;
-
 }
-
-
 
 .category {
     display: flex;
@@ -375,7 +372,7 @@ onUpdated(() => {
     height: fit-content;
     gap: min(0.833dvw, 12px);
     padding-bottom: min(1.389dvw, 20px);
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw, 1px) solid;
     border-color: #E0E0E0;
 }
 
@@ -407,8 +404,7 @@ onUpdated(() => {
     width: min(1.111dvw, 16px);
     height: min(1.111dvw, 16px);
     margin: auto;
-    accent-color: #26AC34;
-
+    accent-color: #168A22;
 }
 
 .category_list div label {
@@ -426,7 +422,7 @@ onUpdated(() => {
     flex-direction: column;
     padding-bottom: min(1.389dvw, 20px);
     gap: min(0.833dvw, 12px);
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw, 1px) solid;
     border-color: #E0E0E0;
 }
 
@@ -455,14 +451,21 @@ onUpdated(() => {
 }
 
 .price_filter input {
-    width: min(6.528dvw, 94px);
+    /* width: min(6.528dvw, 94px); */
+    width: 100%;
     height: min(2.5dvw, 36px);
     padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
-    border-radius: 4px;
+    border-radius: min(0.278dvw, 4px);
     font-size: min(0.972dvw, 14px);
     /* border: none; */
-    border: 1px solid #E0E0E0;
+    border: min(0.069dvw, 1px) solid #E0E0E0;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.price_filter input:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+}
+.price_filter input:active {
+    border: min(0.069dvw, 1px) solid #26AC34;
 }
 
 /* .price_button {
@@ -483,10 +486,12 @@ onUpdated(() => {
     height: min(12.778dvw, 184px);
     gap: min(0.833dvw, 12px);
     padding-bottom: min(1.389dvw, 20px);
+    border-bottom: min(0.069dvw, 1px) solid;
+    border-color: #E0E0E0;
 }
 
 .point h4 {
-    height: 36px;
+    height: min(2.5dvw, 36px);
     font-size: min(1.667dvw, 24px);
 }
 
@@ -515,6 +520,10 @@ onUpdated(() => {
 .point_item label {
     display: flex;
     gap: min(0.278dvw, 4px);
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    height: min(1.389dvw, 20px);
 }
 
 .point_item label div {
@@ -525,6 +534,12 @@ onUpdated(() => {
 .point_item label div svg {
     width: min(1.389dvw, 20px);
     height: min(1.389dvw, 20px);
+}
+/* .point_item label div svg:nth-child(1):hover {
+    fill: #26AC34;
+} */
+.point_item label div svg path:nth-child(1):hover {
+    stroke: #26AC34;
 }
 
 .point_item h5 {
@@ -545,7 +560,7 @@ onUpdated(() => {
     flex-direction: column;
     gap: min(0.833dvw, 12px);
     padding-bottom: min(1.389dvw, 20px);
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw, 1px) solid;
     border-color: #E0E0E0;
 }
 
@@ -591,7 +606,10 @@ onUpdated(() => {
     color: #757575;
     cursor: pointer;
 }
-
+.tag_list li button:hover {
+    background-color: #26AC34;
+    color: #fff;
+}
 
 
 .wrapper_apply_clear {
@@ -604,22 +622,38 @@ onUpdated(() => {
 }
 
 .wrapper_apply_clear button:nth-child(1) {
-    background: white;
+    background: #fff;
     color: #212121;
-    border: 1px solid #E0E0E0;
+    border: min(0.069dvw, 1px) solid;
+    border-color: #E0E0E0;
+    border-radius: min(0.278dvw, 4px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.wrapper_apply_clear button:nth-child(1):hover {
+    border-color: #26AC34;
+    background: #fff;
 }
 
 .wrapper_apply_clear button {
-    width: min(15dvw, 216px);
+    /* width: min(15dvw, 216px); */
+    width: 100%;
     height: min(2.778dvw, 40px);
     margin: auto;
     background-color: #26AC34;
     color: white;
-    border: none;
-    border-radius: 4px;
+    border: min(0.069dvw, 1px) solid;
+    border-color: #26AC34;
+    border-radius: min(0.278dvw, 4px);
     cursor: pointer;
     font-size: min(1.111dvw, 16px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.wrapper_apply_clear button:hover {
+    color: #26AC34;
+    background: #fff;
 }
 
 .wrapper_filter_2 {
@@ -689,8 +723,10 @@ onUpdated(() => {
         height: min(3.226dvw, 24px);
         padding: min(0.538dvw, 4px) min(1.075dvw, 8px);
         font-size: min(1.613dvw, 12px);
+        border: min(0.134dvw, 1px) solid #E0E0E0;
+        border-radius: min(0.538dvw, 4px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     }
-
     /* .price_button{
         width: ;
     } */
@@ -718,8 +754,12 @@ onUpdated(() => {
 
     .point_item label {
         gap: min(0.538dvw, 4px);
+        height: min(2.151dvw, 16px);
     }
-
+    .point_item label div {
+        height: fit-content;
+        width: fit-content;
+    }
     .point_item label div svg {
         width: min(2.151dvw, 16px);
         height: min(2.151dvw, 16px);
@@ -751,17 +791,25 @@ onUpdated(() => {
         height: min(2.688dvw, 20px);
         padding: min(0.538dvw, 4px) min(1.075dvw, 8px);
         font-size: min(1.344dvw, 10px);
+        border-radius: min(1.075dvw, 8px);
     }
 
     .wrapper_apply_clear {
         gap: min(1.075dvw, 8px);
+    }
+    .wrapper_apply_clear button:nth-child(1) {
+        color: #212121;
+        border: min(0.134dvw, 1px) solid;
+        border-color: #E0E0E0;
+        border-radius: min(0.538dvw, 4px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     }
 
     .wrapper_apply_clear button {
         width: min(20.43dvw, 152px);
         height: min(4.839dvw, 36px);
         font-size: min(1.882dvw, 14px);
-
+        border-radius: min(0.538dvw, 4px);
     }
 }
 
@@ -769,7 +817,7 @@ onUpdated(() => {
     .overlay_filter {
         width: 100dvw;
         height: 100dvh;
-        padding: 16px;
+        padding: min(4.255dvw, 16px);
         overflow: auto;
         position: absolute;
         top: 0;
@@ -787,33 +835,32 @@ onUpdated(() => {
         flex-direction: column;
         width: 100%;
         height: fit-content;
-        gap: 12px;
+        gap: min(3.191dvw, 12px);
     }
 
     .close_filter {
         display: flex;
         width: 100%;
-        height: 24px;
+        height: min(6.383dvw, 24px);
         justify-content: space-between;
     }
 
     .close_filter h4 {
-        font-size: 16px;
+        font-size: min(4.255dvw, 16px);
         font-weight: 700;
         line-height: 150%;
         /* 24px */
-        letter-spacing: 0.2px;
+        letter-spacing: min(0.053dvw, 0.2px);
     }
 
     .close_filter div {
-        width: 24px;
-        height: 24px;
+        width: min(6.383dvw, 24px);
+        height: min(6.383dvw, 24px);
     }
 
     .close_filter div svg {
         width: inherit;
         height: inherit;
-
     }
 
     .sort {
@@ -821,20 +868,20 @@ onUpdated(() => {
         flex-direction: column;
         width: 100%;
         height: fit-content;
-        gap: 12px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid;
+        gap: min(3.191dvw, 12px);
+        padding-bottom: min(4.255dvw, 16px);
+        border-bottom: min(0.069dvw, 1px) solid;
         border-color: #E0E0E0;
     }
 
     .sort h4 {
         width: inherit;
-        height: 20px;
-        font-size: 14px;
+        height: min(3.723dvw, 14px);
+        font-size: min(3.723dvw, 14px);
         font-weight: 700;
         line-height: 144%;
         /* 20.16px */
-        letter-spacing: 0.2px;
+        letter-spacing: min(0.053dvw, 0.2px);
     }
 
     .sort_list {
@@ -842,160 +889,169 @@ onUpdated(() => {
         flex-direction: column;
         width: 100%;
         height: inherit;
-        gap: 12px;
+        gap: min(2.128dvw, 8px);
     }
 
     .sort_item {
         display: flex;
         width: fit-content;
-        height: 16px;
-        gap: 8px;
+        height: min(4.255dvw, 16px);
+        gap: min(2.128dvw, 8px);
     }
 
     .sort_item input {
-        width: 12px;
-        height: 12px;
+        width: min(3.191dvw, 12px);
+        height: min(3.191dvw, 12px);
         margin: auto;
+        accent-color: #168A22;
     }
 
     .sort_item label {
-        font-size: 12px;
+        font-size: min(3.191dvw, 12px);
     }
 
     .category {
         width: 100%;
         height: fit-content;
-        gap: 12px;
-        padding-bottom: 16px;
+        gap: min(3.191dvw, 12px);
+        padding-bottom: min(4.255dvw, 16px);
     }
 
     .category h4 {
         width: inherit;
-        height: 20px;
-        font-size: 14px;
+        height: min(5.319dvw, 20px);
+        font-size: min(3.723dvw, 14px);
     }
 
     .category_list {
         width: inherit;
         height: fit-content;
-        gap: 12px;
+        gap: min(2.128dvw, 8px);
     }
 
     .category_item {
         width: fit-content;
-        height: 16px;
-        gap: 8px;
+        height: min(4.255dvw, 16px);
+        gap: min(2.128dvw, 8px);
     }
 
     .category_item input {
-        width: 12px;
-        height: 12px;
+        width: min(3.191dvw, 12px);
+        height: min(3.191dvw, 12px);
     }
 
     .category_list div label {
-        font-size: 12px;
+        font-size: min(3.191dvw, 12px);
     }
 
     .price {
         width: 100%;
         height: fit-content;
-        padding-bottom: 16px;
-        gap: 12px;
+        padding-bottom: min(4.255dvw, 16px);
+        gap: min(3.191dvw, 12px);
     }
 
     .price h4 {
-        height: 20px;
-        font-size: 14px;
+        height: min(5.319dvw, 20px);
+        font-size: min(3.723dvw, 14px);
     }
 
     .price_filter {
-        height: 24px;
-        gap: 4px;
+        height:  min(6.383dvw, 24px);
+        gap: min(0.537dvw, 4px);
     }
 
     .price_filter input {
-        width: 164px;
-        height: 24px;
-        padding: 4px 8px;
-        font-size: 12px;
+        /* width: min(43.617dvw, 164px); */
+        width: 100%;
+        height: min(6.383dvw, 24px);
+        padding: min(0.537dvw, 4px) min(2.128dvw, 8px);
+        font-size: min(3.191dvw, 12px);
     }
 
     .price_filter h4 {
-        width: 8px;
-        height: 24px;
-        font-size: 16px;
+        width: min(2.128dvw, 8px);
+        height: min(6.383dvw, 24px);
+        font-size: min(4.255dvw, 16px);
     }
 
     .point {
+        display: flex;
         width: 100%;
         height: fit-content;
-        gap: 8px;
+        gap: min(2.128dvw, 8px);
+        padding-bottom: min(4.255dvw, 16px);
     }
 
     .point h4 {
-        height: 20px;
-        font-size: 14px;
+        height: min(5.319dvw, 20px);
+        font-size: min(3.723dvw, 14px);
     }
 
     .point_list {
-        height: 96px;
-        padding-inline: 4px;
-        gap: 4px;
+        /* height: min(25.532dvw, 96px); */
+        height: fit-content;
+        padding-inline: min(0.537dvw, 4px);
+        gap: min(0.537dvw, 4px);
     }
 
     .point_item {
-        height: 16px;
-        gap: 4px;
+        height: min(4.255dvw, 16px);
+        gap: min(0.537dvw, 4px);
     }
 
     .point_item label {
-        gap: 4px;
+        gap: min(0.537dvw, 4px);
     }
 
     .point_item label div svg {
-        height: 16px;
-        width: 16px;
+        height: min(4.255dvw, 16px);
+        width: min(4.255dvw, 16px);
     }
 
     .point_item h5 {
-        font-size: 10px;
+        font-size: min(2.66dvw, 10px);
     }
 
     .pop_tag {
         width: 100%;
-        height: 96px;
-        gap: 12px;
-        padding-bottom: 16px;
+        /* height: min(25.532dvw, 96px); */
+        height: fit-content;
+        gap: min(3.191dvw, 12px);
+        padding-bottom: min(4.255dvw, 16px);
     }
 
     .pop_tag h4 {
-        height: 20px;
-        font-size: 14px;
+        height: min(5.319dvw, 20px);
+        font-size: min(3.723dvw, 14px);
     }
 
     .tag_list {
-        gap: 8px;
+        gap: min(2.128dvw, 8px);
     }
 
     .tag_list li button {
-        height: 20px;
-        padding: 4px 8px;
-        font-size: 10px;
+        height: min(5.319dvw, 20px);
+        padding: min(0.537dvw, 4px) min(2.128dvw, 8px);
+        font-size: min(2.66dvw, 10px);
+        border-radius: min(2.128dvw, 8px);
     }
 
     .wrapper_apply_clear {
         width: 100%;
         flex-direction: row;
-        gap: 8px;
+        gap: min(2.128dvw, 8px);
+        border-radius: min(0.537dvw, 4px);
     }
 
     .wrapper_apply_clear button {
-        width: 168px;
-        height: 36px;
-        padding: 8px 12px;
-        font-size: 14px;
+        width: min(44.681dvw, 168px);
+        height: min(9.574dvw, 36px);
+        padding: min(2.128dvw, 8px) min(3.191dvw, 12px);
+        font-size: min(3.723dvw, 14px);
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
         cursor: pointer;
+        border-radius: min(0.537dvw, 4px);
     }
 
 
