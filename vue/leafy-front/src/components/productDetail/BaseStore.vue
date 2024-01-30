@@ -1,4 +1,13 @@
 <script setup>
+
+let props = defineProps({
+    owner: {
+        type: Object,
+        default: {},
+        required: true
+    }
+})
+
 </script>
 <template>
     <div class="wrapper_store">
@@ -9,7 +18,8 @@
         <!-- click to chat or view shop profile -->
         <div class="store">
             <h4>
-                GardenName
+                <!-- GardenName -->
+                {{ owner.username }}
             </h4>
             <div>
                 <button>
@@ -54,19 +64,18 @@
                         100%
                     </h5>
                 </div>
-                <!-- time -->
+                <!-- joined -->
                 <div>
                     <h5>
-                        Response Time
+                        Joined
                     </h5>
                     <h5>
-                        within hours
+                        {{ owner.time }}
                     </h5>
                 </div>
             </div>
-            <!-- follow and joined -->
+            <!-- follow and joined
             <div>
-                <!-- follow -->
                 <div>
                     <h5>
                         Follow
@@ -75,16 +84,15 @@
                         1
                     </h5>
                 </div>
-                <!-- joined -->
                 <div>
                     <h5>
                         Joined
                     </h5>
                     <h5>
-                        2 days ago
+                        {{ owner.time }}
                     </h5>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

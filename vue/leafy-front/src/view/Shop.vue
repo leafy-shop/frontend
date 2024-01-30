@@ -57,7 +57,7 @@ const getProduct=async(page)=>{
     console.log(ratingFilter.value)
     console.log(tagFilter.value)
     
-    let {status,data} =await fetch.getAllProduct(page, searchItem.value, categoryFilter.value.join(),
+    let {status,data} =await fetch.getAllProduct(page, 18, searchItem.value, categoryFilter.value.join(),
     minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value)
     console.log(data.list)
     // productList.value=data

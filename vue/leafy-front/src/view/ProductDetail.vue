@@ -1,6 +1,6 @@
 <script setup>
 import {useRoute} from 'vue-router'
-import {ref,onMounted} from 'vue'
+import {ref,onMounted, onBeforeMount} from 'vue'
 import BaseProductType from '../components/productDetail/BaseProductType.vue'
 import BaseStore from '../components/productDetail/BaseStore.vue'
 import BaseMenu from '../components/BaseMenu.vue'
@@ -12,7 +12,63 @@ import validation from '../JS/validation'
 import fetch from '../JS/api';
 const {params} =useRoute()
 
+// initial value for prop in component
+let productType = ref({})
+let store = ref({})
+let description = ref("")
 
+let reviews = ref([])
+let ratingReview = ref(0)
+let sort = ref('newest')
+let currentPage = ref(1)
+
+// selected styles
+let selectedStyle = ref({})
+let initial = 0
+
+const getProductDetail = async (id, selectedId) => {
+    // console.log(id)
+    let responseProduct = await fetch.getProductDetail(id)
+    // console.log(data)
+    
+    // product type page
+    productType.value.itemId = params.id
+    productType.value.name = responseProduct.data.name
+    productType.value.totalRating = responseProduct.data.totalRating
+    productType.value.sold = responseProduct.data.sold
+    productType.value.price = responseProduct.data.price
+    productType.value.styles = responseProduct.data.styles
+    productType.value.image = responseProduct.data.image
+    selectedStyle.value = productType.value.styles[selectedId]
+    // console.log(productType.value)
+    // console.log(selectedStyle.value)
+
+    // product owner page
+    let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
+    // console.log(responseStore.data)
+    store.value = responseStore.data
+
+    // product description page
+    description.value = responseProduct.data.description
+
+    // product review page
+    let responseReview = await fetch.getProductReview(params.id, currentPage.value)
+    console.log(responseReview.data)
+    reviews.value = responseReview.data.list
+    ratingReview.value = responseProduct.data.totalRating
+}
+
+const changeStyle = async (idx) => {
+    selectedStyle.value = productType.value.styles[idx]
+} 
+
+const sortReview = async (sorted) => {
+    sort.value = sorted
+}
+
+onBeforeMount(() => {
+    getProductDetail(params.id, initial)
+})
 
 onMounted(()=>{
     validation.navigationTo()
@@ -22,10 +78,10 @@ onMounted(()=>{
 <!-- this is pro detail {{ params.id }} -->
     <BaseMenu class="menu" />
     <div class="wrapper_content">
-        <BaseProductType/>
-        <BaseStore/>
-        <BaseDescription/>
-        <BaseReview/>
+        <BaseProductType :product-style="productType" :selected-style="selectedStyle" @selected-style="changeStyle"/>
+        <BaseStore :owner="store"/>
+        <BaseDescription :description="description"/>
+        <BaseReview v-if="reviews.length" :product-review="reviews" :total-rating="ratingReview" :sort="sort"/>
         <BaseRecommedation/>
     </div>
     <BaseFooter/>

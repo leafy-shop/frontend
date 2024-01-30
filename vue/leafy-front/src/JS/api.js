@@ -60,7 +60,7 @@ const fetch = {
                 validation.function_Status('get all icon garden designer', true,)
                 returnData.status = res.status == 200
                 returnData.data = res.data
-                console.log(returnData)
+                // console.log(returnData)
             }
             return returnData
 
@@ -71,18 +71,18 @@ const fetch = {
     },
 
     // product shop page
-    getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
+    getAllProduct: async (page = 1, limit=18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
         let returnData={status:false,data:undefined}
         try {
             // let productList =[]
 
-            let url = `${origin}/api/products?page=${page}`
+            let url = `${origin}/api/products?page=${page}&limit=${limit}`
             if (searchItem.length !== 0) url = url + `&product=${searchItem}`;
             if (type.length !== 0) url = url + `&type=${type}`;
             if (min > 0) url = url + `&min_price=${min}`;
             if (max !== Infinity&&max!=undefined) url = url + `&max_price=${max}`;
             if (rating !== 0) url = url + `&rating=${rating}`;
-            if (tag !== "") url = url + `&tag=${tag}`;
+            if (tag.length !== 0) url = url + `&tag=${tag}`;
             if (sort_name !== undefined) url = url + `&sort_name=${sort_name}`;
             if (sort !== undefined) url = url + `&sort=${sort}`;
 
@@ -105,17 +105,71 @@ const fetch = {
         }
 
     },
+
+    // product detail page
     getProductDetail: async(productId)=>{
         let returnData={status:false,data:undefined}
         try {
-            let url = `${origin}/api/products?page=${page}`
+            let url = `${origin}/api/products/${productId}`
             let res = await axios.get(url)
+
+            if (res.data == {} || res.data === null) {
+                validation.function_Status('get product detail id ' + productId, false, "cannot get product detail from back-end!!!")
+            } else {
+                validation.function_Status('get product detail id ' + productId, true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
         } catch (error) {
-            validation.function_Status('get all product', false, error)
+            validation.function_Status('get product detail id ' + productId, false, error)
             return returnData
         }
         
     },
+
+    getStore: async (owner) => {
+        // let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/users/views/${owner}`
+            let res = await axios.get(url)
+
+            if (res.data == null || res.data == undefined) {
+                validation.function_Status('get product owner ' + owner, false, "cannot get all garden designer from back-end!!!")
+            } else {
+                validation.function_Status('get product owner ' + owner, true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner', false, error)
+            return returnData
+        }
+    },
+    getProductReview: async (id, page=1, sort='newest') => {
+        // let returnData={status:false,data:undefined}
+        try {
+            let url = `${origin}/api/products/${id}/reviews?&page=${page}?sort=${sort}`
+            let res = await axios.get(url)
+            console.log(res.data)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get product owner review', false, "cannot get all garden designer from back-end!!!")
+            } else {
+                validation.function_Status('get product owner review', true,)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner review', false, error)
+            return returnData
+        }
+    },
+
     // authentication
     login: async (email = undefined, password = undefined) => {
         let returnData ={
@@ -128,7 +182,7 @@ const fetch = {
                 let userInfo = { "email_phone": email, "password": password }
                 let res = await axios.post(url, userInfo)
                 // console.log(res.data)
-                cookie.encrypt(res.data, "information")
+                // cookie.encrypt(res.data, "information")
                 // cookie.decrypt("information")
                 validation.function_Status("login", true)
                 returnData.status=true
@@ -178,5 +232,30 @@ const fetch = {
         }
         return -1
     },
+    signOut: async () => {
+        let information = cookie.get("information")
+        let returnData = { status: 500, data: undefined }
+        // console.log(information.email)
+        
+        if (information !== undefined) {
+            try {
+                let url = `${origin}/api/authentication/signout`
+
+                let res = await axios.get(url)
+                validation.function_Status("sign out", true)
+
+                returnData.data = res.data
+                returnData.status = res.status
+
+                // remove information account in client cookie
+                cookie.remove("information")
+
+                return returnData
+            } catch (error) {
+                validation.function_Status("sign out", false, error)
+                return false
+            }
+        }
+    }
 }
 export default fetch

@@ -67,8 +67,11 @@ const routes=[
 const router=createRouter({history,routes})
 
 
-router.beforeEach((to,from)=>{
-    // await fetch.getRefresh()
+router.beforeEach(async (to,from)=>{
+    // if(to.name !== "SignIn"){
+        
+    // }
+    await fetch.getRefresh()
     // keyPass= cookie.get("information")
     // console.log(keyPass)
     
