@@ -1007,14 +1007,14 @@ onUpdated(() => {
 
     .price_filter {
         height:  min(6.383dvw, 24px);
-        gap: min(0.537dvw, 4px);
+        gap: min(1.064dvw, 4px);
     }
 
     .price_filter input {
         /* width: min(43.617dvw, 164px); */
         width: 100%;
         height: min(6.383dvw, 24px);
-        padding: min(0.537dvw, 4px) min(2.128dvw, 8px);
+        padding: min(1.064dvw, 4px) min(2.128dvw, 8px);
         font-size: min(3.191dvw, 12px);
     }
 
@@ -1040,17 +1040,17 @@ onUpdated(() => {
     .point_list {
         /* height: min(25.532dvw, 96px); */
         height: fit-content;
-        padding-inline: min(0.537dvw, 4px);
-        gap: min(0.537dvw, 4px);
+        padding-inline: min(1.064dvw, 4px);
+        gap: min(1.064dvw, 4px);
     }
 
     .point_item {
         height: min(4.255dvw, 16px);
-        gap: min(0.537dvw, 4px);
+        gap: min(1.064dvw, 4px);
     }
 
-    .point_item div {
-        gap: min(0.537dvw, 4px);
+    .point_item label {
+        gap: min(1.064dvw, 4px);
     }
 
     .point_item div div svg {
@@ -1081,7 +1081,7 @@ onUpdated(() => {
 
     .tag_list li button {
         height: min(5.319dvw, 20px);
-        padding: min(0.537dvw, 4px) min(2.128dvw, 8px);
+        padding: min(1.064dvw, 4px) min(2.128dvw, 8px);
         font-size: min(2.66dvw, 10px);
         border-radius: min(2.128dvw, 8px);
     }
@@ -1090,7 +1090,7 @@ onUpdated(() => {
         width: 100%;
         flex-direction: row;
         gap: min(2.128dvw, 8px);
-        border-radius: min(0.537dvw, 4px);
+        border-radius: min(1.064dvw, 4px);
     }
 
     .wrapper_apply_clear button {
@@ -1100,7 +1100,7 @@ onUpdated(() => {
         font-size: min(3.723dvw, 14px);
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
         cursor: pointer;
-        border-radius: min(0.537dvw, 4px);
+        border-radius: min(1.064dvw, 4px);
     }
 
 

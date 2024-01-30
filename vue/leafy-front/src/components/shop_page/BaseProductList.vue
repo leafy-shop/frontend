@@ -189,7 +189,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     }
     .grid_item{
         width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152)));
-        height: min(v-bind(changeSize(32.796,"dvw")),v-bind(changeSize(244)));
+        height: min(v-bind(changeSize(32.796,'dvw')),v-bind(changeSize(244)));
     }
     .product_img{
         height: min(v-bind(changeSize(19.892,'dvw')),v-bind(changeSize(148)));
@@ -200,7 +200,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
         gap: min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
     }
     .product_info h4{
-        height: min(v-bind(changeSize(3.226,'dvw')),v-bind(changeSize(2)));
+        height: min(v-bind(changeSize(3.226,'dvw')),v-bind(changeSize(24)));
         font-size: min(v-bind(changeSize(2.151,'dvw')),v-bind(changeSize(16)));
     }
     .info_quality{
