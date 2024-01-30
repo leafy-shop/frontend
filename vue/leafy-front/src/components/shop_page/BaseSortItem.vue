@@ -68,6 +68,19 @@ onUpdated(()=>{
                 </button>
             </div>
         </div>
+        <button class="filter_b" @click="showFilter">
+            <h5>
+                filter
+            </h5>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2.66666 5.3335H8.66665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.3333 5.3335L13.3333 5.3335" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.33331 10.6665L13.3333 10.6665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.66666 10.6665H4.66665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
+                <ellipse cx="5.99999" cy="10.6668" rx="1.33333" ry="1.33333" stroke="#292929"/>
+                <ellipse cx="9.99999" cy="5.33333" rx="1.33333" ry="1.33333" stroke="#292929"/>
+            </svg>
+        </button>
         <div class="sort_move">
             <h5>
                 <span>{{props.changePage.currentPage}}</span>/{{props.changePage.totalPage}}
@@ -85,19 +98,7 @@ onUpdated(()=>{
                 </button>
             </div>
         </div>
-        <button class="filter_b" @click="showFilter">
-            <h5>
-                filter
-            </h5>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M2.66666 5.3335H8.66665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.3333 5.3335L13.3333 5.3335" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7.33331 10.6665L13.3333 10.6665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2.66666 10.6665H4.66665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
-                <ellipse cx="5.99999" cy="10.6668" rx="1.33333" ry="1.33333" stroke="#292929"/>
-                <ellipse cx="9.99999" cy="5.33333" rx="1.33333" ry="1.33333" stroke="#292929"/>
-            </svg>
-        </button>
+        
     </div>
 </template>
 <style scoped>
@@ -110,7 +111,7 @@ onUpdated(()=>{
     width: inherit;
     height: min(5.278dvw,76px);
     padding: min(1.389dvw,20px);
-    border-radius: 8px;
+    border-radius: min(0.556dvw, 8px);
     background-color: #EEE;
 }
 .sort_type{
@@ -136,7 +137,7 @@ onUpdated(()=>{
     overflow: auto;
 }
 .sort_item{
-    width:fit-content;
+    width: fit-content;
     height: min(2.5dvw,36px);
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
     border-radius: min(0.278dvw,4px);
@@ -147,6 +148,15 @@ onUpdated(()=>{
     letter-spacing: min(0.014dvw,0.2px);
     background: #FFF;
     cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    color: #212121;
+}
+.sort_item:hover {
+    background: #26AC34;
+    color: #FFF;
 }
 .sort_move{
     display: flex;
@@ -170,14 +180,22 @@ onUpdated(()=>{
     height: fit-content;
     gap: min(0.278dvw,4px);
 }
-.move_to button{
+.move_to button {
     width: min(3.056dvw,44px);
     height: min(2.5dvw,36px);
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
     border: 0px;
     background: #FFF;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: min(0.278dvw, 4px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    color: #212121;
+}
+.move_to button:hover {
+    background: #26AC34;
 }
 .move_to button svg{
     display: flex;
@@ -186,6 +204,9 @@ onUpdated(()=>{
     /* justify-content: center;
     align-items: center; */
     margin: auto;
+}
+.move_to button svg path:hover {
+    fill: #FFF;
 }
 .filter_b{
     display: none;
@@ -224,6 +245,7 @@ onUpdated(()=>{
         width: min(4.301dvw,32px);
         height: min(3.226dvw,24px);
         padding: min(0.538dvw,4px) min(1.075dvw,8px);
+        border-radius: min(0.538dvw, 4px);
     }
     .move_to button svg{
         width: min(2.151dvw,16px);
@@ -250,7 +272,7 @@ onUpdated(()=>{
         height: min(6.383dvw,24px);
     }
    
-    .move_to{
+    .move_to {
         width: min(18.085dvw,68px);
         height: min(6.383dvw,24px);
         gap: min(1.064dvw,4px);
@@ -259,6 +281,7 @@ onUpdated(()=>{
         width: min(8.511dvw,32px);
         height: min(6.383dvw,24px);
         padding: min(1.064dvw,4px) min(2.128dvw,8px);
+        border-radius: min(1.064dvw, 4px);
     }
     .move_to button svg{
         width: min(4.255dvw,16px);
@@ -275,6 +298,12 @@ onUpdated(()=>{
         align-items: center;
         box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
         cursor: pointer;
+        border-radius: min(1.064dvw, 4px);
+        color: #212121;
+    }
+    .filter_b:hover {
+        background: #26AC34;
+        color: #FFF;
     }
     .filter_b h5{
         width: fit-content;
@@ -285,6 +314,9 @@ onUpdated(()=>{
         display: flex;
         width: min(4.255dvw,16px);
         height: min(4.255dvw,16px);
+    }
+    .filter_b svg path:hover {
+        fill: #FFF;
     }
 }
 </style>
