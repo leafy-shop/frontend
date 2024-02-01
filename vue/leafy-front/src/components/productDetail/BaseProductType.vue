@@ -60,7 +60,7 @@ let productStyle = computed(() => {
 let selectedStyle = computed(() => {
     stepInput.value = 1
     slideImage.value = 0
-    maxImage.value = (selectedStyle.images == undefined || selectedStyle.images.length < 1) ? 1 : selectedStyle.images.length - 1
+    maxImage.value = (props.selectedStyle.images == undefined || props.selectedStyle.images.length < 1) ? 1 : props.selectedStyle.images.length - 1
     return props.selectedStyle
 })
 

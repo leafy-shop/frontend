@@ -89,7 +89,7 @@ let sortFilterReview = (sortFilter) => {
                 <!-- info -->
                 <div>
                     <div>
-                        <img v-if="review.image" :src="`${origin}/api/image/users/${review.userId}/${review.image}`" alt="use_img">
+                        <img v-if="review.image" :src="`${origin}/api/image/users/${review.userId}`" alt="use_img">
                         <img v-else src="../../assets/vue.svg" alt="use_img">
                     </div>
                     <div>
