@@ -148,12 +148,13 @@ const fetch = {
             return returnData
         }
     },
-    getProductReview: async (id, page=1, sort='newest') => {
+    getProductReview: async (id, page=1, sort='newest', name="") => {
         // let returnData={status:false,data:undefined}
         try {
-            let url = `${origin}/api/products/${id}/reviews?&page=${page}?sort=${sort}`
+            let url = `${origin}/api/products/${id}/reviews?&page=${page}&sort=${sort}`
+            if (name !== "") url += `&style=${name}`
             let res = await axios.get(url)
-            console.log(res.data)
+            console.log(url)
 
             if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
                 validation.function_Status('get product owner review', false, "cannot get all garden designer from back-end!!!")

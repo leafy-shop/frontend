@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
-defineEmits(["sortReview"])
+let emit = defineEmits(["sortFilterReview"])
 
 let props = defineProps({
     productReview: {
@@ -14,14 +14,26 @@ let props = defineProps({
         type: Number,
         required: true
     },
-    sort: {
-        type: String,
+    sortFilter: {
+        type: Object,
         required: true
+    },
+    allStyle: {
+        type: Array,
+        default: []
     }
+})
+
+let sortFilterValue = computed(() => {
+    return {sort: props.sortFilter.sort, name: props.sortFilter.name}
 })
 
 // let sort = ref("")
 // let filter = ref("")
+let sortFilterReview = (sortFilter) => {
+    console.log(sortFilter)
+    emit('sortFilterReview',sortFilter.sort, sortFilter.name)
+}
 
 </script>
 <template>
@@ -53,21 +65,19 @@ let props = defineProps({
                     <h6>
                         Sort:
                     </h6>
-                    <select name="Sort" :v-model="sort">
-                        <option value="newest" selected>Newest</option>
+                    <select name="Sort" v-model="sortFilterValue.sort" @click="sortFilterReview(sortFilterValue)">
                         <option value="oldest" selected>Oldest</option>
+                        <option value="newest" selected>Newest</option>
                     </select>
                 </button>
-                <!-- <button>
+                <button v-if="allStyle.length !== 0" @click="sortFilterReview(sortFilterValue)">
                     <h6>
                         Filter by:
                     </h6>
-                    <select name="Filter" v-model="filter">
-                        <option value="" selected>All</option>
-                        <option value="" selected>All</option>
-                        <option value="" selected>All</option>
+                    <select name="Filter" v-model="sortFilterValue.name">
+                        <option :value="`${style}`" v-for="style in allStyle" selected>{{ style }}</option>
                     </select>
-                </button> -->
+                </button>
             </div>
         </div>
 
@@ -111,7 +121,7 @@ let props = defineProps({
                 <!-- info about product  -->
                 <div>
                     <h6>
-                        <span v-if="review.size !== 'No'">Size: {{ review.size }}</span>
+                        <span v-if="review.size !== undefined">Size: {{ review.size }}</span>
                         Color: {{ review.style }}
                         <!-- Size: M, Color: Style 1 -->
                     </h6>

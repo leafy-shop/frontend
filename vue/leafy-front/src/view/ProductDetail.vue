@@ -19,8 +19,9 @@ let description = ref("")
 
 let reviews = ref([])
 let ratingReview = ref(0)
-let sort = ref('newest')
+let sortFilter = ref({sort:'newest',name: ""})
 let currentPage = ref(1)
+let allStyleReviews = ref([])
 
 // selected styles
 let selectedStyle = ref({})
@@ -56,14 +57,22 @@ const getProductDetail = async (id, selectedId) => {
     console.log(responseReview.data)
     reviews.value = responseReview.data.list
     ratingReview.value = responseProduct.data.totalRating
+    allStyleReviews.value = responseProduct.data.styles.map(style => style.style)
+    // console.log(allStyleReviews)
 }
 
 const changeStyle = async (idx) => {
     selectedStyle.value = productType.value.styles[idx]
 } 
 
-const sortReview = async (sorted) => {
-    sort.value = sorted
+const sortFilterReview = async (sort, name) => {
+    console.log(sort)
+    console.log(name)
+    sortFilter.value = {sort: sort, name: name}
+    // product review page
+    let {status, data} = await fetch.getProductReview(params.id, currentPage.value, sortFilter.value.sort, sortFilter.value.name)
+    console.log(data)
+    reviews.value = data.list
 }
 
 onBeforeMount(() => {
@@ -81,7 +90,8 @@ onMounted(()=>{
         <BaseProductType :product-style="productType" :selected-style="selectedStyle" @selected-style="changeStyle"/>
         <BaseStore :owner="store"/>
         <BaseDescription :description="description"/>
-        <BaseReview v-if="reviews.length" :product-review="reviews" :total-rating="ratingReview" :sort="sort"/>
+        <BaseReview :product-review="reviews" :total-rating="ratingReview"
+        :sort-filter="sortFilter" :allStyle="allStyleReviews" @sort-filter-review="sortFilterReview" />
         <BaseRecommedation/>
     </div>
     <BaseFooter/>

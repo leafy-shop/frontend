@@ -176,7 +176,7 @@ let imageRight = () => {
                         :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.styles[idx].style}/${productStyle.styles[idx].images[0]}`"
                         alt="product_type" width="88" height="88">
                         <img v-else src="../../assets/vue.svg" alt="product_type" width="88" height="88">
-                    </button>
+                    </button> {{ style.style }}
                     <!-- <button>
                         <img src="../../assets/vue.svg" alt="product_type">
                     </button> -->
