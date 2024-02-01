@@ -111,38 +111,25 @@ onMounted(()=>{
         <div class="main_menu_container">
             <!-- burger icon -->
             <div @click="showMenu2 = !showMenu2" class="burger_icon">
-                <!-- <div v-show="!showMenu2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_2745_26044)">
+                <div>
+                    <!-- <img v-show="!showMenu2" src="../assets/icon/hamberger_menu_icon.png" alt="hamberger_icon">
+                    <img v-show="showMenu2" src="../assets/icon/cross_icon.svg" alt="close_icon"> -->
+                    <svg v-show="!showMenu2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M4 18H20M4 6H20H4ZM4 12H20H4Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_2745_26044">
-                        <rect width="24" height="24" rx="6" fill="white"/>
-                        </clipPath>
-                        </defs>
+                    </svg>
+                    <svg v-show="showMenu2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 6L18 18M6 18L18 6L6 18Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                <div v-show="showMenu2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_2745_26390)">
-                        <path d="M6 6L18 18M6 18L18 6L6 18Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_2745_26390">
-                        <rect width="24" height="24" rx="6" fill="white"/>
-                        </clipPath>
-                        </defs>
-                    </svg>
-                </div> -->
-                
-                <img v-show="!showMenu2" src="../assets/icon/hamberger_menu_icon.png" alt="hamberger_icon">
-                <img v-show="showMenu2" src="../assets/icon/cross_icon.svg" alt="close_icon">
+                <div>
+
+                </div>
             </div>
             <!-- link and logo -->
             <div class="element_link">
                 <div class="leafy_icon">
                     <!-- <img src="../assets/LEAFY_leaf_logo.png" alt="leafy_icon"> -->
+                    <img src="../assets/LEAFY_leaf_logo.png" alt="leafy_icon">
                     <img src="../assets/LEAFY_logo.png" alt="leafy_icon">
                 </div>
                 <div class="container_link">
@@ -228,7 +215,7 @@ onMounted(()=>{
                     </button>
                     <button  @click="goShop" name="shop">
                         <!-- <img  src="../assets/icon/shop.png" alt="shop_icon"> -->
-                        <svg viewBox="0 0 24 24" fill="none"  xmlns="http://www.w3.org/2000/svg">
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M16.776 9.52449C16.868 9.32349 17.133 9.32349 17.224 9.52449C17.619 10.3885 18.492 10.9925 19.5 10.9925V10.9925C20.875 10.9925 22 9.86749 22 8.49249V8.49249V8.49249C22 7.50649 21.441 5.87549 21 4.99249C21 4.99249 20 2.99249 18.764 2.99249H5.236C4 2.99249 3 4.99249 3 4.99249C2.559 5.87549 2 7.50649 2 8.49249V8.49249C2 9.86749 3.125 10.9925 4.5 10.9925V10.9925C5.508 10.9925 6.381 10.3885 6.776 9.52449C6.868 9.32349 7.133 9.32349 7.224 9.52449C7.619 10.3885 8.492 10.9925 9.5 10.9925V10.9925C10.508 10.9925 11.381 10.3885 11.776 9.52449C11.868 9.32349 12.133 9.32349 12.224 9.52449C12.619 10.3885 13.492 10.9925 14.5 10.9925V10.9925C15.508 10.9925 16.381 10.3885 16.776 9.52449Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M4 10.9928V16.9928C4 19.9928 5 20.9928 8 20.9928H16C19 20.9928 20 19.9928 20 16.9928V10.9928" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15 20.9928H9V17.9928C9 16.8878 9.895 15.9928 11 15.9928H13C14.105 15.9928 15 16.8878 15 17.9928V20.9928Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -236,6 +223,7 @@ onMounted(()=>{
                             <path d="M17 8.9928L16 2.9928" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M12 8.9928V2.9928" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
+                        
                         <h3> Shop</h3>
                     </button>
                     <button @click="validation.clickingTest('link gallery')" name="gallery">
@@ -358,14 +346,19 @@ onMounted(()=>{
 
 .leafy_icon {
     display: flex;
-    width: min(4.792dvw, 69px);
+    width: fit-content;
     height: auto;
     justify-content: center;
     align-items: center;
+    gap: min(0.278dvw, 4px);
 }
 
-.leafy_icon img {
-    width: inherit;
+.leafy_icon img:nth-child(1) {
+    width: min(2.222dvw, 32px);
+    height: min(2.222dvw, 32px);
+}
+.leafy_icon img:nth-child(2){
+    width: min(4.792dvw,69px);
     height: auto;
 }
 
@@ -571,7 +564,7 @@ onMounted(()=>{
         flex-direction: column;
         z-index: 1000;
     }
-
+    
     .action_area {
         width: 100%;
         height: 100%;
@@ -784,18 +777,36 @@ onMounted(()=>{
         /* height: min(4.435dvw,33px); */
         /* margin: auto 0px; */
     }
-
-    .burger_icon {
-        display: block;
-        width: min(3.226dvw, 24px);
-        height: min(3.226dvw, 24px);
-        margin: 0px;
-        cursor: pointer;
+    .leafy_icon img:nth-child(1) {
+        display: none;
+    }
+    .leafy_icon img:nth-child(2){
+        width: inherit;
+        height: auto;
     }
 
-    .burger_icon img {
-        width: inherit;
-        height: inherit;
+    .burger_icon {
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        /* margin: 0px; */
+        gap: min(2.151dvw, 16px);
+        
+        
+    }
+
+    .burger_icon div:nth-child(1) svg {
+        display: flex;
+        width: min(3.226dvw, 24px);
+        height: min(3.226dvw, 24px);
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+    }
+    .burger_icon div:nth-child(2) {
+        width: min(3.226dvw, 24px);
+        height: min(3.226dvw, 24px);
+        /* cursor: pointer */
     }
 
     .element_service {
@@ -805,14 +816,15 @@ onMounted(()=>{
     }
 
     .service_container_search {
-        /* display: block; */
+        display: block;
         background-color: inherit;
         width: fit-content;
         height: fit-content;
         padding: 0px;
         justify-content: center;
-        margin: auto 0px;
+        /* margin: auto 0px; */
         cursor: pointer;
+
     }
     .service_container_search:hover {
         border: min(0.069dvw, 1px) solid transparent;
@@ -871,6 +883,8 @@ onMounted(()=>{
         gap: min(4.255dvw,16px);
         z-index: 999;
     }
+    
+    
     .link_list{
         display: flex;
         flex-direction: column;
@@ -960,7 +974,17 @@ onMounted(()=>{
 
     .burger_icon {
         height: min(6.383dvw, 24px);
+        gap: min(4.255dvw, 16px);
+    }
+    .burger_icon div:nth-child(1) svg {
         width: min(6.383dvw, 24px);
+        height: min(6.383dvw, 24px);
+        cursor: pointer;
+    }
+    .burger_icon div:nth-child(2) {
+        width: min(6.383dvw, 24px);
+        height: min(6.383dvw, 24px);
+        /* cursor: pointer */
     }
 
     .cart_b svg {
@@ -977,5 +1001,9 @@ onMounted(()=>{
     .leafy_icon {
         width: min(18.351dvw, 69px);
         height: min(9.574dvw, 36px);
+    }
+    .leafy_icon img:nth-child(2){
+        width: inherit;
+        height: auto;
     }
 }</style>
