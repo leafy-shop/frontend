@@ -24,7 +24,7 @@ let props = defineProps({
                 Polyscias Scutellaria Fabian has large, scalloped, dark green, glossy leaves that curve outwards slightly. They are deeply veined and tinged purple underneath.
             </p> -->
             <p>
-                {{ description }}
+                <pre>{{ description }}</pre>
             </p>
         </div>
     </div>

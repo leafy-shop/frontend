@@ -40,7 +40,7 @@ let props = defineProps({
                         Rating
                     </h5>
                     <h5>
-                        4
+                        {{ owner.rating }}
                     </h5>
                 </div>
                 <!-- products -->
@@ -49,7 +49,7 @@ let props = defineProps({
                         Products
                     </h5>
                     <h5>
-                        5
+                        {{ owner.products }}
                     </h5>
                 </div>
             </div>
