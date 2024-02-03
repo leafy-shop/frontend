@@ -1,5 +1,5 @@
 <script setup>
-import {ref,onUpdated}from 'vue'
+import {ref,onUpdated, onMounted}from 'vue'
 const emit =defineEmits(['sortItem', 'moveLeft', "moveRight", "showFilter"])
 const props =defineProps({
     isShowFilter:{
@@ -19,14 +19,15 @@ const props =defineProps({
     }
 })
 
+const sortItem=ref(undefined)
 // const currentPage = ref(props.changePage.currentPage)
 
 const sortTypeArr =[
     {name:"Popular",value: {name: "popular", type: 'desc'}},
     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
     {name:"Top Sales",value: {name: "sales", type: 'desc'}},
-    {name:"Low - High",value: {name: "price", type: 'asc'}},
-    {name:"High - Low",value: {name: "price", type: 'desc'}},
+    {name:"Price - Low",value: {name: "price", type: 'asc'}},
+    {name:"Price - Hight",value: {name: "price", type: 'desc'}},
 ]
 
 // this for show filter in baseFilter
@@ -46,14 +47,49 @@ const moveRight = (current) => {
     return emit('moveRight', current)
 }
 
-const sortItem = (data) => {
-    return emit('sortItem', data)
+// for sort filter
+// const sortF = (data) => {
+    // return emit('sortItem', data)
+// }
+const removeSort=()=>{
+    let eSelected=document.getElementsByClassName('sort_list')
+    // console.log(eSelected)
+    for(let i=0;i<eSelected.length;i++){
+        for(let p=0;p<eSelected[i].getElementsByTagName('button').length;p++){
+            eSelected[i].getElementsByTagName('button')[p].setAttribute('style','background-color:#FFF;')
+
+        }
+    }
 }
+const sortSelecter=(data,name)=>{
+    let eSelected=document.getElementsByName(name)
+    removeSort()
+    // if(data.name!=sortItem.value){   
+        for(let i=0;i<eSelected.length;i++){
+            eSelected[0].setAttribute('style','background-color:#26AC34;color:#FFFFFF;')
+        }
+            sortItem.value=data.name
+    // }
+    // else{
+    //     removeSort()
+    //     console.log('clear')
+    //     sortItem.value=undefined
+    // }
+
+    return emit('sortItem', data.value)
+}
+
+onMounted(()=>{
+    // start with popular
+    sortSelecter(sortTypeArr[0],'sort_0')
+
+})
 
 onUpdated(()=>{
     // for update sync value every time change for filter button
     isShowFilter.value=props.isShowFilter
     // console.log("now this value of :"+isShowFilter.value)
+    
 })
 </script>
 <template>
@@ -63,7 +99,7 @@ onUpdated(()=>{
                 Sort
             </h4>
             <div class="sort_list">
-                <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :class="`sort_${type.value}`" @click="sortItem(type.value)">
+                <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
             </div>

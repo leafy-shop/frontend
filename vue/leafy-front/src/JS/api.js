@@ -74,17 +74,16 @@ const fetch = {
     getAllProduct: async (page = 1, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined) => {
         let returnData={status:false,data:undefined}
         try {
-            // let productList =[]
 
             let url = `${origin}/api/products?page=${page}`
-            if (searchItem.length !== 0) url = url + `&product=${searchItem}`;
-            if (type.length !== 0) url = url + `&type=${type}`;
-            if (min > 0) url = url + `&min_price=${min}`;
-            if (max !== Infinity&&max!=undefined) url = url + `&max_price=${max}`;
-            if (rating !== 0) url = url + `&rating=${rating}`;
-            if (tag !== "") url = url + `&tag=${tag}`;
-            if (sort_name !== undefined) url = url + `&sort_name=${sort_name}`;
-            if (sort !== undefined) url = url + `&sort=${sort}`;
+            if (searchItem.length !== 0) url += `&product=${searchItem}`;
+            if (type.length !== 0) url += `&type=${type}`;
+            if (min > 0) url += `&min_price=${min}`;
+            if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
+            if (rating !== 0) url += `&rating=${rating}`;
+            if (tag !== "") url += `&tag=${tag}`;
+            if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
+            if (sort !== undefined) url += `&sort=${sort}`;
 
             console.log(url)
 
