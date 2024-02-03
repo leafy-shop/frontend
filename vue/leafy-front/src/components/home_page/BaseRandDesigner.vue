@@ -53,13 +53,13 @@ onBeforeMount(()=>{
             <div class="designer_list">
                 <div  v-for="(designer,index) in designerList " :key="index" class="designer">
                     <div class="user_img">
-                        <img v-if="designer.image" :src="`${origin}/api/image/users/${designer.userId}/${designer.image}`" alt="user_img">
+                        <img v-if="designer.image" :src="`${origin}/api/image/users/${designer.userId}`" alt="user_img">
                         <img v-else src="./../../assets/icon/user_icon.png" alt="user_img">
                     </div>
                     <div>
                         <h3>
-                            {{designer.name}}
-                            Test
+                            {{ designer.username }}
+                            <!-- Test -->
                         </h3>
                         <p>
                             {{ designer.description }}    

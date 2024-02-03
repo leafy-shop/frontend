@@ -3,6 +3,7 @@ import { useRouter,useRoute } from 'vue-router';
 import { ref, computed,onBeforeMount, onMounted} from 'vue'
 import validation from '../JS/validation'
 import cookie from '../JS/cookie';
+import fetch from '../JS/api'
 // const {params} =useRoute()
 const emit= defineEmits(['search'])
 const props = defineProps({
@@ -87,9 +88,14 @@ const goShop=()=>{
 const goCartList=()=>myRouter.push({name:'CartList'})
 const goProfile=(name='mago',id=11)=>myRouter.push({name:'Profile',params:{name:name,id:id}})
 
+const signOut = async () => {
+    await fetch.signOut()
+    return myRouter.push({name:'SignIn'})
+}
+
 const keyPass = ref(undefined)
 onBeforeMount(()=>{
-    keyPass.value = cookie.get("information")
+    keyPass.value = cookie.decrypt("information")
     search.value=props.search
 })
 
@@ -256,10 +262,12 @@ onMounted(()=>{
                             </div>
                             <div class="information_2">
                                 <h4>
-                                    whitney Francis
+                                    {{keyPass.firstname}} {{keyPass.lastname}}
+                                    <!-- whitney Francis -->
                                 </h4>
                                 <h5>
-                                    francis@gmail.com
+                                    {{keyPass.email}}
+                                    <!-- francis@gmail.com -->
                                 </h5>
                             </div>
                         </div>
@@ -270,7 +278,7 @@ onMounted(()=>{
                         <button class="account_bt">
                             Settings
                         </button>
-                        <button class="signOut">
+                        <button class="signOut" @click="signOut">
                             Sign out
                         </button>
                     </div>

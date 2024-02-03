@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import{useRouter} from 'vue-router'
 
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
 let props = defineProps({
     productList :{
         type:Object,
@@ -43,7 +45,8 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
         <div class="grid_container">
             <button @click="goProductDetail(product.itemId)" v-for="(product,index) of productList" :key="index" class="grid_item">
                 <div class="product_img">
-                    <img src="../../assets/vue.svg" :alt="product.name">
+                    <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name">
+                    <img v-else src="../../assets/vue.svg" :alt="product.name">
                 </div>
                 <div class="product_info">
                     <h4>
