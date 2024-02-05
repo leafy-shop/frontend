@@ -1,14 +1,15 @@
 <script setup>
 import{computed, ref}from 'vue'
 import {useRouter} from 'vue-router'
-import axios from 'axios';
+import Another from '../components/authorization/Another.vue'
 import fetch from '../JS/api'
-import BaseMenu from '../components/BaseMenu.vue';
-import Basefooter from '../components/BaseFooter.vue';
+import BaseMenu from '../components/BaseMenu.vue'
+import Basefooter from '../components/BaseFooter.vue'
 import validation from '../JS/validation'
 
 const myRouter =useRouter()
 const goBack=()=>myRouter.go(-1)
+
 const email=ref('')
 const password=ref('')
 
@@ -82,7 +83,8 @@ const showPassword=computed(()=>{
             <button class="signIn_button" @click="login"> 
                 Sign in
             </button>
-            <div class="wrapper_other_login">
+            <Another/>
+            <!-- <div class="wrapper_other_login">
                 <h4>
                     or
                 </h4>
@@ -102,12 +104,12 @@ const showPassword=computed(()=>{
                     </h4>
                 </div>
                 <hr>
-                <button>
+                <button @click="goSignUp">
                     <h4>
                         Sign Up
                     </h4>
                 </button>
-            </div>
+            </div> -->
         </div>
         
     </div>
@@ -351,10 +353,7 @@ h4 > span{
         padding:8px  12px;
         font-size: 16px;
     }
-    .other_login{
-        height: 52px;
-        gap: 16px;
-    }
+    
     .other_login button img{
         width: 28px;
         height: 28px;

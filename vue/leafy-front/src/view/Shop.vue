@@ -96,6 +96,7 @@ const getProduct=async(page)=>{
     allItems.value=data.allItems
     totalPage.value=data.allPage
     // totalPage.value=10
+    validation.navigationTo()
 }
 
 // if change page input must be a number only
@@ -206,20 +207,18 @@ onUpdated(()=>{
                         <li   v-for="(link,index) of eachSide"  :key="index" :id="`preNumber_${link}`">
                             <button  @click="changePage(currentPage-(eachSide+(link-1)*(-1)))">
                                  {{ currentPage-(eachSide+(link-1)*(-1)) }}
-                                    -
                             </button>
                         </li>
                         <!-- current -->
                         <li  class="current_page">
                             <button >
-                                {{ currentPage }} i
+                                {{ currentPage }} 
                             </button>
                         </li>
                         <!-- next -->
                         <li   v-for="(link,index) of eachSide" :key="index" :id="`nextNumber_${link}`">
                             <button @click="changePage(currentPage+link)">
                                 {{ currentPage+link }} 
-                                +
                             </button>
                         </li>
                         

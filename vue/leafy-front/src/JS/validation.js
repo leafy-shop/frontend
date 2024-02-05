@@ -1,3 +1,6 @@
+import cryptoJs from 'crypto-js';
+const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
+
  const ft ={
     scroll (type=undefined,class_name=undefined,amountMove=undefined){
         // console.log(type)
@@ -63,7 +66,29 @@
         // return navigate.scrollIntoView({behavior:'smooth'})
         if(type==undefined) return window.scrollTo({ top:0});
         else return window.scrollTo({ top:0,behavior: "smooth"});
-    }
+    },
+    text(text,length){
+
+    },
+    encrypt(text=''){
+        // console.log('Testing : '+JSON.stringify(obj))
+        let encryptData = cryptoJs.AES.encrypt(text,key).toString(cryptoJs.enc.Utf8)
+        // this.set(cookieName,encryptData)
+        // console.log(encryptData)
+        return encryptData
+      },
+      decrypt(text){
+        // let cookieValue=this.get(cookieName)
+        if(text==undefined){
+          this.function_Status('Decrypt',false,'text is null')
+          return ''
+        }else{
+          let decryptData = cryptoJs.AES.decrypt(text,key).toString(cryptoJs.enc.Utf8)
+          // console.log(decryptData)
+          this.function_Status('Decrypt',true,'decrypt successfull!!')
+          return decryptData
+        }
+      },
 }
 
 export default ft
