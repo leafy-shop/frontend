@@ -95,7 +95,8 @@ const signOut = async () => {
 
 const keyPass = ref(undefined)
 onBeforeMount(()=>{
-    keyPass.value = cookie.decrypt("information")
+    keyPass.value = cookie.decrypt()
+    console.log('keyPass is : '+keyPass.value)
     search.value=props.search
 })
 
@@ -189,9 +190,9 @@ onMounted(()=>{
                     </svg>
                 </button>
                 <!-- profile -->
-                <button v-show="false" class="profile_icon">
+                <!-- <button v-show="true" class="profile_icon">
                     <img src="../assets/vue.svg" alt="profile" loading="lazy">
-                </button>
+                </button> -->
                 <!-- sign-in -->
                 <button v-if="keyPass==undefined" @click="goSignin" class="service_sign-in">
                         Sign In

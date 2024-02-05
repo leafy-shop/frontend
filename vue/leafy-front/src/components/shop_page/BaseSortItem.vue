@@ -102,6 +102,7 @@ onUpdated(()=>{
                 <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
+                
             </div>
         </div>
         <button class="filter_b" @click="showFilter">
@@ -241,7 +242,7 @@ onUpdated(()=>{
     align-items: center; */
     margin: auto;
 }
-.move_to button svg path:hover {
+.move_to button:hover svg path {
     fill: #FFF;
 }
 .filter_b{

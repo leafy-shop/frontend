@@ -189,7 +189,7 @@ const fetch = {
                 return returnData
             } catch (error) {
                 validation.function_Status("login", false, error)
-                console.log(error) 
+                // console.log(error) 
 
                 console.log(error.response.status) 
                 // error 404
@@ -209,7 +209,7 @@ const fetch = {
         }
     },
     getRefresh: async () => {
-        let information = cookie.decrypt("information")
+        let information = cookie.decrypt()
         let returnData = { status: 500, data: undefined }
         // console.log(information.email)
         if (information !== undefined) {
@@ -256,6 +256,39 @@ const fetch = {
                 return false
             }
         }
+    },
+    postUser:async (userData) => {
+        let returnData={status:500,data:undefined}
+        let {fn,ln,em,pw,pn}=userData
+        let userInfo={
+            "email": em,
+            "password": pw,
+            "role": "user",
+            "username": "Test",
+            "firstname": fn,
+            "lastname": ln,
+            "description": " ",
+            "phone": pn
+        }
+        let url= `${origin}/api/users`
+
+        try {
+            let res=await axios.post(url,userInfo)
+            returnData.status=res.status
+            validation.function_Status('postUser',true,res.data)
+        } catch (error) {
+            validation.function_Status('postUser',false,error)
+
+            if(error.response.status==400||error.response.status==403){
+                returnData.msg=error.response.data.error
+                returnData.status=false
+            }else{
+            // error
+                console.log("another error")
+            }
+
+        }
+        
     }
 }
 export default fetch
