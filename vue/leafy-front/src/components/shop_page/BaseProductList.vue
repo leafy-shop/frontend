@@ -73,9 +73,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                                 {{ product.sold }} sold
                             </h6>
                         </div>
-                    </div>
-                    
-                    
+                    </div>     
                 </div>
             </button>
         </div>

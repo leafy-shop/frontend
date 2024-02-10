@@ -107,6 +107,7 @@ onMounted(()=>{
     flex-direction: column;
     padding: 20px 160px;
     gap: 20px;
+    background-color: #F5F5F5;
 }
 
 </style>
