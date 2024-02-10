@@ -3,36 +3,46 @@
 <template>
     <div class="wrapper_Review ">
         <!-- for show title and sort -->
-        <div>
+        <div class="container_header">
             <!-- title and show rating -->
-            <div>
+            <div class="rating_header">
                 <h5>
                     Product Ratings 
                 </h5>
-                <div>
+                <div class="rating_score">
                     <!-- rating -->
                     <div>
-                        ⭐⭐⭐⭐
+                        ⭐ ⭐ ⭐ ⭐
                     </div>
-                    <h5>
+                    <p>
                         4/5
-                    </h5>
+                    </p>
                 </div>
             </div>
             <!-- sort review -->
-            <div>
-                <button>
-                    <h6>
-                        Sort:
-                    </h6>
+            <div class="wrapper_sort_filter">
+                <button class="select">
+                    <div class="title">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.00004 12C5.00004 12.2652 5.1054 12.5196 5.29293 12.7071C5.48047 12.8947 5.73482 13 6.00004 13C6.26526 13 6.51961 12.8947 6.70715 12.7071C6.89468 12.5196 7.00004 12.2652 7.00004 12V6.41403L8.29304 7.70703C8.48164 7.88919 8.73425 7.98998 8.99644 7.9877C9.25864 7.98543 9.50945 7.88026 9.69486 7.69485C9.88027 7.50944 9.98544 7.25863 9.98771 6.99643C9.98999 6.73424 9.8892 6.48163 9.70704 6.29303L6.70704 3.29303C6.51951 3.10556 6.26521 3.00024 6.00004 3.00024C5.73488 3.00024 5.48057 3.10556 5.29304 3.29303L2.29304 6.29303C2.11088 6.48163 2.01009 6.73424 2.01237 6.99643C2.01465 7.25863 2.11981 7.50944 2.30522 7.69485C2.49063 7.88026 2.74144 7.98543 3.00364 7.9877C3.26584 7.98998 3.51844 7.88919 3.70704 7.70703L5.00004 6.41403V12ZM15 8.00003C15 7.73481 14.8947 7.48046 14.7071 7.29292C14.5196 7.10539 14.2653 7.00003 14 7.00003C13.7348 7.00003 13.4805 7.10539 13.2929 7.29292C13.1054 7.48046 13 7.73481 13 8.00003V13.586L11.707 12.293C11.5184 12.1109 11.2658 12.0101 11.0036 12.0124C10.7414 12.0146 10.4906 12.1198 10.3052 12.3052C10.1198 12.4906 10.0146 12.7414 10.0124 13.0036C10.0101 13.2658 10.1109 13.5184 10.293 13.707L13.293 16.707C13.4806 16.8945 13.7349 16.9998 14 16.9998C14.2652 16.9998 14.5195 16.8945 14.707 16.707L17.707 13.707C17.8892 13.5184 17.99 13.2658 17.9877 13.0036C17.9854 12.7414 17.8803 12.4906 17.6949 12.3052C17.5095 12.1198 17.2586 12.0146 16.9964 12.0124C16.7342 12.0101 16.4816 12.1109 16.293 12.293L15 13.586V8.00003Z" fill="#9E9E9E"/>
+                        </svg>
+                        <h6>
+                            Sort:
+                        </h6>
+                    </div>
                     <select name="Sort" >
                         <option value="" selected>Newest</option>
                     </select>
                 </button>
-                <button>
-                    <h6>
-                        Filter by:
-                    </h6>
+                <button class="select">
+                    <div class="title">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.74408 2.74408C2.5878 2.90036 2.5 3.11232 2.5 3.33333V5.48833C2.50005 5.70933 2.58788 5.92126 2.74417 6.0775L8.08917 11.4225C8.24546 11.5787 8.33329 11.7907 8.33333 12.0117V15.0858C8.33333 15.9767 9.41048 16.4229 10.0404 15.7929L11.3738 14.4596C11.5613 14.272 11.6667 14.0177 11.6667 13.7525V12.0117C11.6667 11.7907 11.7545 11.5787 11.9108 11.4225L17.2558 6.0775C17.4121 5.92126 17.5 5.70933 17.5 5.48833V3.33333C17.5 3.11232 17.4122 2.90036 17.2559 2.74408C17.0996 2.5878 16.8877 2.5 16.6667 2.5H3.33333C3.11232 2.5 2.90036 2.5878 2.74408 2.74408Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <h6>
+                            Filter by:
+                        </h6>
+                    </div>
                     <select name="Filter">
                         <option value="" selected>All</option>
                     </select>
@@ -55,7 +65,7 @@
                             Fern
                         </h6>
                         <div>
-                            ⭐⭐⭐⭐
+                            ⭐ ⭐ ⭐ ⭐
                         </div>
                     </div>
                 </div>
@@ -107,5 +117,92 @@
     width: inherit;
     height: fit-content;
     flex-direction: column;
+    padding: min(1.389dvw, 20px);
+    gap: min(1.389dvw, 20px);
+    background-color: #fff;
+    border-radius: min(0.556dvw, 8px);
+}
+.container_header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+}
+.rating_header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    gap: min(0.833dvw, 12px);
+}
+.rating_header h5 {
+    font-size: min(1.389dvw, 20px);
+    color: #212121;
+    line-height: 160%;
+}
+.rating_score {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    gap: min(0.278dvw, 4px);
+}
+.wrapper_sort_filter {
+    display: flex;
+    width: inherit;
+    height: fit-content;
+    /* flex-direction: column; */
+    gap: min(0.833dvw, 12px);
+}
+
+/* .wrapper_sort_filter button:nth-child(1) {
+    background: #fff;
+    color: #26AC34;
+    border: min(0.069dvw, 1px) solid;
+    border-color: #26AC34;
+    border-radius: min(0.278dvw, 4px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.wrapper_sort_filter button:nth-child(1):hover {
+    background: #26AC34;
+    color: #fff;
+} */
+
+.wrapper_sort_filter button {
+    /* width: min(15dvw, 216px); */
+    width: 100%;
+    height: min(2.778dvw, 40px);
+    margin: auto;
+    background-color: #fff;
+    color: #9E9E9E;
+    border: min(0.069dvw, 1px) solid;
+    border-color: #e0e0e0;
+    border-radius: min(0.278dvw, 4px);
+    cursor: pointer;
+    font-size: min(1.111dvw, 16px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+}
+.wrapper_sort_filter button:hover {
+    color: #26AC34;
+    background: #fff;
+}
+.select {
+    display: flex;
+    flex-direction: row;
+    gap: min(0.556dvw, 8px);
+    padding: 16px 8px 12px 8px;
+}
+.title {
+    display: flex;
+    flex-direction: row;
+    gap: min(0.278dvw, 4px);
+    align-items: center;
+    text-align: center;
 }
 </style>
