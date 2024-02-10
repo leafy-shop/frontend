@@ -188,6 +188,9 @@ const showPassword=computed(()=>{
     border-color: #E0E0E0;
     background-color: #FFF;
 }
+.wrapper_password:focus-within{
+outline: auto;
+}
 
 
 
@@ -222,6 +225,7 @@ const showPassword=computed(()=>{
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     
 }
+
 .wrapper_password button{
     display: flex;
     width: min(1.667dvw,24px);

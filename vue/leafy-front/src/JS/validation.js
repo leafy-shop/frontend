@@ -91,7 +91,7 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
     },
     textRange(text,max,min){ //check lenght 10 - 11 only
         if(text!=undefined&&max>min){
-            if(text.length>=min&&text.length<=max){
+            if((text.length>=min&&text.length<=max)||text.length==0){
                 return true
             }
             return false

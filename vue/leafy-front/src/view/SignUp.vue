@@ -96,7 +96,7 @@ const signUp=async()=>{
     if(validation.number(lastN.value)){lastNM.value="Last name must be letters only.";isNotReady=true;lastNS.value=true}
     if(!validation.textRange(phoneNumber.value,11,10)){phoneNumberM.value="Incorrect phone number format.";isNotReady=true;phoneNumberS.value=true }
     if(confirmP.value.length==0){confirmPM.value="Need information: 'Confirm Password'.";isNotReady=true;confirmPS.value=true }
-    if(phoneNumber.value.length==0){phoneNumberM.value="Need information: 'Phone number'.";isNotReady=true;phoneNumberS.value=true}
+   // if(phoneNumber.value.length==0){phoneNumberM.value="Need information: 'Phone number'.";isNotReady=true;phoneNumberS.value=true}
 
     //name
     if(!validation.text(firstN.value)){firstNM.value="First name must be letters only.";isNotReady=true;firstNS.value=true}
@@ -150,25 +150,26 @@ onMounted(()=>{
             <h4>
                 Sign Up
             </h4>
-            <!-- username -->
-            <div class="input_item">
-                <h5>
-                    Username
-                </h5>
-                <input :style="[userNS==true?'border-color:red;':'']" type="text"   maxlength="50" v-model="userN">
-                <h6>
-                    You can only set a username once.
-                </h6>
-                <div v-show="userNS" class="wrapper_errorMsg">
-                        <div >
-                            <img src="../assets/icon/error_icon.png" alt="error_icon">
-                            <p>
-                                {{ userNM }}
-                            </p>
-                        </div>
-                    </div>
-            </div>
+            
             <div class="input_list">
+                <!-- username -->
+                <div class="input_item">
+                    <h5>
+                        Username
+                    </h5>
+                    <input :style="[userNS==true?'border-color:red;':'']" type="text"   maxlength="50" v-model="userN">
+                    <h6>
+                        You can only set a username once.
+                    </h6>
+                    <div v-show="userNS" class="wrapper_errorMsg">
+                            <div >
+                                <img src="../assets/icon/error_icon.png" alt="error_icon">
+                                <p>
+                                    {{ userNM }}
+                                </p>
+                            </div>
+                        </div>
+                </div>
                 <!-- first name -->
                 <div class="input_item">
                     <h5>
@@ -283,22 +284,23 @@ onMounted(()=>{
                         </div>
                     </div>   
                 </div>
-                
-                <div v-show="isShowE" class="wrapper_errorMsg">
-                    <div>
-                        <img src="../assets/icon/error_icon.png" alt="error_icon">
-                        <p>
-                            {{ errorMSG }}
-                        </p>
-                    </div>
-                   
-                </div>                
+                           
             </div>
             
             <!-- Sign Up -->
             <button @click="signUp" class="sign_up_bt">
                 Sign Up
             </button>
+            
+            <div v-show="isShowE" class="wrapper_errorMsg">
+                <div>
+                    <img src="../assets/icon/error_icon.png" alt="error_icon">
+                    <p>
+                        {{ errorMSG }}
+                    </p>
+                </div>
+                
+            </div>     
             <!-- other way -->
             <Another :-show-sign-up="false" />
         </div>
@@ -324,7 +326,7 @@ onMounted(()=>{
     width: min(28.889dvw,416px);
     height: fit-content;
     flex-direction: column;
-    gap: min(1.667dvw,24px);
+    gap: min(1.111dvw,16px) 
 }
 .container_sign_up h4{
     width: inherit;
@@ -465,7 +467,7 @@ onMounted(()=>{
     }
     .container_sign_up{
         width: min(47.312dvw,352px);
-        gap: min(3.226dvw,24px);
+        gap:  min(2.151dvw,16px);
     }
     .container_sign_up h4{
         height: min(4.839dvw,36px);
@@ -540,7 +542,7 @@ onMounted(()=>{
     }
     .container_sign_up{
         width: min(91.489dvw,344px);
-        gap: min(5.319dvw,20px);
+        gap: min(3.191dvw,12px);
     }
     .container_sign_up h4{
         height: min(7.447dvw,28px);
