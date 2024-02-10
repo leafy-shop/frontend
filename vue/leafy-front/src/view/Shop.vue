@@ -20,7 +20,7 @@ const ratingFilter = ref(0)
 // tag
 const tagFilter = ref("")
 // this for check if we have params 
-const searchItem = ref(myRoute.params.search ? myRoute.params.search : "")
+const searchItem = ref(myRoute.params.search ? validation.decrypt(myRoute.params.search) : "")
 //for change page product list
 const currentPage = ref(1)
 const allItems = ref(0)

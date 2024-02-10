@@ -89,6 +89,9 @@ router.beforeEach(async (to,from)=>{
     if(to.name=="CartList"&&!cookie.checkKeyPass()){
         return {name:"SignIn"}
     }
+    if(to.name=="SignUp"&&cookie.checkKeyPass()){
+        return {name:"Home"}
+    }
     // alert('this new page')
     // console.log(document.cookie)
     // token=Cookies.get("token")
