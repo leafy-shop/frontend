@@ -77,6 +77,7 @@ const search =ref('')
 const myRouter =useRouter()
 const goHome=()=>myRouter.push({name:'Home'})
 const goSignin=()=>myRouter.push({name:'SignIn'})
+const goSignUp=()=>myRouter.push({name:'SignUp'})
 const goShop=()=>{
     if(isShopPage.value){
         // return emit("search",{search:search.value})
@@ -89,13 +90,16 @@ const goCartList=()=>myRouter.push({name:'CartList'})
 const goProfile=(name='mago',id=11)=>myRouter.push({name:'Profile',params:{name:name,id:id}})
 
 const signOut = async () => {
-    await fetch.signOut()
-    return myRouter.push({name:'SignIn'})
+    let isOut=await fetch.signOut()
+    if(isOut){
+        return myRouter.push({name:'SignIn'})
+    }
 }
 
 const keyPass = ref(undefined)
 onBeforeMount(()=>{
-    keyPass.value = cookie.decrypt("information")
+    keyPass.value = cookie.decrypt()
+    console.log('keyPass is : '+keyPass.value)
     search.value=props.search
 })
 
@@ -189,9 +193,9 @@ onMounted(()=>{
                     </svg>
                 </button>
                 <!-- profile -->
-                <button v-show="false" class="profile_icon">
+                <!-- <button v-show="true" class="profile_icon">
                     <img src="../assets/vue.svg" alt="profile" loading="lazy">
-                </button>
+                </button> -->
                 <!-- sign-in -->
                 <button v-if="keyPass==undefined" @click="goSignin" class="service_sign-in">
                         Sign In
@@ -292,7 +296,7 @@ onMounted(()=>{
                             </span> 
                             <hr> 
                             <!-- <div class="hrLine"></div> -->
-                            <span @click="validation.clickingTest('link sign-in')">
+                            <span @click="goSignUp">
                                 Sign Up
                             </span>
                         </div>

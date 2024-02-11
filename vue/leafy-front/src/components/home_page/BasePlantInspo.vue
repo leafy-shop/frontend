@@ -1,7 +1,8 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import validation from '../../JS/validation'
 const myRouter=useRouter()
-const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",params:{search:searchValue}})
+const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validation.encrypt(searchValue)}})
 </script>
 <template>
     <div class="wrapper_plant_inspo">
@@ -30,7 +31,7 @@ const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",param
                     <p>
                         Create a sanctuary of lush green trails with Golden Pothos plants or add some romance with the leaves of a Philodendron Sweetheart indoor plant.
                     </p>
-                    <button @click="goShop('hanging Plant')">
+                    <button @click="goShop('hanging plant')">
                         Shop
                     </button>
                 </div>
@@ -42,7 +43,7 @@ const goShop=(searchValue="hello this search")=>myRouter.push({name:"Shop",param
                     <p>
                         Choose from the sculpted good looks of Sansevieria houseplants to rugged and resilient indoor Yucca plants or relax with on trend ZZ houseplants.
                     </p>
-                    <button @click="goShop('house Plant')">
+                    <button @click="goShop('house plant')">
                         Shop
                     </button>
                 </div>

@@ -4,7 +4,7 @@ import BaseFooter from '../components/BaseFooter.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
-import {ref, onBeforeMount, onUpdated ,onMounted} from 'vue'
+import {ref, onBeforeMount, onUpdated ,onMounted,computed} from 'vue'
 import fetch from '../JS/api';
 import {useRoute} from 'vue-router'
 import validation from '../JS/validation'
@@ -20,7 +20,7 @@ const ratingFilter = ref(0)
 // tag
 const tagFilter = ref("")
 // this for check if we have params 
-const searchItem = ref(myRoute.params.search ? myRoute.params.search : "")
+const searchItem = ref(myRoute.params.search ? validation.decrypt(myRoute.params.search) : "")
 //for change page product list
 const currentPage = ref(1)
 const allItems = ref(0)
@@ -49,6 +49,37 @@ const sortTypeArr = [
 //     // searchItem.value = search
 //     // await getProduct(currentPage.value)
 // }
+const eachSide=3
+const pageHidden=(currentP,total)=>{
+    
+    for(let i=1;i<=eachSide;i++){
+        // previous number
+        // for taggle to show hidden number before
+        if(currentP-(eachSide+(i-1)*(-1))<=0){
+            document.getElementById(`preNumber_${i}`).setAttribute('style','display:none;')
+        }else{
+            document.getElementById(`preNumber_${i}`).setAttribute('style','display:flex;')
+        }
+        // console.log('current : '+currentP)
+        // console.log('this is a '+(currentP+i))
+        // next number
+        if((currentP+i)>total){
+            // console.log('cu 1')
+
+            document.getElementById(`nextNumber_${i}`).setAttribute('style','display:none;')
+        }else{
+            // console.log('cu 2')
+
+            document.getElementById(`nextNumber_${i}`).setAttribute('style','display:flex;')
+        }
+    }
+    
+//     // document.getElementById()
+    
+//     
+//     // v-show="currentPage+link>totalPage?true:false"
+    
+}
 
 const getProduct=async(page)=>{
     console.log(categoryFilter.value.join())
@@ -64,11 +95,12 @@ const getProduct=async(page)=>{
     productList.value=data.list
     allItems.value=data.allItems
     totalPage.value=data.allPage
-    // totalPage.value=100
+    // totalPage.value=10
+    validation.navigationTo()
 }
 
 // if change page input must be a number only
-const changePage=async (number)=>{
+const changePage=async (number,n)=>{
     // console.log(typeof(number))
     
     let status = validation.number(number,true)
@@ -76,11 +108,10 @@ const changePage=async (number)=>{
     
     // currentPage.value=Math.abs(parseInt(number))
     await getProduct(currentPage.value)
+    // pageHidden(currentPage.value)
 }
 
-onBeforeMount(()=>{
-    getProduct(currentPage.value)
-})
+
 
 const getFilterItem=async(data)=>{
     // filterData.value=data
@@ -95,6 +126,8 @@ const getFilterItem=async(data)=>{
     console.log(data)
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
+    pageHidden(currentPage.value,totalPage.value)
+
 }
 
 const showFilterItem=(data)=>{
@@ -111,7 +144,7 @@ const getSortItem=async(data)=>{
     await getProduct(currentPage.value)
 }
 
-const moveLeft = async (current,) => {
+const moveLeft = async (current) => {
     console.log(currentPage.value)
     currentPage.value = current > 1 ? current - 1 : 1
     await getProduct(currentPage.value)
@@ -124,8 +157,20 @@ const moveRight = async (current) => {
     // validation.navigationTo(top)
 }
 
+
+onBeforeMount(()=>{
+    getProduct(currentPage.value)
+    
+
+})
 onMounted(()=>{
     validation.navigationTo()
+    pageHidden(currentPage.value,totalPage.value)
+    // console.log(pageComputed.value)
+})
+onUpdated(()=>{
+    pageHidden(currentPage.value,totalPage.value)
+    console.log('curr'+currentPage.value)
 })
 
 </script>
@@ -153,30 +198,52 @@ onMounted(()=>{
                 <BaseProductList :productList="productList" :size="100" :gridColumn="3"/>
                 <div class="link_page_container">
                     <ul>
-                        <li @click="moveLeft " class="move_page">
+                        <li @click="moveLeft(currentPage) " class="move_page">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.207 5.29303C13.3945 5.48056 13.4998 5.73487 13.4998 6.00003C13.4998 6.26519 13.3945 6.5195 13.207 6.70703L9.91403 10L13.207 13.293C13.3892 13.4816 13.49 13.7342 13.4877 13.9964C13.4854 14.2586 13.3803 14.5094 13.1948 14.6948C13.0094 14.8803 12.7586 14.9854 12.4964 14.9877C12.2342 14.99 11.9816 14.8892 11.793 14.707L7.79303 10.707C7.60556 10.5195 7.50024 10.2652 7.50024 10C7.50024 9.73487 7.60556 9.48056 7.79303 9.29303L11.793 5.29303C11.9806 5.10556 12.2349 5.00024 12.5 5.00024C12.7652 5.00024 13.0195 5.10556 13.207 5.29303Z" fill="#424242"/>
                             </svg>
                         </li>
-                        <li v-if="totalPage <=10" v-for="(link,index) of totalPage" :key="index">
-                            <button @click="changePage(link)">
-                                {{ link }} 
+                        <!-- prevoius -->
+                        <li   v-for="(link,index) of eachSide"  :key="index" :id="`preNumber_${link}`">
+                            <button  @click="changePage(currentPage-(eachSide+(link-1)*(-1)))">
+                                 {{ currentPage-(eachSide+(link-1)*(-1)) }}
                             </button>
                         </li>
+                        <!-- current -->
+                        <li  class="current_page">
+                            <button >
+                                {{ currentPage }} 
+                            </button>
+                        </li>
+                        <!-- next -->
+                        <li   v-for="(link,index) of eachSide" :key="index" :id="`nextNumber_${link}`">
+                            <button @click="changePage(currentPage+link)">
+                                {{ currentPage+link }} 
+                            </button>
+                        </li>
+                        
+                        <!-- มีค่ามากกว่า 3 -->
                         <!-- <li v-if="totalPage >3" v-for="(link,index) of totalPage>10?3:totalPage" :key="index">
                             <button @click="changePage(link)">
                                 {{ link }} 
                             </button>
+                        </li> -->
+                        <!-- มีค่ามากกว่า 5 -->
+                        <!-- <li v-if="totalPage >5" v-for="(link,index) of totalPage>6?3:totalPage" :key="index">
+                            <button @click="changePage(link)">
+                                {{ link }} 
+                            </button>
                         </li>
-                        <li v-if="totalPage >3">
+
+                        <li v-if="totalPage >5">
                             ...
-                        </li>
-                        <li v-if="totalPage >3"  v-for="(link,index) of (totalPage>10?3:totalPage)" :key="index">
+                        </li> -->
+                        <!-- <li v-if="totalPage >3"  v-for="(link,index) of (totalPage>10?3:totalPage)" :key="index">
                             <button @click="changePage(totalPage-link)">
                                 {{ totalPage-link }} 
                             </button>
                         </li> -->
-                        <li @click="moveRight" class="move_page">
+                        <li @click="moveRight(currentPage)" class="move_page">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.79303 14.707C7.60556 14.5195 7.50024 14.2652 7.50024 14C7.50024 13.7349 7.60556 13.4806 7.79303 13.293L11.086 10L7.79303 6.70704C7.61087 6.51844 7.51008 6.26584 7.51236 6.00364C7.51463 5.74144 7.6198 5.49063 7.80521 5.30522C7.99062 5.11981 8.24143 5.01465 8.50363 5.01237C8.76583 5.01009 9.01843 5.11088 9.20703 5.29304L13.207 9.29304C13.3945 9.48057 13.4998 9.73488 13.4998 10C13.4998 10.2652 13.3945 10.5195 13.207 10.707L9.20703 14.707C9.0195 14.8945 8.76519 14.9998 8.50003 14.9998C8.23487 14.9998 7.98056 14.8945 7.79303 14.707Z" fill="#424242"/>
                             </svg>
@@ -293,15 +360,28 @@ onMounted(()=>{
     box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
 }
 
+.current_page button{
+    background-color: #26AC34;
+    color: #fff;
+}
+
+.move_page{
+    width: 44px;
+    height: 36px;
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 4px;
+}
 .move_page svg{
     padding: 0px;
     width: 20px;
     height: 20px;
 }
-.link_page_container ul li button:focus{
+/* .link_page_container ul li button:focus{
     background-color: #26AC34;
 
-}
+} */
 
 @media (width<=744px){
     .shop_title{

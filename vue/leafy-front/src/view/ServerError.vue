@@ -4,17 +4,17 @@ const myRouter=useRouter()
 const goHome=()=>myRouter.push({name:'Home'})
 </script>
 <template>
-    <div class="wrapper_not_found">
-        <div class="not_found">
+       <div class="wrapper_server_error">
+        <div class="server_error">
             <div>
-                <img src="../assets/404.png" alt="404_img">
+                <img src="../assets/500.png" alt="500_img">
             </div>
             <div>
                 <h5>
                     Oops!
                 </h5>
                 <p>
-                    Page Not Found - Lost in the Woods
+                    Internal Server Error -Lost Among the Trees
                 </p>
             </div>
             <div>
@@ -30,7 +30,7 @@ const goHome=()=>myRouter.push({name:'Home'})
 *{
     box-sizing: border-box;
 }
-.wrapper_not_found{
+.wrapper_server_error{
     display: flex;
     width: 100dvw;
     height: 100dvh;
@@ -38,7 +38,7 @@ const goHome=()=>myRouter.push({name:'Home'})
     justify-content: center;
     align-items: center;
 }
-.not_found{
+.server_error{
     display: flex;
     width: 400px;
     height: fit-content;
@@ -46,15 +46,15 @@ const goHome=()=>myRouter.push({name:'Home'})
     justify-content: center;
     align-items: center;
 }
-.not_found div:nth-child(1) {
+.server_error div:nth-child(1) {
     width: inherit;
     height: auto;
 }
-.not_found div:nth-child(1) img{
+.server_error div:nth-child(1) img{
     width: inherit;
     height: auto;
 }
-.not_found div:nth-child(2){
+.server_error div:nth-child(2){
     width: inherit;
     height: fit-content;
     text-align: center;

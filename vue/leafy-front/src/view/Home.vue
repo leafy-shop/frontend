@@ -12,12 +12,14 @@ import BaseChat from '../components/BaseChat.vue'
 import {ref,onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import validation from '../JS/validation'
+import cookie from '../JS/cookie'
 
 const myRouter =useRouter()
 const goShop=()=>myRouter.push({name:'Shop'})
 
 // let searchItem = ref("")
 onMounted(()=>{
+
     validation.navigationTo()
 })
 </script>

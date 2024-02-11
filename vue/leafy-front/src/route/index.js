@@ -11,6 +11,7 @@ import Gallery from '../view/Gallery.vue'
 import GalleryDetail from '../view/GalleryDetail.vue'
 import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
+import ServerError from '../view/ServerError.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -43,7 +44,7 @@ const routes=[
         component:CartList
     },
     {
-        path:'/user-profile/:name/:id',
+        path:'/user-profile/:id',
         name:'Profile',
         component:Profile
     },
@@ -61,6 +62,11 @@ const routes=[
         path:'/:pathMatch(.*)*',
         name:'NotFound',
         component:NotFound,
+    },
+    {
+        path:'/server-error',
+        name:'ServerError',
+        component:ServerError
     }
 
 ]
@@ -82,6 +88,9 @@ router.beforeEach(async (to,from)=>{
     }
     if(to.name=="CartList"&&!cookie.checkKeyPass()){
         return {name:"SignIn"}
+    }
+    if(to.name=="SignUp"&&cookie.checkKeyPass()){
+        return {name:"Home"}
     }
     // alert('this new page')
     // console.log(document.cookie)

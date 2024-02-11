@@ -2,8 +2,9 @@
 import { ref ,onBeforeMount,onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import cookie from '../JS/cookie';
+import validation from '../JS/validation'
 const myRouter=useRouter()
-const goSignUp=(email)=>myRouter.push({name:'SignUp',params:{email:email}})
+const goSignUp=(email)=>myRouter.push({name:'SignUp',params:{email:validation.encrypt(email)}})
 const email = ref('')
 const customerService = [
     { name: "How To Buy", link: '' },
