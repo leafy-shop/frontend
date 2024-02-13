@@ -63,18 +63,17 @@ const removeSort=()=>{
 }
 const sortSelecter=(data,name)=>{
     let eSelected=document.getElementsByName(name)
-    removeSort()
-    // if(data.name!=sortItem.value){   
+    if(data.name!=sortItem.value){   
         for(let i=0;i<eSelected.length;i++){
             eSelected[0].setAttribute('style','background-color:#26AC34;color:#FFFFFF;')
         }
             sortItem.value=data.name
-    // }
-    // else{
-    //     removeSort()
-    //     console.log('clear')
-    //     sortItem.value=undefined
-    // }
+    }
+    else{
+        removeSort()
+        // console.log('clear')
+        sortItem.value=undefined
+    }
 
     return emit('sortItem', data.value)
 }
@@ -102,7 +101,6 @@ onUpdated(()=>{
                 <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
-                
             </div>
         </div>
         <button class="filter_b" @click="showFilter">
@@ -183,7 +181,7 @@ onUpdated(()=>{
     font-weight: 500;
     line-height: 144%; /* 20.16px */
     letter-spacing: min(0.014dvw,0.2px);
-    background: #FFF;
+    background-color: #FFF;
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
@@ -193,7 +191,7 @@ onUpdated(()=>{
 }
 .sort_item:hover {
     background: #26AC34;
-    color: #FFF;
+    color:#FFF;
 }
 .sort_move{
     display: flex;

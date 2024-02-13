@@ -242,11 +242,19 @@ onBeforeMount(()=>{
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
     border-radius: min(0.278dvw,4px);
     /* outline: none; */
-    border: none;
+    border: min(0.069dvw,1px) solid;
+    border-color: #E0E0E0;
     box-sizing: border-box;
     font-size: min(0.972dvw,14px);
 }
-
+.container_sign_up input:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}  
+.container_sign_up input:focus-within {
+    border-color: #26AC34;
+}
 .container_sign_up button {
     width: min(5.764dvw,83px);
     height: min(2.5dvw,36px);
@@ -261,13 +269,19 @@ onBeforeMount(()=>{
     font-size: min(0.972dvw,14px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
-
+.container_sign_up button:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    color: #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
 .container_information {
     width: auto;
-    height: min(18.056dvw,260px);
+    /* height: min(18.056dvw,260px); */
+    height: fit-content;
     padding: min(4.167dvw,60px) min(11.111dvw,160px);
     box-sizing: border-box;
-    background-color: #EEE;
+    background-color: #fafafa;
 }
 
 .wrapper_information {
@@ -276,13 +290,14 @@ onBeforeMount(()=>{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: top;
     gap: min(2.222dvw,32px);
 }
 
 .wrapper_information div {
     width: min(17.778dvw,256px);
-    height: min(9.722dvw,140px);
+    /* height: min(9.722dvw,140px); */
+    height: fit-content;
 }
 
 .service {
@@ -315,8 +330,6 @@ onBeforeMount(()=>{
     letter-spacing: min(0.014dvw,0.2px);
     color: #616161;
 }
-
-
 .information {
     display: flex;
     flex-direction: column;
@@ -358,7 +371,6 @@ onBeforeMount(()=>{
     text-transform: uppercase;
     font-size: min(0.833dvw,12px);
 }
-
 div>.payment {
     display: flex;
     width: fit-content;
@@ -469,10 +481,11 @@ div>.wrapper_follow_link {
     justify-content: end;
     align-items: center;
     border-top: min(0.069dvw,1px) solid;
-    border-color: rgb(197, 197, 197);
+    border-color: #e0e0e0;
     box-sizing: border-box;
     gap: min(0.278dvw,4px);
     justify-content: center;
+    background-color: #fafafa;
 }
 .copylight div:nth-child(1){
     display: none;
@@ -503,7 +516,6 @@ div>.wrapper_follow_link {
     .wrapper_register{
         /* height: min(19.892dvw,148px); */
         height: fit-content;
-
     }
     .register {
         padding: min(2.688dvw,20px) min(5.914dvw,44px);
@@ -513,7 +525,6 @@ div>.wrapper_follow_link {
 
     .register h3 {
         font-size: min(2.419dvw,18px);
-
     }
 
     .register p {
@@ -545,9 +556,9 @@ div>.wrapper_follow_link {
 
     .container_information {
         width: auto;
-        height: min(29.032dvw,216px);
+        /* height: min(29.032dvw,216px); */
+        height: fit-content;
         padding: min(5.376dvw,40px) min(5.914dvw,44px);
-
     }
 
     .wrapper_information {
@@ -556,12 +567,23 @@ div>.wrapper_follow_link {
 
     .wrapper_information div {
         width: min(20.43dvw,152px);
-        height: min(18.28dvw,136px);
+        /* height: min(18.28dvw,136px); */
+        height: fit-content;
     }
 
     .service > h3, .service div button, 
     .information h3, .information div button  {
         font-size: min(1.344dvw,10px);
+    }
+    .container_business {
+        display: flex;
+        flex-direction: column;
+        gap: min(2.151dvw, 16px);
+    }
+
+    .container_business h3 {
+        text-transform: uppercase;
+        font-size: min(1.344dvw, 10px);
     }
 
     div>.wrapper_payment {
@@ -575,14 +597,12 @@ div>.wrapper_follow_link {
         gap: min(1.075dvw,8px);
     }
     .wrapper_payment button {
-        width: min(5.376dvw,40px);
-        height: min(2.688dvw,20px);
-
+        width: min(4.839dvw,36px);
+        height: min(2.151dvw, 16px);
     }
     .wrapper_logistic button {
-        width: min(5.376dvw,40px);
-        height: min(2.688dvw,20px);
-
+        width: min(4.839dvw,36px);
+        height: min(2.151dvw, 16px);
     }
 
 
@@ -657,9 +677,8 @@ div>.wrapper_follow_link {
         height: min(6.383dvw,24px);
         padding: min(1.064dvw,4px) min(2.128dvw,8px);
         font-size: min(3.191dvw,12px);
-         border-radius: min(1.064dvw,4px);
+        border-radius: min(1.064dvw,4px);
     }
-
     .container_sign_up button {
         width: inherit;
         height: min(6.383dvw,24px);

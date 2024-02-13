@@ -32,8 +32,8 @@ const recommendProduct=[
         <div>
             <!-- picture -->
             <div>
-                <div>
-                    <img src="../assets/home_p/home_history.png" alt="big_img">
+                <div class="cover_photo">
+                    <img src="../assets/shop_p/shop_title.jpg" alt="title_img">
                 </div>
                 <img src="../assets/vue.svg" alt="soybean">
             </div>
@@ -136,7 +136,26 @@ const recommendProduct=[
     width: auto;
     height: fit-content;
 }
-
+.cover_photo {
+    display: flex;
+    position: relative;
+    width: auto;
+    height: min(16.111dvw,232px);
+    /* height: fit-content; */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* z-index: 1; */
+    
+}
+.cover_photo img{
+    
+    /* opacity: 10%; */
+    width: 100%;
+    height: auto;
+    /* top: -750px; */
+    /* z-index: -1; */
+}
 .suplier_detail{
     display: grid;
     grid-template-columns: auto auto auto;

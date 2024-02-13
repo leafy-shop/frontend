@@ -69,15 +69,17 @@ const showPassword=computed(()=>{
             </h3>
             <div class="wrapper_input">
                 <input :style="[signInStatus==false?'border-color:#FCA5A5;':'']" class=" email" v-model="email" type="text"  maxlength="150" placeholder="Email, username or phone number">
-                <div :style="[signInStatus==false||passwordStatus==false?'border-color:#FCA5A5;':'']" class="wrapper_password">
-                    <input @keydown.enter="login" class="password" v-model="password" maxlength="150" :type="showPassword" placeholder="password" >
-                    <button @click="showPasswordStatus=!showPasswordStatus" >
-                        <img src="../assets/icon/close_eye_icon.svg" alt="close_eye">
-                    </button>
-                </div>
-                <div v-show="signInStatus==false||passwordStatus==false" class="wrapper_errorMsg">
-                    <img src="../assets/icon/error_icon.png" alt="error_icon">
-                    <p>{{ errorMsg }}</p>
+                <div class="errorMsg">
+                    <div :style="[signInStatus==false||passwordStatus==false?'border-color:#FCA5A5;':'']" class="wrapper_password">
+                        <input @keydown.enter="login" class="password" v-model="password" maxlength="150" :type="showPassword" placeholder="Password" >
+                        <button @click="showPasswordStatus=!showPasswordStatus" >
+                            <img src="../assets/icon/close_eye_icon.svg" alt="close_eye">
+                        </button>
+                    </div>
+                    <div v-show="signInStatus==false||passwordStatus==false" class="wrapper_errorMsg">
+                        <img src="../assets/icon/error_icon.png" alt="error_icon">
+                        <p>{{ errorMsg }}</p>
+                    </div>
                 </div>
             </div>
             <button class="signIn_button" @click="login"> 
@@ -131,7 +133,8 @@ const showPassword=computed(()=>{
 .container_signIn{
     display: flex;
     width: min(28.889dvw,416px);
-    height: min(25.278dvw,364px);
+    /* height: min(25.278dvw,364px); */
+    height: fit-content;
     flex-direction: column;
     gap: min(1.111dvw,16px);
     margin: auto;
@@ -150,20 +153,26 @@ const showPassword=computed(()=>{
     height: fit-content;
     gap: min(0.833dvw,12px);
 }
+.errorMsg {
+    display: flex;
+    flex-direction: column;
+    gap: min(0.278dvw,4px);
+}
 
 .wrapper_errorMsg{
     display: flex;
     width: auto;
-    height: min(2.361dvw,34px);
+    height: min(2.222dvw, 32px);
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
     font-size: min(0.833dvw,12px);
     border-radius: min(0.278dvw,4px);
     background-color: rgba(245, 72, 74, 0.08);
-    gap: min(0.556dvw,8px);
+    gap: min(0.278dvw,4px);
+    align-items: center;
 }
 .wrapper_errorMsg img{
-    width: min(1.042dvw,15px);
-    height: min(1.042dvw,15px);
+    width: min(1.111dvw, 16px);
+    height: min(1.111dvw, 16px);
 }
 .wrapper_errorMsg p{
     width: 100%;
@@ -171,12 +180,12 @@ const showPassword=computed(()=>{
     font-style: normal;
     font-weight: 400;
     line-height: 136%; /* 16.32px */
-    letter-spacing: 0.2px;
+    letter-spacing: min(0.014dvw, 0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.wrapper_password{
+.wrapper_password {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -187,14 +196,16 @@ const showPassword=computed(()=>{
     overflow: hidden;
     border-color: #E0E0E0;
     background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
-.wrapper_password:focus-within{
-outline: auto;
+.wrapper_password:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
-
-
-
-
+.wrapper_password:focus-within {
+    border-color: #26AC34;
+}
 .email{
     width: 100%;
     height: min(3.333dvw,48px);
@@ -204,28 +215,30 @@ outline: auto;
     border-color: #E0E0E0;
     background-color: #FFF;
     font-size: min(1.111dvw,16px);
-    font-weight: 400;    
+    font-weight: 300;    
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-
+    color: #212121;
 } 
+.email:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
 .email:focus-within{
-    outline: auto;
+    border-color: #26AC34;
 }
 .password{
     display: flex;
     width: 100%;
     height: 100%;
-    /* align-items: center;
-    justify-content: center; */
     padding: min(0.833dvw,12px) 0px min(0.833dvw,12px) min(1.389dvw,20px);
     border:0px;
     outline: none;
     font-size: min(1.111dvw,16px);
-    font-weight: 400;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-    
+    font-weight: 300;
+    color: #212121;
+    background-color: #FFF;
 }
-
 .wrapper_password button{
     display: flex;
     width: min(1.667dvw,24px);
@@ -239,7 +252,6 @@ outline: auto;
 .wrapper_password button img{
     width: min(1.667dvw,24px);
     height: min(1.667dvw,24px);
-
 }
 .signIn_button{
     display: flex;
@@ -254,9 +266,16 @@ outline: auto;
     background-color: #26AC34;
     color: #FFFFFF;
     border-radius: min(0.278dvw,4px);
-    border-color: inherit;
+    border: none;
     cursor: pointer;
-    padding: min(0.833dvw,12px)
+    padding: min(0.833dvw,12px);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.signIn_button:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    color: #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 .wrapper_other_login{
     width: auto;
@@ -329,12 +348,19 @@ h4 > span{
     }
     .container_signIn{
         width: min(47.312dvw,352px);
-        height: min(47.312dvw,344px);
+        /* height: min(47.312dvw,344px); */
+        height: fit-content;
         gap: min(2.151dvw,16px);
     }
     .container_signIn h3{
         height: min(4.839dvw,36px);
         font-size:min(3.226dvw,24px) ;
+    }
+    .wrapper_input{
+        gap: min(1.613dvw,12px);
+    }
+    .errorMsg {
+        gap: min(0.538dvw,4px);
     }
     .wrapper_other_login h4{
         height: min(2.688dvw,20px);
@@ -353,6 +379,8 @@ h4 > span{
         border-radius: min(0.538dvw,4px);
         height: min(6.452dvw,48px);
         font-size: min(2.151dvw,16px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+        color: #212121;
     }
     .password{
         padding: min(1.613dvw,12px)  0px  min(1.613dvw,12px) min(2.688dvw,20px);;
@@ -361,7 +389,6 @@ h4 > span{
     }
 
     .wrapper_errorMsg{
-        
         height: min(4.57dvw,34px);
         padding: min( 1.075dvw,8px) min( 1.613dvw,12px);
         font-size: min( 1.613dvw,12px);
@@ -369,8 +396,8 @@ h4 > span{
         gap: min( 1.075dvw,8px);
     }
     .wrapper_errorMsg img{
-        width: min( 2.016dvw,15px);
-        height: min( 2.016dvw,15px);
+        width: min(2.151dvw, 16px);
+        height: min(2.151dvw, 16px);
     }
     .wrapper_errorMsg p{
         font-size:min( 1.613dvw,12px);
@@ -420,6 +447,12 @@ h4 > span{
         height: min(7.447dvw,28px);
         font-size: min(4.787dvw,18px);
     }
+    .wrapper_input{
+        gap: min(2.128dvw,8px);
+    }
+    .errorMsg {
+        gap: min(1.064dvw,4px);
+    }
     .wrapper_other_login h4{
         height: min(5.319dvw,20px);
         font-size: min(3.723dvw,14px);
@@ -427,7 +460,7 @@ h4 > span{
     .wrapper_password{
         height: min(9.574dvw,36px);
         border:min(0.266dvw,1px) solid #E0E0E0;
-        border-radius:min(1.064dvw,4px) ;
+        border-radius: min(1.064dvw,4px);
     }
 
     .email{
@@ -436,6 +469,8 @@ h4 > span{
         border: 1px solid #E0E0E0;
         height: min(9.574dvw,36px);
         font-size: min(3.723dvw,14px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+        color: #212121;
     }
     .password{
         padding: min(2.128dvw,8px) 0px min(2.128dvw,8px) min(3.191dvw,12px);
@@ -449,7 +484,6 @@ h4 > span{
 
     }
     .wrapper_errorMsg{
-        
         height: min( 9.043dvw,34px);
         padding: min(2.128dvw,8px) min(3.191dvw,12px);
         font-size: min(3.191dvw,12px);
@@ -457,8 +491,8 @@ h4 > span{
         gap: min(2.128dvw,8px);
     }
     .wrapper_errorMsg img{
-        width: min(3.989dvw,15px);
-        height: min(3.989dvw,15px);
+        width: min(4.255dvw, 16px);
+        height: min(4.255dvw, 16px);
     }
     .wrapper_errorMsg p{
         font-size:min(3.191dvw,12px);
