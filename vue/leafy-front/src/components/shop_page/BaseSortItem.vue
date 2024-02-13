@@ -103,7 +103,8 @@ onUpdated(()=>{
                     {{ type.name }}
                 </button>
                 
-            </div>
+            </div>    
+            
         </div>
         <button class="filter_b" @click="showFilter">
             <h5>
@@ -166,14 +167,23 @@ onUpdated(()=>{
     margin-bottom: auto; */
 
 }
+.sort_type div{
+    width: 90%;
+    height: inherit;
+   overflow: auto; 
+}
+.sort_type div::-webkit-scrollbar{
+    display: none;
+}
 .sort_list{
     display: flex;
-    width: 100%;
-    height: fit-content;
+    width: fit-content;
+    height: 24px;
     gap: min(0.833dvw,12px);
-    overflow: auto;
+    
 }
 .sort_item{
+    display: flex;
     width: fit-content;
     height: min(2.5dvw,36px);
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
@@ -190,6 +200,7 @@ onUpdated(()=>{
     align-items: center;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     color: #212121;
+    white-space: nowrap;
 }
 .sort_item:hover {
     background: #26AC34;
