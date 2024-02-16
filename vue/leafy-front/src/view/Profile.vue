@@ -49,14 +49,13 @@ const recommendProduct=[
                         <!-- chat & follower -->
                         <div>
                             <button>
-                                Chat
+                                Chat Now
                             </button>
                             <button>
-                                Follower
+                                Follow
                             </button>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             
@@ -152,12 +151,9 @@ const recommendProduct=[
                     </h5>
                     <BaseProductList :product-list="recommendProduct"  :gridColumn="4"  />    
                 </div>
-               </div>
+            </div>
         </div>
-        
-       
 
-        
         <!-- product list and filter -->
         <div class="container_product">
             <BaseFilterItem/>
@@ -173,9 +169,14 @@ const recommendProduct=[
                     <BaseProductList :product-list="productList"  :gridColumn="3" :sold-out="true" />
                 </div>
             </div>
-        </div>
-        
-              
+        </div>       
+        <!-- <div class="container_product">
+            <BaseFilterItem/>
+            <div class="wrapper_product">
+                <Basesortitem/>
+                <BaseProductList :product-list="productList"  :gridColumn="3"  />
+            </div>
+        </div> -->
     </div>
     <BaseFooter/>  
 </template>
@@ -183,12 +184,12 @@ const recommendProduct=[
 *{
     box-sizing: border-box;
 }
-.wrapper_profile{
+.wrapper_profile {
     display: flex;
     flex-direction: column;
     width: auto;
     height: fit-content;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
     background-color: #F5F5F5;
     justify-content: center;
     align-items: center;
@@ -199,12 +200,12 @@ const recommendProduct=[
     position: relative;
     flex-direction: column;
     width: inherit;
-    height: 256px;
+    height: min(17.778dvw, 256px);
 }
 .big_image{
     display: flex;
     width: auto;
-    height: 192px;
+    height: min(13.333dvw, 192px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -232,20 +233,21 @@ const recommendProduct=[
     display: flex;
     position: relative;
     width: fit-content;
-    height: 128px;
+    height: min(8.889dvw,128px);
     /* position: absolute; 
     bottom: -50px;*/
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
     bottom: 0;
 }
 .user_img{
-    width: 128px;
-    height: 128px;
+    width: min(8.889dvw,128px);
+    height: min(8.889dvw,128px);
     border-radius: 50%;
+    border: min(0.278dvw,4px) solid #FFF;
     overflow: hidden;
-    background-color: #fff;
+    background-color: #FAFAFA;
 }
 .user_img img{
     width: 100%;
@@ -253,16 +255,16 @@ const recommendProduct=[
 }
 .user_info{
     display: flex;
-    width: 972px;
+    width: min(67.5dvw,972px);
     height: 100%;
     justify-content: space-between;
     align-items: end;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .user_info h5{
     width: fit-content;
-    height: 36px;
-    font-size: 24px;
+    height: min(2.5dvw,36px);
+    font-size: min(1.667dvw,24px);
     font-weight: 700;
     color: #111827;
     overflow: hidden;
@@ -273,22 +275,27 @@ const recommendProduct=[
     display: flex;
     width: fit-content;
     height: fit-content;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .user_info div button{
     display: flex;
-    width: 124px;
-    height: 40px;
-    font-size: 16px;
-    border: 1px solid ;
+    width: min(8.611dvw,124px);
+    height: min(2.778dvw,40px);
+    font-size: min(1.111dvw,16px);
+    border: min(0.069dvw,1px) solid;
     border-color: #26AC34;
     color: #26AC34;
     background-color: #FFF;
-    border-radius: 4px;
-    padding: 8px 12px;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+.user_info div button:hover {
+    border-color: #26AC34;
+    color: #fff;
+    background-color: #26AC34;
 }
 .wrapper_details{
     display: flex;
@@ -301,9 +308,9 @@ const recommendProduct=[
 .container_details{
     display: flex;
     flex-direction: column;
-    width: 1120px;
+    width: min(77.778dvw,1120px);
     height: fit-content;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
 }
@@ -317,9 +324,9 @@ const recommendProduct=[
 .recommedation h5{
     display: flex;
     width: inherit;
-    height: 36px;
+    height: min(2.5dvw,36px);
     font-weight: 700;
-    font-size: 24px;
+    font-size: min(1.667dvw,24px);
     color: #252525;
     align-items: center;
 }
@@ -329,30 +336,31 @@ const recommendProduct=[
     width: inherit;
     height: fit-content;
     background-color: white;
-    padding: 20px;
-    gap: 60px;
-    border-radius: 4px;
-    
+    padding: min(1.389dvw,20px);
+    gap: min(4.167dvw,60px);
+    border-radius: min(0.556dvw,8px);
 }
 .suplier_details div{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 
 }
 .suplier_details div div{
     display: flex;
-    width: 320px;
-    height: 20px;
+    width: min(22.222dvw,320px);
+    height: min(1.389dvw,20px);
     flex-direction: row;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
+    text-align: center;
+    align-items: center;
 }
 .suplier_details div > div:nth-child(3){
     display: none;
 }
 .suplier_details div div h6{
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #9E9E9E;
 }
@@ -361,134 +369,136 @@ const recommendProduct=[
 }
 .container_product{
     display: flex;
-    width: 1120px;
+    width: min(77.778dvw,1120px);
     height: fit-content;
     justify-content: center;
-    padding-bottom: 20px ;
-    gap: 32px;
+    padding-bottom: min(1.389dvw,20px);
+    gap: min(2.222dvw,32px);
 }
 .wrapper_product{
     display: flex;
+    width: min(57.778dvw,832px);
     flex-direction: column;
-    gap: 40px;
+    gap: min(2.778dvw,40px);
 }
 .product_list{
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: min(2.222dvw,32px);
 }
 .product_sold_out{
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap:min(2.222dvw,32px);
 }
 .product_sold_out h5{
-    font-size: 24px;
+    font-size: min(1.667dvw,24px);
     font-weight: 700;
     color: #252525;
 }
 
 @media (width<=744px){
     .wrapper_profile{
-        gap: 20px;
+        gap: min(2.688dvw,20px);
     }
     .container_user_info{
-        height: 256px;
+        height: min(34.409dvw,256px);
     }
     .big_image{
-        height: 192px;
+        height: min(25.806dvw,192px);
     }
     .user{
-        height: 128px;
-        gap: 20px;
+        height: min(17.204dvw,128px);
+        gap: min(2.688dvw,20px);
     }
     .user_img{
-        width: 128px;
-        height: 128px;
+        width: min(17.204dvw,128px);
+        height: min(17.204dvw,128px);
     }
     .user_info{
-        width: 508px;
+        width: min(68.28dvw,508px);
     }
     .user_info h5{
-        height: 36px;
-        font-size: 24px;
+        height: min(4.839dvw, 36px);
+        font-size: min(3.226dvw,24px);
     }
     .user_info div{
-        gap: 12px;
+        gap: min(1.613dvw,12px);
     }
     .user_info div button{
-        width: 124px;
-        height: 40px;
-        font-size: 16px;
-        border: 1px solid ;
-        border-radius: 4px;
-        padding: 8px 12px;  
+        width: min(16.667dvw,124px);
+        height: min(5.376dvw,40px);
+        font-size: min(2.151dvw,16px);
+        border: min(0.134dvw,1px) solid;
+        border-radius: min(0.538dvw,4px);
+        padding: min(1.075dvw,8px) min(1.613dvw,12px);  
     }
     .container_details{
-        width: 656px;
-        gap: 20px;
+        width: min(88.172dvw,656px);
+        gap: min(2.688dvw,20px);
     }
     .container_details h5{
-        height: 32px;
-        font-size: 20px;
+        height: min(4.301dvw,32px);
+        font-size: min(2.688dvw,20px);
     }
     .suplier_details{
-        padding: 16px;
-        gap: 12px;
-        border-radius: 4px;
+        padding: min(2.151dvw,16px);
+        gap: min(1.613dvw,12px);
+        border-radius: min(0.538dvw,4px);
     }
     .suplier_details div{
-        gap: 12px;
+        gap: min(1.613dvw,12px);
     }
     .suplier_details div div{
-        width: 200px;
-        height: 16px;
-        gap: 12px;
+        width: min(26.882dvw,200px);
+        height: min(2.151dvw,16px);
+        gap: min(1.613dvw,12px);
     }
     .suplier_details div div h6{
-        font-size: 12px;
+        font-size: min(1.613dvw,12px);
     }
     .container_product{
-        width: 656px;
-        padding-bottom: 20px ;
-        gap: 16px;
+        width: min(88.172dvw,656px);
+        padding-bottom: min(2.688dvw,20px);
+        gap: min(2.151dvw,16px);
     }
     .wrapper_product{
-        gap: 20px;
+        width: min(65.591dvw,488px);
+        gap: min(2.688dvw,20px);
     }
     .product_list{
-        gap: 20px;
+        gap: min(2.688dvw,20px);
     }
     .product_sold_out{
-        gap: 20px;
+        gap: min(2.688dvw,20px);
         
     }
     .product_sold_out h5{
-        font-size: 20px;
+        font-size: min(2.688dvw,20px);
     }
 
 }
 
 @media (width<=376px){
     .wrapper_profile{
-        gap: 12px;
+        gap: min(3.191dvw,12px);
     }
     .container_user_info{
-        height: 232px;
+        height: min(61.702dvw,232px);
     }
     .big_image{
-        height: 128px;
+        height: min(34.043dvw,128px);
     }
     .user{
-        width: 376px;
-        height: 152px;
-        gap: 20px;
+        width: min(100dvw,376px);
+        height: min(40.426dvw,152px);
+        gap: min(5.319dvw,20px);
     }
     .user_img{
         position: absolute;
-        width: 96px;
-        height: 96px;
-        left: 16px;
+        width: min(25.532dvw,96px);
+        height: min(25.532dvw,96px);
+        left: min(4.255dvw,16px);
         top: 0;
     }
     .user_info{
@@ -496,57 +506,57 @@ const recommendProduct=[
         justify-content: end;
         align-items: center;
         width: 100%;
-        gap: 12px;
+        gap: min(3.191dvw,12px);
     }
     .user_info h5{
         width: 65%;
-        height: 36px;
+        height: min(9.574dvw,36px);
         margin-left: 35%;        
-        font-size: 24px;
+        font-size: min(6.383dvw,24px);
         
     }
     .user_info div{
-        gap: 12px;
+        gap: min(3.191dvw,12px);
     }
     .user_info div button{
-        width: 166px;
-        height: 36px;
-        font-size: 14px;
-        border: 1px solid ;
-        border-radius: 4px;
-        padding: 8px 12px;  
+        width: min(44.149dvw,166px);
+        /* width: 100%; */
+        height: min(9.574dvw,36px);
+        font-size: min(3.723dvw,14px);
+        border: min(0.266dvw,1px) solid ;
+        border-radius: min(1.064dvw,4px);
+        padding: min(2.128dvw,8px) min(3.191dvw,12px);  
     }
     .container_details{
-        width: 376px;
-        gap: 12px;
-        
+        width: min(100dvw,376px);
+        gap: min(3.191dvw,12px);
     }
     .recommedation{
-        width: 344px;
+        width: min(91.489dvw,344px);
     }
     .recommedation h5{
-        width: 344px;
-        height: 28px;
-        font-size: 18px;
+        width: min(91.489dvw,344px);
+        height: min(7.447dvw,28px);
+        font-size: min(4.787dvw,18px);
     }
     .suplier_details{
-        padding: 16px;
-        gap: 12px;
+        padding: min(4.255dvw,16px);
+        gap: min(3.191dvw,12px);
         border-radius: 0px;
         justify-content: space-between;
     }
     .suplier_details div:nth-child(1){
         width: 100%;
         flex-direction: row;
-        gap: 12px;
+        gap: min(3.191dvw,12px);
         justify-content: space-between;
     }
     .suplier_details div:nth-child(1) div{
         flex-direction: row;
         width: fit-content;
-        height: 16px;
+        height: min(4.255dvw,16px);
         justify-content: center;
-        gap: 8px;
+        gap: min(2.128dvw,8px);
     }
     .suplier_details div:nth-child(1)> div:nth-child(3){
         display: flex;
@@ -555,24 +565,26 @@ const recommendProduct=[
         display: none;
     }
     .suplier_details div div h6{
-        font-size: 12px;
+        font-size: min(3.191dvw,12px);
     }
     .container_product{
-        width: 376px;
-        gap: 12px;
+        width: min(100dvw,376px);
+        gap: min(3.191dvw,12px);
+        padding: 0px min(4.255dvw,16px);
     }
     .wrapper_product{
-        gap:12px;
+        width: min(100dvw,376px);
+        gap: min(3.191dvw,12px);
     }
     .product_list{
-        gap:12px;
+        gap: min(3.191dvw,12px);
     }
     .product_sold_out{
-        padding-bottom: 16px;
-        gap: 12px;
+        padding-bottom: min(4.255dvw,16px);
+        gap: min(3.191dvw,12px);
     }
     .product_sold_out h5{
-        font-size: 18px;
+        font-size:  min(4.787dvw,18px);
         text-align: center;
     }
     

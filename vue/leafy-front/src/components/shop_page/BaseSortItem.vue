@@ -101,9 +101,7 @@ onUpdated(()=>{
                 <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
-                
             </div>    
-            
         </div>
         <button class="filter_b" @click="showFilter">
             <h5>
@@ -135,7 +133,6 @@ onUpdated(()=>{
                 </button>
             </div>
         </div>
-        
     </div>
 </template>
 <style scoped>
@@ -145,11 +142,14 @@ onUpdated(()=>{
 
 .wrapper_sort{
     display: flex;
-    width: inherit;
+    /* width: inherit; */
+    /* width: min(57.778dvw,832px); */
+    width: 100%;
     height: min(5.278dvw,76px);
     padding: min(1.389dvw,20px);
     border-radius: min(0.556dvw, 8px);
     background-color: #EEE;
+    justify-content: space-between;
 }
 .sort_type{
     display: flex;
@@ -176,7 +176,9 @@ onUpdated(()=>{
 }
 .sort_list{
     display: flex;
-    width: fit-content;
+    /* width: fit-content; */
+    /* width: min(42.222dvw,608px); */
+    width: 100%;
     height: 24px;
     gap: min(0.833dvw,12px);
     
@@ -260,10 +262,12 @@ onUpdated(()=>{
 }
 @media(width<=744px){
     .wrapper_sort{
+        /* width: min(65.591dvwm,488px); */
         height: min(6.452dvw,48px);
         padding: min(1.613dvw,12px);
     }
     .sort_type{
+        width: min(52.151dvw,388px);
         gap: min(1.075dvw,8px);
     }
     .sort_type h4{
@@ -271,6 +275,8 @@ onUpdated(()=>{
         font-size: min(1.613dvw,12px);
     }
     .sort_list{
+        /* width: min(47.849dvw,356px); */
+        width: 100%;
         gap: min(1.075dvw,8px);
     }
     .sort_item{
