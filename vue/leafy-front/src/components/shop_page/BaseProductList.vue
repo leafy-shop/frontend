@@ -19,6 +19,11 @@ let props = defineProps({
         type:Number,
         require:true,
         default:3
+    },
+    soldOut:{
+        type:Boolean,
+        require:true,
+        default:false
     }
     
 })
@@ -47,6 +52,9 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                 <div class="product_img">
                     <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name">
                     <img v-else src="../../assets/vue.svg" :alt="product.name">
+                    <div v-show="soldOut" class="sold_out">
+                        Sold out
+                    </div>
                 </div>
                 <div class="product_info">
                     <h4>
@@ -102,20 +110,39 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256)));
     height: min(v-bind(changeSize(23.333,'dvw')),v-bind(changeSize(336)));
     flex-direction: column;
-    border-radius: min(0.556dvw,8px);
+    border-radius: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
     overflow: hidden;
     border: none;
     cursor: pointer;
 }
 .product_img{
     display: flex;
+    position: relative;
     width: inherit;
     height: min(v-bind(changeSize(15.278,'dvw')),v-bind(changeSize(220)));
     overflow: hidden;
+    z-index: 0;
 }
 .product_img img{
     width: 100%;
     height: auto;
+    z-index: -1;
+}
+.product_img div{
+    display: flex;
+    width: 100%;
+    height: min(v-bind(changeSize(2.778,'dvw')),v-bind(changeSize(40)));
+    position: absolute;
+    padding: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
+    top: 50%;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFCE3D;
+    color: #FFFFFF;
+    font-size: min(v-bind(changeSize(1.111,'dvw')),v-bind(changeSize(16)));
+    font-weight: 700;
+    z-index: 2;
 }
 
 .product_info{
@@ -195,6 +222,11 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     .product_img{
         height: min(v-bind(changeSize(19.892,'dvw')),v-bind(changeSize(148)));
     }
+    .product_img div{ 
+        height: min(v-bind(changeSize(4.301,'dvw')),v-bind(changeSize(32)));  
+        padding: min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));  
+        font-size: min(v-bind(changeSize(2.151,'dvw')),v-bind(changeSize(16)));
+    }
     .product_info{
         height: min(v-bind(changeSize(12.903,'dvw')),v-bind(changeSize(96)));
         padding: min(v-bind(changeSize(1.613,'dvw')),v-bind(changeSize(12))) min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
@@ -238,6 +270,11 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     }
     .product_img{
         height: min(44.681dvw,168px);
+    }
+    .product_img div{ 
+        height: min(v-bind(changeSize(8.511,'dvw')),v-bind(changeSize(32)));  
+        padding: min(v-bind(changeSize(2.128,'dvw')),v-bind(changeSize(8)));  
+        font-size: min(v-bind(changeSize(3.191,'dvw')),v-bind(changeSize(12)));
     }
     .product_info{
         height: min(25.532dvw,96px);
