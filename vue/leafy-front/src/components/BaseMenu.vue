@@ -316,7 +316,6 @@ onMounted(()=>{
    box-sizing: border-box;
 }
 .main_menu{
-    
     display: flex;
     width: auto;
     height: min(5.556dvw, 80px);
@@ -427,6 +426,9 @@ onMounted(()=>{
     border: min(0.069dvw, 1px) solid #26AC34;
     background-color: #fff;
     box-shadow: 0px 0px 0px 4px #FFF, 0px 0px 0px 2px #26AC34;
+}
+.service_container_search:focus-within {
+    border-color: #26AC34;
 }
 
 .search_icon {

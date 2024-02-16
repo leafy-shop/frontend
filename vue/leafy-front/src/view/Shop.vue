@@ -327,22 +327,24 @@ onUpdated(()=>{
 .link_page_container{
     display: flex;
     width: 100%;
-    height: 36px;
+    height: min(2.5dvw,36px);
     justify-content: center;
     align-items: center;
 }
 .link_page_container ul{
     display: flex;
-    width: 317px;
-    height: inherit;
+    /* width: 317px; */
+    width: fit-content;
+    height: fit-content;
     flex-direction: row;
     justify-content: space-around;
-
+    gap: min(1.389dvw,20px);
+    flex-direction: row;
 }
 .link_page_container ul li{
     display: flex;
-    width: 40px;
-    height: 36px;
+    width: min(2.778dvw,40px);
+    height: min(2.5dvw,36px);
     list-style: none;
     justify-content: center;
     align-items: center;
@@ -354,29 +356,46 @@ onUpdated(()=>{
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(1.111dvw,16px);
     cursor: pointer;
     box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+    font-size: min(0.972dvw,14px);
+    letter-spacing: min(0.014dvw,0.2px); 
 }
-
+.link_page_container ul li button:hover {
+    background-color: #fff;
+    color: #26AC34;
+}
 .current_page button{
     background-color: #26AC34;
     color: #fff;
+    font-size: min(0.972dvw,14px);
+    letter-spacing: min(0.014dvw,0.2px); 
 }
 
 .move_page{
-    width: 44px;
-    height: 36px;
-    padding: 8px 12px;
+    width: min(3.056dvw, 44px);
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     cursor: pointer;
     background-color: #fff;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
+}
+.move_page:hover {
+    background-color: #26AC34;
 }
 .move_page svg{
     padding: 0px;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
+}
+.move_page svg path {
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
+}
+.move_page:hover svg path {
+    fill:#fff;
 }
 /* .link_page_container ul li button:focus{
     background-color: #26AC34;
@@ -399,6 +418,56 @@ onUpdated(()=>{
     }
     .wrapper_productList{
         width: min(65.591dvw,488px);
+        gap: min(2.688dvw, 20px);
+    }
+    .link_page_container{
+        height: min(3.226dvw,24px);
+    }
+    .link_page_container ul{
+        gap: min(2.151dvw,16px);
+    }
+    .link_page_container ul li{
+        width: min(4.301dvw,32px);
+        height: min(3.226dvw,24px);
+    }
+    .link_page_container ul li button{
+        border-radius: min(0.538dvw,4px);
+        padding: min(0.538dvw,4px) min(1.613dvw,12px);
+        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        font-size: min(1.613dvw,12px);
+        letter-spacing: min(0.027dvw,0.2px); 
+    }
+    .link_page_container ul li button:hover {
+        background-color: #fff;
+        color: #26AC34;
+    }
+    .current_page button{
+        background-color: #26AC34;
+        color: #fff;
+        font-size: min(1.613dvw,12px);
+        letter-spacing: min(0.027dvw,0.2px); 
+    }
+
+    .move_page{
+        width: min(4.301dvw,32px);
+        height: min(3.226dvw,24px);
+        padding: min(0.538dvw,4px) min(1.075dvw,12px);
+        background-color: #fff;
+        border-radius: min(0.538dvw,4px);
+    }
+    .move_page:hover {
+        background-color: #26AC34;
+    }
+    .move_page svg{
+        width: min(2.151dvw,16px);
+        height: min(2.151dvw,16px);
+    }
+    .move_page svg path {
+        width: min(2.151dvw,16px);
+        height: min(2.151dvw,16px);
+    }
+    .move_page:hover svg path {
+        fill:#fff;
     }
 }
 
@@ -406,7 +475,7 @@ onUpdated(()=>{
     .wrapper_productList{
         width: 100%;
         padding: min(3.191dvw,12px) min(8.511dvw,16px);
-        /* justify-content: center; */
+        gap: min(3.191dvw,12px);
     }
     .shop_content{
         /* display: flex; */
@@ -414,8 +483,54 @@ onUpdated(()=>{
         padding: 0px;
         background: #EEE;
     }
-    /* .wrapper_content{
-        flex-direction: column;
-    } */
+    .link_page_container{
+        height: min(6.383dvw,24px);
+    }
+    .link_page_container ul{
+        gap: min(3.191dvw,12px);
+    }
+    .link_page_container ul li{
+        width: min(6.383dvw,24px);
+        height: min(6.383dvw,24px);
+    }
+    .link_page_container ul li button{
+        border-radius: min(1.064dvw,4px);
+        padding: min(1.064dvw,4px) min(1.064dvw,4px);
+        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        font-size: min(3.191dvw,12px);
+        letter-spacing: min(0.027dvw,0.053px); 
+    }
+    .link_page_container ul li button:hover {
+        background-color: #fff;
+        color: #26AC34;
+    }
+    .current_page button{
+        background-color: #26AC34;
+        color: #fff;
+        font-size: min(3.191dvw,12px);
+        letter-spacing: min(0.027dvw,0.053px); 
+    }
+
+    .move_page{
+        width: min(6.383dvw,24px);
+        height: min(6.383dvw,24px);
+        /* padding: min(1.064dvw,4px) min(1.064dvw,4px); */
+        background-color: #fff;
+        border-radius: min(1.064dvw,4px);
+    }
+    .move_page:hover {
+        background-color: #26AC34;
+    }
+    .move_page svg{
+        width: min(4.255dvw,16px);
+        height: min(4.255dvw,16px);
+    }
+    .move_page svg path {
+        width: min(4.255dvw,16px);
+        height: min(4.255dvw,16px);
+    }
+    .move_page:hover svg path {
+        fill:#fff;
+    }
 }
 </style>
