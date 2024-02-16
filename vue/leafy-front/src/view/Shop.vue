@@ -111,8 +111,6 @@ const changePage=async (number,n)=>{
     // pageHidden(currentPage.value)
 }
 
-
-
 const getFilterItem=async(data)=>{
     // filterData.value=data
     let {category,max,min,rating,tag,sortBy}=data

@@ -96,21 +96,21 @@ const fetch = {
     },
     
     // product shop page
-     async getAllProduct(page = 1, limit=18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined){
+     async getAllProduct(page = 1, limit=18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined){
         let returnData = { status: false, data: undefined, msg:'' }
         console.log('startttttttttttttttt')
         // await this.getRefresh()
         try {
-
             let url = `${origin}/api/products?page=${page}`
             if (searchItem.length !== 0) url += `&product=${searchItem}`;
             if (type.length !== 0) url += `&type=${type}`;
             if (min > 0) url += `&min_price=${min}`;
             if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
             if (rating !== 0) url += `&rating=${rating}`;
-            if (tag !== "") url += `&tag=${tag}`;
+            if (tag.length !== 0) url += `&tag=${tag}`;
             if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
             if (sort !== undefined) url += `&sort=${sort}`;
+            if (owner !== undefined) url += `&owner=${owner}`
 
             console.log(url)
 

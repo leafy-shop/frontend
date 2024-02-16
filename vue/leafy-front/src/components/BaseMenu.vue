@@ -28,6 +28,7 @@ const changeIconColor=(element)=>{
 
 // this function check current page and change color link that have same name
 const checkCurrentURL=()=>{
+    console.log(keyPass.value)
     // console.log(testing.split("/"))
     const location=window.location.href.split("/")[4]
     console.log(window.width)
@@ -87,7 +88,7 @@ const goShop=()=>{
     }
 }
 const goCartList=()=>myRouter.push({name:'CartList'})
-const goProfile=(name='mago',id=11)=>myRouter.push({name:'Profile',params:{name:name,id:id}})
+const goProfile=(id=11)=>myRouter.push({name:'Profile',params:{id:id}})
 
 const signOut = async () => {
     let isOut=await fetch.signOut()
@@ -198,12 +199,12 @@ onMounted(()=>{
                 </button> -->
                 <!-- sign-in -->
                 <button v-if="keyPass==undefined" @click="goSignin" class="service_sign-in">
-                        Sign In
+                        Sign In 
                 </button>
                 <!-- user profile -->
-                <button @click="goProfile" v-else class="user_profile">
-                        <img src="../assets/icon/user_icon.png" alt="user_icon">
-                </button>    
+                <button @click="goProfile(keyPass.id)" v-else class="user_profile">
+                        <img src="../assets/icon/user_icon.png" alt="user_icon"> 
+                </button>
             </div>
         </div>
         <div v-show="showMenu2" class="main_menu_container_2">
@@ -275,7 +276,7 @@ onMounted(()=>{
                                 </h5>
                             </div>
                         </div>
-                        <button @click="goProfile" class="account_bt">
+                        <button @click="goProfile(keyPass.id)" class="account_bt">
                             My profile
                         </button>
                        
