@@ -6,7 +6,7 @@ let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 let props = defineProps({
     productList :{
-        type:Object,
+        type:Array,
         require:true,
         default:{}
     },
@@ -21,11 +21,10 @@ let props = defineProps({
         default:3
     },
     soldOut:{
-        type:Boolean,
+        type:Array,
         require:true,
         default:false
     }
-    
 })
 // for change css style
 const changeGridT=()=>{
@@ -47,14 +46,15 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 </script>
 <template>
     <div class="wrapper_product_list">
+        <!-- product shop -->
         <div class="grid_container">
             <button @click="goProductDetail(product.itemId)" v-for="(product,index) of productList" :key="index" class="grid_item">
                 <div class="product_img">
                     <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name">
                     <img v-else src="../../assets/vue.svg" :alt="product.name">
-                    <div v-show="soldOut" class="sold_out">
-                        Sold out
-                    </div>
+                    <!-- <div v-show="soldOut" class="sold_out">
+                        Sold out 
+                    </div> -->
                 </div>
                 <div class="product_info">
                     <h4>
@@ -62,7 +62,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                     </h4>
                     <div class="info_quality">
                         <h5>
-                            <span>฿</span>{{ product.price }}
+                            <span>฿</span>{{ product.minPrice }} {{ product.maxPrice !== undefined ? `- ${product.maxPrice}` : '' }}
                         </h5>
                         <div>
                             <div  class="rating">
@@ -85,7 +85,46 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                 </div>
             </button>
         </div>
-
+        <hr>
+        <!-- sold out -->
+        <div class="grid_container">
+            <button @click="goProductDetail(product.itemId)" v-for="(product,index) of soldOut" :key="index" class="grid_item">
+                <div class="product_img">
+                    <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name">
+                    <img v-else src="../../assets/vue.svg" :alt="product.name">
+                    <div class="sold_out">
+                        Sold out
+                    </div>
+                </div>
+                <div class="product_info">
+                    <h4>
+                        {{ product.name }}
+                    </h4>
+                    <div class="info_quality">
+                        <h5>
+                            <span>฿</span>{{ product.minPrice }} {{ product.maxPrice !== undefined ? `- ${product.maxPrice}` : '' }}
+                        </h5>
+                        <div>
+                            <div  class="rating">
+                                <div v-for="(n,index) of Math.floor(product.totalRating)" :key="index" class="rating_fill">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                        <path d="M5.42934 1.75625C5.60934 1.20365 6.39114 1.20365 6.57054 1.75625L7.21254 3.73145C7.25176 3.85174 7.32801 3.95655 7.43038 4.03091C7.53275 4.10526 7.65601 4.14535 7.78254 4.14545H9.85974C10.4411 4.14545 10.6823 4.88945 10.2125 5.23145L8.53254 6.45185C8.42995 6.52626 8.35357 6.63125 8.31434 6.75176C8.2751 6.87226 8.27503 7.0021 8.31414 7.12265L8.95614 9.09785C9.13614 9.65045 8.50314 10.1106 8.03214 9.76865L6.35214 8.54825C6.24966 8.47385 6.12627 8.43378 5.99964 8.43378C5.873 8.43378 5.74961 8.47385 5.64714 8.54825L3.96714 9.76865C3.49674 10.1106 2.86434 9.65045 3.04374 9.09785L3.68574 7.12265C3.72484 7.0021 3.72477 6.87226 3.68554 6.75176C3.6463 6.63125 3.56992 6.52626 3.46734 6.45185L1.78794 5.23205C1.31814 4.89005 1.55994 4.14605 2.14074 4.14605H4.21734C4.34396 4.14608 4.46736 4.10605 4.56985 4.03169C4.67234 3.95732 4.74868 3.85244 4.78794 3.73205L5.42994 1.75685L5.42934 1.75625Z" fill="#FFCE3D"/>
+                                    </svg>
+                                </div>
+                                <div v-for="(n,index) of 5-Math.floor(product.totalRating)" :key="index" class="rating_empty">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                        <path d="M5.42934 1.75625C5.60934 1.20365 6.39114 1.20365 6.57054 1.75625L7.21254 3.73145C7.25176 3.85174 7.32801 3.95655 7.43038 4.03091C7.53275 4.10526 7.65601 4.14535 7.78254 4.14545H9.85974C10.4411 4.14545 10.6823 4.88945 10.2125 5.23145L8.53254 6.45185C8.42995 6.52626 8.35357 6.63125 8.31434 6.75176C8.2751 6.87226 8.27503 7.0021 8.31414 7.12265L8.95614 9.09785C9.13614 9.65045 8.50314 10.1106 8.03214 9.76865L6.35214 8.54825C6.24966 8.47385 6.12627 8.43378 5.99964 8.43378C5.873 8.43378 5.74961 8.47385 5.64714 8.54825L3.96714 9.76865C3.49674 10.1106 2.86434 9.65045 3.04374 9.09785L3.68574 7.12265C3.72484 7.0021 3.72477 6.87226 3.68554 6.75176C3.6463 6.63125 3.56992 6.52626 3.46734 6.45185L1.78794 5.23205C1.31814 4.89005 1.55994 4.14605 2.14074 4.14605H4.21734C4.34396 4.14608 4.46736 4.10605 4.56985 4.03169C4.67234 3.95732 4.74868 3.85244 4.78794 3.73205L5.42994 1.75685L5.42934 1.75625Z" fill="#E0E0E0"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h6 class="sold">
+                                {{ product.sold }} sold
+                            </h6>
+                        </div>
+                    </div>     
+                </div>
+            </button>
+        </div>
     </div>
 </template>
 <style scoped>
