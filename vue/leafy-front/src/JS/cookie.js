@@ -1,7 +1,7 @@
 import cryptoJs from 'crypto-js';
 import Cookies from 'js-cookie';
 import validation from './validation'
-const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
+const key=`${import.meta.env.VITE_BASE_INFORMATION_COOKIE}`
 // const cookieName='information'
 let cookie = {
 

@@ -25,7 +25,6 @@ let props = defineProps({
         require:true,
         default:false
     }
-    
 })
 // for change css style
 const changeGridT=()=>{
@@ -62,7 +61,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                     </h4>
                     <div class="info_quality">
                         <h5>
-                            <span>฿</span>{{ product.price }}
+                            <span>฿</span>{{ product.minPrice }} {{ product.maxPrice !== undefined ? `- ${product.maxPrice}` : '' }}
                         </h5>
                         <div>
                             <div  class="rating">
