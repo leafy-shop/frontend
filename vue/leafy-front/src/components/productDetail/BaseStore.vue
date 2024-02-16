@@ -93,7 +93,7 @@ let props = defineProps({
                         2 days ago
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

@@ -27,7 +27,6 @@ const allItems = ref(0)
 const totalPage = ref(1)
 // this attribute for receive data when get from api
 const productList = ref([])
-const outOfStockList = ref([])
 
 // this share center for open and close filter
 const isShowFilter=ref(undefined)
@@ -94,7 +93,6 @@ const getProduct=async(page)=>{
     console.log(data.list)
     // productList.value=data
     productList.value=data.list
-    outOfStockList.value=data.outStock
     allItems.value=data.allItems
     totalPage.value=data.allPage
     // totalPage.value=10
@@ -112,6 +110,8 @@ const changePage=async (number,n)=>{
     await getProduct(currentPage.value)
     // pageHidden(currentPage.value)
 }
+
+
 
 const getFilterItem=async(data)=>{
     // filterData.value=data
@@ -195,7 +195,7 @@ onUpdated(()=>{
                 @moveRight="moveRight" 
                 :change-page="{currentPage:currentPage,totalPage:totalPage}"
                 />
-                <BaseProductList :productList="productList" :sold-out="outOfStockList" :size="100" :gridColumn="3"/>
+                <BaseProductList :productList="productList" :size="100" :gridColumn="3"/>
                 <div class="link_page_container">
                     <ul>
                         <li @click="moveLeft(currentPage) " class="move_page">
