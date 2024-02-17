@@ -360,7 +360,7 @@ let imageRight = () => {
     display: grid;
     width: inherit;
     height: fit-content;
-    grid-template-columns: v-bind(changeGridT()) ;
+    /* grid-template-columns: v-bind(changeGridT()) ; */
     gap: min(0.556dvw, 8px);
 }
 .grid_item {

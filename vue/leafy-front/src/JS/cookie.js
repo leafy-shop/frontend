@@ -13,14 +13,13 @@ let cookie = {
     },
     decrypt(cookieName='information'){
       let cookieValue=this.get(cookieName)
-      // console.log(cookieValue)
+      console.log(cookieValue)
       if(cookieValue==undefined){
         validation.function_Status('Decrypt',false,'cookie is null')
         return undefined
       }else{
-        // console.log(key)
-        // let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
-        let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString())
+        // console.log(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
+        let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
         // console.log(decryptData)
         validation.function_Status('Decrypt',true,'its work!!')
         return decryptData
