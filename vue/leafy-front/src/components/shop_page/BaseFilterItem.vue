@@ -335,12 +335,10 @@ onUpdated(() => {
                     Point
                 </h4>
                 <div class="point_list">
-
                     <div v-for="(value, index) in 5" class="point_item" :key="index">
                         <!-- <input type="radio" :id="`rating_${value}`" name="rating" :value="10 - (value + 4)"
                             v-model="rating" /> -->
                         <div @click="ratingSelecter(10 - (value + 4),`rating_${value}`,`point_item_full_${index}`)" :for="`rating_${value}`" :class="`rating_${value}`">
-
                             <div v-for="(vf, indexf) in 10 - (value + 4)" :key="indexf" :class="`point_item_full_${index}`">
                                 <!-- {{ vf }} -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
@@ -583,10 +581,8 @@ onUpdated(() => {
     width: min(1.389dvw, 20px);
     height: min(1.389dvw, 20px);
 }
-/* .point_item label div svg:nth-child(1):hover {
+.point_item:hover div div svg path {
     fill: #26AC34;
-} */
-.point_item div div svg path:nth-child(1):hover {
     stroke: #26AC34;
 }
 
@@ -679,11 +675,13 @@ onUpdated(() => {
 }
 .wrapper_apply_clear button:nth-child(1):hover {
     border-color: #26AC34;
-    background: #fff;
+    background-color: #fff;
     color: #26AC34;
 }
 .wrapper_apply_clear button:nth-child(1):active {
-    background: #FAFAFA;
+    background-color: #58d264;
+    border-color: #58d264;
+    color: #FFF;
 }
 .wrapper_apply_clear button {
     /* width: min(15dvw, 216px); */
