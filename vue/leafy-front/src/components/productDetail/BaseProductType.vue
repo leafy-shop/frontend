@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed ,onUpdated,onMounted} from 'vue'
 
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
@@ -17,6 +17,11 @@ let props = defineProps({
         required: true
     }
 })
+// onUpdated(()=>{
+//     console.log('Tseting',props.productStyle)
+//     console.log(props.selectedStyle)
+// })
+
 
 let stepInput = ref(1)
 let slideImage = ref(0)
@@ -79,17 +84,36 @@ let imageRight = () => {
     slideImage.value = slideImage.value < maxImage.value ? slideImage.value + 1 : slideImage.value
 }
 
+const ratingStar=()=>{
+    const star=document.getElementsByClassName("star_item")
+    //start from front
+    for(let i=0;i<(productStyle.value.ratingFloor);i++){
+           star[i].getElementsByTagName("path")[0].setAttribute('fill',"#FFCE3D")
+    }
+    //start from back
+    for(let i=star.length-1;i>=0;i--){
+        // console.log(star[i].getElementsByTagName("path")[0])
+        star[i].getElementsByTagName("path")[0].setAttribute('stroke',"#FFCE3D")
+    }
+}
+onMounted(()=>{
+    // ratingStar()
+})
+onUpdated(()=>{
+    ratingStar()
+})
 </script>
 <template>
     <div class="wrapper_Product_type">
         <div class="images">
             <div class="styles">
                 <ul>
-                    <li v-for="(value, idx) in selectedStyle.images" :key="idx">
+                    <li v-if="Object.keys(selectedStyle).length!=0" v-for="(value, idx) in selectedStyle.images" :key="idx">
                         <button @click="selectedImage(idx)">
                             <!-- {{ `${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}` }} -->
                             <!-- `${origin}/api/image/users/${designer.userId}/${designer.image}` -->
-                            <img :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
+                            <img v-if="selectedStyle.images.length==0" src="../../assets/vue.svg" alt="image_style">
+                            <img v-else :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
                         </button>
                     </li>
                 </ul>
@@ -121,7 +145,7 @@ let imageRight = () => {
         <div class="container_information">
             <div class="information_header">
                 <h4>
-                    Prolyscias Fabian
+                    {{ productStyle.name }}
                 </h4>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_3219_22258" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="3" width="21" height="20">
@@ -137,17 +161,37 @@ let imageRight = () => {
                 <!-- for show rating and sold -->
                 <div class="rating_list">
                     <div class="rating_item">
-                        <p>4.6</p>
-                        ⭐ ⭐ ⭐ ⭐ ⭐
+                        <p>
+                            {{ productStyle.rating }}
+                        </p>
+                        <div class="star_list">
+                            <svg v-for="(star,index) in 5" :key="index" xmlns="http://www.w3.org/2000/svg" class="star_item"   width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path 
+                                    d="M9.04897 2.92708C9.34897 2.00608 10.652 2.00608 10.951 2.92708L12.021 6.21908C12.0863 6.41957 12.2134 6.59426 12.384 6.71818C12.5547 6.84211 12.7601 6.90892 12.971 6.90908H16.433C17.402 6.90908 17.804 8.14908 17.021 8.71908L14.221 10.7531C14.05 10.8771 13.9227 11.0521 13.8573 11.2529C13.7919 11.4538 13.7918 11.6702 13.857 11.8711L14.927 15.1631C15.227 16.0841 14.172 16.8511 13.387 16.2811L10.587 14.2471C10.4162 14.1231 10.2105 14.0563 9.99947 14.0563C9.78842 14.0563 9.58277 14.1231 9.41197 14.2471L6.61197 16.2811C5.82797 16.8511 4.77397 16.0841 5.07297 15.1631L6.14297 11.8711C6.20815 11.6702 6.20803 11.4538 6.14264 11.2529C6.07725 11.0521 5.94994 10.8771 5.77897 10.7531L2.97997 8.72008C2.19697 8.15008 2.59997 6.91008 3.56797 6.91008H7.02897C7.24002 6.91013 7.44568 6.84342 7.6165 6.71948C7.78732 6.59554 7.91455 6.42073 7.97997 6.22008L9.04997 2.92808L9.04897 2.92708Z"
+                                     />
+                            </svg>
+                        </div>
+
+                        
                     </div>
                     <p>
-                        1 sold
+                        {{productStyle.sold}} sold
                     </p>
                 </div>
                 <!-- for show price -->
                 <div class="price">
+                    <!-- <h3>
+                        ฿{{productStyle.price.min}} 
+                        <span v-if="productStyle.price.max>0">
+                            - ฿{{productStyle.price.max}}
+                        </span> 
+                    </h3> -->
                     <h3>
-                        ฿80 - ฿150
+                        <!-- {{ productStyle.price_min }} -->
+                        ฿{{productStyle.price_min}} 
+                        <span v-if="productStyle.price_max!=0">
+                            - ฿{{productStyle.price_max}}
+                        </span> 
                     </h3>
                 </div>
                 <!-- for show type -->
@@ -164,16 +208,16 @@ let imageRight = () => {
                         Quantity
                     </h6>
                     <div class="stocks_list">
-                        <button>
-                            &lt;
+                        <button @click="leftSubstract">
+                            -
                         </button>
                         <input type="text" @input="detectNumber" v-model="stepInput"/>
                         <button @click="rightAdd">
-                            &gt;
+                            +
                         </button>
                     </div>
                     <p>
-                        13 pieces avaliable
+                        {{selectedStyle.stock}} pieces avaliable
                     </p>
                 </div>
                 <!-- button for add and buy -->
@@ -198,7 +242,8 @@ let imageRight = () => {
     display: flex;
     /* width: min(77.778dvw, 1120px); */
     /* height: fit-content; */
-    height: min(33.611dvw, 484px);
+    /* height: min(33.611dvw, 484px); */
+    height: fit-content;
     padding: min(1.389dvw, 20px);
     gap: min(1.389dvw, 20px);
     background-color: #fff;
@@ -240,6 +285,7 @@ let imageRight = () => {
     border: none;
     border-radius: min(0.278dvw, 4px);
     background-color: rgb(196, 196, 196);
+    cursor: pointer;
 }
 
 .styles ul li button img {
@@ -262,7 +308,7 @@ let imageRight = () => {
     justify-content: center;
     align-items: center;
     border-radius: min(0.278dvw, 4px);
-    background-color: rgb(196, 196, 196);
+    background-color: rgb(50, 50, 50);
 }
 
 .show_image div {
@@ -284,6 +330,7 @@ let imageRight = () => {
     border: none;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     /* flex-grow: 1; */
 }
 .show_image div button svg {
@@ -296,6 +343,7 @@ let imageRight = () => {
     height: auto;
     justify-content: center;
     align-items: center;
+    background-position: center;
 }
 
 .container_information {
@@ -307,14 +355,25 @@ let imageRight = () => {
     flex-direction: column;
     gap: min(1.111dvw, 16px);
 }
-.container_information h4 {
-    font-size: min(1.667dvw, 24px);
-    line-height: 152%;
-    color: #212121;
-}
+
 .information_header {
+    width: 100%;
+    height: fit-content;
     display: flex;
     justify-content: space-between;
+}
+.information_header h4{
+    width: inherit;
+    height: inherit;
+    font-size: min(1.667dvw, 24px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: normal;
+    line-height: 152%;
+    color: #212121;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 .information_header svg {
     display: flex;
@@ -350,17 +409,27 @@ let imageRight = () => {
     color: #212121;
 }
 .rating_item p {
+    width: fit-content;
+    height: inherit;
+    font-size: 14px;
     text-decoration: underline;
+}
+.price{
+    display: flex;
+    width: 100%;
+    height: 48px;
+    align-items: center;
 }
 .price h3 {
     font-size: min(2.222dvw, 32px);
+    font-weight: 400;
     color: #26AC34;
 }
 .grid_container{
     display: grid;
     width: inherit;
     height: fit-content;
-    grid-template-columns: v-bind(changeGridT()) ;
+    grid-template-columns: auto auto auto auto auto auto auto ;
     gap: min(0.556dvw, 8px);
 }
 .grid_item {
@@ -393,6 +462,8 @@ let imageRight = () => {
 } */
 .stocks {
     display: flex;
+    width: 100%;
+    height: 36px;
     align-items: center;
     text-align: center;
     gap: min(0.556dvw, 8px);
@@ -407,8 +478,42 @@ let imageRight = () => {
     letter-spacing: min(0.014dvw, 0.2px);
     color: #9E9E9E;
 }
-.stock_list button input{
+.stocks_list{
+    display: flex;
+    width: fit-content;
+    height: 36px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px;
+    /* border-color: #E0E0E0; */
+    /* border: 1px solid #E0E0E0; */
+    align-items: center;
+    justify-content: center;
+}
+
+.stocks_list input{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: inherit;
+    border: none;
+    text-align: center;
+    padding: 8px 12px;
+    background-color: #fff;
+    outline: none;
+}
+.stocks_list button{
+    width: 32px;
+    height: 36px;
     height: min(2.5dvw, 36px);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px, 12px;
+    border:none;
+    background-color: #E0E0E0;
+    border-color: #E0E0E0;
+    cursor: pointer;
 }
 .wrapper_apply_buy {
     display: flex;
