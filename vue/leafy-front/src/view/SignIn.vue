@@ -68,12 +68,15 @@ const showPassword=computed(()=>{
                 Sign in
             </h3>
             <div class="wrapper_input">
-                <input :style="[signInStatus==false?'border-color:#FCA5A5;':'']" class=" email" v-model="email" type="text"  maxlength="150" placeholder="Email, username or phone number">
+                <input :style="[signInStatus==false?'border-color:#FCA5A5;':'']" class="email" v-model="email" type="text"  maxlength="150" placeholder="Email, username or phone number">
                 <div class="errorMsg">
                     <div :style="[signInStatus==false||passwordStatus==false?'border-color:#FCA5A5;':'']" class="wrapper_password">
                         <input @keydown.enter="login" class="password" v-model="password" maxlength="150" :type="showPassword" placeholder="Password" >
                         <button @click="showPasswordStatus=!showPasswordStatus" >
-                            <img src="../assets/icon/close_eye_icon.svg" alt="close_eye">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.7302 5.07319C11.1449 5.02485 11.5685 5 12 5C16.664 5 20.3999 7.90264 22 12C21.6054 13.0104 21.0809 13.9482 20.4447 14.7877M6.51962 6.51944C4.47955 7.76406 2.90111 9.69259 2 12C3.60014 16.0974 7.33603 19 12 19C14.0376 19 15.898 18.446 17.4806 17.4804M9.87877 9.87859C9.33582 10.4215 9 11.1715 9 12C9 13.6569 10.3431 15 12 15C12.8285 15 13.5785 14.6642 14.1214 14.1212" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 4L20 20" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
                         </button>
                     </div>
                     <div v-show="signInStatus==false||passwordStatus==false" class="wrapper_errorMsg">
@@ -203,6 +206,9 @@ const showPassword=computed(()=>{
     background-color: #FFF;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
+.wrapper_password:hover svg path {
+    stroke: #26AC34;
+}
 .wrapper_password:focus-within {
     border-color: #26AC34;
 }
@@ -272,10 +278,13 @@ const showPassword=computed(()=>{
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 .signIn_button:hover {
-    border: min(0.069dvw, 1px) solid #26AC34;
-    color: #26AC34;
-    background-color: #FFF;
+    /* border: min(0.069dvw, 1px) solid #26AC34;
+    color: #26AC34; */
+    background-color: #168A22;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.signIn_button:active {
+    background-color: #58d264;
 }
 .wrapper_other_login{
     width: auto;
@@ -501,7 +510,7 @@ h4 > span{
         height: min(9.574dvw,36px);
         padding:min(2.128dvw,8px) min(3.191dvw,12px);
         font-size: min(3.723dvw,14px);
-        border-radius:min(1.064dvw,4px) ;
+        border-radius:min(1.064dvw,4px);
     }
     .other_login{
         height: min(10.638dvw,40px);

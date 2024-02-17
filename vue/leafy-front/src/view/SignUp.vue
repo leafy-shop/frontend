@@ -230,7 +230,6 @@ onMounted(()=>{
                                     <path d="M10.7302 5.07319C11.1449 5.02485 11.5685 5 12 5C16.664 5 20.3999 7.90264 22 12C21.6054 13.0104 21.0809 13.9482 20.4447 14.7877M6.51962 6.51944C4.47955 7.76406 2.90111 9.69259 2 12C3.60014 16.0974 7.33603 19 12 19C14.0376 19 15.898 18.446 17.4806 17.4804M9.87877 9.87859C9.33582 10.4215 9 11.1715 9 12C9 13.6569 10.3431 15 12 15C12.8285 15 13.5785 14.6642 14.1214 14.1212" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M4 4L20 20" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
                                 </svg>
-
                             </button>
                         </div>
                     </label>
@@ -288,19 +287,20 @@ onMounted(()=>{
             </div>
             
             <!-- Sign Up -->
-            <button @click="signUp" class="sign_up_bt">
-                Sign Up
-            </button>
-            
-            <div v-show="isShowE" class="wrapper_errorMsg">
-                <div>
-                    <img src="../assets/icon/error_icon.png" alt="error_icon">
-                    <p>
-                        {{ errorMSG }}
-                    </p>
-                </div>
-                
-            </div>     
+            <div class="btn_msg">
+                <button @click="signUp" class="sign_up_bt">
+                    Sign Up
+                </button>
+                <div v-show="isShowE" class="wrapper_errorMsg">
+                    <div>
+                        <img src="../assets/icon/error_icon.png" alt="error_icon">
+                        <p>
+                            {{ errorMSG }}
+                        </p>
+                    </div>
+                </div>  
+            </div>
+               
             <!-- other way -->
             <Another :-show-sign-up="false" />
         </div>
@@ -364,9 +364,18 @@ onMounted(()=>{
     width: inherit;
     height: min(3.333dvw,48px);
     font-size: min(1.111dvw,16px);
+    font-weight: 300;
     padding: min(0.833dvw,12px) min(1.389dvw,20px);
     border: min(0.069dvw,1px) solid #E0E0E0;
     border-radius: min(0.278dvw,4px);
+}
+.input_item input:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.input_item input:focus-within{
+    border-color: #26AC34;
 }
 .input_password{
     display: flex;
@@ -390,8 +399,16 @@ onMounted(()=>{
     cursor: text;
 }
 .input_password label div:focus-within{
-    outline: auto;
-
+    /* outline: auto; */
+    border: min(0.069dvw, 1px) solid #26AC34;
+}
+.input_password label div:hover {
+    border: min(0.069dvw, 1px) solid #26AC34;
+    background-color: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.input_password label div:hover svg path{
+    stroke: #26AC34;
 }
 .input_password label div input{
     width: 100%;
@@ -399,6 +416,7 @@ onMounted(()=>{
     border: none;
     outline: none;
     font-size: min(1.111dvw,16px);
+    font-weight: 300;
 }
 .input_password label div button{
     border: none;
@@ -410,19 +428,37 @@ onMounted(()=>{
     height: min(1.667dvw,24px);
     
 }
+.btn_msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: min(0.278dvw,4px);
+}
 .sign_up_bt{
-    width: inherit;
-    height: min(2.778dvw,40)px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: inherit; */
+    width: 100%;
+    height: min(3.611dvw,52px);
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    font-size: min(1.25dvw,18px);
+    font-weight: 500;
+    line-height: 156%; /* 28.08px */
+    letter-spacing: min(0.014dvw,0.2px);
     background-color: #26AC34;
     color: #FFFFFF;
-    font-size: min(1.111dvw,16px);
-    font-weight: 500;
     border: none;
     border-radius: min(0.278dvw,4px);
     cursor: pointer;
     box-shadow: 0px 1px 2px 0px #0000000D;
-
+}
+.sign_up_bt:hover {
+    /* border: min(0.069dvw, 1px) solid #26AC34;
+    color: #26AC34; */
+    background-color: #168A22;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 .sign_up_bt:active{
     background-color: #58d264;
@@ -513,10 +549,14 @@ onMounted(()=>{
         width: min(3.226dvw,24px);
         height: min(3.226dvw,24px);
     }
+    .btn_msg {
+        gap: min(0.538dvw,4px);
+    }
     .sign_up_bt{
         height: min(5.376dvw,40px);
-        padding: min(1.075dvw,8px) min(1.613dvw,12px);
+        padding:min(1.075dvw,8px)  min(1.613dvw,12px);
         font-size: min(2.151dvw,16px);
+        border-radius: min(0.538dvw,4px);
     }
     .wrapper_errorMsg{
         padding: min(1.075dvw,8px) min(1.613dvw,12px);
@@ -588,10 +628,14 @@ onMounted(()=>{
         width: min(5.319dvw,20px);
         height: min(5.319dvw,20px);
     }
+    .btn_msg {
+        gap: min(1.064dvw,4px);
+    }
     .sign_up_bt{
         height: min(9.574dvw,36px);
-        padding: min(2.128dvw,8px) min(3.191dvw,12px);
+        padding:min(2.128dvw,8px) min(3.191dvw,12px);
         font-size: min(3.723dvw,14px);
+        border-radius:min(1.064dvw,4px);
     }
     .wrapper_errorMsg{
         padding: min(2.128dvw,8px) min(3.191dvw,12px);

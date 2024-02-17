@@ -297,6 +297,10 @@ const recommendProduct=[
     color: #fff;
     background-color: #26AC34;
 }
+.user_info div button:active {
+    background-color: #58d264;
+    border-color: #58d264;
+}
 .wrapper_details{
     display: flex;
     width: auto;

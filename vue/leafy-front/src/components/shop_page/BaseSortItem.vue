@@ -63,17 +63,18 @@ const removeSort=()=>{
 }
 const sortSelecter=(data,name)=>{
     let eSelected=document.getElementsByName(name)
-    if(data.name!=sortItem.value){   
+    removeSort()
+    // if(data.name!=sortItem.value){   
         for(let i=0;i<eSelected.length;i++){
             eSelected[0].setAttribute('style','background-color:#26AC34;color:#FFFFFF;')
         }
             sortItem.value=data.name
-    }
-    else{
-        removeSort()
-        // console.log('clear')
-        sortItem.value=undefined
-    }
+    // }
+    // else{
+    //     removeSort()
+    //     console.log('clear')
+    //     sortItem.value=undefined
+    // }
 
     return emit('sortItem', data.value)
 }
@@ -101,11 +102,13 @@ onUpdated(()=>{
                 <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
+                
             </div>    
+            
         </div>
         <button class="filter_b" @click="showFilter">
             <h5>
-                filter
+                Filter
             </h5>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M2.66666 5.3335H8.66665" stroke="#292929" stroke-linecap="round" stroke-linejoin="round"/>
@@ -133,6 +136,7 @@ onUpdated(()=>{
                 </button>
             </div>
         </div>
+        
     </div>
 </template>
 <style scoped>
@@ -142,9 +146,7 @@ onUpdated(()=>{
 
 .wrapper_sort{
     display: flex;
-    /* width: inherit; */
-    /* width: min(57.778dvw,832px); */
-    width: 100%;
+    width: inherit;
     height: min(5.278dvw,76px);
     padding: min(1.389dvw,20px);
     border-radius: min(0.556dvw, 8px);
@@ -176,9 +178,7 @@ onUpdated(()=>{
 }
 .sort_list{
     display: flex;
-    /* width: fit-content; */
-    /* width: min(42.222dvw,608px); */
-    width: 100%;
+    width: fit-content;
     height: 24px;
     gap: min(0.833dvw,12px);
     
@@ -194,7 +194,7 @@ onUpdated(()=>{
     font-weight: 500;
     line-height: 144%; /* 20.16px */
     letter-spacing: min(0.014dvw,0.2px);
-    background-color: #FFF;
+    background: #FFF;
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
@@ -204,8 +204,11 @@ onUpdated(()=>{
     white-space: nowrap;
 }
 .sort_item:hover {
-    background: #26AC34;
-    color:#FFF;
+    background-color: #26AC34;
+    color: #FFF;
+}
+.sort_item:active {
+    background-color: #58d264;
 }
 .sort_move{
     display: flex;
@@ -262,7 +265,6 @@ onUpdated(()=>{
 }
 @media(width<=744px){
     .wrapper_sort{
-        /* width: min(65.591dvwm,488px); */
         height: min(6.452dvw,48px);
         padding: min(1.613dvw,12px);
     }
@@ -275,9 +277,8 @@ onUpdated(()=>{
         font-size: min(1.613dvw,12px);
     }
     .sort_list{
-        /* width: min(47.849dvw,356px); */
-        width: 100%;
-        gap: min(1.075dvw,8px);
+        width: min(49.059dvw,365px);
+        gap:  min( 0.538dvw,4px);
     }
     .sort_item{
         height: min(3.226dvw,24px);

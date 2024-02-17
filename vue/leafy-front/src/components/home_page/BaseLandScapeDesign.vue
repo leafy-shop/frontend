@@ -125,6 +125,9 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
     align-self: stretch;
     color: #212121;
 }
+.content_item:hover h4 {
+    color: #26AC34;
+}
 
 @media (width <=744px){
     .wrapper_content{

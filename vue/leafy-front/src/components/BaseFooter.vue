@@ -134,7 +134,6 @@ onBeforeMount(()=>{
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="copylight">
             <div>
@@ -270,10 +269,13 @@ onBeforeMount(()=>{
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 .container_sign_up button:hover {
-    border: min(0.069dvw, 1px) solid #26AC34;
-    color: #26AC34;
-    background-color: #FFF;
+    /* border: min(0.069dvw, 1px) solid #26AC34; */
+    /* color: #26AC34; */
+    background-color: #168A22;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.container_sign_up button:active {
+    background-color: #58d264;
 }
 .container_information {
     width: auto;

@@ -19,7 +19,8 @@ let cookie = {
         return undefined
       }else{
         // console.log(key)
-        let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
+        // let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
+        let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString())
         // console.log(decryptData)
         validation.function_Status('Decrypt',true,'its work!!')
         return decryptData

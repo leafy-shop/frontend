@@ -65,11 +65,9 @@ onBeforeMount(()=>{
                             {{ designer.description }}    
                         </p>
                     </div>
-                    
                     <button @click="goGalleryDetail(designer.userId)">
                         View
                     </button>
-                    
                 </div> 
             </div>
         </div>
@@ -228,7 +226,11 @@ onBeforeMount(()=>{
     background: #fff;
     border-color: #26AC34;
 }
-
+.designer button:active {
+    background-color: #58d264;
+    border-color: #58d264;
+    color: #FFFFFF;
+}
 .scroll_button{
     width: fit-content;
     height: 100%;

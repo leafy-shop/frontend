@@ -270,7 +270,7 @@ onUpdated(() => {
                 Clear
             </button>
             <button @click="applyFilter">
-                apply
+                Apply
             </button>
         </div>
     </div>
@@ -387,7 +387,7 @@ onUpdated(() => {
                     Clear
                 </button>
                 <button @click="applyFilter(false)">
-                    apply
+                    Apply
                 </button>
             </div>
         </div>
@@ -680,8 +680,11 @@ onUpdated(() => {
 .wrapper_apply_clear button:nth-child(1):hover {
     border-color: #26AC34;
     background: #fff;
+    color: #26AC34;
 }
-
+.wrapper_apply_clear button:nth-child(1):active {
+    background: #FAFAFA;
+}
 .wrapper_apply_clear button {
     /* width: min(15dvw, 216px); */
     width: 100%;
@@ -700,10 +703,15 @@ onUpdated(() => {
     cursor: pointer;
 }
 .wrapper_apply_clear button:hover {
-    color: #26AC34;
-    background: #fff;
+    /* color: #26AC34; */
+    background: #168A22;
+    border-color: #168A22;
 }
-
+.wrapper_apply_clear button:active {
+    /* color: #26AC34; */
+    background: #58d264;
+    border-color: #58d264;
+}
 .wrapper_filter_2 {
     display: none;
 }

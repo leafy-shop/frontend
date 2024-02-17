@@ -154,6 +154,11 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
     background: #fff;
     border-color: #26AC34;
 }
+.plant_type button:active {
+    background-color: #58d264;
+    border-color: #58d264;
+    color: #FFFFFF;
+}
 
 @media (width<=744px){
     .wrapper_plant_inspo{

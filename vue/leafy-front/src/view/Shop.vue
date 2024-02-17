@@ -474,7 +474,7 @@ onUpdated(()=>{
 @media (width<=376px){
     .wrapper_productList{
         width: 100%;
-        padding: min(3.191dvw,12px) min(8.511dvw,16px);
+        padding: min(3.191dvw,12px) min(4.255dvw,16px);
         gap: min(3.191dvw,12px);
     }
     .shop_content{

@@ -394,7 +394,7 @@ onMounted(()=>{
     color: #26AC34;
 } */
 .link:active {
-    color: #FFCE3D;
+    color: #58d264;
 }
 
 .element_service {
@@ -426,6 +426,9 @@ onMounted(()=>{
     border: min(0.069dvw, 1px) solid #26AC34;
     background-color: #fff;
     box-shadow: 0px 0px 0px 4px #FFF, 0px 0px 0px 2px #26AC34;
+}
+.service_container_search:hover svg path {
+    fill: #26AC34;
 }
 .service_container_search:focus-within {
     border-color: #26AC34;
@@ -468,10 +471,13 @@ onMounted(()=>{
 }
 
 .service_sign-in:hover {
-    border: min(0.069dvw, 1px) solid #26AC34;
-    color: #26AC34;
-    background-color: #FFF;
+    /* border: min(0.069dvw, 1px) solid #26AC34; */
+    /* color: #26AC34; */
+    background-color: #168A22;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.service_sign-in:active {
+    background-color: #58d264;
 }
 
 .user_profile{
@@ -504,8 +510,10 @@ onMounted(()=>{
 }
 
 .cart_b svg:hover path {
-    /* fill: #26AC34; */
     stroke: #26AC34
+}
+.cart_b svg:hover path:nth-child(1), svg:hover path:nth-child(2){
+    fill: #26AC34;
 }
 
 .burger_icon {
