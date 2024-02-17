@@ -30,14 +30,22 @@ let initial = 0
 const getProductDetail = async (id, selectedId) => {
     // console.log(id)
     let responseProduct = await fetch.getProductDetail(id)
-    // console.log(data)
+    console.log(responseProduct.data)
     
+    // productType.value=responseProduct
     // product type page
     productType.value.itemId = params.id
     productType.value.name = responseProduct.data.name
-    productType.value.totalRating = responseProduct.data.totalRating
+    productType.value.rating = responseProduct.data.totalRating
+    productType.value.ratingFloor = Math.floor(responseProduct.data.totalRating)
     productType.value.sold = responseProduct.data.sold
-    productType.value.price = responseProduct.data.price
+    // productType.value.price = {
+    //    min: responseProduct.data.minPrice,
+    //    max: responseProduct.data.maxPrice
+    // }
+    productType.value.price_min = responseProduct.data.minPrice
+    productType.value.price_max = responseProduct.data.maxPrice
+
     productType.value.styles = responseProduct.data.styles
     productType.value.image = responseProduct.data.image
     selectedStyle.value = productType.value.styles[selectedId]
