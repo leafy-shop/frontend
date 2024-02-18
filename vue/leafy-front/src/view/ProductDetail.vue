@@ -9,6 +9,7 @@ import BaseDescription from '../components/productDetail/BaseDescription.vue'
 import BaseReview from '../components/productDetail/BaseReview.vue'
 import BaseRecommedation from '../components/productDetail/BaseRecommendation.vue'
 import validation from '../JS/validation'
+import BaseSelectPage from '../components/BaseSelectPage.vue'
 import fetch from '../JS/api';
 const {params} =useRoute()
 
@@ -25,48 +26,61 @@ let allStyleReviews = ref([])
 
 // selected styles
 let selectedStyle = ref({})
-let initial = 0
+// let initial = 0
 
-const getProductDetail = async (id, selectedId) => {
+const getProductReview=async(page)=>{
+    let {status,data} = await fetch.getProductReview(params.id, page)
+    console.log("this is ",data)
+    totalPageReview.value=data.allPage
+    reviews.value = data.list
+    return data.list
+}
+
+const getStore =async(id)=>{
+    let {status,data} = await fetch.getStore(id)
+    store.value = data
+    return data
+}
+
+const getProductDetail = async (id, selectedId=0) => {
     // console.log(id)
-    let responseProduct = await fetch.getProductDetail(id)
-    console.log(responseProduct.data)
+    let {status,data} = await fetch.getProductDetail(id)
     
-    // productType.value=responseProduct
     // product type page
     productType.value.itemId = params.id
-    productType.value.name = responseProduct.data.name
-    productType.value.rating = responseProduct.data.totalRating
-    productType.value.ratingFloor = Math.floor(responseProduct.data.totalRating)
-    productType.value.sold = responseProduct.data.sold
-    // productType.value.price = {
-    //    min: responseProduct.data.minPrice,
-    //    max: responseProduct.data.maxPrice
-    // }
-    productType.value.price_min = responseProduct.data.minPrice
-    productType.value.price_max = responseProduct.data.maxPrice
-
-    productType.value.styles = responseProduct.data.styles
-    productType.value.image = responseProduct.data.image
+    productType.value.name =  data.name
+    productType.value.rating = data.totalRating
+    productType.value.sold = data.sold
+    productType.value.price_min = data.minPrice //price
+    productType.value.price_max = data.maxPrice //price
+    description.value = data.description //description
+    productType.value.styles = data.styles //style
+    productType.value.image = data.image //image
     selectedStyle.value = productType.value.styles[selectedId]
-    // console.log(productType.value)
-    // console.log(selectedStyle.value)
-
+    
+    //store
+    await getStore(data.itemOwner)
+    //product review
+    await getProductReview(currentPageReview.value)
+    allStyleReviews.value = data.styles.map(style => style.style)
+    ratingReview.value = data.totalRating
+    
     // product owner page
-    let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
+    // let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
     // console.log(responseStore.data)
-    store.value = responseStore.data
+    // store.value = responseStore.data
 
     // product description page
-    description.value = responseProduct.data.description
+    
 
     // product review page
-    let responseReview = await fetch.getProductReview(params.id, currentPage.value)
-    console.log(responseReview.data)
-    reviews.value = responseReview.data.list
-    ratingReview.value = responseProduct.data.totalRating
-    allStyleReviews.value = responseProduct.data.styles.map(style => style.style)
-    // console.log(allStyleReviews)
+    // let responseReview = await fetch.getProductReview(params.id, currentPage.value)
+    // console.log(responseReview.data)
+    // reviews.value = responseReview.data.list
+    // ratingReview.value = responseProduct.data.totalRating
+    // // ratingReviewF.value =Math.floor(responseProduct.data.totalRating)
+    // allStyleReviews.value = responseProduct.data.styles.map(style => style.style)
+    // // console.log(allStyleReviews)
 }
 
 const changeStyle = async (idx) => {
@@ -78,13 +92,34 @@ const sortFilterReview = async (sort, name) => {
     console.log(name)
     sortFilter.value = {sort: sort, name: name}
     // product review page
-    let {status, data} = await fetch.getProductReview(params.id, currentPage.value, sortFilter.value.sort, sortFilter.value.name)
-    console.log(data)
-    reviews.value = data.list
+    
+    // let {status, data} = await fetch.getProductReview(params.id, currentPage.value, sortFilter.value.sort, sortFilter.value.name)
+    // console.log(data)
+    reviews.value = await getProductReview(currentPageReview.value)
+}
+
+
+// review
+const currentPageReview=ref(1)
+const totalPageReview=ref(1)
+const moveLeftR=async(current)=>{
+    console.log(current)
+    currentPageReview.value = current
+    await getProductReview(currentPageReview.value)
+}
+const moveRightR=async(current)=>{
+    console.log(current)
+    currentPageReview.value = current
+    await getProductReview(currentPageReview.value)
+}
+const changePageR=async (number)=>{
+    currentPageReview.value = number
+    await getProductReview(currentPageReview.value)
 }
 
 onBeforeMount(() => {
-    getProductDetail(params.id, initial)
+    getProductDetail(params.id)
+
 })
 
 onMounted(()=>{
@@ -98,8 +133,13 @@ onMounted(()=>{
         <BaseProductType :product-style="productType" :selected-style="selectedStyle" @selected-style="changeStyle"/>
         <BaseStore :owner="store"/>
         <BaseDescription :description="description"/>
-        <BaseReview :product-review="reviews" :total-rating="ratingReview"
-        :sort-filter="sortFilter" :allStyle="allStyleReviews" @sort-filter-review="sortFilterReview" />
+        <div class="container_review">
+            <BaseReview :product-review="reviews" :total-rating="ratingReview" 
+            :sort-filter="sortFilter" :allStyle="allStyleReviews" @sort-filter-review="sortFilterReview" />
+            <BaseSelectPage :current-page="currentPageReview" :total-page="totalPageReview"
+             @move-left="moveLeftR" @move-right="moveRightR" @change-page="changePageR"/>
+        </div>
+
         <BaseRecommedation/>
     </div>
     <BaseFooter/>
@@ -117,5 +157,14 @@ onMounted(()=>{
     gap: 20px;
     background-color: #F5F5F5;
 }
-
+.container_review{
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+    height: fit-content;
+    gap: 12px;
+    background-color: #fff;
+    border-radius: min(0.556dvw, 8px);
+    padding: min(1.389dvw, 20px);
+}
 </style>

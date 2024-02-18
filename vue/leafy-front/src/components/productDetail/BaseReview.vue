@@ -1,7 +1,9 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref,onUpdated } from 'vue'
+import validation from '../../JS/validation'
+import BaseStar from './BaseStar.vue';
 
-let origin = `${import.meta.env.VITE_BASE_URL}`;
+let origin = `${import.meta.env.VITE_BASE_URL}`
 
 let emit = defineEmits(["sortFilterReview"])
 
@@ -12,7 +14,9 @@ let props = defineProps({
     },
     totalRating: {
         type: Number,
-        required: true
+        required: true,
+        default:0
+        
     },
     sortFilter: {
         type: Object,
@@ -22,6 +26,11 @@ let props = defineProps({
         type: Array,
         default: []
     }
+})
+
+const totalRating=computed(()=>{
+    console.log(props.productReview)
+    return props.totalRating
 })
 
 let sortFilterValue = computed(() => {
@@ -35,92 +44,121 @@ let sortFilterReview = (sortFilter) => {
     emit('sortFilterReview',sortFilter.sort, sortFilter.name)
 }
 
+onUpdated(()=>{
+    // console.log("Testing",props.totalRating)
+    validation.ratingStar(totalRating.value)
+})
 </script>
 <template>
     <div class="wrapper_Review ">
         <!-- for show title and sort -->
         <div class="container_header">
             <!-- title and show rating -->
-            <div class="rating_header">
+            <div class="container_rating">
                 <h5>
                     Product Ratings
                 </h5>
                 <div class="rating_score">
                     <!-- rating -->
-                    <div>
-                        ⭐ ⭐ ⭐ ⭐
+                    <div class="wrapper_rating_list">
+                        <BaseStar :rating="totalRating" name="allReview" />
                     </div>
-                    <p>
-                        4/5
-                    </p>
+                    <h5>
+                        <span>
+                            {{totalRating}}
+                        </span>
+                        /5
+                    </h5>
                 </div>
             </div>
             <!-- sort review -->
             <div class="wrapper_sort_filter">
-                <button class="select">
-                    <div class="title">
+                <button class="filter">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.00004 12C5.00004 12.2652 5.1054 12.5196 5.29293 12.7071C5.48047 12.8947 5.73482 13 6.00004 13C6.26526 13 6.51961 12.8947 6.70715 12.7071C6.89468 12.5196 7.00004 12.2652 7.00004 12V6.41403L8.29304 7.70703C8.48164 7.88919 8.73425 7.98998 8.99644 7.9877C9.25864 7.98543 9.50945 7.88026 9.69486 7.69485C9.88027 7.50944 9.98544 7.25863 9.98771 6.99643C9.98999 6.73424 9.8892 6.48163 9.70704 6.29303L6.70704 3.29303C6.51951 3.10556 6.26521 3.00024 6.00004 3.00024C5.73488 3.00024 5.48057 3.10556 5.29304 3.29303L2.29304 6.29303C2.11088 6.48163 2.01009 6.73424 2.01237 6.99643C2.01465 7.25863 2.11981 7.50944 2.30522 7.69485C2.49063 7.88026 2.74144 7.98543 3.00364 7.9877C3.26584 7.98998 3.51844 7.88919 3.70704 7.70703L5.00004 6.41403V12ZM15 8.00003C15 7.73481 14.8947 7.48046 14.7071 7.29292C14.5196 7.10539 14.2653 7.00003 14 7.00003C13.7348 7.00003 13.4805 7.10539 13.2929 7.29292C13.1054 7.48046 13 7.73481 13 8.00003V13.586L11.707 12.293C11.5184 12.1109 11.2658 12.0101 11.0036 12.0124C10.7414 12.0146 10.4906 12.1198 10.3052 12.3052C10.1198 12.4906 10.0146 12.7414 10.0124 13.0036C10.0101 13.2658 10.1109 13.5184 10.293 13.707L13.293 16.707C13.4806 16.8945 13.7349 16.9998 14 16.9998C14.2652 16.9998 14.5195 16.8945 14.707 16.707L17.707 13.707C17.8892 13.5184 17.99 13.2658 17.9877 13.0036C17.9854 12.7414 17.8803 12.4906 17.6949 12.3052C17.5095 12.1198 17.2586 12.0146 16.9964 12.0124C16.7342 12.0101 16.4816 12.1109 16.293 12.293L15 13.586V8.00003Z" fill="#9E9E9E"/>
                         </svg>
+                    <div class="filter_title">
                         <h6>
-                            Sort:
+                            Sort: 
                         </h6>
+                        <h5>
+                            Newest
+                        </h5>
+                        <div>
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292433 0.304675C0.479735 0.117581 0.733736 0.0124767 0.998581 0.0124767C1.26342 0.0124767 1.51743 0.117581 1.70473 0.304675L4.99376 3.59106L8.28278 0.304675C8.37492 0.209357 8.48513 0.133328 8.60699 0.0810238C8.72885 0.0287201 8.85991 0.00118918 8.99253 3.76812e-05C9.12515 -0.00111382 9.25667 0.0241369 9.37941 0.0743168C9.50216 0.124497 9.61368 0.198601 9.70746 0.292305C9.80124 0.386009 9.8754 0.497437 9.92562 0.620086C9.97584 0.742736 10.0011 0.874151 9.99996 1.00666C9.99881 1.13918 9.97126 1.27013 9.91891 1.39189C9.86656 1.51365 9.79047 1.62377 9.69508 1.71583L5.6999 5.7078C5.5126 5.8949 5.2586 6 4.99376 6C4.72891 6 4.47491 5.8949 4.28761 5.7078L0.292433 1.71583C0.105189 1.52868 0 1.27489 0 1.01026C0 0.745624 0.105189 0.491826 0.292433 0.304675Z" fill="#9E9E9E"/>
+                            </svg>    
+                        </div>
+                        
+
                     </div>
-                    <select name="Sort" >
+                    
+                    <!-- <select name="Sort" >
                         <option value="" selected>Newest</option>
-                    </select>
+                    </select> -->
                 </button>
-                <button class="select">
-                    <div class="title">
+                <button class="filter">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.74408 2.74408C2.5878 2.90036 2.5 3.11232 2.5 3.33333V5.48833C2.50005 5.70933 2.58788 5.92126 2.74417 6.0775L8.08917 11.4225C8.24546 11.5787 8.33329 11.7907 8.33333 12.0117V15.0858C8.33333 15.9767 9.41048 16.4229 10.0404 15.7929L11.3738 14.4596C11.5613 14.272 11.6667 14.0177 11.6667 13.7525V12.0117C11.6667 11.7907 11.7545 11.5787 11.9108 11.4225L17.2558 6.0775C17.4121 5.92126 17.5 5.70933 17.5 5.48833V3.33333C17.5 3.11232 17.4122 2.90036 17.2559 2.74408C17.0996 2.5878 16.8877 2.5 16.6667 2.5H3.33333C3.11232 2.5 2.90036 2.5878 2.74408 2.74408Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
+                    <div class="filter_title">
                         <h6>
                             Filter by:
                         </h6>
+                        <h5>
+                            All
+                        </h5>
+                        <div>
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292433 0.304675C0.479735 0.117581 0.733736 0.0124767 0.998581 0.0124767C1.26342 0.0124767 1.51743 0.117581 1.70473 0.304675L4.99376 3.59106L8.28278 0.304675C8.37492 0.209357 8.48513 0.133328 8.60699 0.0810238C8.72885 0.0287201 8.85991 0.00118918 8.99253 3.76812e-05C9.12515 -0.00111382 9.25667 0.0241369 9.37941 0.0743168C9.50216 0.124497 9.61368 0.198601 9.70746 0.292305C9.80124 0.386009 9.8754 0.497437 9.92562 0.620086C9.97584 0.742736 10.0011 0.874151 9.99996 1.00666C9.99881 1.13918 9.97126 1.27013 9.91891 1.39189C9.86656 1.51365 9.79047 1.62377 9.69508 1.71583L5.6999 5.7078C5.5126 5.8949 5.2586 6 4.99376 6C4.72891 6 4.47491 5.8949 4.28761 5.7078L0.292433 1.71583C0.105189 1.52868 0 1.27489 0 1.01026C0 0.745624 0.105189 0.491826 0.292433 0.304675Z" fill="#9E9E9E"/>
+                            </svg>   
+                        </div>
+                        
+
                     </div>
-                    <select name="Filter">
+                    <!-- <select name="Filter">
                         <option value="" selected>All</option>
-                    </select>
+                    </select> -->
                 </button>
             </div>
         </div>
 
         <!-- Review list -->
-        <div class="Review_list" v-for="review in productReview">
+        <div class="review_list" v-for="(review,index) in productReview" :key="index">
 
             <!-- review item -->
-            <div class="Review_item">
+            <div class="review_item">
                 <!-- info -->
-                <div>
-                    <div>
-                        <img v-if="review.image" :src="`${origin}/api/image/users/${review.userId}`" alt="use_img">
-                        <img v-else src="../../assets/vue.svg" alt="use_img">
+                <div class="review_info">
+                    <div class="user_img">
+                        <img v-if="review.image" :src="`${origin}/api/image/users/${review.userId}`" draggable="false" alt="user_img">
+                        <img v-else src="../../assets/vue.svg" draggable="false" alt="user_img">
                     </div>
-                    <div>
+                    <div class="user_info">
                         <h6>
                             {{ review.username }}
                         </h6>
                         <div>
-                            ⭐ ⭐ ⭐ ⭐
+                            <BaseStar :rating="review.rating" :name="`user_review_${review.itemReviewId}`" />
+                            {{ review.rating }}
                         </div>
                     </div>
                 </div>
                 <!-- review text -->
-                <div>
+                <div class="review_des">
                     <p>
                         <!-- ได้รับสินค้าเรียบร้อย ตรงตามออเดอร์ แพ็คสินค้ามาดี ระยะเวลาในการจัดส่งไม่นาน คุณภาพดี ดูสวยงาม -->
                         {{ review.comment }}
                     </p>
                 </div>
                 <!-- img list ? -->
-                <!-- <div>
-                    <div>
-                        <img src="../../assets/vue.svg" alt="product_img">
+                <div class="style_list">
+                    <div >
+                        <img src="../../assets/vue.svg" draggable="false" alt="product_img">
                     </div>
-                </div> -->
+                </div>
                 <!-- info about product  -->
-                <div>
+                <div class="style_type">
                     <h6>
                         <span v-if="review.size !== undefined">Size: {{ review.size }}</span>
                         Color: {{ review.style }}
@@ -128,7 +166,7 @@ let sortFilterReview = (sortFilter) => {
                     </h6>
                 </div>
                 <!-- like for user -->
-                <div>
+                <div class="wrapper_like">
                     <button>
                         <!-- <img src="../../assets/vue.svg" alt="like_icon"> -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -138,15 +176,10 @@ let sortFilterReview = (sortFilter) => {
                         </svg>
                     </button>
                     <h6>
-                        0
+                        {{review.like}}
                     </h6>
                 </div>
             </div>
-        </div>
-
-        <!-- move page -->
-        <div>
-            &lt; 1 2 3 4 &gt;
         </div>
     </div>
 </template>
@@ -160,92 +193,220 @@ let sortFilterReview = (sortFilter) => {
     width: inherit;
     height: fit-content;
     flex-direction: column;
-    padding: min(1.389dvw, 20px);
+    /* padding: min(1.389dvw, 20px); */
     gap: min(1.389dvw, 20px);
-    background-color: #fff;
-    border-radius: min(0.556dvw, 8px);
+    /* background-color: #fff;
+    border-radius: min(0.556dvw, 8px); */
 }
-.container_header {
+.container_header{
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
+    width: 100%;
+    height: fit-content;
     justify-content: space-between;
-}
-.rating_header {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    text-align: center;
-    gap: min(0.833dvw, 12px);
 }
-.rating_header h5 {
-    font-size: min(1.389dvw, 20px);
+.container_rating{
+    display: flex;
+    width: fit-content;
+    height: inherit;
+    justify-content: center;
+    gap: 12px;
+}
+.container_rating h5{
+    font-size: 20px;
+    font-weight: 500;
+}
+.rating_score{
+    display: flex;
+    width: fit-content;
+    height: inherit;
+    gap: 4px;
+}
+.rating_score h5{
+    font-size: 14px;
+    font-weight: 400;
+}
+.rating_score h5 >span{
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.wrapper_sort_filter{
+    display: flex;
+    width: fit-content;
+    height: inherit;
+    gap: 4px;
+}
+.filter{
+    display: flex;
+    width: fit-content;
+    height: 40px;
+    padding: 8px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid;
+    background-color: #fff;
+    border-color: #E0E0E0;
+    border-radius: 8px;
+}
+.filter svg{
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+.filter_title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+.filter_title h5{
+    font-size: 16px;
+    font-weight: 500;
     color: #212121;
-    line-height: 160%;
 }
-.rating_score {
+.filter_title h6{
+    font-size: 16px;
+    font-weight: 500;
+    color: #9E9E9E;
+}
+.filter_title div{
     display: flex;
-    flex-direction: row;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
     align-items: center;
-    text-align: center;
-    gap: min(0.278dvw, 4px);
 }
-.wrapper_sort_filter {
+.filter_title div svg{
+    width: 10px;
+    height: 6px;
+}
+
+.review_list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+.review_item{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    padding: 12px 0px;
+    gap: 8px;
+    border-top: 1px solid #E0E0E0;
+}
+.review_info{
+    display: flex;
+    width: inherit;
+    height: 48px;
+    gap: 8px;
+}
+.user_img{
+    display: flex;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #212121;
+}
+.user_img img{
+    width: 100%;
+    height: auto;
+    background-position:center ;
+}
+.user_info{
+    display: flex;
+    width: fit-content;
+    height: inherit;
+    flex-direction: column;
+    justify-content: center;
+}
+.user_info h6{
+    width: 28px;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 400;
+}
+.user_info div{
+    display: flex;
+    width: fit-content;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+
+}
+.review_des{
     display: flex;
     width: inherit;
     height: fit-content;
-    /* flex-direction: column; */
-    gap: min(0.833dvw, 12px);
 }
-
-/* .wrapper_sort_filter button:nth-child(1) {
-    background: #fff;
-    color: #26AC34;
-    border: min(0.069dvw, 1px) solid;
-    border-color: #26AC34;
-    border-radius: min(0.278dvw, 4px);
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+.review_des p{
+    font-size: 14px;
+    font-weight: 400px;
 }
-.wrapper_sort_filter button:nth-child(1):hover {
-    background: #26AC34;
-    color: #fff;
-} */
-
-.wrapper_sort_filter button {
-    /* width: min(15dvw, 216px); */
-    width: 100%;
-    height: min(2.778dvw, 40px);
-    margin: auto;
-    background-color: #fff;
-    color: #9E9E9E;
-    border: min(0.069dvw, 1px) solid;
-    border-color: #e0e0e0;
-    border-radius: min(0.278dvw, 4px);
-    cursor: pointer;
-    font-size: min(1.111dvw, 16px);
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+.style_list{
+    display: flex;
+    width: fit-content;
+    height: 80px;
+    gap: 8px;
+    overflow: hidden;
+}
+.style_list div{
+    display: flex;
+    width: 80px;
+    height:80px;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #212121;
 }
-.wrapper_sort_filter button:hover {
-    color: #26AC34;
-    background: #fff;
+.style_list img{
+    width: 100%;
+    height: auto;
 }
-.select {
+.style_type{
     display: flex;
-    flex-direction: row;
-    gap: min(0.556dvw, 8px);
-    padding: 16px 8px 12px 8px;
-}
-.title {
-    display: flex;
-    flex-direction: row;
-    gap: min(0.278dvw, 4px);
+    width: fit-content;
+    height: 16px;
     align-items: center;
-    text-align: center;
+    justify-content: start;
+}
+.style_type h6{
+    font-size: 12px;
+    font-weight: 400;
+    color: #9E9E9E;
+}
+.wrapper_like{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    justify-content: start;
+    align-items: center;
+    gap: 4px;
+}
+.wrapper_like button{
+    display: flex;
+    width: 16px;
+    height: 16px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+.wrapper_like h6{
+    font-size: 12px;
+    font-weight: 400;
+    color: #9E9E9E;
 }
 </style>
