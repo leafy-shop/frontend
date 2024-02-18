@@ -96,7 +96,7 @@ const fetch = {
     },
     
     // product shop page
-     async getAllProduct(page = 1, limit=18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined){
+     async getAllProduct(page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined){
         let returnData = { status: false, data: undefined, msg:'' }
         console.log('startttttttttttttttt')
         // await this.getRefresh()
@@ -111,6 +111,7 @@ const fetch = {
             if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
             if (sort !== undefined) url += `&sort=${sort}`;
             if (owner !== undefined) url += `&owner=${owner}`
+            if (limitP!==undefined) url+=`&limit=${limitP}`
 
             console.log(url)
 
