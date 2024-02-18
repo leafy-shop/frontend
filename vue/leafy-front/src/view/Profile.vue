@@ -25,16 +25,12 @@ const recommendProduct = [
     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, price: "32.00", updatedAt: "1/10/2024, 14:42:15" },
     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, price: "32.00", updatedAt: "1/10/2024, 14:42:15" },
 ]
-// ownerid
-const getOwner = async (id) => {
-    let { status, data } = fetch.getStore(id)
-    console.log(data)
-    return data
-}
+// owner
+const owner = ref({})
 
-//category list
+// category list
 const categoryFilter = ref([])
-//price
+// price
 const minFilter = ref(undefined)
 const maxFilter = ref(undefined)
 // rating
@@ -96,6 +92,13 @@ const pageHidden = (currentP, total) => {
             document.getElementById(`nextNumber_${i}`).setAttribute('style', 'display:flex;')
         }
     }
+}
+
+// ownerid
+const getOwner = async (id) => {
+    let { status, data } = fetch.getStore(id)
+    console.log(data)
+    owner.value = data
 }
 
 const getProduct = async (page) => {
@@ -205,7 +208,7 @@ onUpdated(() => {
                     </div>
                     <div class="user_info">
                         <h5>
-                            Username
+                            <!-- {{ owner.username }} -->
                         </h5>
                         <!-- chat & follower -->
                         <div>
@@ -235,7 +238,7 @@ onUpdated(() => {
                                 Ratings
                             </h6>
                             <h6>
-                                4
+                                <!-- {{ owner.rating }} -->
                             </h6>
                         </div>
                         <!-- products -->
@@ -244,7 +247,7 @@ onUpdated(() => {
                                 Products
                             </h6>
                             <h6>
-                                5
+                                <!-- {{ owner.products }} -->
                             </h6>
                         </div>
                         <!-- response rate -->
@@ -299,7 +302,7 @@ onUpdated(() => {
                                 Joined
                             </h6>
                             <h6>
-                                2 days ago
+                                <!-- {{ owner.time }} -->
                             </h6>
                         </div>
                     </div>
@@ -638,6 +641,55 @@ onUpdated(() => {
     display: flex;
     flex-direction: column;
     gap: min(2.222dvw, 32px);
+}
+
+
+.link_page_container {
+    display: flex;
+    width: 100%;
+    height: min(2.5dvw, 36px);
+    justify-content: center;
+    align-items: center;
+}
+
+.link_page_container ul {
+    display: flex;
+    /* width: 317px; */
+    width: fit-content;
+    height: fit-content;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: min(1.389dvw, 20px);
+    flex-direction: row;
+}
+
+.link_page_container ul li {
+    display: flex;
+    width: min(2.778dvw, 40px);
+    height: min(2.5dvw, 36px);
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.link_page_container ul li button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: min(0.278dvw, 4px);
+    padding: min(0.556dvw, 8px) min(1.111dvw, 16px);
+    cursor: pointer;
+    box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+    font-size: min(0.972dvw, 14px);
+    letter-spacing: min(0.014dvw, 0.2px);
+}
+
+.link_page_container ul li button:hover {
+    background-color: #fff;
+    color: #26AC34;
 }
 
 .product_sold_out {
