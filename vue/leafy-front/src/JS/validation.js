@@ -126,6 +126,20 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
           return decryptData
         }
       },
+      ratingStar(rating=0,parent="star_item",child="path"){
+        let ratingFloor=Math.floor(rating)
+        const star=document.getElementsByClassName(parent)
+        
+        //start from front
+        for(let i=0;i<(ratingFloor);i++){
+            // console.log(star[i])
+               star[i].getElementsByTagName(child)[0].setAttribute('fill',"#FFCE3D")
+        }
+        //start from back
+        for(let i=star.length-1;i>=0;i--){
+            star[i].getElementsByTagName(child)[0].setAttribute('stroke',"#FFCE3D")
+        }
+    }
 }
 
 export default ft
