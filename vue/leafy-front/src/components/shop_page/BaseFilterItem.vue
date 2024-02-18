@@ -47,7 +47,7 @@ const categoryArr = [
 const tagArr = [
     { name: "Best Product", value: "best product" },
     { name: "New Arrivals", value: "new arrivals" },
-    { name: "Plants", value: "plants" },
+    { name: "Plants", value: "plant" },
     { name: "Indoor Plants", value: "indoor plant" },
     { name: "Cactus Plants", value: "cactus" },
     { name: "Tree", value: "tree" },
