@@ -61,7 +61,6 @@ onBeforeMount(()=>{
                     <div>
                         <button v-for="(service, index) of customerService" :key="index">{{ service.name }}</button>
                     </div>
-
                 </div>
 
                 <div class="information">
@@ -92,7 +91,6 @@ onBeforeMount(()=>{
                                 <img src="../assets/icon/cash_on_icon.png" alt="cash_on_icon">
                             </button>
                         </div>
-
                     </div>
                     <div class="logistic">
                         <h3>
@@ -106,9 +104,7 @@ onBeforeMount(()=>{
                                 <img src="../assets/icon/kerry_icon.png" alt="visa_icon">
                             </button>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="follow">
@@ -297,7 +293,8 @@ onBeforeMount(()=>{
 }
 
 .wrapper_information div {
-    width: min(17.778dvw,256px);
+    /* width: min(17.778dvw,256px); */
+    width: 100%;
     /* height: min(9.722dvw,140px); */
     height: fit-content;
 }

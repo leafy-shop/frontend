@@ -47,12 +47,12 @@ const categoryArr = [
 const tagArr = [
     { name: "Best Product", value: "best product" },
     { name: "New Arrivals", value: "new arrivals" },
-    { name: "Plants", value: "plants" },
-    { name: "Indoor Plants", value: "indoor plants" },
-    { name: "Lilac", value: "lilac" },
-    { name: "Jar", value: "jar" },
-    { name: "Pot", value: "pot" },
-    { name: "Tool", value: "tool" },
+    { name: "Plants", value: "plant" },
+    { name: "Indoor Plants", value: "indoor plant" },
+    { name: "Cactus Plants", value: "cactus" },
+    { name: "Tree", value: "tree" },
+    { name: "House Plants", value: "house plant" },
+    { name: "Flower", value: "flower" },
 ]
 
 const navigationTo = () => {

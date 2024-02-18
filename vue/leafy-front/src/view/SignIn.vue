@@ -27,7 +27,6 @@ const passwordValidation=(pw)=>{
     }else{
         return true
     }
-    
 }
 
 

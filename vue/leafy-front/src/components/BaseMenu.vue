@@ -203,7 +203,7 @@ onMounted(()=>{
                 </button>
                 <!-- user profile -->
                 <button @click="goProfile(keyPass.id)" v-else class="user_profile">
-                        <img src="../assets/icon/user_icon.png" alt="user_icon"> 
+                    <img src="../assets/shop_p/avatar_userProfile.png" alt="user_icon"> 
                 </button>
             </div>
         </div>
@@ -263,7 +263,7 @@ onMounted(()=>{
                     <div v-if="keyPass!=undefined" class="service_with_keyPass">
                         <div class="user_2">
                             <div class="icon_2">
-                                <img src="../assets/icon/user_icon.png" alt="user_icon">
+                                <img src="../assets/shop_p/avatar_userProfile.png" alt="user_icon">
                             </div>
                             <div class="information_2">
                                 <h4>
@@ -487,6 +487,7 @@ onMounted(()=>{
     border: 0px;
     overflow: hidden;
     cursor: pointer;
+    background-color: #FAFAFA;
 }
 .user_profile img{
     width: inherit;
@@ -648,7 +649,7 @@ onMounted(()=>{
     .service_container_2{
         width: auto;
         height: fit-content;
-        padding: 0 min(1.613dvw,12px);
+        /* padding: 0 min(1.613dvw,12px); */
     }
     .service_no_keyPass {
         display: flex;
@@ -716,7 +717,8 @@ onMounted(()=>{
         border-top: min(0.134dvw, 1px) solid;
         border-color: #E0E0E0;
         box-sizing: border-box;
-        gap: min(3.763dvw, 28px);
+        /* gap: min(3.763dvw, 28px); */
+        gap: min(0.583dvw, 4px);
     }
     .search_icon {
         display: none;
@@ -726,15 +728,17 @@ onMounted(()=>{
     .user_2{
         display: flex;
         width: 100%;
-        height: min(5.914dvw, 44px);
+        /* height: min(5.914dvw, 44px); */
+        height: fit-content;
         flex-direction: row;
         gap: min(1.613dvw, 12px);
+        padding: 0px min(1.613dvw,12px) min(1.075dvw,8px) min(1.613dvw,12px);
     }
     .icon_2{
         width: min(5.914dvw, 44px);
         height: min(5.914dvw, 44px);
         border-radius: 50%;
-        background-color: #E0E0E0;
+        background-color: #FAFAFA;
         overflow: hidden;
     }
     .icon_2 img{
@@ -762,16 +766,24 @@ onMounted(()=>{
         letter-spacing: min(0.027dvw, 0.2px);
     }
     .account_bt{
-        height: 100%;
+        /* height: 100%; */
+        width: inherit;
+        height: min(6.452dvw,48px);
         font-size: min(2.151dvw, 16px);
-        border: 0px;
-        background:inherit;
+        border: none;
+        background-color: inherit;
         text-align: left;
         font-weight: 500;
         line-height: 150%; /* 24px */
         letter-spacing: min(0.027dvw, 0.2px);
-        color: black;
+        color: #212121;
         cursor: pointer;
+        padding: min(1.613dvw, 12px);
+    }
+    .account_bt:hover {
+        color: #26AC34;
+        border-radius: min(0.538dvw, 4px);
+        background: #FAFAFA;
     }
     .signOut{
         width: auto;
@@ -786,6 +798,14 @@ onMounted(()=>{
         line-height: 150%; /* 24px */
         letter-spacing: min(0.027dvw, 0.2px);
         cursor: pointer;
+        margin: min(1.075dvw,8px) min(1.613dvw, 12px) 0px min(1.613dvw, 12px);
+    }
+    .signOut:hover{
+        background-color: #168A22;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    }
+    .signOut:active {
+        background-color: #58d264;
     }
     .leafy_icon{
         width: min(9.274dvw, 69px);
@@ -806,8 +826,6 @@ onMounted(()=>{
         height: fit-content;
         /* margin: 0px; */
         gap: min(2.151dvw, 16px);
-        
-        
     }
 
     .burger_icon div:nth-child(1) svg {
@@ -961,10 +979,13 @@ onMounted(()=>{
     }
     .service_with_keyPass{       
         padding-top: min(6.383dvw, 24px);
-        gap: min(4.255dvw, 16px);
+        gap: min(1.064dvw, 4px);
     }
     .user_2{
-        height: min(9.574dvw, 36px);
+        /* height: min(9.574dvw, 36px); */
+        height: fit-content;
+        gap: min(3.191dvw, 12px);
+        padding: 0px min(3.191dvw, 12px) min(1.064dvw, 4px) min(3.191dvw, 12px);
     }
     .icon_2{
         width: min(9.574dvw, 36px);
@@ -979,12 +1000,22 @@ onMounted(()=>{
         font-size: min(3.191dvw, 12px);
     }
     .account_bt{
-        height: min(5.319dvw, 20px);
+        /* height: min(5.319dvw, 20px); */
+        /* height: min(9.574dvw, 36px); */
+        height: fit-content;
         font-size: min(3.723dvw, 14px);
+        padding: min(3.191dvw, 12px);
+    }
+    .account_bt:hover {
+        color: #26AC34;
+        border-radius: min(1.064dvw, 4px);
+        background: #FAFAFA;
     }
     .signOut{
         height: min(9.574dvw, 36px);
         font-size: min(3.723dvw, 14px);
+        margin: min(1.064dvw, 4px) min(3.191dvw, 12px) 0px min(3.191dvw, 12px);
+        border-radius: min(1.064dvw, 4px);
     }
 
     .burger_icon {

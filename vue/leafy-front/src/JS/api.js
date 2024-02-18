@@ -99,9 +99,9 @@ const fetch = {
      async getAllProduct(page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined){
         let returnData = { status: false, data: undefined, msg:'' }
         console.log('startttttttttttttttt')
-        // await this.getRefresh()
+        console.log(owner)
         try {
-            let url = `${origin}/api/products?page=${page}`
+            let url = `${origin}/api/products?page=${page}&limit=${limit}`
             if (searchItem.length !== 0) url += `&product=${searchItem}`;
             if (type.length !== 0) url += `&type=${type}`;
             if (min > 0) url += `&min_price=${min}`;
@@ -114,6 +114,43 @@ const fetch = {
             if (limitP!==undefined) url+=`&limit=${limitP}`
 
             console.log(url)
+
+            let res = await axios.get(url)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get all product', false, "cannot get all product from back-end!!!")
+            } else {
+                validation.function_Status('get all product', true,)
+                returnData.status = res.status == 200
+                // returnData.status = true
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get all product', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+
+    },
+
+    // get recommend product list
+    // product shop page
+    async getAllRecommendProduct(page = 1, limit=18){
+        let returnData = { status: false, data: undefined, msg:'' }
+        // console.log('startttttttttttttttt')
+        // console.log(owner)
+        try {
+            let url = `${origin}/api/products?page=${page}&limit=${limit}&isRecommend=true`
+
+            // console.log(url)
 
             let res = await axios.get(url)
 
@@ -315,6 +352,7 @@ const fetch = {
     },
     async getRefresh (){
         let information = cookie.decrypt('information') //get email for refresh token
+        // console.log(information)
         let returnData = { status: false, msg:'' }
         if (information !== undefined) {
             try {

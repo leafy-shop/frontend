@@ -77,6 +77,7 @@ router.beforeEach(async (to,from)=>{
     // if(to.name !== "SignIn"){
         
     // }
+
     await fetch.getRefresh()
     // keyPass= cookie.get("information")
     // console.log(keyPass)
@@ -90,6 +91,13 @@ router.beforeEach(async (to,from)=>{
         return {name:"SignIn"}
     }
     if(to.name=="SignUp"&&cookie.checkKeyPass()){
+        return {name:"Home"}
+    }
+    // console.log(cookie.decrypt("information"))
+    // console.log(to.path.split("/").pop())
+    // console.log(cookie.decrypt("information").id)
+    // console.log(to.path.split("/").pop()!=cookie.decrypt("information").id)
+    if( ( to.name=="Profile"&&to.path.split("/").pop()!=cookie.decrypt("information").id ) || !cookie.checkKeyPass()){
         return {name:"Home"}
     }
     // alert('this new page')
