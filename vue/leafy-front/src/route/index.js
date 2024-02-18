@@ -77,6 +77,7 @@ router.beforeEach(async (to,from)=>{
     // if(to.name !== "SignIn"){
         
     // }
+
     await fetch.getRefresh()
     // keyPass= cookie.get("information")
     // console.log(keyPass)
