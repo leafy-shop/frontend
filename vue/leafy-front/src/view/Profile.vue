@@ -19,12 +19,12 @@ let { params } = useRoute()
 //     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
 //     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
 // ]
-const recommendProduct = [
-    { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, price: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-    { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, price: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-    { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, price: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-    { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, price: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-]
+// const recommendProduct = [
+//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
+//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
+//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
+//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
+// ]
 // owner
 const owner = ref({})
 
@@ -45,7 +45,8 @@ const allItems = ref(0)
 const totalPage = ref(1)
 // this attribute for receive data when get from api
 const productList = ref([])
-
+const outStockList = ref([])
+const recommendProduct = ref([])
 // this share center for open and close filter
 const isShowFilter = ref(undefined)
 
@@ -94,27 +95,33 @@ const pageHidden = (currentP, total) => {
     }
 }
 
-// ownerid
-const getOwner = async (id) => {
-    let { status, data } = fetch.getStore(id)
-    console.log(data)
-    owner.value = data
-}
+
 
 const getProduct = async (page) => {
-    console.log(categoryFilter.value.join())
-    console.log(minFilter.value)
-    console.log(maxFilter.value)
-    console.log(ratingFilter.value)
-    console.log(tagFilter.value)
+    // console.log(categoryFilter.value.join())
+    // console.log(minFilter.value)
+    // console.log(maxFilter.value)
+    // console.log(ratingFilter.value)
+    // console.log(tagFilter.value)
+    // console.log(owner.value.email)
+
+    // ownerid
+    let ownerRes = await fetch.getStore(params.id)
+    // console.log(data)
+    owner.value = ownerRes.data
 
     let { status, data } = await fetch.getAllProduct(page, 18, searchItem.value, categoryFilter.value.join(),
-        minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value)
-    console.log(data.list)
+        minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value, owner.value.email)
+    // console.log(data.list)
     // productList.value=data
     productList.value = data.list
+    outStockList.value = data.outStock
     allItems.value = data.allItems
     totalPage.value = data.allPage
+
+    let recommendRes = await fetch.getAllRecommendProduct(1, 18)
+    recommendProduct.value = recommendRes.data.list
+    console.log(recommendProduct.value)
     // totalPage.value=10
     validation.navigationTo()
 }
@@ -141,28 +148,29 @@ const getFilterItem = async (data) => {
     tagFilter.value = tag
     sortName.value = sortBy ? sortBy.name : undefined
     sort.value = sortBy ? sortBy.type : undefined
-    console.log(data)
+    // console.log(data)
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
     pageHidden(currentPage.value, totalPage.value)
 }
 
 const showFilterItem = (data) => {
+    // console.log(data)
     let { show } = data
-    // console.log(show)
-    return isShowFilter.value = show
+    // console.log(typeof show)
+    return typeof show === "object" ? false : isShowFilter.value = show
 }
 
 const getSortItem = async (data) => {
     sortName.value = data.name
     sort.value = data.type
-    console.log(sort)
-    console.log(sortName)
+    // console.log(sort)
+    // console.log(sortName)
     await getProduct(currentPage.value)
 }
 
 const moveLeft = async (current) => {
-    console.log(currentPage.value)
+    // console.log(currentPage.value)
     currentPage.value = current > 1 ? current - 1 : 1
     await getProduct(currentPage.value)
     // validation.navigationTo(top)
@@ -176,7 +184,6 @@ const moveRight = async (current) => {
 
 onBeforeMount(() => {
     getProduct(currentPage.value)
-    getOwner(params.id)
 })
 onMounted(() => {
     validation.navigationTo()
@@ -208,7 +215,7 @@ onUpdated(() => {
                     </div>
                     <div class="user_info">
                         <h5>
-                            <!-- {{ owner.username }} -->
+                            {{ owner.username }}
                         </h5>
                         <!-- chat & follower -->
                         <div>
@@ -238,7 +245,7 @@ onUpdated(() => {
                                 Ratings
                             </h6>
                             <h6>
-                                <!-- {{ owner.rating }} -->
+                                {{ owner.rating }}
                             </h6>
                         </div>
                         <!-- products -->
@@ -247,7 +254,7 @@ onUpdated(() => {
                                 Products
                             </h6>
                             <h6>
-                                <!-- {{ owner.products }} -->
+                                {{ owner.products }}
                             </h6>
                         </div>
                         <!-- response rate -->
@@ -302,7 +309,7 @@ onUpdated(() => {
                                 Joined
                             </h6>
                             <h6>
-                                <!-- {{ owner.time }} -->
+                                {{ owner.time }}
                             </h6>
                         </div>
                     </div>
@@ -393,7 +400,7 @@ onUpdated(() => {
                     <h5>
                         Sold Out
                     </h5>
-                    <BaseProductList :product-list="productList" :gridColumn="3" :sold-out="true" />
+                    <BaseProductList :product-list="outStockList" :gridColumn="3" :sold-out="true" />
                 </div>
             </div>
         </div>
