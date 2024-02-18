@@ -13,7 +13,7 @@ let cookie = {
     },
     decrypt(cookieName='information'){
       let cookieValue=this.get(cookieName)
-      console.log(cookieValue)
+      // console.log(cookieValue)
       if(cookieValue==undefined){
         validation.function_Status('Decrypt',false,'cookie is null')
         return undefined
