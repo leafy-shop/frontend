@@ -5,6 +5,9 @@ import BaseFooter from '../components/BaseFooter.vue';
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue';
 import Basesortitem from '../components/shop_page/BaseSortItem.vue';
+import BaseSelectPage from '../components/BaseSelectPage.vue';
+
+
 let {params}=useRoute()
 const productList=[
     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
@@ -161,12 +164,14 @@ const recommendProduct=[
                 <div class="product_list">
                     <Basesortitem/>
                     <BaseProductList :product-list="productList"  :gridColumn="3"  />
+                    <BaseSelectPage/>
                 </div>
                 <div class="product_sold_out">
                     <h5>
                         Sold Out
                     </h5>
                     <BaseProductList :product-list="productList"  :gridColumn="3" :sold-out="true" />
+                    <BaseSelectPage/>
                 </div>
             </div>
         </div>       
