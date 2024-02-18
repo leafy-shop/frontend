@@ -100,10 +100,11 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     height: inherit;
 }
 .grid_container{
-    display: grid;
+    display: flex;
     width: inherit;
     height: fit-content;
-    grid-template-columns: v-bind(changeGridT()) ;
+    flex-wrap: wrap;
+    /* grid-template-columns: v-bind(changeGridT()) ; */
     gap: min(2.222dvw,32px);
 }
 .grid_item{
@@ -121,11 +122,11 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
 .product_item {
     display: flex;
     flex-direction: column;
-    width: min(17.778dvw,256px);
+    width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256)));; 
     /* height: min(23.333dvw,336px); */
     height: fit-content;
-    border-radius: min(0.556dvw,8px);
-    border: min(0.069dvw,1px) solid;
+    border-radius: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
+    border: min(v-bind(changeSize(0.069,'dvw')),v-bind(changeSize(1))) solid;
     border-color: #FFFFFF;
     box-sizing: border-box;
     overflow: hidden;
@@ -246,9 +247,9 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
         height: min(v-bind(changeSize(32.796,'dvw')),v-bind(changeSize(244)));
     }
     .product_item {
-        width: min(20.43dvw,152px);
-        border-radius: min(1.075dvw,8px);
-        border: min(0.134dvw,1px) solid;
+        width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152)));
+        border-radius: min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
+        border: min(v-bind(changeSize(0.134,'dvw')),v-bind(changeSize(1))) solid;
         border-color: rgb(0, 0, 0, 0.01);
     }
     .product_img{
