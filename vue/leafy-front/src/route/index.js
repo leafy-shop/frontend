@@ -94,8 +94,10 @@ router.beforeEach(async (to,from)=>{
         return {name:"Home"}
     }
     // console.log(cookie.decrypt("information"))
-    // console.log(to.path.split("/").pop()!==cookie.decrypt("information").id)
-    if( ( to.name=="Profile"&&to.path.split("/").pop()!==cookie.decrypt("information").id ) || !cookie.checkKeyPass()){
+    // console.log(to.path.split("/").pop())
+    // console.log(cookie.decrypt("information").id)
+    // console.log(to.path.split("/").pop()!=cookie.decrypt("information").id)
+    if( ( to.name=="Profile"&&to.path.split("/").pop()!=cookie.decrypt("information").id ) || !cookie.checkKeyPass()){
         return {name:"Home"}
     }
     // alert('this new page')
