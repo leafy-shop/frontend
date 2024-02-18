@@ -211,7 +211,7 @@ onUpdated(() => {
                 <!-- user img & username -->
                 <div class="user">
                     <div class="user_img">
-                        <img src="../assets/icon/user_icon.png" alt="user_img">
+                        <img src="../assets/shop_p/avatar_userProfile.png" alt="user_img">
                     </div>
                     <div class="user_info">
                         <h5>

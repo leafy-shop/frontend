@@ -171,8 +171,6 @@ onUpdated(()=>{
                                      />
                             </svg>
                         </div>
-
-                        
                     </div>
                     <p>
                         {{productStyle.sold}} sold
@@ -524,6 +522,10 @@ onUpdated(()=>{
 }
 
 .wrapper_apply_buy button:nth-child(1) {
+    /* background-color: #fff;
+    color: #212121;
+    border: min(0.069dvw, 1px) solid;
+    border-color: #E0E0E0; */
     background: #fff;
     color: #26AC34;
     border: min(0.069dvw, 1px) solid;
@@ -532,10 +534,14 @@ onUpdated(()=>{
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 .wrapper_apply_buy button:nth-child(1):hover {
-    background: #26AC34;
-    color: #fff;
+    background-color: #26AC34;
+    border-color: #26AC34;
+    color: #FFF;
 }
-
+.wrapper_apply_buy button:nth-child(1):active {
+    border-color: #58d264;
+    background: #58d264;
+}
 .wrapper_apply_buy button {
     /* width: min(15dvw, 216px); */
     width: 100%;
@@ -554,7 +560,11 @@ onUpdated(()=>{
     cursor: pointer;
 }
 .wrapper_apply_buy button:hover {
-    color: #26AC34;
-    background: #fff;
+    border-color: #168A22;
+    background: #168A22;
+}
+.wrapper_apply_buy button:active {
+    border-color: #58d264;
+    background: #58d264;
 }
 </style>

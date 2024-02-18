@@ -146,7 +146,11 @@ let props = defineProps({
     background: #26AC34;
     color: #fff;
 }
-
+.wrapper_chat_shop button:nth-child(1):active {
+    border-color: #58d264;
+    background: #58d264;
+    color: #fff;
+}
 .wrapper_chat_shop button {
     /* width: min(15dvw, 216px); */
     width: 100%;
@@ -167,6 +171,12 @@ let props = defineProps({
 .wrapper_chat_shop button:hover {
     color: #26AC34;
     background: #fff;
+    border-color: #26AC34;
+}
+.wrapper_chat_shop button:active {
+    border-color: #58d264;
+    background: #58d264;
+    color: #fff;
 }
 .about_me{
     display: flex;
