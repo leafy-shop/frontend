@@ -10,7 +10,7 @@ let props = defineProps({
 
 </script>
 <template>
-    <div class="wrapper_description">
+    <div v-show="description.length" class="wrapper_description">
         <h5>
             Product Description
         </h5>
