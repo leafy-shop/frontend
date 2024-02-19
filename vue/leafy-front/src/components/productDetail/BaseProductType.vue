@@ -393,7 +393,7 @@ onUpdated(()=>{
 .information_details {
     display: flex;
     flex-direction: column;
-    height: min(23.333dvw, 336px);
+    height: fit-content;
     gap: min(1.111dvw, 16px);
     /* background-color: aquamarine; */
 }
