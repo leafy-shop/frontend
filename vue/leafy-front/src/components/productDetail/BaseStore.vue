@@ -14,8 +14,8 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.en
 <template>
     <div class="wrapper_store">
         <!-- for show img -->
-        <div>
-            <img src="../../assets/shop_p/avatar_userProfile.png" alt="supplier_img" style="height: 72px; width: 72px;">
+        <div class="store_img">
+            <img src="../../assets/shop_p/avatar_userProfile.png" alt="supplier_img">
         </div>
         <!-- click to chat or view shop profile -->
         <div class="store">
@@ -112,6 +112,16 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.en
     background-color: #fff;
     border-radius: min(0.556dvw, 8px);
     align-items: center;
+}
+.store_img {
+    width: min(5dvw,72px);
+    height: min(5dvw,72px);
+    background-color: #FAFAFA;
+    border-radius: 50%;
+}
+.store_img img {
+    width: min(5dvw,72px);
+    height: min(5dvw,72px);
 }
 .store {
     display: flex;

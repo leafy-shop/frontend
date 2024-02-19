@@ -201,7 +201,7 @@ onUpdated(()=>{
     height: fit-content;
     flex-direction: column;
     /* padding: min(1.389dvw, 20px); */
-    gap: min(1.389dvw, 20px);
+    gap: min(0.833dvw, 12px);
     /* background-color: #fff;
     border-radius: min(0.556dvw, 8px); */
 }
@@ -217,77 +217,82 @@ onUpdated(()=>{
     width: fit-content;
     height: inherit;
     justify-content: center;
-    gap: 12px;
+    gap: min(0.833dvw, 12px);
 }
 .container_rating h5{
-    font-size: 20px;
+    font-size: min(1.389dvw, 20px);
     font-weight: 500;
 }
 .rating_score{
     display: flex;
     width: fit-content;
     height: inherit;
-    gap: 4px;
+    gap: min(0.278dvw, 4px);
 }
 .rating_score h5{
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
 }
 .rating_score h5 >span{
-    font-size: 16px;
+    font-size: min(1.111dvw, 16px);
     font-weight: 700;
 }
-
+.wrapper_rating_list {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: min(0.278dvw, 4px);
+}
 .wrapper_sort_filter{
     display: flex;
     width: fit-content;
     height: inherit;
-    gap: 4px;
+    gap: min(0.278dvw, 4px);
 }
 .filter{
     display: flex;
     width: fit-content;
-    height: 40px;
-    padding: 8px 12px;
+    height: min(2.778dvw, 40px);
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
     justify-content: center;
     align-items: center;
-    gap: 4px;
-    border: 1px solid;
+    gap: min(0.278dvw, 4px);
+    border: min(0.069dvw,1px) solid;
     background-color: #fafafa;
     border-color: #E0E0E0;
-    border-radius: 8px;
+    border-radius: min(0.556dvw, 8px);
 }
 .filter svg{
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
     margin: auto;
 }
 .filter_title{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw, 4px);
 }
 .filter_title h5{
-    font-size: 16px;
+    font-size: min(1.111dvw, 16px);
     font-weight: 500;
     color: #212121;
 }
 .filter_title h6{
-    font-size: 16px;
+    font-size: min(1.111dvw, 16px);
     font-weight: 500;
     color: #9E9E9E;
 }
 .filter_title div{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
     justify-content: center;
     align-items: center;
 }
 .filter_title div svg{
-    width: 10px;
-    height: 6px;
+    width: min(0.694dvw,10px);
+    height: min(0.417dvw,6px);
 }
 
 .review_list{
@@ -299,14 +304,14 @@ onUpdated(()=>{
     align-items: center;
 }
 .review_list h5{
-    margin: 12px;
-    font-size: 16px;
+    margin: min(0.833dvw, 12px);
+    font-size: min(1.111dvw, 16px);
     font-weight: 500;
 }
 .no_review{
     display: flex;
     width: 100%;
-    height: 120px;
+    height: min(8.333dvw,120px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -320,20 +325,20 @@ onUpdated(()=>{
     flex-direction: column;
     width: 100%;
     height: fit-content;
-    padding: 12px 0px;
-    gap: 8px;
-    border-top: 1px solid #E0E0E0;
+    padding: min(0.833dvw, 12px) 0px;
+    gap: min(0.556dvw, 8px);
+    border-top: min(0.069dvw,1px) solid #E0E0E0;
 }
 .review_info{
     display: flex;
     width: inherit;
-    height: 48px;
-    gap: 8px;
+    height: min(6.452dvw,48px);
+    gap: min(0.556dvw, 8px);
 }
 .user_img{
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: min(6.452dvw,48px);
+    height: min(6.452dvw,48px);
     justify-content: center;
     align-items: center;
     border: none;
@@ -354,15 +359,15 @@ onUpdated(()=>{
     justify-content: center;
 }
 .user_info h6{
-    width: 28px;
-    height: 16px;
-    font-size: 12px;
+    width: min(3.763dvw, 28px);
+    height: min(2.151dvw, 16px);
+    font-size: min(1.613dvw, 12px);
     font-weight: 400;
 }
 .user_info div{
     display: flex;
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw, 20px);
     justify-content: center;
     align-items: center;
 
@@ -373,24 +378,24 @@ onUpdated(()=>{
     height: fit-content;
 }
 .review_des p{
-    font-size: 14px;
-    font-weight: 400px;
+    font-size: min(0.972dvw,14px);
+    font-weight: 400;
 }
 .style_list{
     display: flex;
     width: fit-content;
-    height: 80px;
-    gap: 8px;
+    height: min(5.556dvw,80px);
+    gap: min(1.075dvw, 8px);
     overflow: hidden;
 }
 .style_list div{
     display: flex;
-    width: 80px;
-    height:80px;
+    width: min(5.556dvw,80px);
+    height: min(5.556dvw,80px);
     justify-content: center;
     align-items: center;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw, 4px);
     overflow: hidden;
     background-color: #212121;
 }
@@ -401,12 +406,12 @@ onUpdated(()=>{
 .style_type{
     display: flex;
     width: fit-content;
-    height: 16px;
+    height: min(1.111dvw, 16px);
     align-items: center;
     justify-content: start;
 }
 .style_type h6{
-    font-size: 12px;
+    font-size: min(0.833dvw, 12px);
     font-weight: 400;
     color: #9E9E9E;
 }
@@ -416,12 +421,12 @@ onUpdated(()=>{
     height: fit-content;
     justify-content: start;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw, 4px);
 }
 .wrapper_like button{
     display: flex;
-    width: 16px;
-    height: 16px;
+    width: min(1.111dvw, 16px);
+    height: min(1.111dvw, 16px);
     justify-content: center;
     align-items: center;
     border: none;
@@ -429,8 +434,214 @@ onUpdated(()=>{
     cursor: pointer;
 }
 .wrapper_like h6{
-    font-size: 12px;
+    font-size: min(0.833dvw, 12px);
     font-weight: 400;
     color: #9E9E9E;
+}
+
+@media (width <=744px) {
+    .wrapper_Review {
+        gap: min(1.613dvw, 12px);
+    }
+    .container_rating{
+        gap: min(1.613dvw, 12px);
+    }
+    .container_rating h5{
+        font-size: min(12.419dvw, 18px);
+        font-weight: 500;
+    }
+    .rating_score{
+        gap: min(0.583dvw, 4px);
+    }
+    .rating_score h5{
+        font-size: min(1.613dvw, 12px);
+        font-weight: 400;
+    }
+    .rating_score h5 >span{
+        font-size: min(1.882dvw, 14px);
+        font-weight: 700;
+    }
+    .wrapper_rating_list {
+        gap: min(0.583dvw, 4px);
+    }
+    .wrapper_sort_filter{
+        gap: min(0.583dvw, 4px);
+    }
+    .filter{
+        height: min(3.763dvw, 28px);
+        padding: min(0.583dvw, 4px) min(1.075dvw, 8px);
+        gap: min(0.583dvw, 4px);
+        border: min(0.134dvw,1px) solid;
+        border-radius: min(0.583dvw, 4px);
+    }
+    .filter svg{
+        width: min(2.151dvw, 16px);
+        height: min(2.151dvw, 16px);
+    }
+    .filter_title{
+        gap: min(0.583dvw, 4px);
+    }
+    .filter_title h5{
+        font-size: min(1.882dvw, 14px);
+        font-weight: 500;
+        color: #212121;
+    }
+    .filter_title h6{
+        font-size: min(1.882dvw, 14px);
+        font-weight: 500;
+        color: #9E9E9E;
+    }
+    .filter_title div{
+        width: min(2.151dvw, 16px);
+        height: min(2.151dvw, 16px);
+    }
+    .filter_title div svg{
+        width:  min(1.075dvw, 8px);
+        height: min(0.583dvw, 4px);
+    }
+
+    /* .review_list{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        justify-content: center;
+        align-items: center;
+    }
+    .review_list h5{
+        margin: min(0.833dvw, 12px);
+        font-size: min(1.111dvw, 16px);
+        font-weight: 500;
+    }
+    .no_review{
+        display: flex;
+        width: 100%;
+        height: min(8.333dvw,120px);
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+    }
+    .no_review img{
+        width: auto;
+        height: 100%;
+    }
+    .review_item{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        padding: min(0.833dvw, 12px) 0px;
+        gap: min(0.556dvw, 8px);
+        border-top: min(0.069dvw,1px) solid #E0E0E0;
+    }
+    .review_info{
+        display: flex;
+        width: inherit;
+        height: min(6.452dvw,48px);
+        gap: min(0.556dvw, 8px);
+    }
+    .user_img{
+        display: flex;
+        width: min(6.452dvw,48px);
+        height: min(6.452dvw,48px);
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #fff;
+    }
+    .user_img img{
+        width: 100%;
+        height: auto;
+        background-position:center ;
+    }
+    .user_info{
+        display: flex;
+        width: fit-content;
+        height: inherit;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .user_info h6{
+        width: min(3.763dvw, 28px);
+        height: min(2.151dvw, 16px);
+        font-size: min(1.613dvw, 12px);
+        font-weight: 400;
+    }
+    .user_info div{
+        display: flex;
+        width: fit-content;
+        height: min(1.389dvw, 20px);
+        justify-content: center;
+        align-items: center;
+
+    }
+    .review_des{
+        display: flex;
+        width: inherit;
+        height: fit-content;
+    }
+    .review_des p{
+        font-size: min(0.972dvw,14px);
+        font-weight: 400;
+    }
+    .style_list{
+        display: flex;
+        width: fit-content;
+        height: min(5.556dvw,80px);
+        gap: min(1.075dvw, 8px);
+        overflow: hidden;
+    }
+    .style_list div{
+        display: flex;
+        width: min(5.556dvw,80px);
+        height: min(5.556dvw,80px);
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: min(0.278dvw, 4px);
+        overflow: hidden;
+        background-color: #212121;
+    }
+    .style_list img{
+        width: 100%;
+        height: auto;
+    }
+    .style_type{
+        display: flex;
+        width: fit-content;
+        height: min(1.111dvw, 16px);
+        align-items: center;
+        justify-content: start;
+    }
+    .style_type h6{
+        font-size: min(0.833dvw, 12px);
+        font-weight: 400;
+        color: #9E9E9E;
+    }
+    .wrapper_like{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        justify-content: start;
+        align-items: center;
+        gap: min(0.278dvw, 4px);
+    }
+    .wrapper_like button{
+        display: flex;
+        width: min(1.111dvw, 16px);
+        height: min(1.111dvw, 16px);
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    .wrapper_like h6{
+        font-size: min(0.833dvw, 12px);
+        font-weight: 400;
+        color: #9E9E9E;
+    } */
 }
 </style>
