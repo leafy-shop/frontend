@@ -93,7 +93,7 @@ router.beforeEach(async (to,from)=>{
     if(to.name=="SignUp"&&cookie.checkKeyPass()){
         return {name:"Home"}
     }
-    if(to.name=="Profile"&&cookie.checkKeyPass()){
+    if(to.name=="Profile"&&!cookie.checkKeyPass()){
         return {name:"Home"}
     }
     // console.log(cookie.decrypt("information"))
