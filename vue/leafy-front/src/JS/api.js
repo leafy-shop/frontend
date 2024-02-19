@@ -101,7 +101,7 @@ const fetch = {
         console.log('startttttttttttttttt')
         console.log(owner)
         try {
-            let url = `${origin}/api/products?page=${page}&limit=${limit}`
+            let url = `${origin}/api/products?page=${page}`
             if (searchItem.length !== 0) url += `&product=${searchItem}`;
             if (type.length !== 0) url += `&type=${type}`;
             if (min > 0) url += `&min_price=${min}`;
@@ -110,7 +110,7 @@ const fetch = {
             if (tag.length !== 0) url += `&tag=${tag}`;
             if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
             if (sort !== undefined) url += `&sort=${sort}`;
-            if (owner !== undefined) url += `&owner=${owner}`
+            if (owner != undefined) url += `&owner=${owner}`
             if (limitP!==undefined) url+=`&limit=${limitP}`
 
             console.log(url)
@@ -213,6 +213,7 @@ const fetch = {
         let returnData = { status: false, data: undefined, msg:'' }
 
         try {
+            // let url = `${origin}/api/users/views/${owner}`
             let url = `${origin}/api/users/views/${owner}`
             let res = await axios.get(url)
 
