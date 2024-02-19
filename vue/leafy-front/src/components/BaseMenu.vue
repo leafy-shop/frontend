@@ -339,7 +339,8 @@ onMounted(()=>{
     justify-content: center;
     padding: min(1.389dvw, 20px) min(11.111dvw, 160px);
     box-sizing: border-box;
-    box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+    /* box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08); */
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
     /* justify-content: space-between; */
 }
 

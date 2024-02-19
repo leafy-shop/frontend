@@ -140,7 +140,7 @@ onMounted(()=>{
             <path d="M10.707 2.293C10.5195 2.10553 10.2652 2.00021 10 2.00021C9.73485 2.00021 9.48054 2.10553 9.29301 2.293L2.29301 9.293C2.11085 9.4816 2.01006 9.7342 2.01234 9.9964C2.01461 10.2586 2.11978 10.5094 2.30519 10.6948C2.4906 10.8802 2.74141 10.9854 3.00361 10.9877C3.26581 10.99 3.51841 10.8892 3.70701 10.707L4.00001 10.414V17C4.00001 17.2652 4.10537 17.5196 4.2929 17.7071C4.48044 17.8946 4.73479 18 5.00001 18H7.00001C7.26523 18 7.51958 17.8946 7.70712 17.7071C7.89465 17.5196 8.00001 17.2652 8.00001 17V15C8.00001 14.7348 8.10537 14.4804 8.2929 14.2929C8.48044 14.1054 8.73479 14 9.00001 14H11C11.2652 14 11.5196 14.1054 11.7071 14.2929C11.8947 14.4804 12 14.7348 12 15V17C12 17.2652 12.1054 17.5196 12.2929 17.7071C12.4804 17.8946 12.7348 18 13 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8947 17.5196 16 17.2652 16 17V10.414L16.293 10.707C16.4816 10.8892 16.7342 10.99 16.9964 10.9877C17.2586 10.9854 17.5094 10.8802 17.6948 10.6948C17.8802 10.5094 17.9854 10.2586 17.9877 9.9964C17.99 9.7342 17.8892 9.4816 17.707 9.293L10.707 2.293Z" fill="#757575"/>
         </svg>
         <!-- right arrow -->
-        <svg width="24" height="44" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="right_arrow" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z" fill="#EEEEEE"/>
         </svg>
         <!-- product -->
@@ -148,7 +148,7 @@ onMounted(()=>{
             Product
         </h5>
         <!-- right arrow -->
-        <svg width="24" height="44" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="right_arrow" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z" fill="#EEEEEE"/>
         </svg>
         <!-- product -->
@@ -188,15 +188,6 @@ onMounted(()=>{
     align-items: center;
     gap: min(1.111dvw, 16px);
 }
-.link{
-    font-size: min(0.972dvw,14px);
-    font-weight: 500;
-    color:#757575;
-    cursor: pointer;
-}
-.link:hover{
-    color: #26AC34;
-}
 .container_access svg:nth-child(1){
     width: min(1.667dvw, 24px);
     height: min(1.667dvw, 24px);
@@ -205,10 +196,19 @@ onMounted(()=>{
 .container_access svg:nth-child(1):hover path{
     fill:#26AC34;
 }
-.container_access svg:nth-child(2),
-.container_access svg:nth-child(3){
+.right_arrow{
+    display: flex;
     width: min(1.667dvw, 24px);
     height: min(3.056dvw, 44px);
+}
+.link{
+    font-size: min(0.972dvw,14px);
+    font-weight: 500;
+    color:#757575;
+    cursor: pointer;
+}
+.link:hover{
+    color: #26AC34;
 }
 .wrapper_content{
     display: flex;
@@ -229,5 +229,49 @@ onMounted(()=>{
     background-color: #fff;
     border-radius: min(0.556dvw, 8px);
     padding: min(1.389dvw, 20px);
+}
+@media (width <=744px) {
+    .container_access{
+        height: min(5.376dvw,40px);
+        background-color: #FFFFFF;
+        border-bottom: min(0.134dvw,1px) solid;
+        border-color: #EEEEEE;
+        padding: 0px min(5.914dvw, 44px);
+        align-items: center;
+        gap: min(1.613dvw, 12px);
+    }
+    .container_access svg:nth-child(1){
+        width: min(2.151dvw, 16px);
+        height: min(2.151dvw, 16px);
+        cursor: pointer;
+    }
+    .container_access svg:nth-child(1):hover path{
+        fill:#26AC34;
+    }
+    .right_arrow{
+        display: flex;
+        width: min(2.688dvw, 20px);
+        height: min(5.376dvw, 40px);
+    }
+    .link{
+        font-size: min(1.613dvw, 12px);
+        letter-spacing: min(0.027dvw, 0.2px);
+        font-weight: 500;
+        color:#757575;
+        cursor: pointer;
+    }
+    .link:hover{
+        color: #26AC34;
+    }
+    .wrapper_content{
+        padding: min(1.613dvw, 12px) min(5.914dvw, 44px);
+        gap: min(1.613dvw, 12px);
+    }
+
+    .container_review{
+        gap: min(1.613dvw, 12px);
+        border-radius: min(1.075dvw, 8px);
+        padding: min(2.151dvw, 16px);
+    }
 }
 </style>
