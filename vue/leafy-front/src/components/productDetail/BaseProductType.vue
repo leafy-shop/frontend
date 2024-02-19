@@ -110,7 +110,7 @@ onUpdated(()=>{
         <div class="images">
             <div class="styles">
                 <ul>
-                    <li v-if="Object.keys(selectedStyle).length!=0&&selectedStyle.images.length!=1" v-for="(value, idx) in selectedStyle.images" :key="idx">
+                    <li v-if="Object.keys(selectedStyle).length!=0&&selectedStyle.images.length&&selectedStyle.images.length!=1" v-for="(value, idx) in selectedStyle.images" :key="idx">
                         <button @click="selectedImage(idx)">
                             <!-- {{ `${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}` }} -->
                             <!-- `${origin}/api/image/users/${designer.userId}/${designer.image}` -->
