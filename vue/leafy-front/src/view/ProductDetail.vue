@@ -49,10 +49,10 @@ const getStore =async(id)=>{
 const getProductDetail = async (id, selectedId=0) => {
     // console.log(id)
     let {status,data} = await fetch.getProductDetail(id)
-    
+    console.log(data.name)
     // product type page
     productType.value.itemId = params.id
-    productType.value.name =  data.name
+    productType.value.name = data.name
     productType.value.rating = data.totalRating
     productType.value.sold = data.sold
     productType.value.price_min = data.minPrice //price
@@ -180,16 +180,16 @@ onMounted(()=>{
 .container_access{
     display: flex;
     width: auto;
-    height: 44px;
+    height: min(3.056dvw,44px);
     background-color: #FFFFFF;
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw,1px) solid;
     border-color: #EEEEEE;
-    padding: 0px 160px;
+    padding: 0px min(11.111dvw, 160px);
     align-items: center;
-    gap: 16px;
+    gap: min(1.111dvw, 16px);
 }
 .link{
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 500;
     color:#757575;
     cursor: pointer;
@@ -198,8 +198,8 @@ onMounted(()=>{
     color: #26AC34;
 }
 .container_access svg:nth-child(1){
-    font-size: 20px;
-    font-weight: 20px;
+    width: min(1.667dvw, 24px);
+    height: min(1.667dvw, 24px);
     cursor: pointer;
 }
 .container_access svg:nth-child(1):hover path{
@@ -207,16 +207,16 @@ onMounted(()=>{
 }
 .container_access svg:nth-child(2),
 .container_access svg:nth-child(3){
-    width: 24px;
-    height: 44px;
+    width: min(1.667dvw, 24px);
+    height: min(3.056dvw, 44px);
 }
 .wrapper_content{
     display: flex;
     width: auto;
     height: fit-content;
     flex-direction: column;
-    padding: 20px 160px;
-    gap: 20px;
+    padding: min(1.389dvw, 20px) min(11.111dvw, 160px);
+    gap: min(1.389dvw, 20px);
     background-color: #F5F5F5;
 }
 
@@ -225,7 +225,7 @@ onMounted(()=>{
     flex-direction: column;
     width: inherit;
     height: fit-content;
-    gap: 12px;
+    gap: min(0.833dvw, 12px);
     background-color: #fff;
     border-radius: min(0.556dvw, 8px);
     padding: min(1.389dvw, 20px);
