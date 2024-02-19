@@ -29,7 +29,7 @@ let props = defineProps({
 })
 
 const totalRating=computed(()=>{
-    console.log(props.productReview)
+    // console.log(props.productReview)
     return props.totalRating
 })
 
@@ -122,9 +122,16 @@ onUpdated(()=>{
                 </button>
             </div>
         </div>
-
+        <div v-if="productReview.length==0" class="review_list">
+            <div class="no_review">
+                <img src="../../assets/shop_p/finger.png" alt="finger_img">
+            </div>
+            <h5>
+                No Rating Yet
+            </h5>
+        </div>
         <!-- Review list -->
-        <div class="review_list" v-for="(review,index) in productReview" :key="index">
+        <div v-else class="review_list" v-for="(review,index) in productReview" :key="index">
 
             <!-- review item -->
             <div class="review_item">
@@ -132,7 +139,7 @@ onUpdated(()=>{
                 <div class="review_info">
                     <div class="user_img">
                         <img v-if="review.image" :src="`${origin}/api/image/users/${review.userId}`" draggable="false" alt="user_img">
-                        <img v-else src="../../assets/vue.svg" draggable="false" alt="user_img">
+                        <img v-else src="../../assets/shop_p/avatar_userProfile.png" draggable="false" alt="user_img">
                     </div>
                     <div class="user_info">
                         <h6>
@@ -140,7 +147,7 @@ onUpdated(()=>{
                         </h6>
                         <div>
                             <BaseStar :rating="review.rating" :name="`user_review_${review.itemReviewId}`" />
-                            {{ review.rating }}
+                            <!-- {{ review.rating }} -->
                         </div>
                     </div>
                 </div>
@@ -152,11 +159,11 @@ onUpdated(()=>{
                     </p>
                 </div>
                 <!-- img list ? -->
-                <div class="style_list">
+                <!-- <div class="style_list">
                     <div >
                         <img src="../../assets/vue.svg" draggable="false" alt="product_img">
                     </div>
-                </div>
+                </div> -->
                 <!-- info about product  -->
                 <div class="style_type">
                     <h6>
@@ -246,7 +253,7 @@ onUpdated(()=>{
     align-items: center;
     gap: 4px;
     border: 1px solid;
-    background-color: #fff;
+    background-color: #fafafa;
     border-color: #E0E0E0;
     border-radius: 8px;
 }
@@ -291,6 +298,23 @@ onUpdated(()=>{
     justify-content: center;
     align-items: center;
 }
+.review_list h5{
+    margin: 12px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.no_review{
+    display: flex;
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+.no_review img{
+    width: auto;
+    height: 100%;
+}
 .review_item{
     display: flex;
     flex-direction: column;
@@ -315,7 +339,7 @@ onUpdated(()=>{
     border: none;
     border-radius: 50%;
     overflow: hidden;
-    background-color: #212121;
+    background-color: #fff;
 }
 .user_img img{
     width: 100%;
