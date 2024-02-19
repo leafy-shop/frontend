@@ -171,11 +171,12 @@ onUpdated(()=>{
     color: #fff;
     font-size: min(0.972dvw,14px);
     letter-spacing: min(0.014dvw,0.2px); 
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
 }
 .move_page{
     width: min(3.056dvw, 44px);
     height: min(2.5dvw,36px);
-    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    /* padding: min(0.556dvw,8px) min(0.833dvw,12px); */
     cursor: pointer;
     background-color: #fff;
     border-radius: min(0.278dvw,4px);
@@ -229,7 +230,7 @@ onUpdated(()=>{
     .move_page{
         width: min(4.301dvw,32px);
         height: min(3.226dvw,24px);
-        padding: min(0.538dvw,4px) min(1.075dvw,12px);
+        /* padding: min(0.538dvw,4px) min(1.075dvw,12px); */
         background-color: #fff;
         border-radius: min(0.538dvw,4px);
     }

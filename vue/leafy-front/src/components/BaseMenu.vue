@@ -514,19 +514,20 @@ onMounted(()=>{
     display: flex;
     position: absolute;
     flex-direction: column;
-    width: 140px;
-    height: 124px;
-    padding: 8px 0px;
+    /* width: min(9.722dvw,140px); */
+    width: fit-content;
+    height: min(8.611dvw,124px);
+    padding: min(0.556dvw, 8px) 0px;
     right: 0;
-    top: 50px;
+    top: min(3.056dvw,44px);
     background-color: #FFFFFF;
-    border: 1px solid;
-    border-radius: 4px ;
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw, 4px);
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
     z-index: 99;
-
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .option_account div{
@@ -539,20 +540,26 @@ onMounted(()=>{
 }
 .option_account div button,
 .option_account button{
-    width: 140px;
-    height: 36px;
-    padding: 8px 16px;
-    font-size: 14px;
+    width: min(9.722dvw,140px);
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw, 8px) min(1.111dvw, 16px);
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     border: none;
     background-color: transparent;
     color: #212121;
     cursor: pointer;
+    text-align: left;
 }
 .option_account div button:hover,
 .option_account button:hover{
-    background-color: #26AC34;
-    color: #FFf;
+    background-color: #FAFAFA;
+    color: #26AC34;
+}
+.option_account div button:active,
+.option_account button:active{
+    background-color: #FAFAFA;
+    color: #58d264;
 }
 .cart_b{
     display: flex;
