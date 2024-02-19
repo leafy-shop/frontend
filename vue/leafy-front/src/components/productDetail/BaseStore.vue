@@ -1,5 +1,7 @@
 <script setup>
-
+import { useRouter } from 'vue-router';
+import validation from '../../JS/validation'
+const myRouter=useRouter()
 let props = defineProps({
     owner: {
         type: Object,
@@ -7,24 +9,24 @@ let props = defineProps({
         required: true
     }
 })
-
+const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.encrypt(email)}})
 </script>
 <template>
     <div class="wrapper_store">
         <!-- for show img -->
         <div>
-            <img src="../../assets/vue.svg" alt="supplier_img" style="height: 72px; width: 72px;">
+            <img src="../../assets/shop_p/avatar_userProfile.png" alt="supplier_img" style="height: 72px; width: 72px;">
         </div>
         <!-- click to chat or view shop profile -->
         <div class="store">
             <h5>
-                GardenName
+                {{owner.username}}
             </h5>
             <div class="wrapper_chat_shop">
                 <button @click="chatNow">
                     Chat Now 
                 </button>
-                <button @click="viewShop">
+                <button @click="goProfile(owner.email)">
                     View Shop
                 </button>
             </div>
@@ -39,7 +41,7 @@ let props = defineProps({
                         Rating
                     </p>
                     <p>
-                        4
+                        {{owner.rating}}
                     </p>
                 </div>
                 <!-- products -->
@@ -48,7 +50,7 @@ let props = defineProps({
                         Products
                     </p>
                     <p>
-                        5
+                        {{ owner.products }}
                     </p>
                 </div>
             </div>
@@ -90,7 +92,7 @@ let props = defineProps({
                         Joined
                     </p>
                     <p>
-                        2 days ago
+                        {{owner.time}}
                     </p>
                 </div>
             </div> 
