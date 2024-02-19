@@ -4,7 +4,7 @@ import validation from '../../JS/validation'
 import BaseStar from './BaseStar.vue';
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
-defineEmits(["selectedStyle"])
+const emit=defineEmits(["styleSelected"])
 
 let props = defineProps({
     productStyle: {
@@ -16,6 +16,10 @@ let props = defineProps({
         type: Object,
         default: {},
         required: true
+    },
+    changeStyle:{
+        type:Function,
+        required:true
     }
 })
 // onUpdated(()=>{
@@ -60,10 +64,14 @@ let leftSubstract = () => {
 }
 
 let productStyle = computed(() => {
+    // console.log(props.productStyle,"helllllll")
+    // console.log(props.selectedStyle,'asldfjal;sdfjlasd')
+
     return props.productStyle
 })
 
 let selectedStyle = computed(() => {
+    console.log(props.selectedStyle,'asldfjal;sdfjlasd')
     stepInput.value = 1
     slideImage.value = 0
     maxImage.value = (props.selectedStyle.images == undefined || props.selectedStyle.images.length < 1) ? 1 : props.selectedStyle.images.length - 1
@@ -85,18 +93,10 @@ let imageRight = () => {
     slideImage.value = slideImage.value < maxImage.value ? slideImage.value + 1 : slideImage.value
 }
 
-// const ratingStar=()=>{
-//     const star=document.getElementsByClassName("star_item")
-//     //start from front
-//     for(let i=0;i<(productStyle.value.ratingFloor);i++){
-//            star[i].getElementsByTagName("path")[0].setAttribute('fill',"#FFCE3D")
-//     }
-//     //start from back
-//     for(let i=star.length-1;i>=0;i--){
-//         // console.log(star[i].getElementsByTagName("path")[0])
-//         star[i].getElementsByTagName("path")[0].setAttribute('stroke',"#FFCE3D")
-//     }
+// const changeStyle=(index)=>{
+//     return emit("styleSelected",index)
 // }
+
 onMounted(()=>{
     // validation.ratingStar("star_item","path",productStyle.value.ratingFloor)
 
@@ -110,7 +110,7 @@ onUpdated(()=>{
         <div class="images">
             <div class="styles">
                 <ul>
-                    <li v-if="Object.keys(selectedStyle).length!=0" v-for="(value, idx) in selectedStyle.images" :key="idx">
+                    <li v-if="Object.keys(selectedStyle).length!=0&&selectedStyle.images.length!=1" v-for="(value, idx) in selectedStyle.images" :key="idx">
                         <button @click="selectedImage(idx)">
                             <!-- {{ `${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}` }} -->
                             <!-- `${origin}/api/image/users/${designer.userId}/${designer.image}` -->
@@ -190,19 +190,28 @@ onUpdated(()=>{
                         </span> 
                     </h3> -->
                     <h3>
-                        <!-- {{ productStyle.price_min }} -->
-                        ฿{{productStyle.price_min}} 
+                        <!-- <span > 
+                            ฿{{productStyle.price_min}} 
+                        </span>
                         <span v-if="productStyle.price_max!=0">
                             - ฿{{productStyle.price_max}}
-                        </span> 
+                        </span>  -->
+                        ฿<span v-if="selectedStyle.price">
+                            {{ selectedStyle.price }}
+                        </span>
+                        <!-- <span v-else>
+                            {{ selectedStyle.size.price[0] }}
+                        </span> -->
                     </h3>
                 </div>
                 <!-- for show type -->
                 <div class="grid_container">
-                    <button class="grid_item">
+                    <button @click="props.changeStyle(index)" v-for="(style,index) in productStyle.styles" class="grid_item" :key="index">
                         <div class="product_img">
-                            <img src="../../assets/vue.svg" alt="product_type">
+                            <img v-if="style.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`" alt="product_style">
+                            <img v-else src="../../assets/vue.svg" alt="product_style">
                         </div>
+                        <!-- {{ style }} -->
                     </button>
                 </div>
                 <!-- for select quantity and show stock -->
@@ -429,10 +438,12 @@ onUpdated(()=>{
     color: #26AC34;
 }
 .grid_container{
-    display: grid;
+    /* display: grid; */
+    display: flex;
+    flex-wrap: wrap;
     width: inherit;
     height: fit-content;
-    grid-template-columns: auto auto auto auto auto auto auto ;
+    /* grid-template-columns: auto auto auto auto auto auto auto ; */
     gap: min(0.556dvw, 8px);
 }
 .grid_item {
