@@ -63,7 +63,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                         </h4>
                         <div class="info_quality">
                             <h5>
-                                <span>฿</span>{{ product.minPrice }} {{ product.maxPrice !== undefined ? `- ${product.maxPrice}` : '' }}
+                                <span>฿</span>{{ product.minPrice }} {{ product.maxPrice != 0 ? `- ${product.maxPrice}` : '' }}
                             </h5>
                             <div>
                                 <div  class="rating">
@@ -100,12 +100,15 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     height: inherit;
 }
 .grid_container{
-    display: flex;
+    display: grid;
+    /* display: flex; */
     width: inherit;
     height: fit-content;
-    flex-wrap: wrap;
-    /* grid-template-columns: v-bind(changeGridT()) ; */
-    gap: min(2.222dvw,32px);
+      flex-wrap: wrap; 
+    /*justify-content: center;
+    align-items: center; */
+    grid-template-columns: v-bind(changeGridT());
+    gap: min(v-bind(changeSize(2.222,'dvw')),v-bind(changeSize(32)));
 }
 .grid_item{
     display: flex;
