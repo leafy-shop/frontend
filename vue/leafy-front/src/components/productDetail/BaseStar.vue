@@ -32,14 +32,23 @@ onUpdated(()=>{
     <!-- {{ ratingF }} -->
 </template>
 <style scoped>
-    .star {
+    .star{
         display: flex;
         justify-content: center;
         flex-direction: row;
         gap: min(0.278dvw, 4px);
     }
-    .star svg path {
+    .star svg{
         width: min(1.389dvw, 20px);
         height: min(1.389dvw, 20px);
     }
+@media(width<=744px){
+    .star{
+        gap: min(0.538dvw,4px);
+    }
+    .star svg{
+        width: min(2.688dvw,20px);
+        height: min(2.688dvw,20px);
+    }
+}
 </style>
