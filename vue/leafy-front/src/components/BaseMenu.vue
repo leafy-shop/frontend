@@ -5,6 +5,7 @@ import validation from '../JS/validation'
 import cookie from '../JS/cookie';
 import fetch from '../JS/api'
 // const {params} =useRoute()
+const showOption=ref(false)
 const emit= defineEmits(['search'])
 const props = defineProps({
     search: {
@@ -88,7 +89,7 @@ const goShop=()=>{
     }
 }
 const goCartList=()=>myRouter.push({name:'CartList'})
-const goProfile=(id=11)=>myRouter.push({name:'Profile',params:{id:id}})
+const goProfile=(id=0)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(id.toString())}})
 
 const signOut = async () => {
     let isOut=await fetch.signOut()
@@ -202,9 +203,23 @@ onMounted(()=>{
                         Sign In 
                 </button>
                 <!-- user profile -->
-                <button @click="goProfile(keyPass.id)" v-else class="user_profile">
+                <button @click="showOption=!showOption"   v-else class="user_profile"> <!--@click="goProfile(keyPass.id)"-->
                     <img src="../assets/shop_p/avatar_userProfile.png" alt="user_icon"> 
                 </button>
+                <!-- drop down -->
+                <div  v-show="showOption" class="option_account">
+                    <div>
+                        <button @click="goProfile(keyPass.id)">
+                            My Profile
+                        </button>
+                        <button>
+                            Settings
+                        </button>
+                    </div>
+                    <button @click="signOut">
+                        Sign Out
+                    </button>
+                </div>
             </div>
         </div>
         <div v-show="showMenu2" class="main_menu_container_2">
@@ -401,6 +416,7 @@ onMounted(()=>{
     /* flex-grow:6; */
     /* padding:10px; */
     display: flex;
+    position: relative;
     width: fit-content;
     height: fit-content;
     margin: auto 0px;
@@ -483,6 +499,7 @@ onMounted(()=>{
 .user_profile{
     width: min(2.778dvw,40px);
     height: min(2.778dvw,40px);
+    position: relative;
     border-radius: 50%;
     border: 0px;
     overflow: hidden;
@@ -493,7 +510,50 @@ onMounted(()=>{
     width: inherit;
     height: inherit;
 }
+.option_account{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: 140px;
+    height: 124px;
+    padding: 8px 0px;
+    right: 0;
+    top: 50px;
+    background-color: #FFFFFF;
+    border: 1px solid;
+    border-radius: 4px ;
+    border-color: #E0E0E0;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
 
+}
+
+.option_account div{
+    display: flex;
+    width: inherit;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.option_account div button,
+.option_account button{
+    width: 140px;
+    height: 36px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    border: none;
+    background-color: transparent;
+    color: #212121;
+    cursor: pointer;
+}
+.option_account div button:hover,
+.option_account button:hover{
+    background-color: #26AC34;
+    color: #FFf;
+}
 .cart_b{
     display: flex;
     height: auto;
