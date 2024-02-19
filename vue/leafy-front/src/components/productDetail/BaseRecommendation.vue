@@ -18,7 +18,7 @@ const productList = ref([
 ])
 
 const getProductList = async () => {
-    let {status, data} = await fetch.getAllRecommendProduct(1, 12)
+    let {status, data} = await fetch.getAllProduct(1, 12)
     productList.value=data.list
     console.log(data)
 }
@@ -29,12 +29,14 @@ onBeforeMount(()=>{
 
 </script>
 <template>
-    <div class="wrapper_recommend">
+    <div v-show="true" class="wrapper_recommend">
         <h5>
             Recommended for You
         </h5>
         <div class="recommend_list">
-            <BaseProductList :productList="productList" :gridColumn="6" :size="62.5"/>
+            <div>
+                <BaseProductList :productList="productList" :gridColumn="6" :size="62.5"/>
+            </div>
             <!-- <button class="recommend_item">
                 image
                 <div>
@@ -62,4 +64,15 @@ onBeforeMount(()=>{
     </div>
 </template>
 <style scoped>
+.wrapper_recommend{
+    display: flex;
+    flex-direction: column;
+}
+.recommend_list{
+    display: flex;
+    width: min(77.778dvw,1120px);
+    height: fit-content;
+    /* justify-content: center;
+    align-items: center; */
+}
 </style>
