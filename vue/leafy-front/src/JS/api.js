@@ -355,7 +355,7 @@ const fetch = {
         let information = cookie.decrypt('information') //get email for refresh token
         // console.log(information)
         let returnData = { status: false, msg:'' }
-        if (information !== undefined) {
+        if (information != undefined) {
             try {
                 let url = `${origin}/api/authentication/refresh`
 
