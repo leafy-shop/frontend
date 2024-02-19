@@ -52,9 +52,6 @@ const getProductDetail = async (id, selectedId=0) => {
     
     // product type page
     productType.value.itemId = params.id
-
-    console.log(productType.value)
-    console.log(data.name)
     productType.value.name =  data.name
     productType.value.rating = data.totalRating
     productType.value.sold = data.sold
