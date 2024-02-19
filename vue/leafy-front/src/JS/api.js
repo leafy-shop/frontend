@@ -352,7 +352,7 @@ const fetch = {
         }
     },
     async getRefresh (){
-        let information = cookie.decrypt('information') //get email for refresh token
+        let information = cookie.decrypt() //get email for refresh token
         // console.log(information)
         let returnData = { status: false, msg:'' }
         if (information != undefined) {
