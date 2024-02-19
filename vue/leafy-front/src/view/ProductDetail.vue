@@ -167,7 +167,6 @@ onMounted(()=>{
                 <BaseSelectPage  :current-page="currentPageReview" :total-page="totalPageReview"
                 @move-left="moveLeftR" @move-right="moveRightR" @change-page="changePageR"/>
             </div>
-            
         </div>
         <BaseRecommedation  />
     </div>

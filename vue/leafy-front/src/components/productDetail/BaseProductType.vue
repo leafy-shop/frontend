@@ -110,10 +110,8 @@ onUpdated(()=>{
         <div class="images">
             <div class="styles">
                 <ul>
-                    <li v-if="Object.keys(selectedStyle).length!=0&&selectedStyle.images.length&&selectedStyle.images.length!=1" v-for="(value, idx) in selectedStyle.images" :key="idx">
+                    <li v-if="selectedStyle.images && selectedStyle.images.length &&Object.keys(selectedStyle).length!=0&&selectedStyle.images.length&&selectedStyle.images.length!=1" v-for="(value, idx) in selectedStyle.images" :key="idx">
                         <button @click="selectedImage(idx)">
-                            <!-- {{ `${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}` }} -->
-                            <!-- `${origin}/api/image/users/${designer.userId}/${designer.image}` -->
                             <img v-if="selectedStyle.images.length==0" src="../../assets/vue.svg" alt="image_style">
                             <img v-else :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
                         </button>
@@ -122,7 +120,7 @@ onUpdated(()=>{
             </div>
             <div class="show_image">
                 <img v-if="selectedStyle.images && selectedStyle.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`" alt="image_style">
-                <img v-else-if="productStyle.image && selectedStyle.images == undefined" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style">
+                <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style">
                 <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style">
                 <img v-else src="../../assets/vue.svg" alt="image_style">
                 <!-- {{ productStyle }} -->
@@ -208,7 +206,7 @@ onUpdated(()=>{
                 <div class="grid_container">
                     <button @click="props.changeStyle(index)" v-for="(style,index) in productStyle.styles" class="grid_item" :key="index">
                         <div class="product_img">
-                            <img v-if="style.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`" alt="product_style">
+                            <img v-if="style.images && style.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`" alt="product_style">
                             <img v-else src="../../assets/vue.svg" alt="product_style">
                         </div>
                         <!-- {{ style }} -->
