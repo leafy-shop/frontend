@@ -18,7 +18,7 @@ const productList = ref([
 ])
 
 const getProductList = async () => {
-    let {status, data} = await fetch.getAllProduct(1, 12)
+    let {status, data} = await fetch.getAllRecommendProduct(1, 12)
     productList.value=data.list
     console.log(data)
 }
