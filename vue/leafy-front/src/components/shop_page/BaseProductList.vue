@@ -63,7 +63,7 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
                         </h4>
                         <div class="info_quality">
                             <h5>
-                                <span>฿</span>{{ product.minPrice }} {{ product.maxPrice != 0 ? `- ${product.maxPrice}` : '' }}
+                                <span>฿</span>{{ product.minPrice }} {{ product.maxPrice > product.minPrice ? `- ${product.maxPrice}` : '' }}
                             </h5>
                             <div>
                                 <div  class="rating">

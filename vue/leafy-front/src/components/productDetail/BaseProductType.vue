@@ -120,9 +120,9 @@ onUpdated(()=>{
             </div>
             <div class="show_image">
                 <img v-if="selectedStyle.images && selectedStyle.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`" alt="image_style">
-                <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style">
-                <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style">
-                <img v-else src="../../assets/vue.svg" alt="image_style">
+                <!-- <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style"> -->
+                <!-- <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style"> -->
+                <img v-else src="../../assets/vue.svg" alt="image_style"> 
                 <!-- {{ productStyle }} -->
                 <div v-show="selectedStyle.images !== undefined && selectedStyle.images.length > 1">
                     <button @click="imageLeft">
@@ -195,7 +195,7 @@ onUpdated(()=>{
                             - ฿{{productStyle.price_max}}
                         </span>  -->
                         ฿<span v-if="selectedStyle.price">
-                            {{ selectedStyle.price }}
+                            {{ selectedStyle.price }} 
                         </span>
                         <!-- <span v-else>
                             {{ selectedStyle.size.price[0] }}
