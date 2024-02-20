@@ -339,7 +339,7 @@ const fetch = {
                 return returnData
             } catch (error) {
                 validation.function_Status("sign out", false, error)
-
+                cookie.encrypt(res.data, "information")
                 if(error.code=="ERR_NETWORK"){//check back-end server error
                     returnData.msg="Server Error try again later"
                     returnData.status=false
@@ -365,6 +365,7 @@ const fetch = {
                 // console.log(res.status)
                 if(res.status==200){
                     returnData.status=true
+
                     console.log('refresh token')
                 }else{ // 401
                     returnData.status=false
