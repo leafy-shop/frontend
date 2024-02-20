@@ -281,7 +281,7 @@ const fetch = {
                 let userInfo = { "email_phone": email, "password": password }
                 let res = await axios.post(url, userInfo)
                 // console.log(res.data)
-                // cookie.encrypt(res.data, "information")
+                cookie.encrypt(res.data, "information")
                 // cookie.decrypt("information")
                 validation.function_Status("login", true)
                 returnData.status=true
