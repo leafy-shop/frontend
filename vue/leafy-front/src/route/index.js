@@ -12,6 +12,13 @@ import GalleryDetail from '../view/GalleryDetail.vue'
 import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
+// account setting
+import AccountSetting from '../view/accountSetting/AccountSetting.vue'
+import Profile_AS from '../view/accountSetting/profile.vue'
+import Address_AS from '../view/accountSetting/Address.vue'
+import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
+import Bank_AS from '../view/accountSetting/Bank.vue'
+import Shop_AS from '../view/accountSetting/MyShop.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -57,6 +64,37 @@ const routes=[
         path:'/gallery-detail/:id',
         name:'GalleryDetail',
         component:GalleryDetail
+    },
+    {
+        path:'/account-setting', //:id?
+        component:AccountSetting,
+        children:[
+            {
+                path:'profile',
+                name:'profile_AS',
+                component:Profile_AS
+            },
+            {
+                path:'address',
+                name:'address_AS',
+                component:Address_AS
+            },
+            {
+                path:'change-password',
+                name:'changePW_AS',
+                component:ChangePW_AS
+            },
+            {
+                path:'bank',
+                name:'bank_AS',
+                component:Bank_AS
+            },
+            {
+                path:'my-shop',
+                name:'shop_AS',
+                component:Shop_AS
+            },
+        ]
     },
     {
         path:'/:pathMatch(.*)*',
