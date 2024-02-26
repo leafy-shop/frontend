@@ -270,6 +270,32 @@ const fetch = {
             }
         }
     },
+    async getUserById(id){
+        let returnData = { status: false, data: undefined, msg:'' }
+        try {
+            let url=`${origin}/api/users/${id}`
+            let res = await axios.get(url)
+
+            if ( res.data == undefined) {
+                validation.function_Status('get user detail', false, `cannot get user detail id:${id}`)
+            } else {
+                validation.function_Status('get user detail', true,`get user detail id :${id}`)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get user detail', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
 
     // authentication
     async login(email = undefined, password = undefined){
