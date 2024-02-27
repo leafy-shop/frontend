@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import{useRouter} from 'vue-router'
+import validation from '../../JS/validation'
 
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
@@ -42,7 +43,9 @@ const changeSize=(number,unit='px')=>{
     }
 
 const myRouter=useRouter()
-const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
+const goProductDetail=(p)=>{
+    return myRouter.push({name:'ProductDetail',params:{id:validation.encrypt(''+p)}})
+}
 
 </script>
 <template>

@@ -5,7 +5,7 @@ import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
 import BaseSelectPage from '../components/BaseSelectPage.vue';
-import {ref, onBeforeMount, onUpdated ,onMounted,computed} from 'vue'
+import {ref, onBeforeMount,onMounted} from 'vue'
 import fetch from '../JS/api';
 import { useRoute } from 'vue-router'
 import validation from '../JS/validation'
@@ -21,7 +21,7 @@ const ratingFilter = ref(0)
 // tag
 const tagFilter = ref("")
 // this for check if we have params 
-const searchItem = ref(myRoute.params.search ? validation.decrypt(myRoute.params.search) : "")
+const searchItem = ref(myRoute.query.search ? myRoute.query.search : "")
 //for change page product list
 const currentPage = ref(1)
 const allItems = ref(0)
@@ -44,12 +44,13 @@ const sortTypeArr = [
     { name: "High - Low", value: { name: "price", type: 'desc' } },
 ]
 
-// const getSearchItem = async (search) => {
-//     // currentPage.value=1
-//     console.log(search)
-//     // searchItem.value = search
-//     // await getProduct(currentPage.value)
-// }
+const getSearchItem = async (text) => {
+    // console.log(text)
+    currentPage.value=1
+    // console.log(search)
+    searchItem.value = text.search
+    await getProduct(currentPage.value)
+}
 // const eachSide=3
 // const pageHidden=(currentP,total)=>{
     
@@ -78,6 +79,7 @@ const sortTypeArr = [
 // }
 
 const getProduct = async (page) => {
+    console.log(searchItem.value)
     console.log(categoryFilter.value.join())
     console.log(minFilter.value)
     console.log(maxFilter.value)
@@ -172,7 +174,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <BaseMenu class="menu" :search="searchItem" />
+    <BaseMenu class="menu" @search="getSearchItem" :search="searchItem"/>
     <div class="shop_title">
         <h3>
             Shop

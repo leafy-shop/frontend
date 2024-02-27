@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter,useRoute } from 'vue-router';
-import { ref, computed,onBeforeMount, onMounted} from 'vue'
+import { ref, computed, onBeforeMount, onMounted} from 'vue'
 import validation from '../JS/validation'
 import cookie from '../JS/cookie';
 import fetch from '../JS/api'
@@ -13,6 +13,11 @@ const props = defineProps({
         require: true
     }
 })
+
+const currentText = computed(() => {
+    return {search: props.search}
+})
+
 // this for check now in shop page? 
 const isShopPage=computed(()=>{
     return window.location.href.split("/").includes("shop")
@@ -81,11 +86,13 @@ const goHome=()=>myRouter.push({name:'Home'})
 const goSignin=()=>myRouter.push({name:'SignIn'})
 const goSignUp=()=>myRouter.push({name:'SignUp'})
 const goShop=()=>{
+    console.log(search.value)
+    console.log(isShopPage.value)
     if(isShopPage.value){
-        // return emit("search",{search:search.value})
-        return myRouter.push({name:'Shop',params:{search:search.value}})
+        return emit("search",{search:search.value})
+        // return myRouter.push({name:'Shop',params:{search:search.value}})
     }else{
-        return myRouter.push({name:'Shop',params:{search:search.value}})
+        return myRouter.push({name:'Shop',query:{search:search.value}})
     }
 }
 const goCartList=()=>myRouter.push({name:'CartList'})
@@ -102,7 +109,7 @@ const keyPass = ref(undefined)
 onBeforeMount(()=>{
     keyPass.value = cookie.decrypt()
     console.log('keyPass is : '+keyPass.value)
-    search.value=props.search
+    search.value=currentText.value.search
 })
 
 const showMenu2 = ref(false)
@@ -160,7 +167,7 @@ onMounted(()=>{
                 <!-- search input -->
                 <div class="service_container_search" >
                     <label for="search">
-                        <svg @click="" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="search_icon">
+                        <svg @click="goShop" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="search_icon">
                             <mask id="mask0_2745_19829" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="1" y="1" width="17" height="17">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M1.6665 1.6665H17.8972V17.8973H1.6665V1.6665Z" fill="white"/>
                             </mask>
@@ -181,8 +188,6 @@ onMounted(()=>{
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M17 10.5C17 14.09 14.09 17 10.5 17C6.91 17 4 14.09 4 10.5C4 6.91 6.91 4 10.5 4C14.09 4 17 6.91 17 10.5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M16 16L20 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                    <!-- <img @click="" src="../assets/icon/search_icon_2.png"
-                        alt="search_icon_2.png" class="search_icon_2"> -->
                     <input id="search" @keypress.enter="goShop" type="text" placeholder="Search" v-model="search">
                 </div>
                 <!-- cart icon -->

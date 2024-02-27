@@ -27,7 +27,7 @@ const routes=[
         name:'Home',
         component: Home,
     },
-    {   path:'/shop/:search?',
+    {   path:'/shop',
         name:'Shop',
         component: Shop,
     },

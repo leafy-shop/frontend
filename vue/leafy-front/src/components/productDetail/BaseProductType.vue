@@ -66,11 +66,17 @@ let leftSubstract = () => {
 let productStyle = computed(() => {
     // console.log(props.productStyle,"helllllll")
     // console.log(props.selectedStyle,'asldfjal;sdfjlasd')
-
     return props.productStyle
 })
 
 let selectedStyle = computed(() => {
+    
+    // if props of selected style have size
+    if (props.selectedStyle.sizes) {
+        props.selectedStyle.price = props.selectedStyle.sizes[0].price
+        props.selectedStyle.stock = props.selectedStyle.sizes[0].stock
+    }
+
     console.log(props.selectedStyle,'asldfjal;sdfjlasd')
     stepInput.value = 1
     slideImage.value = 0
@@ -81,6 +87,11 @@ let selectedStyle = computed(() => {
 let selectedImage = (idx) => {
     // console.log(idx)
     slideImage.value = idx
+}
+
+let selectedSize = (size) => {
+    selectedStyle.value.price = size.price
+    selectedStyle.value.stock = size.stock
 }
 
 let imageLeft = () => {
@@ -114,6 +125,15 @@ onUpdated(()=>{
                         <button @click="selectedImage(idx)">
                             <img v-if="selectedStyle.images.length==0" src="../../assets/vue.svg" alt="image_style">
                             <img v-else :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="sizes">
+                <ul>
+                    <li v-if="selectedStyle.sizes && selectedStyle.sizes.length !== 0" v-for="(value, idx) in selectedStyle.sizes" :key="idx">
+                        <button @click="selectedSize(value)">
+                            {{ value.size }}
                         </button>
                     </li>
                 </ul>
@@ -172,8 +192,6 @@ onUpdated(()=>{
                                      />
                             </svg>
                         </div> -->
-
-                        
                     </div>
                     <p>
                         {{productStyle.sold}} sold
