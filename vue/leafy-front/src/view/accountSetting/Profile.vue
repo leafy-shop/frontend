@@ -2,47 +2,187 @@
 import {onBeforeMount, onUpdated, ref,computed} from 'vue'
 import fetch from '../../JS/api'
 
+const userId=3
+
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
+// original data
 const userDetail=ref({})
-// profile
+
+// profile info
 const userName=ref('')
 const aboutMe=ref('')
 const userImage=ref(undefined)
 const coverImage=ref(undefined)
+// profile info status
+const userNameS=ref(undefined)
+const aboutMeS=ref(undefined)
+const userImageS=ref(undefined)
+const coverImageS=ref(undefined)
+// profile info message
+const userNameM=ref('')
+const aboutMeM=ref('')
+const userImageM=ref('')
+const coverImageM=ref('')
+
 //personal info
 const firstName=ref('')
 const lastName=ref('')
-const email=ref('')
+const emailUser=ref('')
 const phoneNumber=ref('')
+// personal info status
+const firstNameS=ref(undefined)
+const lastNameS=ref(undefined)
+const emailS=ref(undefined)
+const phoneNumberS=ref(undefined)
+// personal info message
+const firstNameM=ref('')
+const lastNameM=ref('')
+const emailM=ref('')
+const phoneNumberM=ref('')
 
-const isChangePersonalInfo=computed(()=>{
+// ตรวจสอบว่า ข้อมูลได้เปลี่ยนไปจากข้อมูลต้นฉบับ ?
+const isChangeProfileInfo=computed(()=>{
     let status=false
+    let {username,description}=userDetail.value
     if(userDetail.value!={}){
-        // status=userDetail.firstName==firstName.value?false:true
-        // status=userDetail.lastName==lastName.value?false:true
-        // status = userDetail.email==email.value?false:true
-        // status = userDetail.phone==phoneNumber.value?false:true
+        if(username!=userName.value)status=true;
+        else
+        if(description!=aboutMe.value)status=true;
+        else
+        if(userImage.value!=undefined)status=true;
+        else
+        if(coverImage.value!=undefined)status=true;
     }
     return status
 })
-// submit
-const personalInfoSubmit=async()=>{
-    let {status,data,msg}=await fetch.getUserById(3)
-    userDetail.value= data
-    console.log(data)
+// ตรวจสอบว่า ข้อมูลได้เปลี่ยนไปจากข้อมูลต้นฉบับ ?
+const isChangePersonalInfo=computed(()=>{
+    let status=false
+    console.log(userDetail.value)
+    let {firstname,lastname,email,phone}=userDetail.value
+    if(userDetail.value!={}){
+        if(firstname!=firstName.value)status=true;
+        else 
+        if(lastname!=lastName.value)status=true;
+        else
+        if(email!=emailUser.value) status=true ;
+        else
+        if(phone!=phoneNumber.value)status=true ;
+    }
+    return status
+})
+// check user image and cover image
+const checkUserImage=async()=>{
+    let res=await fetch.getImage('users',userId)
+    return res.status
+}
+const checkCoverImage=async()=>{
+    let res=await fetch.getImage('users',userId,'coverphoto')
+    return res.status
 }
 
+
+// get user information
+const getUserInfo=async()=>{
+    let {status,data,msg}=await fetch.getUserById(userId)
+    if(status){
+        userDetail.value= data //original data
+
+        firstName.value= data.firstname
+        lastName.value= data.lastname
+        emailUser.value= data.email
+        phoneNumber.value= data.phone
+
+        aboutMe.value = data.description
+        userName.value= data.username
+
+    }else{
+        //error console
+    }
+    console.log(data)
+    userImageS.value=await checkUserImage()
+    coverImageS.value=await checkCoverImage()
+}
+
+// submit
+const profileSubmit=async()=>{
+    let submitValidation={data:false,userImg:false,coverImg:false}
+    let msg={data:'',userImg:'',coverImg:''}
+    console.log("submit")
+    // check description and username
+    if(isChangeProfileInfo.value){
+        let data={
+            username:userName.value,
+            description:aboutMe.value
+        }
+        let userRes= await fetch.updataUserInfo(data)
+        if(userRes.status){
+            // console.log('updated')
+            submitValidation.data=true
+            // await getUserInfo()
+        }else{
+            // console.log('still not updat')
+            submitValidation.data=false
+            msg.data='Can not update data from server'
+        }
+    }
+    // check user image
+    if(userImage.value!=undefined){
+        let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
+        // let userImgRes=await fetch.deleteImage('users',userId)
+        if(userImgRes.status){
+            console.log('update successful')
+            submitValidation.userImg=true
+        }else{
+            console.log('update add image')
+            submitValidation.userImg=false
+            msg.userImg='Can not update user Image from server'
+        }
+    }
+    // check cover image
+    if(coverImage.value!=undefined){
+        let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
+        // let userImgRes=await fetch.deleteImage('users',userId)
+        if(userImgRes.status){
+            // console.log('update successful')
+            submitValidation.coverImg=true
+        }else{
+            // console.log('update add image')
+            submitValidation.coverImg=false
+            msg.coverImg='Can not update cover Image from server'
+
+        }
+    }
+    console.log("submit")
+    // get new data
+    if(submitValidation.data==true
+    ||submitValidation.userImg==true
+    ||submitValidation.coverImg==true){
+        await profileClear()
+        await getUserInfo()
+    }
+
+}
+
+
 // clear
-const profileClear=()=>{
-    userName.value=''
-    aboutMe.value=''
+const profileClear=async()=>{
+    let {username,description}=userDetail.value
+    userName.value=username
+    aboutMe.value=description
     userImage.value=undefined
     coverImage.value=undefined
+    // status
+    userImageS.value=await checkUserImage()
+    coverImageS.value=await checkCoverImage()
 }
 const personalInfoClear=()=>{
-    firstName.value=''
-    lastName.value=''
-    email.value=''
-    phoneNumber.value=''
+    let {firstname,lastname,email,phone}=userDetail.value
+    firstName.value=firstname
+    lastName.value=lastname
+    emailUser.value=email
+    phoneNumber.value=phone
 }
 
 
@@ -148,7 +288,7 @@ const dragover=(event)=>{
 
 
 onBeforeMount(()=>{
-    personalInfoSubmit()
+    getUserInfo()
 })
 // onUpdated(()=>console.log(aboutMe.value))
 </script>
@@ -171,7 +311,7 @@ onBeforeMount(()=>{
                 <h5>
                     Username
                 </h5>
-                <input type="text">
+                <input v-model="userName" type="text">
             </div>
 
             <!-- about -->
@@ -192,8 +332,12 @@ onBeforeMount(()=>{
                 </h5>
                 <div>
                     <div>
-                        <img v-show="userImage==undefined" src="../../assets/vue.svg"  draggable="false" alt="user_preview">
+                        <!-- รูปพื้นฐาน ไม่เคยมีรูป -->
+                        <img v-show="userImage==undefined&&userImageS!=true" src="../../assets/vue.svg"  draggable="false" alt="user_preview">
+                        <!-- รูปเพิ่งเพิ่ม -->
                         <img v-show="userImage!=undefined" src="#" id="user_preview" draggable="false" alt="user_preview">
+                        <!-- มีแล้ว -->
+                        <img v-show="userImage==undefined&&userImageS==true" :src="`${origin}/api/image/users/${userId}`" id="user_preview" alt="user_image">
                     </div>
                     <input @change="uploadImage" id="user_image" type="file" accept="image/*">
                     <label for="user_image">
@@ -208,7 +352,7 @@ onBeforeMount(()=>{
                 <h5>
                     Cover photo
                 </h5>
-                <div v-show="coverImage==undefined"  @drop="dropHandle" @dragover="dragover">
+                <div v-show="coverImage==undefined&&coverImageS==false"  @drop="dropHandle" @dragover="dragover">
                     <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
                     <label  for="cover_image">
                         <div>
@@ -229,20 +373,23 @@ onBeforeMount(()=>{
                     </label>
                        
                 </div>
-                <div v-show="coverImage!=undefined"  @drop="dropHandle" @dragover="dragover">
+                <div v-show="coverImage!=undefined||coverImageS==true"  @drop="dropHandle" @dragover="dragover">
                     <label  for="cover_image">
-                        <img src="#" draggable="false" alt="preview_image" id="cover-preview">
+                        <!-- รูปที่จะเพิ่ม -->
+                        <img v-show="coverImage!=undefined" src="#" draggable="false" alt="preview_image" id="cover-preview">
+                        <!-- รูปที่มีแล้ว -->
+                        <img v-show="coverImage==undefined&&coverImageS==true" :src="`${origin}/api/image/users/${userId}/coverphoto`" draggable="false" alt="preview_image" id="cover-preview">
                     </label> 
                 </div>
                 
             </div>
 
             <!-- submit -->
-            <div class="submit">
+            <div v-show="isChangeProfileInfo" class="submit">
                 <button @click="profileClear">
                     Cancel
                 </button>
-                <button>
+                <button @click="profileSubmit">
                     Save
                 </button>
             </div>
@@ -282,7 +429,7 @@ onBeforeMount(()=>{
                     <h5 class="importen_input">
                         Email address
                     </h5>
-                    <input v-model="email" type="text" placeholder="apple@gmail.com">
+                    <input v-model="emailUser" type="text" placeholder="apple@gmail.com">
                 </div>
                 <!-- phone number -->
                 <div class="info_item">
@@ -294,7 +441,7 @@ onBeforeMount(()=>{
             </div>
 
             <!-- submit -->
-            <div class="submit">
+            <div v-show="isChangePersonalInfo" class="submit">
                 <button @click="personalInfoClear">
                     Cancel
                 </button>
