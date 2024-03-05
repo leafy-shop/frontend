@@ -3,11 +3,11 @@ import BaseMenu from '../../components/BaseMenu.vue';
 import BaseFooter from '../../components/BaseFooter.vue';
 import {useRouter} from 'vue-router'
 const myRouter =useRouter()
-const goProfile=()=>myRouter.push({name:'profile_AS'})
-const goAddress=()=>myRouter.push({name:'address_AS'})
-const goChangePW=()=>myRouter.push({name:'changePW_AS'})
-const goBank=()=>myRouter.push({name:'bank_AS'})
-const goMyShop=()=>myRouter.push({name:'shop_AS'})
+const goProfile=()=>myRouter.push({name:'Profile_AS'})
+const goAddress=()=>myRouter.push({name:'Address_AS'})
+const goChangePW=()=>myRouter.push({name:'ChangePW_AS'})
+const goBank=()=>myRouter.push({name:'Bank_AS'})
+const goMyShop=()=>myRouter.push({name:'Shop_AS'})
 
 
 

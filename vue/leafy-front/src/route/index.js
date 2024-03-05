@@ -15,7 +15,8 @@ import ServerError from '../view/ServerError.vue'
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
 import Profile_AS from '../view/accountSetting/profile.vue'
-import Address_AS from '../view/accountSetting/Address.vue'
+import Address_AS from '../view/accountSetting/addresses_page/Address.vue'
+import Address_AS_add from '../view/accountSetting/addresses_page/Address_add.vue'
 import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
 import Bank_AS from '../view/accountSetting/Bank.vue'
 import Shop_AS from '../view/accountSetting/MyShop.vue'
@@ -71,27 +72,32 @@ const routes=[
         children:[
             {
                 path:'profile',
-                name:'profile_AS',
+                name:'Profile_AS',
                 component:Profile_AS
             },
             {
                 path:'address',
-                name:'address_AS',
+                name:'Address_AS',
                 component:Address_AS
             },
             {
+                path:'address/add-new-address',
+                name:'Address_AS_add',
+                component:Address_AS_add
+            },
+            {
                 path:'change-password',
-                name:'changePW_AS',
+                name:'ChangePW_AS',
                 component:ChangePW_AS
             },
             {
                 path:'bank',
-                name:'bank_AS',
+                name:'Bank_AS',
                 component:Bank_AS
             },
             {
                 path:'my-shop',
-                name:'shop_AS',
+                name:'Shop_AS',
                 component:Shop_AS
             },
         ]
