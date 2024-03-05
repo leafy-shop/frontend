@@ -1,7 +1,7 @@
 <script setup>
 import {onBeforeMount, onUpdated, ref,computed} from 'vue'
 import fetch from '../../JS/api'
-
+import validation from '../../JS/validation'
 const userId=3
 
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -15,10 +15,10 @@ const aboutMe=ref('')
 const userImage=ref(undefined)
 const coverImage=ref(undefined)
 // profile info status
-const userNameS=ref(undefined)
-const aboutMeS=ref(undefined)
-const userImageS=ref(undefined)
-const coverImageS=ref(undefined)
+const userNameS=ref(false)
+const aboutMeS=ref(false)
+const userImageS=ref(false)
+const coverImageS=ref(false)
 // profile info message
 const userNameM=ref('')
 const aboutMeM=ref('')
@@ -31,10 +31,10 @@ const lastName=ref('')
 const emailUser=ref('')
 const phoneNumber=ref('')
 // personal info status
-const firstNameS=ref(undefined)
-const lastNameS=ref(undefined)
-const emailS=ref(undefined)
-const phoneNumberS=ref(undefined)
+const firstNameS=ref(false)
+const lastNameS=ref(false)
+const emailS=ref(false)
+const phoneNumberS=ref(false)
 // personal info message
 const firstNameM=ref('')
 const lastNameM=ref('')
@@ -44,8 +44,8 @@ const phoneNumberM=ref('')
 // ตรวจสอบว่า ข้อมูลได้เปลี่ยนไปจากข้อมูลต้นฉบับ ?
 const isChangeProfileInfo=computed(()=>{
     let status=false
-    let {username,description}=userDetail.value
     if(userDetail.value!={}){
+        let {username,description}=userDetail.value
         if(username!=userName.value)status=true;
         else
         if(description!=aboutMe.value)status=true;
@@ -59,9 +59,10 @@ const isChangeProfileInfo=computed(()=>{
 // ตรวจสอบว่า ข้อมูลได้เปลี่ยนไปจากข้อมูลต้นฉบับ ?
 const isChangePersonalInfo=computed(()=>{
     let status=false
-    console.log(userDetail.value)
-    let {firstname,lastname,email,phone}=userDetail.value
+    // console.log(userDetail.value)
+    // console.log(emailUser.value)
     if(userDetail.value!={}){
+        let {firstname,lastname,email,phone}=userDetail.value
         if(firstname!=firstName.value)status=true;
         else 
         if(lastname!=lastName.value)status=true;
@@ -105,66 +106,130 @@ const getUserInfo=async()=>{
     coverImageS.value=await checkCoverImage()
 }
 
-// submit
+// Profile submit
 const profileSubmit=async()=>{
-    let submitValidation={data:false,userImg:false,coverImg:false}
-    let msg={data:'',userImg:'',coverImg:''}
-    console.log("submit")
-    // check description and username
+    let submitValidation=true
     if(isChangeProfileInfo.value){
-        let data={
-            username:userName.value,
-            description:aboutMe.value
+        // username not undefine
+        if(userName.value==undefined||userName.value==''||userName.length==0){
+            submitValidation=false
+            userNameS.value=true
+            userNameM.value='Please input your username.'
+            console.log("submit")
         }
-        let userRes= await fetch.updataUserInfo(data)
-        if(userRes.status){
-            // console.log('updated')
-            submitValidation.data=true
-            // await getUserInfo()
-        }else{
-            // console.log('still not updat')
-            submitValidation.data=false
-            msg.data='Can not update data from server'
-        }
-    }
-    // check user image
-    if(userImage.value!=undefined){
-        let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
-        // let userImgRes=await fetch.deleteImage('users',userId)
-        if(userImgRes.status){
-            console.log('update successful')
-            submitValidation.userImg=true
-        }else{
-            console.log('update add image')
-            submitValidation.userImg=false
-            msg.userImg='Can not update user Image from server'
-        }
-    }
-    // check cover image
-    if(coverImage.value!=undefined){
-        let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
-        // let userImgRes=await fetch.deleteImage('users',userId)
-        if(userImgRes.status){
-            // console.log('update successful')
-            submitValidation.coverImg=true
-        }else{
-            // console.log('update add image')
-            submitValidation.coverImg=false
-            msg.coverImg='Can not update cover Image from server'
+        
+        console.log("submit")
+        // get new data
+        if(submitValidation){
+            profileClearStatus()
+            let {username,description}=userDetail.value
+            console.log("submit")
+            // check user name
+            if(username!=userName.value){
+                // user info
+                let data={username:userName.value}
+                if(aboutMe.value.length!=0&&aboutMe.value!=description)data["description"]=aboutMe.value //if description === null
 
+                let userRes= await fetch.updataUserInfo(data)
+                if(userRes.status){
+                    // console.log('updated')
+                    userNameS.value=true
+                    // await getUserInfo()
+                }else{
+                    // console.log('still not updat')
+                    userNameS.value=false
+                    userNameM.value==userRes.msg
+                }  
+            }
+            
+
+            // check user image
+            if(userImage.value!=undefined){
+                let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
+                // let userImgRes=await fetch.deleteImage('users',userId)
+                if(userImgRes.status){
+                    console.log('update successful')
+                    userImageS.value=true
+                }else{
+                    console.log('update add image')
+                    userImageS.value=false
+                    userImageM.value='Can not update user Image from server'
+                }
+            }
+
+            // check cover image
+            if(coverImage.value!=undefined){
+                let userImgRes=await fetch.updateImage(coverImage.value,'users',userId,'coverphoto')
+                // let userImgRes=await fetch.deleteImage('users',userId)
+                if(userImgRes.status){
+                    // console.log('update successful')
+                    coverImageS.value=true
+                }else{
+                    // console.log('update add image')
+                    coverImageS.value=false
+                    coverImageM.value='Can not update cover Image from server'
+
+                }
+            }
+                await profileClear()
+                await getUserInfo()
         }
     }
-    console.log("submit")
-    // get new data
-    if(submitValidation.data==true
-    ||submitValidation.userImg==true
-    ||submitValidation.coverImg==true){
-        await profileClear()
-        await getUserInfo()
-    }
-
 }
 
+// Personal Info
+const personalInfoSubmit=async()=>{
+    personalInfoClearStatus()
+    let submitValidation=true
+    // let msg={data:'',userImg:'',coverImg:''}
+    if(isChangePersonalInfo.value){
+        if(!validation.text(firstName.value)){ //check first name
+            submitValidation=false
+            firstNameM.value='First name invalid.'
+            firstNameS.value=true
+            console.log('firstname:',submitValidation)
+
+        }
+        if(!validation.text(lastName.value)){ //check last name
+            submitValidation=false
+            lastNameM.value='Last name invalid.'
+            lastNameS.value=true
+            console.log('lastname:',submitValidation)
+        }
+        if(!validation.email(emailUser.value)){ // check email
+            submitValidation=false
+            emailM.value='Email invalid.'
+            emailS.value=true
+            console.log('Email:',submitValidation)
+        }
+        if(!validation.textRange(phoneNumber.value,11,10)){ // check phone number
+            submitValidation=false
+            phoneNumberM.value='Phone number invalid.'
+            phoneNumberS.value=true
+            console.log('phone number:',submitValidation)
+        }
+
+        console.log('submit validation status:',submitValidation)
+        if(submitValidation){
+            let inputData ={}
+            let {firstname,lastname,email,phone}=userDetail.value
+            if(firstName.value.length!=0&&firstName.value!=firstname)inputData["firstname"]=firstName.value;
+            if(lastName.value.length!=0&&lastName.value!=lastname)inputData["lastname"]=lastName.value;
+            if(phoneNumber.value.length!=0&&phoneNumber.value!=phone)inputData["phone"]=phoneNumber.value;
+            if(emailUser.value.length!=0&&emailUser.value!=email)inputData["email"]=emailUser.value;
+
+            console.log(inputData)
+            let {status,msg}=await fetch.updataUserInfo(inputData)
+            if(status){
+                personalInfoClear()
+                await getUserInfo()
+            }else{
+                // error
+            }
+        }
+        
+    }
+}
 
 // clear
 const profileClear=async()=>{
@@ -177,12 +242,37 @@ const profileClear=async()=>{
     userImageS.value=await checkUserImage()
     coverImageS.value=await checkCoverImage()
 }
+const profileClearStatus=()=>{
+    // profile info status
+    userNameS.value=false
+    aboutMeS.value=false
+    userImageS.value=false
+    coverImageS.value=false
+    // profile info message
+    userNameM.value=''
+    aboutMeM.value=''
+    userImageM.value=''
+    coverImageM.value=''
+}
 const personalInfoClear=()=>{
     let {firstname,lastname,email,phone}=userDetail.value
     firstName.value=firstname
     lastName.value=lastname
     emailUser.value=email
     phoneNumber.value=phone
+    
+}
+const personalInfoClearStatus=()=>{
+    //status
+    firstNameM.value=''
+    lastNameM.value=''
+    emailM.value=''
+    phoneNumberM.value=''
+    // personal info status
+    firstNameS.value=false
+    lastNameS.value=false
+    emailS.value=false
+    phoneNumberS.value=false
 }
 
 
@@ -308,10 +398,21 @@ onBeforeMount(()=>{
 
             <!-- username -->
             <div class="username profile_item">
-                <h5>
+                <h5 class="importen_input">
                     Username
                 </h5>
-                <input v-model="userName" type="text">
+                <input v-model="userName" type="text" maxlength="50">
+                <!-- worning -->
+                <div v-show="userNameS" class="wrapper_errorMsg">
+                    <div >
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z" fill="#F75555"/>
+                        </svg>
+                        <p>
+                            {{userNameM}}
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- about -->
@@ -319,7 +420,7 @@ onBeforeMount(()=>{
                 <h5 >
                     About
                 </h5>
-                <textarea v-model="aboutMe" placeholder="Something about myself." ></textarea>
+                <textarea v-model="aboutMe" placeholder="Something about myself." maxlength="500"></textarea>
                 <p>
                     Brief description for your profile. URLs are hyperlinked. 
                 </p>
@@ -386,7 +487,7 @@ onBeforeMount(()=>{
 
             <!-- submit -->
             <div v-show="isChangeProfileInfo" class="submit">
-                <button @click="profileClear">
+                <button @click="profileClear(),profileClearStatus()">
                     Cancel
                 </button>
                 <button @click="profileSubmit">
@@ -411,14 +512,36 @@ onBeforeMount(()=>{
                     <h5 class="importen_input">
                         First name 
                     </h5>
-                    <input v-model="firstName" type="text">
+                    <input v-model="firstName" type="text" maxlength="50">
+                     <!-- worning -->
+                    <div v-show="firstNameS" class="wrapper_errorMsg">
+                        <div >
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z" fill="#F75555"/>
+                            </svg>
+                            <p>
+                                {{firstNameM}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <!-- last name -->
                 <div class="info_item">
                     <h5 class="importen_input">
                         Last name 
                     </h5>
-                    <input v-model="lastName" type="text">
+                    <input v-model="lastName" type="text" maxlength="50">
+                     <!-- worning -->
+                    <div v-show="lastNameS" class="wrapper_errorMsg">
+                        <div >
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z" fill="#F75555"/>
+                            </svg>
+                            <p>
+                                {{lastNameM}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -426,26 +549,49 @@ onBeforeMount(()=>{
             <div class="container_info">
                 <!-- email -->
                 <div class="info_item">
-                    <h5 class="importen_input">
+                    <h5 >
                         Email address
                     </h5>
-                    <input v-model="emailUser" type="text" placeholder="apple@gmail.com">
+                    <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com" disabled>
+                    <!-- worning -->
+                    <div v-show="emailS" class="wrapper_errorMsg" >
+                        <div >
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z" fill="#F75555"/>
+                            </svg>
+                            <p>
+                                {{emailM}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <!-- phone number -->
                 <div class="info_item">
                     <h5 class="importen_input">
                         Phone number
                     </h5>
-                    <input v-model="phoneNumber" type="text" maxlength="11">
+                    <input v-model="phoneNumber" type="text"  maxlength="11">
+                     <!-- worning -->
+                    <div v-show="phoneNumberS" class="wrapper_errorMsg">
+                        <div >
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z" fill="#F75555"/>
+                            </svg>
+                            <p>
+                                {{phoneNumberM}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- submit -->
-            <div v-show="isChangePersonalInfo" class="submit">
-                <button @click="personalInfoClear">
+            <div v-show="isChangePersonalInfo||(firstNameS||lastNameS||emailS||phoneNumberS)" 
+            class="submit">
+                <button @click="personalInfoClear(),personalInfoClearStatus()">
                     Cancel
                 </button>
-                <button>
+                <button @click="personalInfoSubmit">
                     Save
                 </button>
             </div>
@@ -469,7 +615,7 @@ onBeforeMount(()=>{
     height: inherit;
     flex-direction: column;
     border-radius: 8px;
-    padding: 12px 24px;
+    padding: 20px;
     background-color: #fff;
     gap: 24px;
 }
@@ -672,9 +818,9 @@ onBeforeMount(()=>{
 .container_info{
     display: flex;
     width: 100%;
-    height: 60px;
+    height: fit-content;
     justify-content: start;
-    align-items: center;
+    align-items: start;
     gap: 24px;
 }
 .info_item{
@@ -705,5 +851,38 @@ onBeforeMount(()=>{
     font-size: 14px;
     font-weight: 400;
     color: #212121;
+}
+
+.wrapper_errorMsg{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    font-size: min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
+    background-color: rgba(245, 72, 74, 0.08);
+    gap: min(0.556dvw,8px)
+}
+.wrapper_errorMsg div{
+    display: flex;
+    width: inherit;
+    height: inherit;
+    gap: min(0.278dvw,4px);
+}
+.wrapper_errorMsg div svg{
+    width: min(1.042dvw,15px);
+    height: min(1.042dvw,15px);
+}
+.wrapper_errorMsg div p{
+    width: 100%;
+    font-size:min(0.833dvw,12px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 136%; /* 16.32px */
+    letter-spacing: 0.2px;
+    color: #F75555;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>
