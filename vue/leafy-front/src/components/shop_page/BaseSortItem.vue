@@ -307,11 +307,76 @@ onUpdated(()=>{
     }
 }
 
-@media(width<=376px){
+@media(width<=432px){
+    .wrapper_sort{
+        width: 100%;
+        height: min(5.556dvw,24px);
+        padding: 0px 0px;
+        border-radius: 0px;
+        background: inherit;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .sort_type{
+        display: none;
+    }
+    .sort_move{
+        width: min(15.741dvw,68px);
+        height: min(5.556dvw,24px);
+    }
+   
+    .move_to {
+        width: min(15.741dvw,68px);
+        height: min(5.556dvw,24px);
+        gap: min(0.926dvw,4px);
+    }
+    .move_to button{
+        width: min(7.407dvw,32px);
+        height: min(5.556dvw,24px);
+        padding: min(1.064dvw,4px) min(1.852dvw,8px);
+        border-radius: min(0.926dvw,4px);
+    }
+    .move_to button svg{
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+    .filter_b{
+        display: flex;
+        width: fit-content;
+        height: min(5.556dvw,24px);
+        padding: min(0.926dvw,4px) min(2.778dvw,12px);
+        gap: min(0.926dvw,4px);
+        border: none;
+        background: #FFF;
+        align-items: center;
+        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        cursor: pointer;
+        border-radius: min(0.926dvw,4px);
+        color: #212121;
+    }
+    .filter_b:hover {
+        background: #26AC34;
+        color: #FFF;
+    }
+    .filter_b h5{
+        width: fit-content;
+        height: fit-content;
+        font-size: min(2.778dvw,12px);
+    }
+    .filter_b svg{
+        display: flex;
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+    .filter_b svg path:hover {
+        fill: #FFF;
+    }
+}
+
+/* @media(width<=376px){
     .wrapper_sort{
         width: 100%;
         height: min(6.383dvw,24px);
-        /* padding: 0px min(4.255dvw,16px); */
         padding: 0px 0px;
         border-radius: 0px;
         background: inherit;
@@ -372,5 +437,5 @@ onUpdated(()=>{
     .filter_b svg path:hover {
         fill: #FFF;
     }
-}
+} */
 </style>

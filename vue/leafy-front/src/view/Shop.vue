@@ -483,7 +483,88 @@ onMounted(() => {
     }
 }
 
-@media (width<=376px) {
+@media (width<=432px) {
+    .shop_title {
+        height: min(26.852dvw, 116px);
+    }
+
+    .shop_title h3 {
+        padding: min(9.259dvw, 40px) min(4.63dvw,20px);
+        font-size: min(5.556dvw,24px);
+    }
+    .wrapper_productList {
+        width: 100%;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
+        gap: min(2.778dvw,12px);
+    }
+
+    .shop_content {
+        width: 100%;
+        padding: 0px;
+        background: #EEE;
+    }
+
+    .link_page_container {
+        height: min(5.556dvw,24px);
+    }
+
+    .link_page_container ul {
+        gap: min(2.778dvw,12px);
+    }
+
+    .link_page_container ul li {
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+    }
+
+    .link_page_container ul li button {
+        border-radius: min(0.926dvw,4px);
+        padding: min(0.926dvw,4px);
+        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        font-size: min(2.778dvw,12px);
+        letter-spacing: min(0.012dvw, 0.053px);
+    }
+
+    .link_page_container ul li button:hover {
+        background-color: #fff;
+        color: #26AC34;
+    }
+
+    .current_page button {
+        background-color: #26AC34;
+        color: #fff;
+        font-size: min(2.778dvw,12px);
+        letter-spacing: min(0.012dvw, 0.053px);
+    }
+
+    .move_page {
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+        background-color: #fff;
+        border-radius: min(0.926dvw,4px);
+    }
+
+    .move_page:hover {
+        background-color: #26AC34;
+    }
+
+    .move_page svg {
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+
+    .move_page svg path {
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+
+    .move_page:hover svg path {
+        fill: #fff;
+    }
+
+}
+
+/* @media (width<=376px) {
     .wrapper_productList {
         width: 100%;
         padding: min(3.191dvw, 12px) min(4.255dvw, 16px);
@@ -491,7 +572,6 @@ onMounted(() => {
     }
 
     .shop_content {
-        /* display: flex; */
         width: 100%;
         padding: 0px;
         background: #EEE;
@@ -533,7 +613,6 @@ onMounted(() => {
     .move_page {
         width: min(6.383dvw, 24px);
         height: min(6.383dvw, 24px);
-        /* padding: min(1.064dvw,4px) min(1.064dvw,4px); */
         background-color: #fff;
         border-radius: min(1.064dvw, 4px);
     }
@@ -555,4 +634,6 @@ onMounted(() => {
     .move_page:hover svg path {
         fill: #fff;
     }
-}</style>
+
+} */
+</style>

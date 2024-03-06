@@ -867,7 +867,250 @@ onUpdated(() => {
     }
 }
 
-@media (width<=376px) {
+@media (width<=432px) {
+    .overlay_filter {
+        width: 100dvw;
+        height: 100dvh;
+        padding: min(4.63dvw,20px);
+        overflow: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 999;
+        background-color: white;
+    }
+
+    .wrapper_filter {
+        display: none;
+    }
+
+    .wrapper_filter_2 {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        gap: min(2.778dvw,12px);
+    }
+
+    .close_filter {
+        display: flex;
+        width: 100%;
+        height: min(5.556dvw,24px);
+        justify-content: space-between;
+    }
+
+    .close_filter h4 {
+        font-size: min(3.704dvw,16px);
+        font-weight: 700;
+        line-height: 150%;
+        /* 24px */
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+
+    .close_filter div {
+        display: flex;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+    }
+
+    .close_filter div svg {
+        width: inherit;
+        height: inherit;
+    }
+
+    .sort {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        gap: min(2.778dvw,12px);
+        padding-bottom: min(3.704dvw,16px);
+        border-bottom: min(0.231dvw,1px) solid;
+        border-color: #E0E0E0;
+    }
+
+    .sort h4 {
+        width: inherit;
+        height: min(3.241dvw,14px);
+        font-size: min(3.241dvw,14px);
+        font-weight: 700;
+        line-height: 144%;
+        /* 20.16px */
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+
+    .sort_list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: inherit;
+        gap: min(1.852dvw,8px);
+    }
+
+    .sort_item {
+        display: flex;
+        width: fit-content;
+        height: min(3.704dvw,16px);
+        gap: min(1.852dvw,8px);
+    }
+
+    .sort_item input {
+        width: min(2.778dvw,12px);
+        height: min(2.778dvw,12px);
+        margin: auto;
+        accent-color: #168A22;
+    }
+
+    .sort_item label {
+        font-size: min(2.778dvw,12px);
+    }
+
+    .category {
+        width: 100%;
+        height: fit-content;
+        gap: min(2.778dvw,12px);
+        padding-bottom: min(3.704dvw,16px);
+    }
+
+    .category h4 {
+        width: inherit;
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
+    }
+
+    .category_list {
+        width: inherit;
+        height: fit-content;
+        gap: min(1.852dvw,8px);
+    }
+
+    .category_item {
+        width: fit-content;
+        height: min(3.704dvw,16px);
+        gap: min(1.852dvw,8px);
+    }
+
+    .category_item input {
+        width: min(2.778dvw,12px);
+        height: min(2.778dvw,12px);
+    }
+
+    .category_list div label {
+        font-size: min(2.778dvw,12px);
+    }
+
+    .price {
+        width: 100%;
+        height: fit-content;
+        padding-bottom: min(3.704dvw,16px);
+        gap: min(2.778dvw,12px);
+    }
+
+    .price h4 {
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
+    }
+
+    .price_filter {
+        height: min(5.556dvw,24px);
+        gap: min(0.926dvw,4px);
+    }
+
+    .price_filter input {
+        /* width: min(43.617dvw, 164px); */
+        width: 100%;
+        height: min(5.556dvw,24px);
+        padding: min(0.926dvw,4px) min(1.852dvw, 8px);
+        font-size: min(2.778dvw,12px);
+    }
+
+    .price_filter h4 {
+        width: min(1.852dvw, 8px);
+        height: min(5.556dvw,24px);
+        font-size: min(3.704dvw,16px);
+    }
+
+    .point {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        gap: min(1.852dvw, 8px);
+        padding-bottom: min(3.704dvw,16px);
+    }
+
+    .point h4 {
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
+    }
+
+    .point_list {
+        /* height: min(25.532dvw, 96px); */
+        height: fit-content;
+        padding-inline: min(0.926dvw,4px);
+        gap: min(0.926dvw,4px);
+    }
+
+    .point_item {
+        height: min(3.704dvw,16px);
+        gap: min(0.926dvw,4px);
+    }
+
+    .point_item label {
+        gap: min(0.926dvw,4px);
+    }
+
+    .point_item div div svg {
+        height: min(3.704dvw,16px);
+        width: min(3.704dvw,16px);
+    }
+
+    .point_item h5 {
+        font-size: min(2.315dvw,10px);
+    }
+
+    .pop_tag {
+        width: 100%;
+        /* height: min(25.532dvw, 96px); */
+        height: fit-content;
+        gap: min(2.778dvw,12px);
+        padding-bottom: min(3.704dvw,16px);
+    }
+
+    .pop_tag h4 {
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
+    }
+
+    .tag_list {
+        gap: min(1.852dvw,8px);
+    }
+
+    .tag_list li button {
+        height: min(4.63dvw,20px);
+        padding: min(0.926dvw,4px) min(1.852dvw,8px);
+        font-size: min(2.315dvw,10px);
+        border-radius: min(1.852dvw,8px);
+    }
+
+    .wrapper_apply_clear {
+        width: 100%;
+        flex-direction: row;
+        gap: min(1.852dvw,8px);
+        border-radius: min(0.926dvw,4px);
+    }
+
+    .wrapper_apply_clear button {
+        width: min(44.444dvw,192px);
+        height: min(8.333dvw, 36px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        font-size: min(3.241dvw,14px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        border-radius: min(0.926dvw,4px);
+    }
+}
+
+/* @media (width<=376px) {
     .overlay_filter {
         width: 100dvw;
         height: 100dvh;
@@ -903,7 +1146,6 @@ onUpdated(() => {
         font-size: min(4.255dvw, 16px);
         font-weight: 700;
         line-height: 150%;
-        /* 24px */
         letter-spacing: min(0.053dvw, 0.2px);
     }
 
@@ -935,7 +1177,6 @@ onUpdated(() => {
         font-size: min(3.723dvw, 14px);
         font-weight: 700;
         line-height: 144%;
-        /* 20.16px */
         letter-spacing: min(0.053dvw, 0.2px);
     }
 
@@ -1017,7 +1258,6 @@ onUpdated(() => {
     }
 
     .price_filter input {
-        /* width: min(43.617dvw, 164px); */
         width: 100%;
         height: min(6.383dvw, 24px);
         padding: min(1.064dvw, 4px) min(2.128dvw, 8px);
@@ -1044,7 +1284,6 @@ onUpdated(() => {
     }
 
     .point_list {
-        /* height: min(25.532dvw, 96px); */
         height: fit-content;
         padding-inline: min(1.064dvw, 4px);
         gap: min(1.064dvw, 4px);
@@ -1070,7 +1309,6 @@ onUpdated(() => {
 
     .pop_tag {
         width: 100%;
-        /* height: min(25.532dvw, 96px); */
         height: fit-content;
         gap: min(3.191dvw, 12px);
         padding-bottom: min(4.255dvw, 16px);
@@ -1110,5 +1348,5 @@ onUpdated(() => {
     }
 
 
-}
+} */
 </style>

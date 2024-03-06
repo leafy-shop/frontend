@@ -250,7 +250,57 @@ onUpdated(()=>{
     }
 }
 
-@media (width<=376px){
+@media (width<=432px){
+    .link_page_container{
+        height: min(5.556dvw,24px);
+    }
+    .link_page_container ul{
+        gap: min(2.778dvw,12px);
+    }
+    .link_page_container ul li{
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+    }
+    .link_page_container ul li button{
+        border-radius: min(0.926dvw,4px);
+        padding: min(0.926dvw,4px) min(0.926dvw,4px);
+        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        font-size: min(2.778dvw,12px);
+        letter-spacing: min(0.012dvw,0.053px); 
+    }
+    .link_page_container ul li button:hover {
+        background-color: #fff;
+        color: #26AC34;
+    }
+    .current_page button{
+        background-color: #26AC34;
+        color: #fff;
+        font-size: min(2.778dvw,12px);
+        letter-spacing: min(0.012dvw,0.053px); 
+    }
+    .move_page{
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+        background-color: #fff;
+        border-radius: min(0.926dvw,4px);
+    }
+    .move_page:hover {
+        background-color: #26AC34;
+    }
+    .move_page svg{
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+    .move_page svg path {
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+    .move_page:hover svg path {
+        fill:#fff;
+    }
+}
+
+/* @media (width<=376px){
     .link_page_container{
         height: min(6.383dvw,24px);
     }
@@ -281,7 +331,6 @@ onUpdated(()=>{
     .move_page{
         width: min(6.383dvw,24px);
         height: min(6.383dvw,24px);
-        /* padding: min(1.064dvw,4px) min(1.064dvw,4px); */
         background-color: #fff;
         border-radius: min(1.064dvw,4px);
     }
@@ -299,5 +348,5 @@ onUpdated(()=>{
     .move_page:hover svg path {
         fill:#fff;
     }
-}
+} */
 </style>

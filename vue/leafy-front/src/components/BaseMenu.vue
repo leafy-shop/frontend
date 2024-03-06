@@ -960,16 +960,157 @@ onMounted(()=>{
 
 }
 
-@media (width <= 376px) {
+@media (width <= 432px) {
+    .main_menu {
+        height: min(13.889dvw, 60px);
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
+    }
+    .main_menu_container_2 {
+        top: min(13.889dvw, 60px);
+    }
+    .container_link_2 {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        padding: min(2.778dvw,12px) min(0.926dvw,4px) min(3.704dvw,16px) min(0.926dvw,4px);
+        box-sizing: border-box;
+        gap: min(3.704dvw,16px);
+        z-index: 999;
+    }
+    
+    
+    .link_list{
+        display: flex;
+        flex-direction: column;
+        width: inherit;
+        height: fit-content;
+        gap: min(0.926dvw,4px);
+    }
+    .link_list button {
+        display: flex;
+        width: inherit;
+        height: min(11.111dvw,48px);
+        border: none;
+        background-color: inherit;
+        cursor: pointer;
+        padding: min(2.778dvw,12px);
+        align-items: center;
+    }
+    .link_list button svg{
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+    }
+    .link_list button h3{
+        font-size: min(3.241dvw,14px);
+    }
+    .link_list svg path:hover{
+        stroke: #26AC34;
+    }
+    .link_list button:hover {
+        color: #26AC34;
+        border-radius: min(0.926dvw,4px);
+        background: #FAFAFA;
+    }
+
+    .service_no_keyPass{
+        padding-top: min(3.704dvw,16px);
+        gap: min(3.704dvw,16px);
+    }
+    .service_no_keyPass button {
+        height: min(8.333dvw, 36px);
+        font-size: min(3.241dvw,14px);
+        border-radius: min(0.926dvw,4px);
+        box-shadow: 0px min(0.926dvw,4px) min(0.463dvw, 2px) 0px rgba(0, 0, 0, 0.05);
+    }
+    .service_no_keyPass div{
+        gap: min(2.778dvw,12px);
+    }
+    .service_no_keyPass div span{
+        font-size: min(2.778dvw,12px);
+    }
+    .service_no_keyPass div span:nth-child(3){
+        font-size: min(2.778dvw,12px);
+    }
+    .service_with_keyPass{       
+        padding-top: min(5.556dvw,24px);
+        gap: min(0.926dvw,4px);
+    }
+    .user_2{
+        height: fit-content;
+        gap: min(2.778dvw,12px);
+        padding: 0px min(2.778dvw,12px) min(0.926dvw,4px) min(2.778dvw,12px);
+    }
+    .icon_2{
+        width: min(8.333dvw, 36px);
+        height: min(8.333dvw, 36px);
+    }
+    .information_2 h4{
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
+    }
+    .information_2 h5{
+        height: min(3.704dvw,16px);
+        font-size: min(2.778dvw,12px);
+    }
+    .account_bt{
+        height: fit-content;
+        font-size: min(3.241dvw,14px);
+        padding: min(2.778dvw,12px);
+    }
+    .account_bt:hover {
+        color: #26AC34;
+        border-radius: min(0.926dvw,4px);
+        background: #FAFAFA;
+    }
+    .signOut{
+        height: min(8.333dvw, 36px);
+        font-size: min(3.241dvw,14px);
+        margin: min(0.926dvw,4px) min(2.778dvw,12px) 0px min(2.778dvw,12px);
+        border-radius: min(0.926dvw,4px);
+    }
+
+    .burger_icon {
+        height: min(5.556dvw,24px);
+        gap: min(3.704dvw,16px);
+    }
+    .burger_icon div:nth-child(1) svg {
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+        cursor: pointer;
+    }
+    .burger_icon div:nth-child(2) {
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+    }
+
+    .cart_b svg {
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+        cursor: pointer;
+    }
+
+    .search_icon_2 {
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+    }
+
+    .leafy_icon {
+        width: min(15.972dvw, 69px);
+        height: min(8.333dvw, 36px);
+    }
+    .leafy_icon img:nth-child(2){
+        width: inherit;
+        height: auto;
+    }
+}
+
+/* @media (width <= 376px) {
     .main_menu {
         height: min(15.957dvw, 60px);
         padding: min(3.191dvw, 12px) min(4.255dvw, 16px);
     }
-
-    /* .main_menu_container{
-        height: 44px;
-        
-    } */
     .main_menu_container_2 {
         top: min(15.957dvw, 60px);
     }
@@ -1007,21 +1148,14 @@ onMounted(()=>{
         width: min(6.383dvw, 24px);
         height: min(6.383dvw, 24px);
     }
-       /* .link_list button svg{
-        width: min(3.226dvw, 24px);
-        height: min(3.226dvw, 24px);
-        margin-right: min(2.151dvw, 16px);
-    } */
     .link_list button h3{
         font-size: min(3.723dvw, 14px);
     }
     .link_list svg path:hover{
         stroke: #26AC34;
-        /* fill: #26AC34; */
     }
     .link_list button:hover {
         color: #26AC34;
-        /* background-color: #26AC34; */
         border-radius: min(1.064dvw, 4px);
         background: #FAFAFA;
     }
@@ -1050,7 +1184,6 @@ onMounted(()=>{
         gap: min(1.064dvw, 4px);
     }
     .user_2{
-        /* height: min(9.574dvw, 36px); */
         height: fit-content;
         gap: min(3.191dvw, 12px);
         padding: 0px min(3.191dvw, 12px) min(1.064dvw, 4px) min(3.191dvw, 12px);
@@ -1068,8 +1201,6 @@ onMounted(()=>{
         font-size: min(3.191dvw, 12px);
     }
     .account_bt{
-        /* height: min(5.319dvw, 20px); */
-        /* height: min(9.574dvw, 36px); */
         height: fit-content;
         font-size: min(3.723dvw, 14px);
         padding: min(3.191dvw, 12px);
@@ -1098,7 +1229,6 @@ onMounted(()=>{
     .burger_icon div:nth-child(2) {
         width: min(6.383dvw, 24px);
         height: min(6.383dvw, 24px);
-        /* cursor: pointer */
     }
 
     .cart_b svg {
@@ -1120,4 +1250,5 @@ onMounted(()=>{
         width: inherit;
         height: auto;
     }
-}</style>
+} */
+</style>

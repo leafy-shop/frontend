@@ -295,14 +295,68 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     }
 }
 
-@media (width<=376px){
+@media (width<=432px){
+    .grid_container{
+        grid-template-columns: auto auto;
+        gap: min(1.852dvw,8px);
+    }
+    .grid_item{
+        width: min(44.444dvw,192px);
+        /* height: min(70.213dvw,264px); */
+        height: fit-content;
+        border-radius: min(0.926dvw,4px);
+    }
+    .product_item {
+        width: min(44.444dvw,192px);
+        border-radius: min(0.926dvw,4px);
+        border: min(0.231dvw,1px) solid;
+        border-color: rgb(0, 0, 0, 0.01);
+    }
+    .product_img{
+        height: min(44.444dvw,192px);
+    }
+    .product_img div{ 
+        height: min(v-bind(changeSize(7.407,'dvw')),v-bind(changeSize(32)));  
+        padding: min(v-bind(changeSize(1.852,'dvw')),v-bind(changeSize(8)));  
+        font-size: min(v-bind(changeSize(2.778,'dvw')),v-bind(changeSize(12)));
+    }
+    .product_info{
+        height: min(22.222dvw,96px);
+        padding: min(2.778dvw,12px);
+    }
+    .product_info h4{
+        height: min(5.556dvw,24px);
+        font-size: min(3.704dvw,16px);
+    }
+    .info_quality{
+        height: min(9.259dvw,40px);
+        gap: min(1.852dvw,8px);
+    }
+    .info_quality h5{
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
+    }
+    .info_quality h5 span{
+        font-size: min(2.778dvw,12px);
+    }
+    .info_quality div{
+        height: min(2.778dvw,12px);
+    }
+    .rating svg{
+        width: min(2.778dvw,12px);
+        height: min(2.778dvw,12px);
+    }
+    .sold{
+        font-size: min(2.315dvw,10px);
+    }
+}
+/* @media (width<=376px){
     .grid_container{
         grid-template-columns: auto auto;
         gap: min(2.128dvw,8px);
     }
     .grid_item{
         width: min(44.681dvw,168px);
-        /* height: min(70.213dvw,264px); */
         height: fit-content;
         border-radius: min(1.064dvw,4px);
     }
@@ -349,5 +403,5 @@ const goProductDetail=(p)=>myRouter.push({name:'ProductDetail',params:{id:p}})
     .sold{
         font-size: min(2.66dvw,10px);
     }
-}
+} */
 </style>
