@@ -338,7 +338,70 @@ onBeforeMount(()=>{
 
 }
 
-@media (width <=376px){
+@media (width <=432px){
+    .wrapper{
+        height: min(37.037dvw, 160px);
+        padding: min(6.481dvw,28px) min(4.63dvw,20px);
+    }
+    .container_review{
+        gap: 0px;
+    }
+    .overall_review{
+        display: none;
+    }
+    .wrapper_review{
+        width: min(90.741dvw, 392px);
+        height: min(24.074dvw, 104px);
+    }
+    .review_list{
+        gap: min(0.926dvw,4px);
+    }
+    .review{
+        width: min(21.296dvw, 92px);
+        height: min(24.074dvw, 104px);
+        padding: min(1.852dvw,8px);
+    }
+    .personal_info{
+        height: min(5.556dvw,24px);
+        display: flex;
+        flex-direction: column;
+        gap: min(0.926dvw,4px);
+    }
+    .personal_info h4{
+        width: auto;
+        height: fit-content;
+        font-size: min(2.315dvw,10px);
+        letter-spacing: min(0.046dvw, 0.2px);
+        line-height: 120%;
+    }
+    .personal_info div{
+        width: auto;
+        height: fit-content;
+    }
+    .personal_info div img{
+        width: min(1.852dvw,8px);
+        height: min(1.852dvw,8px);
+    }
+    .comment{
+        height: min(7.447dvw,28px);
+    }
+    .comment p{
+        -webkit-line-clamp: 2;
+        font-size: min(2.315dvw,10px);
+        letter-spacing: min(0.046dvw, 0.2px);
+        line-height: 120%;
+    }
+    .date{
+        font-size: min(1.852dvw,8px);
+        margin-top: min(2.778dvw,12px);
+    }
+    .review_slide{
+        display: none;
+    }
+   
+}
+
+/* @media (width <=376px){
     .wrapper{
         height: min(40.426dvw, 152px);
         padding: min(7.447dvw,28px) min(4.255dvw,16px);
@@ -395,5 +458,5 @@ onBeforeMount(()=>{
         display: none;
     }
    
-}
+} */
 </style>

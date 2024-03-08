@@ -41,9 +41,9 @@ const checkCurrentURL=()=>{
         for(let i =0;i<link.length;i++){
             //change text
             if(window.innerWidth>744){
-                link[i].setAttribute('style','color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+                link[i].setAttribute('style','color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA;')
             }else{
-                link[i].setAttribute('style','color:#26AC34;border-bottom: none;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+                link[i].setAttribute('style','color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA;')
 
             }
             changeIconColor(link[i])
@@ -55,9 +55,9 @@ const checkCurrentURL=()=>{
         for(let i=0;i<link.length;i++){
             //change text
             if(window.innerWidth>744){
-                link[i].setAttribute('style','color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+                link[i].setAttribute('style','color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA; border-radius: min(0.583dvw, 4px);')
             }else{
-                link[i].setAttribute('style','color:#26AC34;border-bottom: none;padding-bottom: min(0.278dvw, 4px);background: #FAFAFA;')
+                link[i].setAttribute('style','color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA; border-radius: min(0.583dvw, 4px);')
 
             }
 
@@ -243,7 +243,6 @@ onMounted(()=>{
                             <path d="M17 8.9928L16 2.9928" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M12 8.9928V2.9928" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        
                         <h3> Shop</h3>
                     </button>
                     <button @click="validation.clickingTest('link gallery')" name="gallery">
@@ -974,7 +973,7 @@ onMounted(()=>{
         flex-direction: column;
         width: 100%;
         height: fit-content;
-        padding: min(2.778dvw,12px) min(0.926dvw,4px) min(3.704dvw,16px) min(0.926dvw,4px);
+        padding: min(2.778dvw,12px) min(1.852dvw,8px) min(3.704dvw,16px) min(1.852dvw,8px);
         box-sizing: border-box;
         gap: min(3.704dvw,16px);
         z-index: 999;
@@ -997,6 +996,7 @@ onMounted(()=>{
         cursor: pointer;
         padding: min(2.778dvw,12px);
         align-items: center;
+        border-radius: min(0.926dvw,4px);
     }
     .link_list button svg{
         width: min(5.556dvw,24px);
@@ -1012,6 +1012,9 @@ onMounted(()=>{
         color: #26AC34;
         border-radius: min(0.926dvw,4px);
         background: #FAFAFA;
+    }
+    .link_list button:active {
+        color: #58d264;
     }
 
     .service_no_keyPass{

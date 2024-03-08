@@ -6,14 +6,17 @@ const goShop=()=>myRouter.push({name:'Shop'})
 <template>
     <div class="container_information">
         <div class="information_perfect_plant">
-            <h1>
-                Perfect Plant
-            </h1>
-            <!-- <hr> -->
-            <div class="hrLine"></div>
-            <p>
-                A beautiful house is as much about its surroundings as its bricks and mortar, something that the best garden designers all understand. We've completely updated our list of the finest of them all.
-            </p>
+            <div class="info_title">
+                <h1>
+                    Perfect Plant
+                </h1>
+                <!-- <hr> -->
+                <div class="hrLine"></div>
+                <p>
+                    A beautiful house is as much about its surroundings as its bricks and mortar, something that the best garden designers all understand. We've completely updated our list of the finest of them all.
+                </p>
+            </div>
+            
             <button @click="goShop">
                 Shop Collection
                 <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -256,7 +259,84 @@ const goShop=()=>myRouter.push({name:'Shop'})
     }
 }
 
-@media (width<=376px){
+@media (width<=432px){
+    .container_information{
+        width: auto;
+        height: min(52.315dvw, 226px);
+        background-color: #E7E8E3;
+    }
+    .information_perfect_plant{
+        display: flex;
+        flex-direction: column;
+        padding: min(6.481dvw,28px) min(4.63dvw,20px);
+        gap: min(4.63dvw,20px);
+        height: fit-content;
+    }
+    .info_title {
+        display: flex;
+        flex-direction: column;
+        gap: min(1.852dvw,8px);
+        height: fit-content;
+    }
+    .info_title h1{
+        width: min(67.593dvw, 292px);
+        height: min(8.333dvw, 36px);
+        font-size: min(5.556dvw,24px);
+    }
+    .hrLine {
+        width: min(11.111dvw, 48px);
+        height: min(0.463dvw, 2px);
+        background-color: #252525;
+        box-sizing: border-box;
+    }
+    .info_title p{
+        width: min(67.593dvw, 292px);
+        height: min(14.815dvw, 64px);
+        font-size: min(2.778dvw,12px);
+        line-height: 136%;
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+    .information_perfect_plant button{
+        width: min(30.556dvw, 132px);
+        height: min(7.407dvw, 32px);
+        font-size: min(2.778dvw,12px);
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(1.852dvw,8px) min(1.852dvw,8px) min(2.778dvw,12px);
+    }
+    .information_perfect_plant svg{
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
+    .information_perfect_plant path:hover{
+        fill: #26AC34;
+    }
+    .info_image{
+        width: inherit;
+        right: 0;
+        bottom: 0;
+    }
+    .information_life_greener{
+        height: min(43.519dvw, 188px);
+        padding: min(2.778dvw,12px) min(4.63dvw,20px) min(5.556dvw,24px) min(4.63dvw,20px);
+        gap: min(2.778dvw,12px);
+    }
+    .information_life_greener h3{
+        height: min(10.185dvw, 44px);
+        padding: min(2.778dvw,12px) 0px;
+        font-size: min(3.241dvw, 14px);
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+    .information_life_greener div{
+        height: min(25.926dvw, 112px);
+    }
+    .information_life_greener div p{
+        font-size: min(2.778dvw,12px);
+        line-height: 136%;
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+}
+
+/* @media (width<=376px){
     .container_information{
         width: auto;
         height: min(60.106dvw, 226px);
@@ -314,12 +394,11 @@ const goShop=()=>myRouter.push({name:'Shop'})
     }
     .information_life_greener div{
         height: min(29.787dvw, 112px);
-        /* margin: 0px; */
     }
     .information_life_greener div p{
         font-size: min(3.192dvw, 12px);
-        line-height: 136%; /* 16.32px */
+        line-height: 136%;
         letter-spacing: min(0.053dvw, 0.2px);
     }
-}
+} */
 </style>

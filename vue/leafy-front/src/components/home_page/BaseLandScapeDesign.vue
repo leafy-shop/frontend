@@ -169,9 +169,35 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
     }
 }
 
-@media (width <=376px){
+@media (width <=432px){
     .wrapper_content{
-        /* height: auto; */
+        padding: min(5.556dvw,24px) min(4.63dvw,20px) min(6.481dvw,28px) min(4.63dvw,20px);
+        gap: min(1.852dvw,8px);
+    }
+    .container_content{
+        gap: min(1.852dvw,8px);
+    }
+    .wrapper_content h3{
+        font-size: min(3.241dvw, 14px);
+        padding: min(0.926dvw,4px) 0px;
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+    .content_item{
+        gap: min(0.926dvw,4px);
+    }
+    .content_item img{
+        width: min(44.444dvw, 192px);
+        height: min(33.333dvw, 144px);
+        border-radius: min(0.926dvw,4px);
+    }
+    .content_item h4{
+        font-size: min(2.778dvw,12px);
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+}
+
+/* @media (width <=376px){
+    .wrapper_content{
         padding: min(6.383dvw, 24px) min(4.255dvw, 16px) min(7.713dvw, 28px) min(4.255dvw, 16px);
         gap: min(2.128dvw, 8px);
     }
@@ -179,29 +205,21 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
         gap: min(2.128dvw, 8px);
     }
     .wrapper_content h3{
-        /* height: 28px; */
         font-size: min(3.723dvw, 14px);
         padding: min(1.064dvw, 4px) 0px;
         letter-spacing: min(0.053dvw, 0.2px);
     }
     .content_item{
-        /* width: 168px;
-        height: 152px; */
-        /* width: fit-content;
-        height: fit-content; */
         gap: min(1.064dvw, 4px);
     }
     .content_item img{
-        /* height: 128px; */
         width: min(44.681dvw, 168px);
         height: min(34.043dvw, 128px);
         border-radius: min(1.064dvw, 4px);
     }
     .content_item h4{
-        /* height: 24px; */
-        /* padding: 4px 0px; */
         font-size: min(3.191dvw, 12px);
         letter-spacing: min(0.053dvw, 0.2px);
     }
-}
+} */
 </style>

@@ -210,16 +210,67 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
     }
 }
 
-@media (width<=376px){
+@media (width<=432px){
     .wrapper_plant_inspo{
-
-        /* padding: min(6.383dvw, 24px) min(4.255dvw, 16px) min(7.713dvw, 28px) min(4.255dvw, 16px); */
-        padding: min(6.383dvw, 24px) 0px min(7.713dvw, 28px) 0px;
-        gap: min(2.128dvw, 8px);
-        /* display: flex; */
+        padding: min(5.556dvw,24px) 0px min(6.481dvw,28px) 0px;
+        gap: min(1.852dvw,8px);
     }
     .wrapper_plant_inspo h3{
-        /* height: min(7.447dvw, 28px); */
+        font-size: min(3.241dvw, 14px);
+        padding: min(0.926dvw,4px) 0px;
+        letter-spacing: min(0.046dvw, 0.2px);
+    }
+    .container_plant_inspo{
+        width: fit-content;
+        /* padding: 0px min(3.704dvw,16px); */
+        gap: min(1.852dvw,8px);
+    }
+    .overflow_plant_inspo{
+        width: min(90.741dvw,392px);
+        overflow-x: auto;
+    }
+    .overflow_plant_inspo::-webkit-scrollbar{
+        display: none;
+    }
+    .plant_type{
+        width: min(44.444dvw, 192px);
+        height: fit-content;
+        flex-grow: none;
+    }
+    .plant_type p{
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: min(2.778dvw,12px);
+        margin-top: min(0.926dvw,4px);
+    }
+    .plant_type img{
+        width: min(44.444dvw, 192px);
+        height: min(50.926dvw, 220px);
+        border-radius: min(0.926dvw,4px);
+    }
+    .plant_type h4 {
+        margin-top: min(1.852dvw,8px);
+        font-size: min(2.778dvw,12px);
+    }
+    .plant_type button{
+        margin-top: min(1.852dvw,8px);
+        width: fit-content;
+        height: min(5.556dvw,24px);
+        font-size: min(2.778dvw,12px);
+        padding: min(0.926dvw,4px) min(1.852dvw,8px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+        border-radius: min(0.926dvw,4px);
+    }
+}
+
+/* @media (width<=376px){
+    .wrapper_plant_inspo{
+        padding: min(6.383dvw, 24px) 0px min(7.713dvw, 28px) 0px;
+        gap: min(2.128dvw, 8px);
+    }
+    .wrapper_plant_inspo h3{
         font-size: min(3.723dvw, 14px);
         padding: min(1.064dvw, 4px) 0px;
         letter-spacing: min(0.053dvw, 0.2px);
@@ -245,7 +296,6 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        /* height: 72px; */
         overflow: hidden;
         font-size: min(3.191dvw, 12px);
         margin-top: min(1.064dvw, 4px);
@@ -261,7 +311,6 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
     }
     .plant_type button{
         margin-top: min(2.128dvw, 8px);
-        /* width: min(15.691dvw, 59px); */
         width: fit-content;
         height: min(6.383dvw, 24px);
         font-size: min(3.191dvw, 12px);
@@ -269,5 +318,5 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
         border-radius: min(1.064dvw, 4px);
     }
-}
+} */
 </style>
