@@ -74,6 +74,7 @@ const goMyShop=()=>myRouter.push({name:'Shop_AS'})
         <!-- nested page -->
         <div class="wrapper_content">
             <router-view></router-view>
+            
         </div>
     </div>
     <BaseFooter/>
@@ -139,4 +140,6 @@ const goMyShop=()=>myRouter.push({name:'Shop_AS'})
     border: none;
     
 }
+
+
 </style>
