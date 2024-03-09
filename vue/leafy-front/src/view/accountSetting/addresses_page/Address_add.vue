@@ -25,7 +25,7 @@ const goAddress=()=>myRouter.push({name:'Address_AS'})
                     <h5>
                         Phone number
                     </h5>
-                    <input class="input" type="text">
+                    <input class="input" type="text" placeholder="000-000-0000">
                 </div>
             </div>
             <!-- address -->
@@ -42,14 +42,20 @@ const goAddress=()=>myRouter.push({name:'Address_AS'})
                     <h5>
                         province
                     </h5>
-                    <input class="input" type="text">
+                    <select class="input" name="province" >
+                        <option value="" selected>select your ...</option>
+                    </select>
+                    <!-- <input class="input" type="text"> -->
                 </div>
                 <!-- district -->
                 <div class="input_field">
                     <h5>
                         province
                     </h5>
-                    <input class="input" type="text">
+                    <select class="input" name="district" >
+                        <option value="" selected>select your ...</option>
+                    </select>
+                    <!-- <input class="input" type="text"> -->
                 </div>
             </div>
             <!-- sub district and postal -->
@@ -59,14 +65,20 @@ const goAddress=()=>myRouter.push({name:'Address_AS'})
                     <h5>
                         Sub district
                     </h5>
-                    <input class="input" type="text">
+                    <select class="input" name="sub_district" >
+                        <option value="" selected>select your ...</option>
+                    </select>
+                    <!-- <input class="input" type="text"> -->
                 </div>
                 <!-- postal -->
                 <div class="input_field">
                     <h5>
                         Zip / Postal
                     </h5>
-                    <input class="input" type="text">
+                    <select class="input" name="postal" >
+                        <option value="" selected>select your ...</option>
+                    </select>
+                    <!-- <input class="input" type="text"> -->
                 </div>
             </div>
             <!-- submit -->
@@ -81,6 +93,7 @@ const goAddress=()=>myRouter.push({name:'Address_AS'})
         </div>
         
     </div>
+    
 </div>
 </template>
 <style scoped>
@@ -151,7 +164,7 @@ const goAddress=()=>myRouter.push({name:'Address_AS'})
     border-radius: 4px;
     border-color: #D1D5DB;
     box-shadow: 0px 1px 2px 0px #0000000D;
-
+    padding: 8px 12px;
 }
 
 
@@ -181,6 +194,5 @@ const goAddress=()=>myRouter.push({name:'Address_AS'})
     background-color: #26AC34;
     color: #fff;
 }
-
 
 </style>
