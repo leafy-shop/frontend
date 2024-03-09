@@ -18,7 +18,8 @@ import Profile_AS from '../view/accountSetting/profile.vue'
 import Address_AS from '../view/accountSetting/addresses_page/Address.vue'
 import Address_AS_add from '../view/accountSetting/addresses_page/Address_add.vue'
 import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
-import Bank_AS from '../view/accountSetting/Bank.vue'
+import Bank_AS from '../view/accountSetting/bank_page/Bank.vue'
+import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
 import Shop_AS from '../view/accountSetting/MyShop.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
@@ -81,7 +82,7 @@ const routes=[
                 component:Address_AS
             },
             {
-                path:'address/add-new-address',
+                path:'address/new-address',
                 name:'Address_AS_add',
                 component:Address_AS_add
             },
@@ -94,6 +95,11 @@ const routes=[
                 path:'bank',
                 name:'Bank_AS',
                 component:Bank_AS
+            },
+            {
+                path:'bank/new-bank',
+                name:'Bank_AS_add',
+                component:Bank_AS_add
             },
             {
                 path:'my-shop',
@@ -140,6 +146,7 @@ router.beforeEach(async (to,from)=>{
     if(to.name=="Profile"&&!cookie.checkKeyPass()){
         return {name:"Home"}
     }
+   
     // console.log(cookie.decrypt("information"))
     // console.log(to.path.split("/").pop())
     // console.log(cookie.decrypt("information").id)
