@@ -13,6 +13,7 @@ import BaseSelectPage from '../components/BaseSelectPage.vue'
 import fetch from '../JS/api';
 import {useRouter} from 'vue-router'
 const {params} =useRoute()
+const productId = validation.decrypt(params.id)
 const myRouter = useRouter()
 const goShop =()=>myRouter.push({name:"Shop"})
 const goHome =()=>myRouter.push({name:"Home"})
@@ -33,7 +34,7 @@ let selectedStyle = ref({})
 // let initial = 0
 
 const getProductReview=async(page)=>{
-    let {status,data} = await fetch.getProductReview(params.id, page)
+    let {status,data} = await fetch.getProductReview(productId, page)
     console.log("this is ",data)
     totalPageReview.value=data.allPage
     reviews.value = data.list
@@ -51,7 +52,7 @@ const getProductDetail = async (id, selectedId=0) => {
     let {status,data} = await fetch.getProductDetail(id)
     console.log(data.name)
     // product type page
-    productType.value.itemId = params.id
+    productType.value.itemId = productId
     productType.value.name = data.name
     productType.value.rating = data.totalRating
     productType.value.sold = data.sold
@@ -123,7 +124,7 @@ const changePageR=async (number)=>{
 }
 
 onBeforeMount(() => {
-    getProductDetail(params.id)
+    getProductDetail(productId)
 
 })
 
@@ -133,7 +134,7 @@ onMounted(()=>{
 </script>
 <template>
 <!-- this is pro detail {{ params.id }} -->
-    <BaseMenu class="menu" />
+    <BaseMenu class="menu"/>
     <div class="container_access">
         <!-- home icon -->
         <svg @click="goHome" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

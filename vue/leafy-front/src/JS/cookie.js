@@ -13,13 +13,17 @@ let cookie = {
     },
     decrypt(cookieName='information'){
       let cookieValue=this.get(cookieName)
-      // console.log(cookieValue)
+      // console.log("this is before into IF (function decryption) :",cookieValue)
       if(cookieValue==undefined){
+        // console.log("this is after into IF (function decryption) False:")
         validation.function_Status('Decrypt',false,'cookie is null')
         return undefined
       }else{
         // console.log(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
+        // console.log("this is after into IF and before decryption (function decryption) :")
+
         let decryptData = JSON.parse(cryptoJs.AES.decrypt(cookieValue,key).toString(cryptoJs.enc.Utf8))
+        // console.log("this is after into IF and after decryption (function decryption) :")
         // console.log(decryptData)
         validation.function_Status('Decrypt',true,'its work!!')
         return decryptData

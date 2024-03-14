@@ -12,6 +12,15 @@ import GalleryDetail from '../view/GalleryDetail.vue'
 import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
+// account setting
+import AccountSetting from '../view/accountSetting/AccountSetting.vue'
+import Profile_AS from '../view/accountSetting/profile.vue'
+import Address_AS from '../view/accountSetting/addresses_page/Address.vue'
+import Address_AS_add from '../view/accountSetting/addresses_page/Address_add.vue'
+import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
+import Bank_AS from '../view/accountSetting/bank_page/Bank.vue'
+import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
+import Shop_AS from '../view/accountSetting/MyShop.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -20,7 +29,7 @@ const routes=[
         name:'Home',
         component: Home,
     },
-    {   path:'/shop/:search?',
+    {   path:'/shop',
         name:'Shop',
         component: Shop,
     },
@@ -57,6 +66,47 @@ const routes=[
         path:'/gallery-detail/:id',
         name:'GalleryDetail',
         component:GalleryDetail
+    },
+    {
+        path:'/account-setting', //:id?
+        component:AccountSetting,
+        children:[
+            {
+                path:'profile',
+                name:'Profile_AS',
+                component:Profile_AS
+            },
+            {
+                path:'address',
+                name:'Address_AS',
+                component:Address_AS
+            },
+            {
+                path:'address/new-address',
+                name:'Address_AS_add',
+                component:Address_AS_add
+            },
+            {
+                path:'change-password',
+                name:'ChangePW_AS',
+                component:ChangePW_AS
+            },
+            {
+                path:'bank',
+                name:'Bank_AS',
+                component:Bank_AS
+            },
+            {
+                path:'bank/new-bank',
+                name:'Bank_AS_add',
+                component:Bank_AS_add
+            },
+            {
+                path:'my-shop',
+                name:'Shop_AS',
+                component:Shop_AS
+            },
+        ]
     },
     {
         path:'/:pathMatch(.*)*',
@@ -96,6 +146,7 @@ router.beforeEach(async (to,from)=>{
     if(to.name=="Profile"&&!cookie.checkKeyPass()){
         return {name:"Home"}
     }
+   
     // console.log(cookie.decrypt("information"))
     // console.log(to.path.split("/").pop())
     // console.log(cookie.decrypt("information").id)

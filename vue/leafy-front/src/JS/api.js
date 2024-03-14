@@ -64,35 +64,135 @@ const fetch = {
         }
     },
     // Image provider
-    async getImage(endpoint, id){
-        let returnData = { status: false, data: undefined, msg:'' }
+    async getImage(endpoint, id,type){
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false,data:undefined }
 
         try {
             let url = `${origin}/api/image/${endpoint}/${id}`
+            url+=type!=undefined?`/${type}`:''
             let res = await axios.get(url)
 
-            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
-                validation.function_Status('get all icon garden designer', false, "cannot get all icon garden designer from back-end!!!")
+            if (res.status == 200) {
+                validation.function_Status('Image founded.', true,`type: ${type}`)
+                returnData.status = true
+                
+                returnData.data=res.data
+                
             } else {
-                validation.function_Status('get all icon garden designer', true,)
-                returnData.status = res.status == 200
-                // returnData.status = true
-                returnData.data = res.data
-                // console.log(returnData)
+                validation.function_Status('Cannot get image', false, res.message)
+                
+                // validation.msg=res.message
             }
             return returnData
 
         } catch (error) {
-            validation.function_Status('get all icon garden designer', false, error)
+            validation.function_Status('Cannot get image', false, error)
             if(error.code=="ERR_NETWORK"){//check back-end server error
                 returnData.msg="Server Error try again later"
                 returnData.status=false
-                return returnData
+                
             }
             else{
-
+                returnData.status=false
             }
+            return returnData
         }
+    },
+    async addImage(data,endpoint, id,type){
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false }
+        const formData = new FormData();
+        try {
+            let url = `${origin}/api/image/${endpoint}/${id}`
+            url+=type!=undefined?`/${type}`:''
+
+            formData.append('file',data)
+
+            let res = await axios.post(url,formData)
+
+            if (res.status == 201) {
+                validation.function_Status('Image updated.', true,`type: ${type}`)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+                // console.log(returnData)
+            } else {
+                validation.function_Status('Cannot update image', false, res.message)
+                
+                // validation.msg=res.message
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot get image', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+            }
+            else{
+                returnData.status=false
+            }
+            return returnData
+        }
+    },
+    async deleteImage(endpoint, id,type){
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false }
+        try {
+            let url = `${origin}/api/image/${endpoint}/${id}`
+            url+=type!=undefined?`/${type}`:''
+            let res = await axios.delete(url)
+            if (res.status == 200) {
+                validation.function_Status('Image deleted.', true,`type: ${type}`)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+                // console.log(returnData)
+            } else {
+                validation.function_Status('Cannot delete image', false, res.message)
+                
+                // validation.msg=res.message
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot delete image', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                
+            }
+            else{
+                returnData.status=false
+            }
+            return returnData
+        }
+    },
+    async updateImage(data,endpoint, id,type){
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false }
+        
+        let {status}=await this.getImage(endpoint, id,type)
+    
+        if (status) {
+            let deleteRes=await this.deleteImage(endpoint, id,type)
+            let addRes=await this.addImage(data,endpoint, id,type)
+            if(deleteRes.status==true&&addRes.status==true){
+                returnData.status=true
+                validation.function_Status('updated image successful', true)
+            }else{
+                validation.function_Status('Cannot update image ', false)
+            }
+        } else {
+            let addRes=await this.addImage(data,endpoint, id,type)
+            // validation.msg=res.message
+            validation.function_Status('updated image ', addRes.status)
+
+            returnData.status=addRes.status
+        }
+        return returnData
+
     },
     
     // product shop page
@@ -270,6 +370,58 @@ const fetch = {
             }
         }
     },
+    async getUserById(id){
+        let returnData = { status: false, data: undefined, msg:'' }
+        try {
+            let url=`${origin}/api/users/${id}`
+            let res = await axios.get(url)
+
+            if ( res.data == undefined) {
+                validation.function_Status('get user detail', false, `cannot get user detail id:${id}`)
+            } else {
+                validation.function_Status('get user detail', true,`get user detail id :${id}`)
+                returnData.status = res.status == 200
+                returnData.data = res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get user detail', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
+    async updataUserInfo(inputData){
+        let returnData = { status: false, msg:'' }
+        try {
+            let url=`${origin}/api/users/views/edit`
+            let res = await axios.patch(url,inputData)
+
+            if ( res.status == 200) {
+                validation.function_Status('update user info', true,`updated user info successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('update user info', false, `cannot update user `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('update user info', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
 
     // authentication
     async login(email = undefined, password = undefined){
@@ -281,7 +433,7 @@ const fetch = {
                 let userInfo = { "email_phone": email, "password": password }
                 let res = await axios.post(url, userInfo)
                 // console.log(res.data)
-                // cookie.encrypt(res.data, "information")
+                cookie.encrypt(res.data, "information")
                 // cookie.decrypt("information")
                 validation.function_Status("login", true)
                 returnData.status=true
@@ -339,7 +491,7 @@ const fetch = {
                 return returnData
             } catch (error) {
                 validation.function_Status("sign out", false, error)
-
+                cookie.encrypt(res.data, "information")
                 if(error.code=="ERR_NETWORK"){//check back-end server error
                     returnData.msg="Server Error try again later"
                     returnData.status=false
@@ -352,19 +504,22 @@ const fetch = {
         }
     },
     async getRefresh (){
-        let information = cookie.decrypt('information') //get email for refresh token
+        let information = cookie.decrypt() //get email for refresh token
         // console.log(information)
         let returnData = { status: false, msg:'' }
-        if (information !== undefined) {
+        if (information != undefined) {
             try {
                 let url = `${origin}/api/authentication/refresh`
 
-                let userInfo = { "email_phone": information.email } //get email
+                // let userInfo = { "email_phone": information.email } //get email
+                let userInfo = { "email": information.email } //get email
+
 
                 let res = await axios.post(url, userInfo)
                 // console.log(res.status)
                 if(res.status==200){
                     returnData.status=true
+
                     console.log('refresh token')
                 }else{ // 401
                     returnData.status=false
