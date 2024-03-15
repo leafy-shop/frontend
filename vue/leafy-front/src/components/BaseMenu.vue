@@ -97,7 +97,7 @@ const goShop=()=>{
 }
 const goCartList=()=>myRouter.push({name:'CartList'})
 const goProfile=(id=0)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(id.toString())}})
-const goSetting=()=>myRouter.push({name:'Profile_AS'})
+const goSetting=()=>myRouter.push({name:'profile_AS'})
 const signOut = async () => {
     let isOut=await fetch.signOut()
     if(isOut){
