@@ -82,7 +82,7 @@ const routes=[
                 component:Address_AS
             },
             {
-                path:'address/new-address',
+                path:'address/:method/:id?', //new-address
                 name:'Address_AS_add',
                 component:Address_AS_add
             },
@@ -97,7 +97,7 @@ const routes=[
                 component:Bank_AS
             },
             {
-                path:'bank/new-bank',
+                path:'bank/:method/:id?',
                 name:'Bank_AS_add',
                 component:Bank_AS_add
             },
