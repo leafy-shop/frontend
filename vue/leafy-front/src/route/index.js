@@ -14,7 +14,7 @@ import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
-import Profile_AS from '../view/accountSetting/profile.vue'
+import Profile_AS from '../view/accountSetting/Profile.vue'
 import Address_AS from '../view/accountSetting/addresses_page/Address.vue'
 import Address_AS_add from '../view/accountSetting/addresses_page/Address_add.vue'
 import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
@@ -22,6 +22,7 @@ import Bank_AS from '../view/accountSetting/bank_page/Bank.vue'
 import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
 import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
 import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
+import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -112,6 +113,11 @@ const routes=[
                 path:'my-shop/products/add-product',
                 name:'Shop_AS_add',
                 component:Shop_AS_add
+            },
+            {
+                path:'my-shop/orders',
+                name:'Order_AS',
+                component:Order_AS
             },
         ]
     },
