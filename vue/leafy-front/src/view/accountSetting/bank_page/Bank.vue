@@ -1,9 +1,10 @@
 <script setup>
 import {useRouter} from 'vue-router'
-import {ref,onBeforeMount} from 'vue'
+import {ref,onBeforeMount, computed} from 'vue'
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie';
 import fetch from '../../../JS/api';
+import bankTypeList from '../../../JS/enum/bankAccount.js'
 // link
 const myRouter =useRouter()
 const goAdd=()=>myRouter.push({name:'Bank_AS_add',params:{method:'new-bank'}})
@@ -14,7 +15,29 @@ const isDelete=ref(false)
 const userName=ref('')
 const bankList=ref([])
 const bankId=ref('')
+// const bankTypeList=ref([
+//     {name:"ธนาคารกรุงเทพ จำกัด ( BBL )",value:"BBL"},
+//     {name:"ธนาคารกสิกรไทย ( KBANK )",value:"KBANK"},
+//     {name:"ธนาคารไทยพาณิชย์ ( SCB )",value:"SCB"},
+//     {name:"ธนาคารกรุงศรีอยุธยา ( BAY )",value:"BAY"},
+//     {name:"ธนาคารออมสิน ( GSB )",value:"GSB"},
+//     {name:"ธนาคารกรุงไทย ( KTB )",value:"KTB"},
+//     {name:"ธนาคารทหารไทย ( TMB )",value:"TMB"},
+//     {name:"ธนาคารทหารไทยธนชาติ ( TTB )",value:"TTB"},
+//     {name:"ธนาคารซิตี้แบงค์ ( CITI )",value:"CITI"},
+    
+// ])
+// const isBank=computed({
+    //for match full name
+const fullNameBank=(keyword)=>{
+    //find keyword match to data then find index of that information
+    let index =bankTypeList.map((x)=>x.value==keyword).indexOf(true)
+    // console.log(index)
+    if(index!=-1)return bankTypeList[index].name;
 
+
+}
+// })
 const showConfirm=(id)=>{
     isDelete.value=true
     bankId.value=id
@@ -123,7 +146,7 @@ onBeforeMount(async()=>{
                         </div>
                         <!-- discription -->
                         <p>
-                            {{ bank.bankCode }}
+                            {{ fullNameBank(bank.bankCode) }}
                         </p>                 
                 </div>
                 
