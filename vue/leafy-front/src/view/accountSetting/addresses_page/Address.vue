@@ -126,16 +126,16 @@ onBeforeMount(async()=>{
         </div>
     </div>   
 
-    <div v-show="isDelete" @click="confirmAddress" class="wrapper_confirm_delete">
+    <div v-show="isDelete" class="wrapper_confirm_delete">
         <div class="confirm_delete">
             <h5>
                 Do you want to delete the current address?
             </h5>
             <div>
-                <button @click="confirmAddress(true)">
+                <button @click="confirmAddress()">
                     Cancel
                 </button>
-                <button @click="confirmAddress">
+                <button @click="confirmAddress(true)">
                     Delete
                 </button>    
             </div>
