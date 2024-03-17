@@ -1,19 +1,17 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, onUpdated } from 'vue';
+import { computed, onBeforeMount, onBeforeUpdate, onMounted, onUpdated,ref } from 'vue';
 const props = defineProps({
-    description: {
-        type: String,
-        required: true,
-        default: ""
-    }
+    description: String
 })
-const text =`Polyscias are versatile, small, indoor, branching trees. They grow in a compact, upright manner, making them suitable even in smaller spaces. Their thick, woody trunks are their main appeal. Each plant is unique as the large, rounded leaves can develop anywhere along the length of the branches, exposing different degrees of woody stem on each plant. They are often called Dinner Plate Aralia due to their round, flat leaf shape. Polyscias translates from the Greek as "many"" and ""shade"", a reference to their abundant foliage.\n\nPolyscias Scutellaria Fabian has large, scalloped, dark green, glossy leaves that curve outwards slightly. They are deeply veined and tinged purple underneath."`
-// onMounted(()=>{
-    // haiku.replace(/\n/g, "<br />")
-//    console.log(typeof(text))
-//    console.log(props.description.replace(/\n/g, "<br />"))
-// document.getElementById('content').innerHTML=``+props.description
-// })
+
+const msg=computed(()=>{
+    return props.description
+})
+const text =ref('')
+onMounted(()=>{
+    // document.getElementById('content').innerHTML=msg.value
+    // text.value=`${msg.value}`
+})
 
 </script>
 <template>
@@ -30,8 +28,7 @@ const text =`Polyscias are versatile, small, indoor, branching trees. They grow 
             <p>
                 Polyscias Scutellaria Fabian has large, scalloped, dark green, glossy leaves that curve outwards slightly. They are deeply veined and tinged purple underneath.
             </p> -->
-            <div id="content"  >
-                {{text}}
+            <div id="content" v-html="msg" >
             </div>
         </div>
     </div>
