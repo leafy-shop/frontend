@@ -1,5 +1,9 @@
 <script setup>
 import BaseStar from '../../../components/productDetail/BaseStar.vue';
+import { useRouter } from 'vue-router';
+// link
+const myRouter=useRouter()
+const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
 // Common attribute
 const sortTypeArr =[
     {name:"Popular",value: {name: "popular", type: 'desc'}},
