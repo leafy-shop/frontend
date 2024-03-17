@@ -21,6 +21,7 @@ import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
 import Bank_AS from '../view/accountSetting/bank_page/Bank.vue'
 import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
 import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
+import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -103,9 +104,14 @@ const routes=[
                 component:Bank_AS_add
             },
             {
-                path:'my-shop',
+                path:'my-shop/products',
                 name:'Shop_AS',
                 component:Shop_AS
+            },
+            {
+                path:'my-shop/products/add-product',
+                name:'Shop_AS_add',
+                component:Shop_AS_add
             },
         ]
     },
