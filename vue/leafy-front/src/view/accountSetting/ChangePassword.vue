@@ -1,8 +1,105 @@
 <script setup>
 import {useRouter} from 'vue-router'
+import {onBeforeMount, ref} from 'vue'
+import cookie from '../../JS/cookie';
+import fetch from '../../JS/api'
 const myRouter=useRouter()
-const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
+// const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
+const userName=ref('')
+// forcheck
+const oldPassword=ref('')
+const isChangePassword=ref(false)
+// const isShowBT=ref(false)
+// new password
+const newPassword =ref('')
+const newPasswordConfirm=ref('')
 
+const showPassword=(index)=>{
+    let input=document.getElementsByClassName('input_field')
+    let type =input[index].getElementsByTagName('input')[0].getAttribute('type')
+    if(type=='password'){
+        // isShowBT.value=!isShowBT.value
+        // for(let i=0;i<eyeIcon.length;i++){
+            input[index].getElementsByTagName('input')[0].setAttribute('type','text') //password
+            input[index].getElementsByTagName('button')[0].getElementsByTagName('svg')[0].setAttribute('style','display:none;') //password
+            input[index].getElementsByTagName('button')[0].getElementsByTagName('svg')[1].setAttribute('style','display:flex;') //password
+
+        // }
+    }else{
+        // isShowBT.value=!isShowBT.value
+        // for(let i=0;i<eyeIcon.length;i++){
+            input[index].getElementsByTagName('input')[0].setAttribute('type','password') //password
+            input[index].getElementsByTagName('button')[0].getElementsByTagName('svg')[0].setAttribute('style','display:flex;') //password
+            input[index].getElementsByTagName('button')[0].getElementsByTagName('svg')[1].setAttribute('style','display:none;') //password
+
+
+        // }
+    }
+    
+}
+
+const checkPassword=async()=>{
+    let {status,msg} =await fetch.login(userName.value,oldPassword.value)
+    // console.log(status, msg)
+    return status
+}
+const updatePassword=async()=>{
+    // console.log(newPassword.value)
+    if(newPassword.value==newPasswordConfirm.value){
+        let pw={password:newPassword.value}
+        let  {status,msg} =await fetch.updataUserInfo(pw) 
+        console.log(status,msg)
+        return status
+    }
+    
+}
+// go back
+const cancelChangePassword=()=>{
+    let submitBT=document.getElementsByClassName('submit')
+    // check password
+    if(!isChangePassword.value){
+        oldPassword.value=''
+    }else
+    if(isChangePassword.value){
+        oldPassword.value=''
+        newPassword.value=''
+        newPasswordConfirm.value=''
+        isChangePassword.value=false
+        submitBT[0].getElementsByTagName('button')[1].innerHTML="Next"
+        
+    }
+    
+}
+// go next
+const submitChangePasswrod=async()=>{
+    let submitBT=document.getElementsByClassName('submit')
+    
+    // check username and password
+    if(!isChangePassword.value){
+        let status= await checkPassword()
+        if(status){
+            isChangePassword.value=true
+            submitBT[0].getElementsByTagName('button')[1].innerHTML="Submit"
+        }
+    }else
+    if(isChangePassword.value){ //change mode to submit
+        let status =await updatePassword()
+        // let status =true
+        if(status){
+            console.log('successful update')
+            cancelChangePassword()
+            isChangePassword.value=false
+        }
+    }
+
+    
+}
+
+onBeforeMount(()=>{
+    let {username}=cookie.decrypt()
+    userName.value=username
+    console.log(userName.value)
+})
 </script>
 <template>
 <div class="wrapper_change_PW">
@@ -15,35 +112,46 @@ const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
                 To protect your account security, please verify your identity with one of the methods below.
             </p>
         </div>
-        <div class="inputs">
-            <div class="input_item">
+        <!-- old -->
+        <div  class="inputs">
+            <div v-if="!isChangePassword" class="input_item">
                 <h5>
                     Current password
                 </h5>
                 <div class="input_field">
-                    <input type="password">
-                    <button>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <input v-model="oldPassword" type="password">
+                    <button @click="showPassword(0)" >
+                        <svg  width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.94182 4.22798C9.28738 4.1877 9.64036 4.16699 9.99996 4.16699C13.8866 4.16699 16.9998 6.58586 18.3333 10.0003C18.0045 10.8423 17.5674 11.6238 17.0372 12.3234M5.43298 5.43319C3.73292 6.47037 2.41755 8.07748 1.66663 10.0003C3.00007 13.4148 6.11332 15.8337 9.99996 15.8337C11.6979 15.8337 13.2483 15.372 14.5671 14.5673M8.23227 8.23248C7.77981 8.6849 7.49996 9.30993 7.49996 10.0003C7.49996 11.381 8.61925 12.5003 9.99996 12.5003C10.6904 12.5003 11.3154 12.2205 11.7678 11.768" stroke="#BDBDBD" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M3.33337 3.33301L16.6667 16.6663" stroke="#BDBDBD" stroke-linecap="round"/>
                         </svg>
+                        <svg  width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 8C14 9.65685 12.6569 11 11 11C9.34314 11 8 9.65685 8 8C8 6.34315 9.34314 5 11 5C12.6569 5 14 6.34315 14 8Z" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 8C2.60014 3.90264 6.33603 1 11 1C15.664 1 19.3999 3.90264 21 8C19.3999 12.0974 15.664 15 11 15C6.33603 15 2.60014 12.0974 1 8Z" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
                     </button>
                 </div>
-                <button>
+                <button >
                     Forgot Password ?
                 </button>
             </div>
-            <div class="new_PW">
+            <!-- New -->
+            <div v-else-if="isChangePassword" class="new_PW">
                 <div class="input_item">
                     <h5>
-                        Current password
+                        New password
                     </h5>
                     <div class="input_field">
-                        <input type="password">
-                        <button>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <input v-model="newPassword" type="password">
+                        <button @click="showPassword(0)">
+                            <svg  width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8.94182 4.22798C9.28738 4.1877 9.64036 4.16699 9.99996 4.16699C13.8866 4.16699 16.9998 6.58586 18.3333 10.0003C18.0045 10.8423 17.5674 11.6238 17.0372 12.3234M5.43298 5.43319C3.73292 6.47037 2.41755 8.07748 1.66663 10.0003C3.00007 13.4148 6.11332 15.8337 9.99996 15.8337C11.6979 15.8337 13.2483 15.372 14.5671 14.5673M8.23227 8.23248C7.77981 8.6849 7.49996 9.30993 7.49996 10.0003C7.49996 11.381 8.61925 12.5003 9.99996 12.5003C10.6904 12.5003 11.3154 12.2205 11.7678 11.768" stroke="#BDBDBD" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M3.33337 3.33301L16.6667 16.6663" stroke="#BDBDBD" stroke-linecap="round"/>
+                            </svg>
+                            <svg  width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 8C14 9.65685 12.6569 11 11 11C9.34314 11 8 9.65685 8 8C8 6.34315 9.34314 5 11 5C12.6569 5 14 6.34315 14 8Z" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M1 8C2.60014 3.90264 6.33603 1 11 1C15.664 1 19.3999 3.90264 21 8C19.3999 12.0974 15.664 15 11 15C6.33603 15 2.60014 12.0974 1 8Z" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
                     </div>
@@ -53,14 +161,18 @@ const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
                 </div>
                 <div class="input_item">
                     <h5>
-                        Current password
+                        Confirm new password
                     </h5>
                     <div class="input_field">
-                        <input type="password">
-                        <button>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <input v-model="newPasswordConfirm" type="password">
+                        <button @click="showPassword(1)">
+                            <svg  width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8.94182 4.22798C9.28738 4.1877 9.64036 4.16699 9.99996 4.16699C13.8866 4.16699 16.9998 6.58586 18.3333 10.0003C18.0045 10.8423 17.5674 11.6238 17.0372 12.3234M5.43298 5.43319C3.73292 6.47037 2.41755 8.07748 1.66663 10.0003C3.00007 13.4148 6.11332 15.8337 9.99996 15.8337C11.6979 15.8337 13.2483 15.372 14.5671 14.5673M8.23227 8.23248C7.77981 8.6849 7.49996 9.30993 7.49996 10.0003C7.49996 11.381 8.61925 12.5003 9.99996 12.5003C10.6904 12.5003 11.3154 12.2205 11.7678 11.768" stroke="#BDBDBD" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M3.33337 3.33301L16.6667 16.6663" stroke="#BDBDBD" stroke-linecap="round"/>
+                            </svg>
+                            <svg  width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 8C14 9.65685 12.6569 11 11 11C9.34314 11 8 9.65685 8 8C8 6.34315 9.34314 5 11 5C12.6569 5 14 6.34315 14 8Z" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M1 8C2.60014 3.90264 6.33603 1 11 1C15.664 1 19.3999 3.90264 21 8C19.3999 12.0974 15.664 15 11 15C6.33603 15 2.60014 12.0974 1 8Z" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
                     </div>
@@ -72,11 +184,11 @@ const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
         </div>
         <!-- submit -->
         <div class="submit">
-            <button @click="goAddress()">
+            <button @click="cancelChangePassword()">
                 Cancel
             </button>
-            <button @click="personalInfoSubmit">
-                Save
+            <button @click="submitChangePasswrod()">
+                Next
             </button>
         </div>
 
@@ -193,6 +305,9 @@ const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
 .input_item .input_field button svg{
     width: 20px;
     height: 20px;
+}
+.input_item .input_field button svg:nth-child(2){
+    display: none;
 }
 .input_item button{
     width: fit-content;

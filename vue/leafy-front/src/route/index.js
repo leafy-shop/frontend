@@ -14,13 +14,15 @@ import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
-import Profile_AS from '../view/accountSetting/profile.vue'
+import Profile_AS from '../view/accountSetting/Profile.vue'
 import Address_AS from '../view/accountSetting/addresses_page/Address.vue'
 import Address_AS_add from '../view/accountSetting/addresses_page/Address_add.vue'
 import ChangePW_AS from '../view/accountSetting/ChangePassword.vue'
 import Bank_AS from '../view/accountSetting/bank_page/Bank.vue'
 import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
-import Shop_AS from '../view/accountSetting/MyShop.vue'
+import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
+import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
+import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -69,6 +71,7 @@ const routes=[
     },
     {
         path:'/account-setting', //:id?
+        name:'AccountSetting',
         component:AccountSetting,
         children:[
             {
@@ -82,7 +85,7 @@ const routes=[
                 component:Address_AS
             },
             {
-                path:'address/new-address',
+                path:'address/:method/:id?', //new-address
                 name:'Address_AS_add',
                 component:Address_AS_add
             },
@@ -97,14 +100,24 @@ const routes=[
                 component:Bank_AS
             },
             {
-                path:'bank/new-bank',
+                path:'bank/:method/:id?',
                 name:'Bank_AS_add',
                 component:Bank_AS_add
             },
             {
-                path:'my-shop',
+                path:'my-shop/products',
                 name:'Shop_AS',
                 component:Shop_AS
+            },
+            {
+                path:'my-shop/products/add-product',
+                name:'Shop_AS_add',
+                component:Shop_AS_add
+            },
+            {
+                path:'my-shop/orders',
+                name:'Order_AS',
+                component:Order_AS
             },
         ]
     },
@@ -146,6 +159,9 @@ router.beforeEach(async (to,from)=>{
     if(to.name=="Profile"&&!cookie.checkKeyPass()){
         return {name:"Home"}
     }
+    if(to.name=="AccountSetting"){//cookie require
+        return {name:"Profile_AS"}
+    } 
    
     // console.log(cookie.decrypt("information"))
     // console.log(to.path.split("/").pop())

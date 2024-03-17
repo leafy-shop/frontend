@@ -97,7 +97,7 @@ const goShop=()=>{
 }
 const goCartList=()=>myRouter.push({name:'CartList'})
 const goProfile=(id=0)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(id.toString())}})
-const goSetting=()=>myRouter.push({name:'profile_AS'})
+const goSetting=(id=0)=>myRouter.push({name:'Profile_AS',params:{id:validation.encrypt(id.toString())}})
 const signOut = async () => {
     let isOut=await fetch.signOut()
     if(isOut){
@@ -217,7 +217,7 @@ onMounted(()=>{
                         <button @click="goProfile(keyPass.id)">
                             My Profile
                         </button>
-                        <button @click="goSetting">
+                        <button @click="goSetting(keyPass.id)">
                             Settings
                         </button>
                     </div>

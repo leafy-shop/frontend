@@ -2,12 +2,15 @@
 import {onBeforeMount, onUpdated, ref,computed} from 'vue'
 import fetch from '../../JS/api'
 import validation from '../../JS/validation'
-const userId=3
+import { useRoute } from 'vue-router';
+import cookie from '../../JS/cookie';
 
+const {params}=useRoute()
+const userId=ref("10")
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 // original data
-const userDetail=ref({})
+const userDetail=ref({}) 
 
 // profile info
 const userName=ref('')
@@ -19,11 +22,13 @@ const userNameS=ref(false)
 const aboutMeS=ref(false)
 const userImageS=ref(false)
 const coverImageS=ref(false)
+const refreshPageS=ref(false)
 // profile info message
 const userNameM=ref('')
 const aboutMeM=ref('')
 const userImageM=ref('')
 const coverImageM=ref('')
+const refreshPageM=ref('')
 
 //personal info
 const firstName=ref('')
@@ -75,21 +80,21 @@ const isChangePersonalInfo=computed(()=>{
 })
 // check user image and cover image
 const checkUserImage=async()=>{
-    let res=await fetch.getImage('users',userId)
+    let res=await fetch.getImage('users',userId.value)
     return res.status
 }
 const checkCoverImage=async()=>{
-    let res=await fetch.getImage('users',userId,'coverphoto')
+    let res=await fetch.getImage('users',userId.value,'coverphoto')
     return res.status
 }
 
 
 // get user information
 const getUserInfo=async()=>{
-    let {status,data,msg}=await fetch.getUserById(userId)
+    let {status,data,msg}=await fetch.getUserById(userId.value)
     if(status){
         userDetail.value= data //original data
-
+        
         firstName.value= data.firstname
         lastName.value= data.lastname
         emailUser.value= data.email
@@ -145,7 +150,7 @@ const profileSubmit=async()=>{
 
             // check user image
             if(userImage.value!=undefined){
-                let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
+                let userImgRes=await fetch.updateImage(userImage.value,'users',userId.value)
                 // let userImgRes=await fetch.deleteImage('users',userId)
                 if(userImgRes.status){
                     console.log('update successful')
@@ -159,7 +164,7 @@ const profileSubmit=async()=>{
 
             // check cover image
             if(coverImage.value!=undefined){
-                let userImgRes=await fetch.updateImage(coverImage.value,'users',userId,'coverphoto')
+                let userImgRes=await fetch.updateImage(coverImage.value,'users',userId.value,'coverphoto')
                 // let userImgRes=await fetch.deleteImage('users',userId)
                 if(userImgRes.status){
                     // console.log('update successful')
@@ -171,8 +176,12 @@ const profileSubmit=async()=>{
 
                 }
             }
-                await profileClear()
-                await getUserInfo()
+                await fetch.getRefresh()
+                refreshPageS.value=true
+                // location.reload()
+                // await profileClear()
+                // await getUserInfo()
+
         }
     }
 }
@@ -221,6 +230,7 @@ const personalInfoSubmit=async()=>{
             console.log(inputData)
             let {status,msg}=await fetch.updataUserInfo(inputData)
             if(status){
+                await fetch.getRefresh()
                 personalInfoClear()
                 await getUserInfo()
             }else{
@@ -232,12 +242,12 @@ const personalInfoSubmit=async()=>{
 }
 
 // clear
-const profileClear=async()=>{
+const profileClear=async(cUImg=true,cCImg=true)=>{
     let {username,description}=userDetail.value
     userName.value=username
     aboutMe.value=description
-    userImage.value=undefined
-    coverImage.value=undefined
+    if(cUImg)userImage.value=undefined;
+    if(cCImg)coverImage.value=undefined;
     // status
     userImageS.value=await checkUserImage()
     coverImageS.value=await checkCoverImage()
@@ -377,8 +387,12 @@ const dragover=(event)=>{
 }
 
 
-onBeforeMount(()=>{
-    getUserInfo()
+onBeforeMount(async()=>{
+    userId.value=cookie.decrypt().id
+    // console.log('cookie descrypt ',cookie.decrypt())
+    // userId.value=validation.decrypt(params.id)
+    await getUserInfo()
+    // console.log(validation.decrypt(params.id))
 })
 // onUpdated(()=>console.log(aboutMe.value))
 </script>
@@ -398,10 +412,10 @@ onBeforeMount(()=>{
 
             <!-- username -->
             <div class="username profile_item">
-                <h5 class="importen_input">
+                <h5 >
                     Username
                 </h5>
-                <input v-model="userName" type="text" maxlength="50">
+                <input v-model="userName" type="text" maxlength="50" disabled>
                 <!-- worning -->
                 <div v-show="userNameS" class="wrapper_errorMsg">
                     <div >
@@ -486,13 +500,16 @@ onBeforeMount(()=>{
             </div>
 
             <!-- submit -->
-            <div v-show="isChangeProfileInfo" class="submit">
-                <button @click="profileClear(),profileClearStatus()">
+            <div v-show="isChangeProfileInfo||refreshPageS" class="submit">
+                <button v-show="!refreshPageS" @click="profileClear(),profileClearStatus()">
                     Cancel
                 </button>
-                <button @click="profileSubmit">
+                <button v-show="!refreshPageS" @click="profileSubmit">
                     Save
                 </button>
+                <p v-show="refreshPageS" class="importen_input">
+                    Require refresh page to reload image
+                </p>
             </div>
         </div>
         <!-- personal info -->
@@ -549,10 +566,10 @@ onBeforeMount(()=>{
             <div class="container_info">
                 <!-- email -->
                 <div class="info_item">
-                    <h5 >
+                    <h5 class="importen_input">
                         Email address
                     </h5>
-                    <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com" disabled>
+                    <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com" >
                     <!-- worning -->
                     <div v-show="emailS" class="wrapper_errorMsg" >
                         <div >
@@ -796,6 +813,15 @@ onBeforeMount(()=>{
     padding: 12px 24px;
     gap: 8px;
     justify-content: end;
+}
+.submit p{
+    display: flex;
+    width: fit-content;
+    height: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    align-items: center;
+    color: #F75555;
 }
 .submit button{
     width: 80px;

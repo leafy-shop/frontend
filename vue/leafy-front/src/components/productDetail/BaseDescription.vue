@@ -1,11 +1,16 @@
 <script setup>
+import { computed, onBeforeMount, onBeforeUpdate, onMounted, onUpdated,ref } from 'vue';
+const props = defineProps({
+    description: String
+})
 
-let props = defineProps({
-    description: {
-        type: String,
-        required: true,
-        default: ""
-    }
+const msg=computed(()=>{
+    return props.description
+})
+const text =ref('')
+onMounted(()=>{
+    // document.getElementById('content').innerHTML=msg.value
+    // text.value=`${msg.value}`
 })
 
 </script>
@@ -23,9 +28,8 @@ let props = defineProps({
             <p>
                 Polyscias Scutellaria Fabian has large, scalloped, dark green, glossy leaves that curve outwards slightly. They are deeply veined and tinged purple underneath.
             </p> -->
-            <p>
-                <pre>{{ description }}</pre>
-            </p>
+            <div id="content" v-html="msg" >
+            </div>
         </div>
     </div>
 </template>
@@ -45,8 +49,11 @@ let props = defineProps({
     font-size: min(1.389dvw, 20px);
     line-height: 160%;
 }
-.description p{
+.description div{
     font-size: min(0.972dvw, 14px);
     letter-spacing: min(0.014dvw, 0.2px);
+    word-break: normal;
+    white-space: pre-line
 }
+
 </style>

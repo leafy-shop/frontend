@@ -311,7 +311,7 @@ const fetch = {
 
    async getStore(owner){
         let returnData = { status: false, data: undefined, msg:'' }
-
+        console.log(owner,'item owner')
         try {
             // let url = `${origin}/api/users/views/${owner}`
             let url = `${origin}/api/users/views/${owner}`
@@ -418,11 +418,331 @@ const fetch = {
                 return returnData
             }
             else{
+                
+            }
+        }
+    },
+    async getAllPayment(username){
+        let returnData = { status: false, data: undefined, msg:'' }
+        try {
+            let url=`${origin}/api/payments/${username}`
+            let res = await axios.get(url)
+
+            if ( res.status==200) {
+                validation.function_Status('get user payment all', true)
+                returnData.status = true
+                returnData.data=res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get user payment all', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
 
             }
         }
     },
+    async getPaymentById(username,paymentId){
+        let returnData = { status: false, data: undefined, msg:'' }
+        // console.log(username,paymentId,'get payment by id')
+        try {
+            let url=`${origin}/api/payments/${username}/${paymentId}`
+            let res = await axios.get(url)
 
+            if ( res.status==200) {
+                validation.function_Status('get payment by id', true)
+                returnData.status = true
+                returnData.data=res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get payment by id', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
+    async addPayment(inputData){
+        let returnData = { status: false, msg:'' }
+
+        if (inputData!=undefined) {
+            try {
+                let url = `${origin}/api/payments`
+                let res = await axios.post(url, inputData)
+                // console.log(res.data)
+                // cookie.decrypt("information")
+                if(res.status==201){
+                    validation.function_Status("add payment", true)
+                    returnData.status=true
+                
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("Can not add payment", false, error)
+                // console.log(error) 
+
+                if(error.code=="ERR_NETWORK"){//check back-end server error
+                    returnData.msg="Server Error try again later"
+                    returnData.status=false
+                    return returnData
+                }
+                else
+                // error 404
+                if(error.response.status==400||error.response.status==401||error.response.status==403){
+                    returnData.msg=error.response.data.error
+                    returnData.status=false
+                }else{
+                // error
+                    console.log("another error")
+                }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Add payment", false, "cannot add payment"+'\n'+"because some data missing.")
+            returnData.status=false
+            returnData.msg="Please input information"
+            return returnData
+        }
+    },
+    async updatePaymentById(username,paymentId,inputData){
+        let returnData = { status: false, msg:'' }
+        console.log(username,)
+        if (inputData!=undefined) {
+            try {
+                let url = `${origin}/api/payments/${username}/${paymentId}`
+                let res = await axios.patch(url, inputData)
+                // console.log(res.data)
+                // cookie.decrypt("information")
+                if(res.status==200){
+                    validation.function_Status("payment updated", true)
+                    returnData.status=true
+                
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("Can not update payment", false, error)
+                // console.log(error) 
+
+                if(error.code=="ERR_NETWORK"){//check back-end server error
+                    returnData.msg="Server Error try again later"
+                    returnData.status=false
+                    return returnData
+                }
+                else
+                // error 404
+                if(error.response.status==400||error.response.status==401||error.response.status==403){
+                    returnData.msg=error.response.data.error
+                    returnData.status=false
+                }else{
+                // error
+                    console.log("another error")
+                }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Update payment", false, "cannot update payment"+'\n'+"because some data missing.")
+            returnData.status=false
+            returnData.msg="Please input information"
+            return returnData
+        }
+    },
+    async deletePaymentById(username,addressId){
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false ,msg:''}
+        try {
+            let url = `${origin}/api/payments/${username}/${addressId}`
+            let res = await axios.delete(url)
+            if (res.status == 200) {
+                validation.function_Status('Payments deleted.', true,)
+                returnData.status = true
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot delete payment', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+            }
+            else{
+                returnData.status=false
+            }
+            return returnData
+        }
+    },
+    async getAllAddress(username){
+        let returnData = { status: false, data: undefined, msg:'' }
+        try {
+            let url=`${origin}/api/addresses/${username}`
+            let res = await axios.get(url)
+
+            if ( res.status==200) {
+                validation.function_Status('get user address all', true)
+                returnData.status = true
+                returnData.data=res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get user detail', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
+    async getAddressById(username,addressId){
+        let returnData = { status: false, data: undefined, msg:'' }
+        try {
+            let url=`${origin}/api/addresses/${username}/${addressId}`
+            let res = await axios.get(url)
+
+            if ( res.status==200) {
+                validation.function_Status('get user address by id', true)
+                returnData.status = true
+                returnData.data=res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get user address by id', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
+    async addAddress(inputData){
+        let returnData = { status: false, msg:'' }
+
+        if (inputData!=undefined) {
+            try {
+                let url = `${origin}/api/addresses`
+                let res = await axios.post(url, inputData)
+                // console.log(res.data)
+                // cookie.decrypt("information")
+                if(res.status==201){
+                    validation.function_Status("add address", true)
+                    returnData.status=true
+                
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("Can not add address", false, error)
+                // console.log(error) 
+
+                if(error.code=="ERR_NETWORK"){//check back-end server error
+                    returnData.msg="Server Error try again later"
+                    returnData.status=false
+                    return returnData
+                }
+                else
+                // error 404
+                if(error.response.status==400||error.response.status==401||error.response.status==403){
+                    returnData.msg=error.response.data.error
+                    returnData.status=false
+                }else{
+                // error
+                    console.log("another error")
+                }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Add address", false, "cannot add address"+'\n'+"because some data missing.")
+            returnData.status=false
+            returnData.msg="Please input information"
+            return returnData
+        }
+    },
+    async updateAddressById(username,addressId,inputData){
+        let returnData = { status: false, msg:'' }
+
+        if (inputData!=undefined) {
+            try {
+                let url = `${origin}/api/addresses/${username}/${addressId}`
+                let res = await axios.patch(url, inputData)
+                // console.log(res.data)
+                // cookie.decrypt("information")
+                if(res.status==200){
+                    validation.function_Status("address updated", true)
+                    returnData.status=true
+                
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("Can not update address", false, error)
+                // console.log(error) 
+
+                if(error.code=="ERR_NETWORK"){//check back-end server error
+                    returnData.msg="Server Error try again later"
+                    returnData.status=false
+                    return returnData
+                }
+                else
+                // error 404
+                if(error.response.status==400||error.response.status==401||error.response.status==403){
+                    returnData.msg=error.response.data.error
+                    returnData.status=false
+                }else{
+                // error
+                    console.log("another error")
+                }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Update address", false, "cannot update address"+'\n'+"because some data missing.")
+            returnData.status=false
+            returnData.msg="Please input information"
+            return returnData
+        }
+    },
+    async deleteAddressById(username,addressId){
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false ,msg:''}
+        try {
+            let url = `${origin}/api/addresses/${username}/${addressId}`
+            let res = await axios.delete(url)
+            if (res.status == 200) {
+                validation.function_Status('Address deleted.', true,`username ${username}`)
+                returnData.status = true
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot delete address', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+            }
+            else{
+                returnData.status=false
+            }
+            return returnData
+        }
+    },
     // authentication
     async login(email = undefined, password = undefined){
         let returnData = { status: false, msg:'' }
