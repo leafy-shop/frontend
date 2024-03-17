@@ -311,7 +311,7 @@ const fetch = {
 
    async getStore(owner){
         let returnData = { status: false, data: undefined, msg:'' }
-
+        console.log(owner,'item owner')
         try {
             // let url = `${origin}/api/users/views/${owner}`
             let url = `${origin}/api/users/views/${owner}`
@@ -446,10 +446,11 @@ const fetch = {
             }
         }
     },
-    async getPaymentById(username,addressId){
+    async getPaymentById(username,paymentId){
         let returnData = { status: false, data: undefined, msg:'' }
+        // console.log(username,paymentId,'get payment by id')
         try {
-            let url=`${origin}/api/payments/${username}/${addressId}`
+            let url=`${origin}/api/payments/${username}/${paymentId}`
             let res = await axios.get(url)
 
             if ( res.status==200) {
@@ -514,12 +515,12 @@ const fetch = {
             return returnData
         }
     },
-    async updatePaymentById(username,addressId,inputData){
+    async updatePaymentById(username,paymentId,inputData){
         let returnData = { status: false, msg:'' }
-
+        console.log(username,)
         if (inputData!=undefined) {
             try {
-                let url = `${origin}/api/payments/${username}/${addressId}`
+                let url = `${origin}/api/payments/${username}/${paymentId}`
                 let res = await axios.patch(url, inputData)
                 // console.log(res.data)
                 // cookie.decrypt("information")
