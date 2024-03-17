@@ -65,6 +65,7 @@ const getProductDetail = async (id, selectedId=0) => {
     
     //store
     await getStore(data.itemOwner)
+    console.log(data.itemOwner,'item owner')
     //product review
     await getProductReview(currentPageReview.value)
     allStyleReviews.value = data.styles.map(style => style.style)
@@ -123,9 +124,9 @@ const changePageR=async (number)=>{
     await getProductReview(currentPageReview.value)
 }
 
-onBeforeMount(() => {
-    getProductDetail(productId)
-
+onBeforeMount(async() => {
+   await getProductDetail(productId)
+    console.log(productId,'product id')
 })
 
 onMounted(()=>{
