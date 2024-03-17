@@ -2,12 +2,14 @@
 import {onBeforeMount, onUpdated, ref,computed} from 'vue'
 import fetch from '../../JS/api'
 import validation from '../../JS/validation'
-const userId=3
+import { useRoute } from 'vue-router';
 
+const {params}=useRoute()
+const userId=ref("10")
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 // original data
-const userDetail=ref({})
+const userDetail=ref({}) 
 
 // profile info
 const userName=ref('')
@@ -75,18 +77,18 @@ const isChangePersonalInfo=computed(()=>{
 })
 // check user image and cover image
 const checkUserImage=async()=>{
-    let res=await fetch.getImage('users',userId)
+    let res=await fetch.getImage('users',userId.value)
     return res.status
 }
 const checkCoverImage=async()=>{
-    let res=await fetch.getImage('users',userId,'coverphoto')
+    let res=await fetch.getImage('users',userId.value,'coverphoto')
     return res.status
 }
 
 
 // get user information
 const getUserInfo=async()=>{
-    let {status,data,msg}=await fetch.getUserById(userId)
+    let {status,data,msg}=await fetch.getUserById(userId.value)
     if(status){
         userDetail.value= data //original data
 
@@ -145,7 +147,7 @@ const profileSubmit=async()=>{
 
             // check user image
             if(userImage.value!=undefined){
-                let userImgRes=await fetch.updateImage(userImage.value,'users',userId)
+                let userImgRes=await fetch.updateImage(userImage.value,'users',userId.value)
                 // let userImgRes=await fetch.deleteImage('users',userId)
                 if(userImgRes.status){
                     console.log('update successful')
@@ -159,7 +161,7 @@ const profileSubmit=async()=>{
 
             // check cover image
             if(coverImage.value!=undefined){
-                let userImgRes=await fetch.updateImage(coverImage.value,'users',userId,'coverphoto')
+                let userImgRes=await fetch.updateImage(coverImage.value,'users',userId.value,'coverphoto')
                 // let userImgRes=await fetch.deleteImage('users',userId)
                 if(userImgRes.status){
                     // console.log('update successful')
@@ -378,7 +380,9 @@ const dragover=(event)=>{
 
 
 onBeforeMount(()=>{
+    // userId.value=validation.decrypt(params.id)
     getUserInfo()
+    // console.log(validation.decrypt(params.id))
 })
 // onUpdated(()=>console.log(aboutMe.value))
 </script>
