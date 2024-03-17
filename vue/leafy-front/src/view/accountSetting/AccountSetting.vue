@@ -86,7 +86,10 @@ const goMyShop=()=>myRouter.push({name:'Shop_AS'})
 .wrapper_account{
     display: flex;
     width: auto;
+    /* height: fit-content; */
     height: fit-content;
+    min-height: 90dvh;
+    max-height: 180dvh;
     padding: 24px 160px;
     gap: 20px;
     background-color: #F5F5F5;
