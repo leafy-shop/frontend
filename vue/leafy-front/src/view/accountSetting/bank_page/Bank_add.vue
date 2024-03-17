@@ -4,6 +4,8 @@ import {ref,computed,onBeforeMount} from 'vue'
 import fetch from '../../../JS/api'
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
+import bankList from '../../../JS/enum/bankAccount.js'
+
 // link
 const myRouter=useRouter()
 const goBanks=()=>myRouter.push({name:'Bank_AS'})
@@ -12,18 +14,18 @@ const bankOrigin=ref({})
 const {params} =useRoute()
 const userName=ref('')
 const paymentId=ref('')
-const bankList=[
-    {name:"ธนาคารกรุงเทพ จำกัด ( BBL )",value:"BBL"},
-    {name:"ธนาคารกสิกรไทย ( KBANK )",value:"KBANK"},
-    {name:"ธนาคารไทยพาณิชย์ ( SCB )",value:"SCB"},
-    {name:"ธนาคารกรุงศรีอยุธยา ( BAY )",value:"BAY"},
-    {name:"ธนาคารออมสิน ( GSB )",value:"GSB"},
-    {name:"ธนาคารกรุงไทย ( KTB )",value:"KTB"},
-    {name:"ธนาคารทหารไทย ( TMB )",value:"TMB"},
-    {name:"ธนาคารทหารไทยธนชาติ ( TTB )",value:"TTB"},
-    {name:"ธนาคารซิตี้แบงค์ ( CITI )",value:"CITI"},
+// const bankList=[
+//     {name:"ธนาคารกรุงเทพ จำกัด ( BBL )",value:"BBL"},
+//     {name:"ธนาคารกสิกรไทย ( KBANK )",value:"KBANK"},
+//     {name:"ธนาคารไทยพาณิชย์ ( SCB )",value:"SCB"},
+//     {name:"ธนาคารกรุงศรีอยุธยา ( BAY )",value:"BAY"},
+//     {name:"ธนาคารออมสิน ( GSB )",value:"GSB"},
+//     {name:"ธนาคารกรุงไทย ( KTB )",value:"KTB"},
+//     {name:"ธนาคารทหารไทย ( TMB )",value:"TMB"},
+//     {name:"ธนาคารทหารไทยธนชาติ ( TTB )",value:"TTB"},
+//     {name:"ธนาคารซิตี้แบงค์ ( CITI )",value:"CITI"},
     
-]
+// ]
 const isEditMode=ref(false)
 const paymentName=ref('')
 const accountNumber=ref('')
