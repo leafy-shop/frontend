@@ -21,7 +21,7 @@ const goHome =()=>myRouter.push({name:"Home"})
 // initial value for prop in component
 let productType = ref({})
 let store = ref({})
-let description = ref("")
+let description = ref(``)
 
 let reviews = ref([])
 let ratingReview = ref(0)
