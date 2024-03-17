@@ -110,10 +110,11 @@ let imageRight = () => {
 
 onMounted(()=>{
     // validation.ratingStar("star_item","path",productStyle.value.ratingFloor)
-
 })
 onUpdated(()=>{
     // validation.ratingStar(productStyle.value.totalRating)
+    console.log(props.productStyle,'product style')
+
 })
 </script>
 <template>
@@ -184,7 +185,7 @@ onUpdated(()=>{
                         <p>
                             {{ productStyle.rating }}
                         </p>
-                        <BaseStar :rating="productStyle.totalRating" name="product" />
+                        <BaseStar :rating="productStyle.rating" name="product" />
                         <!-- <div class="star_list">
                             <svg v-for="(star,index) in 5" :key="index" xmlns="http://www.w3.org/2000/svg" class="star_item"   width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path 
