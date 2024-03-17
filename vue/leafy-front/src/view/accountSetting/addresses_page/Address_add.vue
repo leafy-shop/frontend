@@ -8,7 +8,7 @@ import cookie from '../../../JS/cookie'
 const {params} =useRoute()
 const addressId=ref('')
 const userName=ref('')
-const addressOrigin=ref('')
+const addressOrigin=ref({})
 // link
 const myRouter=useRouter()
 const goAddress=()=>myRouter.push({name:'Address_AS'})
@@ -124,26 +124,30 @@ const AddressSubmit=async()=>{
         zipS.value=true
         zipM.value="Please input your zip"
     }
-    if(addressPhone.value.length==0){
+    if(addressPhone.value==undefined||addressPhone.value.length==0){
         submitStatus=false
         phoneS.value=true
         phoneM.value="Please input your phone"
     }
     // check status
     if(submitStatus){
+
         // select mode
         if(!isEditMode.value){
-            let data={
-                addressname: addressName.value,
-                address: address.value,
-                province: addressProvince.value,
-                distrinct: addressDistrinct.value,
-                subDistrinct: addressSubDistrinct.value,
-                postalCode: addressZip.value,
-                phone: addressPhone.value
-            }
+            console.log(isAddress.value.data)
+            // let data={
+            //     addressname: addressName.value,
+            //     address: address.value,
+            //     province: addressProvince.value,
+            //     distrinct: addressDistrinct.value,
+            //     subDistrinct: addressSubDistrinct.value,
+            //     postalCode: addressZip.value,
+            // }
+            // if(addressPhone.value!=undefined&&)
+            // phone: addressPhone.value
             // inputData.value
-            let {status,msg} = await fetch.addAddress(data)
+
+            let {status,msg} = await fetch.addAddress(isAddress.value.data)
             // let status =true
             if(status){
                 console.log('add new success')
@@ -176,7 +180,7 @@ onBeforeMount(async()=>{
     // check params
     if(params.id!=undefined&&params.id.length!=0){
         addressId.value=validation.decrypt(params.id)
-        isEditMode.value=true
+        isEditMode.value=true 
         console.log(params.id)
         await getAddressById()
     }
