@@ -79,7 +79,7 @@ const getStore =async()=>{
 const getProductRecommend=async()=>{
     let {status,data} = await fetch.getAllRecommendProduct(1, 18)
     recommendProduct.value = data
-    // console.log(recommendProduct.value)
+    console.log(recommendProduct.value,'TESTIng')
     // totalPage.value=10
 }
 
@@ -95,7 +95,7 @@ const getProduct = async (page) => {
     // console.log(owner.value,"Testing store")
 
     let { status, data } = await fetch.getAllProduct(page, 18, searchItem.value, categoryFilter.value.join(),
-        minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value, owner.value.email)
+        minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value, owner.value.username)
     // console.log(data.list)
     // productList.value=data
     console.log(data,"sdjflasdlfjasdfjlasfd")
@@ -167,7 +167,7 @@ const moveRight = async (current) => {
 onBeforeMount(async() => {
     await getStore() 
     await getProduct(currentPage.value)
-    
+    await getProductRecommend()
 })
 onMounted(() => {
     validation.navigationTo()
