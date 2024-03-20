@@ -196,22 +196,59 @@ const fetch = {
     },
     
     // product shop page
-     async getAllProduct(page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined){
+     async getAllProduct(inputData){
+        // ,page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined
+        let {
+            page, // current page
+            limitP, //max item per page
+            searchItem, //for searching
+            type, //filter by category
+            min,max, //filter min & max price
+            rating, //filter rating
+            tag, //filter by tag
+            sort_name, //filter by sort name
+            sort, //filter by sort by ???
+            owner //owner of product
+        }=inputData
+        //input format
+        // {
+        //     page:'', 
+            // limitP:'', 
+            // searchItem:'', 
+            // type:'', 
+            // min:'',
+            // max:'', 
+            // rating:'', 
+            // tag:'', 
+            // sort_name:'', 
+            // sort:'', 
+            // owner:'' 
+        // } 
         let returnData = { status: false, data: undefined, msg:'' }
         console.log('startttttttttttttttt')
         console.log(owner)
         try {
             let url = `${origin}/api/products?page=${page}`
-            if (searchItem.length !== 0) url += `&product=${searchItem}`;
-            if (type.length !== 0) url += `&type=${type}`;
-            if (min > 0) url += `&min_price=${min}`;
-            if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
-            if (rating !== 0) url += `&rating=${rating}`;
-            if (tag.length !== 0) url += `&tag=${tag}`;
-            if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
-            if (sort !== undefined) url += `&sort=${sort}`;
+            // if (searchItem.length !== 0) url += `&product=${searchItem}`;
+            // if (type.length !== 0) url += `&type=${type}`;
+            // if (min > 0) url += `&min_price=${min}`;
+            // if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
+            // if (rating !== 0) url += `&rating=${rating}`;
+            // if (tag.length !== 0) url += `&tag=${tag}`;
+            // if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
+            // if (sort !== undefined) url += `&sort=${sort}`;
+            // if (owner != undefined) url += `&owner=${owner}`
+            // if (limitP!==undefined) url+=`&limit=${limitP}`
+            if (searchItem != undefined) url += `&product=${searchItem}`;
+            if (type != undefined) url += `&type=${type}`;
+            if (min!= undefined) url += `&min_price=${min}`;
+            if (max != Infinity&&max!=undefined) url += `&max_price=${max}`;
+            if (rating != undefined) url += `&rating=${rating}`;
+            if (tag!= undefined) url += `&tag=${tag}`;
+            if (sort_name != undefined) url += `&sort_name=${sort_name}`;
+            if (sort != undefined) url += `&sort=${sort}`;
             if (owner != undefined) url += `&owner=${owner}`
-            if (limitP!==undefined) url+=`&limit=${limitP}`
+            if (limitP!= undefined) url+=`&limit=${limitP}`
 
             console.log(url)
 
@@ -228,6 +265,7 @@ const fetch = {
             return returnData
 
         } catch (error) {
+            console.warn(error)
             validation.function_Status('get all product', false, error)
             if(error.code=="ERR_NETWORK"){//check back-end server error
                 returnData.msg="Server Error try again later"
@@ -886,7 +924,7 @@ const fetch = {
         //     "description": " ",
         //     "phone": pn
         // }
-        let url= `${origin}/api/users`
+        let url= `${origin}/api/users/register`
 
         try {
             let res=await axios.post(url,userInfo)
