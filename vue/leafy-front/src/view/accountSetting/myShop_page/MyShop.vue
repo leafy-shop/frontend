@@ -1,10 +1,16 @@
 <script setup>
 import BaseStar from '../../../components/productDetail/BaseStar.vue';
 import { useRouter } from 'vue-router';
+import {onBeforeMount, ref} from 'vue'
+import fetch from '../../../JS/api';
+import cookie from '../../../JS/cookie';
+import validation from '../../../JS/validation'
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
 // Common attribute
+const userName=ref('')
+const productList=ref([])
 const sortTypeArr =[
     {name:"Popular",value: {name: "popular", type: 'desc'}},
     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
@@ -16,6 +22,32 @@ const sortTypeArr =[
 // ดึงข้อมูลเกี่ยวกับรูปภาพ
 
 // ดึงข้อมูลเกี่ยวกับ Product
+const getProduct=async()=>{
+    let inputData={
+            page:1, 
+            limitP:18, 
+            //min:undefined,
+            //max:undefined, 
+            //rating:undefined, 
+            //sort_name:undefined, //type of filter 
+            //sort:undefined, // asc & desc
+            owner:userName.value//me 
+        }
+    let {status,data}=await fetch.getAllProduct(inputData)
+    if(status){
+        productList.value=data.list
+        console.log(data)
+    }else{
+        //error
+    }
+            
+}
+onBeforeMount(async()=>{
+    userName.value=cookie.decrypt().username
+    // console.log(userName.value)
+    await getProduct()
+    
+})
 </script>
 <template>
 <div class="wrapper_my_shop">
@@ -45,69 +77,167 @@ const sortTypeArr =[
             </div>
         </div>
         <!-- product list -->
-        <div class="content_shop">
-            <div class="product_list">
-                <div class="product_item">
+        <div class=".content_shop">
+            <table >
+                <tr class="header">
+                    <th>
+                        <h6>
+                            #
+                        </h6>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                SKU
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                Name
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                Category
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                Price
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                Stock
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                Rate
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h6>
+                                Operation
+                            </h6>
+                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                            </svg>
+                        </button>
+                    </th>
+                </tr>
+                <!-- product list -->
+                <tr v-for="(product,index) of productList" :kay="index" class="product_item">
                     <!-- image -->
-                    <div class="product_img">
-                        <img src="../../../assets/home_p/home_design_content_japanese.png" alt="product_img">
-                    </div>
-                    <!-- information -->
-                    <div class="product_info">
-                        <!-- name, star, button -->
-                        <div class="product_title">
-                            <!-- left -->
-                            <div>
-                                <h4>
-                                    Polyscias Fabian
-                                </h4>
-                                <!-- start -->
-                                <div>
-                                    <!-- <BaseStar :rating="4" name="myShop"  /> -->
-                                </div>
-                            </div>
-                            <!-- right -->
-                            <div>
-                                <button>
-                                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.16671 3.16664H3.00004C2.55801 3.16664 2.13409 3.34223 1.82153 3.65479C1.50897 3.96736 1.33337 4.39128 1.33337 4.83331V14C1.33337 14.442 1.50897 14.8659 1.82153 15.1785C2.13409 15.491 2.55801 15.6666 3.00004 15.6666H12.1667C12.6087 15.6666 13.0327 15.491 13.3452 15.1785C13.6578 14.8659 13.8334 14.442 13.8334 14V9.83331M12.655 1.98831C12.8088 1.82912 12.9927 1.70215 13.196 1.6148C13.3994 1.52746 13.6181 1.48148 13.8394 1.47956C14.0607 1.47763 14.2801 1.5198 14.485 1.6036C14.6898 1.6874 14.8759 1.81116 15.0324 1.96765C15.1889 2.12414 15.3126 2.31022 15.3964 2.51505C15.4802 2.71988 15.5224 2.93934 15.5205 3.16064C15.5185 3.38194 15.4726 3.60064 15.3852 3.80398C15.2979 4.00732 15.1709 4.19123 15.0117 4.34497L7.85671 11.5H5.50004V9.14331L12.655 1.98831Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </button>
-                                <button>
-                                    <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6.33337 8.16667V13.1667M9.66671 8.16667V13.1667M1.33337 4.83333H14.6667M13.8334 4.83333L13.1109 14.9517C13.0809 15.3722 12.8928 15.7657 12.5843 16.053C12.2758 16.3403 11.8699 16.5 11.4484 16.5H4.55171C4.13016 16.5 3.72426 16.3403 3.41578 16.053C3.10729 15.7657 2.91914 15.3722 2.88921 14.9517L2.16671 4.83333H13.8334ZM10.5 4.83333V2.33333C10.5 2.11232 10.4122 1.90036 10.256 1.74408C10.0997 1.5878 9.88772 1.5 9.66671 1.5H6.33337C6.11236 1.5 5.9004 1.5878 5.74412 1.74408C5.58784 1.90036 5.50004 2.11232 5.50004 2.33333V4.83333H10.5Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </button>
-                            </div>
-
+                    <td>
+                        <div>
+                            <img src="../../../assets/home_p/home_design_content_english.png" alt="product_img">
                         </div>
-                        <!-- price -->
-                        <div class="product_price">
-                            $80.00
-                        </div>
-                        <!-- available -->
-                        <div class="product_available">
-                            <!-- left -->
-                            <div>
-                                <h5>
-                                    Stocks
-                                </h5>
-                                <p>
-                                    13 
-                                    <span>
-                                        pieces available
-                                    </span>
-                                </p>
-                            </div>
-                            <!-- right -->
+                    </td>
+                    <!-- SKU -->
+                    <td class="td_item">
+                        <h6 class="normal_text">
+                            <!-- XX231ssssss -->
+                            {{ product.itemId }}
+                        </h6>
+                    </td>
+                    <!-- name -->
+                    <td>
+                        <div>
+                            <h5>
+                                <!-- Polyscias Fabiansdfasdfasasdfasdfasdfasdfasdfasdfdfasdfsdfsdfsdfs asdfasdff 12341234123  -->
+                                {{ product.name }}
+                            </h5>
                             <p>
-                                1 sold
+                                Option
                             </p>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                    <!-- category -->
+                    <td>
+                        <div>
+                            <!-- EquirementttT -->
+                            {{ product.type }}
+                        </div>                        
+                    </td>
+                    <!-- price -->
+                    <td class="td_item">
+                        <h6 class="normal_text">
+                            <!-- 80000000.00 -->
+                            {{ product.minPrice }}  {{ parseInt(product.maxPrice)==0?'':`- ${product.maxPrice}` }}
+                        </h6>
+                    </td>
+                    <!-- stock -->
+                    <td class="td_item">
+                        <h6 class="normal_text">
+                            <!-- 999999 -->
+                        </h6>
+                    </td>
+                    <!-- rate -->
+                    <td>
+                        <div>
+                            <BaseStar :rating="product.totalRating" :isGap="false" :size="60" name="myShop" />
+                        </div>
+                    </td>
+                    <!-- operation -->
+                    <td class="td_item">
+                        <div>
+                            <!-- edit -->
+                            <button>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.16683 3.16762H3.00016C2.55814 3.16762 2.13421 3.34321 1.82165 3.65577C1.50909 3.96833 1.3335 4.39225 1.3335 4.83428V14.0009C1.3335 14.443 1.50909 14.8669 1.82165 15.1795C2.13421 15.492 2.55814 15.6676 3.00016 15.6676H12.1668C12.6089 15.6676 13.0328 15.492 13.3453 15.1795C13.6579 14.8669 13.8335 14.443 13.8335 14.0009V9.83428M12.6552 1.98928C12.8089 1.8301 12.9928 1.70313 13.1962 1.61578C13.3995 1.52843 13.6182 1.48245 13.8395 1.48053C14.0608 1.47861 14.2803 1.52078 14.4851 1.60458C14.6899 1.68838 14.876 1.81214 15.0325 1.96862C15.189 2.12511 15.3127 2.3112 15.3965 2.51603C15.4803 2.72085 15.5225 2.94032 15.5206 3.16162C15.5187 3.38292 15.4727 3.60162 15.3853 3.80496C15.298 4.0083 15.171 4.1922 15.0118 4.34595L7.85683 11.5009H5.50016V9.14428L12.6552 1.98928Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <!-- delete -->
+                            <button>
+                                <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>                            
+                        </div>
+
+                    </td>
+                </tr>
+                
+                
+            </table> 
         </div>
+
+
+
+
+        
+        
     </div>
 </div>
 </template>
@@ -201,130 +331,248 @@ const sortTypeArr =[
 }
 .content_shop{
     display: flex;
-    width: 100%;
-    height: fit-content;
-}
-.product_list{
-    display: flex;
-    width: 100%;
-    height: fit-content;
     flex-direction: column;
-    /* gap: 24px; */
-    border-bottom: 1px solid;
-    padding-bottom: 24px;
+    width: 100%;
+    height: fit-content;
+    max-height: 500px;
+    overflow-y: auto;
 }
-.product_item{
+table{
+    display: table;
+    /* width: fit-content; */
+    width: 100%;
+    border-collapse: collapse;
+    /* flex-direction: column; */
+    table-layout: fixed;
+}
+table .header{
+    width: 100%;
+    height: 28px;
+    vertical-align: top;
+    border-bottom: 1px solid #E0E0E0;
+    font-size: 12px;
+    font-weight: 500;
+    color: #757575;
+    
+}
+/* column */
+.header th:nth-child(1){
+    width: 52px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(2){
+    width: 80px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(3){
+    width: 300px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(4){
+    width: 116px;
+    min-width: fit-content;
+    max-width: 100%;
+    /* width: 116px; */
+}
+.header th:nth-child(5){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(6){
+    width: 64px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(7){
+    width: 84px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(8){
+    width: 84px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+td,th{
+    text-align: left;
+    
+}
+th button{
     display: flex;
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: 28px;
+    padding: 0px 12px;
+    gap: 4px;
+    border: none;
+    background-color: transparent;
+    /* display: flex; */   
     justify-content: start;
-    align-items: center;
-    gap: 24px;
+    align-items: start; 
+    cursor: pointer;
 }
-.product_item .product_img{
+th button h6,th h6{
     display: flex;
-    width: 76px;
-    height: 76px;
+    width: fit-content;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #757575;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    border-radius: 4px;
 }
-.product_img img{
+th button svg{
+    display: flex;
+    width: 12px;
+    height: 12px;
+    justify-content: center;
+    align-items: center;
+}
+table .product_item{
     width: 100%;
+    height: 76px;
+    padding: 12px 0px;
+    border-bottom:1px solid #EEEEEE;
+}
+.normal_text{
+    font-weight: 400;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.td_item{
+    padding: 16px 12px;
+}
+/* image */
+
+.product_item td:nth-child(1) div{
+    display: flex;
+    width: 52px;
+    height: 52px;
+    border-radius: 4px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+.product_item td:nth-child(1) div img{
+    width: 120%;
     height: auto;
 }
-.product_item .product_info{
+/* SKU */
+.product_item td:nth-child(2) h6{
+    width: 100%;
+    height: 100%;
+}
+/* name */
+.product_item td:nth-child(3){
+    /* display: flex; */
+    width: fit-content;
+    max-width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 6px 12px;
+    align-items: center;
+} 
+.product_item td:nth-child(3) div{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+.product_item td:nth-child(3) div h5{
+    width: fit-content;
+    height: 20px;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    font-weight: 500;
+    font-size: 14px;
+    color: #212121;
+    overflow: hidden;
+}
+.product_item td:nth-child(3) div p{
+    width: 100%;
+    height: 16px;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    font-weight: 400;
+    font-size: 12px;
+    color: #616161;
+    overflow: hidden;
+
+}
+/* category */
+.product_item td:nth-child(4){
+    width: fit-content;
+    height: 100%;
+    padding: 12px;
+}
+.product_item td:nth-child(4) div{
+
+    width: fit-content;
+    min-width: 50px;
+    max-width: 100%;
+    height: 28px;
+    padding: 4px 8px;
+    background-color: #EEEEEE;
+    border: none;
+    border-radius: 4px;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 400;
+    font-size: 14px;
+}
+/* price */
+.product_item td:nth-child(5) h6{
+    display: flex;
+    width: fit-content;
+    height: 20px;
+}
+.product_item td:nth-child(5) h6::before{
+    content: '฿ ';
+}
+/* stock */
+.product_item td:nth-child(6) h6{
+    width: fit-content;
+    height: 20px;
+}
+/* star */
+.product_item td:nth-child(7){
+    padding: 20px 12px;
+}
+.product_item td:nth-child(7) div{
     display: flex;
     width: 100%;
     height: fit-content;
-    flex-direction: column;
     justify-content: center;
-    gap: 4px;
-}
-.product_title{
-    display: flex;
-    width: inherit;
-    height: inherit;
-    justify-content: space-between;
     align-items: center;
 }
-.product_title div:nth-child(1){
+/* operation */
+.product_item td:nth-child(8) div{
     display: flex;
-    width: fit-content;
-    height: 24px;
-    justify-content: start;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
     align-items: center;
     gap: 8px;
 }
-.product_title div:nth-child(1) h4{
-    font-size: 16px;
-    font-weight: 500;
-    color: #212121;
-}
-/* .product_title div:nth-child(1) div{
-    width: fit-content;
-    height: 12px;
-} */
-.product_title div:nth-child(2){
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    justify-content: center;
-    gap: 8px;
-}
-.product_title div:nth-child(2) button{
+.product_item td:nth-child(8) div button{
     display: flex;
     width: 20px;
     height: 20px;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     border: none;
-    background-color: #fff;
+    background-color: transparent;
 }
-.product_item .product_price{
-    display: flex;
-    width: fit-content;
-    height: 24px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #26AC34;
-    align-items: center;
-}
-.product_available{
-    display: flex;
-    width: 100%;
-    height: fit-content;
-    align-items: center;
-    justify-content: space-between;
-
-}
-.product_available div{
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    gap: 12px;
-}
-.product_available div h5{
-    width: fit-content;
+.product_item td:nth-child(8) div button svg{
+    width: 20px;
     height: 20px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #212121;
-}
-.product_available div p{
-    width: fit-content;
-    height: 20px;
-    font-size: 14px;
-    font-weight: 400;
-    color: #616161;
-}
-.product_available p{
-    width: fit-content;
-    height: 16px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #616161;
 }
 </style>
