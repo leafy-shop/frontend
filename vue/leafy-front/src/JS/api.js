@@ -509,12 +509,12 @@ const fetch = {
             }
         }
     },
-    async addPayment(inputData){
+    async addPayment(username, inputData){
         let returnData = { status: false, msg:'' }
 
         if (inputData!=undefined) {
             try {
-                let url = `${origin}/api/payments`
+                let url = `${origin}/api/payments/${username}`
                 let res = await axios.post(url, inputData)
                 // console.log(res.data)
                 // cookie.decrypt("information")
@@ -669,12 +669,12 @@ const fetch = {
             }
         }
     },
-    async addAddress(inputData){
+    async addAddress(userName,inputData){
         let returnData = { status: false, msg:'' }
 
         if (inputData!=undefined) {
             try {
-                let url = `${origin}/api/addresses`
+                let url = `${origin}/api/addresses/${userName}`
                 let res = await axios.post(url, inputData)
                 // console.log(res.data)
                 // cookie.decrypt("information")
