@@ -2,14 +2,7 @@
 import {ref} from 'vue'
 // common attribute
 const date=ref('')
-const sortTypeArr =[
-    {name:"Popular",value: {name: "popular", type: 'desc'}},
-    {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
-    {name:"Sold Out",value: {name: "price", type: 'desc'}},
-    {name:"Top Sales",value: {name: "sales", type: 'desc'}},
-    {name:"Point",value: {name: "price", type: 'asc'}},
-    {name:"Price",value: {name: "price", type: 'desc'}},
-]
+
 </script>
 <template>
 <div class="wrapper_orders">
@@ -397,6 +390,13 @@ const sortTypeArr =[
     height: inherit;
     flex-direction: column;
     gap: 24px;
+}
+.header_orders{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: center;
 }
 .header_orders button{
     /* display: flex; */
