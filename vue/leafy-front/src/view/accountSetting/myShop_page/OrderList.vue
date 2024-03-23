@@ -82,17 +82,17 @@ const sortTypeArr =[
 
         <!-- order list -->
         <div class="content_orders">
-            <table>
-                <tr class="header">
-                    <th>
+            <!-- <table> -->
+                <div class="title_orders">
+                    <div class="order_number">
                         <h5>
                            # 
                         </h5>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_empty">
 
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_id">
                         <button>
                             <h5>
                                 Order ID
@@ -101,8 +101,8 @@ const sortTypeArr =[
                                 </svg>
                             </h5>
                         </button>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_customer">
                         <button>
                             <h5>
                                 Customer
@@ -111,8 +111,8 @@ const sortTypeArr =[
                                 </svg>
                             </h5>
                         </button>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_address">
                         <button>
                             <h5>
                                 Address
@@ -121,8 +121,8 @@ const sortTypeArr =[
                                 </svg>
                             </h5>
                         </button>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_date">
                         <button>
                             <h5>
                                 Date
@@ -131,8 +131,8 @@ const sortTypeArr =[
                                 </svg>
                             </h5>
                         </button>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_price">
                         <button>
                             <h5>
                                 Price
@@ -141,8 +141,8 @@ const sortTypeArr =[
                                 </svg>
                             </h5>
                         </button>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="order_status">
                         <button>
                             <h5>
                                 status
@@ -151,57 +151,57 @@ const sortTypeArr =[
                                 </svg>
                             </h5>
                         </button>
-                    </th>
-                </tr>
-                <div v-for="(order,index) of 2" :key="index" >
+                    </div>
+                </div>
+                <div v-for="(order,index) of 2" :key="index" class="wrapper_order_item" >
                     <!-- order item -->
-                    <tr  class="order_item">
+                    <div  class="order_item">
                         <!-- order of item -->
-                        <td rowspan="2">
+                        <div class="order_number">
                             <h6>
                                 1
                             </h6>
-                            
-                        </td>
+                        </div>
                         <!-- button detail -->
-                        <td>
+                        <div class="order_empty">
                             <button  >
                                 <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.29289 4.99943L3.93934 5.35298L0.646393 8.64593C0.646376 8.64595 0.646358 8.64597 0.64634 8.64598C0.552638 8.73974 0.5 8.86687 0.5 8.99943C0.5 9.13201 0.552658 9.25917 0.646393 9.35293C0.740147 9.4466 0.867254 9.49922 0.999786 9.49922C1.13234 9.49922 1.25947 9.44658 1.35323 9.35288L4.29289 4.99943ZM4.29289 4.99943L3.93934 4.64588L0.649938 1.35648C0.560432 1.26246 0.510965 1.13727 0.512093 1.00737C0.513232 0.876276 0.565817 0.75087 0.658521 0.658166C0.751225 0.565461 0.876632 0.512877 1.00773 0.511738C1.13763 0.510609 1.26281 0.560076 1.35683 0.649582L5.35318 4.64593C5.3532 4.64595 5.35322 4.64597 5.35323 4.64598C5.44694 4.73974 5.49957 4.86687 5.49957 4.99943C5.49957 5.13199 5.44694 5.25912 5.35323 5.35288C5.35322 5.35289 5.3532 5.35291 5.35318 5.35293L1.35329 9.35282L4.29289 4.99943Z" fill="#212121" stroke="#212121"/>
                                 </svg>
                             </button>
-                        </td>
+                        </div>
                         <!-- order id -->
-                        <td>
+                        <div class="order_id">
                             <h6 class="padding_info">
                                 123456asdfasdfasdf
                             </h6>
-                        </td>
+                        </div>
                         <!-- customer nanem -->
-                        <td>
+                        <div class="order_customer">
                             <h6 class="padding_info">
                                 Apple juiceasdfasdfasdfasdf
                             </h6>
-                        </td>
+                        </div>
                         <!-- Address -->
-                        <td>
+                        <div class="order_address">
                             <p class="padding_info">
                                 King Mongkut's Universityasdfasdfasdfasdfasdfasdfasdfasdfasdf
                             </p>
-                        </td>
+                        </div>
                         <!-- date -->
-                        <td>
+                        <div class="order_date">
                             <h6 class="padding_info">
                                 10/03/2024asdfasdf
                             </h6>
-                        </td>
+                        </div>
                         <!-- price -->
-                        <td>
+                        <div class="order_price">
                             <h6 class="padding_info">
                                 $376.00asdfasdfasdf
                             </h6>
-                        </td>
-                        <td>
+                        </div>
+                        <!-- status -->
+                        <div class="order_status">
                             <div>
                                 <button>
                                     Complete
@@ -215,150 +215,144 @@ const sortTypeArr =[
                                     <!-- status -->
                                 </div>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     <!-- detail -->
-                    <tr class="detail_order">
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
-                        <td colspan="8">
-                            <div class="detail_table">
-                                <table>
-                                    <tr class="header_detail">
-                                        <!-- number of item -->
-                                        <th>
+                    <div class="detail_order">
+                        <div class="detail_table">
+                            <!-- <table> -->
+                                <div class="header_detail">
+                                    <!-- number of item -->
+                                    <div class="detail_number">
+                                        <h6>
+                                            #
+                                        </h6>
+                                    </div>
+                                    <!-- SKU -->
+                                    <div class="detail_sku">
+                                        <h6>
+                                            SKU
+                                        </h6>
+                                    </div>
+                                    <!-- name -->
+                                    <div class="detail_name">
+                                        <h6>
+                                            Name
+                                        </h6>
+                                    </div>
+                                    <!-- price -->
+                                    <div class="detail_price">
+                                        <h6>
+                                            Price
+                                        </h6>
+                                    </div>
+                                    <!-- Qty -->
+                                    <div class="detail_qty">
+                                        <h6>
+                                            Qty
+                                        </h6>
+                                    </div>
+                                    <!-- Total -->
+                                    <div class="detail_total">
+                                        <h6>
+                                            Total
+                                        </h6>
+                                    </div>
+                                </div>
+                                <!-- product item -->
+                                <div  class="product_item">
+                                    <!-- img -->
+                                    <div class="detail_product_number">
+                                        <div>
+                                            <img src="../../../assets/home_p/home_design_content_europe.png" alt="item_img">
+                                        </div>
+                                    </div>
+                                    <!-- sku -->
+                                    <div class="detail_product_sku">
+                                        <h6>
+                                            XX231asdasdf asdfasdf
+                                        </h6>
+                                    </div>
+                                    <!-- name -->
+                                    <div class="detail_product_name">
+                                        <div>
                                             <h6>
-                                                #
+                                                Polyscias Fabian asdasdfasd asdfasdfasdfasdfasdfasdfasdfasdfasdf
                                             </h6>
-                                        </th>
-                                        <!-- SKU -->
-                                        <th>
-                                            <h6>
-                                                SKU
-                                            </h6>
-                                        </th>
-                                        <!-- name -->
-                                        <th>
-                                            <h6>
-                                                Name
-                                            </h6>
-                                        </th>
-                                        <!-- price -->
-                                        <th>
-                                            <h6>
-                                                Price
-                                            </h6>
-                                        </th>
-                                        <!-- Qty -->
-                                        <th>
-                                            <h6>
-                                                Qty
-                                            </h6>
-                                        </th>
-                                        <!-- Total -->
-                                        <th>
-                                            <h6>
-                                                Total
-                                            </h6>
-                                        </th>
-                                    </tr>
-                                    <!-- product item -->
-                                    <tr v-for="(product,index) of 2" :key="index" class="product_list">
-                                        <!-- img -->
-                                        <td>
-                                            <div>
-                                                <img src="../../../assets/home_p/home_design_content_europe.png" alt="item_img">
-                                            </div>
-                                        </td>
-                                        <!-- sku -->
-                                        <td>
-                                            <h6>
-                                                XX231asdasdf asdfasdf
-                                            </h6>
-                                        </td>
-                                        <!-- name -->
-                                        <td>
-                                            <div>
-                                                <h6>
-                                                    Polyscias Fabian asdasdfasd asdfasdfasdfasdfasdfasdfasdfasdfasdf
-                                                </h6>
-                                                <p>
-                                                    Variatio nasdfasdfasdfasdfasdfasdfsdfasdfasdfasdfasdfsadfad asdfasdfasdf
-                                                </p>
-                                            </div>
+                                            <p>
+                                                Variatio nasdfasdfasdfasdfasdfasdfsdfasdfasdfasdfasdfsadfad asdfasdfasdf
+                                            </p>
+                                        </div>
 
-                                        </td>
-                                        <!-- Price -->
-                                        <td>
+                                    </div>
+                                    <!-- Price -->
+                                    <div class="detail_product_price">
+                                        <h6>
+                                            $25.00sfdg sdfgsdgfsfd
+                                        </h6>
+                                    </div>
+                                    <!-- Qiy -->
+                                    <div class="detail_product_qty">
+                                        <h6>
+                                            1234 5234523452345
+                                        </h6>
+                                    </div>
+                                    <!-- total -->
+                                    <div class="detail_product_total">
+                                        <h6>
+                                            $25.99asd fasdfsdasdfasd
+                                        </h6>
+                                    </div>
+                                </div>
+                                <!-- sumary -->
+                                <div class="wrapper_summary">
+                                    <div class="summary_list">
+                                        <!--subtotal  -->
+                                        <div class="summary_item">
                                             <h6>
-                                                $25.00sfdg sdfgsdgfsfd
+                                                Subtotal
                                             </h6>
-                                        </td>
-                                        <!-- Qiy -->
-                                        <td>
+                                            <p class="money_bath">
+                                                91.97asdfasdfasdf
+                                            </p>
+                                        </div>
+                                        <!-- Shipping -->
+                                        <div class="summary_item">
                                             <h6>
-                                                1234 5234523452345
+                                                Shiping
                                             </h6>
-                                        </td>
-                                        <!-- total -->
-                                        <td>
+                                            <p class="money_bath">
+                                                $0
+                                            </p>
+                                        </div>
+                                        <!-- Tax -->
+                                        <div class="summary_item">
                                             <h6>
-                                                $25.99asd fasdfsdasdfasd
+                                                Tax
                                             </h6>
-                                        </td>
-                                    </tr>
-                                    <!-- sumary -->
-                                    <tr>
-                                        <td colspan="6">
-                                            <div class="wrapper_summary">
-                                                <div class="summary_list">
-                                                    <!--subtotal  -->
-                                                    <div class="summary_item">
-                                                        <h6>
-                                                            Subtotal
-                                                        </h6>
-                                                        <p>
-                                                            $91.97
-                                                        </p>
-                                                    </div>
-                                                    <!-- Shipping -->
-                                                    <div class="summary_item">
-                                                        <h6>
-                                                            Shiping
-                                                        </h6>
-                                                        <p>
-                                                            $0
-                                                        </p>
-                                                    </div>
-                                                    <!-- Tax -->
-                                                    <div class="summary_item">
-                                                        <h6>
-                                                            Tax
-                                                        </h6>
-                                                        <p>
-                                                            $0
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <!-- total -->
-                                                <div class="total">
-                                                    <h6>
-                                                        Total Payment
-                                                    </h6>
-                                                    <p>
-                                                        $90.00
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
+                                            <p class="money_bath">
+                                                $0
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- total -->
+                                    <div class="total">
+                                        <h6>
+                                            Total Payment
+                                        </h6>
+                                        <p class="money_bath">
+                                            $90.00
+                                        </p>
+                                    </div>
+                                </div>
+                                    
+                            <!-- </table> -->
+                        </div>
+                    
+                    </div>
+                
                 </div>
-            </table>
+            <!-- </table> -->
         </div>
         <!-- select page -->
         <div class="move_page">
@@ -520,15 +514,17 @@ const sortTypeArr =[
     height: fit-content;
     max-height: 100%;
     overflow: auto;
+    flex-direction: column;
 }
-.content_orders table{
+.content_orders .title_orders{
     table-layout: fixed;
     width: 100%;
     height: fit-content;
     border-collapse: collapse;
     
 }
-table .header{
+.title_orders{
+    display: flex;
     width: 100%;
     height: 28px;
     vertical-align: top;
@@ -540,63 +536,50 @@ table .header{
     border-bottom: 1px solid #E0E0E0;
     white-space: nowrap;
 }
-/* order item */
-.header th:nth-child(1){
+.title_orders >div h5{
+    width: 100%;
+    height: 100%;
+}
+/* number of order */
+.order_number{
     width: 32px;
-    min-width: fit-content;
+    min-width: 32px;
     max-width: 100%;
 }
-.header th:nth-child(1) h5{
-    display: flex;
-    width:100%;
-    height: fit-content;
-    justify-content: start;
-    align-items: top;
-    
-}
-/* button detail */
-.header th:nth-child(2){
+/* empty */
+.order_empty{
     width: 44px;
-    /* min-width: fit-content; */
+    min-width: 44px;
     max-width: 100%;
 }
 /* order id */
-.header th:nth-child(3){
+.order_id{
     width: 84px;
-    min-width: fit-content;
+    min-width: 84px;
     max-width: 100%;
 }
-/* customer name */
-.header th:nth-child(4){
+/* customer */
+.order_customer{
     width: 140px;
-    min-width: fit-content;
+    min-width: 140px;
     max-width: 100%;
 }
 /* address */
-.header th:nth-child(5){
+.order_address{
     width: 264px;
-    min-width: fit-content;
+    min-width: 264px;
     max-width: 100%;
 }
 /* date */
-.header th:nth-child(6){
+.order_date,
+.order_price,
+.order_status{
     width: 108px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-/* Price */
-.header th:nth-child(7){
-    width: 108px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-.header th:nth-child(8){
-    width: 108px;
-    min-width: fit-content;
+    min-width: 108px;
     max-width: 100%;
 }
 
-.header th button{
+.title_orders > div button{
     display: flex;
     width: 100%;
     height: 28px;
@@ -607,7 +590,7 @@ table .header{
     align-items: start; 
     cursor: pointer;
 }
-.header th button h5,.header th h5{
+.title_orders > div button h5,.header th h5{
     display: flex;
     width: fit-content;
     height: 16px;
@@ -618,7 +601,7 @@ table .header{
     align-items: center;
     gap: 4px;
 }
-.header th button svg{
+.title_orders > div button svg{
     display: flex;
     width: 12px;
     height: 12px;
@@ -626,24 +609,26 @@ table .header{
     align-items: center;
 }
 /* order item */
-.content_orders div{
+.wrapper_order_item{
+    display: flex;
     width: 100%;
-    height: fit-content
+    height: fit-content;
+    flex-direction: column
 }
 .order_item{
-    width: 100%;
+    display: flex;
+    width: fit-content;
     height: 52px;
     max-height: fit-content;
 }
-.order_item td{
-    width: inherit;
-    /* height: 52px; */
+.order_item > div{
+    display: flex;
+
 }
 .order_item h6,.order_item p,
 .order_item > div 
 {
-    /* width: 100%;
-    height: 100%; */
+    
     color: #212121;
     font-weight: 400;
     font-size: 14px;
@@ -652,61 +637,32 @@ table .header{
     white-space: nowrap;
 }
 /* order item */
-.order_item td:nth-child(1) h6{
-    width: 32px;
+.order_item div:nth-child(1) h6{
+    width: 100%;
     padding: 16px 12px 16px 0px;
 }
 /* detail button */
-.order_item td:nth-child(2) button{
-    width: 44px;
-    /* height: 100%; */
+.order_item div:nth-child(2) button{
+    width: 100%;
     border: none;
     background-color: transparent;
     cursor: pointer;
 }
-.order_item td:nth-child(2) button svg{
+.order_item div:nth-child(2) button svg{
     width: 6px;
     height: auto
 }
-/* order id */
-.order_item td:nth-child(3) h6{
-    width: 84px;
-    height: fit-content;
-}
-/* customer */
-.order_item td:nth-child(4) h6{
-    width: 140px;
-    height: fit-content;
-}
-/* address */
-.order_item td:nth-child(5) h6{
-    width: 264px;
-    height: fit-content;
-}
-/* date */
-.order_item td:nth-child(6) h6{
-    width: 108px;
-    height: fit-content;
-}
-/* price */
-.order_item td:nth-child(7) h6{
-    width: 108px;
-    height: fit-content;
-}
-/* status */
-.order_item td:nth-child(8) h6{
-    width: 108px;
-    height: fit-content;
-}
+
 /* status button */
-.order_item td:nth-child(8)> div{
+.order_item div:nth-child(8)> div{
     display: flex;
     justify-content: start;
     align-items: center;
     position: relative;
     padding: 12px 0px 12px 12px;
+    
 }
-.order_item td:nth-child(8)> div button{
+.order_item div:nth-child(8)> div button{
     display: flex;
     width: 96px;
     height: 24px;
@@ -716,13 +672,14 @@ table .header{
     border-radius: 8px;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
-.order_item td:nth-child(8)> div button svg{
+.order_item div:nth-child(8)> div button svg{
     width: 8px;
     height: auto;
 }
 /* drop down  */
-.order_item td:nth-child(8)> div div{
+.order_item div:nth-child(8)> div > div{
     /* display: none; */
     position: absolute;
     bottom: 1;
@@ -733,9 +690,11 @@ table .header{
 }
 /* detail */
 .detail_order{
+    display: flex;
     width: 100%;
-    height: fit-content
+    height: fit-content;
     /* column-span: 8; */
+    padding: 0px 0px 0px 76px;
 }
 .detail_table{
     display: flex;
@@ -743,148 +702,261 @@ table .header{
     height: 100%;
     padding-top: 16px;
     padding-bottom: 12px;
-    border-bottom: 1px solid;
-    border-color: #EEEEEE;
+
+    flex-direction: column;
 }
-.detail_table table{
-    width: 100%;
-    height: fit-content;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-.detail_table table .header_detail{
-    height: 28px;
-    border-bottom: 1px solid
-}
-/* order product */
-.header_detail th:nth-child(1){
-    width: 53px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-/* sku */
-.header_detail th:nth-child(2){
-    width: 100px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-/* name */
-.header_detail th:nth-child(3){
-    width: 324px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-/* price */
-.header_detail th:nth-child(4){
-    width: 108px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-/* qty */
-.header_detail th:nth-child(5){
-    width: 108px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-/* total */
-.header_detail th:nth-child(6){
-    width: 108px;
-    min-width: fit-content;
-    max-width: 100%;
-}
-.header_detail th h6{
+.product_item{
     display: flex;
     width: 100%;
-    height: 100%;
-    justify-content: start;
-    align-items: start;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 0px 12px ;
-    color: #757575;
-}
-.detail_table table .product_list{
     height: 64px;
 }
-.product_list td >h6,
-.product_list td >div
-{  
-     /* display: flex; */
-    width: 100%;
+.product_item >div{
+    display: flex;
     height: 52px;
     margin-top: 12px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-weight: 400;
-    white-space: nowrap;
-
 }
-/* product img */
-.product_list td:nth-child(1) div{
-    /* width: 52px; */
+/*  title of product detail list*/
+.header_detail{
+    display: flex;
+    height: fit-content;
+    border-bottom: 1px solid;
+    border-color: #E0E0E0;
+}
+/* all product */
+.header_detail > div{
+    height: 28px;
+    color: #757575;
+}
+.header_detail >div h6{
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* order product */
+.detail_number{
+    width: 52px;
+    min-width:  52px;
+    max-width: 100%;
+}
+.detail_product_number div{
+    display: flex;
+    width: 52px;
+    height: 52px;
     border: none;
     border-radius: 4px;
-    overflow: hidden;
+    overflow: hidden
 }
-.product_list td:nth-child(1) div img{
+.detail_product_number div img{
     width: 100%;
     height: auto;
 }
+
 /* sku */
-.product_list td:nth-child(2) h6{
+.detail_sku{
+    width: 100px;
+    min-width: 100px;
+    max-width: 100%;
+}
+.detail_product_sku{
+    display: flex;
+    width: 100px;
+    max-width: 100%;
     padding: 16px 12px;
+}
+.detail_product_sku h6{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 14px;
+    font-weight: 500;
     color: #212121;
 }
 /* name */
-.product_list td:nth-child(3) div{
-    width: 100%;
-    /* max-width: 100%; */
-    height: fit-content;
-    flex-direction: column;
-    padding: 6px 12px;
-    gap: 4px;
+.detail_name{
+    width: 324px;
+    min-width: 324px;
+    max-width: 100%;
 }
-.product_list td:nth-child(3) div h6{
+.detail_product_name{
+    display: flex;
+    width: 324px;
+    max-width: 100%;
+    padding: 6px 12px;
+}
+.detail_product_name div{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+.detail_product_name div h6{
+    width: 100%;
     height: 20px;
     font-size: 14px;
     font-weight: 500;
+    color: #212121;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    color: #212121;
-
+    
 }
-.product_list td:nth-child(3) div p{
-    width: fit-content;
-    max-width: 100%;
+.detail_product_name div p{
+    width: 100%;
     height: 16px;
     font-size: 12px;
-    font-weight: 400px;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    font-weight: 400;
     color: #616161;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 /* price */
-.product_list td:nth-child(4) h6{
-   padding: 16px 12px;
-   font-size: 14px;
-   color: #212121;
+.detail_price{
+    width: 108px;
+    min-width: 108px;
+    max-width: 100%;
+}
+.detail_product_price{
+    display: flex;
+    width: 108px;
+    max-width: 100%;
+    padding: 16px 12px;
+}
+.detail_product_price h6{
+    width: 100%;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color:#212121;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 /* qty */
-.product_list td:nth-child(5) h6{
-    
+.detail_qty{
+    width: 108px;
+    min-width: 108px;
+    max-width: 100%;
+}
+.detail_product_qty{
+    display: flex;
+    width: 108px;
+    max-width: 100%;
     padding: 16px 12px;
+}
+.detail_product_qty h6{
+    width: 100%;
+    height: 20px;
     font-size: 14px;
-    color: #212121;
-    text-overflow: ellipsis;
+    font-weight: 400;
+    color:#212121;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 /* total */
-.product_list td:nth-child(6) h6{
+.detail_total{
+    width: 108px;
+    min-width: 108px;
+    max-width: 100%;
+}
+.detail_product_total{
+    display: flex;
+    width: 108px;
+    max-width: 100%;
     padding: 16px 12px;
-   font-size: 14px;
-   color: #212121;
+}
+.detail_product_total h6{
+    width: 100%;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color:#212121;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* summary */
+.wrapper_summary{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    flex-direction: column;
+    padding: 12px 0px 12px 488px;
+    border-top: 1px solid;
+    border-color: #EEEEEE;
+    gap: 4px;
+}
+.summary_list{
+    display: flex;
+    width: 312px;
+    height: fit-content;
+    flex-direction: column;
+    gap: 4px
+}
+.summary_list div{
+    display: flex;
+    width: 100%;
+    height: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.summary_list div h6{
+    width: fit-content;
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: #616161;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.summary_list div p{
+    width: 108px;
+    max-width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: #212121;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.money_bath::before{
+    font-size: inherit;
+    font-weight: inherit;
+    content: '฿'
+}
+.total{
+    display: flex;
+    width: 100%;
+    height: 32px;
+    padding-top: 12px;
+    justify-content: space-between;
+    align-items: center;
+}
+.total h6{
+    width: fit-content;
+    max-width: 100%;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #212121;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.total p{
+    width: 108px;
+    max-width: 100%;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 700;
+    color: #212121;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .move_page{
