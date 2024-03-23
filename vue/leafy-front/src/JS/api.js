@@ -229,15 +229,37 @@ const fetch = {
         console.log(owner)
         try {
             let url = `${origin}/api/products?page=${page}`
-            if (searchItem.length !== 0) url += `&product=${searchItem}`;
-            if (type.length !== 0) url += `&type=${type}`;
-            if (min > 0 && min!=undefined) url += `&min_price=${min}`;
-            if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
-            if (rating !== 0) url += `&rating=${rating}`;
-            if (tag.length !== 0) url += `&tag=${tag}`;
+            // search value
+            if (searchItem!=undefined){
+                if(searchItem.length !== 0)url += `&product=${searchItem}`;
+            } 
+            // type / category
+            if (type!=undefined){
+                if(type.length !== 0) url += `&type=${type}`;
+            }
+            // price min
+            if (min!=undefined){
+                if(min > 0 ) url += `&min_price=${min>=max?max-1:min}`;
+            }
+            // price max
+            if (max!=undefined){
+                if(max !== Infinity) url += `&max_price=${max<=min?min+1:max}`;
+            }
+            // rating
+            if (rating!=undefined){
+                if(rating !== 0) url += `&rating=${rating}`;
+            }
+            // tag
+            if (tag!=undefined){
+                if(tag.length !== 0) url += `&tag=${tag}`;
+            }
+            // type of sort
             if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
+            // sort by greater then  and less then
             if (sort !== undefined) url += `&sort=${sort}`;
+            // owner
             if (owner != undefined) url += `&owner=${owner}`
+            // limit item perpage
             if (limitP!==undefined) url+=`&limit=${limitP}`
             // if (searchItem != undefined) url += `&product=${searchItem}`;
             // if (type != undefined) url += `&type=${type}`;
