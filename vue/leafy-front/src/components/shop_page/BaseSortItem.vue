@@ -23,7 +23,7 @@ const sortItem=ref(undefined)
 // const currentPage = ref(props.changePage.currentPage)
 
 const sortTypeArr =[
-    {name:"Popular",value: {name: "popular", type: 'desc'}},
+    // {name:"Popular",value: {name: "popular", type: 'desc'}},
     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
     {name:"Top Sales",value: {name: "sales", type: 'desc'}},
     {name:"Price - Low",value: {name: "price", type: 'asc'}},
@@ -102,7 +102,6 @@ onUpdated(()=>{
                 <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
-                
             </div>    
             
         </div>

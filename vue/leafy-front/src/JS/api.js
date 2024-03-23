@@ -229,26 +229,26 @@ const fetch = {
         console.log(owner)
         try {
             let url = `${origin}/api/products?page=${page}`
-            // if (searchItem.length !== 0) url += `&product=${searchItem}`;
-            // if (type.length !== 0) url += `&type=${type}`;
-            // if (min > 0) url += `&min_price=${min}`;
-            // if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
-            // if (rating !== 0) url += `&rating=${rating}`;
-            // if (tag.length !== 0) url += `&tag=${tag}`;
-            // if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
-            // if (sort !== undefined) url += `&sort=${sort}`;
-            // if (owner != undefined) url += `&owner=${owner}`
-            // if (limitP!==undefined) url+=`&limit=${limitP}`
-            if (searchItem != undefined) url += `&product=${searchItem}`;
-            if (type != undefined) url += `&type=${type}`;
-            if (min!= undefined) url += `&min_price=${min}`;
-            if (max != Infinity&&max!=undefined) url += `&max_price=${max}`;
-            if (rating != undefined) url += `&rating=${rating}`;
-            if (tag!= undefined) url += `&tag=${tag}`;
-            if (sort_name != undefined) url += `&sort_name=${sort_name}`;
-            if (sort != undefined) url += `&sort=${sort}`;
+            if (searchItem.length !== 0) url += `&product=${searchItem}`;
+            if (type.length !== 0) url += `&type=${type}`;
+            if (min > 0 && min!=undefined) url += `&min_price=${min}`;
+            if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
+            if (rating !== 0) url += `&rating=${rating}`;
+            if (tag.length !== 0) url += `&tag=${tag}`;
+            if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
+            if (sort !== undefined) url += `&sort=${sort}`;
             if (owner != undefined) url += `&owner=${owner}`
-            if (limitP!= undefined) url+=`&limit=${limitP}`
+            if (limitP!==undefined) url+=`&limit=${limitP}`
+            // if (searchItem != undefined) url += `&product=${searchItem}`;
+            // if (type != undefined) url += `&type=${type}`;
+            // if (min!= undefined) url += `&min_price=${min}`;
+            // if (max != Infinity&&max!=undefined) url += `&max_price=${max}`;
+            // if (rating != undefined) url += `&rating=${rating}`;
+            // if (tag!= undefined) url += `&tag=${tag}`;
+            // if (sort_name != undefined) url += `&sort_name=${sort_name}`;
+            // if (sort != undefined) url += `&sort=${sort}`;
+            // if (owner != undefined) url += `&owner=${owner}`
+            // if (limitP!= undefined) url+=`&limit=${limitP}`
 
             console.log(url)
 
@@ -288,7 +288,7 @@ const fetch = {
         try {
             let url = `${origin}/api/products?page=${page}&limit=${limit}&isRecommend=true`
 
-            // console.log(url)
+            console.log(url)
 
             let res = await axios.get(url)
 
@@ -300,6 +300,7 @@ const fetch = {
                 // returnData.status = true
                 returnData.data = res.data
             }
+            console.log(res.data)
             return returnData
 
         } catch (error) {
