@@ -77,8 +77,9 @@ const getStore =async()=>{
     owner.value = data
 }
 const getProductRecommend=async()=>{
-    let {status,data} = await fetch.getAllRecommendProduct(1, 18)
-    recommendProduct.value = data
+    let {status,data} = await fetch.getAllRecommendProduct(1, 4)
+    recommendProduct.value = data.list
+    // console.log(data)
     console.log(recommendProduct.value,'TESTIng')
     // totalPage.value=10
 }
@@ -93,9 +94,21 @@ const getProduct = async (page) => {
 
     // ownerid
     // console.log(owner.value,"Testing store")
+    let productInput = {
+        page: page,
+        limitP: 18,
+        searchItem: searchItem.value,
+        type: categoryFilter.value.join(),
+        min: minFilter.value,
+        max: maxFilter.value,
+        rating: ratingFilter.value,
+        tag: tagFilter.value,
+        sort_name: sortName.value,
+        sort: sort.value,
+        owner: owner.value.username
+    }
 
-    let { status, data } = await fetch.getAllProduct(page, 18, searchItem.value, categoryFilter.value.join(),
-        minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value, owner.value.username)
+    let { status, data } = await fetch.getAllProduct(productInput)
     // console.log(data.list)
     // productList.value=data
     console.log(data,"sdjflasdlfjasdfjlasfd")
