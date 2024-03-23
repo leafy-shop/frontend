@@ -1,6 +1,15 @@
 <script setup>
 import {ref} from 'vue'
+// common attribute
 const date=ref('')
+const sortTypeArr =[
+    {name:"Popular",value: {name: "popular", type: 'desc'}},
+    {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
+    {name:"Sold Out",value: {name: "price", type: 'desc'}},
+    {name:"Top Sales",value: {name: "sales", type: 'desc'}},
+    {name:"Point",value: {name: "price", type: 'asc'}},
+    {name:"Price",value: {name: "price", type: 'desc'}},
+]
 </script>
 <template>
 <div class="wrapper_orders">
@@ -20,9 +29,6 @@ const date=ref('')
                 </svg> -->
             </button>
                 
-
-
-            
             <!-- <button @click="goAdd">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.26522 0 5.51957 0.105357 5.70711 0.292893C5.89464 0.48043 6 0.734784 6 1V4H9C9.26522 4 9.51957 4.10536 9.70711 4.29289C9.89464 4.48043 10 4.73478 10 5C10 5.26522 9.89464 5.51957 9.70711 5.70711C9.51957 5.89464 9.26522 6 9 6H6V9C6 9.26522 5.89464 9.51957 5.70711 9.70711C5.51957 9.89464 5.26522 10 5 10C4.73478 10 4.48043 9.89464 4.29289 9.70711C4.10536 9.51957 4 9.26522 4 9V6H1C0.734784 6 0.48043 5.89464 0.292893 5.70711C0.105357 5.51957 0 5.26522 0 5C0 4.73478 0.105357 4.48043 0.292893 4.29289C0.48043 4.10536 0.734784 4 1 4H4V1C4 0.734784 4.10536 0.48043 4.29289 0.292893C4.48043 0.105357 4.73478 0 5 0Z" fill="white"/>
@@ -30,6 +36,346 @@ const date=ref('')
                 Fe
             </button> -->
             
+        </div>
+
+        <!-- sorter type-->
+        <div class="sort_orders">
+            <div class="sort_list">
+                <!-- all orders -->
+                <button  class="sort_item">
+                    <h4>
+                        All orders
+                    </h4>
+                    <p>
+                        6
+                    </p>
+                </button>
+                <!-- complete -->
+                <button  class="sort_item">
+                    <h4>
+                        Completed
+                    </h4>
+                    <p>
+                        6
+                    </p>
+                </button>
+                <!-- padding -->
+                <button  class="sort_item">
+                    <h4>
+                        Pending
+                    </h4>
+                    <p>
+                        6
+                    </p>
+                </button>
+                <!-- cancel -->
+                <button  class="sort_item">
+                    <h4>
+                        Cancel
+                    </h4>
+                    <p>
+                        6
+                    </p>
+                </button>
+            </div>
+        </div>
+
+        <!-- order list -->
+        <div class="content_orders">
+            <table>
+                <tr class="header">
+                    <th>
+                        <h5>
+                           # 
+                        </h5>
+                    </th>
+                    <th>
+
+                    </th>
+                    <th>
+                        <button>
+                            <h5>
+                                Order ID
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                                </svg>
+                            </h5>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h5>
+                                Customer
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                                </svg>
+                            </h5>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h5>
+                                Address
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                                </svg>
+                            </h5>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h5>
+                                Date
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                                </svg>
+                            </h5>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h5>
+                                Price
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                                </svg>
+                            </h5>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            <h5>
+                                status
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
+                                </svg>
+                            </h5>
+                        </button>
+                    </th>
+                </tr>
+                <div v-for="(order,index) of 2" :key="index" >
+                    <!-- order item -->
+                    <tr  class="order_item">
+                        <!-- order of item -->
+                        <td rowspan="2">
+                            <h6>
+                                1
+                            </h6>
+                            
+                        </td>
+                        <!-- button detail -->
+                        <td>
+                            <button  >
+                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.29289 4.99943L3.93934 5.35298L0.646393 8.64593C0.646376 8.64595 0.646358 8.64597 0.64634 8.64598C0.552638 8.73974 0.5 8.86687 0.5 8.99943C0.5 9.13201 0.552658 9.25917 0.646393 9.35293C0.740147 9.4466 0.867254 9.49922 0.999786 9.49922C1.13234 9.49922 1.25947 9.44658 1.35323 9.35288L4.29289 4.99943ZM4.29289 4.99943L3.93934 4.64588L0.649938 1.35648C0.560432 1.26246 0.510965 1.13727 0.512093 1.00737C0.513232 0.876276 0.565817 0.75087 0.658521 0.658166C0.751225 0.565461 0.876632 0.512877 1.00773 0.511738C1.13763 0.510609 1.26281 0.560076 1.35683 0.649582L5.35318 4.64593C5.3532 4.64595 5.35322 4.64597 5.35323 4.64598C5.44694 4.73974 5.49957 4.86687 5.49957 4.99943C5.49957 5.13199 5.44694 5.25912 5.35323 5.35288C5.35322 5.35289 5.3532 5.35291 5.35318 5.35293L1.35329 9.35282L4.29289 4.99943Z" fill="#212121" stroke="#212121"/>
+                                </svg>
+                            </button>
+                        </td>
+                        <!-- order id -->
+                        <td>
+                            <h6 class="padding_info">
+                                123456asdfasdfasdf
+                            </h6>
+                        </td>
+                        <!-- customer nanem -->
+                        <td>
+                            <h6 class="padding_info">
+                                Apple juiceasdfasdfasdfasdf
+                            </h6>
+                        </td>
+                        <!-- Address -->
+                        <td>
+                            <p class="padding_info">
+                                King Mongkut's Universityasdfasdfasdfasdfasdfasdfasdfasdfasdf
+                            </p>
+                        </td>
+                        <!-- date -->
+                        <td>
+                            <h6 class="padding_info">
+                                10/03/2024asdfasdf
+                            </h6>
+                        </td>
+                        <!-- price -->
+                        <td>
+                            <h6 class="padding_info">
+                                $376.00asdfasdfasdf
+                            </h6>
+                        </td>
+                        <td>
+                            <div>
+                                <button>
+                                    Complete
+                                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.995 4.17928L3.64159 3.82615L1.01042 1.1971C1.01041 1.19708 1.01039 1.19706 1.01037 1.19705C0.954329 1.14109 0.878262 1.10959 0.798864 1.10959C0.719492 1.10959 0.643448 1.14107 0.587411 1.19699L3.995 4.17928ZM3.995 4.17928L4.34842 3.82615M3.995 4.17928L4.34842 3.82615M4.34842 3.82615L6.97964 1.19705L6.97969 1.1971M4.34842 3.82615L6.97969 1.1971M6.97969 1.1971L6.98573 1.19085M6.97969 1.1971L6.98573 1.19085M6.98573 1.19085C7.0133 1.16233 7.04629 1.13956 7.0828 1.12389C7.11932 1.10822 7.1586 1.09997 7.19836 1.09962C7.23812 1.09928 7.27755 1.10685 7.31433 1.12188C7.35111 1.13692 7.3845 1.15911 7.41255 1.18715L7.76597 0.833453M6.98573 1.19085L7.76597 0.833453M7.76597 0.833453L7.41256 1.18715C7.44061 1.21518 7.46278 1.2485 7.47778 1.28514C7.49279 1.32178 7.50033 1.36103 7.49999 1.40059C7.49964 1.44016 7.49142 1.47926 7.47578 1.51564C7.46014 1.55202 7.4374 1.58495 7.40885 1.61249L7.4088 1.61244M7.76597 0.833453L7.4088 1.61244M7.4088 1.61244L7.40265 1.61858L4.20656 4.8121M7.4088 1.61244L4.20656 4.8121M4.20656 4.8121C4.20655 4.81212 4.20653 4.81214 4.20651 4.81215M4.20656 4.8121L4.20651 4.81215M4.20651 4.81215C4.15047 4.86811 4.0744 4.89961 3.995 4.89961M4.20651 4.81215L3.995 4.89961M3.995 4.89961C3.91561 4.89961 3.83954 4.86811 3.7835 4.81215M3.995 4.89961L3.7835 4.81215M3.7835 4.81215C3.78348 4.81214 3.78346 4.81212 3.78345 4.8121M3.7835 4.81215L3.78345 4.8121M3.78345 4.8121L0.587411 1.61864L3.78345 4.8121ZM0.5 1.40781C0.5 1.48678 0.531375 1.5626 0.587358 1.61858L0.5 1.40781ZM0.5 1.40781C0.5 1.32887 0.531355 1.25308 0.587305 1.1971L0.5 1.40781Z" fill="#424242" stroke="#424242"/>
+                                    </svg>
+
+                                </button>
+                                <!-- drop down -->
+                                <div>
+                                    <!-- status -->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- detail -->
+                    <tr class="detail_order">
+                        <td colspan="2">
+                            &nbsp;
+                        </td>
+                        <td colspan="8">
+                            <div class="detail_table">
+                                <table>
+                                    <tr class="header_detail">
+                                        <!-- number of item -->
+                                        <th>
+                                            <h6>
+                                                #
+                                            </h6>
+                                        </th>
+                                        <!-- SKU -->
+                                        <th>
+                                            <h6>
+                                                SKU
+                                            </h6>
+                                        </th>
+                                        <!-- name -->
+                                        <th>
+                                            <h6>
+                                                Name
+                                            </h6>
+                                        </th>
+                                        <!-- price -->
+                                        <th>
+                                            <h6>
+                                                Price
+                                            </h6>
+                                        </th>
+                                        <!-- Qty -->
+                                        <th>
+                                            <h6>
+                                                Qty
+                                            </h6>
+                                        </th>
+                                        <!-- Total -->
+                                        <th>
+                                            <h6>
+                                                Total
+                                            </h6>
+                                        </th>
+                                    </tr>
+                                    <!-- product item -->
+                                    <tr v-for="(product,index) of 2" :key="index" class="product_list">
+                                        <!-- img -->
+                                        <td>
+                                            <div>
+                                                <img src="../../../assets/home_p/home_design_content_europe.png" alt="item_img">
+                                            </div>
+                                        </td>
+                                        <!-- sku -->
+                                        <td>
+                                            <h6>
+                                                XX231asdasdf asdfasdf
+                                            </h6>
+                                        </td>
+                                        <!-- name -->
+                                        <td>
+                                            <div>
+                                                <h6>
+                                                    Polyscias Fabian asdasdfasd asdfasdfasdfasdfasdfasdfasdfasdfasdf
+                                                </h6>
+                                                <p>
+                                                    Variatio nasdfasdfasdfasdfasdfasdfsdfasdfasdfasdfasdfsadfad asdfasdfasdf
+                                                </p>
+                                            </div>
+
+                                        </td>
+                                        <!-- Price -->
+                                        <td>
+                                            <h6>
+                                                $25.00sfdg sdfgsdgfsfd
+                                            </h6>
+                                        </td>
+                                        <!-- Qiy -->
+                                        <td>
+                                            <h6>
+                                                1234 5234523452345
+                                            </h6>
+                                        </td>
+                                        <!-- total -->
+                                        <td>
+                                            <h6>
+                                                $25.99asd fasdfsdasdfasd
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    <!-- sumary -->
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="wrapper_summary">
+                                                <div class="summary_list">
+                                                    <!--subtotal  -->
+                                                    <div class="summary_item">
+                                                        <h6>
+                                                            Subtotal
+                                                        </h6>
+                                                        <p>
+                                                            $91.97
+                                                        </p>
+                                                    </div>
+                                                    <!-- Shipping -->
+                                                    <div class="summary_item">
+                                                        <h6>
+                                                            Shiping
+                                                        </h6>
+                                                        <p>
+                                                            $0
+                                                        </p>
+                                                    </div>
+                                                    <!-- Tax -->
+                                                    <div class="summary_item">
+                                                        <h6>
+                                                            Tax
+                                                        </h6>
+                                                        <p>
+                                                            $0
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- total -->
+                                                <div class="total">
+                                                    <h6>
+                                                        Total Payment
+                                                    </h6>
+                                                    <p>
+                                                        $90.00
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+        <!-- select page -->
+        <div class="move_page">
+            <p>
+                Showing 
+                <span>1</span> to 
+                <span>10</span> of 
+                <span>20</span> entries
+            </p>
+            <div>
+                <button>
+                    Previous
+                </button>
+                <button>
+                    Next
+                </button>
+            </div>
         </div>
     </div>
 </div>   
@@ -123,5 +469,460 @@ const date=ref('')
     color: gray;
     cursor: pointer;
     z-index: 20;
+}
+
+.sort_orders{
+    width: 100%;
+    height: fit-content;
+    overflow-x: auto;
+    border-bottom: 1px solid;
+    border-color: #E0E0E0;
+}
+.sort_list{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    gap: 32px;
+}
+.sort_item{
+    display: flex;
+    width: fit-content;
+    height: 38px;
+    justify-content: center;
+    align-items: start;
+    border: none;
+    /* border-bottom: 1px solid; */
+    /* border-color: #E0E0E0; #168A22 */
+    padding: 0px 4px 16px 4px;
+    cursor: pointer;
+    
+    color: #212121; /*#168A22 */
+    background-color: #fff;
+    gap: 8px;
+}
+.sort_item h4{
+    font-weight: 500;
+    font-size: 14px;
+}
+.sort_item p{
+    width: fit-content;
+    height: 20px;
+    padding: 2px 10px;
+    font-weight:500 ;
+    font-size: 12px;
+    background-color: #F5F5F5;
+    border-radius: 50%;
+}
+/* orders list */
+.content_orders{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    max-height: 100%;
+    overflow: auto;
+}
+.content_orders table{
+    table-layout: fixed;
+    width: 100%;
+    height: fit-content;
+    border-collapse: collapse;
+    
+}
+table .header{
+    width: 100%;
+    height: 28px;
+    vertical-align: top;
+    text-align: start;
+    border-bottom: 1px solid #E0E0E0;
+    font-size: 12px;
+    font-weight: 500;
+    color: #757575;
+    border-bottom: 1px solid #E0E0E0;
+    white-space: nowrap;
+}
+/* order item */
+.header th:nth-child(1){
+    width: 32px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(1) h5{
+    display: flex;
+    width:100%;
+    height: fit-content;
+    justify-content: start;
+    align-items: top;
+    
+}
+/* button detail */
+.header th:nth-child(2){
+    width: 44px;
+    /* min-width: fit-content; */
+    max-width: 100%;
+}
+/* order id */
+.header th:nth-child(3){
+    width: 84px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* customer name */
+.header th:nth-child(4){
+    width: 140px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* address */
+.header th:nth-child(5){
+    width: 264px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* date */
+.header th:nth-child(6){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* Price */
+.header th:nth-child(7){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header th:nth-child(8){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+
+.header th button{
+    display: flex;
+    width: 100%;
+    height: 28px;
+    padding: 0px 12px;
+    border: none;
+    background-color: transparent;
+    justify-content: start;
+    align-items: start; 
+    cursor: pointer;
+}
+.header th button h5,.header th h5{
+    display: flex;
+    width: fit-content;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #757575;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+.header th button svg{
+    display: flex;
+    width: 12px;
+    height: 12px;
+    justify-content: center;
+    align-items: center;
+}
+/* order item */
+.content_orders div{
+    width: 100%;
+    height: fit-content
+}
+.order_item{
+    width: 100%;
+    height: 52px;
+    max-height: fit-content;
+}
+.order_item td{
+    width: inherit;
+    /* height: 52px; */
+}
+.order_item h6,.order_item p,
+.order_item > div 
+{
+    /* width: 100%;
+    height: 100%; */
+    color: #212121;
+    font-weight: 400;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+/* order item */
+.order_item td:nth-child(1) h6{
+    width: 32px;
+    padding: 16px 12px 16px 0px;
+}
+/* detail button */
+.order_item td:nth-child(2) button{
+    width: 44px;
+    /* height: 100%; */
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.order_item td:nth-child(2) button svg{
+    width: 6px;
+    height: auto
+}
+/* order id */
+.order_item td:nth-child(3) h6{
+    width: 84px;
+    height: fit-content;
+}
+/* customer */
+.order_item td:nth-child(4) h6{
+    width: 140px;
+    height: fit-content;
+}
+/* address */
+.order_item td:nth-child(5) h6{
+    width: 264px;
+    height: fit-content;
+}
+/* date */
+.order_item td:nth-child(6) h6{
+    width: 108px;
+    height: fit-content;
+}
+/* price */
+.order_item td:nth-child(7) h6{
+    width: 108px;
+    height: fit-content;
+}
+/* status */
+.order_item td:nth-child(8) h6{
+    width: 108px;
+    height: fit-content;
+}
+/* status button */
+.order_item td:nth-child(8)> div{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    padding: 12px 0px 12px 12px;
+}
+.order_item td:nth-child(8)> div button{
+    display: flex;
+    width: 96px;
+    height: 24px;
+    padding: 4px 4px 4px 8px;
+    gap: 4px;
+    border: none;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+}
+.order_item td:nth-child(8)> div button svg{
+    width: 8px;
+    height: auto;
+}
+/* drop down  */
+.order_item td:nth-child(8)> div div{
+    /* display: none; */
+    position: absolute;
+    bottom: 1;
+}
+/* .order_item th:nth-child(8) */
+.padding_info{
+    padding: 16px 12px;
+}
+/* detail */
+.detail_order{
+    width: 100%;
+    height: fit-content
+    /* column-span: 8; */
+}
+.detail_table{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding-top: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid;
+    border-color: #EEEEEE;
+}
+.detail_table table{
+    width: 100%;
+    height: fit-content;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.detail_table table .header_detail{
+    height: 28px;
+    border-bottom: 1px solid
+}
+/* order product */
+.header_detail th:nth-child(1){
+    width: 53px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* sku */
+.header_detail th:nth-child(2){
+    width: 100px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* name */
+.header_detail th:nth-child(3){
+    width: 324px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* price */
+.header_detail th:nth-child(4){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* qty */
+.header_detail th:nth-child(5){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+/* total */
+.header_detail th:nth-child(6){
+    width: 108px;
+    min-width: fit-content;
+    max-width: 100%;
+}
+.header_detail th h6{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: start;
+    align-items: start;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0px 12px ;
+    color: #757575;
+}
+.detail_table table .product_list{
+    height: 64px;
+}
+.product_list td >h6,
+.product_list td >div
+{  
+     /* display: flex; */
+    width: 100%;
+    height: 52px;
+    margin-top: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 400;
+    white-space: nowrap;
+
+}
+/* product img */
+.product_list td:nth-child(1) div{
+    /* width: 52px; */
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.product_list td:nth-child(1) div img{
+    width: 100%;
+    height: auto;
+}
+/* sku */
+.product_list td:nth-child(2) h6{
+    padding: 16px 12px;
+    font-size: 14px;
+    color: #212121;
+}
+/* name */
+.product_list td:nth-child(3) div{
+    width: 100%;
+    /* max-width: 100%; */
+    height: fit-content;
+    flex-direction: column;
+    padding: 6px 12px;
+    gap: 4px;
+}
+.product_list td:nth-child(3) div h6{
+    height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #212121;
+
+}
+.product_list td:nth-child(3) div p{
+    width: fit-content;
+    max-width: 100%;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 400px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #616161;
+}
+/* price */
+.product_list td:nth-child(4) h6{
+   padding: 16px 12px;
+   font-size: 14px;
+   color: #212121;
+}
+/* qty */
+.product_list td:nth-child(5) h6{
+    
+    padding: 16px 12px;
+    font-size: 14px;
+    color: #212121;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+/* total */
+.product_list td:nth-child(6) h6{
+    padding: 16px 12px;
+   font-size: 14px;
+   color: #212121;
+}
+
+.move_page{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.move_page p{
+    width: fit-content;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    
+}
+.move_page p span{
+    font-weight: 500 ; 
+    color: #374151;
+}
+.move_page div{
+    display: flex;
+    width: fit-content;
+    height: 36px;
+    gap: 12px;
+}
+.move_page div button{
+    display: flex;
+    width: fit-content;
+    height: 100%;
+    padding: 8px 12px;
+    border: 1px solid;
+    border-color: #E0E0E0;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
 }
 </style>
