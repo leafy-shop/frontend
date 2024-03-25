@@ -55,7 +55,7 @@ const goProductDetail=(p)=>{
                 <div class="product_item">
                     <div class="product_img">
                         <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name">
-                        <img v-else src="../../assets/shop_p/shop_title.jpg" :alt="product.name">
+                        <img v-else src="../../assets/shop_p/shop_title.jpg" :alt="product.name" loading="lazy">
                         <div v-show="soldOut" class="sold_out">
                             Sold Out
                         </div>
