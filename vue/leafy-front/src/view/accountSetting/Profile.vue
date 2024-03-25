@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router';
 import cookie from '../../JS/cookie';
 
 const { params } = useRoute()
-const userId = ref("10")
+const userId = ref("")
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 // original data
