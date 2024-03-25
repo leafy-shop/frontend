@@ -196,7 +196,7 @@ onMounted(() => {
         <h3>
             Shop
         </h3>
-        <img src="../assets/shop_p/shop_title.jpg" alt="title_img">
+        <img src="../assets/shop_p/shop_title.jpg" alt="title_img" loading="lazy">
     </div>
 
     <div class="shop_content">
