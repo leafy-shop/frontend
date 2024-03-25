@@ -9,38 +9,28 @@ import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue';
 import Basesortitem from '../components/shop_page/BaseSortItem.vue';
 import BaseSelectPage from '../components/BaseSelectPage.vue';
-let { params } = useRoute()
-const id =ref(validation.decrypt(params.id))
-// const productList=[
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-//     {itemId: 300040,name: "small zee cactus",itemOwner: "piraphat123@gmail.com",type: "cactus",totalRating: 0,sold: 0,price: "32.00",updatedAt: "1/10/2024, 14:42:15"},
-// ]
-// const recommendProduct = [
-//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-//     { itemId: 300040, name: "small zee cactus", itemOwner: "piraphat123@gmail.com", type: "cactus", totalRating: 0, sold: 0, minPrice: "32.00", updatedAt: "1/10/2024, 14:42:15" },
-// ]
-// owner
-const owner = ref({})
+import cookie from '../JS/cookie';
+import pMode from '../JS/enum/profileMode'
+import sortTypeArr from '../JS/enum/product'
+import BaseStar from '../components/productDetail/BaseStar.vue'
 
-// category list
-const categoryFilter = ref([])
-// price
-const minFilter = ref(undefined)
-const maxFilter = ref(undefined)
-// rating
-const ratingFilter = ref(0)
-// tag
-const tagFilter = ref("")
-// this for check if we have params 
-const searchItem = ref("")
+let { params } = useRoute()
+const id =ref('')
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+// change mode by role
+const profileMode=ref('user') //for change mode
+const isMe=ref(false) //check for my self
+//common attribute
+const owner = ref({}) // owner
+const categoryFilter = ref([]) // category list
+const minFilter = ref(undefined) // price min
+const maxFilter = ref(undefined) // price max
+const ratingFilter = ref(0) // rating
+const tagFilter = ref("") // tag
+const cookieRole=ref('')
+const cookieId=ref('')
+// search item
+const searchItem = ref("") // this for check if we have params 
 //for change page product list
 const currentPage = ref(1)
 const allItems = ref(0)
@@ -56,13 +46,45 @@ const isShowFilter = ref(undefined)
 const sortName = ref(undefined)
 const sort = ref(undefined)
 
-const sortTypeArr = [
-    { name: "Popular", value: { name: "popular", type: 'desc' } },
-    { name: "New Arrival", value: { name: "new_arrival", type: 'desc' } },
-    { name: "Top Sales", value: { name: "sales", type: 'desc' } },
-    { name: "Low - High", value: { name: "price", type: 'asc' } },
-    { name: "High - Low", value: { name: "price", type: 'desc' } },
-]
+// const sortTypeArr = [
+//     { name: "Popular", value: { name: "popular", type: 'desc' } },
+//     { name: "New Arrival", value: { name: "new_arrival", type: 'desc' } },
+//     { name: "Top Sales", value: { name: "sales", type: 'desc' } },
+//     { name: "Low - High", value: { name: "price", type: 'asc' } },
+//     { name: "High - Low", value: { name: "price", type: 'desc' } },
+// ]
+
+const changeMode=()=>{
+    let includeMode=pMode.map(x=>x.mode==owner.value.role?true:false) //check role for select mode
+
+    // change mode
+    if(owner.value.userId==cookieId.value){ //check is that me
+    // if(owner.value.userId!=cookieId.value){ //check is that me
+        isMe.value=true
+
+        if(includeMode.includes(true)){ //check role, is exist?
+            console.log('store role',owner.value)
+            profileMode.value=owner.value.role
+        }else{
+            // error
+            console.log('role does not exist!!')
+
+        }   
+
+    }else{ 
+        isMe.value=false //this not me
+        
+        if(includeMode.includes(true)){ //check role, is exist?
+            console.log('store role',owner.value)
+            profileMode.value=owner.value.role
+        }else{
+            // error
+            console.log('role does not exist!!')
+
+        }        
+    }
+
+}
 
 // const getSearchItem = async (search) => {
 //     // currentPage.value=1
@@ -73,8 +95,14 @@ const sortTypeArr = [
 
 const getStore =async()=>{
     let {status,data}= await fetch.getStore(id.value)
-    console.log(data,"Testing store")
-    owner.value = data
+    // console.log(data,"Testing store")
+    if(status){
+        owner.value = data
+        changeMode()
+    }else{
+        // error
+    }
+    
 }
 const getProductRecommend=async()=>{
     let {status,data} = await fetch.getAllRecommendProduct(1, 4)
@@ -96,7 +124,7 @@ const getProduct = async (page) => {
     // console.log(owner.value,"Testing store")
     let productInput = {
         page: page,
-        limitP: 18,
+        limitP: isMe.value?10:18,
         searchItem: searchItem.value,
         type: categoryFilter.value.join(),
         min: minFilter.value,
@@ -178,13 +206,24 @@ const moveRight = async (current) => {
 }
 
 onBeforeMount(async() => {
+    // param
+    id.value=validation.decrypt(params.id)
+    // cookie
+    let cookieData=cookie.decrypt()
+    cookieId.value=cookieData.id
+    cookieRole.value=cookieData.role
+    
     await getStore() 
     await getProduct(currentPage.value)
     await getProductRecommend()
+
+    
 })
 onMounted(() => {
+    
     validation.navigationTo()
     console.log('alsdjflasdf',id.value)
+    
     // pageHidden(currentPage.value, totalPage.value)
 })
 onUpdated(() => {
@@ -202,6 +241,7 @@ onUpdated(() => {
         <div class="container_user_info">
             <div class="big_image">
                 <img src="../assets/shop_p/shop_title.jpg" alt="big_img">
+                <!-- <img src="../assets/shop_p/shop_title.jpg" alt="big_img"> -->
             </div>
             <!-- <img src="../assets/vue.svg" alt="soybean"> -->
             <!-- wrapper 1 -->
@@ -215,13 +255,23 @@ onUpdated(() => {
                         <h5>
                             {{ owner.username }}
                         </h5>
-                        <!-- chat & follower -->
+                        <!-- chat & follower & new product -->
                         <div>
-                            <button>
+                            <button v-if="!isMe&&profileMode==pMode[0].mode" class="chat_btn">
                                 Chat Now
                             </button>
-                            <button>
+                            <button v-if="!isMe&&profileMode==pMode[0].mode" class="follow_btn">
                                 Follow
+                            </button>
+
+                            <!-- myself -->
+                            <button v-if="isMe&&profileMode==pMode[0].mode" class="new_product_btn">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 0C6.31826 0 6.62348 0.126428 6.84853 0.351472C7.07357 0.576516 7.2 0.88174 7.2 1.2V4.8H10.8C11.1183 4.8 11.4235 4.92643 11.6485 5.15147C11.8736 5.37652 12 5.68174 12 6C12 6.31826 11.8736 6.62348 11.6485 6.84853C11.4235 7.07357 11.1183 7.2 10.8 7.2H7.2V10.8C7.2 11.1183 7.07357 11.4235 6.84853 11.6485C6.62348 11.8736 6.31826 12 6 12C5.68174 12 5.37652 11.8736 5.15147 11.6485C4.92643 11.4235 4.8 11.1183 4.8 10.8V7.2H1.2C0.88174 7.2 0.576516 7.07357 0.351472 6.84853C0.126428 6.62348 0 6.31826 0 6C0 5.68174 0.126428 5.37652 0.351472 5.15147C0.576516 4.92643 0.88174 4.8 1.2 4.8H4.8V1.2C4.8 0.88174 4.92643 0.576516 5.15147 0.351472C5.37652 0.126428 5.68174 0 6 0Z" fill="white"/>
+                                </svg>
+                                <span>
+                                    New Product
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -231,7 +281,7 @@ onUpdated(() => {
         </div>
 
         <!-- detail and recommend -->
-        <div class="wrapper_details">
+        <div v-if="profileMode==pMode[0].mode" class="wrapper_details">
             <div class="container_details">
                 <!-- suplier detail -->
                 <div class="suplier_details">
@@ -313,7 +363,7 @@ onUpdated(() => {
                     </div>
 
                 </div>
-                <div class="recommedation">
+                <div v-if="!isMe" class="recommedation">
                     <!-- recommendation -->
                     <h5>
                         Recommended for You
@@ -322,30 +372,113 @@ onUpdated(() => {
                 </div>
             </div>
         </div>
-
+        <!-- supplier and not me -->
         <!-- product list and filter -->
-        <div class="container_product">
-            <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="showFilterItem"
-                :sort-type-arr="sortTypeArr" />
-            <div class="wrapper_product">
-                <div class="product_list">
-                    <Basesortitem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
-                        @moveLeft="moveLeft" @moveRight="moveRight"
-                        :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
-                    <BaseProductList :product-list="productList" :gridColumn="3" />
+        <div v-if="!isMe&&profileMode==pMode[0].mode" class="container_product">
+                <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="showFilterItem"
+                    :sort-type-arr="sortTypeArr" />
+                <div class="wrapper_product">
+                    <div class="product_list">
+                        <Basesortitem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
+                            @moveLeft="moveLeft" @moveRight="moveRight"
+                            :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
+                        <BaseProductList :product-list="productList" :gridColumn="3" />
+                    </div>
+
+                    <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
+                    @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
+
+                    <div class="product_sold_out">
+                        <h5>
+                            Sold Out
+                        </h5>
+                        <BaseProductList :product-list="outStockList"  :gridColumn="3" :sold-out="true" />
+                        <!-- <BaseSelectPage/> -->
+                    </div>
                 </div>
 
-                <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
-                @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
-
-                <div class="product_sold_out">
-                    <h5>
-                        Sold Out
-                    </h5>
-                    <BaseProductList :product-list="outStockList"  :gridColumn="3" :sold-out="true" />
-                    <!-- <BaseSelectPage/> -->
+        </div>
+        <!-- myself -->
+        <div v-else-if="isMe&&profileMode==pMode[0].mode" class="container_product_me">
+            <Basesortitem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
+                @moveLeft="moveLeft" @moveRight="moveRight"
+                :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
+            <div class="product_list_me">
+                <div v-for="(product,index) of productList" :key="index" class="product_item_me">
+                    <!-- img -->
+                    <div class="img_me">
+                        <!-- <img  src="../assets/home_p/home_design_content_tropical.png" alt="product_img"> -->
+                        <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="`product_img_${product.name}`">
+                        <img v-else src="../assets/vue.svg" alt="product_img">
+                        
+                    </div>
+                    <!-- info -->
+                    <div class="detail_me">
+                        <div class="info_me">
+                            <div class="name_me">
+                                <!-- name & star -->
+                                <div>
+                                    <!-- name -->
+                                    <h5>
+                                        <!-- Polyscias  -->
+                                        {{ product.name }}
+                                    </h5>
+                                    <!-- star -->
+                                    <BaseStar :rating="product.totalRating" :size="100" name="product_me"/>
+                                </div>
+                                <!-- operation -->
+                                <div>
+                                    <!-- edit -->
+                                    <button>
+                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.16659 3.16664H2.99992C2.55789 3.16664 2.13397 3.34223 1.82141 3.65479C1.50885 3.96736 1.33325 4.39128 1.33325 4.83331V14C1.33325 14.442 1.50885 14.8659 1.82141 15.1785C2.13397 15.491 2.55789 15.6666 2.99992 15.6666H12.1666C12.6086 15.6666 13.0325 15.491 13.3451 15.1785C13.6577 14.8659 13.8333 14.442 13.8333 14V9.83331M12.6549 1.98831C12.8087 1.82912 12.9926 1.70215 13.1959 1.6148C13.3993 1.52746 13.618 1.48148 13.8393 1.47956C14.0605 1.47763 14.28 1.5198 14.4848 1.6036C14.6897 1.6874 14.8758 1.81116 15.0322 1.96765C15.1887 2.12414 15.3125 2.31022 15.3963 2.51505C15.4801 2.71988 15.5223 2.93934 15.5203 3.16064C15.5184 3.38194 15.4724 3.60064 15.3851 3.80398C15.2977 4.00732 15.1708 4.19123 15.0116 4.34497L7.85659 11.5H5.49992V9.14331L12.6549 1.98831Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                    <!-- delete -->
+                                    <button>
+                                        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.33325 8.16667V13.1667M9.66659 8.16667V13.1667M1.33325 4.83333H14.6666M13.8333 4.83333L13.1108 14.9517C13.0808 15.3722 12.8927 15.7657 12.5842 16.053C12.2757 16.3403 11.8698 16.5 11.4483 16.5H4.55159C4.13004 16.5 3.72414 16.3403 3.41566 16.053C3.10717 15.7657 2.91902 15.3722 2.88909 14.9517L2.16659 4.83333H13.8333ZM10.4999 4.83333V2.33333C10.4999 2.11232 10.4121 1.90036 10.2558 1.74408C10.0996 1.5878 9.8876 1.5 9.66659 1.5H6.33325C6.11224 1.5 5.90028 1.5878 5.744 1.74408C5.58772 1.90036 5.49992 2.11232 5.49992 2.33333V4.83333H10.4999Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- price -->
+                            <h5 class="price_me">
+                                <!-- $80 -->
+                                {{ product.minPrice }} 
+                                <span v-show="product.maxPrice==0?false:true">&nbsp;-&nbsp;</span>
+                                {{ product.maxPrice }}
+                            </h5>
+                            
+                            <!-- discription -->
+                            <p class="discription_me">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur odio fugiat aspernatur voluptate enim, autem tempora delectus sit fuga facere! Facere beatae sit iusto rem eius exercitationem placeat deserunt, corrupti, praesentium dolore similique ea dignissimos consequuntur saepe eum quasi error? Asperiores sunt numquam illo consectetur quia nobis excepturi officiis est. Sed enim doloremque molestiae. Iste adipisci labore animi corrupti optio sequi eum tempora est at ipsa modi natus nobis repudiandae minima iusto sunt cum assumenda quibusdam ducimus, quam sapiente. Laudantium similique perferendis dicta necessitatibus impedit delectus, mollitia debitis facere veritatis recusandae minima ea hic. Necessitatibus quasi ipsum magnam deleniti explicabo voluptatem cum quidem culpa ullam consectetur omnis eaque illo, nostrum non qui iure. Doloremque modi laboriosam, nam nostrum debitis eos rem quod. Dignissimos hic earum error obcaecati minus voluptates suscipit soluta unde, ducimus quae sequi placeat eligendi veritatis maxime nihil molestiae deleniti, a sunt laborum delectus mollitia vero debitis culpa?
+                            </p>
+                        </div>
+                        <!-- stock -->
+                        <div class="stock_me">
+                            <div>
+                                <h5>
+                                    Stocks
+                                </h5>
+                                <h6>
+                                    13
+                                    pieces available
+                                </h6>
+                            </div>
+                            <h6>
+                                {{product.sold}}
+                                sold
+                            </h6>
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- select page -->
+            <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
+                    @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
+
         </div>
         <!-- <div class="container_product">
             <BaseFilterItem/>
@@ -367,9 +500,11 @@ onUpdated(() => {
     flex-direction: column;
     width: auto;
     height: fit-content;
+    min-height: 90dvh;
+    max-height: 100%;
     gap: min(1.389dvw, 20px);
     background-color: #F5F5F5;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 
 }
@@ -467,7 +602,9 @@ onUpdated(() => {
 
 .user_info div button {
     display: flex;
-    width: min(8.611dvw, 124px);
+    /* width: min(8.611dvw, 124px); */
+    width: fit-content;
+    min-width: min(8.611dvw, 124px);
     height: min(2.778dvw, 40px);
     font-size: min(1.111dvw, 16px);
     border: min(0.069dvw, 1px) solid;
@@ -479,19 +616,43 @@ onUpdated(() => {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    white-space: nowrap;
 }
-
-.user_info div button:hover {
+/* myself */
+.user_info .new_product_btn{
+    white-space: nowrap;
+    gap: 4px;
+    color: #fff;
+    background-color: #26AC34 ;
+}
+.user_info .new_product_btn svg{
+    width: 12px;
+    height: auto;
+}
+.user_info .new_product_btn span{
+    font-size: 16px;
+    font-weight: 500;
+}
+.follow_btn:hover,
+.chat_btn:hover {
     border-color: #26AC34;
     color: #fff;
     background-color: #26AC34;
 }
 
-.user_info div button:active {
+.follow_btn:active,
+.chat_btn:active {
     background-color: #58d264;
     border-color: #58d264;
 }
-
+.user_info .new_product_btn:hover{
+    border-color: #fff;
+    color: #26AC34 ;
+    background-color: #fff ;
+}
+.user_info .new_product_btn:hover svg path{
+    fill: #26AC34;
+}
 .wrapper_details {
     display: flex;
     width: auto;
@@ -653,6 +814,186 @@ onUpdated(() => {
     font-weight: 700;
     color: #252525;
 }
+
+/* me not other user*/
+.container_product_me{
+    display: flex;
+    width: min(77.778dvw, 1120px);
+    height: fit-content;
+    justify-content: center;
+    padding-bottom: min(1.389dvw, 20px);
+    gap: min(2.222dvw, 32px);
+    flex-direction: column;
+}
+.product_list_me{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+}
+.product_item_me{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+/* img */
+.product_item_me .img_me{
+    display: flex;
+    width: 192px;
+    height: 192px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #212121;
+}
+.product_item_me .img_me img{
+    width: 120%;
+    height: auto;
+}
+.product_item_me .detail_me{
+    display: flex;
+    width: 928px;
+    max-width: 100%;
+    height: 192px;
+    /* max-height: 100%; */
+    /* min-height: ; */
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 12px;
+    
+    box-shadow: 0px 1px 2px 0px #0000000F;
+
+    /* box-shadow: 0px 1px 3px 0px #0000001A; */
+
+
+}
+/* info */
+.info_me{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    gap: 12px;
+}
+.info_me .name_me {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: center;
+}
+/* name and star */
+.info_me .name_me>div:nth-child(1){
+    display: flex;
+    width: 780px;
+    height: 32px;
+    gap: 8px;
+    justify-content: start;
+    align-items: center;
+    white-space: nowrap;
+}
+.info_me .name_me>div:nth-child(1) h5{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    font-size: 20px;
+    font-weight: 500;
+    color: #212121;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* operation */
+.info_me .name_me>div:nth-child(2){
+    display: flex;
+    width: fit-content;
+    height: 100%;
+    gap: 8px;
+}
+.info_me .name_me>div:nth-child(2) button{
+    display: flex;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.info_me .name_me>div:nth-child(2) button svg{
+    width: 16px;
+    height: auto;
+}
+.info_me .price_me{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: 24px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #26AC34;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.info_me .discription_me{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 780px;
+    max-width: 100%;
+    height: fit-content;
+    max-height: 40px;
+    overflow: hidden;
+    /* word-wrap: keep-all; */
+}
+/* stock */
+.stock_me{
+    display: flex;
+    width: 100%;
+    height: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.stock_me div{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: inherit;
+    align-items: center;
+    justify-self: start;
+    gap: 12px;
+}
+.stock_me div h5{
+    width: fit-content;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color: #26AC34;
+}
+.stock_me div h6{
+    width: fit-content;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color: #212121;
+}
+.stock_me h6{
+    width: fit-content;
+    height: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+    color: #212121;
+}
+
 
 @media (width<=744px) {
     .wrapper_profile {
