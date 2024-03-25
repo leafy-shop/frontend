@@ -3,20 +3,26 @@ import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import cookie from '../../JS/cookie';
 import fetch from '../../JS/api'
+import validation from '../../JS/validation'
 const myRouter = useRouter()
 // const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
 const userName = ref('')
-// forcheck
+// for check
 const oldPassword = ref('')
-const isChangePassword = ref(false)
+const isChangePassword = ref(false) //for change mode 
 const oldPasswordM = ref('')
 const oldPasswordS = ref(false)
 // const isShowBT=ref(false)
 // new password
 const newPassword = ref('')
-const newPasswordConfirm = ref('')
+// const newPasswordConfirm = ref('')
 const newPasswordM = ref('')
 const newPasswordS = ref(false)
+// new password confirm
+const newPasswordConfirm = ref('')
+const newPasswordConfirmS = ref(false)
+const newPasswordConfirmM = ref('')
+
 
 const showPassword = (index) => {
     let input = document.getElementsByClassName('input_field')
@@ -45,7 +51,7 @@ const showPassword = (index) => {
 const checkPassword = async () => {
     let { status, msg } = await fetch.login(userName.value, oldPassword.value)
     if (!status) {
-        oldPasswordM.value = "Your account password is invalid. If you forgot password please click on forgot password button."
+        oldPasswordM.value = "Password does not exist."
         oldPasswordS.value = true
     }
     // console.log(status, msg)
@@ -59,7 +65,7 @@ const updatePassword = async () => {
         console.log(status, msg)
         return status
     } else {
-        newPasswordM.value = "Your new password is unmatch. Please check your password before submit."
+        newPasswordM.value = "Password not match."
         newPasswordS.value = true
     }
 
@@ -70,20 +76,41 @@ const cancelChangePassword = () => {
     // check password
     if (!isChangePassword.value) {
         oldPassword.value = ''
-        oldPasswordM.value = ''
-        oldPasswordS.value = false
+        // oldPasswordM.value = ''
+        // oldPasswordS.value = false
+        clearStatus(!isChangePassword.value)
     } else
         if (isChangePassword.value) {
             oldPassword.value = ''
             newPassword.value = ''
             newPasswordConfirm.value = ''
             isChangePassword.value = false
-            newPasswordM.value = ''
-            newPasswordS.value = false
+            // newPasswordM.value = ''
+            // newPasswordS.value = false
+            // newPasswordConfirmM.value=''
+            // newPasswordConfirmS.value=false
+            clearStatus(isChangePassword.value)
             submitBT[0].getElementsByTagName('button')[1].innerHTML = "Next"
         }
-
 }
+// clear status
+const clearStatus=(mode)=>{
+    if(mode){ //mode change password
+        // oldPassword.value = ''
+        // newPassword.value = ''
+        // newPasswordConfirm.value = ''
+        // isChangePassword.value = false
+        newPasswordM.value = ''
+        newPasswordS.value = false
+        newPasswordConfirmM.value=''
+        newPasswordConfirmS.value=false
+    }else{ //mode check before change 
+        // oldPassword.value = ''
+        oldPasswordM.value = ''
+        oldPasswordS.value = false
+    }
+}
+
 // go next
 const submitChangePasswrod = async () => {
     let submitBT = document.getElementsByClassName('submit')
@@ -96,13 +123,50 @@ const submitChangePasswrod = async () => {
             submitBT[0].getElementsByTagName('button')[1].innerHTML = "Submit"
         }
     } else
+        
         if (isChangePassword.value) { //change mode to submit
-            let status = await updatePassword()
-            // let status =true
-            if (status) {
-                console.log('successful update')
-                cancelChangePassword()
-                isChangePassword.value = false
+            clearStatus(isChangePassword.value) //chear all stauts
+            let changePasswordStatus=true
+
+            // check new password input
+            if(newPassword.value==''){
+                changePasswordStatus=false
+                newPasswordS.value=true
+                newPasswordM.value='New password must not null'
+            }
+            if(!validation.textRange(newPassword.value,20,8)){
+                changePasswordStatus=false
+                newPasswordS.value=true
+                newPasswordM.value='Password must have length 8-20 characters.'
+            }
+
+            // check new password confirm input
+            if(newPasswordConfirm.value==''){
+                changePasswordStatus=false
+                newPasswordConfirmS.value=true
+                newPasswordConfirmM.value='New password confirm must not null'
+            }
+            if(newPassword.value != newPasswordConfirm.value){
+                changePasswordStatus=false
+                newPasswordConfirmS.value=true
+                newPasswordConfirmM.value='Password not match'
+            }
+
+            if(changePasswordStatus){
+                console.log(newPassword.value,'new')
+                console.log(oldPassword.value,'old')
+                if(newPassword.value==oldPassword.value){ //check new and old
+                    newPasswordS.value=true
+                    newPasswordM.value='Password does not change'
+                }else{
+                    let status = await updatePassword()
+                    // let status =true
+                    if (status) {
+                        console.log('successful update')
+                        cancelChangePassword()
+                        isChangePassword.value = false
+                    }
+                }
             }
         }
 
@@ -133,7 +197,7 @@ onBeforeMount(() => {
                         Current password
                     </h5>
                     <div class="input_field">
-                        <input v-model="oldPassword" type="password">
+                        <input v-model="oldPassword" type="password" @keyup.enter="submitChangePasswrod()">
                         <button @click="showPassword(0)">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -154,6 +218,10 @@ onBeforeMount(() => {
 
                         </button>
                     </div>
+                    <!-- forget password -->
+                    <button>
+                        Forgot Password ?
+                    </button>
                     <!-- worning -->
                     <div v-show="oldPasswordS" class="wrapper_errorMsg">
                         <div>
@@ -168,9 +236,6 @@ onBeforeMount(() => {
                             </p>
                         </div>
                     </div>
-                    <button>
-                        Forgot Password ?
-                    </button>
                 </div>
                 <!-- New -->
                 <div v-else-if="isChangePassword" class="new_PW">
@@ -205,6 +270,20 @@ onBeforeMount(() => {
                         <p>
                             Make your password short and easy to guess.
                         </p>
+                        <!-- worning -->
+                        <div v-show="newPasswordS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ newPasswordM }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="input_item">
                         <h5>
@@ -237,21 +316,22 @@ onBeforeMount(() => {
                         <p>
                             Make your password short and easy to guess.
                         </p>
-                    </div>
-                    <!-- worning -->
-                    <div v-show="newPasswordS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ newPasswordM }}
-                            </p>
+                        <!-- worning -->
+                        <div v-show="newPasswordConfirmS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ newPasswordConfirmM }}
+                                </p>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <!-- submit -->
