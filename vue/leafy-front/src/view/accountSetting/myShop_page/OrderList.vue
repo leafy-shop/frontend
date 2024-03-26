@@ -3,6 +3,11 @@ import {ref} from 'vue'
 // common attribute
 const date=ref('')
 
+// get all order for supplier
+const getAllOrder=()=>{
+    
+}
+
 </script>
 <template>
 <div class="wrapper_orders">
