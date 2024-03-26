@@ -804,6 +804,54 @@ const fetch = {
             return returnData
         }
     },
+    // for
+    async getAllOrder(inputData,isSupplier=false){
+        let returnData = { status: false, data: undefined, msg:'' }
+        let {
+            username,
+            sort,
+        }=inputData
+        try {
+            
+            if(isSupplier){ // for role supplier
+                // let url=`${origin}/api/orders/supplier?username=${username}`
+                // let res = await axios.get(url)
+                // if(res.status==200){
+                //     validation.function_Status('get order all', true)
+                //     returnData.status = true
+                //     returnData.data=res.data
+                // }
+            }else{ //for normal user
+                let url=`${origin}/api/orders?`
+                // check sort
+                if(sort!=undefined) url+=`sort=${sort}`;
+                let res = await axios.get(url)
+                if(res.status==200){
+                    validation.function_Status('get order all for user', true)
+                    returnData.status = true
+                    returnData.data=res.data
+                }
+            }
+            
+
+            // if ( res.status==200) {
+            //     validation.function_Status('get user address all', true)
+            //     returnData.status = true
+            //     returnData.data=res.data
+            // }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get order all', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
+        }
+    },
     // authentication
     async login(email = undefined, password = undefined){
         let returnData = { status: false, msg:'' }
