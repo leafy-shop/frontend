@@ -2,32 +2,110 @@
 import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import { useRouter } from 'vue-router';
+import { onBeforeMount, ref } from 'vue'
+import fetch from '../JS/api';
 //link
-const myRouter=useRouter()
-const goHome =()=>myRouter.push({name:"Home"})
+const myRouter = useRouter()
+const goHome = () => myRouter.push({ name: "Home" })
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
+const carts = ref([])
+const count = ref(0)
+const qty = ref(0)
+const isSelectedCart = ref(false)
+
+const getCarts = async () => {
+    let cartList = await fetch.getCart();
+    let cartCount = await fetch.getCartCount();
+    carts.value = cartList.data
+    carts.value.cart = cartList.data.cart.map(cart => {
+        cart[Object.keys(cart)[0]].isSelected = false
+        cart[Object.keys(cart)[0]].list = cart[Object.keys(cart)[0]].map(cartDetail => {
+            cartDetail.isSelected = false
+            return cartDetail
+        })
+        return cart
+    })
+    count.value = cartCount.data.count
+    console.log(carts.value)
+}
+
+const makeGroupSelection = (owner) => {
+    carts.value.cart = carts.value.cart.map(cart => {
+        // console.log(cart[cartOwner])
+        // console.log(cart[cartOwner].some(cartDetail => cartDetail.isSelected))
+        let cartOwner = Object.keys(cart)[0]
+        if (owner === cartOwner) {
+            console.log(cart[cartOwner])
+            if (cart[cartOwner].list.every(cartDetail => cartDetail.isSelected)) {
+                cart[cartOwner].isSelected = false
+                cart[cartOwner].list = cart[cartOwner].list.map(cartDetail => {
+                    cartDetail.isSelected = false
+                    return cartDetail
+                })
+                return cart
+            } else {
+                cart[cartOwner].isSelected = true
+                cart[cartOwner].list = cart[cartOwner].list.map(cartDetail => {
+                    cartDetail.isSelected = true
+                    return cartDetail
+                })
+                return cart
+            }
+        }
+
+    })
+}
+
+// const makeAllGroupSelection = (cart) = {
+
+// }
+
+// confirmation delete
+const reduceQty = async (cartId, qty) => {
+    await fetch.getUpdateCart(cartId, { qty: qty - 1 });
+    await getCarts()
+}
+
+const addQty = async (cartId, qty) => {
+    // console.log(qty)
+    await fetch.getUpdateCart(cartId, { qty: qty + 1 });
+    await getCarts()
+}
+
+const deleteCart = async (cartId) => {
+    await fetch.deleteCart(cartId);
+    await getCarts()
+}
+
+onBeforeMount(() => {
+    getCarts()
+})
 
 </script>
 <template>
     <BaseMenu class="menu" />
-     <!-- access -->
-     <div class="container_access">
+    <!-- access -->
+    <div class="container_access">
         <!-- home icon -->
         <svg @click="goHome" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.707 2.293C10.5195 2.10553 10.2652 2.00021 10 2.00021C9.73485 2.00021 9.48054 2.10553 9.29301 2.293L2.29301 9.293C2.11085 9.4816 2.01006 9.7342 2.01234 9.9964C2.01461 10.2586 2.11978 10.5094 2.30519 10.6948C2.4906 10.8802 2.74141 10.9854 3.00361 10.9877C3.26581 10.99 3.51841 10.8892 3.70701 10.707L4.00001 10.414V17C4.00001 17.2652 4.10537 17.5196 4.2929 17.7071C4.48044 17.8946 4.73479 18 5.00001 18H7.00001C7.26523 18 7.51958 17.8946 7.70712 17.7071C7.89465 17.5196 8.00001 17.2652 8.00001 17V15C8.00001 14.7348 8.10537 14.4804 8.2929 14.2929C8.48044 14.1054 8.73479 14 9.00001 14H11C11.2652 14 11.5196 14.1054 11.7071 14.2929C11.8947 14.4804 12 14.7348 12 15V17C12 17.2652 12.1054 17.5196 12.2929 17.7071C12.4804 17.8946 12.7348 18 13 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8947 17.5196 16 17.2652 16 17V10.414L16.293 10.707C16.4816 10.8892 16.7342 10.99 16.9964 10.9877C17.2586 10.9854 17.5094 10.8802 17.6948 10.6948C17.8802 10.5094 17.9854 10.2586 17.9877 9.9964C17.99 9.7342 17.8892 9.4816 17.707 9.293L10.707 2.293Z" fill="#757575"/>
+            <path
+                d="M10.707 2.293C10.5195 2.10553 10.2652 2.00021 10 2.00021C9.73485 2.00021 9.48054 2.10553 9.29301 2.293L2.29301 9.293C2.11085 9.4816 2.01006 9.7342 2.01234 9.9964C2.01461 10.2586 2.11978 10.5094 2.30519 10.6948C2.4906 10.8802 2.74141 10.9854 3.00361 10.9877C3.26581 10.99 3.51841 10.8892 3.70701 10.707L4.00001 10.414V17C4.00001 17.2652 4.10537 17.5196 4.2929 17.7071C4.48044 17.8946 4.73479 18 5.00001 18H7.00001C7.26523 18 7.51958 17.8946 7.70712 17.7071C7.89465 17.5196 8.00001 17.2652 8.00001 17V15C8.00001 14.7348 8.10537 14.4804 8.2929 14.2929C8.48044 14.1054 8.73479 14 9.00001 14H11C11.2652 14 11.5196 14.1054 11.7071 14.2929C11.8947 14.4804 12 14.7348 12 15V17C12 17.2652 12.1054 17.5196 12.2929 17.7071C12.4804 17.8946 12.7348 18 13 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8947 17.5196 16 17.2652 16 17V10.414L16.293 10.707C16.4816 10.8892 16.7342 10.99 16.9964 10.9877C17.2586 10.9854 17.5094 10.8802 17.6948 10.6948C17.8802 10.5094 17.9854 10.2586 17.9877 9.9964C17.99 9.7342 17.8892 9.4816 17.707 9.293L10.707 2.293Z"
+                fill="#757575" />
         </svg>
         <!-- right arrow -->
         <svg class="right_arrow" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z" fill="#EEEEEE"/>
+            <path d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z" fill="#EEEEEE" />
         </svg>
         <!-- product -->
         <h5 @click="goShop" class="link">
             Cart
         </h5>
-        
+
     </div>
     <!-- content -->
     <div class="wrapper_cart">
-       
+
         <!-- cart -->
         <div class="cart">
             <!-- header -->
@@ -35,11 +113,11 @@ const goHome =()=>myRouter.push({name:"Home"})
                 <!-- amount of shop -->
                 <div>
                     <div class="cart_selecetion">
-                        <input type="checkbox">
+                        <input type="checkbox" v-model="isSelectedCart">
                     </div>
                     <h4>
                         Cart&nbsp;
-                        <span>(6) </span>
+                        <span>({{ count }}) </span>
                     </h4>
                 </div>
                 <!-- type of unit-->
@@ -57,36 +135,43 @@ const goHome =()=>myRouter.push({name:"Home"})
             </div>
             <!-- shop list -->
             <div class="shop_list">
-                <div v-for="(shop,index) of 2" :key="index" class="shop_item">
+                <div v-for="(shop, index) of carts.cart" :key="index" class="shop_item">
                     <!-- header -->
                     <div class="header_shop">
                         <div class="shop_selection">
-                            <input type="checkbox">
+                            <input type="checkbox" v-model="Object.values(shop)[0].isSelected" 
+                                @click="makeGroupSelection(Object.keys(shop)[0])">
                         </div>
                         <div>
                             <h5>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea aut unde saepe nam, facere recusandae iure fugit. Enim esse consectetur, quaerat veniam possimus qui commodi neque, dolorem at quibusdam nulla temporibus eveniet atque provident praesentium illum sint dicta, alias fuga dolores? Fuga impedit itaque incidunt unde repudiandae vero quaerat, iste facilis asperiores numquam debitis, minus nostrum dignissimos dolorum iusto ea qui dolore alias temporibus? Omnis accusamus autem quisquam corporis, nemo quia amet quos hic necessitatibus magni eos perspiciatis nulla alias voluptas quae aspernatur eum voluptates, modi eveniet! Fuga ullam, alias incidunt excepturi vel quos molestiae unde aspernatur natus vero eveniet ipsa? Blanditiis qui harum illo ex quia. Et qui, perspiciatis sed dolore voluptas excepturi tempora facere accusantium facilis eos, cumque est. Aspernatur, est? Velit recusandae quo in! Ullam, itaque a. Praesentium fuga numquam rerum, nam obcaecati optio adipisci eligendi ad delectus quae mollitia placeat iste illo sit voluptates eaque accusamus?
+                                <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea aut unde saepe nam, facere recusandae iure fugit. Enim esse consectetur, quaerat veniam possimus qui commodi neque, dolorem at quibusdam nulla temporibus eveniet atque provident praesentium illum sint dicta, alias fuga dolores? Fuga impedit itaque incidunt unde repudiandae vero quaerat, iste facilis asperiores numquam debitis, minus nostrum dignissimos dolorum iusto ea qui dolore alias temporibus? Omnis accusamus autem quisquam corporis, nemo quia amet quos hic necessitatibus magni eos perspiciatis nulla alias voluptas quae aspernatur eum voluptates, modi eveniet! Fuga ullam, alias incidunt excepturi vel quos molestiae unde aspernatur natus vero eveniet ipsa? Blanditiis qui harum illo ex quia. Et qui, perspiciatis sed dolore voluptas excepturi tempora facere accusantium facilis eos, cumque est. Aspernatur, est? Velit recusandae quo in! Ullam, itaque a. Praesentium fuga numquam rerum, nam obcaecati optio adipisci eligendi ad delectus quae mollitia placeat iste illo sit voluptates eaque accusamus? -->
+                                {{ Object.keys(shop)[0] }}
                             </h5>
                             <div>
-                                <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.5 1.16666L7.33333 6.99999L1.5 12.8333" stroke="#616161" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <svg width="9" height="14" viewBox="0 0 9 14" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.5 1.16666L7.33333 6.99999L1.5 12.8333" stroke="#616161" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
                         </div>
-                        
+
                     </div>
                     <!-- product list -->
-                    <div class="product_list">
+                    <div class="product_list" v-for="detail in Object.values(shop)[0].list">
                         <!-- product item -->
                         <div class="product_item">
                             <div>
                                 <!-- select -->
                                 <div class="product_selection">
-                                    <input type="checkbox" name="" id="">
+                                    <input type="checkbox" name="" id="" v-model="detail.isSelected"> {{
+            detail.isSelected }}
                                 </div>
                                 <!-- img -->
                                 <div class="product_img">
-                                    <img src="../assets/vue.svg" alt="product_img">
+                                    <img v-if="detail.image" :src="`${origin}/api/image/products/${detail.itemId}`"
+                                        alt="product_img">
+                                    <img v-else src="../assets/vue.svg" alt="product_img">
                                 </div>
                                 <!-- product_detail -->
                                 <div class="product_detail">
@@ -98,41 +183,44 @@ const goHome =()=>myRouter.push({name:"Home"})
                                         <p>
                                             Variation :&nbsp;
                                         </p>
-                                        <select  :id="`variation_${index}`">
+                                        <select :id="`variation_${index}`">
                                             <option value="">variation</option>
-                                        </select>    
+                                        </select>
                                     </label>
-                                    
                                 </div>
                             </div>
                             <div>
                                 <!-- price -->
                                 <div class="product_price">
-                                    ฿25.99
+                                    ฿{{ detail.priceEach }}
                                 </div>
                                 <!-- quantity -->
                                 <div class="product_quantity">
                                     <!-- reduce -->
-                                    <button class="reduce">
+                                    <button class="reduce" @click="reduceQty(detail.cartId, detail.qty)">
                                         -
                                     </button>
-                                    <input type="text">
+                                    <input type="text" v-model="detail.qty">
                                     <!-- add -->
-                                    <button class="add">
+                                    <button class="add" @click="addQty(detail.cartId, detail.qty)">
                                         +
                                     </button>
-                                    
+
                                 </div>
                                 <!-- total -->
                                 <div class="product_total">
-                                    ฿25.99asdfasdfasdf
+                                    ฿{{ detail.priceEach * detail.qty }}
                                 </div>
                                 <!-- delete -->
-                                <div class="product_delete">
-                                    <button >
+                                <div class="product_delete" @click="deleteCart(detail.cartId)">
+                                    <button>
                                         <div>
-                                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z" stroke="#F75555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z"
+                                                    stroke="#F75555" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
                                             </svg>
                                         </div>
                                     </button>
@@ -152,13 +240,13 @@ const goHome =()=>myRouter.push({name:"Home"})
                     </h4>
                     <!-- summary list -->
                     <div class="summary_list">
-                         <!--subtotal  -->
-                         <div class="summary_item">
+                        <!--subtotal  -->
+                        <div class="summary_item">
                             <h6>
                                 Subtotal
                             </h6>
                             <p class="money_bath">
-                                91.97asdfasdfasdf
+                                ฿{{ carts.total }}
                             </p>
                         </div>
                         <!-- Shipping -->
@@ -167,7 +255,7 @@ const goHome =()=>myRouter.push({name:"Home"})
                                 Shiping
                             </h6>
                             <p class="money_bath">
-                                $0sdfasdfasdasdfsdf
+                                ฿{{ carts.shipping }}
                             </p>
                         </div>
                         <!-- Tax -->
@@ -176,7 +264,7 @@ const goHome =()=>myRouter.push({name:"Home"})
                                 Tax
                             </h6>
                             <p class="money_bath">
-                                $0sdsfdsdfsdfsdafasdf
+                                ฿{{ carts.tax }}
                             </p>
                         </div>
                     </div>
@@ -186,7 +274,8 @@ const goHome =()=>myRouter.push({name:"Home"})
                             Total Payment
                         </h6>
                         <p class="money_bath">
-                            $90.00sdfsdfsdfsdf
+                            ฿{{ parseFloat(Number(carts.total) + Number(carts.shipping) + Number(carts.tax)).toFixed(2)
+                            }}
                         </p>
                     </div>
                 </div>
@@ -197,48 +286,54 @@ const goHome =()=>myRouter.push({name:"Home"})
             </div>
         </div>
     </div>
-    <BaseFooter/>
+    <BaseFooter />
 </template>
 <style scoped>
-*{
+* {
     box-sizing: border-box;
 }
+
 /* access layer */
-.container_access{
+.container_access {
     display: flex;
     width: auto;
-    height: min(3.056dvw,44px);
+    height: min(3.056dvw, 44px);
     background-color: #FFFFFF;
-    border-bottom: min(0.069dvw,1px) solid;
+    border-bottom: min(0.069dvw, 1px) solid;
     border-color: #EEEEEE;
     padding: 0px min(11.111dvw, 160px);
     align-items: center;
     gap: min(1.111dvw, 16px);
 }
-.container_access svg:nth-child(1){
+
+.container_access svg:nth-child(1) {
     width: min(1.667dvw, 24px);
     height: min(1.667dvw, 24px);
     cursor: pointer;
 }
-.container_access svg:nth-child(1):hover path{
-    fill:#26AC34;
+
+.container_access svg:nth-child(1):hover path {
+    fill: #26AC34;
 }
-.link{
-    font-size: min(0.972dvw,14px);
+
+.link {
+    font-size: min(0.972dvw, 14px);
     font-weight: 500;
-    color:#757575;
+    color: #757575;
     cursor: pointer;
 }
-.link:hover{
+
+.link:hover {
     color: #26AC34;
 }
-.right_arrow{
+
+.right_arrow {
     display: flex;
     width: min(1.667dvw, 24px);
     height: min(3.056dvw, 44px);
 }
 
-.wrapper_cart{
+.wrapper_cart {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -249,14 +344,16 @@ const goHome =()=>myRouter.push({name:"Home"})
     gap: 20px;
     background-color: #F5F5F5;
 }
-.cart{
+
+.cart {
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: 16px;
 }
-.header_cart{
+
+.header_cart {
     display: flex;
     width: 100%;
     height: 52px;
@@ -268,27 +365,32 @@ const goHome =()=>myRouter.push({name:"Home"})
     border-radius: 8px;
     background-color: #fff;
 }
-.header_cart > div{
+
+.header_cart>div {
     display: flex;
     width: auto;
     height: 100%;
     align-items: center;
 }
-.header_cart .cart_selecetion{
+
+.header_cart .cart_selecetion {
     display: flex;
     width: fit-content;
     height: fit-content;
 }
-.cart_selecetion input{
+
+.cart_selecetion input {
     width: 16px;
     height: 16px;
     accent-color: #168A22;
 }
+
 /* amount of shop */
-.header_cart > div:nth-child(1){
-    gap:16px ;
+.header_cart>div:nth-child(1) {
+    gap: 16px;
 }
-.header_cart > div:nth-child(1) h4{
+
+.header_cart>div:nth-child(1) h4 {
     display: flex;
     height: 28px;
     font-size: 18px;
@@ -297,7 +399,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     /* justify-content: center; */
     align-items: center;
 }
-.header_cart > div:nth-child(1) h4 span{
+
+.header_cart>div:nth-child(1) h4 span {
     display: flex;
     height: 100%;
     font-size: 18px;
@@ -305,15 +408,17 @@ const goHome =()=>myRouter.push({name:"Home"})
     color: #616161;
     align-items: center;
 }
+
 /* typ of unit */
-.header_cart > div:nth-child(2){
+.header_cart>div:nth-child(2) {
     display: flex;
     width: 360px;
     height: 100%;
     /* gap: 16px; */
     align-items: center;
 }
-.header_cart > div:nth-child(2) h5{
+
+.header_cart>div:nth-child(2) h5 {
     display: flex;
     width: auto;
     height: fit-content;
@@ -324,23 +429,26 @@ const goHome =()=>myRouter.push({name:"Home"})
     align-items: center;
 
 }
-.header_cart > div:nth-child(2) h5:nth-child(1),
-.header_cart > div:nth-child(2) h5:nth-child(3){
+
+.header_cart>div:nth-child(2) h5:nth-child(1),
+.header_cart>div:nth-child(2) h5:nth-child(3) {
     width: 100px;
 }
-.header_cart > div:nth-child(2) h5:nth-child(2){
+
+.header_cart>div:nth-child(2) h5:nth-child(2) {
     width: 128px;
 }
 
 /* shop */
-.shop_list{
+.shop_list {
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: 16px;
 }
-.shop_item{
+
+.shop_item {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -353,8 +461,9 @@ const goHome =()=>myRouter.push({name:"Home"})
     box-shadow: 0px 1px 2px 0px #0000000F;
 
 }
+
 /* header */
-.header_shop{
+.header_shop {
     display: flex;
     width: 100%;
     height: 36px;
@@ -364,23 +473,27 @@ const goHome =()=>myRouter.push({name:"Home"})
     padding: 0px 20px 12px 20px;
     gap: 16px;
 }
-.header_shop .shop_selection{
+
+.header_shop .shop_selection {
     display: flex;
     width: fit-content;
     height: fit-content;
 }
-.header_shop input{
+
+.header_shop input {
     width: 16px;
     height: 16px;
     accent-color: #168A22;
 }
-.header_shop > div{
-    
+
+.header_shop>div {
+
     display: flex;
     width: 100%;
     height: fit-content;
 }
-.header_shop > div h5{
+
+.header_shop>div h5 {
     width: fit-content;
     max-width: 80%;
     font-size: 16px;
@@ -390,21 +503,24 @@ const goHome =()=>myRouter.push({name:"Home"})
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.header_shop > div div{
+
+.header_shop>div div {
     display: flex;
     width: 20px;
     height: 20px;
     justify-content: center;
     align-items: center;
 }
+
 /* product list */
-.product_list{
+.product_list {
     display: flex;
     width: 100%;
     height: fit-content;
     padding: 0px 20px;
 }
-.product_item{
+
+.product_item {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -415,32 +531,37 @@ const goHome =()=>myRouter.push({name:"Home"})
 
     padding-bottom: 12px;
 }
-.product_item >div{
+
+.product_item>div {
     display: flex;
     width: 100%;
     height: 56px;
     align-items: center;
 }
+
 /* left of item detail */
-.product_item >div:nth-child(1) div{
+.product_item>div:nth-child(1) div {
     width: auto;
     height: 100%;
 }
+
 /* selection */
-.product_item >div:nth-child(1) .product_selection{
+.product_item>div:nth-child(1) .product_selection {
     display: flex;
     width: 32px;
     height: 100%;
     justify-content: start;
     align-items: center;
 }
-.product_item >div:nth-child(1) .product_selection input{
+
+.product_item>div:nth-child(1) .product_selection input {
     width: 16px;
     height: 16px;
     accent-color: #168A22;
 }
+
 /* img */
-.product_item >div:nth-child(1) .product_img{
+.product_item>div:nth-child(1) .product_img {
     display: flex;
     width: 52px;
     height: 52px;
@@ -450,12 +571,14 @@ const goHome =()=>myRouter.push({name:"Home"})
     border-radius: 4px;
     overflow: hidden;
 }
-.product_item >div:nth-child(1) .product_img img{
+
+.product_item>div:nth-child(1) .product_img img {
     width: 100%;
     height: auto;
 }
+
 /* detail */
-.product_item >div:nth-child(1) .product_detail{
+.product_item>div:nth-child(1) .product_detail {
     display: flex;
     width: 100%;
     /* max-width: 100%; */
@@ -464,7 +587,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     padding: 4px 12px;
     gap: 4px;
 }
-.product_item >div:nth-child(1) .product_detail h6{
+
+.product_item>div:nth-child(1) .product_detail h6 {
     width: fit-content;
     max-width: 100%;
     height: 20px;
@@ -474,7 +598,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.product_item >div:nth-child(1) .product_detail label{
+
+.product_item>div:nth-child(1) .product_detail label {
     display: flex;
     width: 100%;
     max-width: 100%;
@@ -485,10 +610,12 @@ const goHome =()=>myRouter.push({name:"Home"})
     border: none;
     border-radius: 4px;
 }
-.product_item >div:nth-child(1) .product_detail label:focus-within{
+
+.product_item>div:nth-child(1) .product_detail label:focus-within {
     outline: auto;
 }
-.product_item >div:nth-child(1) .product_detail label p{
+
+.product_item>div:nth-child(1) .product_detail label p {
     display: flex;
     width: 55px;
     height: 16px;
@@ -497,7 +624,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     color: #616161;
     white-space: nowrap;
 }
-.product_item >div:nth-child(1) .product_detail label select{
+
+.product_item>div:nth-child(1) .product_detail label select {
     display: flex;
     width: 100%;
     height: 16px;
@@ -510,13 +638,14 @@ const goHome =()=>myRouter.push({name:"Home"})
 }
 
 /* right price quantity total */
-.product_item >div:nth-child(2){
+.product_item>div:nth-child(2) {
     display: flex;
     width: fit-content;
     height: fit-content;
     align-items: center;
 }
-.product_item >div:nth-child(2) .product_price{
+
+.product_item>div:nth-child(2) .product_price {
     display: flex;
     width: 100px;
     height: 100%;
@@ -526,18 +655,20 @@ const goHome =()=>myRouter.push({name:"Home"})
     color: #616161;
     font-size: 14px;
     font-weight: 400;
-    
+
 }
-.product_item >div:nth-child(2) .product_quantity{
+
+.product_item>div:nth-child(2) .product_quantity {
     display: flex;
     width: 128px;
     height: 100%;
     padding: 8px 12px;
     justify-content: center;
     align-items: center;
-    
+
 }
-.product_item >div:nth-child(2) .product_quantity div{
+
+.product_item>div:nth-child(2) .product_quantity div {
     display: flex;
     width: 100%;
     height: 36px;
@@ -552,7 +683,7 @@ const goHome =()=>myRouter.push({name:"Home"})
 
 }
 
-.product_item >div:nth-child(2) .product_quantity button{
+.product_item>div:nth-child(2) .product_quantity button {
     display: flex;
     width: 32px;
     height: 100%;
@@ -567,21 +698,23 @@ const goHome =()=>myRouter.push({name:"Home"})
     border-color: #E0E0E0;
     /* border-color: transparent; */
 }
-.product_item >div:nth-child(2) .product_quantity  .reduce{
+
+.product_item>div:nth-child(2) .product_quantity .reduce {
     border-right: none;
     border-radius: 4px 0px 0px 4px;
 }
-.product_item >div:nth-child(2) .product_quantity .add{
+
+.product_item>div:nth-child(2) .product_quantity .add {
     border-left: none;
     border-radius: 0px 4px 4px 0px;
 }
 
-.product_item >div:nth-child(2) .product_quantity input{
+.product_item>div:nth-child(2) .product_quantity input {
     display: flex;
     width: 100%;
     /* min-width: 32px; */
     height: 100%;
-    border-color: #E0E0E0 ;
+    border-color: #E0E0E0;
     border: 1px solid;
     background-color: #fff;
     padding: 8px 12px;
@@ -590,7 +723,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     z-index: 5;
     border-color: #E0E0E0;
 }
-.product_item >div:nth-child(2) .product_total{
+
+.product_item>div:nth-child(2) .product_total {
     /* display: flex; */
     width: 100px;
     height: 100%;
@@ -603,7 +737,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.product_item >div:nth-child(2)  .product_delete {
+
+.product_item>div:nth-child(2) .product_delete {
     display: flex;
     width: 32px;
     height: 100%;
@@ -612,7 +747,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     align-items: center;
 
 }
-.product_item >div:nth-child(2) .product_delete button{
+
+.product_item>div:nth-child(2) .product_delete button {
     display: flex;
     width: 20px;
     height: 20px;
@@ -622,12 +758,13 @@ const goHome =()=>myRouter.push({name:"Home"})
     background-color: transparent;
     cursor: pointer;
 }
-.product_item >div:nth-child(2) .product_delete button svg{
+
+.product_item>div:nth-child(2) .product_delete button svg {
     width: 13px;
     height: auto;
 }
 
-.wrapper_summary{
+.wrapper_summary {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -639,37 +776,42 @@ const goHome =()=>myRouter.push({name:"Home"})
     align-items: center;
     gap: 12px;
 }
-.summary{
+
+.summary {
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: 12px;
 }
-.summary h4{
+
+.summary h4 {
     display: flex;
     width: 100%;
-    height:24px;
+    height: 24px;
     font-weight: 700;
     font-size: 16px;
     color: #212121;
     align-items: center;
     justify-content: start;
 }
-.summary_list{
+
+.summary_list {
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: 4px;
 }
-.summary_list .summary_item{
+
+.summary_list .summary_item {
     display: flex;
     width: 100%;
     height: 20px;
     justify-content: space-between;
 }
-.summary_item h6{
+
+.summary_item h6 {
     /* display: flex; */
     width: 100%;
     height: 100%;
@@ -677,7 +819,8 @@ const goHome =()=>myRouter.push({name:"Home"})
     font-weight: 400;
     color: #616161;
 }
-.summary_item p{
+
+.summary_item p {
     width: 108px;
     height: 100%;
     overflow: hidden;
@@ -687,25 +830,28 @@ const goHome =()=>myRouter.push({name:"Home"})
     color: #212121;
     text-align: end;
 }
-.total{
+
+.total {
     display: flex;
     width: 100%;
     height: 32px;
-    padding-top:12px ;
+    padding-top: 12px;
     border-top: 1px solid;
     border-color: #EEEEEE;
     justify-content: space-between;
     align-items: center;
     /* flex-direction: column; */
 }
-.total h6{
+
+.total h6 {
     width: fit-content;
     height: fit-content;
     font-size: 14px;
     font-weight: 700;
     color: #212121;
 }
-.total p{
+
+.total p {
     width: 108px;
     height: 100%;
     font-size: 14px;
@@ -713,9 +859,10 @@ const goHome =()=>myRouter.push({name:"Home"})
     text-align: end;
     overflow: hidden;
     text-overflow: ellipsis;
-    color:#26AC34 ;
+    color: #26AC34;
 }
-.wrapper_summary > button{
+
+.wrapper_summary>button {
     display: flex;
     width: 100%;
     height: 52px;
