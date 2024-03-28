@@ -1,5 +1,6 @@
 <script setup>
 import {ref,onUpdated, onMounted}from 'vue'
+import sortTypeArr from '../../JS/enum/product'
 const emit =defineEmits(['sortItem', 'moveLeft', "moveRight", "showFilter"])
 const props =defineProps({
     isShowFilter:{
@@ -22,13 +23,13 @@ const props =defineProps({
 const sortItem=ref(undefined)
 // const currentPage = ref(props.changePage.currentPage)
 
-const sortTypeArr =[
-    {name:"Popular",value: {name: "popular", type: 'desc'}},
-    {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
-    {name:"Top Sales",value: {name: "sales", type: 'desc'}},
-    {name:"Price - Low",value: {name: "price", type: 'asc'}},
-    {name:"Price - Hight",value: {name: "price", type: 'desc'}},
-]
+// const sortTypeArr =[
+//     // {name:"Popular",value: {name: "popular", type: 'desc'}},
+//     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
+//     {name:"Top Sales",value: {name: "sales", type: 'desc'}},
+//     {name:"Price - Low",value: {name: "price", type: 'asc'}},
+//     {name:"Price - Hight",value: {name: "price", type: 'desc'}},
+// ]
 
 // this for show filter in baseFilter
 const isShowFilter=ref(false)
@@ -102,7 +103,6 @@ onUpdated(()=>{
                 <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
-                
             </div>    
             
         </div>

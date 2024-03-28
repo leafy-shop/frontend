@@ -5,7 +5,7 @@ import BaseFilterItem from '../components/shop_page/BaseFilterItem.vue'
 import BaseProductList from '../components/shop_page/BaseProductList.vue';
 import BaseSortItem from '../components/shop_page/BaseSortItem.vue'
 import BaseSelectPage from '../components/BaseSelectPage.vue';
-import {ref, onBeforeMount,onMounted} from 'vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 import fetch from '../JS/api';
 import { useRoute } from 'vue-router'
 import validation from '../JS/validation'
@@ -46,14 +46,14 @@ const sortTypeArr = [
 
 const getSearchItem = async (text) => {
     // console.log(text)
-    currentPage.value=1
+    currentPage.value = 1
     // console.log(search)
     searchItem.value = text.search
     await getProduct(currentPage.value)
 }
 // const eachSide=3
 // const pageHidden=(currentP,total)=>{
-    
+
 //     for(let i=1;i<=eachSide;i++){
 //         // previous number
 //         // for taggle to show hidden number before
@@ -75,43 +75,56 @@ const getSearchItem = async (text) => {
 //             document.getElementById(`nextNumber_${i}`).setAttribute('style','display:flex;')
 //         }
 //     }
-    
+
 // }
 
 const getProduct = async (page) => {
+    console.log(page)
     console.log(searchItem.value)
     console.log(categoryFilter.value.join())
     console.log(minFilter.value)
     console.log(maxFilter.value)
     console.log(ratingFilter.value)
     console.log(tagFilter.value)
+    console.log(sortName.value)
+    console.log(sort.value)
+    let productInput = {
+        page: page,
+        limitP: 18,
+        searchItem: searchItem.value,
+        type: categoryFilter.value.join(),
+        min: minFilter.value,
+        max: maxFilter.value,
+        rating: ratingFilter.value,
+        tag: tagFilter.value,
+        sort_name: sortName.value,
+        sort: sort.value
+    }
 
-    let { status, data } = await fetch.getAllProduct(page,18, searchItem.value, categoryFilter.value.join(),
-        minFilter.value, maxFilter.value, ratingFilter.value, tagFilter.value, sortName.value, sort.value)
+    let { status, data } = await fetch.getAllProduct(productInput)
     console.log(data.list)
     // productList.value=data
     productList.value = data.list
     allItems.value = data.allItems
     totalPage.value = data.allPage
+
     // totalPage.value=10
     validation.navigationTo()
 }
 
 // if change page input must be a number only
-const changePage=async (number)=>{
+const changePage = async (number) => {
     console.log(number + "this is number   ")
     // console.log(typeof(number))
     // let {currentPage} = number
     // console.error(currentPage.value)
-    let status = validation.number(number,true)
-    currentPage.value = status==true?number:Math.abs(parseInt(number))
-    
+    let status = validation.number(number, true)
+    currentPage.value = status == true ? number : Math.abs(parseInt(number))
+
     // currentPage.value=Math.abs(parseInt(number))
     await getProduct(currentPage.value)
     // pageHidden(currentPage.value)
 }
-
-
 
 const getFilterItem = async (data) => {
     // filterData.value=data
@@ -125,15 +138,19 @@ const getFilterItem = async (data) => {
     sort.value = sortBy ? sortBy.type : undefined
     console.log(data)
     await getProduct(currentPage.value)
+    // showFilterItem({show: true})
     // console.log("passing data from BaseFilter to shop success!!")
-    pageHidden(currentPage.value, totalPage.value)
+    // pageHidden(currentPage.value, totalPage.value)
 
 }
 
 const showFilterItem = (data) => {
-    let { show } = data
-    // console.log(show)
-    return isShowFilter.value = show
+    if (window.innerWidth <= 376) {
+        // console.log(data)
+        let { show } = data
+
+        return isShowFilter.value = show
+    }
 }
 
 const getSortItem = async (data) => {
@@ -145,14 +162,14 @@ const getSortItem = async (data) => {
 }
 
 const moveLeft = async (current) => {
-    console.log("move to left"+current)
+    console.log("move to left" + current)
     currentPage.value = current > 1 ? current - 1 : 1
     await getProduct(currentPage.value)
     // validation.navigationTo(top)
 }
 
 const moveRight = async (current) => {
-    console.log("move to right"+current)
+    console.log("move to right" + current)
     currentPage.value = current < totalPage.value ? current + 1 : totalPage.value
     await getProduct(currentPage.value)
     // validation.navigationTo(top)
@@ -174,12 +191,12 @@ onMounted(() => {
 
 </script>
 <template>
-    <BaseMenu class="menu" @search="getSearchItem" :search="searchItem"/>
+    <BaseMenu class="menu" @search="getSearchItem" :search="searchItem" />
     <div class="shop_title">
         <h3>
             Shop
         </h3>
-        <img src="../assets/shop_p/shop_title.jpg" alt="title_img">
+        <img src="../assets/shop_p/shop_title.jpg" alt="title_img" loading="lazy">
     </div>
 
     <div class="shop_content">
@@ -187,15 +204,11 @@ onMounted(() => {
             <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="showFilterItem"
                 :sort-type-arr="sortTypeArr" />
             <div class="wrapper_productList">
-                <BaseSortItem @showFilter="showFilterItem" 
-                :is-show-filter="isShowFilter"
-                @sortItem="getSortItem"
-                @moveLeft="moveLeft" 
-                @moveRight="moveRight" 
-                :change-page="{currentPage:currentPage,totalPage:totalPage}"
-                />
-                <BaseProductList :productList="productList" :size="100" :gridColumn="3"/>
-                
+                <BaseSortItem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
+                    @moveLeft="moveLeft" @moveRight="moveRight"
+                    :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
+                <BaseProductList :productList="productList" :size="100" :gridColumn="3" />
+
                 <!-- <div class="link_page_container">
                     <ul>
                         <li @click="moveLeft(currentPage)" class="move_page">
@@ -232,8 +245,8 @@ onMounted(() => {
                         </li>
                     </ul>
                 </div> -->
-                <BaseSelectPage :current-page="currentPage" :total-page="totalPage"
-                @move-left="moveLeft" @change-page="changePage" @move-right="moveRight"/>
+                <BaseSelectPage :current-page="currentPage" :total-page="totalPage" @move-left="moveLeft"
+                    @change-page="changePage" @move-right="moveRight" />
             </div>
 
         </div>
@@ -636,6 +649,5 @@ onMounted(() => {
     .move_page:hover svg path {
         fill: #fff;
     }
-
-} */
+}
 </style>

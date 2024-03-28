@@ -63,11 +63,25 @@ const deleteAddress =async()=>{
         console.log("close overlay")
         console.log(msg)
     }
-    
 }
 
+const setDefaultAddress = async (addressId) => {
+    let {status,msg}= await fetch.updateAddressById(userName.value,addressId, {isDefault: true})
+    if(status){
+        // close overlay
+        isDelete.value=false
+        console.log("close overlay")
+        await getAddress()
+    }else {
+        //error 
+        isDelete.value=false
+        console.log("close overlay")
+        console.log(msg)
+    }
+}
+
+
 onBeforeMount(async()=>{
-    
     // console.log(userName.value)
     await getAddress()
 })
@@ -120,7 +134,9 @@ onBeforeMount(async()=>{
                         <p>
                             {{ `${address.address}  ${address.province}  ${address.distrinct}
                               ${address.subDistrinct}  ${address.postalCode}`}}
-                        </p>                 
+                        </p>
+                        <button @click="setDefaultAddress(address.addressId)">Set as default</button>
+                        <button v-show="address.isDefault" disabled>Default</button>
                 </div>
             </div>
         </div>

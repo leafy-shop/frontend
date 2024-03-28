@@ -23,6 +23,7 @@ import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
 import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
 import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
 import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
+import MyPurchase from '../view/accountSetting/MyPurchase.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -103,6 +104,11 @@ const routes=[
                 path:'bank/:method/:id?',
                 name:'Bank_AS_add',
                 component:Bank_AS_add
+            },
+            {
+                path:'my-purchase',
+                name:'MyPurchase',
+                component:MyPurchase
             },
             {
                 path:'my-shop/products',

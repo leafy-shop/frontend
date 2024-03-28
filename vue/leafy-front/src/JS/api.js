@@ -196,22 +196,81 @@ const fetch = {
     },
     
     // product shop page
-     async getAllProduct(page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined){
+     async getAllProduct(inputData){
+        // ,page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined
+        let {
+            page, // current page
+            limitP, //max item per page
+            searchItem, //for searching
+            type, //filter by category
+            min,max, //filter min & max price
+            rating, //filter rating
+            tag, //filter by tag
+            sort_name, //filter by sort name
+            sort, //filter by sort by ???
+            owner //owner of product
+        }=inputData
+        //input format
+        // {
+        //     page:'', 
+            // limitP:'', 
+            // searchItem:'', 
+            // type:'', 
+            // min:'',
+            // max:'', 
+            // rating:'', 
+            // tag:'', 
+            // sort_name:'', 
+            // sort:'', 
+            // owner:'' 
+        // } 
         let returnData = { status: false, data: undefined, msg:'' }
         console.log('startttttttttttttttt')
         console.log(owner)
         try {
             let url = `${origin}/api/products?page=${page}`
-            if (searchItem.length !== 0) url += `&product=${searchItem}`;
-            if (type.length !== 0) url += `&type=${type}`;
-            if (min > 0) url += `&min_price=${min}`;
-            if (max !== Infinity&&max!=undefined) url += `&max_price=${max}`;
-            if (rating !== 0) url += `&rating=${rating}`;
-            if (tag.length !== 0) url += `&tag=${tag}`;
+            // search value
+            if (searchItem!=undefined){
+                if(searchItem.length !== 0)url += `&product=${searchItem}`;
+            } 
+            // type / category
+            if (type!=undefined){
+                if(type.length !== 0) url += `&type=${type}`;
+            }
+            // price min
+            if (min!=undefined){
+                if(min > 0 ) url += `&min_price=${min>=max?max-1:min}`;
+            }
+            // price max
+            if (max!=undefined){
+                if(max !== Infinity) url += `&max_price=${max<=min?min+1:max}`;
+            }
+            // rating
+            if (rating!=undefined){
+                if(rating !== 0) url += `&rating=${rating}`;
+            }
+            // tag
+            if (tag!=undefined){
+                if(tag.length !== 0) url += `&tag=${tag}`;
+            }
+            // type of sort
             if (sort_name !== undefined ) url += `&sort_name=${sort_name}`;
+            // sort by greater then  and less then
             if (sort !== undefined) url += `&sort=${sort}`;
+            // owner
             if (owner != undefined) url += `&owner=${owner}`
+            // limit item perpage
             if (limitP!==undefined) url+=`&limit=${limitP}`
+            // if (searchItem != undefined) url += `&product=${searchItem}`;
+            // if (type != undefined) url += `&type=${type}`;
+            // if (min!= undefined) url += `&min_price=${min}`;
+            // if (max != Infinity&&max!=undefined) url += `&max_price=${max}`;
+            // if (rating != undefined) url += `&rating=${rating}`;
+            // if (tag!= undefined) url += `&tag=${tag}`;
+            // if (sort_name != undefined) url += `&sort_name=${sort_name}`;
+            // if (sort != undefined) url += `&sort=${sort}`;
+            // if (owner != undefined) url += `&owner=${owner}`
+            // if (limitP!= undefined) url+=`&limit=${limitP}`
 
             console.log(url)
 
@@ -228,6 +287,7 @@ const fetch = {
             return returnData
 
         } catch (error) {
+            console.warn(error)
             validation.function_Status('get all product', false, error)
             if(error.code=="ERR_NETWORK"){//check back-end server error
                 returnData.msg="Server Error try again later"
@@ -250,7 +310,7 @@ const fetch = {
         try {
             let url = `${origin}/api/products?page=${page}&limit=${limit}&isRecommend=true`
 
-            // console.log(url)
+            console.log(url)
 
             let res = await axios.get(url)
 
@@ -262,6 +322,7 @@ const fetch = {
                 // returnData.status = true
                 returnData.data = res.data
             }
+            console.log(res.data)
             return returnData
 
         } catch (error) {
@@ -471,12 +532,12 @@ const fetch = {
             }
         }
     },
-    async addPayment(inputData){
+    async addPayment(username, inputData){
         let returnData = { status: false, msg:'' }
 
         if (inputData!=undefined) {
             try {
-                let url = `${origin}/api/payments`
+                let url = `${origin}/api/payments/${username}`
                 let res = await axios.post(url, inputData)
                 // console.log(res.data)
                 // cookie.decrypt("information")
@@ -631,12 +692,12 @@ const fetch = {
             }
         }
     },
-    async addAddress(inputData){
+    async addAddress(userName,inputData){
         let returnData = { status: false, msg:'' }
 
         if (inputData!=undefined) {
             try {
-                let url = `${origin}/api/addresses`
+                let url = `${origin}/api/addresses/${userName}`
                 let res = await axios.post(url, inputData)
                 // console.log(res.data)
                 // cookie.decrypt("information")
@@ -741,6 +802,54 @@ const fetch = {
                 returnData.status=false
             }
             return returnData
+        }
+    },
+    // for
+    async getAllOrder(inputData,isSupplier=false){
+        let returnData = { status: false, data: undefined, msg:'' }
+        let {
+            username,
+            sort,
+        }=inputData
+        try {
+            
+            if(isSupplier){ // for role supplier
+                // let url=`${origin}/api/orders/supplier?username=${username}`
+                // let res = await axios.get(url)
+                // if(res.status==200){
+                //     validation.function_Status('get order all', true)
+                //     returnData.status = true
+                //     returnData.data=res.data
+                // }
+            }else{ //for normal user
+                let url=`${origin}/api/orders?`
+                // check sort
+                if(sort!=undefined) url+=`sort=${sort}`;
+                let res = await axios.get(url)
+                if(res.status==200){
+                    validation.function_Status('get order all for user', true)
+                    returnData.status = true
+                    returnData.data=res.data
+                }
+            }
+            
+
+            // if ( res.status==200) {
+            //     validation.function_Status('get user address all', true)
+            //     returnData.status = true
+            //     returnData.data=res.data
+            // }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get order all', false, error)
+            if(error.code=="ERR_NETWORK"){//check back-end server error
+                returnData.msg="Server Error try again later"
+                returnData.status=false
+                return returnData
+            }
+            else{
+
+            }
         }
     },
     // authentication
@@ -886,7 +995,7 @@ const fetch = {
         //     "description": " ",
         //     "phone": pn
         // }
-        let url= `${origin}/api/users`
+        let url= `${origin}/api/users/register`
 
         try {
             let res=await axios.post(url,userInfo)

@@ -90,10 +90,10 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         // }
     },
     textRange(text,max,min){ //check lenght 10 - 11 only
-        if(text!=undefined&&max>min){
-            if((text.length>=min&&text.length<=max)||text.length==0){
-                return true
-            }
+        console.log(text)
+        if(text!=undefined&&max>=min&&text.length>=min&&text.length<=max){
+            return true
+        } else {
             return false
         }
     },

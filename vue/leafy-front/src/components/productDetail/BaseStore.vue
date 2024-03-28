@@ -26,7 +26,7 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.en
                 <button @click="chatNow">
                     Chat Now 
                 </button>
-                <button @click="goProfile(owner.email)">
+                <button @click="goProfile(owner.username)">
                     View Shop
                 </button>
             </div>
