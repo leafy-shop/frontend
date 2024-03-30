@@ -171,7 +171,7 @@ onUpdated(()=>{
     /* height: fit-content; */
     height: fit-content;
     min-height: 90dvh;
-    max-height: 180dvh;
+    max-height: fit-content;
     padding: 24px 160px;
     gap: 32px;
     background-color: #F5F5F5;
