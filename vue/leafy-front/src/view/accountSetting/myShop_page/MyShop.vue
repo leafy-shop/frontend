@@ -5,20 +5,22 @@ import {onBeforeMount, ref} from 'vue'
 import fetch from '../../../JS/api';
 import cookie from '../../../JS/cookie';
 import validation from '../../../JS/validation'
+import sortTypeArr from '../../../JS/enum/product'
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
+const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
 // Common attribute
 const userName=ref('')
 const productList=ref([])
-const sortTypeArr =[
-    {name:"Popular",value: {name: "popular", type: 'desc'}},
-    {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
-    {name:"Sold Out",value: {name: "price", type: 'desc'}},
-    {name:"Top Sales",value: {name: "sales", type: 'desc'}},
-    {name:"Point",value: {name: "price", type: 'asc'}},
-    {name:"Price",value: {name: "price", type: 'desc'}},
-]
+// const sortTypeArr =[
+//     {name:"Popular",value: {name: "popular", type: 'desc'}},
+//     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
+//     {name:"Sold Out",value: {name: "price", type: 'desc'}},
+//     {name:"Top Sales",value: {name: "sales", type: 'desc'}},
+//     {name:"Point",value: {name: "price", type: 'asc'}},
+//     {name:"Price",value: {name: "price", type: 'desc'}},
+// ]
 // ดึงข้อมูลเกี่ยวกับรูปภาพ
 
 // ดึงข้อมูลเกี่ยวกับ Product
@@ -41,6 +43,17 @@ const getProduct=async()=>{
         //error
     }
             
+}
+
+// delete product
+const deleteProduct=async(id)=>{
+    let {status,msg}=await fetch.deleteProductById(id)
+    if(status){
+        console.log('delete success')
+        await getProduct()
+    }else{
+        // error
+    }
 }
 onBeforeMount(async()=>{
     userName.value=cookie.decrypt().username
@@ -214,13 +227,13 @@ onBeforeMount(async()=>{
                     <td class="td_item">
                         <div>
                             <!-- edit -->
-                            <button>
+                            <button @click="goEdit(product.itemId)">
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7.16683 3.16762H3.00016C2.55814 3.16762 2.13421 3.34321 1.82165 3.65577C1.50909 3.96833 1.3335 4.39225 1.3335 4.83428V14.0009C1.3335 14.443 1.50909 14.8669 1.82165 15.1795C2.13421 15.492 2.55814 15.6676 3.00016 15.6676H12.1668C12.6089 15.6676 13.0328 15.492 13.3453 15.1795C13.6579 14.8669 13.8335 14.443 13.8335 14.0009V9.83428M12.6552 1.98928C12.8089 1.8301 12.9928 1.70313 13.1962 1.61578C13.3995 1.52843 13.6182 1.48245 13.8395 1.48053C14.0608 1.47861 14.2803 1.52078 14.4851 1.60458C14.6899 1.68838 14.876 1.81214 15.0325 1.96862C15.189 2.12511 15.3127 2.3112 15.3965 2.51603C15.4803 2.72085 15.5225 2.94032 15.5206 3.16162C15.5187 3.38292 15.4727 3.60162 15.3853 3.80496C15.298 4.0083 15.171 4.1922 15.0118 4.34595L7.85683 11.5009H5.50016V9.14428L12.6552 1.98928Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </button>
                             <!-- delete -->
-                            <button>
+                            <button @click="deleteProduct(product.itemId)">
                                 <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -578,6 +591,7 @@ table .product_item{
     align-items: center;
     border: none;
     background-color: transparent;
+    cursor: pointer;
 }
 .product_item td:nth-child(8) div button svg{
     width: 20px;
