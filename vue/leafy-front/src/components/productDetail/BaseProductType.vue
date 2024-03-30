@@ -1,7 +1,9 @@
 <script setup>
 import { ref, computed ,onUpdated,onMounted} from 'vue'
+import { useRouter } from 'vue-router'
 import validation from '../../JS/validation'
 import BaseStar from './BaseStar.vue';
+import fetch from './../../JS/api'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 const emit=defineEmits(["styleSelected"])
@@ -31,6 +33,9 @@ let props = defineProps({
 let stepInput = ref(1)
 let slideImage = ref(0)
 let maxImage = ref(0)
+
+const myRouter = useRouter()
+const goCartList=()=>myRouter.push({name:'CartList'})
 
 let detectNumber = (input) => {
     // console.log(input.target.value)
@@ -77,12 +82,22 @@ let selectedStyle = computed(() => {
         props.selectedStyle.stock = props.selectedStyle.sizes[0].stock
     }
 
-    console.log(props.selectedStyle,'asldfjal;sdfjlasd')
+    // console.log(props.selectedStyle,'asldfjal;sdfjlasd')
     stepInput.value = 1
     slideImage.value = 0
     maxImage.value = (props.selectedStyle.images == undefined || props.selectedStyle.images.length < 1) ? 1 : props.selectedStyle.images.length - 1
     return props.selectedStyle
 })
+
+let addToCart = async () => {
+    let cart = {itemId: productStyle.value.itemId, style: selectedStyle.value.style, size: selectedStyle.value.size, qty: stepInput.value}
+    // console.log(cart)
+    let {status, data} = await fetch.addToCart(cart)
+    console.log(status)
+    if (status) {
+        goCartList()
+    }
+}
 
 let selectedImage = (idx) => {
     // console.log(idx)
@@ -123,7 +138,11 @@ onUpdated(()=>{
             <div class="styles">
                 <ul>
                     <li v-if="selectedStyle.images && selectedStyle.images.length &&Object.keys(selectedStyle).length!=0&&selectedStyle.images.length&&selectedStyle.images.length!=1" v-for="(value, idx) in selectedStyle.images" :key="idx">
-                        <button @click="selectedImage(idx)">
+                        <button v-if="selectedStyle.stock" @click="selectedImage(idx)">
+                            <img v-if="selectedStyle.images.length==0" src="../../assets/vue.svg" alt="image_style">
+                            <img v-else :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
+                        </button>
+                        <button v-else>
                             <img v-if="selectedStyle.images.length==0" src="../../assets/vue.svg" alt="image_style">
                             <img v-else :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`" alt="image_style">
                         </button>
@@ -252,7 +271,7 @@ onUpdated(()=>{
                 <!-- button for add and buy -->
             </div>
                 <div class="wrapper_apply_buy">
-                    <button @click="addToClass">
+                    <button @click="addToCart">
                         Add to Cart
                     </button>
                     <button @click="buyNow">
