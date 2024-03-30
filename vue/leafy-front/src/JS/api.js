@@ -804,6 +804,31 @@ const fetch = {
             return returnData
         }
     },
+    async addToCart(cartInput) {
+        let returnData = { status: false, data: undefined, msg: '' }
+        try {
+            //for normal user
+            let url = `${origin}/api/carts/products`
+            // check sort
+            let res = await axios.post(url, cartInput)
+            if (res.status == 201) {
+                validation.function_Status('get owner cart for user', true)
+                returnData.status = true
+                returnData.data = res.data
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('get owner cart', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+    },
     async getCart() {
         let returnData = { status: false, data: undefined, msg: '' }
         try {
