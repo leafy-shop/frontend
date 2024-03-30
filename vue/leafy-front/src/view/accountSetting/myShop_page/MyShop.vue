@@ -50,7 +50,8 @@ onBeforeMount(async()=>{
 })
 </script>
 <template>
-<div class="wrapper_my_shop">
+    <div class="wrapper_all">
+        <div class="wrapper_my_shop">
     <div class="my_shop">
         <!-- header -->
         <div class="header_shop">
@@ -233,17 +234,21 @@ onBeforeMount(async()=>{
             </table> 
         </div>
 
-
-
-
-        
-        
     </div>
 </div>
+    </div>
+
 </template>
 <style scoped>
 *{
     box-sizing: border-box;
+}
+.wrapper_all {
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    /* gap: 24px; */
 }
 .wrapper_my_shop{
     display: flex;
@@ -273,10 +278,13 @@ onBeforeMount(async()=>{
     align-items: center;
 }
 .header_shop h4{
-    width: fit-content;
+    display: flex;
+    /* width: inherit; */
+    height: 28px;
     font-size: 18px;
     font-weight: 500;
     color: #212121;
+    align-items: center;
 }
 .header_shop  button{
     display: flex;

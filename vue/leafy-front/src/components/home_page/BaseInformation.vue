@@ -16,7 +16,6 @@ const goShop=()=>myRouter.push({name:'Shop'})
                     A beautiful house is as much about its surroundings as its bricks and mortar, something that the best garden designers all understand. We've completely updated our list of the finest of them all.
                 </p>
             </div>
-            
             <button @click="goShop">
                 Shop Collection
                 <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,8 +90,8 @@ const goShop=()=>myRouter.push({name:'Shop'})
     color:#252525;
 }
 .information_perfect_plant button {
-    /* width: min(11.458dvw, 165px);
-    height: min(2.778dvw, 40px); */
+    /* width: min(11.458dvw, 165px); */
+    height: min(2.778dvw, 40px);
     border: min(0.069dvw, 1px) solid #26AC34;
     padding: min(0.556dvw, 8px) min(0.556dvw, 8px) min(0.556dvw, 8px) min(0.833dvw, 12px);
     font-weight: 500;
@@ -131,6 +130,25 @@ const goShop=()=>myRouter.push({name:'Shop'})
     height: min(0.556dvw, 8px);
     background-color: #252525;
     box-sizing: border-box;
+}
+.info_title {
+    display: flex;
+    flex-direction: column;
+    gap: min(1.389dvw,20px);
+    height: fit-content;
+}
+.info_title h1{
+    /* width: min(67.593dvw, 292px); */
+    width: fit-content;
+    height: min(5dvw, 72px);
+    font-size: min(3.333dvw,48px);
+}
+.info_title p{
+    width: min(40dvw, 576px);
+    height: min(5dvw, 72px);
+    font-size: min(1.111dvw,16px);
+    line-height: 150%;
+    letter-spacing: min(0.014dvw, 0.2px);
 }
 .info_image{
     position: absolute;
@@ -215,6 +233,21 @@ const goShop=()=>myRouter.push({name:'Shop'})
         height: min(0.538dvw, 4px);
         background-color: #252525;
         box-sizing: border-box;
+    }
+    .info_title {
+        gap: min(2.151dvw,16px);
+    }
+    .info_title h1{
+        width: fit-content;
+        height: min(8.065dvw, 60px);
+        font-size: min(5.376dvw,40px);
+    }
+    .info_title p{
+        width: min(47.849dvw, 356px);
+        height: min(10.753dvw, 80px);
+        font-size: min(1.882dvw,14px);
+        line-height: 144%;
+        letter-spacing: min(0.027dvw, 0.2px);
     }
     .information_perfect_plant button{
         width: min(19.624dvw, 146px);

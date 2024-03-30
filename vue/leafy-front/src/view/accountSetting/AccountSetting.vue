@@ -141,6 +141,9 @@ onUpdated(()=>{
                 <h5>
                     My Shop
                 </h5>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.35092 8.76551C6.57568 8.541 6.88048 8.41487 7.1983 8.41487C7.51611 8.41487 7.82091 8.541 8.04567 8.76551L11.9925 12.7092L15.9393 8.76551C16.0499 8.65113 16.1822 8.5599 16.3284 8.49713C16.4746 8.43437 16.6319 8.40133 16.791 8.39995C16.9502 8.39857 17.108 8.42887 17.2553 8.48908C17.4026 8.5493 17.5364 8.63822 17.649 8.75067C17.7615 8.86311 17.8505 8.99683 17.9107 9.14401C17.971 9.29119 18.0013 9.44888 18 9.6079C17.9986 9.76691 17.9655 9.92406 17.9027 10.0702C17.8399 10.2163 17.7486 10.3484 17.6341 10.4589L12.8399 15.2493C12.6151 15.4738 12.3103 15.5999 11.9925 15.5999C11.6747 15.5999 11.3699 15.4738 11.1451 15.2493L6.35092 10.4589C6.12623 10.2343 6 9.92977 6 9.61221C6 9.29465 6.12623 8.99009 6.35092 8.76551V8.76551Z" fill="#212121"/>
+                </svg>
             </button>
             <div v-show="isShowNested" class="shop_list">
                 <button @click="goMyShop()" class="child_link">
@@ -154,7 +157,6 @@ onUpdated(()=>{
         <!-- nested page -->
         <div class="wrapper_content">
             <router-view></router-view>
-            
         </div>
     </div>
     <BaseFooter/>
@@ -171,7 +173,7 @@ onUpdated(()=>{
     min-height: 90dvh;
     max-height: 180dvh;
     padding: 24px 160px;
-    gap: 20px;
+    gap: 32px;
     background-color: #F5F5F5;
 }
 
@@ -190,20 +192,21 @@ onUpdated(()=>{
     padding: 8px 12px;
     gap: 12px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: transparent;
     cursor: pointer;
     align-items: center;
 }
 .container_menu .shop_list{
     display: flex;
-    width: inherit;
+    /* width: inherit; */
+    width: 100%;
     height: fit-content;
     flex-direction: column;
-    padding: 8px 12px 8px 36px;
+    padding: 0px 0px 0px 36px;
     gap: 4px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: transparent;
     cursor: pointer;
 }
@@ -212,6 +215,7 @@ onUpdated(()=>{
     width: 100%;
     height: 36px;
     align-items: center;
+    font-weight: 500;
 }
 .container_menu button div{
     display: flex;

@@ -402,120 +402,123 @@ onBeforeMount(async () => {
 // onUpdated(()=>console.log(aboutMe.value))
 </script>
 <template>
+    <!-- <div class="wrapper_all"> -->
     <div class="wrapper_profile">
         <!-- profile -->
-        <div>
-            <!-- title -->
-            <div class="title">
-                <h4>
-                    Profile
-                </h4>
-                <p>
-                    This information will be displayed publicly so be careful what you share.
-                </p>
-            </div>
+        <div class="wrapper_all">
+            <div class="wrapper_info">
+                <!-- title -->
+                <div class="title">
+                    <h4>
+                        Profile
+                    </h4>
+                    <p>
+                        This information will be displayed publicly so be careful what you share.
+                    </p>
+                </div>
+                <div class="input_item">
+                    <!-- username -->
+                    <div class="username profile_item">
+                        <h5>
+                            Username
+                        </h5>
+                        <input v-model="userName" type="text" maxlength="50" disabled>
+                        <!-- worning -->
+                        <!-- <div v-show="userNameS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ userNameM }}
+                                </p>
+                            </div>
+                        </div> -->
+                    </div>
 
-            <!-- username -->
-            <div class="username profile_item">
-                <h5>
-                    Username
-                </h5>
-                <input v-model="userName" type="text" maxlength="50" disabled>
-                <!-- worning -->
-                <!-- <div v-show="userNameS" class="wrapper_errorMsg">
-                    <div>
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                fill="#F75555" />
-                        </svg>
+                    <!-- about -->
+                    <div class="about_me profile_item">
+                        <h5>
+                            About
+                        </h5>
+                        <textarea v-model="aboutMe" placeholder="Something about myself." maxlength="500"></textarea>
                         <p>
-                            {{ userNameM }}
+                            Brief description for your profile. URLs are hyperlinked.
                         </p>
                     </div>
-                </div> -->
-            </div>
 
-            <!-- about -->
-            <div class="about_me profile_item">
-                <h5>
-                    About
-                </h5>
-                <textarea v-model="aboutMe" placeholder="Something about myself." maxlength="500"></textarea>
-                <p>
-                    Brief description for your profile. URLs are hyperlinked.
-                </p>
-            </div>
-
-            <!-- photo -->
-            <div class="image  profile_item">
-                <h5>
-                    Photo
-                </h5>
-                <div>
-                    <div>
-                        <!-- รูปพื้นฐาน ไม่เคยมีรูป -->
-                        <img v-show="userImage == undefined && userImageS != true" src="../../assets/vue.svg"
-                            draggable="false" alt="user_preview">
-                        <!-- รูปเพิ่งเพิ่ม -->
-                        <img v-show="userImage != undefined" src="#" id="user_preview" draggable="false"
-                            alt="user_preview">
-                        <!-- มีแล้ว -->
-                        <img v-show="userImage == undefined && userImageS == true"
-                            :src="`${origin}/api/image/users/${userId}`" id="user_preview" alt="user_image">
-                    </div>
-                    <input @change="uploadImage" id="user_image" type="file" accept="image/*">
-                    <label for="user_image">
-                        Add
-                    </label>
-                </div>
-
-            </div>
-
-            <!-- cover photo -->
-            <div class="img_cover profile_item">
-                <h5>
-                    Cover photo
-                </h5>
-                <div v-show="coverImage == undefined && coverImageS == false" @drop="dropHandle" @dragover="dragover">
-                    <input @change="uploadCoverImage" id="cover_image" type="file" accept="image/*">
-                    <label for="cover_image">
+                    <!-- photo -->
+                    <div class="image  profile_item">
+                        <h5>
+                            Photo
+                        </h5>
                         <div>
-                            <svg width="38" height="38" viewBox="0 0 38 38" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02"
-                                    stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                            <div>
+                                <!-- รูปพื้นฐาน ไม่เคยมีรูป -->
+                                <img v-show="userImage == undefined && userImageS != true" src="../../assets/vue.svg"
+                                    draggable="false" alt="user_preview">
+                                <!-- รูปเพิ่งเพิ่ม -->
+                                <img v-show="userImage != undefined" src="#" id="user_preview" draggable="false"
+                                    alt="user_preview">
+                                <!-- มีแล้ว -->
+                                <img v-show="userImage == undefined && userImageS == true"
+                                    :src="`${origin}/api/image/users/${userId}`" id="user_preview" alt="user_image">
+                            </div>
+                            <input @change="uploadImage" id="user_image" type="file" accept="image/*">
+                            <label for="user_image">
+                                Add
+                            </label>
                         </div>
 
-                        <h6>
-                            <span>
-                                Upload a file
-                            </span> or drag and drop
-                        </h6>
-                        <p>
-                            PNG or JPG up to 10MB
-                        </p>
+                    </div>
 
-                    </label>
+                    <!-- cover photo -->
+                    <div class="img_cover profile_item">
+                        <h5>
+                            Cover photo
+                        </h5>
+                        <div v-show="coverImage == undefined && coverImageS == false" @drop="dropHandle" @dragover="dragover">
+                            <input @change="uploadCoverImage" id="cover_image" type="file" accept="image/*">
+                            <label for="cover_image">
+                                <div>
+                                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02"
+                                            stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
 
+                                <h6>
+                                    <span>
+                                        Upload a file
+                                    </span> or drag and drop
+                                </h6>
+                                <p>
+                                    PNG or JPG up to 10MB
+                                </p>
+
+                            </label>
+
+                        </div>
+                        <div v-show="coverImage != undefined || coverImageS == true" @drop="dropHandle" @dragover="dragover">
+                            <label for="cover_image">
+                                <!-- รูปที่จะเพิ่ม -->
+                                <img v-show="coverImage != undefined" src="#" draggable="false" alt="preview_image"
+                                    id="cover-preview">
+                                <!-- รูปที่มีแล้ว -->
+                                <img v-show="coverImage == undefined && coverImageS == true"
+                                    :src="`${origin}/api/image/users/${userId}/coverphoto`" draggable="false"
+                                    alt="preview_image" id="cover-preview">
+                            </label>
+                        </div>
+
+                    </div>
                 </div>
-                <div v-show="coverImage != undefined || coverImageS == true" @drop="dropHandle" @dragover="dragover">
-                    <label for="cover_image">
-                        <!-- รูปที่จะเพิ่ม -->
-                        <img v-show="coverImage != undefined" src="#" draggable="false" alt="preview_image"
-                            id="cover-preview">
-                        <!-- รูปที่มีแล้ว -->
-                        <img v-show="coverImage == undefined && coverImageS == true"
-                            :src="`${origin}/api/image/users/${userId}/coverphoto`" draggable="false"
-                            alt="preview_image" id="cover-preview">
-                    </label>
-                </div>
-
             </div>
-
-            <!-- submit -->
+            <!-- submit --> 
             <div v-show="isChangeProfileInfo || refreshPageS" class="submit">
                 <button v-show="!refreshPageS" @click="profileClear(), profileClearStatus()">
                     Cancel
@@ -529,107 +532,110 @@ onBeforeMount(async () => {
             </div>
         </div>
         <!-- personal info -->
-        <div>
-            <!-- title -->
-            <div class="title">
-                <h4>
-                    Personal Information
-                </h4>
-                <p>
-                    Use a permanent address where you can receive mail. </p>
-            </div>
-            <!-- first name & last name -->
-            <div class="container_info">
-                <!-- first name -->
-                <div class="info_item">
-                    <h5 class="importen_input">
-                        First name
-                    </h5>
-                    <input v-model="firstName" type="text" maxlength="50">
-                    <!-- worning -->
-                    <div v-show="firstNameS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ firstNameM }}
-                            </p>
+        <div class="wrapper_all">
+            <div class="wrapper_info">
+                <!-- title -->
+                <div class="title">
+                    <h4>
+                        Personal Information
+                    </h4>
+                    <p>
+                        Use a permanent address where you can receive mail. </p>
+                </div>
+                <div class="input_item">
+                    <!-- first name & last name -->
+                    <div class="container_info">
+                        <!-- first name -->
+                        <div class="info_item">
+                            <h5 class="importen_input">
+                                First name
+                            </h5>
+                            <input v-model="firstName" type="text" maxlength="50">
+                            <!-- worning -->
+                            <div v-show="firstNameS" class="wrapper_errorMsg">
+                                <div>
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                            fill="#F75555" />
+                                    </svg>
+                                    <p>
+                                        {{ firstNameM }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- last name -->
+                        <div class="info_item">
+                            <h5 class="importen_input">
+                                Last name
+                            </h5>
+                            <input v-model="lastName" type="text" maxlength="50">
+                            <!-- worning -->
+                            <div v-show="lastNameS" class="wrapper_errorMsg">
+                                <div>
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                            fill="#F75555" />
+                                    </svg>
+                                    <p>
+                                        {{ lastNameM }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- last name -->
-                <div class="info_item">
-                    <h5 class="importen_input">
-                        Last name
-                    </h5>
-                    <input v-model="lastName" type="text" maxlength="50">
-                    <!-- worning -->
-                    <div v-show="lastNameS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ lastNameM }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- email & phone number -->
-            <div class="container_info">
-                <!-- email -->
-                <div class="info_item">
-                    <h5 class="importen_input">
-                        Email address
-                    </h5>
-                    <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com">
-                    <!-- worning -->
-                    <div v-show="emailS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ emailM }}
-                            </p>
+                    <!-- email & phone number -->
+                    <div class="container_info">
+                        <!-- email -->
+                        <div class="info_item">
+                            <h5 class="importen_input">
+                                Email address
+                            </h5>
+                            <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com">
+                            <!-- worning -->
+                            <div v-show="emailS" class="wrapper_errorMsg">
+                                <div>
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                            fill="#F75555" />
+                                    </svg>
+                                    <p>
+                                        {{ emailM }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- phone number -->
-                <div class="info_item">
-                    <h5 class="importen_input">
-                        Phone number
-                    </h5>
-                    <input v-model="phoneNumber" type="text" maxlength="11">
-                    <!-- worning -->
-                    <div v-show="phoneNumberS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ phoneNumberM }}
-                            </p>
+                        <!-- phone number -->
+                        <div class="info_item">
+                            <h5 class="importen_input">
+                                Phone number
+                            </h5>
+                            <input v-model="phoneNumber" type="text" maxlength="11">
+                            <!-- worning -->
+                            <div v-show="phoneNumberS" class="wrapper_errorMsg">
+                                <div>
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                            fill="#F75555" />
+                                    </svg>
+                                    <p>
+                                        {{ phoneNumberM }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- submit -->
             <div v-show="isChangePersonalInfo || (firstNameS || lastNameS || emailS || phoneNumberS)" class="submit">
                 <button @click="personalInfoClear(), personalInfoClearStatus()">
@@ -647,11 +653,20 @@ onBeforeMount(async () => {
     box-sizing: border-box;
 }
 
+.wrapper_all {
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    /* gap: 24px; */
+}
+
 .wrapper_profile {
     display: flex;
     width: inherit;
     height: inherit;
     flex-direction: column;
+    /* padding: 20px; */
     gap: 24px;
 }
 
@@ -660,34 +675,58 @@ onBeforeMount(async () => {
     width: inherit;
     height: inherit;
     flex-direction: column;
-    border-radius: 8px;
-    padding: 20px;
+    /* padding: 20px; */
     background-color: #fff;
-    gap: 24px;
 }
 
-.title {
+.wrapper_info {
     display: flex;
     width: 100%;
-    height: 52px;
+    height: fit-content;
+    padding: 20px;
+    gap: 24px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    /* background-color: #55f799; */
+}
+    
+.title {
+    display: flex;
+    width: inherit;
+    height: inherit;
     flex-direction: column;
     gap: 4px;
+    align-items: start;
+    justify-content: center;
 }
 
 .title h4 {
+    display: flex;
+    width: inherit;
     height: 28px;
     font-size: 18px;
     font-weight: 500;
     color: #212121;
+    align-items: center;
 }
 
 .title p {
+    display: flex;
+    width: inherit;
     height: 20px;
     font-weight: 400;
     font-size: 14px;
     color: #757575;
+    align-items: center
 }
-
+.input_item {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    gap: 24px;
+}
 .profile_item {
     display: flex;
     width: 100%;
@@ -860,9 +899,10 @@ onBeforeMount(async () => {
     display: flex;
     width: 100%;
     height: 60px;
-    padding: 12px 24px;
+    padding: 12px 20px;
     gap: 8px;
     justify-content: end;
+    background-color: #FAFAFA;
 }
 
 .submit p {
@@ -881,17 +921,18 @@ onBeforeMount(async () => {
     border: 1px solid;
     padding: 8px 12px;
     border-radius: 4px;
-    border-color: #E0E0E0;
     box-shadow: 0px 1px 2px 0px #0000000D;
     cursor: pointer;
 }
 
 .submit button:nth-child(1) {
+    border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;
 }
 
 .submit button:nth-child(2) {
+    border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
 }

@@ -145,7 +145,7 @@ const getFilterItem = async (data) => {
 }
 
 const showFilterItem = (data) => {
-    if (window.innerWidth <= 376) {
+    if (window.innerWidth <= 432) {
         // console.log(data)
         let { show } = data
 
@@ -649,5 +649,5 @@ onMounted(() => {
     .move_page:hover svg path {
         fill: #fff;
     }
-}
+} */
 </style>

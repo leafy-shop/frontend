@@ -155,103 +155,108 @@ onBeforeMount(async () => {
 })
 </script>
 <template>
-    <div class="wrapper_bank">
-        <div class="bank">
-            <h4>
-                Add New Bank Account
-            </h4>
-            <div class="container_bank">
-                <!-- name -->
-                <div class="input_field">
-                    <h5>
-                        Name
-                    </h5>
-                    <input v-model="paymentName" class="input" type="text">
-                    <!-- worning -->
-                    <div v-show="paymentNameS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ paymentNameM }}
-                            </p>
+    <div class="wrapper_all">
+        <div class="wrapper_bank">
+            <div class="bank">
+                <h4>
+                    Add New Bank Account
+                </h4>
+                <div class="container_bank">
+                    <!-- name -->
+                    <div class="input_field">
+                        <h5>
+                            Name
+                        </h5>
+                        <input v-model="paymentName" class="input" type="text">
+                        <!-- worning -->
+                        <div v-show="paymentNameS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ paymentNameM }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Account_number -->
-                <div class="input_field">
-                    <h5>
-                        Account number
-                    </h5>
-                    <input v-model="accountNumber" class="input" type="text" maxlength="15">
-                    <!-- worning -->
-                    <div v-show="accountNumberS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ accountNumberM }}
-                            </p>
+                    <!-- Account_number -->
+                    <div class="input_field">
+                        <h5>
+                            Account number
+                        </h5>
+                        <input v-model="accountNumber" class="input" type="text" maxlength="15">
+                        <!-- worning -->
+                        <div v-show="accountNumberS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ accountNumberM }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Bank name -->
-                <div class="input_field">
-                    <h5>
-                        Bank name
-                    </h5>
-                    <!-- <input v-model="bankName" class="input" type="text"> -->
-                    <select v-model="bankName" class="input">
-                        <option value="" selected hidden>Select your bank account</option>
-                        <option v-for="(bank, index) of  bankList" :key="index" :value="bank.value">{{ bank.name }}
-                        </option>
-                    </select>
-                    <!-- worning -->
-                    <div v-show="bankNameS" class="wrapper_errorMsg">
-                        <div>
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
-                                    fill="#F75555" />
-                            </svg>
-                            <p>
-                                {{ bankNameM }}
-                            </p>
+                    <!-- Bank name -->
+                    <div class="input_field">
+                        <h5>
+                            Bank name
+                        </h5>
+                        <!-- <input v-model="bankName" class="input" type="text"> -->
+                        <select v-model="bankName" class="input">
+                            <option value="" selected hidden>Select your bank account</option>
+                            <option v-for="(bank, index) of  bankList" :key="index" :value="bank.value">{{ bank.name }}
+                            </option>
+                        </select>
+                        <!-- worning -->
+                        <div v-show="bankNameS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ bankNameM }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- submit -->
-                <div class="submit">
-                    <button @click="goBanks()">
-                        Cancel
-                    </button>
-                    <button @click="bankSubmit()">
-                        Save
-                    </button>
                 </div>
             </div>
-
         </div>
-
+        <!-- submit -->
+        <div class="submit">
+            <button @click="goBanks()">
+                Cancel
+            </button>
+            <button @click="bankSubmit()">
+                Save
+                </button>
+        </div>
     </div>
 </template>
 <style scoped>
 * {
     box-sizing: border-box;
 }
-
+.wrapper_all {
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    /* gap: 24px; */
+}
 .wrapper_bank {
     display: flex;
     width: 100%;
@@ -275,10 +280,11 @@ onBeforeMount(async () => {
 
 .bank h4 {
     display: flex;
-    width: 100%;
+    width: inherit;
     height: 28px;
     font-size: 18px;
     font-weight: 500;
+    color: #212121;
     align-items: center;
 }
 
@@ -330,9 +336,10 @@ onBeforeMount(async () => {
     display: flex;
     width: 100%;
     height: 60px;
-    padding: 12px 24px;
+    padding: 12px 20px;
     gap: 8px;
     justify-content: end;
+    background-color: #FAFAFA;
 }
 
 .submit button {
@@ -341,17 +348,18 @@ onBeforeMount(async () => {
     border: 1px solid;
     padding: 8px 12px;
     border-radius: 4px;
-    border-color: #E0E0E0;
     box-shadow: 0px 1px 2px 0px #0000000D;
     cursor: pointer;
 }
 
 .submit button:nth-child(1) {
+    border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;
 }
 
 .submit button:nth-child(2) {
+    border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
 }

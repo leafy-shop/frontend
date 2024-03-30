@@ -222,7 +222,8 @@ onBeforeMount(async () => {
 })
 </script>
 <template>
-    <div class="wrapper_address">
+    <div class="wrapper_all">
+        <div class="wrapper_address">
         <div class="address">
             <h4 v-if="!isEditMode">
                 Add New Address
@@ -403,27 +404,32 @@ onBeforeMount(async () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- submit -->
-                <div class="submit">
-                    <button @click="goAddress()">
-                        Cancel
-                    </button>
-                    <button @click="AddressSubmit()">
-                        Save
-                    </button>
-                </div>
+                </div>                
             </div>
-
         </div>
-
+        </div>
+        <!-- submit -->
+        <div class="submit">
+            <button @click="goAddress()">
+                Cancel
+            </button>
+            <button @click="AddressSubmit()">
+                Save
+            </button>
+        </div>
     </div>
 </template>
 <style scoped>
 * {
     box-sizing: border-box;
 }
-
+.wrapper_all {
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    /* gap: 24px; */
+}
 .wrapper_address {
     display: flex;
     width: 100%;
@@ -447,10 +453,11 @@ onBeforeMount(async () => {
 
 .address h4 {
     display: flex;
-    width: 100%;
+    width: inherit;
     height: 28px;
     font-size: 18px;
     font-weight: 500;
+    color: #212121;
     align-items: center;
 }
 
@@ -503,9 +510,10 @@ onBeforeMount(async () => {
     display: flex;
     width: 100%;
     height: 60px;
-    padding: 12px 24px;
+    padding: 12px 20px;
     gap: 8px;
     justify-content: end;
+    background-color: #FAFAFA;
 }
 
 .submit button {
@@ -514,17 +522,18 @@ onBeforeMount(async () => {
     border: 1px solid;
     padding: 8px 12px;
     border-radius: 4px;
-    border-color: #E0E0E0;
     box-shadow: 0px 1px 2px 0px #0000000D;
     cursor: pointer;
 }
 
 .submit button:nth-child(1) {
+    border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;
 }
 
 .submit button:nth-child(2) {
+    border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
 }

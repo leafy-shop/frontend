@@ -180,6 +180,7 @@ onBeforeMount(() => {
 })
 </script>
 <template>
+    <div class="wrapper_all">
     <div class="wrapper_change_PW">
         <div class="change_PW">
             <div class="header_change_PW">
@@ -334,7 +335,10 @@ onBeforeMount(() => {
                     
                 </div>
             </div>
-            <!-- submit -->
+            
+
+        </div>
+    </div><!-- submit -->
             <div class="submit">
                 <button @click="cancelChangePassword()">
                     Cancel
@@ -343,15 +347,18 @@ onBeforeMount(() => {
                     Next
                 </button>
             </div>
-
-        </div>
     </div>
 </template>
 <style scoped>
 * {
     box-sizing: border-box;
 }
-
+.wrapper_all {
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+}
 .wrapper_change_PW {
     display: flex;
     width: 100%;
@@ -361,8 +368,8 @@ onBeforeMount(() => {
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    border: none;
-    border-radius: 8px;
+    /* border: none;
+    border-radius: 8px; */
     background-color: #fff;
 }
 
@@ -409,7 +416,7 @@ onBeforeMount(() => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    /* gap: 24px; */
 }
 
 .input_item {
@@ -510,9 +517,10 @@ onBeforeMount(() => {
     display: flex;
     width: 100%;
     height: 60px;
-    padding: 12px 24px;
+    padding: 12px 20px;
     gap: 8px;
     justify-content: end;
+    background-color: #FAFAFA;
 }
 
 .submit button {
@@ -521,17 +529,18 @@ onBeforeMount(() => {
     border: 1px solid;
     padding: 8px 12px;
     border-radius: 4px;
-    border-color: #E0E0E0;
     box-shadow: 0px 1px 2px 0px #0000000D;
     cursor: pointer;
 }
 
 .submit button:nth-child(1) {
+    border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;
 }
 
 .submit button:nth-child(2) {
+    border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
 }
