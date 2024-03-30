@@ -116,7 +116,7 @@ const routes=[
                 component:Shop_AS
             },
             {
-                path:'my-shop/products/add-product',
+                path:'my-shop/products/add-product/:id?',
                 name:'Shop_AS_add',
                 component:Shop_AS_add
             },
