@@ -252,7 +252,7 @@ const addStyle=()=>{
 }
 .header_shop_create{
     display: flex;
-    width: inherit;
+    width: 100%;
     height: inherit;
     justify-content: space-between;
     align-items: center;
@@ -261,7 +261,7 @@ const addStyle=()=>{
 }
 .header_shop_create h4{
     display: flex;
-    width: inherit;
+    width: fit-content;
     height: 28px;
     font-size: 18px;
     font-weight: 500;
