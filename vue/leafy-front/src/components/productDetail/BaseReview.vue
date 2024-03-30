@@ -61,7 +61,7 @@ onUpdated(()=>{
                 <div class="rating_score">
                     <!-- rating -->
                     <div class="wrapper_rating_list">
-                        <BaseStar :rating="totalRating" name="allReview" />
+                        <BaseStar :rating="totalRating" :size="100" name="allReview" />
                     </div>
                     <h5>
                         <span>
@@ -146,7 +146,7 @@ onUpdated(()=>{
                             {{ review.username }}
                         </h6>
                         <div>
-                            <BaseStar :rating="review.rating" :name="`user_review_${review.itemReviewId}`" />
+                            <BaseStar :rating="review.rating" :size="100" :name="`user_review_${review.itemReviewId}`" />
                             <!-- {{ review.rating }} -->
                         </div>
                     </div>
