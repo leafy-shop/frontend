@@ -897,29 +897,71 @@ const fetch = {
             return returnData
         }
     },
+    // async addToCart(cartInput) {
+    //     let returnData = { status: false, msg: '' }
+    //     try {
+    //         //for normal user
+    //         let url = `${origin}/api/carts/products`
+    //         // check sort
+    //         let res = await axios.post(url, cartInput)
+    //         if (res.status == 201) {
+    //             validation.function_Status('get owner cart for user', true)
+    //             returnData.status = true
+    //             // returnData.msg = res.data
+    //         }
+    //         return returnData
+    //     } catch (error) {
+    //         validation.function_Status('get owner cart', false, error)
+    //         if (error.code == "ERR_NETWORK") {//check back-end server error
+    //             returnData.msg = "Server Error try again later"
+    //             return returnData
+    //         }
+    //         else {
+
+    //         }
+    //     }
+    // },
     async addToCart(cartInput) {
-        let returnData = { status: false, data: undefined, msg: '' }
-        try {
-            //for normal user
-            let url = `${origin}/api/carts/products`
-            // check sort
-            let res = await axios.post(url, cartInput)
-            if (res.status == 201) {
-                validation.function_Status('get owner cart for user', true)
-                returnData.status = true
-                returnData.data = res.data
-            }
-            return returnData
-        } catch (error) {
-            validation.function_Status('get owner cart', false, error)
-            if (error.code == "ERR_NETWORK") {//check back-end server error
-                returnData.msg = "Server Error try again later"
-                returnData.status = false
+        let returnData = { status: false, msg: '' }
+
+        if (cartInput != undefined) {
+            try {
+                let url = `${origin}/api/carts/products`
+                let res = await axios.post(url, cartInput)
+
+                if (res.status == 201) {
+                    validation.function_Status("get owner cart for user", true)
+                    returnData.status = true
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("get owner cart for user", false, error)
+                // console.log(error) 
+
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
                 return returnData
             }
-            else {
 
-            }
+        } else {
+            validation.function_Status("Add cart", false, "cannot add cart" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
         }
     },
     async getCart() {
