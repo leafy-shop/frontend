@@ -24,10 +24,8 @@ let props = defineProps({
         required:true
     }
 })
-// onUpdated(()=>{
-//     console.log('Tseting',props.productStyle)
-//     console.log(props.selectedStyle)
-// })
+//common attribute
+const sizeObj=ref({})// this for store style
 
 
 let stepInput = ref(1)
@@ -75,27 +73,43 @@ let productStyle = computed(() => {
 })
 
 let selectedStyle = computed(() => {
-    
+    console.log(props.selectedStyle,'tttttt')
     // if props of selected style have size
     if (props.selectedStyle.sizes) {
+        // sizeObj.value.price=props.selectedStyle.sizes[0].price
+        // sizeObj.value.stock=props.selectedStyle.sizes[0].stock
         props.selectedStyle.price = props.selectedStyle.sizes[0].price
         props.selectedStyle.stock = props.selectedStyle.sizes[0].stock
     }
 
-    // console.log(props.selectedStyle,'asldfjal;sdfjlasd')
     stepInput.value = 1
     slideImage.value = 0
     maxImage.value = (props.selectedStyle.images == undefined || props.selectedStyle.images.length < 1) ? 1 : props.selectedStyle.images.length - 1
     return props.selectedStyle
 })
 
-let addToCart = async () => {
-    let cart = {itemId: productStyle.value.itemId, style: selectedStyle.value.style, size: selectedStyle.value.size, qty: stepInput.value}
-    // console.log(cart)
-    let {status, data} = await fetch.addToCart(cart)
+let addToCart = async (movePage=false) => {
+    // console.log(productStyle.value, 'product style')
+    // console.log(selectedStyle.value,'seleced style')
+    console.log(selectedStyle.value,"selected style")
+    console.log(productStyle.value,"selected style")
+    let cart = {
+        itemId: productStyle.value.itemId,
+        style: selectedStyle.value.style,
+        size: sizeObj.value.size,
+        qty: stepInput.value
+    }
+    console.log('cart',cart)
+    console.log(cart)
+    let {status,msg} = await fetch.addToCart(cart)
     console.log(status)
     if (status) {
-        goCartList()
+        if(movePage){ //move to cartlist
+            goCartList()
+        }
+        //do something
+    }else{
+        // error
     }
 }
 
@@ -105,8 +119,10 @@ let selectedImage = (idx) => {
 }
 
 let selectedSize = (size) => {
-    selectedStyle.value.price = size.price
-    selectedStyle.value.stock = size.stock
+    sizeObj.value=size//for store size obj
+    console.log(size,'sizess')
+    // selectedStyle.value.price = size.price
+    // selectedStyle.value.stock = size.stock
 }
 
 let imageLeft = () => {
@@ -128,8 +144,9 @@ onMounted(()=>{
 })
 onUpdated(()=>{
     // validation.ratingStar(productStyle.value.totalRating)
-    console.log(props.productStyle,'product style')
-
+    // console.log(props.productStyle,'product style')
+    console.log(props.selectedStyle,'style selected')
+    console.log(sizeObj.value,'style selected')
 })
 </script>
 <template>
@@ -149,15 +166,7 @@ onUpdated(()=>{
                     </li>
                 </ul>
             </div>
-            <div class="sizes">
-                <ul>
-                    <li v-if="selectedStyle.sizes && selectedStyle.sizes.length !== 0" v-for="(value, idx) in selectedStyle.sizes" :key="idx">
-                        <button @click="selectedSize(value)">
-                            {{ value.size }}
-                        </button>
-                    </li>
-                </ul>
-            </div>
+            
             <div class="show_image">
                 <img v-if="selectedStyle.images && selectedStyle.images.length" :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`" alt="image_style">
                 <!-- <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style"> -->
@@ -219,25 +228,10 @@ onUpdated(()=>{
                 </div>
                 <!-- for show price -->
                 <div class="price">
-                    <!-- <h3>
-                        ฿{{productStyle.price.min}} 
-                        <span v-if="productStyle.price.max>0">
-                            - ฿{{productStyle.price.max}}
-                        </span> 
-                    </h3> -->
                     <h3>
-                        <!-- <span > 
-                            ฿{{productStyle.price_min}} 
-                        </span>
-                        <span v-if="productStyle.price_max!=0">
-                            - ฿{{productStyle.price_max}}
-                        </span>  -->
                         ฿<span v-if="selectedStyle.price">
                             {{ selectedStyle.price }} 
                         </span>
-                        <!-- <span v-else>
-                            {{ selectedStyle.size.price[0] }}
-                        </span> -->
                     </h3>
                 </div>
                 <!-- for show type -->
@@ -249,6 +243,19 @@ onUpdated(()=>{
                         </div>
                         <!-- {{ style }} -->
                     </button>
+                </div>
+                <!-- button for select style -->
+                <div v-if="selectedStyle.sizes && selectedStyle.sizes.length !== 0" class="sizes">
+                    <h6>
+                        Size
+                    </h6>
+                    <ul>
+                        <li  v-for="(value, idx) in selectedStyle.sizes" :key="idx">
+                            <button @click="selectedSize(value)">
+                                {{ value.size }}
+                            </button>
+                        </li>
+                    </ul>
                 </div>
                 <!-- for select quantity and show stock -->
                 <div class="stocks">
@@ -268,13 +275,13 @@ onUpdated(()=>{
                         {{selectedStyle.stock}} pieces avaliable
                     </p>
                 </div>
-                <!-- button for add and buy -->
+                
             </div>
                 <div class="wrapper_apply_buy">
-                    <button @click="addToCart">
+                    <button @click="addToCart(false)">
                         Add to Cart
                     </button>
-                    <button @click="buyNow">
+                    <button @click="addToCart(true)">
                         Buy Now
                     </button>
                 </div>
@@ -519,6 +526,8 @@ onUpdated(()=>{
     gap: min(0.556dvw, 8px);
 }
 .stocks h6 {
+    display: flex;
+    width: 80px;
     font-size: min(1.111dvw, 16px);
     color: #212121;
     font-weight: 400;
@@ -564,6 +573,50 @@ onUpdated(()=>{
     background-color: #E0E0E0;
     border-color: #E0E0E0;
     cursor: pointer;
+}
+.sizes{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: 36px;
+    gap: 8px;
+    justify-content: center;
+    align-items: center
+}
+.sizes h6{
+    display: flex;
+    width: 80px;
+    height: fit-content;
+    font-size: 16px;
+    font-weight: 400;
+}
+.sizes ul{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 20px;
+}
+.sizes li{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    gap: 10px;
+}
+.sizes li button{
+    display: flex;
+    width: fit-content;
+    height: 28px;
+    border: 1px solid;
+    border-color: #E0E0E0;
+    border-radius: 4px;
+    padding: 4px 12px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
 }
 .wrapper_apply_buy {
     display: flex;
