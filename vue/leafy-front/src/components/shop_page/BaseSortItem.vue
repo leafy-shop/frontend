@@ -1,6 +1,6 @@
 <script setup>
 import {ref,onUpdated, onMounted}from 'vue'
-import sortTypeArr from '../../JS/enum/product'
+import productEnum from '../../JS/enum/product'
 const emit =defineEmits(['sortItem', 'moveLeft', "moveRight", "showFilter"])
 const props =defineProps({
     isShowFilter:{
@@ -82,7 +82,7 @@ const sortSelecter=(data,name)=>{
 
 onMounted(()=>{
     // start with popular
-    sortSelecter(sortTypeArr[0],'sort_0')
+    sortSelecter(productEnum.sortTypeArr[0],'sort_0')
 
 })
 
@@ -100,7 +100,7 @@ onUpdated(()=>{
                 Sort
             </h4>
             <div class="sort_list">
-                <button v-for="(type,index) of sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
+                <button v-for="(type,index) of productEnum.sortTypeArr" :key="index" class="sort_item" :name="`sort_${index}`" @click="sortSelecter(type,`sort_${index}`)">
                     {{ type.name }}
                 </button>
             </div>    
