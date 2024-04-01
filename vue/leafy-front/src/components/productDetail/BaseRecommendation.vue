@@ -66,13 +66,30 @@ onBeforeMount(()=>{
 <style scoped>
 .wrapper_recommend{
     display: flex;
+    width: 100%;
+    /* max-width: 100%; */
+    
     flex-direction: column;
+    gap: min(1.389dvw,20px);
+}
+.wrapper_recommend h5{
+    display: flex;
+    width: fit-content;
+    height: 36px;
+    font-weight: 500;
+    font-size: 24px;
+    color: #212121;
+    align-items: center;
 }
 .recommend_list{
     display: flex;
-    width: min(77.778dvw,1120px);
+    width: 100%;
     height: fit-content;
-    /* justify-content: center;
-    align-items: center; */
+    justify-content: center;
+    align-items: center;
+}
+.recommend_list>div{
+    display: flex;
+    justify-content: center;
 }
 </style>

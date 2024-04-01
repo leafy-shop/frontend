@@ -99,15 +99,16 @@ const goProductDetail=(p)=>{
 }
 .wrapper_product_list{
     /* display: flex; */
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: fit-content;
 }
 .grid_container{
     display: grid;
     /* display: flex; */
-    width: inherit;
+    width: 100%;
+    min-width: 100%;
     height: fit-content;
-      flex-wrap: wrap; 
+      /* flex-wrap: wrap;  */
     /*justify-content: center;
     align-items: center; */
     grid-template-columns: v-bind(changeGridT());
@@ -146,18 +147,18 @@ const goProductDetail=(p)=>{
 }
 .product_img{
     /* display: flex; */
-    position: relative;
+    /* position: relative; */
     /* width: inherit; */
     /* width: min(17.778dvw,256px); */
     width: 100%;
     height: min(v-bind(changeSize(15.278,'dvw')),v-bind(changeSize(220)));
     overflow: hidden;
-    z-index: 0;
+    /* z-index: 0; */
 }
 .product_img img{
     width: 100%;
     height: auto;
-    z-index: -1;
+    /* z-index: -1; */
 }
 .product_img div{
     display: flex;

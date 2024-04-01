@@ -77,13 +77,15 @@ const getBank = async () => {
         let indexD= data.findIndex(x=>{
             return x.isDefault==true
         })
+        if(data[indexD]!=undefined){
+            bankDefault.value=data[indexD] //assign data to attribute
+            data.splice(indexD, 1)
+            bankList.value = data //remove data default
+            
+            console.log(data)
+            // console.log(indexD)
+        }
         
-        bankDefault.value=data[indexD] //assign data to attribute
-        data.splice(indexD, 1)
-        bankList.value = data //remove data default
-        
-        console.log(data)
-        // console.log(indexD)
     }
 }
 const deleteBank = async () => {
@@ -150,17 +152,17 @@ onBeforeMount(async () => {
                     </button>
                 </div>
                 <!-- default -->
-                <div class="container_bank">
+                <div v-if="Object.keys(bankDefault).length!=0" class="container_bank">
                     <div class="bank_list">
                         <div class="bank_item">
                             <!-- title -->
                             <div class="title">
                                 <div class="info">
                                     <h5>
-                                        {{ bankDefault.bankname }}
+                                        {{ bankDefault["bankname"] }}
                                     </h5>
                                     <p>
-                                        {{ bankDefault.bankAccount }}
+                                        {{ bankDefault["bankAccount"] }}
                                     </p>
                                 </div>
 

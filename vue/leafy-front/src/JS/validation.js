@@ -106,7 +106,7 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
                 )
         }
     },
-    encrypt(text=''){
+    encrypt(text=""){
         // console.log('Testing : '+JSON.stringify(obj))
         // let encryptData = cryptoJs.AES.encrypt(text,key).toString(cryptoJs.enc.Utf8)
         let encryptData = cryptoJs.AES.encrypt(text,key).toString()

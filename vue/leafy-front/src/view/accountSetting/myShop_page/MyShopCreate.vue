@@ -1,110 +1,306 @@
 <script setup>
-import {ref} from 'vue'
+import {computed,onBeforeMount, onMounted, ref} from 'vue'
+// import {useRoute} from 'vue-router'
+import fetch from '../../../JS/api';
+import vaidation from '../../../JS/validation'
+import { useRoute } from 'vue-router';
+
+// common attribute
+const { params } = useRoute()
+const productStyleList=ref([])
+const productId=ref('300068')
+// status
+const showProducBtn=ref(false)
+const showStyleBtn=ref(false)
+const isEdit=ref(false)
+const showStyleInput=ref(false)
+// add product
+const productName=ref('')
+const productDes=ref('')
+const productImgCover=ref(undefined)
+const productCategory=ref('')
+const productTag=ref([])
+const tagText=ref('')
+
+// add style
+const styleName=ref('')
+const styleImgList=ref([])
+const styleVariance=ref([])
+const maxVariance=10
+// edit style
+const styleNameEdit=ref('')
+const styleImgListEdit=ref([])
+const styleVarianceEdit=ref([])
 
 
-const productStyleList=ref([
-    // initial
-])
 
-const addStyle=()=>{
-    let styleObj={name:'',price:'',stock:'',color:'',size:'',img:''}
+// for set format input data
+const formDataProduct=computed(()=>{
+    let returnData={productStatus:false,productData:undefined,productStyle:undefined}
+    let status=true
+    //product
+    if(productName.value.length==0){
+        status=false
+        console.log('product name')
+    }
+    if(productCategory.value.length==0){
+       status=false
+       console.log('product category')
 
-    productStyleList.value.push(styleObj)
+    }
+    //style
+    if(styleVariance.value.length==0){
+        status=false
+        console.log('style var list')
+
+    }
+    if(styleVariance.value.length!=0){
+        for(let st of styleVariance.value){
+            if(st.size.length==0){
+                status=false
+                console.log('style var size')
+
+            }else
+            if(st.price==0){
+                status=false
+                console.log('style var price')
+            }else
+            if(st.stock==0){
+                status=false
+                console.log('style var stock')
+            }
+        }
+    }
+    if(styleName.value.length==0){
+        status=false
+        console.log('style names')
+    }
+    
+    // send data
+    if(status){
+        // create mode
+        if(!isEdit.value){
+            productTag.value=tagText.value.split(",")
+            returnData.productStatus=true
+            returnData.productData={
+                name:productName.value,
+                description:productDes.value,
+                type:productCategory.value,
+                tag:productTag.value,
+                styles:[
+                    {
+                        style:styleName.value,
+                        sizes:styleVariance.value  
+                    }
+                ]
+            }
+            returnData.productStyle={
+                style:styleName.value,
+                sizes:styleVariance.value  
+            }
+        }else{
+            // edit mode
+        }
+       return returnData
+    }else{
+        return returnData
+    }
+
+})
+// get style
+const getProductDetail=async(itemId)=>{
+    let {status,data}=await fetch.getProductDetail(itemId)
+    if(status){
+        console.log(data)
+        // console.log(data.tag.join())
+        // product
+        productName.value=data.name
+        productDes.value=data.description
+        productCategory.value=data.type
+        tagText.value=data.tag.join()
+        // style
+        productStyleList.value=data.styles
+    }
 }
+
+// add product
+const addProduct=async()=>{
+    // let inputData={
+    //     name:'',
+    //     description:'',
+    //     type:'',
+    //     tag:[],
+    //     styles:[]
+    // }
+    let {productStatus,productData}=formDataProduct.value //เป็นแม่แบบสำหรับดึงข้อมูลและตรวจสอบค่าที่ใส่เข้าไป
+    // console.log(productData,'product')
+    // console.log(productStatus,'product')
+    if(productStatus){
+        let {status,msg,data}= await fetch.addProduct(productData)
+        let {itemId}=data
+        productId.value=itemId
+        console.log(status,msg,itemId)
+        await getProductDetail(productId.value)
+        isEdit=true
+    }else{
+        console.log('error data invalid')
+    }
+}
+// style update
+const addStyle=async()=>{
+    let {productStatus,productStyle} =formDataProduct.value
+    if(productStatus){
+        let {status,msg}=await fetch.updateProduct(productId.value,productStyle)
+        if(status){
+            console.log('update successful')
+        }else{
+            // error
+            console.log('not update')
+        }
+    }
+    
+}
+//
+// const 
+const styleModeSelection=async()=>{
+    if(isEdit.value){//edit mode do ....
+        await addStyle()
+    }else{ // create mode
+        await addProduct()
+    }
+}
+
+
+// style obj to array
+const addVariance=()=>{
+    const formData={size:'',price:0,stock:0}
+    if(styleVariance.value.length<maxVariance){
+        styleVariance.value.push(formData)
+    }
+}
+const removeVariance=(index)=>{
+    //remove from index
+}
+
+// clear
+const productClear=()=>{
+    //clear statement
+}
+const styleClear=()=>{
+    
+}
+onBeforeMount(async()=>{
+    // console.log(params.id)
+    if(params.id!=undefined||params.id!=''){
+        isEdit.value=true
+        productId.value=params.id
+        await getProductDetail(productId.value)
+    }else{
+        isEdit.value=false
+        // do some thing about 
+    }
+        
+})
+onMounted(()=>{
+    addVariance()
+    
+   
+})
+
 </script>
 <template>
-    <!-- <div class="wrapper_all"> -->
+    <div class="wrapper_all">
         <div class="wrapper_shop">
-            <div class="wrapper_all">
-            <!-- add new product -->
-            <div class="wrapper_shop_create">
-                <div class="shop_create">
-                    <!-- header -->
-                    <div class="header_shop_create">
-                        <h4>
-                            Add New Product
-                        </h4>
-                    </div>
-                    <!-- container input -->
-                    <div class="container_input">
-                        <!-- name -->
-                        <div class="input_field">
-                            <h5>
-                                Name
-                            </h5>
-                            <input class="input" type="text">
+            <!-- <div class="wrapper_all"> -->
+                <!-- add new product -->
+                <div class="wrapper_shop_create">
+                    <div class="shop_create">
+                        <!-- header -->
+                        <div class="header_shop_create">
+                            <h4>
+                                Add New Product
+                            </h4>
                         </div>
-                        <!-- description -->
-                        <div class="input_field">
-                            <h5>
-                                Description
-                            </h5>
-                            <textarea class="input_description" placeholder="Something about product."></textarea>
-                        </div>
-                        <!-- cover photo -->
-                        <div class="input_field">
-                            <h5>
-                                Cover Photo
-                            </h5>
-                            <!-- <div class="input_img">
-                                
-
-                            </div> -->
-                            <div class="input_img">
-                                <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
-                                <label  for="cover_image">
-                                    <div>
-                                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>                            
-                                    </div>
-            
-                                    <h6 >
-                                    <span>
-                                        Upload a file
-                                    </span> or drag and drop
-                                    </h6>
-                                    <p >
-                                        PNG or JPG up to 10MB
-                                    </p>
-                                    
-                                </label>
-                                
-                            </div>
-                        </div>
-                        <div class="input_list">
-                            <!-- category -->
+                        <!-- container input -->
+                        <div class="container_input">
+                            <!-- name -->
                             <div class="input_field">
                                 <h5>
-                                    Category
+                                    Name
                                 </h5>
-                                <select class="input" name="" id="">
-                                    <option value="">this is value</option>
-                                    <option value=""></option>
-                                </select>
+                                <input v-model="productName" class="input" type="text">
+                            </div>
+                            <!-- description -->
+                            <div class="input_field">
+                                <h5>
+                                    Description
+                                </h5>
+                                <textarea v-model="productDes" class="input_description" placeholder="Something about product."></textarea>
                             </div>
                             <!-- cover photo -->
                             <div class="input_field">
                                 <h5>
-                                    Tag
+                                    Cover Photo
                                 </h5>
-                                <input type="text" class="input">
+                                <!-- <div class="input_img">
+                                    
+
+                                </div> -->
+                                <div class="input_img">
+                                    <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
+                                    <label  for="cover_image">
+                                        <div>
+                                            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>                            
+                                        </div>
+                
+                                        <h6 >
+                                        <span>
+                                            Upload a file
+                                        </span> or drag and drop
+                                        </h6>
+                                        <p >
+                                            PNG or JPG up to 10MB
+                                        </p>
+                                        
+                                    </label>
+                                    
+                                </div>
+                            </div>
+                            <div class="input_list">
+                                <!-- category -->
+                                <div class="input_field">
+                                    <h5>
+                                        Category
+                                    </h5>
+                                    <select v-model="productCategory" class="input" >
+                                        <option value="">this is value</option>
+                                        <option value="plant">Plant</option>
+                                    </select>
+                                </div>
+                                <!-- cover photo -->
+                                <div class="input_field">
+                                    <h5>
+                                        Tag
+                                    </h5>
+                                    <input v-model="tagText" type="text" class="input">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- submit -->
-                <div class="submit">
-                    <button @click="goBanks()">
-                        Cancel
-                    </button>
-                    <button @click="bankSubmit()">
-                        Save
-                    </button>
-                </div>
+                    <!-- submit -->
+                    <div v-show="showProducBtn" class="submit">
+                        <button @click="goBanks()">
+                            Cancel
+                        </button>
+                        <button @click="bankSubmit()">
+                            Save
+                        </button>
+                    </div>
+                <!-- </div> -->
             </div>
-            </div>
-            <div class="wrapper_all">
+            <!-- <div class="wrapper_all"> -->
                 <!-- product style -->
                 <div  class="wrapper_shop_create">
                     <!-- add new product -->
@@ -114,7 +310,7 @@ const addStyle=()=>{
                             <h4>
                                 Product Style
                             </h4>
-                            <button @click="addStyle()">
+                            <button @click="showStyleInput=!showStyleInput">
                                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.26522 0 5.51957 0.105357 5.70711 0.292893C5.89464 0.48043 6 0.734784 6 1V4H9C9.26522 4 9.51957 4.10536 9.70711 4.29289C9.89464 4.48043 10 4.73478 10 5C10 5.26522 9.89464 5.51957 9.70711 5.70711C9.51957 5.89464 9.26522 6 9 6H6V9C6 9.26522 5.89464 9.51957 5.70711 9.70711C5.51957 9.89464 5.26522 10 5 10C4.73478 10 4.48043 9.89464 4.29289 9.70711C4.10536 9.51957 4 9.26522 4 9V6H1C0.734784 6 0.48043 5.89464 0.292893 5.70711C0.105357 5.51957 0 5.26522 0 5C0 4.73478 0.105357 4.48043 0.292893 4.29289C0.48043 4.10536 0.734784 4 1 4H4V1C4 0.734784 4.10536 0.48043 4.29289 0.292893C4.48043 0.105357 4.73478 0 5 0Z" fill="white"/>
                                 </svg>
@@ -122,46 +318,25 @@ const addStyle=()=>{
                             </button>
                         </div>
                         <!-- container input -->
-                        <div v-for="(style,index) of productStyleList" :key="index" class="container_input">
-                            <!-- Price & Stock -->
-                            <div class="input_list">
-                                <!-- price -->
-                                <div class="input_field">
+                        <div v-show="showStyleInput"  class="container_input">
+                            <!-- sku/name -->
+                            <div class="input_field">
                                     <h5>
-                                        Price
+                                        SKU / Name of Style
                                     </h5>
-                                    <div class="input input_price">
-                                        <input type="text"  placeholder="฿ 0.00">
-                                        <h6>
-                                            THB
-                                        </h6>
-                                    </div>
+                                    <input v-model="styleName" type="text" class="input">
                                 </div>
-                                <!-- stock -->
-                                <div class="input_field">
-                                    <h5>
-                                        Stock
-                                    </h5>
-                                    <input type="text" class="input">
-                                </div>
-                            </div>
-                            <!-- color and size -->
+                            <!-- color and size
                             <div class="input_list">
-                                <!-- color -->
+                                color
                                 <div class="input_field">
                                     <h5>
                                         Color
                                     </h5>
                                     <input type="text" class="input">
                                 </div>
-                                <!-- size-->
-                                <div class="input_field">
-                                    <h5>
-                                        Size
-                                    </h5>
-                                    <input type="text" class="input">
-                                </div>
-                            </div>
+                                
+                            </div> -->
                             <!-- photo Style-->
                             <div class="input_field">
                                 <h5>
@@ -192,40 +367,229 @@ const addStyle=()=>{
                                     
                                 </div>
                             </div>
+                            <!-- Variation Price & Stock -->
+                            <div class="variance_list">
+                                <div v-for="(variance,index) of styleVariance" :key="index" class="input_list">
+                                    <!-- size-->
+                                    <div class="input_field">
+                                        <h5>
+                                            Variation
+                                        </h5>
+                                        <input v-model="variance.size" type="text" class="input">
+                                    </div>
+                                    <!-- price -->
+                                    <div class="input_field">
+                                        <h5>
+                                            Price
+                                        </h5>
+                                        <div class="input input_price">
+                                            <input v-model.number="variance.price" type="number"  placeholder="฿ 0.00">
+                                            <h6>
+                                                THB
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <!-- stock -->
+                                    <div class="input_field">
+                                        <h5>
+                                            Stock
+                                        </h5>
+                                        <input v-model.number="variance.stock" type="number" class="input">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- add variation -->
+                            <div @click="addVariance" class="input_field">
+                                <button>
+                                    new variation
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- product list -->
+                        <div class="product_list">
+                            <div v-for="(styleItem,index) of productStyleList" :key="index" class="product_item">
+                                <div class="product_info">
+                                    <!-- img -->
+                                    <div class="product_img">
+                                        <img src="../../../assets/vue.svg" alt="product_img">
+                                    </div>
+                                    <!-- detail -->
+                                    <div class="product_detail">
+                                        <!-- header -->
+                                        <div class="header">
+                                            <div class="info">
+                                                <h5>
+                                                    SKU / Name of Style
+                                                </h5>
+                                                <h6>
+                                                    {{styleItem.style}}
+                                                </h6>
+                                            </div>
+                                            <!-- operator -->
+                                            <div class="operator">
+                                                <!-- edit -->
+                                                <button>
+                                                    <div>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M7.16667 3.16762H3C2.55798 3.16762 2.13405 3.34321 1.82149 3.65577C1.50893 3.96833 1.33334 4.39225 1.33334 4.83428V14.0009C1.33334 14.443 1.50893 14.8669 1.82149 15.1795C2.13405 15.492 2.55798 15.6676 3 15.6676H12.1667C12.6087 15.6676 13.0326 15.492 13.3452 15.1795C13.6577 14.8669 13.8333 14.443 13.8333 14.0009V9.83428M12.655 1.98928C12.8087 1.8301 12.9927 1.70313 13.196 1.61578C13.3993 1.52843 13.618 1.48245 13.8393 1.48053C14.0606 1.47861 14.2801 1.52078 14.4849 1.60458C14.6898 1.68838 14.8758 1.81214 15.0323 1.96862C15.1888 2.12511 15.3126 2.3112 15.3964 2.51603C15.4802 2.72085 15.5223 2.94032 15.5204 3.16162C15.5185 3.38292 15.4725 3.60162 15.3852 3.80496C15.2978 4.0083 15.1709 4.1922 15.0117 4.34595L7.85667 11.5009H5.5V9.14428L12.655 1.98928Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </svg>
+                                                    </div>
+                                                </button>
+                                                <!-- delete -->
+                                                <button>
+                                                    <div>
+                                                        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M6.33333 8.16667V13.1667M9.66666 8.16667V13.1667M1.33333 4.83333H14.6667M13.8333 4.83333L13.1108 14.9517C13.0809 15.3722 12.8927 15.7657 12.5843 16.053C12.2758 16.3403 11.8699 16.5 11.4483 16.5H4.55166C4.13011 16.5 3.72422 16.3403 3.41573 16.053C3.10725 15.7657 2.91909 15.3722 2.88916 14.9517L2.16666 4.83333H13.8333ZM10.5 4.83333V2.33333C10.5 2.11232 10.4122 1.90036 10.2559 1.74408C10.0996 1.5878 9.88768 1.5 9.66666 1.5H6.33333C6.11231 1.5 5.90035 1.5878 5.74407 1.74408C5.58779 1.90036 5.49999 2.11232 5.49999 2.33333V4.83333H10.5Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </svg>
+                                                    </div>
+                                                        
+
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- price -->
+                                        <div class="price">
+                                            {{styleItem.price}}
+                                        </div>
+                                        <!-- variation -->
+                                        <div class="variation">
+                                            <span v-for="(size,index) of styleItem.sizes" :key="index">{{size.size}}/</span>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- for edit -->
+                                <div v-show="false"  class="container_input">
+                                    <!-- sku/name -->
+                                    <div class="input_field">
+                                            <h5>
+                                                SKU / Name of Style
+                                            </h5>
+                                            <input v-model="styleName" type="text" class="input">
+                                        </div>
+                                    <!-- color and size
+                                    <div class="input_list">
+                                        color
+                                        <div class="input_field">
+                                            <h5>
+                                                Color
+                                            </h5>
+                                            <input type="text" class="input">
+                                        </div>
+                                        
+                                    </div> -->
+                                    <!-- photo Style-->
+                                    <div class="input_field">
+                                        <h5>
+                                            Photo Style
+                                        </h5>
+                                        <!-- <div class="input_img">
+
+                                        </div> -->
+                                        <div class="input_img">
+                                            <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
+                                            <label  for="cover_image">
+                                                <div>
+                                                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>                            
+                                                </div>
+                        
+                                                <h6 >
+                                                <span>
+                                                    Upload a file
+                                                </span> or drag and drop
+                                                </h6>
+                                                <p >
+                                                    PNG or JPG up to 10MB
+                                                </p>
+                                                
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Variation Price & Stock -->
+                                    <div class="variance_list">
+                                        <div v-for="(variance,index) of styleVariance" :key="index" class="input_list">
+                                            <!-- size-->
+                                            <div class="input_field">
+                                                <h5>
+                                                    Variation
+                                                </h5>
+                                                <input v-model="variance.size" type="text" class="input">
+                                            </div>
+                                            <!-- price -->
+                                            <div class="input_field">
+                                                <h5>
+                                                    Price
+                                                </h5>
+                                                <div class="input input_price">
+                                                    <input v-model.number="variance.price" type="number"  placeholder="฿ 0.00">
+                                                    <h6>
+                                                        THB
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <!-- stock -->
+                                            <div class="input_field">
+                                                <h5>
+                                                    Stock
+                                                </h5>
+                                                <input v-model.number="variance.stock" type="number" class="input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- add variation -->
+                                    <div @click="addVariance" class="input_field">
+                                        <button>
+                                            new variation
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- submit -->
-                    <div class="submit">
+                    <div v-show="true" class="submit">
                         <button @click="goBanks()">
                             Cancel
                         </button>
-                        <button @click="bankSubmit()">
+                        <button @click="addProduct()">
                             Save
                         </button>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
     </div>
+</div>
 </template>
 <style scoped>
 *{
     box-sizing: border-box;
 }
 .wrapper_all {
+    width: inherit;
+    min-width: 928px;
+    height: 100%;
+    /* min-height: 100%; */
+    /* max-height: 200dvh; */
     overflow: hidden;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-    /* gap: 24px; */
+    /* border: none; */
+    gap: 24px;
 }
 .wrapper_shop{
     display: flex;
-    width: inherit;
-    height: fit-content;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: start;
     gap: 24px;
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
 }
 .wrapper_shop_create{
     display: flex;
@@ -234,13 +598,19 @@ const addStyle=()=>{
     height: fit-content;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     /* border-radius: 8px; */
     background-color: #FFFFFF;
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    gap: 24px;
 }
 .shop_create{
     display: flex;
-    width: 928px;
+    width: 100%;
+    /* min-width: 928px; */
     height: fit-content;
     flex-direction: column;
     justify-content: center;
@@ -261,7 +631,7 @@ const addStyle=()=>{
 }
 .header_shop_create h4{
     display: flex;
-    width: fit-content;
+    width: 100%;
     height: 28px;
     font-size: 18px;
     font-weight: 500;
@@ -413,6 +783,12 @@ const addStyle=()=>{
     width: 100%;
     height: auto;
     background-position: center;
+}
+.variance_list{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
 }
 .input_list{
     display: flex;
