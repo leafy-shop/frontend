@@ -4,14 +4,18 @@ import BaseFooter from "../components/BaseFooter.vue";
 import { useRouter } from "vue-router";
 import { onBeforeMount, ref, computed } from "vue";
 import fetch from "../JS/api";
+import cookie from "../JS/cookie";
 //link
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
+// common attribute
 const carts = ref([]);
 const count = ref(0);
 const qty = ref(0);
+const addressDefaultId=ref('')
+const userName=ref('')
 
 const getCarts = async () => {
   let cartList = await fetch.getCart();
@@ -113,8 +117,22 @@ const countCheckOut = computed(() => {
 //         detail.value = 1;
 //     }
 // }
+// get address
+const getAddress=async()=>{
+  let {status,data}=await fetch.getAllAddress(userName.value)
+  if(status){
+    data.map(x=>{ //assign default address
+      if(x.isDefault){
+        addressDefaultId.value=x.addressId
+      }
+    })
+    // console.log(addressDefaultId.value)
+    
+  }
+}
 
-const checkOrder = () => {
+// for buy item selected
+const checkOrder = async() => {
   let selectedCart = [];
   carts.value.carts.forEach((cart) =>
     cart.cartOwner.forEach((detail) => {
@@ -122,7 +140,21 @@ const checkOrder = () => {
     })
   );
   console.log(selectedCart);
+  // fetch
+  let cartData={
+    carts : selectedCart,
+    addressId : addressDefaultId.value
+  }
+  let {status,msg} =await fetch.BuyNow(cartData)
+  if(status){
+    console.log('buy successful')
+    await getCarts()
+  }else{
+    console.log('can not buy')
+  }
 };
+
+// clear state ment
 
 // confirmation delete
 const reduceQty = async (cartId, qty) => {
@@ -141,8 +173,10 @@ const deleteCart = async (cartId) => {
   await getCarts();
 };
 
-onBeforeMount(() => {
-  getCarts();
+onBeforeMount(async() => {
+  userName.value=cookie.decrypt().username
+  await getAddress()
+  await getCarts();
 });
 </script>
 <template>
