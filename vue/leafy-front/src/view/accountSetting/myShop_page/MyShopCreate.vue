@@ -3,16 +3,23 @@ import {computed,onBeforeMount, onMounted, ref} from 'vue'
 // import {useRoute} from 'vue-router'
 import fetch from '../../../JS/api';
 import vaidation from '../../../JS/validation'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import productEnum from '../../../JS/enum/product'
 
+// link
+const myRouter=useRouter()
+const goBack =()=>myRouter.go(-1)
+const goEdit=()=>myRouter.push({name:'Shop_AS_add',params: {id: productId.value }})
 // common attribute
 const { params } = useRoute()
 const productStyleList=ref([])
 const productId=ref('300068')
+const productOrigin=ref({})
 // status
-const showProducBtn=ref(false)
-const showStyleBtn=ref(false)
+const isProductChange=ref(false)
+const isStyleChange=ref(false)
 const isEdit=ref(false)
+const isStyleEdit=ref(false)
 const showStyleInput=ref(false)
 // add product
 const productName=ref('')
@@ -31,12 +38,15 @@ const maxVariance=10
 const styleNameEdit=ref('')
 const styleImgListEdit=ref([])
 const styleVarianceEdit=ref([])
-
+// add style status
+const styleNameS=ref(false)
+const styleImgListS=ref(false)
+const styleVarianceS=ref(false)
 
 
 // for set format input data
 const formDataProduct=computed(()=>{
-    let returnData={productStatus:false,productData:undefined,productStyle:undefined}
+    let returnData={productStatus:false,productData:{},productStyle:{}}
     let status=true
     //product
     if(productName.value.length==0){
@@ -49,12 +59,13 @@ const formDataProduct=computed(()=>{
 
     }
     //style
-    if(styleVariance.value.length==0){
+    if(styleVariance.value.length==0&&isEdit.value==false){
         status=false
         console.log('style var list')
 
     }
-    if(styleVariance.value.length!=0){
+    //create mode
+    if(styleVariance.value.length!=0 &&isEdit.value==false){
         for(let st of styleVariance.value){
             if(st.size.length==0){
                 status=false
@@ -71,35 +82,93 @@ const formDataProduct=computed(()=>{
             }
         }
     }
-    if(styleName.value.length==0){
+    if(styleName.value.length==0&&isEdit.value==false){
         status=false
         console.log('style names')
     }
     
     // send data
     if(status){
+        productTag.value=tagText.value.split(",")
         // create mode
         if(!isEdit.value){
-            productTag.value=tagText.value.split(",")
+            
             returnData.productStatus=true
+            returnData.productStyle={
+                style:styleName.value,
+                sizes:styleVariance.value  
+            }
             returnData.productData={
                 name:productName.value,
                 description:productDes.value,
                 type:productCategory.value,
                 tag:productTag.value,
                 styles:[
-                    {
-                        style:styleName.value,
-                        sizes:styleVariance.value  
-                    }
+                    returnData.productStyle
                 ]
             }
+            
+        }else{
+            // let isChange =false //data change??
+            // edit mode
+            // product detail
+            // console.log(productOrigin.value)
+
+            let {name,description,type,tag}=productOrigin.value //destructuring
+            if(productName.value!=name){
+                isProductChange.value=true
+                returnData.productData["name"]=productName.value
+            }
+            if(productDes.value!=description){
+                isProductChange.value=true
+                returnData.productData["description"]=productDes.value
+            }
+            if(productCategory.value!=type){
+                isProductChange.value=true
+                returnData.productData["type"]=productCategory.value
+            }
+            if(
+                tagText.value.length!=0||
+                tagText.value!=(tag==undefined?tag:tag.join())
+            ){
+                isProductChange.value=true
+                returnData.productData["tag"]=productTag.value
+            }
+            
+            // product style
             returnData.productStyle={
                 style:styleName.value,
                 sizes:styleVariance.value  
             }
-        }else{
             // edit mode
+            
+            if(styleVariance.value.length!=0 &&isEdit.value==true){
+                for(let st of styleVariance.value){
+                    
+                    st.price=parseInt(st.price)
+                    st.stock =parseInt(st.stock)
+                    if(st.size.length==0){
+                        styleVarianceS.value=true
+                        console.log('style var size')
+                    }else
+                    if(st.price==0){
+                        styleVarianceS.value=true
+                        console.log('style var price')
+                    }else
+                    if(st.stock==0){
+                        styleVarianceS.value=true
+                        console.log('style var stock')
+                    }
+                }
+            }
+            if(styleName.value.length==0&&isEdit.value==true){
+                styleNameS.value=true
+                console.log('style names')
+            }
+            console.log(returnData)
+            returnData.productStatus=true
+            
+             //assign to show button
         }
        return returnData
     }else{
@@ -114,10 +183,11 @@ const getProductDetail=async(itemId)=>{
         console.log(data)
         // console.log(data.tag.join())
         // product
+        productOrigin.value=data
         productName.value=data.name
         productDes.value=data.description
         productCategory.value=data.type
-        tagText.value=data.tag.join()
+        tagText.value=data.tag!=undefined?data.tag.join():''
         // style
         productStyleList.value=data.styles
     }
@@ -125,48 +195,113 @@ const getProductDetail=async(itemId)=>{
 
 // add product
 const addProduct=async()=>{
-    // let inputData={
-    //     name:'',
-    //     description:'',
-    //     type:'',
-    //     tag:[],
-    //     styles:[]
-    // }
+    
     let {productStatus,productData}=formDataProduct.value //เป็นแม่แบบสำหรับดึงข้อมูลและตรวจสอบค่าที่ใส่เข้าไป
-    // console.log(productData,'product')
-    // console.log(productStatus,'product')
+    
     if(productStatus){
         let {status,msg,data}= await fetch.addProduct(productData)
         let {itemId}=data
         productId.value=itemId
         console.log(status,msg,itemId)
         await getProductDetail(productId.value)
-        isEdit=true
+        // isEdit.value=true
+        goEdit()
+        productClear()
     }else{
         console.log('error data invalid')
     }
 }
+// edit product
+const updateProduct=async()=>{
+    let {productStatus,productData}=formDataProduct.value
+
+    if(productStatus&&isProductChange.value){
+        let {status,msg}=await fetch.updateProduct(productId.value,productData)
+        if(status){
+            console.log('update product successful')
+            productClear()
+        }else{
+            console.log('can not update product')
+        }
+    }
+}
+
 // style update
 const addStyle=async()=>{
+    
     let {productStatus,productStyle} =formDataProduct.value
-    if(productStatus){
-        let {status,msg}=await fetch.updateProduct(productId.value,productStyle)
+    console.log(productStatus,styleVarianceS.value,styleNameS.value)
+    console.log(isStyleEdit.value,isEdit.value)
+    if(isStyleEdit.value&&isEdit.value){ //this edit mode of style??
+       // edit style
+        let {status,msg}=await fetch.updateProductStyle(productId.value,styleName.value,productStyle)
         if(status){
-            console.log('update successful')
+            console.log('update style successful')
+            styleStatusClear() 
         }else{
-            // error
-            console.log('not update')
+            console.log('can not update style')
+        }
+    }else{
+        // add style
+        if(productStatus&&!styleVarianceS.value&&!styleNameS.value){
+            let {status,msg}=await fetch.addProductStyle(productId.value,productStyle)
+            if(status){
+                console.log('add successful')
+                await getProductDetail(productId.value)
+                isEdit.value=true
+                styleClear()
+                styleStatusClear()
+            }else{
+                // error
+                console.log('can not add')
+            }
         }
     }
     
 }
+// edit style
+const updateStyle=(sku)=>{
+    showStyleInput.value=true //show input field
+    let {price,size,sizes,stock,style}=sku
+
+    if(size!=undefined){
+        // size is string 1 size
+        console.log('size')
+        styleVariance.value=[{size:size,price:price,stock:stock}]
+    }else{
+        // size is array many of size
+        console.log(size)
+        styleVariance.value=sizes
+    }
+    styleName.value=style
+    
+    isStyleEdit.value=true
+    console.log(isStyleEdit.value,'style edit')
+    // styleName=ref('')
+    // styleImgList=ref([])
+    // styleVariance=ref([])
+    console.log(sku )
+}
+
+// delete style
+const deleteStyle=async(skuId='')=>{
+    if(skuId.length!=0){
+        let {status,msg}=await fetch.deleteProductStyle(productId.value,skuId)
+        if(status){
+            console.log('delete style successful')
+            await getProductDetail(productId.value)
+        }else{
+            console.log('cannot delete style')
+        }
+    }
+}
 //
-// const 
+// select mode style btn
 const styleModeSelection=async()=>{
     if(isEdit.value){//edit mode do ....
         await addStyle()
     }else{ // create mode
-        await addProduct()
+        await addProduct(productId.value)
     }
 }
 
@@ -178,25 +313,61 @@ const addVariance=()=>{
         styleVariance.value.push(formData)
     }
 }
-const removeVariance=(index)=>{
-    //remove from index
+// for show input field
+const showInputFiel=()=>{
+    // styleClear()
+    
+    showStyleInput.value=!showStyleInput.value
+    styleClear()
+    addVariance()//initail variance obj
+    isStyleEdit.value=false
 }
 
-// clear
+const removeVariance=(index)=>{
+    //remove from index
+    styleVariance.value.splice(index, 1)
+}
+
+// product clear
 const productClear=()=>{
+    isProductChange.value=false
     //clear statement
+    // showProducBtn.value=false
+    // showStyleBtn.value=false
+    // // const isEdit=false
+    // showStyleInput.value=false
+    // // add product
+    // productName.value=''
+    // productDes.value=''
+    // productImgCover.value=undefined
+    // productCategory.value=''
+    // productTag.value=[]
+    // tagText.value=''
+}
+// style clear
+const styleStatusClear=()=>{
+    styleNameS.value=false
+    styleVarianceS.value=false
+    isStyleEdit.value=false
+    showStyleInput.value=false
 }
 const styleClear=()=>{
     
+    styleName.value=''
+    styleImgList.value=[]
+    styleVariance.value=[]
+    // showStyleInput.value=false
+
 }
 onBeforeMount(async()=>{
     // console.log(params.id)
-    if(params.id!=undefined||params.id!=''){
+    if(params.id==undefined||params.id==''){
+        isEdit.value=false
+    }else{
         isEdit.value=true
         productId.value=params.id
         await getProductDetail(productId.value)
-    }else{
-        isEdit.value=false
+        
         // do some thing about 
     }
         
@@ -275,8 +446,8 @@ onMounted(()=>{
                                         Category
                                     </h5>
                                     <select v-model="productCategory" class="input" >
-                                        <option value="">this is value</option>
-                                        <option value="plant">Plant</option>
+                                        <option  value="" selected hidden>this is value</option>
+                                        <option v-for="(type,index) of productEnum.itemType" :key="index" :value="type.value">{{type.name}}</option>
                                     </select>
                                 </div>
                                 <!-- cover photo -->
@@ -290,11 +461,11 @@ onMounted(()=>{
                         </div>
                     </div>
                     <!-- submit -->
-                    <div v-show="showProducBtn" class="submit">
+                    <div v-show="isEdit" class="submit" >
                         <button @click="goBanks()">
                             Cancel
                         </button>
-                        <button @click="bankSubmit()">
+                        <button @click="updateProduct()" >
                             Save
                         </button>
                     </div>
@@ -310,7 +481,7 @@ onMounted(()=>{
                             <h4>
                                 Product Style
                             </h4>
-                            <button @click="showStyleInput=!showStyleInput">
+                            <button @click="showInputFiel">
                                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.26522 0 5.51957 0.105357 5.70711 0.292893C5.89464 0.48043 6 0.734784 6 1V4H9C9.26522 4 9.51957 4.10536 9.70711 4.29289C9.89464 4.48043 10 4.73478 10 5C10 5.26522 9.89464 5.51957 9.70711 5.70711C9.51957 5.89464 9.26522 6 9 6H6V9C6 9.26522 5.89464 9.51957 5.70711 9.70711C5.51957 9.89464 5.26522 10 5 10C4.73478 10 4.48043 9.89464 4.29289 9.70711C4.10536 9.51957 4 9.26522 4 9V6H1C0.734784 6 0.48043 5.89464 0.292893 5.70711C0.105357 5.51957 0 5.26522 0 5C0 4.73478 0.105357 4.48043 0.292893 4.29289C0.48043 4.10536 0.734784 4 1 4H4V1C4 0.734784 4.10536 0.48043 4.29289 0.292893C4.48043 0.105357 4.73478 0 5 0Z" fill="white"/>
                                 </svg>
@@ -324,7 +495,7 @@ onMounted(()=>{
                                     <h5>
                                         SKU / Name of Style
                                     </h5>
-                                    <input v-model="styleName" type="text" class="input">
+                                    <input v-model="styleName" type="text" class="input" :disabled=" isStyleEdit">
                                 </div>
                             <!-- color and size
                             <div class="input_list">
@@ -375,7 +546,7 @@ onMounted(()=>{
                                         <h5>
                                             Variation
                                         </h5>
-                                        <input v-model="variance.size" type="text" class="input">
+                                        <input v-model="variance.size" type="text" class="input" >
                                     </div>
                                     <!-- price -->
                                     <div class="input_field">
@@ -395,6 +566,12 @@ onMounted(()=>{
                                             Stock
                                         </h5>
                                         <input v-model.number="variance.stock" type="number" class="input">
+                                    </div>
+                                    <!--  -->
+                                    <div>
+                                        <button @click="removeVariance(index)">
+                                            X
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -429,7 +606,7 @@ onMounted(()=>{
                                             <!-- operator -->
                                             <div class="operator">
                                                 <!-- edit -->
-                                                <button>
+                                                <button @click="updateStyle(styleItem)">
                                                     <div>
                                                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M7.16667 3.16762H3C2.55798 3.16762 2.13405 3.34321 1.82149 3.65577C1.50893 3.96833 1.33334 4.39225 1.33334 4.83428V14.0009C1.33334 14.443 1.50893 14.8669 1.82149 15.1795C2.13405 15.492 2.55798 15.6676 3 15.6676H12.1667C12.6087 15.6676 13.0326 15.492 13.3452 15.1795C13.6577 14.8669 13.8333 14.443 13.8333 14.0009V9.83428M12.655 1.98928C12.8087 1.8301 12.9927 1.70313 13.196 1.61578C13.3993 1.52843 13.618 1.48245 13.8393 1.48053C14.0606 1.47861 14.2801 1.52078 14.4849 1.60458C14.6898 1.68838 14.8758 1.81214 15.0323 1.96862C15.1888 2.12511 15.3126 2.3112 15.3964 2.51603C15.4802 2.72085 15.5223 2.94032 15.5204 3.16162C15.5185 3.38292 15.4725 3.60162 15.3852 3.80496C15.2978 4.0083 15.1709 4.1922 15.0117 4.34595L7.85667 11.5009H5.5V9.14428L12.655 1.98928Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -437,7 +614,7 @@ onMounted(()=>{
                                                     </div>
                                                 </button>
                                                 <!-- delete -->
-                                                <button>
+                                                <button @click="deleteStyle(styleItem.style)">
                                                     <div>
                                                         <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M6.33333 8.16667V13.1667M9.66666 8.16667V13.1667M1.33333 4.83333H14.6667M13.8333 4.83333L13.1108 14.9517C13.0809 15.3722 12.8927 15.7657 12.5843 16.053C12.2758 16.3403 11.8699 16.5 11.4483 16.5H4.55166C4.13011 16.5 3.72422 16.3403 3.41573 16.053C3.10725 15.7657 2.91909 15.3722 2.88916 14.9517L2.16666 4.83333H13.8333ZM10.5 4.83333V2.33333C10.5 2.11232 10.4122 1.90036 10.2559 1.74408C10.0996 1.5878 9.88768 1.5 9.66666 1.5H6.33333C6.11231 1.5 5.90035 1.5878 5.74407 1.74408C5.58779 1.90036 5.49999 2.11232 5.49999 2.33333V4.83333H10.5Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -555,7 +732,7 @@ onMounted(()=>{
                         <button @click="goBanks()">
                             Cancel
                         </button>
-                        <button @click="addProduct()">
+                        <button @click="styleModeSelection()">
                             Save
                         </button>
                     </div>
