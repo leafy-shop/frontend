@@ -100,7 +100,7 @@ const getUserInfo = async () => {
         emailUser.value = data.email
         phoneNumber.value = data.phone
 
-        aboutMe.value = data.description
+        aboutMe.value = data.description==undefined?'':data.description
         userName.value = data.username
 
     } else {
@@ -133,6 +133,7 @@ const profileSubmit = async () => {
             // check user name
             // user info
             let data = {}
+            console.log(aboutMe.value,'about me!!!')
             if (aboutMe.value.length != 0 && aboutMe.value != description) {
                 data["description"] = aboutMe.value //if description === null
                 // if (validation.textRange(aboutMeM.value,0,500)) {
