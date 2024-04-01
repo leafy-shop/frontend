@@ -3,9 +3,21 @@ import { computed, onBeforeMount, onBeforeUpdate, onMounted, onUpdated,ref } fro
 const props = defineProps({
     description: String
 })
+const showDescription=ref('')
 
 const msg=computed(()=>{
-    return props.description
+    let text=props.description
+    if(text==undefined||text==null){
+        text=''
+        showDescription.value=false
+    }else{
+        if(text.length==0){
+            showDescription.value=false
+        }else{
+            showDescription.value=true
+        }
+    }
+    return text
 })
 const text =ref('')
 onMounted(()=>{
@@ -15,7 +27,7 @@ onMounted(()=>{
 
 </script>
 <template>
-    <div v-show="description.length" class="wrapper_description">
+    <div v-show="showDescription" class="wrapper_description">
         <h5>
             Product Description
         </h5>
