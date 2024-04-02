@@ -81,7 +81,20 @@ let selectedStyle = computed(() => {
         props.selectedStyle.price = props.selectedStyle.sizes[0].price
         props.selectedStyle.stock = props.selectedStyle.sizes[0].stock
     }
+    if(props.selectedStyle.size!=undefined){
+        console.log(props.selectedStyle,'sizesize')
+        sizeObj.value={
+                stock:props.selectedStyle.stock,
+                size:props.selectedStyle.size,
+                price:props.selectedStyle.price
+            }
+            // style:props.selectedStyle.style,
+            // sizes:[
+                
+        // ]
+        // }
 
+    }
     stepInput.value = 1
     slideImage.value = 0
     maxImage.value = (props.selectedStyle.images == undefined || props.selectedStyle.images.length < 1) ? 1 : props.selectedStyle.images.length - 1
@@ -364,6 +377,7 @@ onUpdated(()=>{
     align-items: center;
     border-radius: min(0.278dvw, 4px);
     background-color: rgb(50, 50, 50);
+    overflow: hidden;
 }
 
 .show_image div {
