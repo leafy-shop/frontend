@@ -256,7 +256,7 @@ onUpdated(() => {
         <!-- picture -->
         <div class="container_user_info">
             <div class="big_image">
-                <img v-if="coverImageS" src="../assets/shop_p/shop_title.jpg" alt="big_img">
+                <img v-if="!coverImageS" src="../assets/shop_p/shop_title.jpg" alt="big_img">
                 <img v-else :src="`${origin}/api/image/users/${owner.userId}/coverphoto`" alt="big_img">
             </div>
             <!-- <img src="../assets/vue.svg" alt="soybean"> -->
