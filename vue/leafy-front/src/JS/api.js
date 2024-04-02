@@ -136,6 +136,43 @@ const fetch = {
             return returnData
         }
     },
+    async addImages(data, endpoint, id, type) {
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false }
+        const formData = new FormData();
+        try {
+            let url = `${origin}/api/images/${endpoint}/${id}`
+            url += type != undefined ? `/${type}` : ''
+
+            formData.append('file', data)
+
+            let res = await axios.post(url, formData)
+
+            if (res.status == 201) {
+                validation.function_Status('Image updated.', true, `type: ${type}`)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+                // console.log(returnData)
+            } else {
+                validation.function_Status('Cannot update image', false, res.message)
+
+                // validation.msg=res.message
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot get image', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+            }
+            else {
+                returnData.status = false
+            }
+            return returnData
+        }
+    },
     async deleteImage(endpoint, id, type) {
         // let returnData = { status: false, data: undefined, msg:'' }
         let returnData = { status: false }
@@ -862,7 +899,7 @@ const fetch = {
         }
     },
     async addAddress(userName, inputData) {
-        let returnData = { status: false, msg: '' }
+        let returnData = { status: false, msg: '',data:undefined }
 
         if (inputData != undefined) {
             try {
@@ -871,6 +908,7 @@ const fetch = {
                 // console.log(res.data)
                 // cookie.decrypt("information")
                 if (res.status == 201) {
+                    returnData.data=res.data.addressId
                     validation.function_Status("add address", true)
                     returnData.status = true
 
