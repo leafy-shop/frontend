@@ -13,14 +13,8 @@ const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
 // Common attribute
 const userName=ref('')
 const productList=ref([])
-// const sortTypeArr =[
-//     {name:"Popular",value: {name: "popular", type: 'desc'}},
-//     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
-//     {name:"Sold Out",value: {name: "price", type: 'desc'}},
-//     {name:"Top Sales",value: {name: "sales", type: 'desc'}},
-//     {name:"Point",value: {name: "price", type: 'asc'}},
-//     {name:"Price",value: {name: "price", type: 'desc'}},
-// ]
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
 // ดึงข้อมูลเกี่ยวกับรูปภาพ
 
 // ดึงข้อมูลเกี่ยวกับ Product
@@ -175,7 +169,8 @@ onBeforeMount(async()=>{
                     <!-- image -->
                     <td>
                         <div>
-                            <img src="../../../assets/home_p/home_design_content_english.png" alt="product_img">
+                            <img v-if="product.image==undefined" src="../../../assets/home_p/home_design_content_english.png" alt="product_img">
+                            <img v-else :src="`${origin}/api/image/products/${product.itemId}`" alt="product_img">
                         </div>
                     </td>
                     <!-- SKU -->
