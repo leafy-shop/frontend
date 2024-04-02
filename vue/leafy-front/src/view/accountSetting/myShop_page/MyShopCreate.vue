@@ -1,5 +1,5 @@
 <script setup>
-import {computed,onBeforeMount, onMounted, ref} from 'vue'
+import {computed,onBeforeMount, onMounted, onUpdated, ref} from 'vue'
 // import {useRoute} from 'vue-router'
 import fetch from '../../../JS/api';
 import vaidation from '../../../JS/validation'
@@ -13,7 +13,7 @@ const goEdit=()=>myRouter.push({name:'Shop_AS_add',params: {id: productId.value 
 // common attribute
 const { params } = useRoute()
 const productStyleList=ref([])
-const productId=ref('300068')
+const productId=ref('')
 const productOrigin=ref({})
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
@@ -40,9 +40,11 @@ const maxVariance=10
 const styleNameS=ref(false)
 const styleImgListS=ref(false)
 const styleVarianceS=ref(false)
-// image
+// cover image 
 const coverImage=ref(undefined)
 const coverImageS = ref(false)
+
+
 
 // for set format input data
 const formDataProduct=computed(()=>{
@@ -205,8 +207,11 @@ const addProduct=async()=>{
         console.log(status,msg,itemId)
         await getProductDetail(productId.value)
         // isEdit.value=true
-        if(coverImage.value!=undefined){
+        if(coverImage.value!=undefined){//add new img
             await addImg()
+        }
+        if(styleImgList.value.length!=0){
+            await addStyleImg()
         }
         goEdit()
         productClear()
@@ -309,13 +314,26 @@ const deleteStyle=async(skuId='')=>{
         }
     }
 }
-//
+//add img style
+const addStyleImg=async()=>{
+    let {status,msg}=await fetch.addImages(styleImgList.value,'products',`${productId.value}/${styleName.value}`)
+    if(status){
+        console.log()
+        styleImgList.value=[]
+        styleImgListS.value=false
+    }
+}
+
+
 // select mode style btn
 const styleModeSelection=async()=>{
     if(isEdit.value){//edit mode do ....
+        await addStyleImg()
         await addStyle()
+        
     }else{ // create mode
         await addProduct(productId.value)
+        
     }
 }
 
@@ -373,6 +391,13 @@ const styleClear=()=>{
     // showStyleInput.value=false
 
 }
+// check image
+const checkMainImage=async()=>{
+    let{status,msg}=await fetch.getImage('products',productId.value)
+    if(status){
+        coverImageS.value=true
+    }
+}
 
 //preview img
 const previewCoverImage = (event, elementId) => {
@@ -382,6 +407,7 @@ const previewCoverImage = (event, elementId) => {
     const preview = document.getElementById(elementId)
     // // จะทำงานเมื่อมีการเปลี่ยนเปลงของ Document เหมือน event hook ของ JS  
     // fileReader.onload = event => {
+        console.log(preview,'this preview amazing')
     preview.setAttribute('src', URL.createObjectURL(event)); //event.target.result
     //     }
     //     fileReader.readAsDataURL(file[0]);
@@ -389,7 +415,7 @@ const previewCoverImage = (event, elementId) => {
 }
 
 // image
-const uploadImage = (event) => {
+const uploadStyleImage = async(event) => {
     if (event == undefined) {
         console.log("pls up load photo")
     } else {
@@ -401,8 +427,12 @@ const uploadImage = (event) => {
         console.log('file size :', fSize)
         if (maxFileSize >= fSize) {
             console.log('nice file')
-            userImage.value = file;
-            previewCoverImage(file, "user_preview")
+            // userImage.value = file;// assign
+            styleImgList.value.push(file)
+            // console.log(styleImgList.value)
+            // previewCoverImage(styleImgList.value[0],`style_preview_${0}`)
+            
+            
         } else {
             console.log('file too big')
         }
@@ -479,13 +509,13 @@ const dragover = (event) => {
 
 onBeforeMount(async()=>{
     // console.log(params.id)
-    if(params.id==undefined||params.id==''){
+    if(params.id==undefined||params.id==''){ // add mode
         isEdit.value=false
-    }else{
+    }else{// edit mode
         isEdit.value=true
         productId.value=params.id
         await getProductDetail(productId.value)
-        
+        await checkMainImage()
         // do some thing about 
     }
         
@@ -494,6 +524,12 @@ onMounted(()=>{
     addVariance()
     
    
+})
+onUpdated(()=>{
+    // reassign every updated
+    for(let i=0;i<styleImgList.value.length;i++){
+        previewCoverImage(styleImgList.value[i],`style_preview_${i}`)// must loop
+    }
 })
 
 </script>
@@ -645,9 +681,9 @@ onMounted(()=>{
                                 <!-- <div class="input_img">
 
                                 </div> -->
-                                <div class="input_img">
-                                    <input @change="uploadCoverImage"  id="item_image" type="file" accept="image/*">
-                                    <label  for="cover_image">
+                                <div v-show="styleImgList.length==0"  @drop="dropHandle" @dragover="dragover" class="input_img">
+                                    <input @change="uploadStyleImage"  id="style_image" type="file" accept="image/*">
+                                    <label  for="style_image">
                                         <div>
                                             <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -665,6 +701,32 @@ onMounted(()=>{
                                         
                                     </label>
                                     
+                                </div>
+                                <div v-show="styleImgList.length!=0" class="style_preview_img" > <!--v-show="styleImgList.length!=0 || StyleImImageS == true" @drop="dropHandle" @dragover="dragover"--> 
+                                    <!-- for show img -->
+                                    <button v-for="(img,index) of styleImgList.length" :key="index" >
+                                        <img src="#" :id="`style_preview_${index}`" alt="style_img">
+                                    </button>
+                                    <label  for="style_image" @drop="dropHandle" @dragover="dragover">
+                                        <!-- รูปที่จะเพิ่ม
+                                        <img v-show="styleImgList.length != 0" src="#" draggable="false" alt="preview_image"
+                                            id="style-preview">
+                                        รูปที่มีแล้ว
+                                        <img v-show="styleImgList.length == 0 && StyleImImageS == true"
+                                            :src="`${origin}/api/image/products/${productId}`" draggable="false"
+                                            alt="preview_image" id="style-preview"> -->
+                                        <div>
+                                            <!-- svg -->
+                                            <div>
+                                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19.6666 5.33268H4.99992C4.02746 5.33268 3.09483 5.71899 2.40719 6.40662C1.71956 7.09426 1.33325 8.02689 1.33325 8.99935V27.3327M1.33325 27.3327V30.9993C1.33325 31.9718 1.71956 32.9044 2.40719 33.5921C3.09483 34.2797 4.02746 34.666 4.99992 34.666H26.9999C27.9724 34.666 28.905 34.2797 29.5926 33.5921C30.2803 32.9044 30.6666 31.9718 30.6666 30.9993V23.666M1.33325 27.3327L9.74092 18.925C10.4285 18.2376 11.361 17.8515 12.3333 17.8515C13.3055 17.8515 14.238 18.2376 14.9256 18.925L19.6666 23.666M30.6666 16.3327V23.666M30.6666 23.666L27.7589 20.7583C27.0713 20.071 26.1389 19.6848 25.1666 19.6848C24.1943 19.6848 23.2619 20.071 22.5743 20.7583L19.6666 23.666M19.6666 23.666L23.3333 27.3327M26.9999 5.33268H34.3333M30.6666 1.66602V8.99935M19.6666 12.666H19.6849" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <h6>
+                                                Upload a file
+                                            </h6>
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
                             <!-- Variation Price & Stock -->
@@ -1114,10 +1176,10 @@ onMounted(()=>{
     background-position: center;
 
 }
-.input_img input{
+.input_img> input{
     display: none;
 }
-.input_img label{
+.input_img> label{
     display: flex;
     width: 100%;
     height:100%;
@@ -1130,39 +1192,66 @@ onMounted(()=>{
     align-items: center;
     overflow: hidden;
 }
-.input_img label div{
+.input_img >label> div{
     display: flex;
     width: 48px;
     height: 48px;
     justify-content: center;
     align-items: center;
 }
-.input_img label div svg{
+.input_img >label> div svg{
     width: 36px;
     height: 36px;
 }
-.input_img label h6{
+.input_img> label h6{
     width: fit-content;
     height: 20px;
     font-size: 14px;
     font-weight: 500;
     color: #757575;
 }
-.input_img label h6 span{
+.input_img >label h6 span{
     cursor: pointer;
     color: #26AC34;
 }
-.input_img label p{
+.input_img >label p{
     width: fit-content;
     height: 16px;
     font-weight: 400;
     font-size: 12px;
     color: #6B7280;
 }
-.input_img label img{
+.input_img >label img{
     width: 100%;
     height: auto;
     background-position: center;
+}
+/* list of style img */
+.style_preview_img{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-wrap: wrap;
+}
+.style_preview_img>button{
+    display: flex;
+    width: 140px;
+    height: 140px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.style_preview_img>button img{
+    width: 100%;
+    height: auto;
+}
+.style_preview_img >label{
+    display: flex;
+    width:140px;
+    height: 140px;
+    border: 1px dashed;
+    justify-content: center;
+    align-items: center;
 }
 .variance_list{
     display: flex;
