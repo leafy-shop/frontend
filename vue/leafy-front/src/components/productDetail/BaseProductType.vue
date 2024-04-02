@@ -7,6 +7,9 @@ import fetch from "./../../JS/api";
 import cookie from "./../../JS/cookie"
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
+
+
+
 const emit = defineEmits(["styleSelected"]);
 
 let props = defineProps({
@@ -35,6 +38,8 @@ const userName = ref("");
 
 const myRouter = useRouter();
 const goCartList = () => myRouter.push({ name: "CartList" });
+const goPayment =(cartList)=>myRouter.push({name:"Payment",params:{cartList:validation.encrypt(cartList)}})
+const goSignIn=()=>myRouter.push({name:"SignIn"})
 
 let detectNumber = (input) => {
   // console.log(input.target.value)
@@ -109,62 +114,81 @@ let selectedStyle = computed(() => {
 });
 
 let addToCart = async (movePage = true) => {
-  // console.log(productStyle.value, 'product style')
-  // console.log(selectedStyle.value,'seleced style')
-  console.log(selectedStyle.value, "selected style");
-  console.log(productStyle.value, "selected style");
-  let cart = {
-    itemId: productStyle.value.itemId,
-    style: selectedStyle.value.style,
-    size: sizeObj.value.size,
-    qty: stepInput.value,
-  };
-  console.log("cart", cart);
-  console.log(cart);
-  let { status, msg } = await fetch.addToCart(cart);
-  console.log(status);
-  if (status) {
-    if (movePage) {
-      //move to cartlist
-      goCartList();
+  if(userName.value!=undefined){
+    // console.log(productStyle.value, 'product style')
+    // console.log(selectedStyle.value,'seleced style')
+    console.log(selectedStyle.value, "selected style");
+    console.log(productStyle.value, "selected style");
+    let cart = {
+      itemId: productStyle.value.itemId,
+      style: selectedStyle.value.style,
+      size: sizeObj.value.size,
+      qty: stepInput.value,
+    };
+    console.log("cart", cart);
+    console.log(cart);
+    let { status, msg } = await fetch.addToCart(cart);
+    console.log(status);
+    if (status) {
+      if (movePage) {
+        //move to cartlist
+        // goCartList();
+      }
+      //do something
+    } else {
+      // error
     }
-    //do something
-  } else {
-    // error
+  }else{
+    //go sign in
+    goSignIn()
   }
 };
 
 let addressDefaultId = ref("");
 // get address
-const getAddress = async (userName) => {
-  let { status, data } = await fetch.getAllAddress(userName);
-  if (status) {
-    data.map((x) => {
-      //assign default address
-      if (x.isDefault) {
-        addressDefaultId.value = x.addressId;
-      }
-    });
-    console.log(addressDefaultId.value);
-  }
-};
+// const getAddress = async (userName) => {
+//   let { status, data } = await fetch.getAllAddress(userName);
+//   if (status) {
+//     data.map((x) => {
+//       //assign default address
+//       if (x.isDefault) {
+//         addressDefaultId.value = x.addressId;
+//       }
+//     });
+//     console.log(addressDefaultId.value);
+//   }
+// };
 
+// direct to payment page
 let payInOrder = async () => {
-  if (addressDefaultId.value.length !== 0) {
-    let paymentOrder = {
+  if (userName.value != undefined) {
+    let paymentOrder = [{ //array
       itemId: productStyle.value.itemId,
       style: selectedStyle.value.style,
       size: sizeObj.value.size,
       qty: stepInput.value,
-      addressId: addressDefaultId.value,
-    };
-    await fetch.BuyNowWithoutCart(paymentOrder);
-
+      // addressId: addressDefaultId.value,
+      name:productStyle.value.name,
+      price:selectedStyle.value.price,
+      stock:selectedStyle.value.stock
+    }]
+    console.log(JSON.stringify(paymentOrder).toString()) //convert to json
+    // check stock
+    if(selectedStyle.value.stock!=0){
+      goPayment(JSON.stringify(paymentOrder).toString())//tranform data to text  
+    }else{
+      //error can not buy
+    }
+    // await fetch.BuyNowWithoutCart(paymentOrder);
+    
     // if (status) {
     //   console.log("buy successful");
     // } else {
     //   console.log("can not buy");
     // }
+  }else{
+    //go sign in
+    goSignIn()
   }
 };
 
@@ -200,7 +224,7 @@ onMounted(() => {
   userName.value = cookie.get("information")
     ? cookie.decrypt().username
     : undefined;
-  if (userName.value !== undefined) getAddress(userName.value);
+  // if (userName.value !== undefined) getAddress(userName.value);
 });
 onUpdated(() => {
   // validation.ratingStar(productStyle.value.totalRating)
