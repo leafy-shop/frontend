@@ -9,7 +9,7 @@ const getOrders=async()=>{
     let inputData={
         sort:'desc'
     }
-    let {status,data} = await fetch.getAllOrder(inputData)
+    let {status,data} = await fetch.getAllOrder(false,inputData)
 
     if(status){
         console.log(data)
