@@ -15,6 +15,8 @@ const { params } = useRoute()
 const productStyleList=ref([])
 const productId=ref('300068')
 const productOrigin=ref({})
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
 // status
 const isProductChange=ref(false)
 const isStyleChange=ref(false)
@@ -34,15 +36,13 @@ const styleName=ref('')
 const styleImgList=ref([])
 const styleVariance=ref([])
 const maxVariance=10
-// edit style
-const styleNameEdit=ref('')
-const styleImgListEdit=ref([])
-const styleVarianceEdit=ref([])
 // add style status
 const styleNameS=ref(false)
 const styleImgListS=ref(false)
 const styleVarianceS=ref(false)
-
+// image
+const coverImage=ref(undefined)
+const coverImageS = ref(false)
 
 // for set format input data
 const formDataProduct=computed(()=>{
@@ -205,6 +205,9 @@ const addProduct=async()=>{
         console.log(status,msg,itemId)
         await getProductDetail(productId.value)
         // isEdit.value=true
+        if(coverImage.value!=undefined){
+            await addImg()
+        }
         goEdit()
         productClear()
     }else{
@@ -219,10 +222,21 @@ const updateProduct=async()=>{
         let {status,msg}=await fetch.updateProduct(productId.value,productData)
         if(status){
             console.log('update product successful')
+            if(coverImage.value!=undefined){
+                await addImg()
+            }
             productClear()
         }else{
             console.log('can not update product')
         }
+    }
+}
+
+// add product img
+const addImg=async()=>{
+    let{status}=await fetch.addImage(coverImage.value,'products',productId.value)
+    if(status){
+        console.log('upload images successful')
     }
 }
 
@@ -359,6 +373,110 @@ const styleClear=()=>{
     // showStyleInput.value=false
 
 }
+
+//preview img
+const previewCoverImage = (event, elementId) => {
+    console.log(event, ' this preview')
+    // const file = event.target.files;
+    // const fileReader = new FileReader(); //for reading file
+    const preview = document.getElementById(elementId)
+    // // จะทำงานเมื่อมีการเปลี่ยนเปลงของ Document เหมือน event hook ของ JS  
+    // fileReader.onload = event => {
+    preview.setAttribute('src', URL.createObjectURL(event)); //event.target.result
+    //     }
+    //     fileReader.readAsDataURL(file[0]);
+    // console.log(event)
+}
+
+// image
+const uploadImage = (event) => {
+    if (event == undefined) {
+        console.log("pls up load photo")
+    } else {
+        let file = event.target.files[0] //แยกไฟล์ออกมา
+        console.log(file)
+        const fSize = Math.round((file.size / 100000))
+        const maxFileSize = 10
+        // เอามาตรวจสอบว่ามีขนาดเกิน 5 MB ?
+        console.log('file size :', fSize)
+        if (maxFileSize >= fSize) {
+            console.log('nice file')
+            userImage.value = file;
+            previewCoverImage(file, "user_preview")
+        } else {
+            console.log('file too big')
+        }
+
+    }
+}
+
+// cover image
+const uploadCoverImage = (event) => {
+    if (event == undefined) {
+        console.log("pls up load photo")
+    } else {
+        let file
+        // แยกประเภทว่าเป็นแบบ Drop ?
+        if (event.target != undefined) {
+            file = event.target.files[0] //แยกไฟล์ออกมา
+            console.log('not drop')
+        } else {
+            // console.log(event)
+            file = event
+            console.log('drop')
+        }
+        const fSize = Math.round((file.size / 100000))
+        const maxFileSize = 10
+        // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
+        console.log('file size :', fSize)
+        if (maxFileSize >= fSize) {
+            console.log('nice file')
+            if (event.target != undefined) coverImage.value = file;
+            else coverImage.value = file;
+            previewCoverImage(file, "cover-preview")
+        } else {
+            console.log('file too big')
+        }
+
+    }
+}
+//drop event
+const dropHandle = (event) => {
+    event.preventDefault() //when drop not make new page for show image just drop
+    // Use DataTransferItemList interface to access the file(s)
+
+    if (event.dataTransfer.items) {
+        let fileType = event.dataTransfer.items[0].type.split("/")
+        // console.log(event.dataTransfer.items[0].type)
+        let itemAmount = event.dataTransfer.items.length //check length of file
+        if (itemAmount == 1 && fileType.includes("image")) { //1 file only and type only image
+
+            console.log(event.dataTransfer.items[0].getAsFile())
+            uploadCoverImage(event.dataTransfer.items[0].getAsFile())
+        } else {
+            console.log('please 1 file and image only')
+        }
+
+
+        // [...event.dataTransfer.items].forEach((item, i) => {
+        // // If dropped items aren't files, reject them
+        // if (item.kind === "file") { 
+        //     const file = item.getAsFile(); //if is file return file ,null
+        //     // console.log(`… file[${i}].name = ${file.name}`);
+        //     console.log(`… file[${i}] =`, file);
+
+        // }
+        //     // console.log('this not image')
+        // });
+    }
+}
+const dragover = (event) => {
+    event.preventDefault()
+}
+
+
+
+
 onBeforeMount(async()=>{
     // console.log(params.id)
     if(params.id==undefined||params.id==''){
@@ -409,7 +527,7 @@ onMounted(()=>{
                                 <textarea v-model="productDes" class="input_description" placeholder="Something about product."></textarea>
                             </div>
                             <!-- cover photo -->
-                            <div class="input_field">
+                            <div class="img_cover input_field">
                                 <h5>
                                     Cover Photo
                                 </h5>
@@ -417,7 +535,7 @@ onMounted(()=>{
                                     
 
                                 </div> -->
-                                <div class="input_img">
+                                <div v-show="coverImage == undefined && coverImageS == false" class="input_img" @drop="dropHandle" @dragover="dragover">
                                     <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
                                     <label  for="cover_image">
                                         <div>
@@ -437,6 +555,17 @@ onMounted(()=>{
                                         
                                     </label>
                                     
+                                </div>
+                                <div v-show="coverImage != undefined || coverImageS == true" @drop="dropHandle" @dragover="dragover">
+                                    <label for="cover_image">
+                                        <!-- รูปที่จะเพิ่ม -->
+                                        <img v-show="coverImage != undefined" src="#" draggable="false" alt="preview_image"
+                                            id="cover-preview">
+                                        <!-- รูปที่มีแล้ว -->
+                                        <img v-show="coverImage == undefined && coverImageS == true"
+                                            :src="`${origin}/api/image/products/${productId}`" draggable="false"
+                                            alt="preview_image" id="cover-preview">
+                                    </label>
                                 </div>
                             </div>
                             <div class="input_list">
@@ -517,7 +646,7 @@ onMounted(()=>{
 
                                 </div> -->
                                 <div class="input_img">
-                                    <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
+                                    <input @change="uploadCoverImage"  id="item_image" type="file" accept="image/*">
                                     <label  for="cover_image">
                                         <div>
                                             <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -664,7 +793,7 @@ onMounted(()=>{
                                         <!-- <div class="input_img">
 
                                         </div> -->
-                                        <div class="input_img">
+                                        <!-- <div class="input_img">
                                             <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
                                             <label  for="cover_image">
                                                 <div>
@@ -684,7 +813,7 @@ onMounted(()=>{
                                                 
                                             </label>
                                             
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <!-- Variation Price & Stock -->
                                     <div class="variance_list">
@@ -910,6 +1039,80 @@ onMounted(()=>{
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
+}
+.img_cover>div {
+    display: flex;
+    width: 100%;
+    height: 140px;
+    border: 2px dashed;
+    border-radius: 4px;
+    border-color: #E0E0E0;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_cover>div input {
+    display: none;
+}
+
+.img_cover>div label {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.img_cover>div label div {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_cover>div label div svg {
+    width: 36px;
+    height: 36px;
+}
+
+.img_cover>div label h6 {
+    width: fit-content;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #757575;
+}
+
+.img_cover>div label h6 span {
+    cursor: pointer;
+    color: #26AC34;
+}
+
+.img_cover>div label p {
+    width: fit-content;
+    height: 16px;
+    font-weight: 400;
+    font-size: 12px;
+    color: #6B7280;
+}
+
+/* .cover_preview{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+} */
+.img_cover>div label img {
+    width: 100%;
+    height: auto;
+    background-position: center;
+
 }
 .input_img input{
     display: none;
