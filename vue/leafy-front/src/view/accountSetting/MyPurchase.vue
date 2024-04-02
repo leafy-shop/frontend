@@ -151,7 +151,7 @@ onBeforeMount(async()=>{
                                     <p>
                                         Order Total(
                                         <span>
-                                            {{ shop.order_details.length }}
+                                            {{ shop.order_details !== undefined ? shop.order_details.length : 0 }}
                                         </span> items) : 
                                     </p>
                                     <h6>
