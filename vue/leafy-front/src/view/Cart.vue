@@ -5,9 +5,11 @@ import { useRouter } from "vue-router";
 import { onBeforeMount, ref, computed } from "vue";
 import fetch from "../JS/api";
 import cookie from "../JS/cookie";
+import validation from '../JS/validation'
 //link
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
+const goPayment=(list)=>myRouter.push({name:'Payment',params:{cartList:validation.encrypt(list)}})
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 // common attribute
@@ -139,7 +141,8 @@ const checkOrder = async() => {
       if (detail.isSelected) selectedCart.push(detail.cartId);
     })
   );
-  console.log(selectedCart);
+  // console.log(selectedCart.join());
+  // goPayment(selectedCart.join())
   // fetch
   let cartData={
     carts : selectedCart,
