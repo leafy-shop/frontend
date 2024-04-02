@@ -45,14 +45,11 @@ const isShowFilter = ref(undefined)
 // sorting product
 const sortName = ref(undefined)
 const sort = ref(undefined)
+// img
+const userImgS=ref(false)
+const coverImageS=ref(false)
 
-// const sortTypeArr = [
-//     { name: "Popular", value: { name: "popular", type: 'desc' } },
-//     { name: "New Arrival", value: { name: "new_arrival", type: 'desc' } },
-//     { name: "Top Sales", value: { name: "sales", type: 'desc' } },
-//     { name: "Low - High", value: { name: "price", type: 'asc' } },
-//     { name: "High - Low", value: { name: "price", type: 'desc' } },
-// ]
+
 
 const changeMode=()=>{
     let includeMode=pMode.map(x=>x.mode==owner.value.role?true:false) //check role for select mode
@@ -110,6 +107,23 @@ const getProductRecommend=async()=>{
     // console.log(data)
     console.log(recommendProduct.value,'TESTIng')
     // totalPage.value=10
+}
+// check image
+const checkImage=async()=>{
+    // console.log(owner.value,'22')
+    let {status} =await fetch.getImage('users',owner.value.userId)
+    if(status){
+        console.log('have image')
+        userImgS.value=status
+    }
+}
+// check cover image
+const checkCoverImage =async()=>{
+    let {status} =await fetch.getImage('users',owner.value.userId,'coverphoto')
+    if(status){
+        console.log('have image')
+        coverImage.value=status
+    }
 }
 
 const getProduct = async (page) => {
@@ -214,9 +228,11 @@ onBeforeMount(async() => {
     cookieRole.value=cookieData.role
     
     await getStore() 
+    await checkImage()
+    await checkCoverImage()
     await getProduct(currentPage.value)
     await getProductRecommend()
-
+    
     
 })
 onMounted(() => {
@@ -234,14 +250,14 @@ onUpdated(() => {
 </script>
 <template>
     <!-- this is profile page {{ params.id }} -->
-    <BaseMenu />
+    <BaseMenu class="menu" />
     <div class="wrapper_profile">
         <!-- username & description -->
         <!-- picture -->
         <div class="container_user_info">
             <div class="big_image">
-                <img src="../assets/shop_p/shop_title.jpg" alt="big_img">
-                <!-- <img src="../assets/shop_p/shop_title.jpg" alt="big_img"> -->
+                <img v-if="coverImageS" src="../assets/shop_p/shop_title.jpg" alt="big_img">
+                <img v-else :src="`${origin}/api/image/users/${owner.userId}/coverphoto`" alt="big_img">
             </div>
             <!-- <img src="../assets/vue.svg" alt="soybean"> -->
             <!-- wrapper 1 -->
@@ -249,7 +265,8 @@ onUpdated(() => {
                 <!-- user img & username -->
                 <div class="user">
                     <div class="user_img">
-                        <img src="../assets/shop_p/avatar_userProfile.png" alt="user_img">
+                        <img v-if="!userImgS" src="../assets/shop_p/avatar_userProfile.png" alt="user_img">
+                        <img v-else :src="`${origin}/api/image/users/${owner.userId}`" alt="">
                     </div>
                     <div class="user_info">
                         <h5>
@@ -293,7 +310,7 @@ onUpdated(() => {
                                 Ratings
                             </h6>
                             <h6>
-                                {{ owner.rating }}
+                                {{ owner.rating==null?0:owner.rating }}
                             </h6>
                         </div>
                         <!-- products -->
@@ -494,11 +511,15 @@ onUpdated(() => {
 * {
     box-sizing: border-box;
 }
-
+.menu{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
 .wrapper_profile {
     display: flex;
     flex-direction: column;
-    width: auto;
+    width: 100%;
     height: fit-content;
     min-height: 90dvh;
     max-height: 100%;
@@ -511,6 +532,7 @@ onUpdated(() => {
 
 .container_user_info {
     display: flex;
+    width: 100%;
     position: relative;
     flex-direction: column;
     width: inherit;
@@ -519,7 +541,7 @@ onUpdated(() => {
 
 .big_image {
     display: flex;
-    width: auto;
+    width: 100%;
     height: min(13.333dvw, 192px);
     overflow: hidden;
     justify-content: center;
