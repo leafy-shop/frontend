@@ -2,7 +2,8 @@
 import BaseMenu from '../../components/BaseMenu.vue';
 import BaseFooter from '../../components/BaseFooter.vue';
 import {useRouter} from 'vue-router'
-import {onMounted, onUpdated, ref} from 'vue'
+import {onMounted, onUpdated, ref,onBeforeMount} from 'vue'
+import cookie from '../../JS/cookie';
 const myRouter =useRouter()
 const goProfile=()=>myRouter.push({name:'Profile_AS'})
 const goAddress=()=>myRouter.push({name:'Address_AS'})
@@ -12,7 +13,9 @@ const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
 const goMyShop=()=>myRouter.push({name:'Shop_AS'})
 const goOrder=()=>myRouter.push({name:'Order_AS'})
 //common attribute
-const isShowNested=ref(false)
+const userRole=ref('')
+const isShowNested=ref(false) //show nested link my shop
+const isSupplier=ref(false)
 const arrayLink=ref([
     {name:'profile',index:0},
     {name:'address',index:1},
@@ -59,7 +62,16 @@ const linkSelected=()=>{
 }
 
 onMounted(()=>{
+   
     linkSelected()
+})
+onBeforeMount(()=>{
+    userRole.value=cookie.decrypt().role
+     if( userRole.value=='supplier'){
+        isSupplier.value=true
+     }
+
+    //  console.log(cookie.decrypt().role,'lsdfjlkasdf')
 })
 onUpdated(()=>{
     // linkSelected()
@@ -127,7 +139,7 @@ onUpdated(()=>{
                 </h5>
             </button>
             <!-- My Shop -->
-            <button class="url_link" @click="showNestedLink()">
+            <button v-if="isSupplier" class="url_link" @click="showNestedLink()">
                 <div>
                     <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7758 7.52468C15.8678 7.32368 16.1328 7.32368 16.2238 7.52468C16.6188 8.38868 17.4918 8.99268 18.4998 8.99268V8.99268C19.8748 8.99268 20.9998 7.86768 20.9998 6.49268V6.49268V6.49268C20.9998 5.50668 20.4408 3.87568 19.9998 2.99268C19.9998 2.99268 18.9998 0.992676 17.7638 0.992676H4.23576C2.99976 0.992676 1.99976 2.99268 1.99976 2.99268C1.55876 3.87568 0.999756 5.50668 0.999756 6.49268V6.49268C0.999756 7.86768 2.12476 8.99268 3.49976 8.99268V8.99268C4.50776 8.99268 5.38076 8.38868 5.77576 7.52468C5.86776 7.32368 6.13276 7.32368 6.22376 7.52468C6.61876 8.38868 7.49176 8.99268 8.49976 8.99268V8.99268C9.50776 8.99268 10.3808 8.38868 10.7758 7.52468C10.8678 7.32368 11.1328 7.32368 11.2238 7.52468C11.6188 8.38868 12.4918 8.99268 13.4998 8.99268V8.99268C14.5078 8.99268 15.3808 8.38868 15.7758 7.52468Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -145,7 +157,7 @@ onUpdated(()=>{
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M6.35092 8.76551C6.57568 8.541 6.88048 8.41487 7.1983 8.41487C7.51611 8.41487 7.82091 8.541 8.04567 8.76551L11.9925 12.7092L15.9393 8.76551C16.0499 8.65113 16.1822 8.5599 16.3284 8.49713C16.4746 8.43437 16.6319 8.40133 16.791 8.39995C16.9502 8.39857 17.108 8.42887 17.2553 8.48908C17.4026 8.5493 17.5364 8.63822 17.649 8.75067C17.7615 8.86311 17.8505 8.99683 17.9107 9.14401C17.971 9.29119 18.0013 9.44888 18 9.6079C17.9986 9.76691 17.9655 9.92406 17.9027 10.0702C17.8399 10.2163 17.7486 10.3484 17.6341 10.4589L12.8399 15.2493C12.6151 15.4738 12.3103 15.5999 11.9925 15.5999C11.6747 15.5999 11.3699 15.4738 11.1451 15.2493L6.35092 10.4589C6.12623 10.2343 6 9.92977 6 9.61221C6 9.29465 6.12623 8.99009 6.35092 8.76551V8.76551Z" fill="#212121"/>
                 </svg>
             </button>
-            <div v-show="isShowNested" class="shop_list">
+            <div v-if="isSupplier" v-show="isShowNested" class="shop_list">
                 <button @click="goMyShop()" class="child_link">
                     Products
                 </button>
