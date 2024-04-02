@@ -136,25 +136,44 @@ const getAddress=async()=>{
 // for buy item selected
 const checkOrder = async() => {
   let selectedCart = [];
+  // get only cart id
+  // carts.value.carts.forEach((cart) =>
+  //   cart.cartOwner.forEach((detail) => {
+  //     if (detail.isSelected) selectedCart.push(detail.cartId);
+  //   })
+  // );
+  //get info of cart id
   carts.value.carts.forEach((cart) =>
     cart.cartOwner.forEach((detail) => {
-      if (detail.isSelected) selectedCart.push(detail.cartId);
+      if (detail.isSelected) selectedCart.push({
+        itemId:detail.itemId,
+        qty:detail.qty,
+        // addressId:addressDefaultId.value,
+        style:detail.itemStyle,
+        size:detail.itemSize,
+        name:detail.itemName,
+        price:detail.priceEach,
+        stock:detail.stock,
+        cartId:detail.cartId
+      });
     })
   );
-  // console.log(selectedCart.join());
-  // goPayment(selectedCart.join())
+  // console.log(selectedCart,'cart value')
+  // console.log(JSON.stringify(selectedCart).toString() );
+
+  goPayment(JSON.stringify(selectedCart).toString())
   // fetch
-  let cartData={
-    carts : selectedCart,
-    addressId : addressDefaultId.value
-  }
-  let {status,msg} =await fetch.BuyNow(cartData)
-  if(status){
-    console.log('buy successful')
-    await getCarts()
-  }else{
-    console.log('can not buy')
-  }
+  // let cartData={
+  //   carts : selectedCart,
+  //   addressId : addressDefaultId.value
+  // }
+  // let {status,msg} =await fetch.BuyNow(cartData)
+  // if(status){
+  //   console.log('buy successful')
+  //   await getCarts()
+  // }else{
+  //   console.log('can not buy')
+  // }
 };
 
 // clear state ment
@@ -283,7 +302,7 @@ onBeforeMount(async() => {
             </div>
           </div>
           <!-- product list -->
-          <div class="product_list" v-for="detail in shop.cartOwner">
+          <div class="product_list" v-for="(detail,index) in shop.cartOwner" :key="index">
             <!-- product item -->
             <div class="product_item">
               <div>
@@ -310,9 +329,10 @@ onBeforeMount(async() => {
                   <h6>Polyscias Fabian</h6>
                   <!-- variance selection -->
                   <label :for="`variation_${index}`">
-                    <p>Variation :&nbsp;</p>
+                    <p>{{detail.itemStyle}} :&nbsp;</p>
                     <select :id="`variation_${index}`">
-                      <option value="">variation</option>
+                      <option  :value="detail.itemSize" selected>{{detail.itemSize}}</option>
+                      <!-- <option value=""></option> -->
                     </select>
                   </label>
                 </div>
@@ -740,7 +760,7 @@ onBeforeMount(async() => {
 
 .product_item > div:nth-child(1) .product_detail label p {
   display: flex;
-  width: 55px;
+  width: fit-content;
   height: 16px;
   font-size: 12px;
   font-weight: 400;
