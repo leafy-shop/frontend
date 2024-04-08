@@ -25,6 +25,7 @@ import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
 import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
 import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
 import MyPurchase from '../view/accountSetting/MyPurchase.vue'
+import Chat from '../view/Chat 2.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -142,8 +143,14 @@ const routes=[
         path:'/server-error',
         name:'ServerError',
         component:ServerError
-    }
+    },
 
+    // use demo only
+    {
+        path:'/chat',
+        name:'Chat',
+        component:Chat
+    },
 ]
 const router=createRouter({history,routes})
 
