@@ -3,16 +3,30 @@ import {ref,onBeforeMount} from 'vue'
 import fetch from '../../../JS/api';
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie';
+import ORDERSTATUS from '../../../JS/enum/order.js'
 // common attribute
 const date=ref('')
 const uesrName=ref('')
 const orderList=ref([])
 // amount of order product
 const orderAmount=ref(0)
+// filter attribute
+const filterStatus=ref(undefined)
+// move page
+const currentPage=ref(1)
 
 // get all order for supplier
 const getAllOrder=async()=>{
-    let {status,data}=await fetch.getAllOrder(true)
+    let inputData={
+        page:currentPage.value, //current page
+        status:filterStatus.value, // status
+        // sort:"desc",
+        // dateStart:"",
+        // dateEnd:"", // wait 
+        // limitP:''
+    }
+
+    let {status,data,msg}=await fetch.getAllOrder(true,inputData)
     if(status){
         console.log(data)
         orderList.value=data.list
@@ -25,6 +39,23 @@ const showDetail=(id)=>{
     // console.log(detailElement)
     detailElement.classList.toggle('order_detail_on')
     // detailElement.setAttribute('style','display:flex')
+}
+
+// filter order
+const filterOrder=async(filterItem="ALL")=>{
+    if(filterItem=="ALL"){
+        filterStatus.value="ALL"
+    }else
+    if(filterItem==ORDERSTATUS.COMPLETED){
+        filterStatus.value=ORDERSTATUS.COMPLETED
+    }else
+    if(filterItem==ORDERSTATUS.PENDING){
+        filterStatus.value=ORDERSTATUS.PENDING
+    }else
+    if(filterItem==ORDERSTATUS.CANCELED){
+        filterStatus.value=ORDERSTATUS.CANCELED
+    }
+    await getAllOrder()
 }
 
 
@@ -65,7 +96,7 @@ onBeforeMount(async()=>{
         <div class="sort_orders">
             <div class="sort_list">
                 <!-- all orders -->
-                <button  class="sort_item">
+                <button @click="filterOrder()" class="sort_item">
                     <h4>
                         All orders
                     </h4>
@@ -74,7 +105,7 @@ onBeforeMount(async()=>{
                     </p>
                 </button>
                 <!-- complete -->
-                <button  class="sort_item">
+                <button @click="filterOrder(ORDERSTATUS.COMPLETED)" class="sort_item">
                     <h4>
                         Completed
                     </h4>
@@ -83,7 +114,7 @@ onBeforeMount(async()=>{
                     </p>
                 </button>
                 <!-- padding -->
-                <button  class="sort_item">
+                <button @click="filterOrder(ORDERSTATUS.PENDING)" class="sort_item">
                     <h4>
                         Pending
                     </h4>
@@ -92,7 +123,7 @@ onBeforeMount(async()=>{
                     </p>
                 </button>
                 <!-- cancel -->
-                <button  class="sort_item">
+                <button @click="filterOrder(ORDERSTATUS.CANCELED)" class="sort_item">
                     <h4>
                         Cancel
                     </h4>
@@ -237,9 +268,17 @@ onBeforeMount(async()=>{
                                     </svg>
 
                                 </button>
+                                <!-- {{order.status}} -->
+                                <!-- <select >
+                                    <option value="" selected>{{order.status}}</option>
+                                    <option v-for="(status,index) of ORDERSTATUS" :key=index value="" >{{status}}</option>
+                                </select> -->
                                 <!-- drop down -->
                                 <div>
                                     <!-- status -->
+                                    <div v-for="(status,index) of ORDERSTATUS" :key="index">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -715,6 +754,7 @@ onBeforeMount(async()=>{
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    /* background-color:; */
 }
 .order_item div:nth-child(8)> div button svg{
     width: 8px;
@@ -722,9 +762,12 @@ onBeforeMount(async()=>{
 }
 /* drop down  */
 .order_item div:nth-child(8)> div > div{
-    /* display: none; */
+    display: flex; 
+    width:96px;
+    height:fit-content;
     position: absolute;
     bottom: 1;
+    background-color:red;
 }
 /* .order_item th:nth-child(8) */
 .padding_info{
