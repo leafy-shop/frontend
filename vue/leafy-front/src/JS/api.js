@@ -71,12 +71,12 @@ const fetch = {
         try {
             let url = `${origin}/api/image/${endpoint}/${id}`
             url += type != undefined ? `/${type}` : ''
-            let res = await axios.get(url)
+            let res = await axios.get(url,{responseType:'blob'})
 
             if (res.status == 200) {
                 validation.function_Status('Image founded.', true, `type: ${type}`)
                 returnData.status = true
-
+                // console.log(res.data,'this is img data')
                 returnData.data = res.data
 
             } else {
@@ -138,15 +138,17 @@ const fetch = {
     },
     async addImages(data, endpoint, id, type) {
         // let returnData = { status: false, data: undefined, msg:'' }
-        let returnData = { status: false }
+        let returnData = { status: false ,msg:""}
         const formData = new FormData();
         try {
             let url = `${origin}/api/images/${endpoint}/${id}`
             url += type != undefined ? `/${type}` : ''
+            console.log(data,'from api')
+            for(let img of data){
+                formData.append('file', img)
+            }
 
-            formData.append('file', data)
-
-            let res = await axios.post(url, formData)
+            let res = await axios.post(url,formData)
 
             if (res.status == 201) {
                 validation.function_Status('Image updated.', true, `type: ${type}`)
