@@ -1161,14 +1161,31 @@ const fetch = {
     async getAllOrder(isSupplier = false, inputData = {}) { //for sub and user
         let returnData = { status: false, data: undefined, msg: '' }
         let {
-            username,
+            page,
+            limitP,
             sort,
+            dateStart,
+            dateEnd,
+            status, //status of order
         } = inputData
         try {
-
+            
             if (isSupplier) { // for role supplier
                 let url = `${origin}/api/orders/supplier`
-                if (sort != undefined) url += `sort=${sort}`;
+                // page
+                if(page ==undefined) url+=`?page=${1}`
+                else url+=`?page=${page}`
+                // limit
+                if (limitP != undefined) url += `&limit=${limitP}`;
+                // sort
+                if (sort != undefined) url += `&sort=${sort}`;
+                // start date
+                if (dateStart != undefined) url += `&dateStart=${dateStart}`;
+                // end date
+                if (dateEnd != undefined) url += `&dateStart=${dateEnd}`;
+                // status
+                if (status != undefined) url += `status=${status}`;
+
                 let res = await axios.get(url)
                 if (res.status == 200) {
                     validation.function_Status('get order all for supplier', true)
@@ -1177,8 +1194,16 @@ const fetch = {
                 }
             } else { //for normal user
                 let url = `${origin}/api/orders?`
-                // check sort
-                if (sort != undefined) url += `sort=${sort}`;
+                // page
+                if(page ==undefined) url+=`?page=${1}`
+                else url+=`?page=${page}`
+                // limit
+                if (limitP != undefined) url += `&limit=${limitP}`;
+                // sort
+                if (sort != undefined) url += `&sort=${sort}`;
+                // status
+                if (status != undefined) url += `status=${status}`;
+                
                 let res = await axios.get(url)
                 if (res.status == 200) {
                     validation.function_Status('get order all for user', true)
