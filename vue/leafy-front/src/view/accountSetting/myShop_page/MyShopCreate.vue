@@ -37,6 +37,7 @@ const styleName=ref('')
 const styleImgList=ref([])
 const styleVariance=ref([])
 const maxVariance=10
+const maxStyleImgList=10
 // add style status
 const styleNameS=ref(false)
 const styleImgListS=ref(false)
@@ -292,9 +293,8 @@ const addStyle=async()=>{
     
 }
 // edit style
-const updateStyle=(sku)=>{
-    document.getElementById("shop_create").scrollIntoView({ behavior: "smooth" })
-    // location.href="#style_input"
+const updateStyle=async(sku)=>{ //assign value to input after selected
+    document.getElementById("shop_create").scrollIntoView({ behavior: "smooth" }) //locate to position input style
     showStyleInput.value=true//show input field
     styleImgList.value=[]// clear value
     let {price,size,sizes,stock,style,images,image}=sku
@@ -312,17 +312,25 @@ const updateStyle=(sku)=>{
     // assign style name
     styleName.value=style
 
+
     // assign style img
     if(image!=undefined){
         styleImgList.value=[image]
         console.log(image)
     }else{
-        //  push many of the image that selected
+        //  push many of the old image that selected
         for(let img of images){
-            addStyleImgObj(undefined,img)
+            let{status,data}=await fetch.getImage('products',`${productId.value}/${style}/${img}`)
+            if(status){
+                // blob function
+                let oldFile=new File([data],img,{type:'image/jpeg'})
+                addStyleImgObj(oldFile,img)
+            }else{
+                addStyleImgObj(undefined,img)
+            }
         }
     }
-
+    console.log(styleImgList.value,'this old img list ')
     isStyleEdit.value=true
     console.log(isStyleEdit.value,'style edit')
     console.log(sku )
@@ -363,6 +371,12 @@ const addStyleImg=async()=>{
         }
     }
 }
+// remove img style in local list styleImgList
+const removeImgStyle=(index)=>{
+    styleImgList.value.splice(index,1)
+    console.log("remove successful!!")
+}
+
 // for format form obj before push
 const addStyleImgObj=(file=undefined,name='')=>{
     let styleImgOBJ={}
@@ -451,7 +465,7 @@ const styleClear=()=>{
 
 }
 // check image
-const imgTesting=ref(undefined)
+// const imgTesting=ref(undefined)
 const checkMainImage=async()=>{
     let{status,data,msg}=await fetch.getImage('products',productId.value)
     if(status){
@@ -509,8 +523,12 @@ const uploadStyleImage = async(event) => {
         console.log('file size :', fSize)
         if (maxFileSize >= fSize) {
             console.log('nice file')
-            if (event.target != undefined) addStyleImgObj(file);
-            else addStyleImgObj(file)
+            if(styleImgList.value.length<maxStyleImgList){
+                if (event.target != undefined) addStyleImgObj(file);
+                else addStyleImgObj(file)
+            }else{
+                console.log('Style image limit 10 picture each style')
+            }
             // previewCoverImage(file, "cover-preview")
         } else {
             console.log('file too big')
@@ -790,17 +808,17 @@ onUpdated(async()=>{
                                     <!-- for show img -->
                                     <!-- first solu -->
                                     <button v-for="(img,index) of styleImgList" :key="index" >
-                                        <img v-if="img.isFile"  src="#" :id="`style_preview_${img.name}`" :alt="`style_${img.name}`">
-                                        <img v-else  :src="`${origin}/api/image/products/${productId}/${styleName}/${img.name}`" :id="`style_preview_${img.name}`" :alt="`style_${img.name}`">
+                                        <img v-if="img.isFile"  src="#" :id="`style_preview_${img.name}`" :alt="`style_${img.name}`" loading="lazy">
+                                        <img v-else  :src="`${origin}/api/image/products/${productId}/${styleName}/${img.name}`" :id="`style_preview_${img.name}`" :alt="`style_${img.name}`" loading="lazy">
                                         <!-- delete btn -->
-                                        <button class="remove">
+                                        <button @click="removeImgStyle(index)" class="remove">
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M1 1L11 11M1 11L11 1L1 11Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                         </button>
                                     </button>
                                     <!-- second solu -->
-                                    <label  for="style_image" @drop="dropStyleHandle" @dragover="dragover">
+                                    <label v-show="styleImgList.length<maxStyleImgList" for="style_image" @drop="dropStyleHandle" @dragover="dragover">
                                         <div>
                                             <!-- svg -->
                                             <div>
@@ -922,7 +940,8 @@ onUpdated(async()=>{
                                         <!-- price -->
                                         <div class="price">
                                             <h6>
-                                                ฿{{styleItem.price}}
+                                                ฿{{styleItem.minPriceSKU}}
+                                                <span v-show="styleItem.maxPriceSKU!=0">- {{styleItem.maxPriceSKU}}</span>
                                             </h6>
                                         </div>
                                         <!-- variation -->
