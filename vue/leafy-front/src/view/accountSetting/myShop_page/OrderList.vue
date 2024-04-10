@@ -26,18 +26,40 @@ const colorStatusList=[
     {font:'#12D18E',bg:'#17CE9214'}, //completed
     {font:'#F75555',bg:'#F5484A14'}, //canceled
 ]
+// date attribute
+const startDate=ref("")
+const endDate=ref("")
+const showDateFilter=ref(false) //for show drop down
+
+
+// filter
+const resetfilterDate=async()=>{
+    startDate.value=""
+    endDate.value=""
+    showDateFilter.value=false
+    await getAllOrder()
+}
+// submit filter
+const submitFilterDate=async()=>{
+    showDateFilter.value=false //close drop down
+    await getAllOrder()
+}
+
+
 
 // move page
 const nextPage=()=>{
     // check if to next page and not out of all page
     currentPage.value=(currentPage.value+1)>allPage.value?currentPage.value:currentPage.value+1
+    document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
     getAllOrder()
 }
 const previousPage=()=>{
     currentPage.value=(currentPage.value-1)<=0?currentPage.value:currentPage.value-1
+    document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
     getAllOrder()
 }
-//page info
+//computed page info
 const calculatePage=computed(()=>{
     let returnData={}
     returnData["startWith"]=(currentPage.value-1)*10+1
@@ -49,7 +71,6 @@ const calculatePage=computed(()=>{
 
 // get all order for supplier
 const getAllOrder=async()=>{
-    document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
 
     let inputData={
         page:currentPage.value, //current page
@@ -61,6 +82,12 @@ const getAllOrder=async()=>{
     }
     if(filterStatus.value=="ALL"){ //delete status out
         delete inputData.status
+    }
+    if(startDate.value.length!=0){
+        inputData["dateStart"]=startDate.value
+    }
+    if(endDate.value.length!=0){
+        inputData["dateEnd"]=endDate.value
     }
 
     let {status,data,msg}=await fetch.getAllOrder(true,inputData)
@@ -104,22 +131,30 @@ const filterOrder=async(name,filterItem="ALL")=>{
         filterStatus.value=ORDERSTATUS.CANCELED
         element.classList.add("sort_item_active")
     }
+    
+    currentPage.value=1 //set to default
     await getAllOrder()
 }
 
 // use for calculate next setp only
 const calculateStatusStep=(currentStatus)=>{
-    let statusValue = Object.values(ORDERSTATUS)
-    let indexCurrent =statusValue.indexOf(currentStatus) // check index that of step in order status
-    let step =statusValue.slice(indexCurrent+1,statusValue.length-2)//list all not calcel and complete tho
-    // console.log(currentStatus)
-    // console.log(step )
-    return step
+    if(currentStatus!=undefined){
+        let statusValue = Object.values(ORDERSTATUS)
+        let indexCurrent =statusValue.indexOf(currentStatus) // check index that of step in order status
+        let step =statusValue.slice(indexCurrent+1,statusValue.length-2)//list all not calcel and complete tho
+        // console.log(currentStatus)
+        // console.log(step )
+        return step
+    }
+    
 }
 const calculateStatusStepColor=(currentStatus)=>{
-    let statusValue = Object.values(ORDERSTATUS)
-    let indexCurrent =statusValue.indexOf(currentStatus)
-    return colorStatusList[indexCurrent]
+    if(currentStatus!=undefined){
+        let statusValue = Object.values(ORDERSTATUS)
+        let indexCurrent =statusValue.indexOf(currentStatus)
+        return colorStatusList[indexCurrent]
+    }
+
 }
 
 
@@ -220,30 +255,60 @@ onMounted(async()=>{
                 </svg>
                 
             </button> -->
-            <button id="date_rage_picker" >
-                <div>
+            <div   id="date_rage_picker" >
+                <button @click="showDateFilter=!showDateFilter">
+                    <div>
+                        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.6757 1.30653L11.6766 1.93122C13.9721 2.11113 15.4885 3.67534 15.4909 6.07414L15.5 13.0956C15.5033 15.711 13.8602 17.3202 11.2265 17.3243L4.79324 17.3327C2.17599 17.336 0.512347 15.6885 0.509056 13.0656L0.500006 6.12662C0.496714 3.71199 1.95961 2.15194 4.25514 1.94121L4.25432 1.31653C4.2535 0.950042 4.52501 0.674347 4.88703 0.674347C5.24905 0.673514 5.52057 0.948376 5.52139 1.31486L5.52221 1.8979L10.4095 1.89124L10.4087 1.3082C10.4078 0.941713 10.6794 0.66685 11.0414 0.666018C11.3952 0.665185 11.6749 0.940047 11.6757 1.30653ZM1.7679 6.38399L14.2247 6.36733V6.07581C14.1893 4.28504 13.2908 3.34551 11.6782 3.20558L11.679 3.84692C11.679 4.20508 11.4001 4.4891 11.0463 4.4891C10.6843 4.48994 10.412 4.20674 10.412 3.84859L10.4111 3.17393L5.52386 3.18059L5.52468 3.85442C5.52468 4.21341 5.25399 4.4966 4.89197 4.4966C4.52995 4.49743 4.25761 4.21507 4.25761 3.85609L4.25679 3.21474C2.65238 3.37549 1.76461 4.31835 1.76708 6.12495L1.7679 6.38399ZM10.6999 10.1696V10.1788C10.7081 10.5619 11.0208 10.8526 11.4001 10.8443C11.7704 10.8351 12.0657 10.5178 12.0575 10.1346C12.0402 9.76813 11.7432 9.46911 11.3738 9.46994C10.9953 9.47827 10.6991 9.78645 10.6999 10.1696ZM11.3795 13.9094C11.0011 13.9011 10.6958 13.5854 10.695 13.2022C10.6868 12.8191 10.9904 12.5018 11.3688 12.4926H11.3771C11.7638 12.4926 12.0772 12.8083 12.0772 13.1997C12.0781 13.5912 11.7654 13.9086 11.3795 13.9094ZM7.3101 10.1829C7.32655 10.5661 7.64003 10.8651 8.01851 10.8484C8.38875 10.8309 8.68413 10.5144 8.66768 10.1313C8.65862 9.75646 8.3542 9.46494 7.98395 9.46578C7.60547 9.48244 7.30928 9.79978 7.3101 10.1829ZM8.0218 13.8719C7.64332 13.8886 7.33067 13.5895 7.31339 13.2064C7.31339 12.8233 7.60877 12.5068 7.98724 12.4893C8.35749 12.4884 8.66274 12.78 8.67097 13.1539C8.68824 13.5379 8.39205 13.8544 8.0218 13.8719ZM3.92027 10.2121C3.93673 10.5952 4.2502 10.8951 4.62868 10.8776C4.99893 10.8609 5.2943 10.5436 5.27703 10.1604C5.2688 9.78562 4.96437 9.4941 4.5933 9.49493C4.21483 9.51159 3.91945 9.82893 3.92027 10.2121ZM4.63197 13.8761C4.2535 13.8936 3.94084 13.5937 3.92356 13.2106C3.92274 12.8274 4.21894 12.5101 4.59741 12.4934C4.96766 12.4926 5.27291 12.7841 5.28114 13.1589C5.29842 13.5421 5.00304 13.8594 4.63197 13.8761Z" fill="white"/>
+                        </svg>
+                    </div>
                     <h6>
-                        this is text
+                        <!-- start &end -->
+                        <span v-if="startDate.length!=0">
+                            {{startDate.substring(5)}}
+                            
+                            <span v-show="endDate.length!=0">
+                                -  
+                                {{endDate.substring(5)}}
+                            </span>
+                        </span>
+                        <!--  -->
+                        <span v-else>
+                            Date filter
+                        </span>
                     </h6>
-                </div>
+                </button>
                 <!-- drop down -->
-                <div id="date_range_drop">
+                <div v-show="showDateFilter"   id="date_range_drop">
                     <!-- start -->
                     <label for="start_date">
                         <h6>
                             Start
                         </h6>
-                        <input type="date" id="start_date" />
+                        <input v-model="startDate" type="date" id="start_date" :max="endDate" />
                     </label>
+                    
                     <!-- end -->
                     <label for="end_date">
                         <h6>
                             End
                         </h6>
-                        <input type="date" id="end_date" />
+                        <input v-model="endDate" type="date" id="end_date" :min="startDate"/>
                     </label>
+
+                    <!-- operator -->
+                    <div>
+                        <!-- reset -->
+                        <button @click="resetfilterDate()" class="reset_date">
+                            Reset
+                        </button>
+                        <!-- filter -->
+                        <button @click="submitFilterDate()" class="submit_date">
+                            Submit
+                        </button>
+                    </div>
                 </div>  
-            </button>
+            </div>
             
             
             
@@ -670,20 +735,56 @@ onMounted(async()=>{
     color:#212121;
 }
 
-.header_orders button{
+.header_orders >div{
     display: flex;
     position: relative;
-    width: 168px;
+    /* width: 168px; */
+    width: 180px;
     height: 36px;
+    /* gap: 4px; */
+    justify-content: center;
+    align-items: center;
+
+    
+}
+.header_orders >div >button{
+    display:flex;
+    width:100%;
+    height:100%;
+    justify-content:start;
+    align-items:center;
+    gap:8px;
     border: none;
     border-radius: 4px;
     padding: 4px;
-    gap: 4px;
-    justify-content: center;
-    align-items: center;
     background-color: #26AC34;
     cursor:pointer;
 }
+/* svg */
+.header_orders >div >button >div{
+    display:flex;
+    width:20px;
+    height:20px;
+    justify-content:center;
+    align-items:center;
+}
+.header_orders >div >button >div svg{
+    width:15px;
+    height:auto;
+}
+/* text */
+.header_orders >div >button >h6{
+    width:100%;
+    height:fit-content;
+    font-size:14px;
+    font-weight:500;
+    color:#fff;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-align:start;
+    white-space:nowrap;
+}
+
 /* .header_orders button svg{
     
     width: 15px;
@@ -740,15 +841,18 @@ onMounted(async()=>{
 /* drop down */
 #date_range_drop{
     display:flex;
-    width:168px;
+    width:180px;
     height:fit-content;
     position:absolute;
     flex-direction:column;
     gap:4px;
-    bottom:-50px;
+    bottom:-120px;
     right:0;
     background-color:#fff;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px 10px 15px -3px #0000001A;
+    border:none;
+    border-radius:8px;
+    padding:4px;
 
 }
 #date_range_drop >label{
@@ -756,8 +860,10 @@ onMounted(async()=>{
     width:100%;
     height:fit-content;
     align-items:center;
+    justify-content:center;
     gap:4px;
     cursor:pointer;
+    padding:4px;
 }
 #date_range_drop >label h6{
     width:36px;
@@ -766,6 +872,46 @@ onMounted(async()=>{
     font-weight:400;
     color:#9E9E9E;
     text-align:start;
+}
+#date_range_drop >label input{
+    width:120px;
+    height:fit-content;
+    padding:4px;
+    border:none;
+}
+#date_range_drop >div{
+    display:flex;
+    width:100%;
+    height:fit-content;
+    gap:4px;
+}
+#date_range_drop >div button{
+    display:flex;
+    width:100%;
+    height:36px;
+    border:none;
+    border-radius:4px;
+    justify-content:center;
+    align-items:center;
+    font-size:14px;
+    font-weight:400;
+    cursor:pointer;
+}
+/* reset */
+.reset_date{
+    color:#212121;
+    /* border:1px solid; */
+    /* border-color:#E0E0E0; */
+    background-color:#E0E0E0;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+
+}
+/* submit */
+.submit_date{
+    color:#fff;
+    background-color:#26AC34;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+
 }
 
 .sort_orders{
