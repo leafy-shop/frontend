@@ -120,33 +120,45 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         // this.set(cookieName,encryptData)
         console.log(encryptData)
         return encryptData
-      },
-      decrypt(text){
+    },
+    decrypt(text){
         // let cookieValue=this.get(cookieName)
         if(text==undefined){
-          this.function_Status('Decrypt',false,'text is null')
-          return ''
+            this.function_Status('Decrypt',false,'text is null')
+            return ''
         }else{
-          let decryptData = cryptoJs.AES.decrypt(text,key).toString(cryptoJs.enc.Utf8)
-          // console.log(decryptData)
-          this.function_Status('Decrypt',true,'decrypt successfull!!')
-          return decryptData
+            let decryptData = cryptoJs.AES.decrypt(text,key).toString(cryptoJs.enc.Utf8)
+            // console.log(decryptData)
+            this.function_Status('Decrypt',true,'decrypt successfull!!')
+            return decryptData
         }
-      },
-      ratingStar(rating=0,parent="star_item",child="path"){
+    },
+    ratingStar(rating=0,parent="star_item",child="path"){
         let ratingFloor=Math.floor(rating)
         const star=document.getElementsByClassName(parent)
         
         //start from front
         for(let i=0;i<(ratingFloor);i++){
             // console.log(star[i])
-               star[i].getElementsByTagName(child)[0].setAttribute('fill',"#FFCE3D")
+                star[i].getElementsByTagName(child)[0].setAttribute('fill',"#FFCE3D")
         }
         //start from back
         for(let i=star.length-1;i>=0;i--){
             star[i].getElementsByTagName(child)[0].setAttribute('stroke',"#FFCE3D")
         }
+    },
+    getDateTime(date){
+        
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()+2).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
+    
 }
 
 export default ft
