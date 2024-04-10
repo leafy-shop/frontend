@@ -67,11 +67,14 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         if(type==undefined) return window.scrollTo({ top:0});
         else return window.scrollTo({ top:0,behavior: "smooth"});
     },
-    text(text){
+    text(text=''){
         let returnStatus=undefined
-        if(text.length!=0){
+        if(text!=undefined){
             // console.log(text.length)
-            let isText = String(text).toLowerCase().match(/[a-z]/g).length!=text.length?false:true //make new array for collect same data
+            // let regex = /^[a-z A-Z]+$/;
+            let regex = /\d/;
+            // let isText = String(text).toLowerCase().match(/[a-z]/g).length!=text.length?false:true //make new array for collect same data
+            let isText = !regex.test(text)
             // this.function_Status(text,true,'ok')
             console.log(isText)
             if(isText){
@@ -89,10 +92,14 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         //     return returnStatus=false
         // }
     },
-    textRange(text,max,min){ //check lenght 10 - 11 only
+    textRange(text="",max,min){ //check lenght 10 - 11 only
         console.log(text)
-        if(text!=undefined&&max>=min&&text.length>=min&&text.length<=max){
-            return true
+        if(text!=undefined){
+            if(max>=min&&text.length>=min&&text.length<=max){
+                return true
+            }else{
+                return false
+            }
         } else {
             return false
         }
