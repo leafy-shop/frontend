@@ -1157,7 +1157,7 @@ const fetch = {
             }
         }
     },
-    // for
+    // for user,supplier get order 
     async getAllOrder(isSupplier = false, inputData = {}) { //for sub and user
         let returnData = { status: false, data: undefined, msg: '' }
         let {
@@ -1184,7 +1184,7 @@ const fetch = {
                 // end date
                 if (dateEnd != undefined) url += `&dateStart=${dateEnd}`;
                 // status
-                if (status != undefined) url += `status=${status}`;
+                if (status != undefined) url += `&status=${status}`;
 
                 let res = await axios.get(url)
                 if (res.status == 200) {
@@ -1231,6 +1231,54 @@ const fetch = {
             }
         }
     },
+    async changeOrderStatus(orderId,inputData) {
+        let returnData = { status: false ,msg:''}
+        if (inputData != undefined) {
+            try {
+                // {
+                //     "orderStatus": "in progress",
+                //     "shippedDate": "2024-04-08 10:00:00"
+                // }
+                
+                let url = `${origin}/api/orders/prepare_order/${orderId}`
+                let res = await axios.put(url,inputData)
+                
+                if (res.status == 200) {
+                    validation.function_Status("change order status successful", true)
+                    returnData.status = true
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("can not change order status", false, error)
+                // console.log(error) 
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Change order status", false, "cannot add change order status" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
+        }
+        
+
+    },
     async BuyNow(cartInput) {
         let returnData = { status: false, msg: '' }
 
@@ -1275,9 +1323,9 @@ const fetch = {
         }
     },
     async BuyNowWithoutCart(itemInput) {
-        let returnData = { status: false, msg: '' }
-
+        
         if (itemInput != undefined) {
+            let returnData = { status: false, msg: '' }
             try {
                 let url = `${origin}/api/orders/no_cart`
                 let res = await axios.post(url, itemInput)
