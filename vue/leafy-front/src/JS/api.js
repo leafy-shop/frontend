@@ -1182,7 +1182,7 @@ const fetch = {
                 // start date
                 if (dateStart != undefined) url += `&dateStart=${dateStart}`;
                 // end date
-                if (dateEnd != undefined) url += `&dateStart=${dateEnd}`;
+                if (dateEnd != undefined) url += `&dateEnd=${dateEnd}`;
                 // status
                 if (status != undefined) url += `&status=${status}`;
 
