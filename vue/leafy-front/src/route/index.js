@@ -12,6 +12,7 @@ import GalleryDetail from '../view/GalleryDetail.vue'
 import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
+import Payment from '../view/Payment.vue'
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
 import Profile_AS from '../view/accountSetting/Profile.vue'
@@ -23,7 +24,7 @@ import Bank_AS_add from '../view/accountSetting/bank_page/Bank_add.vue'
 import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
 import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
 import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
-import MyPurchase from '../view/accountSetting/MyPurchase.vue'
+import MyPurchase from '../view/accountSetting/myPurchase_page/MyPurchase.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -54,6 +55,11 @@ const routes=[
         path:'/cart-list',
         name:'CartList',
         component:CartList
+    },
+    {
+        path:'/cart-list/payment/:cartList',
+        name:'Payment',
+        component:Payment
     },
     {
         path:'/user-profile/:id',
@@ -166,8 +172,13 @@ router.beforeEach(async (to,from)=>{
         return {name:"Home"}
     }
     if(to.name=="AccountSetting"){//cookie require
-        return {name:"Profile_AS"}
+        if(cookie.checkKeyPass()){
+            return {name:"Profile_AS"}
+        }else{
+            return {name:"SignIn"}
+        }  
     } 
+    
    
     // console.log(cookie.decrypt("information"))
     // console.log(to.path.split("/").pop())

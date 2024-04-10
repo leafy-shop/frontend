@@ -5,6 +5,7 @@ import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie';
 import fetch from '../../../JS/api';
 import bankTypeList from '../../../JS/enum/bankAccount.js'
+import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
 // link
 const myRouter = useRouter()
 const goAdd = () => myRouter.push({ name: 'Bank_AS_add', params: { method: 'new-bank' } })
@@ -152,10 +153,12 @@ onBeforeMount(async () => {
                     </button>
                 </div>
                 <!-- default -->
-                <div v-if="Object.keys(bankDefault).length!=0" class="container_bank">
+                <BaseBankItemList name="bank_default" :dataList="[bankDefault]" :isDefault="true"  @setDefaultBank="setDefaultBank"  @goUpdate="goUpdate" @showConfirm="showConfirm"  />
+
+                <!-- <div v-if="Object.keys(bankDefault).length!=0" class="container_bank">
                     <div class="bank_list">
                         <div class="bank_item">
-                            <!-- title -->
+                            title
                             <div class="title">
                                 <div class="info">
                                     <h5>
@@ -168,7 +171,7 @@ onBeforeMount(async () => {
 
                                 <div class="operation">
 
-                                    <!-- edit -->
+                                    edit
                                     <button @click="goUpdate(bankDefault.paymentId)">
                                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -179,8 +182,8 @@ onBeforeMount(async () => {
                                         </svg>
 
                                     </button>
-                                    <!-- bin -->
-                                    <!-- <button v-show="false" @click="showConfirm(bankDefault.paymentId)">
+                                    bin
+                                    <button v-show="false" @click="showConfirm(bankDefault.paymentId)">
                                         <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -188,35 +191,38 @@ onBeforeMount(async () => {
                                                 stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round" />
                                         </svg>
-                                    </button>     -->
+                                    </button>    
                                 </div>
                             </div>
-                            <!-- discription -->
+                            discription
                             <div class="discription">
                                 <p>
                                     {{ fullNameBank(bankDefault.bankCode) }}
                                 </p>
-                                <!-- set default -->
-                                <!-- <button @click="setDefaultBank(bankDefault.paymentId)">
+                                set default
+                                <button @click="setDefaultBank(bankDefault.paymentId)">
                                     Set as default
-                                </button> -->
+                                </button>
 
                             </div>
-                            <!-- default -->
+                            default
                             <div class="default_icon" v-show="bankDefault.isDefault" >
                                 Default
                             </div>
 
-                            <!-- <button @click="setDefaultBank(bank.paymentId)">Set as default</button> -->
-                            <!-- <button v-show="bank.isDefault" disabled>Default</button> -->
+                            <button @click="setDefaultBank(bank.paymentId)">Set as default</button>
+                            <button v-show="bank.isDefault" disabled>Default</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- bank list -->
-                <div class="container_bank">
+                <BaseBankItemList name="bank_list" :dataList="bankList"  @setDefaultBank="setDefaultBank"  @goUpdate="goUpdate" @showConfirm="showConfirm"  />
+                
+                <!-- bank list -->
+                <!-- <div class="container_bank">
                     <div class="bank_list">
                         <div v-show="bankList.length!=0" v-for="(bank, index) of bankList" :key="index" class="bank_item">
-                            <!-- title -->
+                            title
                             <div class="title">
                                 <div class="info">
                                     <h5>
@@ -229,7 +235,7 @@ onBeforeMount(async () => {
 
                                 <div class="operation">
 
-                                    <!-- edit -->
+                                    edit
                                     <button @click="goUpdate(bank.paymentId)">
                                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -240,7 +246,7 @@ onBeforeMount(async () => {
                                         </svg>
 
                                     </button>
-                                    <!-- bin -->
+                                    bin
                                     <button @click="showConfirm(bank.paymentId)">
                                         <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -252,19 +258,19 @@ onBeforeMount(async () => {
                                     </button>    
                                 </div>
                             </div>
-                            <!-- discription -->
+                            discription
                             <div class="discription">
                                 <p>
                                     {{ fullNameBank(bank.bankCode) }}
                                 </p>
-                                <!-- set default -->
+                                set default
                                 <button @click="setDefaultBank(bank.paymentId)">
                                     Set as default
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div v-show="isDelete" class="wrapper_confirm_delete">

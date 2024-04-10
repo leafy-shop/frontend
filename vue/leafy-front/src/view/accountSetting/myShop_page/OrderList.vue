@@ -1,13 +1,69 @@
 <script setup>
-import {ref} from 'vue'
+import {ref,onBeforeMount} from 'vue'
+import fetch from '../../../JS/api';
+import validation from '../../../JS/validation'
+import cookie from '../../../JS/cookie';
+import ORDERSTATUS from '../../../JS/enum/order.js'
 // common attribute
 const date=ref('')
+const uesrName=ref('')
+const orderList=ref([])
+// amount of order product
+const orderAmount=ref(0)
+// filter attribute
+const filterStatus=ref(undefined)
+// move page
+const currentPage=ref(1)
 
 // get all order for supplier
-const getAllOrder=()=>{
-    
+const getAllOrder=async()=>{
+    let inputData={
+        page:currentPage.value, //current page
+        status:filterStatus.value, // status
+        // sort:"desc",
+        // dateStart:"",
+        // dateEnd:"", // wait 
+        // limitP:''
+    }
+
+    let {status,data,msg}=await fetch.getAllOrder(true,inputData)
+    if(status){
+        console.log(data)
+        orderList.value=data.list
+        orderAmount.value=data.allItems
+    }
+}
+// const 
+const showDetail=(id)=>{
+    let detailElement=document.getElementById(id)
+    // console.log(detailElement)
+    detailElement.classList.toggle('order_detail_on')
+    // detailElement.setAttribute('style','display:flex')
 }
 
+// filter order
+const filterOrder=async(filterItem="ALL")=>{
+    if(filterItem=="ALL"){
+        filterStatus.value="ALL"
+    }else
+    if(filterItem==ORDERSTATUS.COMPLETED){
+        filterStatus.value=ORDERSTATUS.COMPLETED
+    }else
+    if(filterItem==ORDERSTATUS.PENDING){
+        filterStatus.value=ORDERSTATUS.PENDING
+    }else
+    if(filterItem==ORDERSTATUS.CANCELED){
+        filterStatus.value=ORDERSTATUS.CANCELED
+    }
+    await getAllOrder()
+}
+
+
+onBeforeMount(async()=>{
+    // assign username
+    uesrName.value=cookie.decrypt().username
+    await getAllOrder()
+})
 </script>
 <template>
 <div class="wrapper_orders">
@@ -40,7 +96,7 @@ const getAllOrder=()=>{
         <div class="sort_orders">
             <div class="sort_list">
                 <!-- all orders -->
-                <button  class="sort_item">
+                <button @click="filterOrder()" class="sort_item">
                     <h4>
                         All orders
                     </h4>
@@ -49,7 +105,7 @@ const getAllOrder=()=>{
                     </p>
                 </button>
                 <!-- complete -->
-                <button  class="sort_item">
+                <button @click="filterOrder(ORDERSTATUS.COMPLETED)" class="sort_item">
                     <h4>
                         Completed
                     </h4>
@@ -58,7 +114,7 @@ const getAllOrder=()=>{
                     </p>
                 </button>
                 <!-- padding -->
-                <button  class="sort_item">
+                <button @click="filterOrder(ORDERSTATUS.PENDING)" class="sort_item">
                     <h4>
                         Pending
                     </h4>
@@ -67,7 +123,7 @@ const getAllOrder=()=>{
                     </p>
                 </button>
                 <!-- cancel -->
-                <button  class="sort_item">
+                <button @click="filterOrder(ORDERSTATUS.CANCELED)" class="sort_item">
                     <h4>
                         Cancel
                     </h4>
@@ -151,18 +207,18 @@ const getAllOrder=()=>{
                         </button>
                     </div>
                 </div>
-                <div v-for="(order,index) of 2" :key="index" class="wrapper_order_item" >
+                <div v-for="(order,index) of orderList" :key="index" class="wrapper_order_item" >
                     <!-- order item -->
                     <div  class="order_item">
                         <!-- order of item -->
                         <div class="order_number">
                             <h6>
-                                1
+                                {{index+1}}
                             </h6>
                         </div>
                         <!-- button detail -->
                         <div class="order_empty">
-                            <button  >
+                            <button @click="showDetail(order.orderId)" >
                                 <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.29289 4.99943L3.93934 5.35298L0.646393 8.64593C0.646376 8.64595 0.646358 8.64597 0.64634 8.64598C0.552638 8.73974 0.5 8.86687 0.5 8.99943C0.5 9.13201 0.552658 9.25917 0.646393 9.35293C0.740147 9.4466 0.867254 9.49922 0.999786 9.49922C1.13234 9.49922 1.25947 9.44658 1.35323 9.35288L4.29289 4.99943ZM4.29289 4.99943L3.93934 4.64588L0.649938 1.35648C0.560432 1.26246 0.510965 1.13727 0.512093 1.00737C0.513232 0.876276 0.565817 0.75087 0.658521 0.658166C0.751225 0.565461 0.876632 0.512877 1.00773 0.511738C1.13763 0.510609 1.26281 0.560076 1.35683 0.649582L5.35318 4.64593C5.3532 4.64595 5.35322 4.64597 5.35323 4.64598C5.44694 4.73974 5.49957 4.86687 5.49957 4.99943C5.49957 5.13199 5.44694 5.25912 5.35323 5.35288C5.35322 5.35289 5.3532 5.35291 5.35318 5.35293L1.35329 9.35282L4.29289 4.99943Z" fill="#212121" stroke="#212121"/>
                                 </svg>
@@ -171,52 +227,64 @@ const getAllOrder=()=>{
                         <!-- order id -->
                         <div class="order_id">
                             <h6 class="padding_info">
-                                123456asdfasdfasdf
+                                <!-- 123456asdfasdfasdf -->
+                                {{ order.orderId }}
                             </h6>
                         </div>
                         <!-- customer nanem -->
                         <div class="order_customer">
                             <h6 class="padding_info">
-                                Apple juiceasdfasdfasdfasdf
+                                <!-- Apple juiceasdfasdfasdfasdf -->
+                                {{ order.customerName }}
                             </h6>
                         </div>
                         <!-- Address -->
                         <div class="order_address">
                             <p class="padding_info">
-                                King Mongkut's Universityasdfasdfasdfasdfasdfasdfasdfasdfasdf
+                                <!-- King Mongkut's Universityasdfasdfasdfasdfasdfasdfasdfasdfasdf -->
+                                {{ order.address }}
                             </p>
                         </div>
                         <!-- date -->
                         <div class="order_date">
                             <h6 class="padding_info">
-                                10/03/2024asdfasdf
+                                <!-- 10/03/2024asdfasdf -->
+                                {{ order.shippedDate }}
                             </h6>
                         </div>
                         <!-- price -->
                         <div class="order_price">
                             <h6 class="padding_info">
-                                $376.00asdfasdfasdf
+                                ${{order.total}}
                             </h6>
                         </div>
                         <!-- status -->
                         <div class="order_status">
                             <div>
                                 <button>
-                                    Complete
+                                    {{order.status}}
                                     <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3.995 4.17928L3.64159 3.82615L1.01042 1.1971C1.01041 1.19708 1.01039 1.19706 1.01037 1.19705C0.954329 1.14109 0.878262 1.10959 0.798864 1.10959C0.719492 1.10959 0.643448 1.14107 0.587411 1.19699L3.995 4.17928ZM3.995 4.17928L4.34842 3.82615M3.995 4.17928L4.34842 3.82615M4.34842 3.82615L6.97964 1.19705L6.97969 1.1971M4.34842 3.82615L6.97969 1.1971M6.97969 1.1971L6.98573 1.19085M6.97969 1.1971L6.98573 1.19085M6.98573 1.19085C7.0133 1.16233 7.04629 1.13956 7.0828 1.12389C7.11932 1.10822 7.1586 1.09997 7.19836 1.09962C7.23812 1.09928 7.27755 1.10685 7.31433 1.12188C7.35111 1.13692 7.3845 1.15911 7.41255 1.18715L7.76597 0.833453M6.98573 1.19085L7.76597 0.833453M7.76597 0.833453L7.41256 1.18715C7.44061 1.21518 7.46278 1.2485 7.47778 1.28514C7.49279 1.32178 7.50033 1.36103 7.49999 1.40059C7.49964 1.44016 7.49142 1.47926 7.47578 1.51564C7.46014 1.55202 7.4374 1.58495 7.40885 1.61249L7.4088 1.61244M7.76597 0.833453L7.4088 1.61244M7.4088 1.61244L7.40265 1.61858L4.20656 4.8121M7.4088 1.61244L4.20656 4.8121M4.20656 4.8121C4.20655 4.81212 4.20653 4.81214 4.20651 4.81215M4.20656 4.8121L4.20651 4.81215M4.20651 4.81215C4.15047 4.86811 4.0744 4.89961 3.995 4.89961M4.20651 4.81215L3.995 4.89961M3.995 4.89961C3.91561 4.89961 3.83954 4.86811 3.7835 4.81215M3.995 4.89961L3.7835 4.81215M3.7835 4.81215C3.78348 4.81214 3.78346 4.81212 3.78345 4.8121M3.7835 4.81215L3.78345 4.8121M3.78345 4.8121L0.587411 1.61864L3.78345 4.8121ZM0.5 1.40781C0.5 1.48678 0.531375 1.5626 0.587358 1.61858L0.5 1.40781ZM0.5 1.40781C0.5 1.32887 0.531355 1.25308 0.587305 1.1971L0.5 1.40781Z" fill="#424242" stroke="#424242"/>
                                     </svg>
 
                                 </button>
+                                <!-- {{order.status}} -->
+                                <!-- <select >
+                                    <option value="" selected>{{order.status}}</option>
+                                    <option v-for="(status,index) of ORDERSTATUS" :key=index value="" >{{status}}</option>
+                                </select> -->
                                 <!-- drop down -->
                                 <div>
                                     <!-- status -->
+                                    <div v-for="(status,index) of ORDERSTATUS" :key="index">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- detail -->
-                    <div class="detail_order">
+                    <div :id="order.orderId" class="detail_order ">
                         <div class="detail_table">
                             <!-- <table> -->
                                 <div class="header_detail">
@@ -258,7 +326,7 @@ const getAllOrder=()=>{
                                     </div>
                                 </div>
                                 <!-- product item -->
-                                <div  class="product_item">
+                                <div v-for="(detail,indexDetail) of order.order_details" :key="indexDetail" class="product_item">
                                     <!-- img -->
                                     <div class="detail_product_number">
                                         <div>
@@ -268,17 +336,19 @@ const getAllOrder=()=>{
                                     <!-- sku -->
                                     <div class="detail_product_sku">
                                         <h6>
-                                            XX231asdasdf asdfasdf
+                                            <!-- XX231asdasdf asdfasdf -->
+                                            {{ detail.itemStyle }}
                                         </h6>
                                     </div>
                                     <!-- name -->
                                     <div class="detail_product_name">
                                         <div>
                                             <h6>
-                                                Polyscias Fabian asdasdfasd asdfasdfasdfasdfasdfasdfasdfasdfasdf
+                                                {{ detail.itemname }}
                                             </h6>
                                             <p>
-                                                Variatio nasdfasdfasdfasdfasdfasdfsdfasdfasdfasdfasdfsadfad asdfasdfasdf
+                                                {{ detail.itemStyle }} :
+                                                {{ detail.itemSize }}
                                             </p>
                                         </div>
 
@@ -286,19 +356,19 @@ const getAllOrder=()=>{
                                     <!-- Price -->
                                     <div class="detail_product_price">
                                         <h6>
-                                            $25.00sfdg sdfgsdgfsfd
+                                            ${{detail.priceEach}}
                                         </h6>
                                     </div>
                                     <!-- Qiy -->
                                     <div class="detail_product_qty">
                                         <h6>
-                                            1234 5234523452345
+                                            {{detail.qtyOrder}}
                                         </h6>
                                     </div>
                                     <!-- total -->
                                     <div class="detail_product_total">
                                         <h6>
-                                            $25.99asd fasdfsdasdfasd
+                                            ${{detail.qtyOrder*detail.priceEach}}
                                         </h6>
                                     </div>
                                 </div>
@@ -311,7 +381,7 @@ const getAllOrder=()=>{
                                                 Subtotal
                                             </h6>
                                             <p class="money_bath">
-                                                91.97asdfasdfasdf
+                                                {{ order.total }}
                                             </p>
                                         </div>
                                         <!-- Shipping -->
@@ -339,7 +409,7 @@ const getAllOrder=()=>{
                                             Total Payment
                                         </h6>
                                         <p class="money_bath">
-                                            $90.00
+                                            ${{order.total}}
                                         </p>
                                     </div>
                                 </div>
@@ -357,7 +427,7 @@ const getAllOrder=()=>{
             <p>
                 Showing 
                 <span>1</span> to 
-                <span>10</span> of 
+                <span>{{orderAmount}}</span> of 
                 <span>20</span> entries
             </p>
             <div>
@@ -375,6 +445,12 @@ const getAllOrder=()=>{
 <style scoped>
 *{
     box-sizing: border-box;
+}
+.order_detail_off{
+    display: none !important;
+}
+.order_detail_on{
+    display: flex !important;
 }
 .wrapper_orders{
     display: flex;
@@ -678,6 +754,7 @@ const getAllOrder=()=>{
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    /* background-color:; */
 }
 .order_item div:nth-child(8)> div button svg{
     width: 8px;
@@ -685,9 +762,12 @@ const getAllOrder=()=>{
 }
 /* drop down  */
 .order_item div:nth-child(8)> div > div{
-    /* display: none; */
+    display: flex; 
+    width:96px;
+    height:fit-content;
     position: absolute;
     bottom: 1;
+    background-color:red;
 }
 /* .order_item th:nth-child(8) */
 .padding_info{
@@ -695,7 +775,8 @@ const getAllOrder=()=>{
 }
 /* detail */
 .detail_order{
-    display: flex;
+    
+    display: none;
     width: 100%;
     height: fit-content;
     /* column-span: 8; */

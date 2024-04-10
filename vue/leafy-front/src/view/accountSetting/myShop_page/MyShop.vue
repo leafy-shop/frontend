@@ -1,11 +1,11 @@
 <script setup>
 import BaseStar from '../../../components/productDetail/BaseStar.vue';
 import { useRouter } from 'vue-router';
-import {onBeforeMount, ref} from 'vue'
+import {onBeforeMount, ref,onMounted} from 'vue'
 import fetch from '../../../JS/api';
 import cookie from '../../../JS/cookie';
 import validation from '../../../JS/validation'
-import sortTypeArr from '../../../JS/enum/product'
+import productEnum from '../../../JS/enum/product'
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
@@ -13,18 +13,16 @@ const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
 // Common attribute
 const userName=ref('')
 const productList=ref([])
-// const sortTypeArr =[
-//     {name:"Popular",value: {name: "popular", type: 'desc'}},
-//     {name:"New Arrival",value: {name: "new_arrival", type: 'desc'}},
-//     {name:"Sold Out",value: {name: "price", type: 'desc'}},
-//     {name:"Top Sales",value: {name: "sales", type: 'desc'}},
-//     {name:"Point",value: {name: "price", type: 'asc'}},
-//     {name:"Price",value: {name: "price", type: 'desc'}},
-// ]
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+
+// filter attribute
+const filterObj=ref(undefined)
+const filterValuePosition=ref(0) //ตำแหน่งของค่า Filter ที่มีมากว่า 1 (0 default)
+const filterValue =ref(undefined) // value of filter
 // ดึงข้อมูลเกี่ยวกับรูปภาพ
 
 // ดึงข้อมูลเกี่ยวกับ Product
-const getProduct=async()=>{
+const getProduct=async(filter)=>{
     let inputData={
             page:1, 
             limitP:18, 
@@ -35,10 +33,22 @@ const getProduct=async()=>{
             //sort:undefined, // asc & desc
             owner:userName.value//me 
         }
+    if(filter!=undefined){
+        let{sort,sort_name}=filter
+        inputData["sort_name"]=sort_name
+        inputData["sort"]=sort
+    }
+    
     let {status,data}=await fetch.getAllProduct(inputData)
     if(status){
-        productList.value=data.list
-        console.log(data)
+        if(inputData.sort_name=="sold_out"){
+            productList.value=data.outStock
+            console.log(data)
+        }else{
+            productList.value=data.list
+            console.log(data)
+        }
+        
     }else{
         //error
     }
@@ -55,11 +65,66 @@ const deleteProduct=async(id)=>{
         // error
     }
 }
+
+// select fileter
+const productFilter=async(filterItem)=>{
+    let {name,value}=filterItem
+    // filterValuePosition.value=0
+    let element=document.getElementById(name)// for select
+    let sorBtn=document.getElementsByClassName('sort_item') 
+    for(let e of sorBtn){ //remove all active before
+        e.classList.remove("sort_active")
+    }
+    
+    if(value.length>1){ //more then 1 value
+        
+        if(filterObj.value.name==name){//if plus 1 is more then max length go back start with 0
+            filterValuePosition.value=(filterValuePosition.value+1)>value.length-1?0:filterValuePosition.value+1
+            // display arrow direction
+        
+        }else{
+            filterValuePosition.value=0
+        }
+        filterValue.value=value[filterValuePosition.value] //assign value of filter for check
+        // display arrow
+        let arrowUp = document.getElementById(`${name}_sort_arrow_up`)
+        let arrowDown =document.getElementById(`${name}_sort_arrow_down`)
+        let sortArrow =document.getElementsByClassName(`${name}_sort_arrow`)
+        // sortArrow[0].classList.remove("sort_arrow_active") // show div first time
+        if(filterValue.value.type=="asc"){ //น้อยไปมาก
+            sortArrow[0].classList.add("sort_arrow_active")
+            arrowUp.classList.remove("arrow_active")
+            arrowDown.classList.add("arrow_active")
+        }else{  // มากไปน้อย
+            sortArrow[0].classList.add("sort_arrow_active")
+            arrowUp.classList.add("arrow_active")
+            arrowDown.classList.remove("arrow_active")
+
+        }
+    }else{ // normal 1 value
+        filterValuePosition.value=0
+        filterValue.value=value[filterValuePosition.value]
+    }
+    filterObj.value=filterItem
+    element.classList.add("sort_active")// show color green that selected
+    // console.log(filterObj.value)
+    // console.log(filterValue.value)
+    // console.log(filterValuePosition.value)
+    await getProduct({
+        sort:filterValue.value.type,
+        sort_name:filterValue.value.name
+    })
+
+}
+
 onBeforeMount(async()=>{
     userName.value=cookie.decrypt().username
     // console.log(userName.value)
-    await getProduct()
+    // await getProduct() 
     
+})
+onMounted(async()=>{
+    await productFilter(productEnum.sortTypeArrSupplier[0])
 })
 </script>
 <template>
@@ -82,11 +147,21 @@ onBeforeMount(async()=>{
         <!-- sorter -->
         <div class="sort_shop">
             <div class="sort_list">
-                <button v-for="(type,index) of sortTypeArr" :index="index" class="sort_item">
+                <button @click="productFilter(type)" v-for="(type,index) of productEnum.sortTypeArrSupplier" :id="type.name" :index="index" class="sort_item ">
                     {{type.name}}
-                    <svg width="10" height="13" viewBox="0 0 10 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99896 5.99957C9.26446 5.99957 9.51908 5.89426 9.70685 5.70679C9.89455 5.51926 10 5.26495 10 4.99979C10 4.73462 9.89455 4.48031 9.70685 4.29279L5.70184 0.292787C5.51408 0.105316 5.25945 0 4.99396 0C4.72846 0 4.47383 0.105316 4.28607 0.292787L0.281064 4.29279C0.0986777 4.48139 -0.00224324 4.73399 3.80267e-05 4.99619C0.0023193 5.25838 0.10762 5.5092 0.29326 5.6946C0.478901 5.88001 0.730027 5.98518 0.992552 5.98746C1.25508 5.98974 1.508 5.88894 1.69683 5.70679L4.99396 2.41379L8.29108 5.70679C8.47884 5.89426 8.73347 5.99957 8.99896 5.99957ZM0.998581 7.01248C0.733736 7.01248 0.479735 7.11758 0.292433 7.30468C0.105189 7.49183 0 7.74562 0 8.01025C0 8.27489 0.105189 8.52868 0.292433 8.71583L4.28761 12.7078C4.47491 12.8949 4.72891 13 4.99376 13C5.2586 13 5.5126 12.8949 5.6999 12.7078L9.69508 8.71583C9.79047 8.62377 9.86656 8.51365 9.91891 8.39189C9.97126 8.27013 9.99881 8.13918 9.99996 8.00666C10.0011 7.87415 9.97584 7.74274 9.92562 7.62009C9.8754 7.49744 9.80124 7.38601 9.70746 7.2923C9.61368 7.1986 9.50216 7.1245 9.37941 7.07432C9.25667 7.02414 9.12515 6.99889 8.99253 7.00004C8.85991 7.00119 8.72885 7.02872 8.60699 7.08102C8.48513 7.13333 8.37492 7.20936 8.28278 7.30468L4.99376 10.5911L1.70473 7.30468C1.51743 7.11758 1.26342 7.01248 0.998581 7.01248Z" fill="#212121"/>
-                    </svg>
+                    <!-- up -->
+                    <div   :class="`${type.name}_sort_arrow`">
+                        <svg  :id="`${type.name}_sort_arrow_up`"  width="10" height="13" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70685 5.70679C9.51908 5.89426 9.26446 5.99957 8.99896 5.99957C8.73347 5.99957 8.47884 5.89426 8.29108 5.70679L4.99396 2.41379L1.69683 5.70679C1.50799 5.88894 1.25508 5.98974 0.992552 5.98746C0.730027 5.98518 0.4789 5.88001 0.29326 5.6946C0.10762 5.5092 0.00231912 5.25838 3.78498e-05 4.99619C-0.00224342 4.73399 0.0986775 4.48139 0.281064 4.29279L4.28607 0.292787C4.47383 0.105316 4.72846 0 4.99396 0C5.25945 0 5.51408 0.105316 5.70184 0.292787L9.70685 4.29279C9.89455 4.48031 10 4.73462 10 4.99979C10 5.26495 9.89455 5.51926 9.70685 5.70679Z" fill="#212121"/>
+                        </svg>
+
+                        <!-- down -->
+                        <svg  :id="`${type.name}_sort_arrow_down`"  width="10" height="13" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292433 0.304675C0.479735 0.117581 0.733736 0.0124767 0.998581 0.0124767C1.26342 0.0124767 1.51743 0.117581 1.70473 0.304675L4.99376 3.59106L8.28278 0.304675C8.37492 0.209357 8.48513 0.133328 8.60699 0.0810238C8.72885 0.0287201 8.85991 0.00118918 8.99253 3.76812e-05C9.12515 -0.00111382 9.25667 0.0241369 9.37941 0.0743168C9.50216 0.124497 9.61368 0.198601 9.70746 0.292305C9.80124 0.386009 9.8754 0.497437 9.92562 0.620086C9.97584 0.742736 10.0011 0.874151 9.99996 1.00666C9.99881 1.13918 9.97126 1.27013 9.91891 1.39189C9.86656 1.51365 9.79047 1.62377 9.69508 1.71583L5.6999 5.7078C5.5126 5.8949 5.2586 6 4.99376 6C4.72891 6 4.47491 5.8949 4.28761 5.7078L0.292433 1.71583C0.105189 1.52868 0 1.27489 0 1.01026C0 0.745624 0.105189 0.491826 0.292433 0.304675Z" fill="#212121"/>
+                        </svg>
+                    </div>
+                    
+
                 </button>
             </div>
         </div>
@@ -103,9 +178,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 SKU
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -113,9 +188,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 Name
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -123,9 +198,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 Category
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -133,9 +208,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 Price
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -143,9 +218,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 Stock
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -153,9 +228,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 Rate
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -163,9 +238,9 @@ onBeforeMount(async()=>{
                         <button>
                             <h6>
                                 Operation
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
-                                </svg>
+                                </svg> -->
                             </h6>
                         </button>
                     </th>
@@ -175,7 +250,8 @@ onBeforeMount(async()=>{
                     <!-- image -->
                     <td>
                         <div>
-                            <img src="../../../assets/home_p/home_design_content_english.png" alt="product_img">
+                            <img v-if="product.image==undefined" src="../../../assets/home_p/home_design_content_english.png" alt="product_img">
+                            <img v-else :src="`${origin}/api/image/products/${product.itemId}`" alt="product_img">
                         </div>
                     </td>
                     <!-- SKU -->
@@ -193,7 +269,7 @@ onBeforeMount(async()=>{
                                 {{ product.name }}
                             </h5>
                             <p>
-                                Option
+                                Variation
                             </p>
                         </div>
                     </td>
@@ -220,7 +296,7 @@ onBeforeMount(async()=>{
                     <!-- rate -->
                     <td>
                         <div>
-                            <BaseStar :rating="product.totalRating" :isGap="false" :size="60" name="myShop" />
+                            <BaseStar :rating="parseInt(product.totalRating)" :isGap="false" :size="60" name="myShop" />
                         </div>
                     </td>
                     <!-- operation -->
@@ -349,7 +425,43 @@ onBeforeMount(async()=>{
     color: #212121;
     background-color: #fff;
     gap: 8px;
+    white-space: nowrap;
 }
+.sort_active{
+    background-color: #26AC34;
+    color: #fff;
+}
+.sort_active svg path{
+    fill: #fff;
+}
+.sort_item >div{
+    display: none;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.sort_item >div >svg{
+    display: none;
+    width: 100%;
+    height: auto;
+}
+/* arrow */
+/* .sort_arrow_active{
+    display: flex !important;
+    width: 20px !important;
+    height: auto !important;
+} */
+/* for div */
+.sort_item .sort_arrow_active{
+    display: flex ;
+}
+/* for arrow */
+.sort_item >div .arrow_active{
+    display: flex ;
+    width: 10px;
+}
+
 .content_shop{
     display: flex;
     flex-direction: column;
@@ -388,7 +500,7 @@ table .header{
     max-width: 100%;
 }
 .header th:nth-child(3){
-    width: 300px;
+    width: 200px;
     min-width: fit-content;
     max-width: 100%;
 }
@@ -399,12 +511,12 @@ table .header{
     /* width: 116px; */
 }
 .header th:nth-child(5){
-    width: 108px;
+    width: 200px;
     min-width: fit-content;
     max-width: 100%;
 }
 .header th:nth-child(6){
-    width: 64px;
+    width: 72px;
     min-width: fit-content;
     max-width: 100%;
 }

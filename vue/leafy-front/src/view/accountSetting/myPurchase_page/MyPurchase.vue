@@ -1,6 +1,6 @@
 <script setup>
 import {ref,onBeforeMount} from 'vue'
-import fetch from '../../JS/api'
+import fetch from '../../../JS/api'
 
 // common attribute
 const orderList=ref([])
@@ -9,7 +9,7 @@ const getOrders=async()=>{
     let inputData={
         sort:'desc'
     }
-    let {status,data} = await fetch.getAllOrder(inputData)
+    let {status,data} = await fetch.getAllOrder(false,inputData)
 
     if(status){
         console.log(data)
@@ -151,7 +151,7 @@ onBeforeMount(async()=>{
                                     <p>
                                         Order Total(
                                         <span>
-                                            {{ shop.order_details.length }}
+                                            {{ shop.order_details !== undefined ? shop.order_details.length : 0 }}
                                         </span> items) : 
                                     </p>
                                     <h6>

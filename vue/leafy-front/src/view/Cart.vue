@@ -4,14 +4,20 @@ import BaseFooter from "../components/BaseFooter.vue";
 import { useRouter } from "vue-router";
 import { onBeforeMount, ref, computed } from "vue";
 import fetch from "../JS/api";
+import cookie from "../JS/cookie";
+import validation from '../JS/validation'
 //link
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
+const goPayment=(list)=>myRouter.push({name:'Payment',params:{cartList:validation.encrypt(list)}})
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
+// common attribute
 const carts = ref([]);
 const count = ref(0);
 const qty = ref(0);
+const addressDefaultId=ref('')
+const userName=ref('')
 
 const getCarts = async () => {
   let cartList = await fetch.getCart();
@@ -113,16 +119,64 @@ const countCheckOut = computed(() => {
 //         detail.value = 1;
 //     }
 // }
+// get address
+const getAddress=async()=>{
+  let {status,data}=await fetch.getAllAddress(userName.value)
+  if(status){
+    data.map(x=>{ //assign default address
+      if(x.isDefault){
+        addressDefaultId.value=x.addressId
+      }
+    })
+    // console.log(addressDefaultId.value)
+    
+  }
+}
 
-const checkOrder = () => {
+// for buy item selected
+const checkOrder = async() => {
   let selectedCart = [];
+  // get only cart id
+  // carts.value.carts.forEach((cart) =>
+  //   cart.cartOwner.forEach((detail) => {
+  //     if (detail.isSelected) selectedCart.push(detail.cartId);
+  //   })
+  // );
+  //get info of cart id
   carts.value.carts.forEach((cart) =>
     cart.cartOwner.forEach((detail) => {
-      if (detail.isSelected) selectedCart.push(detail.cartId);
+      if (detail.isSelected) selectedCart.push({
+        itemId:detail.itemId,
+        qty:detail.qty,
+        // addressId:addressDefaultId.value,
+        style:detail.itemStyle,
+        size:detail.itemSize,
+        name:detail.itemName,
+        price:detail.priceEach,
+        stock:detail.stock,
+        cartId:detail.cartId
+      });
     })
   );
-  console.log(selectedCart);
+  // console.log(selectedCart,'cart value')
+  // console.log(JSON.stringify(selectedCart).toString() );
+
+  goPayment(JSON.stringify(selectedCart).toString())
+  // fetch
+  // let cartData={
+  //   carts : selectedCart,
+  //   addressId : addressDefaultId.value
+  // }
+  // let {status,msg} =await fetch.BuyNow(cartData)
+  // if(status){
+  //   console.log('buy successful')
+  //   await getCarts()
+  // }else{
+  //   console.log('can not buy')
+  // }
 };
+
+// clear state ment
 
 // confirmation delete
 const reduceQty = async (cartId, qty) => {
@@ -141,8 +195,10 @@ const deleteCart = async (cartId) => {
   await getCarts();
 };
 
-onBeforeMount(() => {
-  getCarts();
+onBeforeMount(async() => {
+  userName.value=cookie.decrypt().username
+  await getAddress()
+  await getCarts();
 });
 </script>
 <template>
@@ -246,7 +302,7 @@ onBeforeMount(() => {
             </div>
           </div>
           <!-- product list -->
-          <div class="product_list" v-for="detail in shop.cartOwner">
+          <div class="product_list" v-for="(detail,index) in shop.cartOwner" :key="index">
             <!-- product item -->
             <div class="product_item">
               <div>
@@ -273,9 +329,10 @@ onBeforeMount(() => {
                   <h6>Polyscias Fabian</h6>
                   <!-- variance selection -->
                   <label :for="`variation_${index}`">
-                    <p>Variation :&nbsp;</p>
+                    <p>{{detail.itemStyle}} :&nbsp;</p>
                     <select :id="`variation_${index}`">
-                      <option value="">variation</option>
+                      <option  :value="detail.itemSize" selected>{{detail.itemSize}}</option>
+                      <!-- <option value=""></option> -->
                     </select>
                   </label>
                 </div>
@@ -703,7 +760,7 @@ onBeforeMount(() => {
 
 .product_item > div:nth-child(1) .product_detail label p {
   display: flex;
-  width: 55px;
+  width: fit-content;
   height: 16px;
   font-size: 12px;
   font-weight: 400;

@@ -147,7 +147,7 @@ const goProductDetail=(p)=>{
 }
 .product_img{
     /* display: flex; */
-    /* position: relative; */
+    position: relative;
     /* width: inherit; */
     /* width: min(17.778dvw,256px); */
     width: 100%;
@@ -160,7 +160,7 @@ const goProductDetail=(p)=>{
     height: auto;
     /* z-index: -1; */
 }
-.product_img div{
+.product_img> .sold_out{
     display: flex;
     width: 100%;
     height: min(v-bind(changeSize(2.778,'dvw')),v-bind(changeSize(40)));
@@ -176,6 +176,7 @@ const goProductDetail=(p)=>{
     font-weight: 700;
     z-index: 2;
 }
+
 .product_info{
     display: flex;
     /* width: inherit; */

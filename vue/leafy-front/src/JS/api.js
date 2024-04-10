@@ -71,12 +71,12 @@ const fetch = {
         try {
             let url = `${origin}/api/image/${endpoint}/${id}`
             url += type != undefined ? `/${type}` : ''
-            let res = await axios.get(url)
+            let res = await axios.get(url,{responseType:'blob'})
 
             if (res.status == 200) {
                 validation.function_Status('Image founded.', true, `type: ${type}`)
                 returnData.status = true
-
+                // console.log(res.data,'this is img data')
                 returnData.data = res.data
 
             } else {
@@ -110,6 +110,45 @@ const fetch = {
             formData.append('file', data)
 
             let res = await axios.post(url, formData)
+
+            if (res.status == 201) {
+                validation.function_Status('Image updated.', true, `type: ${type}`)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+                // console.log(returnData)
+            } else {
+                validation.function_Status('Cannot update image', false, res.message)
+
+                // validation.msg=res.message
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot get image', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+            }
+            else {
+                returnData.status = false
+            }
+            return returnData
+        }
+    },
+    async addImages(data, endpoint, id, type) {
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false ,msg:""}
+        const formData = new FormData();
+        try {
+            let url = `${origin}/api/images/${endpoint}/${id}`
+            url += type != undefined ? `/${type}` : ''
+            console.log(data,'from api')
+            for(let img of data){
+                formData.append('file', img)
+            }
+
+            let res = await axios.post(url,formData)
 
             if (res.status == 201) {
                 validation.function_Status('Image updated.', true, `type: ${type}`)
@@ -300,19 +339,19 @@ const fetch = {
         }
 
     },
-    async addProduct(inputData){
-        let returnData = { status: false, msg:'' ,data:undefined}
+    async addProduct(inputData) {
+        let returnData = { status: false, msg: '', data: undefined }
         // let {itemOwner}=inputData
-        if (inputData!=undefined) {
+        if (inputData != undefined) {
             try {
                 let url = `${origin}/api/products`
                 let res = await axios.post(url, inputData)
                 // console.log(res.data)
                 // cookie.decrypt("information")
-                if(res.status==201){
+                if (res.status == 201) {
                     validation.function_Status("add product", true)
-                    returnData.data=res.data
-                    returnData.status=true
+                    returnData.data = res.data
+                    returnData.status = true
                 }
                 return returnData
 
@@ -320,27 +359,27 @@ const fetch = {
                 validation.function_Status("Can not add product", false, error)
                 // console.log(error) 
 
-                if(error.code=="ERR_NETWORK"){//check back-end server error
-                    returnData.msg="Server Error try again later"
-                    returnData.status=false
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
                     return returnData
                 }
                 else
-                // error 404
-                if(error.response.status==400||error.response.status==401||error.response.status==403){
-                    returnData.msg=error.response.data.error
-                    returnData.status=false
-                }else{
-                // error
-                    console.log("another error")
-                }
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
                 return returnData
             }
 
         } else {
-            validation.function_Status("Add address", false, "cannot add address"+'\n'+"because some data missing.")
-            returnData.status=false
-            returnData.msg="Please input information"
+            validation.function_Status("Add address", false, "cannot add address" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
             return returnData
         }
     },
@@ -368,22 +407,22 @@ const fetch = {
             return returnData
         }
     },
-    async updateProduct(productId,inputData) {
+    async updateProduct(productId, inputData) {
         let returnData = { status: false, msg: '' }
         try {
             let url = `${origin}/api/products/${productId}`
             let res = await axios.patch(url, inputData)
 
             if (res.status == 200) {
-                validation.function_Status('update product style', true, `updated product style successful.`)
+                validation.function_Status('update product', true, `updated product successful.`)
                 returnData.status = true
                 returnData.data = res.data
             } else {
-                validation.function_Status('update product style', false, `cannot update user `)
+                validation.function_Status('update product', false, `cannot update product `)
             }
             return returnData
         } catch (error) {
-            validation.function_Status('update product style', false, error)
+            validation.function_Status('update product ', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
@@ -392,6 +431,82 @@ const fetch = {
             else {
 
             }
+        }
+    },
+    async addProductStyle(productId, inputData) {
+        let returnData = { status: false, msg: '' }
+        try {
+            let url = `${origin}/api/products/${productId}`
+            let res = await axios.post(url, inputData)
+
+            if (res.status == 201) {
+                validation.function_Status('add product style', true, `add product style successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('add product style', false, `cannot add product style `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('add product style', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+    },
+    async updateProductStyle(productId, skuId, inputData) {
+        let returnData = { status: false, msg: '' }
+        try {
+            let url = `${origin}/api/products/${productId}/${skuId}`
+            let res = await axios.put(url, inputData)
+
+            if (res.status == 200) {
+                validation.function_Status('update product style', true, `updated product style successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('update product style', false, `cannot update product style `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('update product  style', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+    },
+    async deleteProductStyle(productId, skuId) {
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false, msg: '' }
+        try {
+            let url = `${origin}/api/products/${productId}/${skuId}`
+            let res = await axios.delete(url)
+            if (res.status == 200) {
+                validation.function_Status('Product style deleted.', true,)
+                returnData.status = true
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot delete product style ', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+            }
+            else {
+                returnData.status = false
+            }
+            return returnData
         }
     },
     // get recommend product list
@@ -786,7 +901,7 @@ const fetch = {
         }
     },
     async addAddress(userName, inputData) {
-        let returnData = { status: false, msg: '' }
+        let returnData = { status: false, msg: '',data:undefined }
 
         if (inputData != undefined) {
             try {
@@ -795,6 +910,7 @@ const fetch = {
                 // console.log(res.data)
                 // cookie.decrypt("information")
                 if (res.status == 201) {
+                    returnData.data=res.data.addressId
                     validation.function_Status("add address", true)
                     returnData.status = true
 
@@ -897,30 +1013,7 @@ const fetch = {
             return returnData
         }
     },
-    // async addToCart(cartInput) {
-    //     let returnData = { status: false, msg: '' }
-    //     try {
-    //         //for normal user
-    //         let url = `${origin}/api/carts/products`
-    //         // check sort
-    //         let res = await axios.post(url, cartInput)
-    //         if (res.status == 201) {
-    //             validation.function_Status('get owner cart for user', true)
-    //             returnData.status = true
-    //             // returnData.msg = res.data
-    //         }
-    //         return returnData
-    //     } catch (error) {
-    //         validation.function_Status('get owner cart', false, error)
-    //         if (error.code == "ERR_NETWORK") {//check back-end server error
-    //             returnData.msg = "Server Error try again later"
-    //             return returnData
-    //         }
-    //         else {
 
-    //         }
-    //     }
-    // },
     async addToCart(cartInput) {
         let returnData = { status: false, msg: '' }
 
@@ -1020,7 +1113,7 @@ const fetch = {
             //for normal user
             let url = `${origin}/api/carts/${cartId}`
             // check sort
-            let res = await axios.put(url,inputData)
+            let res = await axios.put(url, inputData)
             if (res.status == 200) {
                 validation.function_Status('updated owner cart for user', true)
                 returnData.status = true
@@ -1065,26 +1158,52 @@ const fetch = {
         }
     },
     // for
-    async getAllOrder(inputData, isSupplier = false){
+    async getAllOrder(isSupplier = false, inputData = {}) { //for sub and user
         let returnData = { status: false, data: undefined, msg: '' }
         let {
-            username,
+            page,
+            limitP,
             sort,
+            dateStart,
+            dateEnd,
+            status, //status of order
         } = inputData
         try {
-
+            
             if (isSupplier) { // for role supplier
-                // let url=`${origin}/api/orders/supplier?username=${username}`
-                // let res = await axios.get(url)
-                // if(res.status==200){
-                //     validation.function_Status('get order all', true)
-                //     returnData.status = true
-                //     returnData.data=res.data
-                // }
+                let url = `${origin}/api/orders/supplier`
+                // page
+                if(page ==undefined) url+=`?page=${1}`
+                else url+=`?page=${page}`
+                // limit
+                if (limitP != undefined) url += `&limit=${limitP}`;
+                // sort
+                if (sort != undefined) url += `&sort=${sort}`;
+                // start date
+                if (dateStart != undefined) url += `&dateStart=${dateStart}`;
+                // end date
+                if (dateEnd != undefined) url += `&dateStart=${dateEnd}`;
+                // status
+                if (status != undefined) url += `status=${status}`;
+
+                let res = await axios.get(url)
+                if (res.status == 200) {
+                    validation.function_Status('get order all for supplier', true)
+                    returnData.status = true
+                    returnData.data = res.data
+                }
             } else { //for normal user
                 let url = `${origin}/api/orders?`
-                // check sort
-                if (sort != undefined) url += `sort=${sort}`;
+                // page
+                if(page ==undefined) url+=`?page=${1}`
+                else url+=`?page=${page}`
+                // limit
+                if (limitP != undefined) url += `&limit=${limitP}`;
+                // sort
+                if (sort != undefined) url += `&sort=${sort}`;
+                // status
+                if (status != undefined) url += `status=${status}`;
+                
                 let res = await axios.get(url)
                 if (res.status == 200) {
                     validation.function_Status('get order all for user', true)
@@ -1112,179 +1231,265 @@ const fetch = {
             }
         }
     },
-        // authentication
-        async login(email = undefined, password = undefined){
-    let returnData = { status: false, msg: '' }
+    async BuyNow(cartInput) {
+        let returnData = { status: false, msg: '' }
 
-    if (email != undefined || password != undefined) {
-        try {
-            let url = `${origin}/api/authentication`
-            let userInfo = { "email_phone": email, "password": password }
-            let res = await axios.post(url, userInfo)
-            // console.log(res.data)
-            cookie.encrypt(res.data, "information")
-            // cookie.decrypt("information")
-            validation.function_Status("login", true)
-            returnData.status = true
-            return returnData
-        } catch (error) {
-            validation.function_Status("login", false, error)
-            // console.log(error) 
+        if (cartInput != undefined) {
+            try {
+                let url = `${origin}/api/orders`
+                let res = await axios.post(url, cartInput)
 
-            if (error.code == "ERR_NETWORK") {//check back-end server error
-                returnData.msg = "Server Error try again later"
-                returnData.status = false
-                return returnData
-            }
-            else
-                // error 404
-                if (error.response.status == 404 || error.response.status == 401 || error.response.status == 403) {
-                    returnData.msg = error.response.data.error
-                    returnData.status = false
-                } else {
-                    // error
-                    console.log("another error")
+                if (res.status == 201) {
+                    validation.function_Status("buy successful", true)
+                    returnData.status = true
+
                 }
-            return returnData
-        }
+                return returnData
 
-    } else {
-        validation.function_Status("login", false, "cannot login!!!" + '\n' + "because email or password is wrong format")
-        returnData.status = false
-        returnData.msg = "Please input information"
-        return returnData
-    }
-},
-    
-    async signOut(){
-    let information = cookie.get("information")
-    let returnData = { status: false, msg: '' }
-    // console.log(information.email)
+            } catch (error) {
+                validation.function_Status("can not buy", false, error)
+                // console.log(error) 
 
-    if (information !== undefined) {
-        try {
-            let url = `${origin}/api/authentication/signout`
-
-            let res = await axios.get(url)
-            // validation.function_Status("sign out", true)
-            if (res.status == 200) {
-                returnData.msg = 'Sign out successful'
-                returnData.status = true
-            } else {
-                returnData.msg = 'Can not sign out.'
-                returnData.status = false
-            }
-            // remove information account in client cookie
-            // cookie.remove("information")
-
-            return returnData
-        } catch (error) {
-            validation.function_Status("sign out", false, error)
-            cookie.encrypt(res.data, "information")
-            if (error.code == "ERR_NETWORK") {//check back-end server error
-                returnData.msg = "Server Error try again later"
-                returnData.status = false
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
                 return returnData
             }
-            else {
-
-            }
-        }
-    }
-},
-    async getRefresh(){
-    let information = cookie.decrypt() //get email for refresh token
-    // console.log(information)
-    let returnData = { status: false, msg: '' }
-    if (information != undefined) {
-        try {
-            let url = `${origin}/api/authentication/refresh`
-
-            // let userInfo = { "email_phone": information.email } //get email
-            let userInfo = { "email": information.email } //get email
-
-
-            let res = await axios.post(url, userInfo)
-            // console.log(res.status)
-            if (res.status == 200) {
-                returnData.status = true
-
-                console.log('refresh token')
-            } else { // 401
-                returnData.status = false
-                returnData.msg = 'Token is expired, need login again'
-                console.log('cannot refresh token')
-
-            }
-            return returnData
-
-        } catch (error) {
-            validation.function_Status("refresh", false, error)
-
-            if (error.code == "ERR_NETWORK") {//check back-end server error
-                // returnData.msg="Server Error try again later"
-                // returnData.status=false
-                return false
-            }
-            else {
-
-            }
-        }
-    }
-    return -1
-},
-    async signUp(userData){
-    let returnData = { status: undefined, msg: '' }
-    let { fn, ln, un, em, pw, pn } = userData
-    let userInfo = {
-        "email": em,
-        "password": pw,
-        "username": un,
-        "role": 'user',
-        "firstname": fn,
-        "lastname": ln,
-        "phone": pn
-    }
-    // let userInfo={
-    //     "email": em,
-    //     "password": pw,
-    //     "role": "user",
-    //     "username": "Test",
-    //     "firstname": fn,
-    //     "lastname": ln,
-    //     "description": " ",
-    //     "phone": pn
-    // }
-    let url = `${origin}/api/users/register`
-
-    try {
-        let res = await axios.post(url, userInfo)
-        returnData.status = true
-        validation.function_Status('postUser', true, res.data)
-        return returnData
-    } catch (error) {
-        validation.function_Status('postUser', false, error)
-
-        if (error.code == "ERR_NETWORK") {//check back-end server error
-            returnData.msg = "Server Error try again later"
-            returnData.status = false
-            return returnData
-        }
-        else if (error.response.status == 400 || error.response.status == 403) {
-            returnData.msg = error.response.data.error
-            returnData.status = false
-            return returnData
 
         } else {
-            // unknown error
-            console.log("another error")
-            returnData.msg = "another error"
+            validation.function_Status("Add cart", false, "cannot add cart" + '\n' + "because some data missing.")
             returnData.status = false
+            returnData.msg = "Please input information"
             return returnData
+        }
+    },
+    async BuyNowWithoutCart(itemInput) {
+        let returnData = { status: false, msg: '' }
+
+        if (itemInput != undefined) {
+            try {
+                let url = `${origin}/api/orders/no_cart`
+                let res = await axios.post(url, itemInput)
+
+                if (res.status == 201) {
+                    validation.function_Status("buy successful", true)
+                    returnData.status = true
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("can not buy", false, error)
+                // console.log(error) 
+
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Add cart", false, "cannot add cart" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
+        }
+    },
+    // authentication
+    async login(email = undefined, password = undefined) {
+        let returnData = { status: false, msg: '' }
+
+        if (email != undefined || password != undefined) {
+            try {
+                let url = `${origin}/api/authentication`
+                let userInfo = { "email_phone": email, "password": password }
+                let res = await axios.post(url, userInfo)
+                // console.log(res.data)
+                cookie.encrypt(res.data, "information")
+                // cookie.decrypt("information")
+                validation.function_Status("login", true)
+                returnData.status = true
+                return returnData
+            } catch (error) {
+                validation.function_Status("login", false, error)
+                // console.log(error) 
+
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 404 || error.response.status == 401 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("login", false, "cannot login!!!" + '\n' + "because email or password is wrong format")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
+        }
+    },
+
+    async signOut() {
+        let information = cookie.get("information")
+        let returnData = { status: false, msg: '' }
+        // console.log(information.email)
+
+        if (information !== undefined) {
+            try {
+                let url = `${origin}/api/authentication/signout`
+
+                let res = await axios.get(url)
+                // validation.function_Status("sign out", true)
+                if (res.status == 200) {
+                    returnData.msg = 'Sign out successful'
+                    returnData.status = true
+                } else {
+                    returnData.msg = 'Can not sign out.'
+                    returnData.status = false
+                }
+                // remove information account in client cookie
+                // cookie.remove("information")
+
+                return returnData
+            } catch (error) {
+                validation.function_Status("sign out", false, error)
+                cookie.encrypt(res.data, "information")
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else {
+
+                }
+            }
+        }
+    },
+    async getRefresh() {
+        let information = cookie.decrypt() //get email for refresh token
+        // console.log(information)
+        let returnData = { status: false, msg: '' }
+        if (information != undefined) {
+            try {
+                let url = `${origin}/api/authentication/refresh`
+
+                // let userInfo = { "email_phone": information.email } //get email
+                let userInfo = { "email": information.email } //get email
+
+
+                let res = await axios.post(url, userInfo)
+                // console.log(res.status)
+                if (res.status == 200) {
+                    returnData.status = true
+
+                    console.log('refresh token')
+                } else { // 401
+                    returnData.status = false
+                    returnData.msg = 'Token is expired, need login again'
+                    console.log('cannot refresh token')
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("refresh", false, error)
+
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    // returnData.msg="Server Error try again later"
+                    // returnData.status=false
+                    return false
+                }
+                else {
+
+                }
+            }
+        }
+        return -1
+    },
+    async signUp(userData) {
+        let returnData = { status: undefined, msg: '' }
+        let { fn, ln, un, em, pw, pn } = userData
+        let userInfo = {
+            "email": em,
+            "password": pw,
+            "username": un,
+            "role": 'user',
+            "firstname": fn,
+            "lastname": ln,
+            "phone": pn
+        }
+        // let userInfo={
+        //     "email": em,
+        //     "password": pw,
+        //     "role": "user",
+        //     "username": "Test",
+        //     "firstname": fn,
+        //     "lastname": ln,
+        //     "description": " ",
+        //     "phone": pn
+        // }
+        let url = `${origin}/api/users/register`
+
+        try {
+            let res = await axios.post(url, userInfo)
+            returnData.status = true
+            validation.function_Status('postUser', true, res.data)
+            return returnData
+        } catch (error) {
+            validation.function_Status('postUser', false, error)
+
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else if (error.response.status == 400 || error.response.status == 403) {
+                returnData.msg = error.response.data.error
+                returnData.status = false
+                return returnData
+
+            } else {
+                // unknown error
+                console.log("another error")
+                returnData.msg = "another error"
+                returnData.status = false
+                return returnData
+            }
+
         }
 
     }
-
-}
 }
 export default fetch
