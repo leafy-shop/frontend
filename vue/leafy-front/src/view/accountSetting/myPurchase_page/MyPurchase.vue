@@ -135,7 +135,7 @@ onBeforeMount(async()=>{
                                 <div v-for="(product,index) of shop.order_details" class="product_item">
                                     <!-- img -->
                                     <div>
-                                        <img src="../../assets/vue.svg" alt="product_img">
+                                        <img src="../../../assets/vue.svg" alt="product_img">
                                     </div>
                                     <!-- info -->
                                     <div>
