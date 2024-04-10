@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount,onMounted,onBeforeUpdate } from 'vue'
 import fetch from '../../../JS/api'
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
@@ -29,7 +29,7 @@ const paymentId = ref('')
 const isEditMode = ref(false)
 const paymentName = ref('')
 const accountNumber = ref('')
-const bankName = ref('')
+const bankName = ref("")
 // status
 const paymentNameS = ref(false)
 const accountNumberS = ref(false)
@@ -58,9 +58,34 @@ const isPayment = computed(() => {
     }
 
     // console.log(returnData.status)
-
+    
     return returnData
 })
+
+// time to submit??
+const isSubmitTime=computed(()=>{
+    let status =false
+    // isPayment mean data change? (edit mode)
+    if(isEditMode.value){
+        if(isPayment.value.status==false){ //data change
+            status=true
+        }
+        return status
+    }else{ //add mode
+        if(paymentName.value.length==0){ //data change
+            status=true
+        }
+        if(accountNumber.value.length==0){
+            status=true
+        }
+        if(bankName.value.length==0){
+            status=true
+        }
+        return status
+    }
+   
+})
+
 
 // get only use edit mode
 const getPaymentById = async () => {
@@ -77,17 +102,18 @@ const getPaymentById = async () => {
 
 const bankSubmit = async () => {
     let submitStatus = true
+    clearStatus()
     // validation
     if (!validation.text(paymentName.value) || !validation.textRange(paymentName.value, 50, 1)) {
         submitStatus = false
         paymentNameS.value = true
-        paymentNameM.value = "Your payment' name is invalid"
+        paymentNameM.value = "Your payment' name invalid"
         console.log('submit')
     }
-    if (!validation.number(accountNumber.value) || !validation.textRange(accountNumber.value, 15, 1)) {
+    if (!validation.number(accountNumber.value) || !validation.textRange(accountNumber.value, 15, 12)) {
         submitStatus = false
         accountNumberS.value = true
-        accountNumberM.value = "Your account number is invalid"
+        accountNumberM.value = "Your account number invalid"
         console.log('submit')
     }
     if(bankName.value.length==0){
@@ -138,6 +164,22 @@ const bankSubmit = async () => {
             }
 
     }
+    
+}
+// clear status
+const clearStatus=()=>{
+    paymentNameS.value  = false
+    accountNumberS.value  = false
+    bankNameS.value = false
+}
+// change color of btn
+const checkBtn=()=>{
+    const paymentBtn=document.getElementById("submit_payment")
+    if(isPayment.value.status){
+        paymentBtn.classList.add("submit_deactive")
+    }else{
+        paymentBtn.classList.remove("submit_deactive")
+    }
 }
 
 onBeforeMount(async () => {
@@ -149,10 +191,16 @@ onBeforeMount(async () => {
         paymentId.value = validation.decrypt(params.id)
         // console.log(validation.decrypt(params.id))
         isEditMode.value = true
-        // console.log(params.id)
+        // console.log(params.id,'param')
         await getPaymentById()
     }
 })
+// onMounted(()=>{
+//     checkBtn()
+// })
+// onBeforeUpdate(()=>{
+//     checkBtn()
+// })
 </script>
 <template>
     <div class="wrapper_all">
@@ -164,10 +212,10 @@ onBeforeMount(async () => {
                 <div class="container_bank">
                     <!-- name -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="inportant_input">
                             Name
                         </h5>
-                        <input v-model="paymentName" class="input" type="text">
+                        <input v-model="paymentName" class="input" type="text" maxlength="50">
                         <!-- worning -->
                         <div v-show="paymentNameS" class="wrapper_errorMsg">
                             <div>
@@ -186,7 +234,7 @@ onBeforeMount(async () => {
 
                     <!-- Account_number -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="inportant_input">
                             Account number
                         </h5>
                         <input v-model="accountNumber" class="input" type="text" maxlength="15">
@@ -207,14 +255,15 @@ onBeforeMount(async () => {
                     </div>
 
                     <!-- Bank name -->
-                    <div class="input_field">
-                        <h5>
+                    <div class="input_field ">
+                        <h5 class="inportant_input">
                             Bank name
                         </h5>
                         <!-- <input v-model="bankName" class="input" type="text"> -->
-                        <select v-model="bankName" class="input">
-                            <option value="" selected hidden>Select your bank account</option>
-                            <option v-for="(bank, index) of  bankList" :key="index" :value="bank.value">{{ bank.name }}
+                        <select v-model="bankName" class="input" name="bank_name" id="bank_name">
+                            <option value="" selected disabled>Select your bank account</option>
+                            <option v-for="(bank, index) of  bankList" :key="index" :value="bank.value">
+                                {{ bank.name }}
                             </option>
                         </select>
                         <!-- worning -->
@@ -240,9 +289,9 @@ onBeforeMount(async () => {
             <button @click="goBanks()">
                 Cancel
             </button>
-            <button @click="bankSubmit()">
+            <button @click="bankSubmit()" :disabled="isSubmitTime" id="submit_payment" :class="[isSubmitTime?'submit_deactive':'']">
                 Save
-                </button>
+            </button>
         </div>
     </div>
 </template>
@@ -399,5 +448,15 @@ onBeforeMount(async () => {
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.submit_deactive{
+    background-color: #BDBDBD !important;
+    cursor: not-allowed !important;
+    border-color: transparent !important;
+}
+.inportant_input::after{
+    content: '*';
+    color: #F75555;
 }
 </style>
