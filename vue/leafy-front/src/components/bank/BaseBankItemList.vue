@@ -18,6 +18,10 @@ const props=defineProps({
         default:false,
         // required:true
     },
+    showEditBtn:{
+        type:Boolean,
+        default:true,
+    }
     // fullNameBank:{
     //     type:Function,
     //     required:true,
@@ -26,7 +30,7 @@ const props=defineProps({
     // }
 })
 const isDefaultData=computed(()=>props.isDefault)
-
+const isShowEditBtn=computed(()=>props.showEditBtn)
 const fullNameBank = (keyword) => {
     //find keyword match to data then find index of that information
     let index = bankTypeList.map((x) => x.value == keyword).indexOf(true)
@@ -53,7 +57,9 @@ const fullNameBank = (keyword) => {
                     <div class="operation">
 
                         <!-- edit -->
-                        <button @click="$emit('goUpdate',data.paymentId)">
+                        
+                        <button v-if="isShowEditBtn" @click="$emit('goUpdate',data.paymentId)">
+                            {{ isShowEditBtn }}
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -61,7 +67,6 @@ const fullNameBank = (keyword) => {
                                     stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-
                         </button>
                         <!-- bin -->
                         <button  v-if="!isDefaultData" @click="$emit('showConfirm',data.paymentId)">
@@ -114,7 +119,7 @@ const fullNameBank = (keyword) => {
                     <div class="operation">
 
                         <!-- edit -->
-                        <button @click="$emit('goUpdate',data.addressId)">
+                        <button v-if="isShowEditBtn" @click="$emit('goUpdate',data.addressId)">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -190,10 +195,10 @@ const fullNameBank = (keyword) => {
     height: fit-content;
     flex-direction: column;
     /* padding-top: 24px; */
-    border-top: 1px solid ;
+    border-top: v-bind('isShowEditBtn==true?'1px solid':'none'')  ;
     border-color: #E0E0E0;
     justify-content: end;
-    padding-top: 12px;
+    padding-top: v-bind('isShowEditBtn==true?'12px':'none'');
     gap: 4px;
 }
 
@@ -214,12 +219,18 @@ const fullNameBank = (keyword) => {
 }
 
 .info h5 {
+    width: 100%;
+    max-width: 300px;
+    height: fit-content;
     font-size: 16px;
     font-weight: 500;
     color: #212121;
     padding-right: 8px;
     border-right: 1px solid;
     border-color: #E0E0E0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .info p {
@@ -262,6 +273,7 @@ const fullNameBank = (keyword) => {
     font-weight: 400;
     font-size: 14px;
     color: #616161;
+    /* text-overflow: ellipsis; */
 }
 .discription button{
     display: flex;

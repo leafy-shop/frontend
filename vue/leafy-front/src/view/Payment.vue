@@ -6,7 +6,9 @@ import {ref,onBeforeMount,computed,onUpdated} from 'vue'
 import cookie from '../JS/cookie';
 import fetch from '../JS/api';
 import validation from '../JS/validation'
-
+import BaseBankItemList from '../components/bank/BaseBankItemList.vue'
+import BaseOrderItem from '../components/myPurchase/BaseOrderItem.vue';
+import BaseSummary from '../components/cartList/BaseSummary.vue';
 
 // link
 const myRoute=useRouter()
@@ -192,113 +194,106 @@ onBeforeMount(async()=>{
     <!-- content -->
     <div class="wrapper_payment">
         <div class="payment">
-            <!-- address -->
-            <div  class="wrapper_address">
-              <div v-show="addressDefault!=undefined" class="address_item">
-                <!-- header -->
-                <div>
-                  <div>
-                    {{ addressSelected.addressname }}
-                    {{ addressSelected.phone }}<br/>
+            <!-- container address and payment -->
+            <div class="container_address_payment">
+              <!-- address -->
+              <div  class="wrapper_address">
+                <div class="container_header_address">
+                  <!-- header -->
+                  <div class="header_address">
+                    <div>
+                      <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.05051 2.04999C3.36333 0.73717 5.14389 -0.000366211 7.0005 -0.000366211C8.85711 -0.000366211 10.6377 0.73717 11.9505 2.04999C13.2633 3.36281 14.0009 5.14338 14.0009 6.99999C14.0009 8.8566 13.2633 10.6372 11.9505 11.95L7.0005 16.9L2.05051 11.95C1.40042 11.3 0.884739 10.5283 0.532912 9.67894C0.181084 8.82961 0 7.9193 0 6.99999C0 6.08068 0.181084 5.17037 0.532912 4.32104C0.884739 3.47172 1.40042 2.70001 2.05051 2.04999ZM7.0005 8.99999C7.53094 8.99999 8.03965 8.78928 8.41472 8.4142C8.78979 8.03913 9.00051 7.53042 9.00051 6.99999C9.00051 6.46956 8.78979 5.96085 8.41472 5.58578C8.03965 5.2107 7.53094 4.99999 7.0005 4.99999C6.47007 4.99999 5.96136 5.2107 5.58629 5.58578C5.21122 5.96085 5.0005 6.46956 5.0005 6.99999C5.0005 7.53042 5.21122 8.03913 5.58629 8.4142C5.96136 8.78928 6.47007 8.99999 7.0005 8.99999Z" fill="#26AC34"/>
+                      </svg>
+                    </div>
+                    <h5>
+                      Delivery Address
+                    </h5>
                   </div>
-                  <!-- change detault -->
-                  <!-- <button>
+                  <!-- address -->
+                  <BaseBankItemList name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false" />
+                </div>
+                <!-- <div class="change_btn"> -->
+                  <button @click="showOverlay=!showOverlay" class="change_btn">
                     change
-                  </button> -->
-                </div>
-                <!-- detail -->
-                <div>
-                  {{ addressSelected.address }}
-                  {{ addressSelected.province }}
-                  {{ addressSelected.distrinct }}
-                  {{ addressSelected.subDistrinct }}
-                  {{ addressSelected.postalCode }}
-                </div>
-                <!-- temperary btn -->
-                <button @click="showOverlay=!showOverlay">
-                  change
-                </button>
-              </div>
-            </div>
-            <!-- product List -->
-            <div class="wrapper_product">
-                <!-- header -->
-                <h5>
-                  Product List
-                </h5>
-                <div v-for="(product,index) of convertCartList" :key="index"  class="product_list">
-                  <div class="product_item">
-                      <!-- img -->
-                      <div>
-                          <img src="../assets/vue.svg" alt="product_img">
-                      </div>
-                      <!-- info -->
-                      <div>
-                        <h6>
-                          {{product.name}}
-                        </h6>
-                        <p>
-                           {{product.style}} : {{product.size}}
-                        </p>
-                      </div>
-                      <!-- price each-->
-                      <div>
-                        <h6>
-                          ${{ product.price }}
-                        </h6>
-                      </div>
-                      <!-- qty -->
-                      <div>
-                        <h6>
-                          {{product.qty}}
-                        </h6>
-                      </div>
-                      <!-- total product -->
-                      <div>
-                        <h6>
-                          ${{product.qty*product.price}}
-                        </h6>
-                      </div>
-
+                  </button>
+                <!-- </div> -->
+                <!-- <div v-show="addressDefault!=undefined" class="address_item">
+                  header
+                  <div>
+                    <div>
+                      {{ addressSelected.addressname }}
+                      {{ addressSelected.phone }}<br/>
+                    </div>
+                    change detault
+                    <button @click="showOverlay=!showOverlay">
+                      change
+                    </button>
                   </div>
-              </div>
-              <!-- summary -->
-              <div>
-                <!-- <h6>
-                  order Total 
-                  <span>
-                    ({{total.product}} items): 
-                  </span>
-                  <span>
-                    ${{total.price}}
-                  </span>
-                </h6> -->
+                  detail
+                  <div>
+                    {{ addressSelected.address }}
+                    {{ addressSelected.province }}
+                    {{ addressSelected.distrinct }}
+                    {{ addressSelected.subDistrinct }}
+                    {{ addressSelected.postalCode }}
+                  </div>
+                  temperary btn
+                  <button @click="showOverlay=!showOverlay">
+                    change
+                  </button>
+                </div>-->
+              </div> 
+
+              <!-- payment method -->
+              <div class="wrapper_payment_method">
+                <h6>
+                  Payment
+                </h6>
+                <div class="method_list">
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                </div>
               </div>
             </div>
-            <!-- payment method -->
-            <div class="wrapper_payment_method">
-              <h6>
-                Payment
-              </h6>
-              <div class="method_list">
-                <button @click="">
-                  Prompay
-                </button>
-                <button @click="">
-                  Prompay
-                </button>
-              </div>
+
+            <!-- product List -->
+            <div class="wrapper_product_list">
+              <BaseOrderItem />  
+
             </div>
+            
+            
             <!-- place order -->
             <div class="wrapper_summary_order">
-              <h6>
+              <BaseSummary name="summary_payment" :total="total.price" :summary-total="total.price" @submit="orderSubmit" />
+              <!-- <h6>
                 Order Summary
               </h6>
-              <!-- tax and other -->
+              tax and other
               <div>
-                <!-- transaction list -->
+                transaction list
                 <div>
-                  <!-- price -->
+                  price
                   <div>
                     <h6>
                       Price
@@ -307,7 +302,7 @@ onBeforeMount(async()=>{
                       ${{total.price}}
                     </p>
                   </div>
-                  <!-- shipping -->
+                  shipping
                   <div>
                     <h6>
                       Shipping
@@ -316,7 +311,7 @@ onBeforeMount(async()=>{
                       $0
                     </p>
                   </div>
-                  <!-- tax -->
+                  tax
                   <div>
                     <h6>
                       Tax
@@ -326,14 +321,14 @@ onBeforeMount(async()=>{
                     </p>
                   </div>
                 </div>
-                <!-- total price -->
+                total price
                 <div>
                   total Payment:: ${{total.price}}
                 </div>
               </div>
               <button @click="orderSubmit()">
                 Place Order
-              </button>
+              </button> -->
             </div>
         </div>
 
@@ -548,15 +543,130 @@ onBeforeMount(async()=>{
   border-radius: 8px;
   gap: 20px;
 }
+/* container of address and payment method */
+.container_address_payment{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 32px;
+}
 .wrapper_address{
+  display: flex;
+  width: 100%;
+  min-width: 736px;
+  height: fit-content;
+  min-height: 160px;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
+  gap: 20px;
   background-color: #fff;
+  align-items: start;
+  /* flex-direction: column; */
 }
-.wrapper_product{
-  background-color: #fff;
+.container_header_address{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  flex-direction: column;
+  gap: 4px;
 }
+.container_header_address .header_address{
+  display: flex;
+  width: fit-content;
+  height: 24px;
+  gap: 8px;
+  align-items: center;
+}
+.header_address >div{
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.header_address >div svg{
+  width: 14px;
+  height: auto;
+}
+.header_address  h5{
+  width: fit-content;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  color: #26AC34;
+}
+.wrapper_address .change_btn{
+  display: flex;
+  width: 76px;
+  height: 36px;
+  border: 1px solid;
+  border-color: #E0E0E0;
+  border-radius:4px ;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212121;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+}
+/* payment method */
 .wrapper_payment_method{
+  display: flex;
+  width: 100%;
+  min-width: 352px;
+  height: fit-content;
+  min-height: 160px;
+  max-height: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  gap: 16px;
   background-color: #fff;
+  box-shadow: 0px 1px 2px 0px #0000000F;
+  flex-direction: column;
 }
+.wrapper_payment_method .method_list{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.method_list button{
+  display: flex;
+  width: 72px;
+  height: 36px;
+  border: 1px solid;
+  border-radius: 4px;
+  border-color: #EEEEEE;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  cursor: pointer;
+}
+.method_list button img{
+  width: auto;
+  height: 16px;
+  
+}
+.method_list button:hover{
+  border-color: #26AC34;
+}
+
+
+.wrapper_product_list{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  max-height: 100%;
+  /* background-color: #fff; */
+}
+
 .wrapper_summary_order{
   background-color: #fff;
 }

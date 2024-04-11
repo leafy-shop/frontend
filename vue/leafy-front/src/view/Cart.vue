@@ -6,6 +6,7 @@ import { onBeforeMount, ref, computed } from "vue";
 import fetch from "../JS/api";
 import cookie from "../JS/cookie";
 import validation from '../JS/validation'
+import BaseSummary from "../components/cartList/BaseSummary.vue";
 //link
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
@@ -390,30 +391,33 @@ onBeforeMount(async() => {
         </div>
       </div>
 
-      <!-- summary -->
+      <BaseSummary name="summary_cart" :total="carts.total" :shipping="carts.shipping" 
+      :tax="carts.tax" :summary-total="parseFloat(Number(carts.total) +Number(carts.shipping) + Number(carts.tax)).toFixed(2)" 
+      :count-check-out="countCheckOut" @submit="checkOrder" />
+      <!-- summary
       <div class="wrapper_summary">
         <div class="summary">
-          <!-- header -->
+          header
           <h4>Order Summary</h4>
-          <!-- summary list -->
+          summary list
           <div class="summary_list">
-            <!--subtotal  -->
+            subtotal 
             <div class="summary_item">
               <h6>Subtotal</h6>
               <p class="money_bath">฿{{ carts.total }}</p>
             </div>
-            <!-- Shipping -->
+            Shipping
             <div class="summary_item">
               <h6>Shiping</h6>
               <p class="money_bath">฿{{ carts.shipping }}</p>
             </div>
-            <!-- Tax -->
+            Tax
             <div class="summary_item">
               <h6>Tax</h6>
               <p class="money_bath">฿{{ carts.tax }}</p>
             </div>
           </div>
-          <!-- total -->
+          total
           <div class="total">
             <h6>Total Payment</h6>
             <p class="money_bath">
@@ -427,9 +431,9 @@ onBeforeMount(async() => {
             </p>
           </div>
         </div>
-        <!-- submit -->
+        submit
         <button @click="checkOrder">Check Out ({{ countCheckOut }})</button>
-      </div>
+      </div> -->
     </div>
   </div>
   <BaseFooter />
@@ -903,7 +907,7 @@ onBeforeMount(async() => {
   height: auto;
 }
 
-.wrapper_summary {
+/* .wrapper_summary {
   display: flex;
   width: 100%;
   height: fit-content;
@@ -951,7 +955,7 @@ onBeforeMount(async() => {
 }
 
 .summary_item h6 {
-  /* display: flex; */
+  display: flex;
   width: 100%;
   height: 100%;
   font-size: 14px;
@@ -979,7 +983,7 @@ onBeforeMount(async() => {
   border-color: #eeeeee;
   justify-content: space-between;
   align-items: center;
-  /* flex-direction: column; */
+  flex-direction: column;
 }
 
 .total h6 {
@@ -1016,5 +1020,5 @@ onBeforeMount(async() => {
   font-size: 18px;
   font-weight: 500;
   color: #fff;
-}
+} */
 </style>
