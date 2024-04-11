@@ -26,6 +26,7 @@ import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
 import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
 import Chat from '../view/Chat 2.vue'
 import MyPurchase from '../view/accountSetting/myPurchase_page/MyPurchase.vue'
+import MyPurchaseDetail from '../view/accountSetting/myPurchase_page/MyPurchaseDetail.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -116,6 +117,11 @@ const routes=[
                 path:'my-purchase',
                 name:'MyPurchase',
                 component:MyPurchase
+            },
+            {
+                path:'my-purchase/detail/:id?',
+                name:'MyPurchaseDetail',
+                component:MyPurchaseDetail
             },
             {
                 path:'my-shop/products',
