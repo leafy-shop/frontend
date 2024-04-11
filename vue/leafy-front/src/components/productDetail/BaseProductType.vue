@@ -4,13 +4,10 @@ import { useRouter } from "vue-router";
 import validation from "../../JS/validation";
 import BaseStar from "./BaseStar.vue";
 import fetch from "./../../JS/api";
-import cookie from "./../../JS/cookie"
+import cookie from "./../../JS/cookie";
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
-
-
-
-const emit = defineEmits(["styleSelected"]);
+const emit = defineEmits(["styleSelected","addToCart"]);
 
 let props = defineProps({
   productStyle: {
@@ -38,8 +35,12 @@ const userName = ref("");
 
 const myRouter = useRouter();
 const goCartList = () => myRouter.push({ name: "CartList" });
-const goPayment =(cartList)=>myRouter.push({name:"Payment",params:{cartList:validation.encrypt(cartList)}})
-const goSignIn=()=>myRouter.push({name:"SignIn"})
+const goPayment = (cartList) =>
+  myRouter.push({
+    name: "Payment",
+    params: { cartList: validation.encrypt(cartList) },
+  });
+const goSignIn = () => myRouter.push({ name: "SignIn" });
 
 let detectNumber = (input) => {
   // console.log(input.target.value)
@@ -63,15 +64,15 @@ let detectNumber = (input) => {
 };
 
 let rightAdd = () => {
-  console.log(stepInput.value < selectedStyle.value.stock);
+  // console.log(sizeObj.value);
   stepInput.value =
-    stepInput.value < selectedStyle.value.stock
+    stepInput.value < sizeObj.value.stock
       ? stepInput.value + 1
       : stepInput.value;
 };
 
 let leftSubstract = () => {
-  console.log(stepInput.value > 1);
+  // console.log(stepInput.value > 1);
   stepInput.value = stepInput.value > 1 ? stepInput.value - 1 : stepInput.value;
 };
 
@@ -84,25 +85,25 @@ let productStyle = computed(() => {
 let selectedStyle = computed(() => {
   console.log(props.selectedStyle, "tttttt");
   // if props of selected style have size
+  //
+  //   props.selectedStyle.size = props.selectedStyle.sizes[0].size;
+  //   props.selectedStyle.price = props.selectedStyle.sizes[0].price;
+  //   props.selectedStyle.stock = props.selectedStyle.sizes[0].stock;
+  //   console.log(props.selectedStyle, "sizesize");
+  //
   if (props.selectedStyle.sizes) {
-    // sizeObj.value.price=props.selectedStyle.sizes[0].price
-    // sizeObj.value.stock=props.selectedStyle.sizes[0].stock
-    props.selectedStyle.price = props.selectedStyle.sizes[0].price;
-    props.selectedStyle.stock = props.selectedStyle.sizes[0].stock;
-  }
-  if (props.selectedStyle.size != undefined) {
-    console.log(props.selectedStyle, "sizesize");
     sizeObj.value = {
-      stock: props.selectedStyle.stock,
-      size: props.selectedStyle.size,
-      price: props.selectedStyle.price,
+      style: props.selectedStyle.style,
+      stock: props.selectedStyle.sizes[0].stock,
+      size: props.selectedStyle.sizes[0].size,
+      price: props.selectedStyle.sizes[0].price,
     };
-    // style:props.selectedStyle.style,
-    // sizes:[
-
-    // ]
-    // }
   }
+  // style:props.selectedStyle.style,
+  // sizes:[
+
+  // ]
+  // }
   stepInput.value = 1;
   slideImage.value = 0;
   maxImage.value =
@@ -110,37 +111,36 @@ let selectedStyle = computed(() => {
     props.selectedStyle.images.length < 1
       ? 1
       : props.selectedStyle.images.length - 1;
+  console.log(props.selectedStyle, "T-T");
   return props.selectedStyle;
 });
 
-let addToCart = async (movePage = true) => {
-  if(userName.value!=undefined){
+let addToCart = async () => {
+  if (userName.value != undefined) {
     // console.log(productStyle.value, 'product style')
     // console.log(selectedStyle.value,'seleced style')
-    console.log(selectedStyle.value, "selected style");
-    console.log(productStyle.value, "selected style");
-    let cart = {
-      itemId: productStyle.value.itemId,
-      style: selectedStyle.value.style,
-      size: sizeObj.value.size,
-      qty: stepInput.value,
-    };
-    console.log("cart", cart);
-    console.log(cart);
-    let { status, msg } = await fetch.addToCart(cart);
-    console.log(status);
-    if (status) {
-      if (movePage) {
-        //move to cartlist
-        // goCartList();
-      }
-      //do something
-    } else {
-      // error
-    }
-  }else{
+    // console.log(selectedStyle.value, "selected style");
+    // console.log(productStyle.value, "selected style");
+    return emit("addToCart", productStyle.value.itemId, selectedStyle.value.style, sizeObj.value.size, stepInput.value)
+
+    // console.log("cart", cart);
+    // console.log(cart);
+    // let { status, msg } = await fetch.addToCart(cart);
+
+    
+    // console.log(status);
+    // if (status) {
+    //   if (movePage) {
+    //     //move to cartlist
+    //     // goCartList();
+    //   }
+    //   //do something
+    // } else {
+    //   // error
+    // }
+  } else {
     //go sign in
-    goSignIn()
+    goSignIn();
   }
 };
 
@@ -162,33 +162,36 @@ let addressDefaultId = ref("");
 // direct to payment page
 let payInOrder = async () => {
   if (userName.value != undefined) {
-    let paymentOrder = [{ //array
-      itemId: productStyle.value.itemId,
-      style: selectedStyle.value.style,
-      size: sizeObj.value.size,
-      qty: stepInput.value,
-      // addressId: addressDefaultId.value,
-      name:productStyle.value.name,
-      price:selectedStyle.value.price,
-      stock:selectedStyle.value.stock
-    }]
-    console.log(JSON.stringify(paymentOrder).toString()) //convert to json
+    let paymentOrder = [
+      {
+        //array
+        itemId: productStyle.value.itemId,
+        style: sizeObj.style,
+        size: sizeObj.size,
+        qty: stepInput.value,
+        // addressId: addressDefaultId.value,
+        name: productStyle.value.name,
+        price: sizeObj.price,
+        stock: sizeObj.stock,
+      },
+    ];
+    // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
     // check stock
-    if(selectedStyle.value.stock!=0){
-      goPayment(JSON.stringify(paymentOrder).toString())//tranform data to text  
-    }else{
+    if (selectedStyle.value.stock != 0) {
+      goPayment(JSON.stringify(paymentOrder).toString()); //tranform data to text
+    } else {
       //error can not buy
     }
-    // await fetch.BuyNowWithoutCart(paymentOrder);
-    
-    // if (status) {
-    //   console.log("buy successful");
-    // } else {
-    //   console.log("can not buy");
-    // }
-  }else{
+    await fetch.BuyNowWithoutCart(paymentOrder);
+
+    if (status) {
+      console.log("buy successful");
+    } else {
+      console.log("can not buy");
+    }
+  } else {
     //go sign in
-    goSignIn()
+    goSignIn();
   }
 };
 
@@ -199,7 +202,7 @@ let selectedImage = (idx) => {
 
 let selectedSize = (size) => {
   sizeObj.value = size; //for store size obj
-  console.log(size, "sizess");
+  console.log(size, "sizes");
   // selectedStyle.value.price = size.price
   // selectedStyle.value.stock = size.stock
 };
@@ -401,11 +404,8 @@ onUpdated(() => {
         <!-- for show price -->
         <div class="price">
           <h3>
-            ฿<span v-if="sizeObj.price">
+            ฿<span>
               {{ sizeObj.price }}
-            </span>
-            <span v-else>
-              {{ selectedStyle.price }}
             </span>
           </h3>
         </div>
@@ -430,7 +430,7 @@ onUpdated(() => {
         </div>
         <!-- button for select style -->
         <div
-          v-if="selectedStyle.sizes && selectedStyle.sizes.length !== 0"
+          v-if="selectedStyle.sizes && selectedStyle.sizes.length > 1"
           class="sizes"
         >
           <h6>Size</h6>
@@ -450,7 +450,7 @@ onUpdated(() => {
             <input type="text" @input="detectNumber" v-model="stepInput" />
             <button @click="rightAdd">+</button>
           </div>
-          <p>{{ sizeObj.stock !== undefined ? sizeObj.stock : selectedStyle.stock }} pieces avaliable</p> 
+          <p>{{ sizeObj.stock }} pieces avaliable</p>
         </div>
       </div>
       <div class="wrapper_apply_buy">
