@@ -1,6 +1,8 @@
 <script setup>
 import {useRoute} from 'vue-router'
 import {ref,onMounted, onBeforeMount} from 'vue'
+import { useCartStore } from '../store/store';
+import { storeToRefs } from 'pinia'
 import BaseProductType from '../components/productDetail/BaseProductType.vue'
 import BaseStore from '../components/productDetail/BaseStore.vue'
 import BaseMenu from '../components/BaseMenu.vue'
@@ -35,7 +37,7 @@ let selectedStyle = ref({})
 
 const getProductReview=async(page)=>{
     let {status,data} = await fetch.getProductReview(productId, page)
-    console.log("this is ",data)
+    // console.log("this is ",data)
     totalPageReview.value=data.allPage
     reviews.value = data.list
     return data.list
@@ -50,7 +52,7 @@ const getStore =async(id)=>{
 const getProductDetail = async (id, selectedId=0) => {
     // console.log(id)
     let {status,data} = await fetch.getProductDetail(id)
-    console.log(data.name)
+    // console.log(data.name)
     // product type page
     productType.value.itemId = productId
     productType.value.name = data.name
@@ -65,7 +67,7 @@ const getProductDetail = async (id, selectedId=0) => {
     
     //store
     await getStore(data.itemOwner)
-    console.log(data.itemOwner,'item owner')
+    // console.log(data.itemOwner,'item owner')
     //product review
     await getProductReview(currentPageReview.value)
     allStyleReviews.value = data.styles.map(style => style.style)
@@ -89,14 +91,33 @@ const getProductDetail = async (id, selectedId=0) => {
     // // console.log(allStyleReviews)
 }
 
+let myCartCounter = useCartStore()
+let { cartCount } = storeToRefs(myCartCounter)
+// console.log(cartCount)
+
+const addToCart = async (itemId, style, size, qty) => {
+    let cart = {
+      itemId: itemId,
+      style: style,
+      size: size,
+      qty: qty,
+    };
+    console.log(cart)
+    myCartCounter.addCartCount(qty)
+    console.log(cartCount.value)
+    // console.log("cart", cart);
+    // console.log(cart);
+    let { status, msg } = await fetch.addToCart(cart);
+}
+
 const changeStyle = async (idx) => {
-    console.log("wow",idx)
+    // console.log("wow",idx)
     selectedStyle.value = productType.value.styles[idx]
 } 
 
 const sortFilterReview = async (sort, name) => {
-    console.log(sort)
-    console.log(name)
+    // console.log(sort)
+    // console.log(name)
     sortFilter.value = {sort: sort, name: name}
     // product review page
     
@@ -110,12 +131,12 @@ const sortFilterReview = async (sort, name) => {
 const currentPageReview=ref(1)
 const totalPageReview=ref(1)
 const moveLeftR=async(current)=>{
-    console.log(current)
+    // console.log(current)
     currentPageReview.value = current
     await getProductReview(currentPageReview.value)
 }
 const moveRightR=async(current)=>{
-    console.log(current)
+    // console.log(current)
     currentPageReview.value = current
     await getProductReview(currentPageReview.value)
 }
@@ -126,7 +147,7 @@ const changePageR=async (number)=>{
 
 onBeforeMount(async() => {
    await getProductDetail(productId)
-    console.log(productId,'product id')
+    // console.log(productId,'product id')
 })
 
 onMounted(()=>{
@@ -135,7 +156,7 @@ onMounted(()=>{
 </script>
 <template>
 <!-- this is pro detail {{ params.id }} -->
-    <BaseMenu class="menu"/>
+    <BaseMenu class="menu" :count="cartCount"/>
     <div class="container_access">
         <!-- home icon -->
         <svg @click="goHome" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,7 +180,7 @@ onMounted(()=>{
         </h5>
     </div>
     <div class="wrapper_content">
-        <BaseProductType :product-style="productType" :selected-style="selectedStyle" :change-style="changeStyle"/>
+        <BaseProductType :product-style="productType" :selected-style="selectedStyle" :change-style="changeStyle" @add-to-cart="addToCart"/>
         <BaseStore :owner="store"/>
         <BaseDescription :description="description"/>
         <div class="container_review">
