@@ -16,7 +16,7 @@ const isDelete = ref(false)
 const userName = ref('')
 const bankList = ref([])
 const bankId = ref('')
-const bankDefault=ref({})//for default data
+const bankDefault=ref(undefined)//for default data
 // const bankTypeList=ref([
 //     {name:"ธนาคารกรุงเทพ จำกัด ( BBL )",value:"BBL"},
 //     {name:"ธนาคารกสิกรไทย ( KBANK )",value:"KBANK"},

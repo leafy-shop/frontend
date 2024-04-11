@@ -17,7 +17,7 @@ const isDelete=ref(false)
 const userName=ref('')
 const addressList=ref([])
 const addressId=ref('')
-const addressDefault=ref({})
+const addressDefault=ref(undefined)
 const showConfirm=(id)=>{
     isDelete.value=true
     addressId.value=id
