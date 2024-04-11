@@ -5,6 +5,8 @@ import validation from '../JS/validation'
 import cookie from '../JS/cookie';
 import fetch from '../JS/api'
 // const {params} =useRoute()
+// common attribute
+let origin = `${import.meta.env.VITE_BASE_URL}`;
 const showOption=ref(false)
 const emit= defineEmits(['search'])
 const props = defineProps({
@@ -13,6 +15,9 @@ const props = defineProps({
         require: true
     }
 })
+// image status
+const imageS=ref(false)
+
 
 const currentText = computed(() => {
     return {search: props.search}
@@ -112,11 +117,22 @@ const signOut = async () => {
     }
 }
 
+// check img
+const checkImg=async()=>{
+    let{status,msg}=await fetch.getImage("users",keyPass.value.id)
+    if(status){
+        // console.log('have image')
+        imageS.value=true
+    }
+} 
+
+
 const keyPass = ref(undefined)
-onBeforeMount(()=>{
+onBeforeMount(async()=>{
     keyPass.value = cookie.decrypt()
     console.log('keyPass is : '+keyPass.value)
     search.value=currentText.value.search
+    await checkImg()
 })
 
 const showMenu2 = ref(false)
@@ -217,7 +233,8 @@ onMounted(()=>{
                 </button>
                 <!-- user profile -->
                 <button @click="showOption=!showOption"   v-else class="user_profile"> <!--@click="goProfile(keyPass.id)"-->
-                    <img src="../assets/shop_p/avatar_userProfile.png" alt="user_icon"> 
+                    <img v-if="imageS" :src="`${origin}/api/image/users/${keyPass.id}`" alt="user_icon"> 
+                    <img v-else src="../assets/shop_p/avatar_userProfile.png" alt="user_icon"> 
                 </button>
                 <!-- drop down -->
                 <div  v-show="showOption" class="option_account">
@@ -290,7 +307,8 @@ onMounted(()=>{
                     <div v-if="keyPass!=undefined" class="service_with_keyPass">
                         <div class="user_2">
                             <div class="icon_2">
-                                <img src="../assets/shop_p/avatar_userProfile.png" alt="user_icon">
+                                <img v-if="imageS" :src="`${origin}/api/image/users/${keyPass.id}`" alt="user_icon">
+                                <img v-else src="../assets/shop_p/avatar_userProfile.png" alt="user_icon">
                             </div>
                             <div class="information_2">
                                 <h4>

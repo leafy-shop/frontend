@@ -71,12 +71,12 @@ const fetch = {
         try {
             let url = `${origin}/api/image/${endpoint}/${id}`
             url += type != undefined ? `/${type}` : ''
-            let res = await axios.get(url)
+            let res = await axios.get(url,{responseType:'blob'})
 
             if (res.status == 200) {
                 validation.function_Status('Image founded.', true, `type: ${type}`)
                 returnData.status = true
-
+                // console.log(res.data,'this is img data')
                 returnData.data = res.data
 
             } else {
@@ -110,6 +110,45 @@ const fetch = {
             formData.append('file', data)
 
             let res = await axios.post(url, formData)
+
+            if (res.status == 201) {
+                validation.function_Status('Image updated.', true, `type: ${type}`)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+                // console.log(returnData)
+            } else {
+                validation.function_Status('Cannot update image', false, res.message)
+
+                // validation.msg=res.message
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot get image', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+            }
+            else {
+                returnData.status = false
+            }
+            return returnData
+        }
+    },
+    async addImages(data, endpoint, id, type) {
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false ,msg:""}
+        const formData = new FormData();
+        try {
+            let url = `${origin}/api/images/${endpoint}/${id}`
+            url += type != undefined ? `/${type}` : ''
+            console.log(data,'from api')
+            for(let img of data){
+                formData.append('file', img)
+            }
+
+            let res = await axios.post(url,formData)
 
             if (res.status == 201) {
                 validation.function_Status('Image updated.', true, `type: ${type}`)
@@ -862,7 +901,7 @@ const fetch = {
         }
     },
     async addAddress(userName, inputData) {
-        let returnData = { status: false, msg: '' }
+        let returnData = { status: false, msg: '',data:undefined }
 
         if (inputData != undefined) {
             try {
@@ -871,6 +910,7 @@ const fetch = {
                 // console.log(res.data)
                 // cookie.decrypt("information")
                 if (res.status == 201) {
+                    returnData.data=res.data.addressId
                     validation.function_Status("add address", true)
                     returnData.status = true
 
@@ -1117,18 +1157,35 @@ const fetch = {
             }
         }
     },
-    // for
+    // for user,supplier get order 
     async getAllOrder(isSupplier = false, inputData = {}) { //for sub and user
         let returnData = { status: false, data: undefined, msg: '' }
         let {
-            username,
+            page,
+            limitP,
             sort,
+            dateStart,
+            dateEnd,
+            status, //status of order
         } = inputData
         try {
-
+            
             if (isSupplier) { // for role supplier
                 let url = `${origin}/api/orders/supplier`
-                if (sort != undefined) url += `sort=${sort}`;
+                // page
+                if(page ==undefined) url+=`?page=${1}`
+                else url+=`?page=${page}`
+                // limit
+                if (limitP != undefined) url += `&limit=${limitP}`;
+                // sort
+                if (sort != undefined) url += `&sort=${sort}`;
+                // start date
+                if (dateStart != undefined) url += `&dateStart=${dateStart}`;
+                // end date
+                if (dateEnd != undefined) url += `&dateEnd=${dateEnd}`;
+                // status
+                if (status != undefined) url += `&status=${status}`;
+
                 let res = await axios.get(url)
                 if (res.status == 200) {
                     validation.function_Status('get order all for supplier', true)
@@ -1137,8 +1194,16 @@ const fetch = {
                 }
             } else { //for normal user
                 let url = `${origin}/api/orders?`
-                // check sort
-                if (sort != undefined) url += `sort=${sort}`;
+                // page
+                if(page ==undefined) url+=`?page=${1}`
+                else url+=`?page=${page}`
+                // limit
+                if (limitP != undefined) url += `&limit=${limitP}`;
+                // sort
+                if (sort != undefined) url += `&sort=${sort}`;
+                // status
+                if (status != undefined) url += `status=${status}`;
+                
                 let res = await axios.get(url)
                 if (res.status == 200) {
                     validation.function_Status('get order all for user', true)
@@ -1165,6 +1230,54 @@ const fetch = {
 
             }
         }
+    },
+    async changeOrderStatus(orderId,inputData) {
+        let returnData = { status: false ,msg:''}
+        if (inputData != undefined) {
+            try {
+                // {
+                //     "orderStatus": "in progress",
+                //     "shippedDate": "2024-04-08 10:00:00"
+                // }
+                
+                let url = `${origin}/api/orders/prepare_order/${orderId}`
+                let res = await axios.put(url,inputData)
+                
+                if (res.status == 200) {
+                    validation.function_Status("change order status successful", true)
+                    returnData.status = true
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("can not change order status", false, error)
+                // console.log(error) 
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Change order status", false, "cannot add change order status" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
+        }
+        
+
     },
     async BuyNow(cartInput) {
         let returnData = { status: false, msg: '' }
@@ -1210,9 +1323,9 @@ const fetch = {
         }
     },
     async BuyNowWithoutCart(itemInput) {
-        let returnData = { status: false, msg: '' }
-
+        
         if (itemInput != undefined) {
+            let returnData = { status: false, msg: '' }
             try {
                 let url = `${origin}/api/orders/no_cart`
                 let res = await axios.post(url, itemInput)

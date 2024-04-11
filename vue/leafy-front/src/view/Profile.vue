@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute ,useRouter} from 'vue-router';
 import { ref, onBeforeMount, onUpdated, onMounted, computed } from 'vue'
 import fetch from '../JS/api';
 import validation from '../JS/validation'
@@ -14,6 +14,12 @@ import pMode from '../JS/enum/profileMode'
 import sortTypeArr from '../JS/enum/product'
 import BaseStar from '../components/productDetail/BaseStar.vue'
 
+// link
+const myRouter=useRouter()
+const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
+const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
+
+//common attribute
 let { params } = useRoute()
 const id =ref('')
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -83,6 +89,17 @@ const changeMode=()=>{
 
 }
 
+// delete product
+const deleteProduct=async(itemId)=>{
+    let{status,msg} =await fetch.deleteProductById(itemId)
+    if(status){
+        console.log('delete product successful')
+        await getProduct(currentPage.value)
+    }else{
+        console.log('cannot delete product by id')
+    }
+}
+
 // const getSearchItem = async (search) => {
 //     // currentPage.value=1
 //     console.log(search)
@@ -122,7 +139,7 @@ const checkCoverImage =async()=>{
     let {status} =await fetch.getImage('users',owner.value.userId,'coverphoto')
     if(status){
         console.log('have image')
-        coverImage.value=status
+        coverImageS.value=status
     }
 }
 
@@ -282,7 +299,7 @@ onUpdated(() => {
                             </button>
 
                             <!-- myself -->
-                            <button v-if="isMe&&profileMode==pMode[0].mode" class="new_product_btn">
+                            <button @click="goAdd" v-if="isMe&&profileMode==pMode[0].mode" class="new_product_btn">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M6 0C6.31826 0 6.62348 0.126428 6.84853 0.351472C7.07357 0.576516 7.2 0.88174 7.2 1.2V4.8H10.8C11.1183 4.8 11.4235 4.92643 11.6485 5.15147C11.8736 5.37652 12 5.68174 12 6C12 6.31826 11.8736 6.62348 11.6485 6.84853C11.4235 7.07357 11.1183 7.2 10.8 7.2H7.2V10.8C7.2 11.1183 7.07357 11.4235 6.84853 11.6485C6.62348 11.8736 6.31826 12 6 12C5.68174 12 5.37652 11.8736 5.15147 11.6485C4.92643 11.4235 4.8 11.1183 4.8 10.8V7.2H1.2C0.88174 7.2 0.576516 7.07357 0.351472 6.84853C0.126428 6.62348 0 6.31826 0 6C0 5.68174 0.126428 5.37652 0.351472 5.15147C0.576516 4.92643 0.88174 4.8 1.2 4.8H4.8V1.2C4.8 0.88174 4.92643 0.576516 5.15147 0.351472C5.37652 0.126428 5.68174 0 6 0Z" fill="white"/>
                                 </svg>
@@ -446,13 +463,13 @@ onUpdated(() => {
                                 <!-- operation -->
                                 <div>
                                     <!-- edit -->
-                                    <button>
+                                    <button @click="goEdit(product.itemId)">
                                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.16659 3.16664H2.99992C2.55789 3.16664 2.13397 3.34223 1.82141 3.65479C1.50885 3.96736 1.33325 4.39128 1.33325 4.83331V14C1.33325 14.442 1.50885 14.8659 1.82141 15.1785C2.13397 15.491 2.55789 15.6666 2.99992 15.6666H12.1666C12.6086 15.6666 13.0325 15.491 13.3451 15.1785C13.6577 14.8659 13.8333 14.442 13.8333 14V9.83331M12.6549 1.98831C12.8087 1.82912 12.9926 1.70215 13.1959 1.6148C13.3993 1.52746 13.618 1.48148 13.8393 1.47956C14.0605 1.47763 14.28 1.5198 14.4848 1.6036C14.6897 1.6874 14.8758 1.81116 15.0322 1.96765C15.1887 2.12414 15.3125 2.31022 15.3963 2.51505C15.4801 2.71988 15.5223 2.93934 15.5203 3.16064C15.5184 3.38194 15.4724 3.60064 15.3851 3.80398C15.2977 4.00732 15.1708 4.19123 15.0116 4.34497L7.85659 11.5H5.49992V9.14331L12.6549 1.98831Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
                                     </button>
                                     <!-- delete -->
-                                    <button>
+                                    <button @click="deleteProduct(product.itemId)">
                                         <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6.33325 8.16667V13.1667M9.66659 8.16667V13.1667M1.33325 4.83333H14.6666M13.8333 4.83333L13.1108 14.9517C13.0808 15.3722 12.8927 15.7657 12.5842 16.053C12.2757 16.3403 11.8698 16.5 11.4483 16.5H4.55159C4.13004 16.5 3.72414 16.3403 3.41566 16.053C3.10717 15.7657 2.91902 15.3722 2.88909 14.9517L2.16659 4.83333H13.8333ZM10.4999 4.83333V2.33333C10.4999 2.11232 10.4121 1.90036 10.2558 1.74408C10.0996 1.5878 9.8876 1.5 9.66659 1.5H6.33325C6.11224 1.5 5.90028 1.5878 5.744 1.74408C5.58772 1.90036 5.49992 2.11232 5.49992 2.33333V4.83333H10.4999Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>

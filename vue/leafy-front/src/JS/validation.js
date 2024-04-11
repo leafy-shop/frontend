@@ -67,11 +67,14 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         if(type==undefined) return window.scrollTo({ top:0});
         else return window.scrollTo({ top:0,behavior: "smooth"});
     },
-    text(text){
+    text(text=''){
         let returnStatus=undefined
-        if(text.length!=0){
+        if(text!=undefined){
             // console.log(text.length)
-            let isText = String(text).toLowerCase().match(/[a-z]/g).length!=text.length?false:true //make new array for collect same data
+            // let regex = /^[a-z A-Z]+$/;
+            let regex = /\d/;
+            // let isText = String(text).toLowerCase().match(/[a-z]/g).length!=text.length?false:true //make new array for collect same data
+            let isText = !regex.test(text)
             // this.function_Status(text,true,'ok')
             console.log(isText)
             if(isText){
@@ -89,10 +92,14 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         //     return returnStatus=false
         // }
     },
-    textRange(text,max,min){ //check lenght 10 - 11 only
+    textRange(text="",max,min){ //check lenght 10 - 11 only
         console.log(text)
-        if(text!=undefined&&max>=min&&text.length>=min&&text.length<=max){
-            return true
+        if(text!=undefined){
+            if(max>=min&&text.length>=min&&text.length<=max){
+                return true
+            }else{
+                return false
+            }
         } else {
             return false
         }
@@ -113,33 +120,45 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         // this.set(cookieName,encryptData)
         console.log(encryptData)
         return encryptData
-      },
-      decrypt(text){
+    },
+    decrypt(text){
         // let cookieValue=this.get(cookieName)
         if(text==undefined){
-          this.function_Status('Decrypt',false,'text is null')
-          return ''
+            this.function_Status('Decrypt',false,'text is null')
+            return ''
         }else{
-          let decryptData = cryptoJs.AES.decrypt(text,key).toString(cryptoJs.enc.Utf8)
-          // console.log(decryptData)
-          this.function_Status('Decrypt',true,'decrypt successfull!!')
-          return decryptData
+            let decryptData = cryptoJs.AES.decrypt(text,key).toString(cryptoJs.enc.Utf8)
+            // console.log(decryptData)
+            this.function_Status('Decrypt',true,'decrypt successfull!!')
+            return decryptData
         }
-      },
-      ratingStar(rating=0,parent="star_item",child="path"){
+    },
+    ratingStar(rating=0,parent="star_item",child="path"){
         let ratingFloor=Math.floor(rating)
         const star=document.getElementsByClassName(parent)
         
         //start from front
         for(let i=0;i<(ratingFloor);i++){
             // console.log(star[i])
-               star[i].getElementsByTagName(child)[0].setAttribute('fill',"#FFCE3D")
+                star[i].getElementsByTagName(child)[0].setAttribute('fill',"#FFCE3D")
         }
         //start from back
         for(let i=star.length-1;i>=0;i--){
             star[i].getElementsByTagName(child)[0].setAttribute('stroke',"#FFCE3D")
         }
+    },
+    getDateTime(date){
+        
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()+2).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
+    
 }
 
 export default ft

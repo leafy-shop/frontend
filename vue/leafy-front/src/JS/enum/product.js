@@ -8,6 +8,17 @@ const productEnum={
         { name: "Low - High", value: { name: "price", type: 'asc' } },
         { name: "High - Low", value: { name: "price", type: 'desc' } },
     ]),
+    sortTypeArrSupplier : Object.freeze([
+        { name: "New Arrival", value: [{ name: "new_arrival", type: 'desc' }] },
+        { name: "Popular", value: [{ name: "popular", type: 'desc' }] },
+        { name: "Sold Out", value: [{ name: "sold_out", type: 'desc' }] },
+        { name: "Top Sales", value: [{ name: "sales", type: 'desc' }] },
+        { name: "Price", value: [
+            { name: "price", type: 'asc' },
+            { name: "price", type: 'desc' }
+        ] },
+        // { name: "High - Low", value: { name: "price", type: 'desc' } },
+    ]),
     itemType : Object.freeze([
         {name:'Plant',value: 'plant'},
         {name:'Flower',value: 'flower'}, 

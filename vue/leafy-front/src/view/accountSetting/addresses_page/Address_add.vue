@@ -74,6 +74,41 @@ const isAddress = computed(() => {
     }
     return returnData
 })
+// time to submit??
+const isSubmitTime=computed(()=>{
+    let status =false
+    // isAddress mean data change? (edit mode)
+    if(isEditMode.value){
+        if(isAddress.value.status==false){ //data change
+            status=true
+        }
+        return status
+    }else{ //add mode
+        if(addressName.value.length==0){ //data not empty
+            status=true
+        }
+        if(addressPhone.value.length==0){
+            status=true
+        }
+        if(address.value.length==0){
+            status=true
+        }
+        if(addressProvince.value.length==0){
+            status=true
+        }
+        if(addressDistrinct.value.length==0){
+            status=true
+        }
+        if(addressSubDistrinct.value.length==0){
+            status=true
+        }if(addressZip.value.length==0){
+            status=true
+        }
+
+        return status
+    }
+   
+})
 // get only use edit mode
 const getAddressById = async () => {
     let { status, msg, data } = await fetch.getAddressById(userName.value, addressId.value)
@@ -236,10 +271,10 @@ onBeforeMount(async () => {
                 <div class="inputs">
                     <!-- name -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="important_input">
                             Name
                         </h5>
-                        <input v-model="addressName" class="input" type="text">
+                        <input v-model="addressName" class="input" type="text" maxlength="50">
                         <!-- worning -->
                         <div v-show="nameS" class="wrapper_errorMsg">
                             <div>
@@ -257,7 +292,7 @@ onBeforeMount(async () => {
                     </div>
                     <!-- phone -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="important_input"> 
                             Phone number
                         </h5>
                         <input v-model="addressPhone" class="input" type="text" maxlength="11"
@@ -280,10 +315,10 @@ onBeforeMount(async () => {
                 </div>
                 <!-- address -->
                 <div class="input_field">
-                    <h5>
+                    <h5 class="important_input">
                         Address
                     </h5>
-                    <input v-model="address" class="input" type="text">
+                    <input v-model="address" class="input" type="text" maxlength="50">
                     <!-- worning -->
                     <div v-show="addressS" class="wrapper_errorMsg">
                         <div>
@@ -303,10 +338,10 @@ onBeforeMount(async () => {
                 <div class="inputs">
                     <!-- province -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="important_input">
                             Province
                         </h5>
-                        <input v-model="addressProvince" class="input" type="text">
+                        <input v-model="addressProvince" class="input" type="text" maxlength="50">
                         <!-- <select class="input" name="province" >
                         <option value="" selected>select your ...</option>
                     </select> -->
@@ -328,10 +363,10 @@ onBeforeMount(async () => {
                     </div>
                     <!-- district -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="important_input">
                             District
                         </h5>
-                        <input v-model="addressDistrinct" class="input" type="text">
+                        <input v-model="addressDistrinct" class="input" type="text" maxlength="50">
                         <!-- <select class="input" name="district" >
                         <option value="" selected>select your ...</option>
                     </select> -->
@@ -356,10 +391,10 @@ onBeforeMount(async () => {
                 <div class="inputs">
                     <!-- sub district -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="important_input">
                             Sub district
                         </h5>
-                        <input v-model="addressSubDistrinct" class="input" type="text">
+                        <input v-model="addressSubDistrinct" class="input" type="text" maxlength="50">
                         <!-- <select class="input" name="sub_district" >
                         <option value="" selected>select your ...</option>
                     </select> -->
@@ -381,7 +416,7 @@ onBeforeMount(async () => {
                     </div>
                     <!-- postal -->
                     <div class="input_field">
-                        <h5>
+                        <h5 class="important_input">
                             Zip / Postal
                         </h5>
                         <input v-model="addressZip" class="input" type="text" maxlength="5">
@@ -413,7 +448,7 @@ onBeforeMount(async () => {
             <button @click="goAddress()">
                 Cancel
             </button>
-            <button @click="AddressSubmit()">
+            <button @click="AddressSubmit()" :disabled="isSubmitTime" id="submit_address" :class="[isSubmitTime?'submit_deactive':'']">
                 Save
             </button>
         </div>
@@ -573,5 +608,14 @@ onBeforeMount(async () => {
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.submit_deactive{
+    background-color: #BDBDBD !important;
+    cursor: not-allowed !important;
+    border-color: transparent !important;
+}
+.important_input::after{
+    content: "*";
+    color: #F75555;
 }
 </style>
