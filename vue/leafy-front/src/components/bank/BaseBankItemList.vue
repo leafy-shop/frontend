@@ -5,7 +5,7 @@ import bankTypeList from '../../JS/enum/bankAccount'
 const props=defineProps({
     dataList:{
         type:Array,
-        default:[],
+        // default:[],
         required:true
     },
     name:{
@@ -21,6 +21,10 @@ const props=defineProps({
     showEditBtn:{
         type:Boolean,
         default:true,
+    },
+    showDefaultIcon:{
+        type:Boolean,
+        default:true
     }
     // fullNameBank:{
     //     type:Function,
@@ -31,6 +35,17 @@ const props=defineProps({
 })
 const isDefaultData=computed(()=>props.isDefault)
 const isShowEditBtn=computed(()=>props.showEditBtn)
+const isShowDefaultIcon=computed(()=>props.showDefaultIcon)
+const dataList=computed(()=>{
+    if(props.dataList==undefined||props.dataList[0]==undefined){
+        return []
+    }else{
+        // console.log('this is default',props.dataList)
+        // console.log('this is default',Object.keys([props.dataList]))
+        
+        return props.dataList
+    }
+})
 const fullNameBank = (keyword) => {
     //find keyword match to data then find index of that information
     let index = bankTypeList.map((x) => x.value == keyword).indexOf(true)
@@ -59,7 +74,7 @@ const fullNameBank = (keyword) => {
                         <!-- edit -->
                         
                         <button v-if="isShowEditBtn" @click="$emit('goUpdate',data.paymentId)">
-                            {{ isShowEditBtn }}
+                            <!-- {{ isShowEditBtn }} -->
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -93,7 +108,7 @@ const fullNameBank = (keyword) => {
 
                 </div>
                 <!-- default -->
-                <div v-if="isDefaultData" class="default_icon"  >
+                <div v-if="isDefaultData&&isShowDefaultIcon" class="default_icon"  >
                     Default
                 </div>
 
@@ -157,7 +172,7 @@ const fullNameBank = (keyword) => {
 
                 </div>
                 <!-- default -->
-                <div v-if="isDefaultData" class="default_icon"  >
+                <div v-if="isDefaultData&&isShowDefaultIcon" class="default_icon"  >
                     Default
                 </div>
 
