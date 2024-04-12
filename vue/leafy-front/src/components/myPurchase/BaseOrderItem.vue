@@ -1,5 +1,7 @@
 <script setup>
-import {ref} from 'vue'
+import {ref,computed} from 'vue'
+import fetch from '../../JS/api';
+let origin = `${import.meta.env.VITE_BASE_URL}`;
 const props=defineProps({
     name:{
         type:String,
@@ -25,8 +27,34 @@ const props=defineProps({
         type:Number,
         required:true,
         default:0
+    },
+    isPayment:{
+        type:Boolean,
+        default:false
     }
+
 })
+// common attribute
+
+const isPayment=computed(()=>props.isPayment)
+// get img
+// const getImage=async(productId)=>{
+//     let element= document.getElementById(`product_img_${productId}`)//product id
+//     let defaultElement= document.getElementById(`default_product_img_${productId}`)//product id
+//     let {status,data}= await fetch.getImage('products',productId)
+//     if(status){
+//         defaultElement.setAttribute('style',"display:none;")
+//         element.setAttribute('style',"display:flex;")
+//         element.setAttribute('src',URL.createObjectURL(data))
+//         // return 
+//     }else{
+       
+//         defaultElement.setAttribute('style',"display:flex;")
+//         element.setAttribute('style',"display:none;")
+//         // return  `../../assets/vue.svg`
+//     }
+// }
+
 </script>
 <template>
      <div :id="props.name"  class="shop_item">
@@ -37,7 +65,7 @@ const props=defineProps({
                 <h5 >
                     {{props.shopName}}
                 </h5>
-                <div>
+                <div v-if="!isPayment">
                     <!-- chat now -->
                     <button class="chat_now">
                         Chat now
@@ -50,7 +78,7 @@ const props=defineProps({
             </div>
 
             <!-- status -->
-            <div class="status">
+            <div v-if="!isPayment" class="status">
                 <div>
                     <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="3" cy="3" r="3" fill="#212121"/>
@@ -69,7 +97,8 @@ const props=defineProps({
             <div v-if="props.orderDetail.length!=0" v-for="(product,index) of props.orderDetail" class="product_item">
                 <!-- img -->
                 <div class="product_img">
-                    <img src="../../assets/vue.svg" alt="product_img">
+                    <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img">
+                    <img v-else src="../../assets/vue.svg" :id="`default_product_img_${product.itemId}`" alt="product_img">
                 </div>
                 <!-- info -->
                 <div class="product_info">
@@ -128,7 +157,7 @@ const props=defineProps({
                     </span>
                 </h6>
             </div>
-            <div class="container_btn">
+            <div v-if="!isPayment" class="container_btn">
                 <!-- buy again -->
                 <button class="buy_again">
                     Buy Again
