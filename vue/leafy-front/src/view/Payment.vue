@@ -302,7 +302,7 @@ onBeforeMount(async()=>{
 
             <!-- product List -->
             <div v-for="(shop,index) of convertCartList" class="wrapper_product_list">
-              <BaseOrderItem name="payment" :shop-name="shop.shopName"  :order-detail="shop.order_detail" :order-total="shop.orderTotal" />  
+              <BaseOrderItem name="payment" :shop-name="shop.shopName" :is-payment="true" :order-detail="shop.order_detail" :order-total="shop.orderTotal" />  
 
             </div>
             
