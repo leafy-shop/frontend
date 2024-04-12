@@ -18,7 +18,7 @@ const props=defineProps({
         default:0
     },
     summaryTotal:{
-        type:String,
+        type:Number,
         default:0
     },
     countCheckOut:{
