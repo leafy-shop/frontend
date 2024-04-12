@@ -24,6 +24,11 @@ let props = defineProps({
     type: Function,
     required: true,
   },
+  itemOwner:{
+    type:String,
+    required:true,
+    default:''
+  }
 });
 //common attribute
 const sizeObj = ref({}); // this for store style
@@ -32,7 +37,7 @@ let stepInput = ref(1);
 let slideImage = ref(0);
 let maxImage = ref(0);
 const userName = ref("");
-
+// link
 const myRouter = useRouter();
 const goCartList = () => myRouter.push({ name: "CartList" });
 const goPayment = (cartList) =>
@@ -76,8 +81,10 @@ let leftSubstract = () => {
   stepInput.value = stepInput.value > 1 ? stepInput.value - 1 : stepInput.value;
 };
 
+const itemOwner=computed(()=>props.itemOwner)
+
 let productStyle = computed(() => {
-  // console.log(props.productStyle,"helllllll")
+  console.log(props.productStyle,"helllllll")
   // console.log(props.selectedStyle,'asldfjal;sdfjlasd')
   return props.productStyle;
 });
@@ -165,30 +172,39 @@ let payInOrder = async () => {
     let paymentOrder = [
       {
         //array
-        itemId: productStyle.value.itemId,
-        style: sizeObj.style,
-        size: sizeObj.size,
-        qty: stepInput.value,
+        shopName:itemOwner.value,
+        orderTotal:Number(stepInput.value)*Number(sizeObj.value.price),
+        order_detail:[
+          {
+            itemId: productStyle.value.itemId, //(use)
+            itemStyle: selectedStyle.value.style, //style (use)
+            itemname:productStyle.value.name,//name
+            priceEach:Number(sizeObj.value.price), //price
+            qtyOrder:Number(stepInput.value), //qty (use)
+            itemSize: sizeObj.value.size, //(use) //size
+            stock: sizeObj.value.stock,
+          }
+        ],
         // addressId: addressDefaultId.value,
-        name: productStyle.value.name,
-        price: sizeObj.price,
-        stock: sizeObj.stock,
+        
       },
     ];
+    console.log(sizeObj.value)
     // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
     // check stock
     if (selectedStyle.value.stock != 0) {
       goPayment(JSON.stringify(paymentOrder).toString()); //tranform data to text
+      // console.log(paymentOrder)
     } else {
       //error can not buy
     }
-    await fetch.BuyNowWithoutCart(paymentOrder);
+    // await fetch.BuyNowWithoutCart(paymentOrder);
 
-    if (status) {
-      console.log("buy successful");
-    } else {
-      console.log("can not buy");
-    }
+    // if (status) {
+    //   console.log("buy successful");
+    // } else {
+    //   console.log("can not buy");
+    // }
   } else {
     //go sign in
     goSignIn();
