@@ -138,22 +138,17 @@ const getAddress=async()=>{
 
 const checkOrder = async() => {
   let selectedCart = [];
-  // get only cart id
-  // carts.value.carts.forEach((cart) =>
-  //   cart.cartOwner.forEach((detail) => {
-  //     if (detail.isSelected) selectedCart.push(detail.cartId);
-  //   })
-  // );
   //get info of cart id
   carts.value.carts.forEach((cart) =>
     cart.cartOwner.forEach((detail) => {
-      if (detail.isSelected){
+      if (detail.isSelected&&detail.stock!=0){
 
         if(selectedCart.length==0){ //add data first if length equal 0
           selectedCart.push({
             
             shopName:detail.itemOwner,
             orderTotal:Number(detail.qty)*Number(detail.priceEach),
+
             order_detail:[
               {
                 cartId:detail.cartId, //(use)
@@ -216,17 +211,22 @@ const checkOrder = async() => {
                 
               }
         }
-
-        
+      }else{
+        // out of stock error
+        console.log("out of stock")
       }
     })
   );
+    let inputData={
+      isBuyNow:false,
+      dataList:selectedCart
+    }
     console.log(selectedCart)
     // console.log(carts.value)
   // console.log(selectedCart,'cart value')
   // console.log(JSON.stringify(selectedCart).toString() );
   if(selectedCart.length!=0){
-    goPayment(JSON.stringify(selectedCart).toString())
+    goPayment(JSON.stringify(inputData).toString())
   }else{
     // alert something
   }
@@ -370,7 +370,7 @@ onBeforeMount(async() => {
             </div>
           </div>
           <!-- product list -->
-          <div class="product_list" v-for="(detail,index) in shop.cartOwner" :key="index">
+          <div class="product_list" :style="[detail.stock==0?'background-color:#EEEEEE;':'']" v-for="(detail,index) in shop.cartOwner" :key="index">
             <!-- product item -->
             <div class="product_item">
               <div>
@@ -396,13 +396,13 @@ onBeforeMount(async() => {
                 <div class="product_detail">
                   <h6>{{ detail.itemName }}</h6>
                   <!-- variance selection -->
-                  <label :for="`variation_${index}`">
+                  <div :for="`variation_${index}`">
                     <p>{{detail.itemStyle}} :&nbsp;</p>
-                    <select :id="`variation_${index}`">
-                      <option  :value="detail.itemSize" selected>{{detail.itemSize}}</option>
+                    <h6 :id="`variation_${index}`">
+                      {{detail.itemSize}}
                       <!-- <option value=""></option> -->
-                    </select>
-                  </label>
+                    </h6>
+                  </div>
                 </div>
               </div>
               <div>
@@ -458,8 +458,8 @@ onBeforeMount(async() => {
         </div>
       </div>
 
-      <BaseSummary name="summary_cart" :total="carts.total" :shipping="carts.shipping" 
-      :tax="carts.tax" :summary-total="parseFloat(Number(carts.total) +Number(carts.shipping) + Number(carts.tax)).toFixed(2)" 
+      <BaseSummary name="summary_cart" :total="Number(carts.total)" :shipping="carts.shipping" 
+      :tax="carts.tax" :summary-total="Number(carts.total) +Number(carts.shipping) + Number(carts.tax)" 
       :count-check-out="countCheckOut" @submit="checkOrder" />
       <!-- summary
       <div class="wrapper_summary">
@@ -802,7 +802,7 @@ onBeforeMount(async() => {
   gap: 4px;
 }
 
-.product_item > div:nth-child(1) .product_detail h6 {
+.product_item > div:nth-child(1) .product_detail >h6 {
   width: fit-content;
   max-width: 100%;
   height: 20px;
@@ -813,7 +813,7 @@ onBeforeMount(async() => {
   text-overflow: ellipsis;
 }
 
-.product_item > div:nth-child(1) .product_detail label {
+.product_item > div:nth-child(1) .product_detail >div {
   display: flex;
   width: 100%;
   max-width: 100%;
@@ -825,11 +825,11 @@ onBeforeMount(async() => {
   border-radius: 4px;
 }
 
-.product_item > div:nth-child(1) .product_detail label:focus-within {
+/* .product_item > div:nth-child(1) .product_detail >div:focus-within {
   outline: auto;
-}
+} */
 
-.product_item > div:nth-child(1) .product_detail label p {
+.product_item > div:nth-child(1) .product_detail >div p {
   display: flex;
   width: fit-content;
   height: 16px;
@@ -839,7 +839,7 @@ onBeforeMount(async() => {
   white-space: nowrap;
 }
 
-.product_item > div:nth-child(1) .product_detail label select {
+.product_item > div:nth-child(1) .product_detail >div >h6 {
   display: flex;
   width: 100%;
   height: 16px;
@@ -847,7 +847,7 @@ onBeforeMount(async() => {
   font-weight: 400px;
   color: #616161;
   border: none;
-  outline: none;
+  /* outline: none; */
   background-color: transparent;
 }
 
