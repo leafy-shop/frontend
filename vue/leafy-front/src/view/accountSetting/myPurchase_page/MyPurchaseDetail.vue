@@ -42,8 +42,17 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
                         </div>
                     </div>
                 </div>
+                <!-- if status cancel  -->
+                <div v-if="true" class="transition_detail_calcel">
+                    <h6>
+                        Cancellation Completed
+                    </h6>
+                    <p>
+                        on 27-08-2021 13:57
+                    </p>
+                </div>
                 <!-- detail -->
-                <div class="transition_detail">
+                <div v-if="false" class="transition_detail">
                     <!-- icon -->
                     <div class="step_list">
                         <!-- placed step -->
@@ -175,11 +184,6 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
                         </div>
                     </div>
                 </div>
-
-                <!-- if status cancel or complete -->
-
-
-
             </div>
             <!-- deliver address -->
             <div class="deliver_address">
@@ -218,7 +222,8 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
 .purchase_transition{
     display: flex;
     width: 100%;
-    height: 220px;
+    /* height: 220px; */
+    height: fit-content;
     background-color: #fff;
     border: none;
     border-radius: 8px;
@@ -406,6 +411,30 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
     font-size: 14px;
     font-weight: 400;
     color:#9E9E9E;
+    white-space: nowrap;
+}
+/* cancel transition */
+.purchase_transition .transition_detail_calcel{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    gap: 4px;
+}
+.transition_detail_calcel >h6{
+    width: fit-content;
+    height: fit-content;
+    font-size: 18px;
+    font-weight: 500;
+    color:#26AC34;
+    white-space: nowrap;
+}
+.transition_detail_calcel >p{
+    width: fit-content;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color: #212121;
     white-space: nowrap;
 }
 /* deliver address */
