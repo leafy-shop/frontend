@@ -103,7 +103,7 @@ onBeforeMount(async()=>{
                     <div class="shop_list">
                         <!-- shop item -->
                         <div v-for="(shop,index) of orderList" :key=index >
-                            <BaseOrderItem :shopName="shop.customerName" :orderStatus="shop.status"
+                            <BaseOrderItem name="purchase" :shopName="shop.itemOwner" :orderStatus="shop.status"
                             :orderDetail="shop.order_details" :orderTotal="shop.total" />
                         </div>
 
