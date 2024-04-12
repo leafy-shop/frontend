@@ -1231,6 +1231,34 @@ const fetch = {
             }
         }
     },
+    async getOrderStatusCount(orderStatus) { //for sub and user
+        let returnData = { status: false, data: undefined, msg: '' }
+        
+        try {
+            let url = `${origin}/api/orders/supplier/count/${orderStatus}`
+            
+            let res = await axios.get(url)
+            if (res.status == 200) {
+                validation.function_Status('get count order status successful', true)
+                returnData.status = true
+                returnData.data = res.data
+            }
+            
+            return returnData
+        } catch (error) {
+            validation.function_Status('get order all', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+                returnData.msg = "Error some thing"
+                returnData.status = false
+                return returnData
+            }
+        }
+    },
     async changeOrderStatus(orderId,inputData) {
         let returnData = { status: false ,msg:''}
         if (inputData != undefined) {
