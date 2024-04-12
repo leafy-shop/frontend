@@ -4,6 +4,7 @@ import fetch from '../../../JS/api';
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie';
 import ORDERSTATUS from '../../../JS/enum/order.js'
+import ORDERSTATUSCOLOR from '../../../JS/enum/orderStatusColor'
 // common attribute
 const date=ref('')
 const uesrName=ref('')
@@ -20,17 +21,20 @@ const allPage=ref(0)
 // change status
 const newStatus=ref(undefined)
 // color list by order status
-const colorStatusList=[
-    {font:'#FACC15',bg:'#FFD30014'}, //pending
-    {font:'#235DFF',bg:'#235DFF14'}, //in progress
-    {font:'#12D18E',bg:'#17CE9214'}, //completed
-    {font:'#F75555',bg:'#F5484A14'}, //canceled
-]
+// const colorStatusList=[
+//     {font:'#FACC15',bg:'#FFD30014'}, //pending
+//     {font:'#235DFF',bg:'#235DFF14'}, //in progress
+//     {font:'#12D18E',bg:'#17CE9214'}, //completed
+//     {font:'#F75555',bg:'#F5484A14'}, //canceled
+// ]
 // date attribute
 const startDate=ref("")
 const endDate=ref("")
 const showDateFilter=ref(false) //for show drop down
-
+// count data
+const completedCount=ref(0)
+const pendingCount=ref(0)
+const cancelCount=ref(0)
 
 // filter
 const resetfilterDate=async()=>{
@@ -99,6 +103,17 @@ const getAllOrder=async()=>{
 
     }
 }
+// get order status count
+const getOrderStatusCount=async(orderStatus)=>{
+    let {data,status}= await fetch.getOrderStatusCount(orderStatus)
+    if(status){
+        return data.count
+    }else{
+        return 0
+    }
+
+}
+
 // const 
 const showDetail=(id)=>{
     let detailElement=document.getElementById(id)
@@ -152,7 +167,7 @@ const calculateStatusStepColor=(currentStatus)=>{
     if(currentStatus!=undefined){
         let statusValue = Object.values(ORDERSTATUS)
         let indexCurrent =statusValue.indexOf(currentStatus)
-        return colorStatusList[indexCurrent]
+        return ORDERSTATUSCOLOR[indexCurrent]
     }
 
 }
@@ -231,10 +246,13 @@ onBeforeMount(async()=>{
     // assign username
     uesrName.value=cookie.decrypt().username
     // await getAllOrder()
-    
+    completedCount.value =await getOrderStatusCount(ORDERSTATUS.COMPLETED)
+    pendingCount.value= await getOrderStatusCount(ORDERSTATUS.PENDING)
+    cancelCount.value =await getOrderStatusCount(ORDERSTATUS.CANCELED)
 })
 onMounted(async()=>{
     await filterOrder("filter_all")
+    
 })
 </script>
 <template>
@@ -323,7 +341,7 @@ onMounted(async()=>{
                         All orders
                     </h4>
                     <p>
-                        6
+                        {{orderAmount}}
                     </p>
                 </button>
                 <!-- complete -->
@@ -332,7 +350,7 @@ onMounted(async()=>{
                         Completed
                     </h4>
                     <p>
-                        6
+                        {{completedCount}}
                     </p>
                 </button>
                 <!-- padding -->
@@ -341,7 +359,7 @@ onMounted(async()=>{
                         Pending
                     </h4>
                     <p>
-                        6
+                        {{pendingCount}}
                     </p>
                 </button>
                 <!-- cancel -->
@@ -350,7 +368,7 @@ onMounted(async()=>{
                         Cancel
                     </h4>
                     <p>
-                        6
+                        {{cancelCount}}
                     </p>
                 </button>
             </div>
