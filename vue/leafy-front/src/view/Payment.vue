@@ -21,6 +21,7 @@ const addressDefault=ref({}) //default selected
 const userName=ref('')
 const cartList=ref(undefined)
 const rawData =ref(undefined)
+const isBuyNow=ref(undefined)
 // common status
 const showOverlay=ref(false)
 // address selected
@@ -74,10 +75,13 @@ const total=computed(()=>{
   let summary=0
   let amountProduct=0
   for(let shop of convertCartList.value){
-    shop.order_detail.forEach(product=>{
-      summary+=(product.priceEach*product.qtyOrder)
-      amountProduct+=1
-    })
+    summary+=shop.orderTotal
+    amountProduct+=Number(shop.order_detail.length)
+
+    // shop.order_detail.forEach(product=>{
+    //   summary+=(product.priceEach*product.qtyOrder)
+    //   amountProduct+=1
+    // })
     
   }
   return {price:summary,product:amountProduct}
@@ -89,9 +93,13 @@ const convertCartList=computed(()=>{
     if(rawType=="string"){// check obj type
       if(rawData.value.includes('{')&&rawData.value.includes('}')){
         console.log('this is obj')
-        return JSON.parse(rawData.value) //data from shop direct
+        let convertData=JSON.parse(rawData.value)
+        isBuyNow.value=convertData.isBuyNow
+        return convertData.dataList //data from shop direct
       }else{
-        return rawData.value.split(',') //data from cart
+        let convertData=rawData.value.split(',')
+        isBuyNow.value=convertData.isBuyNow
+        return convertData.dataList //data from cart
       }
     }
 })
@@ -145,7 +153,7 @@ const inputClear=()=>{
 // place order
 const orderSubmit=async()=>{
   let order=[]
-  if(convertCartList.value.length>1){//data from cart
+  if(!isBuyNow.value){//data from cart
     console.log('more then 1')
       for(let shop of convertCartList.value){ //loop by shop
         shop.order_detail.forEach(x=>{ //loop by product
