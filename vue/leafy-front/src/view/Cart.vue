@@ -135,6 +135,7 @@ const getAddress=async()=>{
 }
 
 // for buy item selected
+
 const checkOrder = async() => {
   let selectedCart = [];
   // get only cart id
@@ -146,23 +147,89 @@ const checkOrder = async() => {
   //get info of cart id
   carts.value.carts.forEach((cart) =>
     cart.cartOwner.forEach((detail) => {
-      if (detail.isSelected) selectedCart.push({
-        itemId:detail.itemId,
-        qty:detail.qty,
-        // addressId:addressDefaultId.value,
-        style:detail.itemStyle,
-        size:detail.itemSize,
-        name:detail.itemName,
-        price:detail.priceEach,
-        stock:detail.stock,
-        cartId:detail.cartId
-      });
+      if (detail.isSelected){
+
+        if(selectedCart.length==0){ //add data first if length equal 0
+          selectedCart.push({
+            
+            shopName:detail.itemOwner,
+            orderTotal:Number(detail.qty)*Number(detail.priceEach),
+            order_detail:[
+              {
+                cartId:detail.cartId, //(use)
+                itemId:detail.itemId,
+                itemStyle:detail.itemStyle,//style
+                itemname:detail.itemName,//name
+                priceEach:Number(detail.priceEach), //price
+                qtyOrder:Number(detail.qty),//qty
+                itemSize:detail.itemSize,
+                stock:Number(detail.stock), 
+              }
+            ]
+
+            // addressId:addressDefaultId.value,
+          })
+        }else{ //if not equal 0
+            let isDuplicateName=false
+            let indexShopNameDuplicated=undefined
+            for(let i=0;i<=selectedCart.length-1;i++){ // ซ้ำ true ไม่ false
+              console.log(i)
+              if(selectedCart[i].shopName==detail.itemOwner){
+                isDuplicateName=true
+                indexShopNameDuplicated=i
+                // console.log(selectedCart[i])
+                // console.log(selectedCart[i].shopName)
+                // console.log(detail.itemOwner)
+                
+              }
+            }
+              if(isDuplicateName){ //if itemOwner have same shopName push only order_detail
+                selectedCart[indexShopNameDuplicated].order_detail.push({
+                  cartId:detail.cartId, //(use)
+                  itemId:detail.itemId,
+                  itemStyle:detail.itemStyle,//style
+                  itemname:detail.itemName,//name
+                  priceEach:Number(detail.priceEach), //price
+                  qtyOrder:Number(detail.qty),//qty
+                  itemSize:detail.itemSize,
+                  stock:Number(detail.stock), 
+                }) 
+                selectedCart[indexShopNameDuplicated].orderTotal+=(Number(detail.qty)*Number(detail.priceEach))
+              }else{ //if shopName have not same itemOwner then push all new shopName
+                
+                selectedCart.push({
+                  shopName:detail.itemOwner,
+                  orderTotal:Number(detail.qty)*Number(detail.priceEach),
+                  order_detail:[{
+                    cartId:detail.cartId, //(use)
+                    itemId:detail.itemId,
+                    itemStyle:detail.itemStyle,//style
+                    itemname:detail.itemName,//name
+                    priceEach:Number(detail.priceEach), //price
+                    qtyOrder:Number(detail.qty),//qty
+                    itemSize:detail.itemSize,
+                    stock:Number(detail.stock), 
+                    orderTotal:Number(detail.qty)
+                }]
+                  // addressId:addressDefaultId.value,
+                })
+                
+              }
+        }
+
+        
+      }
     })
   );
+    console.log(selectedCart)
+    // console.log(carts.value)
   // console.log(selectedCart,'cart value')
   // console.log(JSON.stringify(selectedCart).toString() );
-
-  goPayment(JSON.stringify(selectedCart).toString())
+  if(selectedCart.length!=0){
+    goPayment(JSON.stringify(selectedCart).toString())
+  }else{
+    // alert something
+  }
   // fetch
   // let cartData={
   //   carts : selectedCart,
@@ -327,7 +394,7 @@ onBeforeMount(async() => {
                 </div>
                 <!-- product_detail -->
                 <div class="product_detail">
-                  <h6>Polyscias Fabian</h6>
+                  <h6>{{ detail.itemName }}</h6>
                   <!-- variance selection -->
                   <label :for="`variation_${index}`">
                     <p>{{detail.itemStyle}} :&nbsp;</p>
