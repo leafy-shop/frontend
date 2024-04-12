@@ -1,6 +1,11 @@
 <script setup>
 import {ref} from 'vue'
 const props=defineProps({
+    name:{
+        type:String,
+        required:true,
+        default:''
+    },
     shopName:{
         type:String,
         required:true,
@@ -8,7 +13,7 @@ const props=defineProps({
     },
     orderStatus:{
         type:String,
-        required:true,
+        // required:true,
         default:""
     },
     orderDetail:{
@@ -24,7 +29,7 @@ const props=defineProps({
 })
 </script>
 <template>
-     <div  class="shop_item">
+     <div :id="props.name"  class="shop_item">
         <!-- shop name and status -->
         <div class="header_shop">
             <!-- name and button -->
@@ -75,10 +80,10 @@ const props=defineProps({
                         </h6>
                         <p>
                             <span>
-                                Variation :
+                                {{product.itemStyle}} :
                             </span>
                             <span>
-                                {{product.itemStyle}}
+                                {{product.itemSize}}
                             </span>
                         </p>
                     </div>
