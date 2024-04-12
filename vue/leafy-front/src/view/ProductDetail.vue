@@ -31,6 +31,8 @@ let sortFilter = ref({sort:'newest',name: ""})
 let currentPage = ref(1)
 let allStyleReviews = ref([])
 
+const itemOwner=ref('')
+
 // selected styles
 let selectedStyle = ref({})
 // let initial = 0
@@ -43,8 +45,8 @@ const getProductReview=async(page)=>{
     return data.list
 }
 
-const getStore =async(id)=>{
-    let {status,data} = await fetch.getStore(id)
+const getStore =async()=>{
+    let {status,data} = await fetch.getStore(itemOwner.value)
     store.value = data
     return data
 }
@@ -53,42 +55,47 @@ const getProductDetail = async (id, selectedId=0) => {
     // console.log(id)
     let {status,data} = await fetch.getProductDetail(id)
     // console.log(data.name)
-    // product type page
-    productType.value.itemId = productId
-    productType.value.name = data.name
-    productType.value.rating = data.totalRating
-    productType.value.sold = data.sold
-    productType.value.price_min = data.minPrice //price
-    productType.value.price_max = data.maxPrice //price
-    description.value = data.description //description
-    productType.value.styles = data.styles //style
-    productType.value.image = data.image //image
-    selectedStyle.value = productType.value.styles[selectedId]
-    
-    //store
-    await getStore(data.itemOwner)
-    // console.log(data.itemOwner,'item owner')
-    //product review
-    await getProductReview(currentPageReview.value)
-    allStyleReviews.value = data.styles.map(style => style.style)
-    ratingReview.value = data.totalRating
-    
-    // product owner page
-    // let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
-    // console.log(responseStore.data)
-    // store.value = responseStore.data
+    if(status){
+        // product type page
+        productType.value.itemId = productId
+        productType.value.name = data.name
+        productType.value.rating = data.totalRating
+        productType.value.sold = data.sold
+        productType.value.price_min = data.minPrice //price
+        productType.value.price_max = data.maxPrice //price
+        description.value = data.description //description
+        productType.value.styles = data.styles //style
+        productType.value.image = data.image //image
+        itemOwner.value=data.itemOwner// item owner
+        selectedStyle.value = productType.value.styles[selectedId]
+        
+        //store
+        await getStore()
+        // console.log(data.itemOwner,'item owner')
+        //product review
+        await getProductReview(currentPageReview.value)
+        allStyleReviews.value = data.styles.map(style => style.style)
+        ratingReview.value = data.totalRating
+        
+        // product owner page
+        // let responseStore = await fetch.getStore(responseProduct.data.itemOwner)
+        // console.log(responseStore.data)
+        // store.value = responseStore.data
 
-    // product description page
-    
+        // product description page
+        
 
-    // product review page
-    // let responseReview = await fetch.getProductReview(params.id, currentPage.value)
-    // console.log(responseReview.data)
-    // reviews.value = responseReview.data.list
-    // ratingReview.value = responseProduct.data.totalRating
-    // // ratingReviewF.value =Math.floor(responseProduct.data.totalRating)
-    // allStyleReviews.value = responseProduct.data.styles.map(style => style.style)
-    // // console.log(allStyleReviews)
+        // product review page
+        // let responseReview = await fetch.getProductReview(params.id, currentPage.value)
+        // console.log(responseReview.data)
+        // reviews.value = responseReview.data.list
+        // ratingReview.value = responseProduct.data.totalRating
+        // // ratingReviewF.value =Math.floor(responseProduct.data.totalRating)
+        // allStyleReviews.value = responseProduct.data.styles.map(style => style.style)
+        // // console.log(allStyleReviews)
+    }else{
+        // error
+    }
 }
 
 let myCartCounter = useCartStore()
@@ -180,7 +187,7 @@ onMounted(()=>{
         </h5>
     </div>
     <div class="wrapper_content">
-        <BaseProductType :product-style="productType" :selected-style="selectedStyle" :change-style="changeStyle" @add-to-cart="addToCart"/>
+        <BaseProductType :product-style="productType" :selected-style="selectedStyle" :change-style="changeStyle" @add-to-cart="addToCart" :itemOwner="itemOwner"/>
         <BaseStore :owner="store"/>
         <BaseDescription :description="description"/>
         <div class="container_review">
