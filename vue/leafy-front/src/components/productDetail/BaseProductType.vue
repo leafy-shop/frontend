@@ -190,10 +190,14 @@ let payInOrder = async () => {
       },
     ];
     console.log(sizeObj.value)
+    let inputData={
+      isBuyNow:true,
+      dataList:paymentOrder
+    }
     // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
     // check stock
     if (selectedStyle.value.stock != 0) {
-      goPayment(JSON.stringify(paymentOrder).toString()); //tranform data to text
+      goPayment(JSON.stringify(inputData).toString()); //tranform data to text
       // console.log(paymentOrder)
     } else {
       //error can not buy
