@@ -73,9 +73,12 @@ const addressOverlayController=(confirm)=>{
 const total=computed(()=>{
   let summary=0
   let amountProduct=0
-  for(let product of convertCartList.value){
-    summary+=(product.price*product.qty)
-    amountProduct+=1
+  for(let shop of convertCartList.value){
+    shop.order_detail.forEach(product=>{
+      summary+=(product.priceEach*product.qtyOrder)
+      amountProduct+=1
+    })
+    
   }
   return {price:summary,product:amountProduct}
 
@@ -141,15 +144,20 @@ const inputClear=()=>{
 
 // place order
 const orderSubmit=async()=>{
+  let order=[]
   if(convertCartList.value.length>1){//data from cart
     console.log('more then 1')
-    let order =convertCartList.value.map(x=>{
-      return x.cartId
-    })
+      for(let shop of convertCartList.value){ //loop by shop
+        shop.order_detail.forEach(x=>{ //loop by product
+        order.push(x.cartId) 
+      })
+    }
+    
     let inputData={ // set form data before submit
       carts:order,
       addressId:addressSelected.value.addressId
     }
+    console.log(inputData)
     // fetch
     let {status,msg}=await fetch.BuyNow(inputData)
     if(status){
@@ -160,9 +168,17 @@ const orderSubmit=async()=>{
     }
   }else{ //data from product detail
     let [order]=convertCartList.value
-    order["addressId"]=addressSelected.value.addressId
+    let [oneOrder]= order.order_detail
+    let inputData={
+      itemId: oneOrder.itemId,
+      style: oneOrder.itemStyle,
+      size: oneOrder.itemSize,
+      addressId: addressSelected.value.addressId,
+      qty: oneOrder.qtyOrder
+    }
+    
     // fetch
-    let {status,msg} =await fetch.BuyNowWithoutCart(order);
+    let {status,msg} =await fetch.BuyNowWithoutCart(inputData);
     if(status){
       console.log('buy 1 product successful')
       goShop()
@@ -211,7 +227,7 @@ onBeforeMount(async()=>{
                     </h5>
                   </div>
                   <!-- address -->
-                  <BaseBankItemList name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false" />
+                  <BaseBankItemList name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false"  />
                 </div>
                 <!-- <div class="change_btn"> -->
                   <button @click="showOverlay=!showOverlay" class="change_btn">
@@ -245,7 +261,7 @@ onBeforeMount(async()=>{
                 </div>-->
               </div> 
 
-              <!-- payment method -->
+              <!-- payment method
               <div class="wrapper_payment_method">
                 <h6>
                   Payment
@@ -273,16 +289,45 @@ onBeforeMount(async()=>{
                     <img src="../assets/vue.svg" alt="thai_payment_icon">
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <!-- product List -->
-            <div class="wrapper_product_list">
-              <BaseOrderItem />  
+            <div v-for="(shop,index) of convertCartList" class="wrapper_product_list">
+              <BaseOrderItem name="payment" :shop-name="shop.shopName"  :order-detail="shop.order_detail" :order-total="shop.orderTotal" />  
 
             </div>
             
-            
+            <!-- payment method -->
+            <div class="wrapper_payment_method">
+                <h6>
+                  Payment
+                </h6>
+                <div class="method_list">
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                  <button @click="">
+                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                  </button>
+                </div>
+              </div>
+
             <!-- place order -->
             <div class="wrapper_summary_order">
               <BaseSummary name="summary_payment" :total="total.price" :summary-total="total.price" @submit="orderSubmit" />
@@ -551,11 +596,12 @@ onBeforeMount(async()=>{
   /* justify-content: space-between; */
   align-items: center;
   gap: 32px;
+  flex-direction: column;
 }
 .wrapper_address{
   display: flex;
   width: 100%;
-  min-width: 736px;
+  /* min-width: 736px; */
   height: fit-content;
   min-height: 160px;
   padding: 20px;
