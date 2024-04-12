@@ -161,56 +161,64 @@ const routes=[
 const router=createRouter({history,routes})
 
 
-router.beforeEach(async (to,from)=>{
-    // if(to.name !== "SignIn"){
-        
-    // }
+router.beforeEach(async (to, from, next) => {
+    try {
+        await fetch.getRefresh();
 
-    await fetch.getRefresh()
-    // keyPass= cookie.get("information")
-    // console.log(keyPass)
-    
-    if(to.name=="SignIn"&&cookie.checkKeyPass()){
-        
-        // alert("don't do that pls !!!")
-        return {name:'Home'}
-    }
-    if(to.name=="CartList"&&!cookie.checkKeyPass()){
-        return {name:"SignIn"}
-    }
-    if(to.name=="SignUp"&&cookie.checkKeyPass()){
-        return {name:"Home"}
-    }
-    if(to.name=="Profile"&&!cookie.checkKeyPass()){
-        return {name:"Home"}
-    }
-    if(to.name=="AccountSetting"){//cookie require
-        if(cookie.checkKeyPass()){
-            return {name:"Profile_AS"}
-        }else{
-            return {name:"SignIn"}
-        }  
-    } 
-    
-   
-    // console.log(cookie.decrypt("information"))
-    // console.log(to.path.split("/").pop())
-    // console.log(cookie.decrypt("information").id)
-    // console.log(to.path.split("/").pop()!=cookie.decrypt("information").id)
-    // if( ( to.name=="Profile"&&to.path.split("/").pop()!=cookie.decrypt("information").id ) || !cookie.checkKeyPass()){
-    //     return {name:"Home"}
-    // }
-    // alert('this new page')
-    // console.log(document.cookie)
-    // token=Cookies.get("token")
-    // console.log(keyPass)
+        const isAuthenticated = cookie.checkKeyPass();
 
-    // if(to.name=="Shop"){
-    //     // alert("U so bad!!!")
-    //     return "/"
-    // }
-    
-})
+        switch (to.name) {
+            case "SignIn":
+                if (isAuthenticated) {
+                    next({ name: 'Home' });
+                } else {
+                    next(); // Call next() to allow navigation
+                }
+                break;
+            case "CartList":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else {
+                    next(); // Call next() to allow navigation
+                }
+                break;
+            case "SignUp":
+                if (isAuthenticated) {
+                    next({ name: "Home" });
+                } else {
+                    next(); // Call next() to allow navigation
+                }
+                break;
+            case "Profile":
+                if (!isAuthenticated) {
+                    next({ name: "Home" });
+                } else {
+                    next(); // Call next() to allow navigation
+                }
+                break;
+            case "AccountSetting":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else {
+                    next({ name: "Profile_AS" });
+                }
+                break;
+            case "Payment":
+                if (!(from.name === "CartList" || from.name === "ProductDetail")) {
+                    next({ name: "CartList" });
+                } else {
+                    next(); // Call next() to allow navigation
+                }
+                break;
+            default:
+                next(); // Call next() to allow navigation for other routes
+        }
+    } catch (error) {
+        console.error("Error in navigation guard:", error);
+        // Handle error
+        next(false); // Abort navigation
+    }
+});
 router.beforeResolve((to,from)=>{
     
     // console.log(token)
