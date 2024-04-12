@@ -153,6 +153,7 @@ const checkOrder = async() => {
               {
                 cartId:detail.cartId, //(use)
                 itemId:detail.itemId,
+                image:detail.image,
                 itemStyle:detail.itemStyle,//style
                 itemname:detail.itemName,//name
                 priceEach:Number(detail.priceEach), //price
@@ -182,6 +183,7 @@ const checkOrder = async() => {
                 selectedCart[indexShopNameDuplicated].order_detail.push({
                   cartId:detail.cartId, //(use)
                   itemId:detail.itemId,
+                  image:detail.image,
                   itemStyle:detail.itemStyle,//style
                   itemname:detail.itemName,//name
                   priceEach:Number(detail.priceEach), //price
@@ -198,6 +200,7 @@ const checkOrder = async() => {
                   order_detail:[{
                     cartId:detail.cartId, //(use)
                     itemId:detail.itemId,
+                    image:detail.image,
                     itemStyle:detail.itemStyle,//style
                     itemname:detail.itemName,//name
                     priceEach:Number(detail.priceEach), //price

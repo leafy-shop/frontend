@@ -177,6 +177,7 @@ let payInOrder = async () => {
         order_detail:[
           {
             itemId: productStyle.value.itemId, //(use)
+            image:productStyle.value.image,
             itemStyle: selectedStyle.value.style, //style (use)
             itemname:productStyle.value.name,//name
             priceEach:Number(sizeObj.value.price), //price
@@ -198,7 +199,7 @@ let payInOrder = async () => {
     // check stock
     if (selectedStyle.value.stock != 0) {
       goPayment(JSON.stringify(inputData).toString()); //tranform data to text
-      // console.log(paymentOrder)
+      // console.log(selectedStyle.value)
     } else {
       //error can not buy
     }
