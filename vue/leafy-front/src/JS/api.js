@@ -587,7 +587,7 @@ const fetch = {
             let res = await axios.get(url)
 
             if (res.data == null || res.data == undefined) {
-                validation.function_Status('get product owner ' + owner, false, "cannot get all garden designer from back-end!!!")
+                validation.function_Status('get product owner ' + owner, false, "cannot get store from back-end!!!")
             } else {
                 validation.function_Status('get product owner ' + owner, true,)
                 // returnData.status = res.status == 200
@@ -618,9 +618,39 @@ const fetch = {
             console.log(url)
 
             if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
-                validation.function_Status('get product owner review', false, "cannot get all garden designer from back-end!!!")
+                validation.function_Status('get product owner review', false, "cannot get product owner review from back-end!!!")
             } else {
                 validation.function_Status('get product owner review', true,)
+                returnData.status = res.status == 200
+                // returnData.status = true
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner review', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+    },
+    async updateReviewLike(itemId, reviewId) {
+        let returnData = { status: false, data: undefined, msg: '' }
+
+        try {
+            let url = `${origin}/api/products/${itemId}/reviews/${reviewId}/like`
+            let res = await axios.put(url)
+            console.log(url)
+
+            if (res.data == undefined || res.data == null) {
+                validation.function_Status('update review like', false, "cannot update like from back-end!!!")
+            } else {
+                validation.function_Status('update review like', true,)
                 returnData.status = res.status == 200
                 // returnData.status = true
                 returnData.data = res.data
