@@ -20,14 +20,22 @@ const msg=computed(()=>{
     return text
 })
 const text =ref('')
+const assignDescription=()=>{
+    let element =  document.getElementById("content_description")
+    element.innerHTML=props.description
+}
 onMounted(()=>{
+    assignDescription()
     // document.getElementById('content').innerHTML=msg.value
     // text.value=`${msg.value}`
+})
+onBeforeUpdate(()=>{
+    assignDescription()
 })
 
 </script>
 <template>
-    <div v-show="showDescription" class="wrapper_description">
+    <div v-show=" showDescription" class="wrapper_description">
         <h5>
             Product Description
         </h5>
@@ -36,12 +44,13 @@ onMounted(()=>{
             <!-- <p>
                 Polyscias are versatile, small, indoor, branching trees. They grow in a compact, upright manner, making them suitable even in smaller spaces. Their thick, woody trunks are their main appeal. Each plant is unique as the large, rounded leaves can develop anywhere along the length of the branches, exposing different degrees of woody stem on each plant. They are often called Dinner Plate Aralia due to their round, flat leaf shape. Polyscias translates from the Greek as "many" and "shade", a reference to their abundant foliage.
             </p>
-            <br>
-            <p>
-                Polyscias Scutellaria Fabian has large, scalloped, dark green, glossy leaves that curve outwards slightly. They are deeply veined and tinged purple underneath.
-            </p> -->
-            <div id="content" v-html="msg" >
-            </div>
+            <br> -->
+            <p id="content_description">
+                <!-- Polyscias are versatile, small, indoor, branching trees. They grow in a compact, upright manner, making them suitable even in smaller spaces. Their thick, woody trunks are their main appeal. Each plant is unique as the large, rounded leaves can develop anywhere along the length of the branches, exposing different degrees of woody stem on each plant. They are often called Dinner Plate Aralia due to their round, flat leaf shape. Polyscias translates from the Greek as "many"" and ""shade"", a reference to their abundant foliage.\\n\\nPolyscias Scutellaria Fabian has large, scalloped, dark green, glossy leaves that curve outwards slightly. They are deeply veined and tinged purple underneath."             -->
+                {{ msg }}
+            </p>
+
+
         </div>
     </div>
 </template>
