@@ -1,4 +1,6 @@
 import cryptoJs from 'crypto-js';
+import ORDERSTATUS from './enum/order';
+import ORDERSTATUSCOLOR from './enum/orderStatusColor';
 const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
 
  const ft ={
@@ -157,6 +159,14 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         const seconds = String(date.getSeconds()).padStart(2, '0');
 
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    calculateStatusStepColor(currentStatus){
+        if(currentStatus!=undefined){
+            let statusValue = Object.values(ORDERSTATUS)
+            let indexCurrent =statusValue.indexOf(currentStatus)
+            return ORDERSTATUSCOLOR[indexCurrent]
+        }
+    
     }
     
 }
