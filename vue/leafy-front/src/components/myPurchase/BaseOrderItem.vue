@@ -40,6 +40,7 @@ const props=defineProps({
 // common attribute
 
 const isPayment=computed(()=>props.isPayment)
+const orderStatus=computed(()=>props.orderStatus)
 // get img
 // const getImage=async(productId)=>{
 //     let element= document.getElementById(`product_img_${productId}`)//product id
@@ -60,7 +61,7 @@ const isPayment=computed(()=>props.isPayment)
 
 </script>
 <template>
-     <div :id="props.name"  class="shop_item">
+     <div :id="props.name "  class="shop_item">
         <!-- shop name and status -->
         <div class="header_shop">
             <!-- name and button -->
@@ -81,13 +82,13 @@ const isPayment=computed(()=>props.isPayment)
             </div>
 
             <!-- status -->
-            <div v-if="!isPayment" class="status" :style="[`background-color:${validation.calculateStatusStepColor(props.orderStatus).bg}`]">
+            <div v-if="!isPayment" class="status" :style="[`background-color:${validation.calculateStatusStepColor(orderStatus).bg}`]">
                 <div >
                     <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="3" cy="3" r="3" :style="[`fill:${validation.calculateStatusStepColor(props.orderStatus).font};`]"/>
+                        <circle cx="3" cy="3" r="3" :style="[`fill:${validation.calculateStatusStepColor(orderStatus).font};`]"/>
                     </svg>
                 </div>
-                <h6 :style="[`color:${validation.calculateStatusStepColor(props.orderStatus).font};`]">
+                <h6 :style="[`color:${validation.calculateStatusStepColor(orderStatus).font};`]">
                     {{ props.orderStatus }}
                     <!-- To Ship -->
                 </h6>
