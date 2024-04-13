@@ -1,25 +1,110 @@
 <script setup>
-import {ref,onBeforeMount} from 'vue'
+import {ref,onBeforeMount,onMounted} from 'vue'
 import fetch from '../../../JS/api'
 import BaseOrderItem from '../../../components/myPurchase/BaseOrderItem.vue'
-
+import ORDERSTATUS from '../../../JS/enum/order'
+import BaseSelectPage from '../../../components/BaseSelectPage.vue'
 // common attribute
 const orderList=ref([])
+const searchText=ref("")
+// move page attribute
+const currentPage=ref(1)
+const allPage=ref()
+// filter attribute
+const filterStatus=ref(undefined)
+
+
+
 
 const getOrders=async()=>{
     let inputData={
-        sort:'desc'
+        // sort:'desc',
+        page:currentPage.value,
+        // status:
+        // ownerItemOrProduct:'Somying',
+    }
+    if(filterStatus.value!="ALL"){
+        inputData["status"]=filterStatus.value
+    }
+    if(searchText.value.length!=0){
+        inputData["ownerItemOrProduct"]=searchText.value
     }
     let {status,data} = await fetch.getAllOrder(false,inputData)
 
     if(status){
         console.log(data)
         orderList.value=data.list
+        allPage.value=data.allPage
     }
 }
 
-onBeforeMount(async()=>{
+//filter
+const filterOrder=async(name,orderStatus="ALL")=>{
+    let element=document.getElementById(name)
+    let allElement=document.getElementsByClassName('sort_item')
+    // clear first
+    for(let element of allElement){
+         element.classList.remove("sort_item_active")
+    }
+    if(orderStatus=="ALL"){
+        filterStatus.value=orderStatus
+        element.classList.add("sort_item_active")
+    }else
+    if(orderStatus==ORDERSTATUS.PENDING){ // to ship
+        filterStatus.value=orderStatus
+        element.classList.add("sort_item_active")
+
+    }else
+    if(orderStatus==ORDERSTATUS.INPROGRESS){ //to ship
+        filterStatus.value=orderStatus
+        element.classList.add("sort_item_active")
+
+    }else
+    if(orderStatus==ORDERSTATUS.COMPLETED){
+        filterStatus.value=orderStatus
+        element.classList.add("sort_item_active")
+
+    }else
+    if(orderStatus==ORDERSTATUS.CANCELED){
+        filterStatus.value=orderStatus
+        element.classList.add("sort_item_active")
+
+    }
     await getOrders()
+}
+
+
+
+
+// search
+const clearSearch =async()=>{
+    searchText.value=""
+    await getOrders()
+
+}
+
+// move page
+const moveLeft=async(input)=>{
+    currentPage.value=input
+    console.log(input)
+    await getOrders()
+}
+const moveRight=async(input)=>{
+    currentPage.value=input
+    console.log(input)
+    await getOrders()
+}
+const getCurrentPage=async(input)=>{
+    currentPage.value=input
+    await getOrders()
+}
+
+
+onBeforeMount(async()=>{
+    // await getOrders()
+})
+onMounted(async()=>{
+    await filterOrder('filter_all')
 })
 </script>
 <template>
@@ -33,37 +118,37 @@ onBeforeMount(async()=>{
                         <ul>
                             <!-- all -->
                             <li>
-                                <button>
+                                <button @click="filterOrder('filter_all')" id="filter_all" class="sort_item sort_item_active">
                                     All
                                 </button>
                             </li>
                             <!-- to pay -->
-                            <li>
+                            <!-- <li>
                                 <button>
                                     To Pay
                                 </button>
-                            </li>
+                            </li> -->
                             <!-- to ship -->
                             <li>
-                                <button>
+                                <button @click="filterOrder('filter_pending',ORDERSTATUS.PENDING)" id="filter_pending" class="sort_item">
                                     To Ship
                                 </button>
                             </li>
                             <!-- to recive -->
                             <li>
-                                <button>
+                                <button @click="filterOrder('filter_in_progress',ORDERSTATUS.INPROGRESS)" id="filter_in_progress" class="sort_item">
                                     To Recive
                                 </button>
                             </li>
                             <!-- complete -->
                             <li>
-                                <button>
+                                <button @click="filterOrder('filter_complete',ORDERSTATUS.COMPLETED)" id="filter_complete" class="sort_item">
                                     Complete
                                 </button>
                             </li>
                             <!-- cancelled -->
                             <li>
-                                <button>
+                                <button @click="filterOrder('filter_canceled',ORDERSTATUS.CANCELED)" id="filter_canceled" class="sort_item">
                                     Cancelled
                                 </button>
                             </li>
@@ -78,7 +163,7 @@ onBeforeMount(async()=>{
                 </div>
                 <!-- search -->
                 <div class="search_purchase">
-                    <label for="search_purchase_input">
+                    <label for="search_purchase_input" class="icon">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_4096_42178" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0.666016 0.666748H16.8967V16.8976H0.666016V0.666748Z" fill="white"/>
@@ -94,15 +179,19 @@ onBeforeMount(async()=>{
                             </g>
                         </svg>
                     </label>
-                    <input type="text" id="search_purchase_input" placeHolder="Search by Seller name or Product name">
-
+                    <input type="text" v-model="searchText" @keyup.enter="getOrders()" id="search_purchase_input" placeHolder="Search by Seller name or Product name">
+                    <div v-show="searchText.length!=0" @click="clearSearch " class="icon">
+                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.293031 1.29308C0.480558 1.10561 0.734866 1.00029 1.00003 1.00029C1.26519 1.00029 1.5195 1.10561 1.70703 1.29308L6.00003 5.58608L10.293 1.29308C10.3853 1.19757 10.4956 1.12139 10.6176 1.06898C10.7396 1.01657 10.8709 0.988985 11.0036 0.987831C11.1364 0.986677 11.2681 1.01198 11.391 1.06226C11.5139 1.11254 11.6255 1.18679 11.7194 1.28069C11.8133 1.37458 11.8876 1.48623 11.9379 1.60913C11.9881 1.73202 12.0134 1.8637 12.0123 1.99648C12.0111 2.12926 11.9835 2.26048 11.9311 2.38249C11.8787 2.50449 11.8025 2.61483 11.707 2.70708L7.41403 7.00008L11.707 11.2931C11.8892 11.4817 11.99 11.7343 11.9877 11.9965C11.9854 12.2587 11.8803 12.5095 11.6948 12.6949C11.5094 12.8803 11.2586 12.9855 10.9964 12.9878C10.7342 12.99 10.4816 12.8892 10.293 12.7071L6.00003 8.41408L1.70703 12.7071C1.51843 12.8892 1.26583 12.99 1.00363 12.9878C0.741432 12.9855 0.49062 12.8803 0.305212 12.6949C0.119804 12.5095 0.0146347 12.2587 0.0123563 11.9965C0.0100779 11.7343 0.110873 11.4817 0.293031 11.2931L4.58603 7.00008L0.293031 2.70708C0.10556 2.51955 0.000244141 2.26525 0.000244141 2.00008C0.000244141 1.73492 0.10556 1.48061 0.293031 1.29308Z" fill="#757575"/>
+                        </svg>
+                    </div>
                 </div>
                 <!-- content -->
                 <div class="content_purchase">
                     <!-- product list earch shop-->
                     <div class="shop_list">
                         <!-- shop item -->
-                        <div v-for="(shop,index) of orderList" :key=index >
+                        <div v-for="(shop,index) of orderList"  :key=index >
                             <BaseOrderItem name="purchase" :shopName="shop.itemOwner" :orderStatus="shop.status"
                             :orderDetail="shop.order_details" :orderTotal="shop.total" />
                         </div>
@@ -185,6 +274,8 @@ onBeforeMount(async()=>{
                         </div> -->
                     </div>
                 </div>
+                <!-- move page -->
+                <BaseSelectPage :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
             </div>
         </div>
     <!-- </div> -->
@@ -192,6 +283,10 @@ onBeforeMount(async()=>{
 <style scoped>
 * {
     box-sizing: border-box;
+}
+.header_purchase .sort_item_active{
+    border-bottom: 2px solid #26AC34 ;
+    color: #212121;
 }
 /* .wrapper_all {
     overflow: hidden;
@@ -271,7 +366,7 @@ onBeforeMount(async()=>{
 .search_purchase:focus-within{
     outline:auto;
 }
-.search_purchase label{
+.search_purchase .icon{
     display:flex;
     width:20px;
     height:20px;
@@ -279,7 +374,7 @@ onBeforeMount(async()=>{
     align-items:center;
     cursor:pointer
 }
-.search_purchase label svg{
+.search_purchase .icon svg{
     width:16px;
     height:auto;
 }
