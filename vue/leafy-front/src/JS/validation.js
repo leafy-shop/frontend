@@ -164,7 +164,11 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
         if(currentStatus!=undefined){
             let statusValue = Object.values(ORDERSTATUS)
             let indexCurrent =statusValue.indexOf(currentStatus)
-            return ORDERSTATUSCOLOR[indexCurrent]
+            if(ORDERSTATUSCOLOR[indexCurrent]==undefined){
+                return {font:'gray',bg:'gray'}
+            }else{
+                return ORDERSTATUSCOLOR[indexCurrent]
+            }
         }
     
     }
