@@ -25,8 +25,10 @@ import Shop_AS from '../view/accountSetting/myShop_page/MyShop.vue'
 import Shop_AS_add from '../view/accountSetting/myShop_page/MyShopCreate.vue'
 import Order_AS from '../view/accountSetting/myShop_page/OrderList.vue'
 import Chat from '../view/Chat 2.vue'
-import MyPurchase from '../view/accountSetting/myPurchase_page/MyPurchase.vue'
-import MyPurchaseDetail from '../view/accountSetting/myPurchase_page/MyPurchaseDetail.vue'
+import MyPurchase_AS from '../view/accountSetting/myPurchase_page/MyPurchase.vue'
+import MyPurchaseDetail_AS from '../view/accountSetting/myPurchase_page/MyPurchaseDetail.vue'
+import MyGallery_AS from '../view/accountSetting/myGallery/MyGallery.vue'
+import MyGallery_AS_add from '../view/accountSetting/myGallery/MyGalleryCreate.vue'
 // const history=createWebHistory(import.meta.env.VITEBASE_URL)
 // let keyPass= cookie.get("information")
 const history=createWebHistory('/pl4')
@@ -116,12 +118,12 @@ const routes=[
             {
                 path:'my-purchase',
                 name:'MyPurchase',
-                component:MyPurchase
+                component:MyPurchase_AS
             },
             {
                 path:'my-purchase/detail/:id?',
                 name:'MyPurchaseDetail',
-                component:MyPurchaseDetail
+                component:MyPurchaseDetail_AS
             },
             {
                 path:'my-shop/products',
@@ -137,6 +139,16 @@ const routes=[
                 path:'my-shop/orders',
                 name:'Order_AS',
                 component:Order_AS
+            },
+            {
+                path:'my-gallery',
+                name:'MyGallery_AS',
+                component:MyGallery_AS
+            },
+            {
+                path:'my-gallery/add-project/:id?',
+                name:'MyGallery_AS_add',
+                component:MyGallery_AS_add
             },
         ]
     },
