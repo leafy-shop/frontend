@@ -1,6 +1,9 @@
 <script setup>
 import {ref,computed} from 'vue'
 import fetch from '../../JS/api';
+import ORDERSTATUSCOLOR from '../../JS/enum/orderStatusColor';
+import ORDERSTATUS from '../../JS/enum/order';
+import validation from '../../JS/validation'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const props=defineProps({
     name:{
@@ -78,13 +81,13 @@ const isPayment=computed(()=>props.isPayment)
             </div>
 
             <!-- status -->
-            <div v-if="!isPayment" class="status">
-                <div>
+            <div v-if="!isPayment" class="status" :style="[`background-color:${validation.calculateStatusStepColor(props.orderStatus).bg}`]">
+                <div >
                     <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="3" cy="3" r="3" fill="#212121"/>
+                        <circle cx="3" cy="3" r="3" :style="[`fill:${validation.calculateStatusStepColor(props.orderStatus).font};`]"/>
                     </svg>
                 </div>
-                <h6>
+                <h6 :style="[`color:${validation.calculateStatusStepColor(props.orderStatus).font};`]">
                     {{ props.orderStatus }}
                     <!-- To Ship -->
                 </h6>

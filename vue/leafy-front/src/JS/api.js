@@ -339,6 +339,104 @@ const fetch = {
         }
 
     },
+    async getAllProductOfSupplier(inputData) {
+        // ,page = 1,limitP= 18, searchItem = "", type = [], min, max, rating = 0, tag = [], sort_name = undefined, sort = undefined, owner= undefined
+        let {
+            page, // current page
+            limitP, //max item per page
+            // searchItem, //for searching
+            type, //filter by category
+            // min, max, //filter min & max price
+            // rating, //filter rating
+            // tag, //filter by tag
+            sort_name, //filter by sort name
+            sort, //filter by sort by ???
+            owner //owner of product
+        } = inputData
+        //input format
+        // {
+        //     page:'', 
+        // limitP:'', 
+        // searchItem:'', 
+        // type:'', 
+        // min:'',
+        // max:'', 
+        // rating:'', 
+        // tag:'', 
+        // sort_name:'', 
+        // sort:'', 
+        // owner:'' 
+        // } 
+        let returnData = { status: false, data: undefined, msg: '' }
+        console.log('startttttttttttttttt')
+        console.log(owner)
+        try {
+            
+            let url = `${origin}/api/products/supplier/${owner}`
+            if(page==undefined)url+=`?page=${1}`;
+            else url+=`?page=${page}`
+            // search value
+            // if (searchItem != undefined) {
+            //     if (searchItem.length !== 0) url += `&product=${searchItem}`;
+            // }
+            // type / category
+            if (type != undefined) {
+                if (type.length !== 0) url += `&type=${type}`;
+            }
+            // price min
+            // if (min != undefined) {
+            //     if (min > 0) url += `&min_price=${min >= max ? max - 1 : min}`;
+            // }
+            // // price max
+            // if (max != undefined) {
+            //     if (max !== Infinity) url += `&max_price=${max <= min ? min + 1 : max}`;
+            // }
+            // // rating
+            // if (rating != undefined) {
+            //     if (rating !== 0) url += `&rating=${rating}`;
+            // }
+            // // tag
+            // if (tag != undefined) {
+            //     if (tag.length !== 0) url += `&tag=${tag}`;
+            // }
+            // type of sort
+            if (sort_name !== undefined) url += `&sort_name=${sort_name}`;
+            // sort by greater then  and less then
+            if (sort !== undefined) url += `&sort=${sort}`;
+            // owner
+            // if (owner != undefined) url += `&owner=${owner}`
+            // limit item perpage
+            if (limitP !== undefined) url += `&limit=${limitP}`
+            
+
+            // console.log(url)
+
+            let res = await axios.get(url)
+
+            if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
+                validation.function_Status('get all product for supplier', false, "cannot get all product for supplier from back-end!!!")
+            } else {
+                validation.function_Status('get all product for supplier', true,)
+                returnData.status = res.status == 200
+                // returnData.status = true
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            console.warn(error)
+            validation.function_Status('can not get all product for supplier', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+
+    },
     async addProduct(inputData) {
         let returnData = { status: false, msg: '', data: undefined }
         // let {itemOwner}=inputData
@@ -1197,6 +1295,7 @@ const fetch = {
             dateStart,
             dateEnd,
             status, //status of order
+            ownerItemOrProduct
         } = inputData
         try {
             
@@ -1223,7 +1322,7 @@ const fetch = {
                     returnData.data = res.data
                 }
             } else { //for normal user
-                let url = `${origin}/api/orders?`
+                let url = `${origin}/api/orders`
                 // page
                 if(page ==undefined) url+=`?page=${1}`
                 else url+=`?page=${page}`
@@ -1232,7 +1331,9 @@ const fetch = {
                 // sort
                 if (sort != undefined) url += `&sort=${sort}`;
                 // status
-                if (status != undefined) url += `status=${status}`;
+                if (status != undefined) url += `&status=${status}`;
+                // ownerItem Or Product
+                if(ownerItemOrProduct!=undefined) url +=`&ownerItemOrProduct=${ownerItemOrProduct}`
                 
                 let res = await axios.get(url)
                 if (res.status == 200) {
@@ -1261,7 +1362,7 @@ const fetch = {
             }
         }
     },
-    async getOrderStatusCount(orderStatus) { //for sub and user
+    async getOrderStatusCountSupplier(orderStatus) { //for sub and user
         let returnData = { status: false, data: undefined, msg: '' }
         
         try {

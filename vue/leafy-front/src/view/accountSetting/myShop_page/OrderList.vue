@@ -5,6 +5,7 @@ import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie';
 import ORDERSTATUS from '../../../JS/enum/order.js'
 import ORDERSTATUSCOLOR from '../../../JS/enum/orderStatusColor'
+import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
 // common attribute
 const date=ref('')
 const uesrName=ref('')
@@ -18,6 +19,7 @@ const filterStatus=ref(undefined)
 // move page
 const currentPage=ref(1)
 const allPage=ref(0)
+const calculatePageStart=ref(0) // use for set data from baseMovePage
 // change status
 const newStatus=ref(undefined)
 // color list by order status
@@ -35,6 +37,7 @@ const showDateFilter=ref(false) //for show drop down
 const completedCount=ref(0)
 const pendingCount=ref(0)
 const cancelCount=ref(0)
+const allCount=ref(0)
 
 // filter
 const resetfilterDate=async()=>{
@@ -62,13 +65,16 @@ const previousPage=()=>{
     getAllOrder()
 }
 //computed page info
-const calculatePage=computed(()=>{
-    let returnData={}
-    returnData["startWith"]=(currentPage.value-1)*10+1
-    returnData["endWith"]=(10*currentPage.value)>orderAmount.value?orderAmount.value:(10*currentPage.value)
-    return returnData
-})
-
+// const calculatePage=computed(()=>{
+//     let returnData={}
+//     returnData["startWith"]=(currentPage.value-1)*10+1
+//     returnData["endWith"]=(10*currentPage.value)>orderAmount.value?orderAmount.value:(10*currentPage.value)
+//     return returnData
+// })
+// get calculate page fom baseMovePage component
+const getCalculatePageInfo=(input)=>{
+    calculatePageStart.value=input.startWith
+}
 
 
 // get all order for supplier
@@ -98,12 +104,13 @@ const getAllOrder=async()=>{
         orderList.value=data.list
         orderAmount.value=data.allItems
         allPage.value=data.allPage
+        // console.log(orderAmount.value)
 
     }
 }
 // get order status count
 const getOrderStatusCount=async(orderStatus)=>{
-    let {data,status}= await fetch.getOrderStatusCount(orderStatus)
+    let {data,status}= await fetch.getOrderStatusCountSupplier(orderStatus)
     if(status){
         return data.count
     }else{
@@ -160,14 +167,12 @@ const calculateStatusStep=(currentStatus)=>{
     }
     
 }
-const calculateStatusStepColor=(currentStatus)=>{
-    if(currentStatus!=undefined){
-        let statusValue = Object.values(ORDERSTATUS)
-        let indexCurrent =statusValue.indexOf(currentStatus)
-        return ORDERSTATUSCOLOR[indexCurrent]
-    }
-
-}
+// const calculateStatusStepColor=(currentStatus)=>{
+//     if(currentStatus!=undefined){
+//         let statusValue = Object.values(ORDERSTATUS)
+//         let indexCurrent =statusValue.indexOf(currentStatus)
+//         return ORDERSTATUSCOLOR[indexCurrent]
+//     }
 
 // change status
 const changeStatus=async()=>{
@@ -243,6 +248,7 @@ onBeforeMount(async()=>{
     completedCount.value =await getOrderStatusCount(ORDERSTATUS.COMPLETED)
     pendingCount.value= await getOrderStatusCount(ORDERSTATUS.PENDING)
     cancelCount.value =await getOrderStatusCount(ORDERSTATUS.CANCELED)
+    allCount.value=await getOrderStatusCount('all')
 })
 onMounted(async()=>{
     await filterOrder("filter_all")
@@ -335,7 +341,7 @@ onMounted(async()=>{
                         All orders
                     </h4>
                     <p>
-                        {{orderAmount}}
+                        {{allCount}}
                     </p>
                 </button>
                 <!-- complete -->
@@ -447,7 +453,7 @@ onMounted(async()=>{
                         <!-- order of item -->
                         <div class="order_number">
                             <h6>
-                                {{(calculatePage.startWith+index)}}
+                                {{(calculatePageStart+index)}}
                             </h6>
                         </div>
                         <!-- button detail -->
@@ -504,7 +510,7 @@ onMounted(async()=>{
                                 </button> -->
                                 <!-- {{order.status}} -->
                                 <select :disabled="calculateStatusStep(order.status).length==0?true:false" @change="detectStatusChange" :id="order.orderId"
-                                :style="[`background-color:${calculateStatusStepColor(order.status).bg};color:${calculateStatusStepColor(order.status).font};`]" class="status_selection">
+                                :style="[`background-color:${validation.calculateStatusStepColor(order.status).bg};color:${validation.calculateStatusStepColor(order.status).font};`]" class="status_selection">
                                     <option 
                                     :value="order.status" 
                                     selected
@@ -513,7 +519,7 @@ onMounted(async()=>{
                                         {{order.status}}
                                     </option>
                                     <option v-show="calculateStatusStep(order.status).length!=0" v-for="(status,index) of calculateStatusStep(order.status)" 
-                                    :style="[`background-color:${calculateStatusStepColor(status).bg};color:${calculateStatusStepColor(status).font};`]" 
+                                    :style="[`background-color:${validation.calculateStatusStepColor(status).bg};color:${validation.calculateStatusStepColor(status).font};`]" 
                                     :key="index" :value="status" >
                                         {{status}}
                                     </option>
@@ -668,7 +674,8 @@ onMounted(async()=>{
             <!-- </table> -->
         </div>
         <!-- select page -->
-        <div class="move_page">
+        <BaseMovePage name="order_list" :current-page="currentPage" :total-amount-item="orderAmount" @returnCalculatePage="getCalculatePageInfo" @previousPage="previousPage" @nextPage="nextPage" />
+        <!-- <div class="move_page">
             <p>
                 Showing 
                 <span>{{calculatePage.startWith}}</span> to 
@@ -683,7 +690,7 @@ onMounted(async()=>{
                     Next
                 </button>
             </div>
-        </div>
+        </div> -->
         <!-- pop up -->
         <div v-show="isChangeStatus" class="wrapper_confirm_change">
             <div class="confirm_change">
@@ -717,13 +724,13 @@ onMounted(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 20px;
-    gap: 24px;
+    padding: min(1.389dvw,20px);
+    gap: min(1.667dvw,24px);
     flex-direction: column;
     justify-content: center;
     align-items: start;
     border: none;
-    border-radius: 8px;
+    border-radius: min(0.556dvw,8px);
     background-color: #fff;
 }
 .orders{
@@ -731,7 +738,7 @@ onMounted(async()=>{
     width: 100%;
     height: inherit;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 .header_orders{
     display: flex;
@@ -742,7 +749,7 @@ onMounted(async()=>{
     align-items: center;
 }
 .header_orders h4{
-    font-size:18px;
+    font-size:min(1.25dvw,18px);
     font-weight:500;
     color:#212121;
 }
@@ -751,8 +758,8 @@ onMounted(async()=>{
     display: flex;
     position: relative;
     /* width: 168px; */
-    width: 180px;
-    height: 36px;
+    width: min(12.5dvw,180px);
+    height: min(2.5dvw,36px);
     /* gap: 4px; */
     justify-content: center;
     align-items: center;
@@ -765,30 +772,30 @@ onMounted(async()=>{
     height:100%;
     justify-content:start;
     align-items:center;
-    gap:8px;
+    gap: min(0.556dvw,8px);
     border: none;
-    border-radius: 4px;
-    padding: 4px;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.278dvw,4px);
     background-color: #26AC34;
     cursor:pointer;
 }
 /* svg */
 .header_orders >div >button >div{
     display:flex;
-    width:20px;
-    height:20px;
+    width:min(1.389dvw,20px);
+    height:min(1.389dvw,20px);
     justify-content:center;
     align-items:center;
 }
 .header_orders >div >button >div svg{
-    width:15px;
+    width:min(1.042dvw,15px);
     height:auto;
 }
 /* text */
 .header_orders >div >button >h6{
     width:100%;
     height:fit-content;
-    font-size:14px;
+    font-size:min(0.972dvw,14px);
     font-weight:500;
     color:#fff;
     overflow:hidden;
@@ -853,18 +860,18 @@ onMounted(async()=>{
 /* drop down */
 #date_range_drop{
     display:flex;
-    width:180px;
+    width:min(12.5dvw,180px);
     height:fit-content;
     position:absolute;
     flex-direction:column;
-    gap:4px;
-    bottom:-120px;
+    gap:min(0.278dvw,4px);
+    bottom:min(-8.333dvw,-120px);
     right:0;
     background-color:#fff;
     box-shadow: 0px 10px 15px -3px #0000001A;
     border:none;
-    border-radius:8px;
-    padding:4px;
+    border-radius: min(0.556dvw,8px);
+    padding:min(0.278dvw,4px);
 
 }
 #date_range_drop >label{
@@ -873,39 +880,39 @@ onMounted(async()=>{
     height:fit-content;
     align-items:center;
     justify-content:center;
-    gap:4px;
+    gap:min(0.278dvw,4px);
     cursor:pointer;
-    padding:4px;
+    padding:min(0.278dvw,4px);
 }
 #date_range_drop >label h6{
-    width:36px;
+    width:min(2.5dvw,36px);
     height:fit-content;
-    font-size:14px;
+    font-size:min(0.972dvw,14px);
     font-weight:400;
     color:#9E9E9E;
     text-align:start;
 }
 #date_range_drop >label input{
-    width:120px;
+    width:min(8.333dvw,120px);
     height:fit-content;
-    padding:4px;
+    padding:min(0.278dvw,4px);
     border:none;
 }
 #date_range_drop >div{
     display:flex;
     width:100%;
     height:fit-content;
-    gap:4px;
+    gap:min(0.278dvw,4px);
 }
 #date_range_drop >div button{
     display:flex;
     width:100%;
-    height:36px;
+    height:min(2.5dvw,36px);
     border:none;
-    border-radius:4px;
+    border-radius:min(0.278dvw,4px);
     justify-content:center;
     align-items:center;
-    font-size:14px;
+    font-size:min(0.972dvw,14px);
     font-weight:400;
     cursor:pointer;
 }
@@ -930,19 +937,19 @@ onMounted(async()=>{
     width: 100%;
     height: fit-content;
     overflow-x: auto;
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
 }
 .sort_list{
     display: flex;
     width: fit-content;
     height: fit-content;
-    gap: 32px;
+    gap: min(2.222dvw,32px);
 }
 .sort_item{
     display: flex;
     width: fit-content;
-    height: 38px;
+    height: min(2.639dvw,38px);
     justify-content: center;
     align-items: start;
     border: none;
@@ -953,18 +960,18 @@ onMounted(async()=>{
     
     color: #212121; /*#168A22 */
     background-color: #fff;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 .sort_item h4{
     font-weight: 500;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
 }
 .sort_item p{
     width: fit-content;
-    height: 20px;
-    padding: 2px 10px;
+    height: min(1.389dvw,20px);
+    padding: min(0.139dvw,2px) min(0.694dvw,10px);
     font-weight:500 ;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     background-color: #F5F5F5;
     border-radius: 50%;
 }
@@ -983,7 +990,7 @@ onMounted(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    max-height: 100%;
+    max-height: 45dvh;
     overflow: auto;
     flex-direction: column;
 }
@@ -997,15 +1004,19 @@ onMounted(async()=>{
 .title_orders{
     display: flex;
     width: 100%;
-    height: 28px;
+    height: min(1.944dvw,28px);
     vertical-align: top;
     text-align: start;
-    border-bottom: 1px solid #E0E0E0;
-    font-size: 12px;
+    border-bottom: min(0.069dvw,1px) solid #E0E0E0;
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
     color: #757575;
-    border-bottom: 1px solid #E0E0E0;
+    /* border-bottom: min(0.069dvw,1px) solid #E0E0E0; */
     white-space: nowrap;
+}
+.title_orders >div{
+    width: 100%;
+    height: 100%;
 }
 .title_orders >div h5{
     width: 100%;
@@ -1013,48 +1024,50 @@ onMounted(async()=>{
 }
 /* number of order */
 .order_number{
-    width: 32px;
+    width: min(2.222dvw,32px); /* 2.222dvw */
     min-width: 32px;
-    max-width: 100%;
+    max-width: 2.222vw;
 }
 /* empty */
 .order_empty{
-    width: 44px;
+    width: min(3.056dvw,44px); /*3.056dvw */
     min-width: 44px;
-    max-width: 100%;
+    max-width: 3.056dvw;
 }
 /* order id */
 .order_id{
-    width: 84px;
-    min-width: 84px;
-    max-width: 100%;
+    width: clamp(fit-content,5.833vw,84px);
+    /* min-width: 84px; */
+    /* max-width: 5.833vw; */
 }
 /* customer */
 .order_customer{
-    width: 140px;
-    min-width: 140px;
-    max-width: 100%;
+    width: clamp(fit-content,9.722vw,140px);
+    /* min-width: 140px; */
+    /* max-width: 100%; */
 }
 /* address */
 .order_address{
-    width: 264px;
-    min-width: 264px;
-    max-width: 100%;
+    width: clamp(fit-content,18.333vw,264px);
+    /* min-width: 264px; */
+    /* max-width: 100%; */
 }
 /* date */
 .order_date,
 .order_price,
 .order_status{
-    width: 108px;
-    min-width: 108px;
-    max-width: 100%;
+    width: clamp(fit-content,7.5vw,108px);
+    /* min-width: 108px; */
+    /* max-width: 100%; */
 }
+/* status */
+
 
 .title_orders > div button{
     display: flex;
     width: 100%;
-    height: 28px;
-    padding: 0px 12px;
+    height: min(1.944dvw,28px);
+    padding: 0px min(0.833dvw,12px);
     border: none;
     background-color: transparent;
     justify-content: start;
@@ -1064,18 +1077,18 @@ onMounted(async()=>{
 .title_orders > div button h5,.header th h5{
     display: flex;
     width: fit-content;
-    height: 16px;
-    font-size: 12px;
+    height: min(1.111dvw,16px);
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
     color: #757575;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 .title_orders > div button svg{
     display: flex;
-    width: 12px;
-    height: 12px;
+    width: min(0.833dvw,12px);
+    height: min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
 }
@@ -1084,17 +1097,19 @@ onMounted(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    flex-direction: column
+    flex-direction: column;
+    justify-content: center;
 }
 .order_item{
     display: flex;
-    width: fit-content;
-    height: 52px;
+    width: 100%;
+    height: min(3.611dvw,52px);
     max-height: fit-content;
 }
 .order_item > div{
-    display: flex;
-
+    /* display: flex; */
+    width: 100%;
+    height: 100%;
 }
 .order_item h6,.order_item p,
 .order_item > div 
@@ -1102,25 +1117,30 @@ onMounted(async()=>{
     
     color: #212121;
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 /* order item */
-.order_item div:nth-child(1) h6{
+.order_item .order_number >h6{
     width: 100%;
-    padding: 16px 12px 16px 0px;
+    padding: min(1.111dvw,16px) min(0.833dvw,12px) min(1.111dvw,16px) 0px;
 }
 /* detail button */
-.order_item div:nth-child(2) button{
+.order_item .order_empty button{
+    display: flex;
     width: 100%;
+    height: 100%;
+    /* max-width: 100%; */
     border: none;
     background-color: transparent;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
 }
-.order_item div:nth-child(2) button svg{
-    width: 6px;
+.order_item .order_empty button svg{
+    width: min(0.417dvw,6px);
     height: auto
 }
 
@@ -1194,10 +1214,11 @@ onMounted(async()=>{
     height: fit-content;
     /* column-span: 8; */
     padding: 0px 0px 0px 76px;
+    justify-content: end;
 }
 .detail_table{
     display: flex;
-    width: 100%;
+    width: fit-content;
     height: 100%;
     padding-top: 16px;
     padding-bottom: 12px;
@@ -1457,7 +1478,7 @@ onMounted(async()=>{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
+/* 
 .move_page{
     display: flex;
     width: 100%;
@@ -1495,7 +1516,7 @@ onMounted(async()=>{
     cursor: pointer;
     justify-content: center;
     align-items: center;
-}
+} */
 
 /* confirm */
 .wrapper_confirm_change {
