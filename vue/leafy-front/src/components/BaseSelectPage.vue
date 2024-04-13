@@ -43,7 +43,7 @@ const pageHidden=(currentP,total)=>{
     
 }
 
-const changePage=async (number)=>{
+const changePage=(number)=>{
     console.log("Testing number "+number)
     // console.log(typeof(number))
     // let {currentPage} = number
@@ -54,7 +54,7 @@ const changePage=async (number)=>{
 
 }
 
-const moveLeft = async (current) => {
+const moveLeft = (current) => {
     console.log("Testing left"+current)
     currentPage.value = current > 1 ? current - 1 : 1
     return emit("moveLeft",currentPage.value)
@@ -62,7 +62,7 @@ const moveLeft = async (current) => {
     // validation.navigationTo(top)
 }
 
-const moveRight = async (current) => {
+const moveRight = (current) => {
     console.log("Testing  right"+current)
     currentPage.value = current < props.totalPage ? current + 1 : props.totalPage
     return emit("moveRight",currentPage.value)
@@ -85,7 +85,7 @@ onUpdated(()=>{
 })
 </script>
 <template>
-    <div class="link_page_container">
+    <div v-show="props.totalPage!=0" class="link_page_container">
         <ul>
             <li @click="moveLeft(props.currentPage) " class="move_page">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
