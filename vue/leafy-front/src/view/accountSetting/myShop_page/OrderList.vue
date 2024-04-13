@@ -49,8 +49,6 @@ const submitFilterDate=async()=>{
     await getAllOrder()
 }
 
-
-
 // move page
 const nextPage=()=>{
     // check if to next page and not out of all page
@@ -111,7 +109,6 @@ const getOrderStatusCount=async(orderStatus)=>{
     }else{
         return 0
     }
-
 }
 
 // const 
@@ -172,10 +169,6 @@ const calculateStatusStepColor=(currentStatus)=>{
 
 }
 
-
-
-
-
 // change status
 const changeStatus=async()=>{
     let inputData={}
@@ -235,7 +228,8 @@ const confirmBank = async (input = false) => {
     }
 }
 //reset status selection all
-const resetStatusSelection=()=>{
+const resetStatusSelection=async ()=>{
+    pendingCount.value= await getOrderStatusCount(ORDERSTATUS.PENDING)
     let allElement=document.getElementsByClassName("status_selection")
     for(let selection of allElement){
         selection.selectedIndex=0
