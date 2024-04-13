@@ -37,8 +37,8 @@ const itemOwner=ref('')
 let selectedStyle = ref({})
 // let initial = 0
 
-const getProductReview=async(page)=>{
-    let {status,data} = await fetch.getProductReview(productId, page)
+const getProductReview=async(page, sortFilter)=>{
+    let {status,data} = await fetch.getProductReview(productId, page, sortFilter.sort, sortFilter.name)
     // console.log("this is ",data)
     totalPageReview.value=data.allPage
     reviews.value = data.list
@@ -73,7 +73,7 @@ const getProductDetail = async (id, selectedId=0) => {
         await getStore()
         // console.log(data.itemOwner,'item owner')
         //product review
-        await getProductReview(currentPageReview.value)
+        await getProductReview(currentPageReview.value, sortFilter)
         allStyleReviews.value = data.styles.map(style => style.style)
         ratingReview.value = data.totalRating
         
@@ -109,9 +109,9 @@ const addToCart = async (itemId, style, size, qty) => {
       size: size,
       qty: qty,
     };
-    console.log(cart)
+    // console.log(cart)
     myCartCounter.addCartCount(qty)
-    console.log(cartCount.value)
+    // console.log(cartCount.value)
     // console.log("cart", cart);
     // console.log(cart);
     let { status, msg } = await fetch.addToCart(cart);
@@ -128,11 +128,17 @@ const sortFilterReview = async (sort, name) => {
     sortFilter.value = {sort: sort, name: name}
     // product review page
     
-    // let {status, data} = await fetch.getProductReview(params.id, currentPage.value, sortFilter.value.sort, sortFilter.value.name)
+    // let {status, data} = await fetch.getProductReview(params.id, currentPageReview.value, sortFilter.value.sort, sortFilter.value.name)
     // console.log(data)
-    reviews.value = await getProductReview(currentPageReview.value)
+    await getProductReview(currentPageReview.value, sortFilter.value)
 }
 
+const likeReview = async (reviewId) => {
+    // console.log(productId, reviewId)
+    let {status, data} = await fetch.updateReviewLike(productId, reviewId)
+    // console.log(status)
+    await getProductReview(currentPageReview.value, sortFilter.value)
+}
 
 // review
 const currentPageReview=ref(1)
@@ -140,16 +146,16 @@ const totalPageReview=ref(1)
 const moveLeftR=async(current)=>{
     // console.log(current)
     currentPageReview.value = current
-    await getProductReview(currentPageReview.value)
+    await getProductReview(currentPageReview.value, sortFilter.value)
 }
 const moveRightR=async(current)=>{
     // console.log(current)
     currentPageReview.value = current
-    await getProductReview(currentPageReview.value)
+    await getProductReview(currentPageReview.value, sortFilter.value)
 }
 const changePageR=async (number)=>{
     currentPageReview.value = number
-    await getProductReview(currentPageReview.value)
+    await getProductReview(currentPageReview.value, sortFilter.value)
 }
 
 onBeforeMount(async() => {
@@ -192,7 +198,7 @@ onMounted(()=>{
         <BaseDescription :description="description"/>
         <div class="container_review">
             <BaseReview :product-review="reviews" :total-rating="ratingReview" 
-            :sort-filter="sortFilter" :allStyle="allStyleReviews" @sort-filter-review="sortFilterReview" />
+            :sort-filter="sortFilter" :allStyle="allStyleReviews" @sort-filter-review="sortFilterReview" @like-review="likeReview" />
             <div v-show="reviews.length">
                 <BaseSelectPage  :current-page="currentPageReview" :total-page="totalPageReview"
                 @move-left="moveLeftR" @move-right="moveRightR" @change-page="changePageR"/>
