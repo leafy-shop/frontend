@@ -106,9 +106,11 @@ const getAllOrder=async()=>{
         orderList.value=data.list
         orderAmount.value=data.allItems
         allPage.value=data.allPage
+
         // console.log(orderAmount.value)
 
     }
+    await getAllStatusCount() //get count
 }
 // get order status count
 const getOrderStatusCount=async(orderStatus)=>{
@@ -248,14 +250,19 @@ const resetStatusSelection=()=>{
     }
 }
 
-onBeforeMount(async()=>{
-    // assign username
-    uesrName.value=cookie.decrypt().username
-    // await getAllOrder()
+// get all count
+const getAllStatusCount=async()=>{
     completedCount.value =await getOrderStatusCount(ORDERSTATUS.COMPLETED)
     pendingCount.value= await getOrderStatusCount(ORDERSTATUS.PENDING)
     cancelCount.value =await getOrderStatusCount(ORDERSTATUS.CANCELED)
     allCount.value=await getOrderStatusCount('all')
+}
+
+onBeforeMount(async()=>{
+    // assign username
+    uesrName.value=cookie.decrypt().username
+    // await getAllOrder()
+    
 })
 onMounted(async()=>{
     await filterOrder("filter_all")
@@ -382,304 +389,326 @@ onMounted(async()=>{
         </div>
 
         <!-- order list -->
-        <div class="content_orders">
-            <!-- <table> -->
-                <div class="title_orders">
-                    <div class="order_number">
-                        <h5>
-                           # 
-                        </h5>
-                    </div>
-                    <div class="order_empty">
+        <!-- <div class="wrapper_content_orders"> -->
+            <div class="content_orders">
+                <!-- <table> -->
+                    <div class="title_orders">
+                        <div class="order_number">
+                            <h5>
+                            # 
+                            </h5>
+                        </div>
+                        <div class="order_empty">
 
-                    </div>
-                    <div class="order_id">
-                        <button>
+                        </div>
+                        <div class="order_id">
+                            <!-- <button> -->
                             <h5>
                                 Order ID
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
                             </h5>
-                        </button>
-                    </div>
-                    <div class="order_customer">
-                        <button>
+                            <!-- </button> -->
+                        </div>
+                        <div class="order_customer">
+                            <!-- <button> -->
                             <h5>
                                 Customer
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
                             </h5>
-                        </button>
-                    </div>
-                    <div class="order_address">
-                        <button>
+                            <!-- </button> -->
+                        </div>
+                        <div class="order_address">
+                            <!-- <button> -->
                             <h5>
                                 Address
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
                             </h5>
-                        </button>
-                    </div>
-                    <div class="order_date">
-                        <button>
+                            <!-- </button> -->
+                        </div>
+                        <div class="order_date">
+                            <!-- <button> -->
                             <h5>
                                 Date
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
                             </h5>
-                        </button>
-                    </div>
-                    <div class="order_price">
-                        <button>
+                            <!-- </button> -->
+                        </div>
+                        <div class="order_price">
+                            <!-- <button> -->
                             <h5>
                                 Price
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
                             </h5>
-                        </button>
-                    </div>
-                    <div class="order_status">
-                        <button>
+                            <!-- </button> -->
+                        </div>
+                        <div class="order_status">
+                            <!-- <button> -->
                             <h5>
                                 status
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
                             </h5>
-                        </button>
+                            <!-- </button> -->
+                        </div>
                     </div>
-                </div>
-                <div v-for="(order,index) of orderList" :key="index" class="wrapper_order_item" >
-                    <!-- order item -->
-                    <div  class="order_item">
-                        <!-- order of item -->
-                        <div class="order_number">
-                            <h6>
-                                {{(calculatePageStart+index)}}
-                            </h6>
-                        </div>
-                        <!-- button detail -->
-                        <div class="order_empty">
-                            <button @click="showDetail(`order_detail_${order.orderId}`)" >
-                                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4.29289 4.99943L3.93934 5.35298L0.646393 8.64593C0.646376 8.64595 0.646358 8.64597 0.64634 8.64598C0.552638 8.73974 0.5 8.86687 0.5 8.99943C0.5 9.13201 0.552658 9.25917 0.646393 9.35293C0.740147 9.4466 0.867254 9.49922 0.999786 9.49922C1.13234 9.49922 1.25947 9.44658 1.35323 9.35288L4.29289 4.99943ZM4.29289 4.99943L3.93934 4.64588L0.649938 1.35648C0.560432 1.26246 0.510965 1.13727 0.512093 1.00737C0.513232 0.876276 0.565817 0.75087 0.658521 0.658166C0.751225 0.565461 0.876632 0.512877 1.00773 0.511738C1.13763 0.510609 1.26281 0.560076 1.35683 0.649582L5.35318 4.64593C5.3532 4.64595 5.35322 4.64597 5.35323 4.64598C5.44694 4.73974 5.49957 4.86687 5.49957 4.99943C5.49957 5.13199 5.44694 5.25912 5.35323 5.35288C5.35322 5.35289 5.3532 5.35291 5.35318 5.35293L1.35329 9.35282L4.29289 4.99943Z" fill="#212121" stroke="#212121"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- order id -->
-                        <div class="order_id">
-                            <h6 class="padding_info">
-                                <!-- 123456asdfasdfasdf -->
-                                {{ order.orderId }}
-                            </h6>
-                        </div>
-                        <!-- customer nanem -->
-                        <div class="order_customer">
-                            <h6 class="padding_info">
-                                <!-- Apple juiceasdfasdfasdfasdf -->
-                                {{ order.customerName }}
-                            </h6>
-                        </div>
-                        <!-- Address -->
-                        <div class="order_address">
-                            <p class="padding_info">
-                                <!-- King Mongkut's Universityasdfasdfasdfasdfasdfasdfasdfasdfasdf -->
-                                {{ order.address }}
-                            </p>
-                        </div>
-                        <!-- date -->
-                        <div class="order_date">
-                            <h6 class="padding_info">
-                                <!-- 10/03/2024asdfasdf -->
-                                {{ order.createdAt }}<!-- shippedDate -->
-                            </h6>
-                        </div>
-                        <!-- price -->
-                        <div class="order_price">
-                            <h6 class="padding_info">
-                                ${{order.total}}
-                            </h6>
-                        </div>
-                        <!-- status -->
-                        <div class="order_status">
-                            <div>
-                                <!-- <button @click="showDropDown(`order_${order.orderId}`,order.orderId)">
-                                    {{order.status}}
-                                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3.995 4.17928L3.64159 3.82615L1.01042 1.1971C1.01041 1.19708 1.01039 1.19706 1.01037 1.19705C0.954329 1.14109 0.878262 1.10959 0.798864 1.10959C0.719492 1.10959 0.643448 1.14107 0.587411 1.19699L3.995 4.17928ZM3.995 4.17928L4.34842 3.82615M3.995 4.17928L4.34842 3.82615M4.34842 3.82615L6.97964 1.19705L6.97969 1.1971M4.34842 3.82615L6.97969 1.1971M6.97969 1.1971L6.98573 1.19085M6.97969 1.1971L6.98573 1.19085M6.98573 1.19085C7.0133 1.16233 7.04629 1.13956 7.0828 1.12389C7.11932 1.10822 7.1586 1.09997 7.19836 1.09962C7.23812 1.09928 7.27755 1.10685 7.31433 1.12188C7.35111 1.13692 7.3845 1.15911 7.41255 1.18715L7.76597 0.833453M6.98573 1.19085L7.76597 0.833453M7.76597 0.833453L7.41256 1.18715C7.44061 1.21518 7.46278 1.2485 7.47778 1.28514C7.49279 1.32178 7.50033 1.36103 7.49999 1.40059C7.49964 1.44016 7.49142 1.47926 7.47578 1.51564C7.46014 1.55202 7.4374 1.58495 7.40885 1.61249L7.4088 1.61244M7.76597 0.833453L7.4088 1.61244M7.4088 1.61244L7.40265 1.61858L4.20656 4.8121M7.4088 1.61244L4.20656 4.8121M4.20656 4.8121C4.20655 4.81212 4.20653 4.81214 4.20651 4.81215M4.20656 4.8121L4.20651 4.81215M4.20651 4.81215C4.15047 4.86811 4.0744 4.89961 3.995 4.89961M4.20651 4.81215L3.995 4.89961M3.995 4.89961C3.91561 4.89961 3.83954 4.86811 3.7835 4.81215M3.995 4.89961L3.7835 4.81215M3.7835 4.81215C3.78348 4.81214 3.78346 4.81212 3.78345 4.8121M3.7835 4.81215L3.78345 4.8121M3.78345 4.8121L0.587411 1.61864L3.78345 4.8121ZM0.5 1.40781C0.5 1.48678 0.531375 1.5626 0.587358 1.61858L0.5 1.40781ZM0.5 1.40781C0.5 1.32887 0.531355 1.25308 0.587305 1.1971L0.5 1.40781Z" fill="#424242" stroke="#424242"/>
+                    <div v-for="(order,index) of orderList" :key="index" class="wrapper_order_item" >
+                        <!-- order item -->
+                        <div  class="order_item">
+                            <!-- order of item -->
+                            <div class="order_number">
+                                <h6>
+                                    {{(calculatePageStart+index)}}
+                                </h6>
+                            </div>
+                            <!-- button detail -->
+                            <div class="order_empty">
+                                <button @click="showDetail(`order_detail_${order.orderId}`)" >
+                                    <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.29289 4.99943L3.93934 5.35298L0.646393 8.64593C0.646376 8.64595 0.646358 8.64597 0.64634 8.64598C0.552638 8.73974 0.5 8.86687 0.5 8.99943C0.5 9.13201 0.552658 9.25917 0.646393 9.35293C0.740147 9.4466 0.867254 9.49922 0.999786 9.49922C1.13234 9.49922 1.25947 9.44658 1.35323 9.35288L4.29289 4.99943ZM4.29289 4.99943L3.93934 4.64588L0.649938 1.35648C0.560432 1.26246 0.510965 1.13727 0.512093 1.00737C0.513232 0.876276 0.565817 0.75087 0.658521 0.658166C0.751225 0.565461 0.876632 0.512877 1.00773 0.511738C1.13763 0.510609 1.26281 0.560076 1.35683 0.649582L5.35318 4.64593C5.3532 4.64595 5.35322 4.64597 5.35323 4.64598C5.44694 4.73974 5.49957 4.86687 5.49957 4.99943C5.49957 5.13199 5.44694 5.25912 5.35323 5.35288C5.35322 5.35289 5.3532 5.35291 5.35318 5.35293L1.35329 9.35282L4.29289 4.99943Z" fill="#212121" stroke="#212121"/>
                                     </svg>
-
-                                </button> -->
-                                <!-- {{order.status}} -->
-                                <select :disabled="calculateStatusStep(order.status).length==0?true:false" @change="detectStatusChange" :id="order.orderId"
-                                :style="[`background-color:${validation.calculateStatusStepColor(order.status).bg};color:${validation.calculateStatusStepColor(order.status).font};`]" class="status_selection">
-                                    <option 
-                                    :value="order.status" 
-                                    selected
-                                    hidden
-                                    >
+                                </button>
+                            </div>
+                            <!-- order id -->
+                            <div class="order_id padding_info">
+                                <h6 class="">
+                                    <!-- 123456asdfasdfasdf -->
+                                    {{ order.orderId }}
+                                </h6>
+                            </div>
+                            <!-- customer nanem -->
+                            <div class="order_customer padding_info">
+                                <h6 class="">
+                                    <!-- Apple juiceasdfasdfasdfasdf -->
+                                    {{ order.customerName }}
+                                </h6>
+                            </div>
+                            <!-- Address -->
+                            <div class="order_address padding_info">
+                                <h6 class="">
+                                    <!-- King Mongkut's Universityasdfasdfasdfasdfasdfasdfasdfasdfasdf -->
+                                    {{ order.address }}
+                                </h6>
+                            </div>
+                            <!-- date -->
+                            <div class="order_date padding_info">
+                                <h6 class="">
+                                    <!-- 10/03/2024asdfasdf -->
+                                    {{ order.createdAt }}<!-- shippedDate -->
+                                </h6>
+                            </div>
+                            <!-- price -->
+                            <div class="order_price padding_info">
+                                <h6 class="">
+                                    ${{order.total}}
+                                </h6>
+                            </div>
+                            <!-- status -->
+                            <div class="order_status">
+                                <div>
+                                    <!-- <button @click="showDropDown(`order_${order.orderId}`,order.orderId)">
                                         {{order.status}}
-                                    </option>
-                                    <option v-show="calculateStatusStep(order.status).length!=0" v-for="(status,index) of calculateStatusStep(order.status)" 
-                                    :style="[`background-color:${validation.calculateStatusStepColor(status).bg};color:${validation.calculateStatusStepColor(status).font};`]" 
-                                    :key="index" :value="status" >
-                                        {{status}}
-                                    </option>
-                                </select>
-                                <!-- drop down -->
-                                <!-- <div :id="`order_${order.orderId}`" class="">
-                                    status
-                                    <button v-for="(status,index) of ORDERSTATUS" :key="index">
-                                        {{ status }}
-                                    </button>
-                                </div> -->
+                                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3.995 4.17928L3.64159 3.82615L1.01042 1.1971C1.01041 1.19708 1.01039 1.19706 1.01037 1.19705C0.954329 1.14109 0.878262 1.10959 0.798864 1.10959C0.719492 1.10959 0.643448 1.14107 0.587411 1.19699L3.995 4.17928ZM3.995 4.17928L4.34842 3.82615M3.995 4.17928L4.34842 3.82615M4.34842 3.82615L6.97964 1.19705L6.97969 1.1971M4.34842 3.82615L6.97969 1.1971M6.97969 1.1971L6.98573 1.19085M6.97969 1.1971L6.98573 1.19085M6.98573 1.19085C7.0133 1.16233 7.04629 1.13956 7.0828 1.12389C7.11932 1.10822 7.1586 1.09997 7.19836 1.09962C7.23812 1.09928 7.27755 1.10685 7.31433 1.12188C7.35111 1.13692 7.3845 1.15911 7.41255 1.18715L7.76597 0.833453M6.98573 1.19085L7.76597 0.833453M7.76597 0.833453L7.41256 1.18715C7.44061 1.21518 7.46278 1.2485 7.47778 1.28514C7.49279 1.32178 7.50033 1.36103 7.49999 1.40059C7.49964 1.44016 7.49142 1.47926 7.47578 1.51564C7.46014 1.55202 7.4374 1.58495 7.40885 1.61249L7.4088 1.61244M7.76597 0.833453L7.4088 1.61244M7.4088 1.61244L7.40265 1.61858L4.20656 4.8121M7.4088 1.61244L4.20656 4.8121M4.20656 4.8121C4.20655 4.81212 4.20653 4.81214 4.20651 4.81215M4.20656 4.8121L4.20651 4.81215M4.20651 4.81215C4.15047 4.86811 4.0744 4.89961 3.995 4.89961M4.20651 4.81215L3.995 4.89961M3.995 4.89961C3.91561 4.89961 3.83954 4.86811 3.7835 4.81215M3.995 4.89961L3.7835 4.81215M3.7835 4.81215C3.78348 4.81214 3.78346 4.81212 3.78345 4.8121M3.7835 4.81215L3.78345 4.8121M3.78345 4.8121L0.587411 1.61864L3.78345 4.8121ZM0.5 1.40781C0.5 1.48678 0.531375 1.5626 0.587358 1.61858L0.5 1.40781ZM0.5 1.40781C0.5 1.32887 0.531355 1.25308 0.587305 1.1971L0.5 1.40781Z" fill="#424242" stroke="#424242"/>
+                                        </svg>
+
+                                    </button> -->
+                                    <!-- {{order.status}} -->
+                                    <select :disabled="calculateStatusStep(order.status).length==0?true:false" @change="detectStatusChange" :id="order.orderId"
+                                    :style="[`background-color:${validation.calculateStatusStepColor(order.status).bg};color:${validation.calculateStatusStepColor(order.status).font};`]" class="status_selection">
+                                        <option 
+                                        :value="order.status" 
+                                        selected
+                                        hidden
+                                        >
+                                            {{order.status}}
+                                        </option>
+                                        <option v-show="calculateStatusStep(order.status).length!=0" v-for="(status,index) of calculateStatusStep(order.status)" 
+                                        :style="[`background-color:${validation.calculateStatusStepColor(status).bg};color:${validation.calculateStatusStepColor(status).font};`]" 
+                                        :key="index" :value="status" >
+                                            {{status}}
+                                        </option>
+                                    </select>
+                                    <!-- drop down -->
+                                    <!-- <div :id="`order_${order.orderId}`" class="">
+                                        status
+                                        <button v-for="(status,index) of ORDERSTATUS" :key="index">
+                                            {{ status }}
+                                        </button>
+                                    </div> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- detail -->
-                    <div :id="`order_detail_${order.orderId}`" class="detail_order ">
-                        <div class="detail_table">
-                            <!-- <table> -->
-                                <div class="header_detail">
-                                    <!-- number of item -->
-                                    <div class="detail_number">
-                                        <h6>
-                                            #
-                                        </h6>
-                                    </div>
-                                    <!-- SKU -->
-                                    <div class="detail_sku">
-                                        <h6>
-                                            SKU
-                                        </h6>
-                                    </div>
-                                    <!-- name -->
-                                    <div class="detail_name">
-                                        <h6>
-                                            Name
-                                        </h6>
-                                    </div>
-                                    <!-- price -->
-                                    <div class="detail_price">
-                                        <h6>
-                                            Price
-                                        </h6>
-                                    </div>
-                                    <!-- Qty -->
-                                    <div class="detail_qty">
-                                        <h6>
-                                            Qty
-                                        </h6>
-                                    </div>
-                                    <!-- Total -->
-                                    <div class="detail_total">
-                                        <h6>
-                                            Total
-                                        </h6>
-                                    </div>
-                                </div>
-                                <!-- product item -->
-                                <div v-for="(detail,indexDetail) of order.order_details" :key="indexDetail" class="product_item">
-                                    <!-- img -->
-                                    <div class="detail_product_number">
-                                        <div>
-                                            <img src="../../../assets/home_p/home_design_content_europe.png" alt="item_img">
-                                        </div>
-                                    </div>
-                                    <!-- sku -->
-                                    <div class="detail_product_sku">
-                                        <h6>
-                                            <!-- XX231asdasdf asdfasdf -->
-                                            {{ detail.itemStyle }}
-                                        </h6>
-                                    </div>
-                                    <!-- name -->
-                                    <div class="detail_product_name">
-                                        <div>
+                        <!-- detail -->
+                        <div :id="`order_detail_${order.orderId}`" class="detail_order ">
+                            <div class="detail_table">
+                                <!-- <table> -->
+                                    <div class="header_detail">
+                                        <!-- number of item -->
+                                        <div class="detail_number">
                                             <h6>
-                                                {{ detail.itemname }}
+                                                #
                                             </h6>
-                                            <p>
-                                                {{ detail.itemStyle }} :
-                                                {{ detail.itemSize }}
-                                            </p>
                                         </div>
+                                        <!-- SKU -->
+                                        <div class="detail_sku">
+                                            <h6>
+                                                SKU
+                                            </h6>
+                                        </div>
+                                        <!-- name -->
+                                        <div class="detail_name">
+                                            <h6>
+                                                Name
+                                            </h6>
+                                        </div>
+                                        <!-- price -->
+                                        <div class="detail_price">
+                                            <h6>
+                                                Price
+                                            </h6>
+                                        </div>
+                                        <!-- Qty -->
+                                        <div class="detail_qty">
+                                            <h6>
+                                                Qty
+                                            </h6>
+                                        </div>
+                                        <!-- Total -->
+                                        <div class="detail_total">
+                                            <h6>
+                                                Total
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <!-- product item -->
+                                    <div v-for="(detail,indexDetail) of order.order_details" :key="indexDetail" class="product_item">
+                                        <!-- img -->
+                                        <div class="detail_product_number">
+                                            <div>
+                                                <img src="../../../assets/home_p/home_design_content_europe.png" alt="item_img">
+                                            </div>
+                                        </div>
+                                        <!-- sku -->
+                                        <div class="detail_product_sku">
+                                            <h6>
+                                                <!-- XX231asdasdf asdfasdf -->
+                                                {{ detail.itemStyle }}
+                                            </h6>
+                                        </div>
+                                        <!-- name -->
+                                        <div class="detail_product_name">
+                                            <div>
+                                                <h6>
+                                                    {{ detail.itemname }}
+                                                </h6>
+                                                <p>
+                                                    {{ detail.itemStyle }} :
+                                                    {{ detail.itemSize }}
+                                                </p>
+                                            </div>
 
+                                        </div>
+                                        <!-- Price -->
+                                        <div class="detail_product_price">
+                                            <h6>
+                                                ${{detail.priceEach}}
+                                            </h6>
+                                        </div>
+                                        <!-- Qiy -->
+                                        <div class="detail_product_qty">
+                                            <h6>
+                                                {{detail.qtyOrder}}
+                                            </h6>
+                                        </div>
+                                        <!-- total -->
+                                        <div class="detail_product_total">
+                                            <h6>
+                                                ${{detail.qtyOrder*detail.priceEach}}
+                                            </h6>
+                                        </div>
                                     </div>
-                                    <!-- Price -->
-                                    <div class="detail_product_price">
-                                        <h6>
-                                            ${{detail.priceEach}}
-                                        </h6>
+                                    <!-- sumary -->
+                                    <div class="wrapper_summary">
+                                        <div class="summary_list">
+                                            <!--subtotal  -->
+                                            <div class="summary_item">
+                                                <h6>
+                                                    Subtotal
+                                                </h6>
+                                                <p class="money_bath">
+                                                    {{ order.total }}
+                                                </p>
+                                            </div>
+                                            <!-- Shipping -->
+                                            <div class="summary_item">
+                                                <h6>
+                                                    Shiping
+                                                </h6>
+                                                <p class="money_bath">
+                                                    $0
+                                                </p>
+                                            </div>
+                                            <!-- Tax -->
+                                            <div class="summary_item">
+                                                <h6>
+                                                    Tax
+                                                </h6>
+                                                <p class="money_bath">
+                                                    $0
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- total -->
+                                        <div class="total">
+                                            <h6>
+                                                Total Payment
+                                            </h6>
+                                            <p class="money_bath">
+                                                ${{order.total}}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <!-- Qiy -->
-                                    <div class="detail_product_qty">
-                                        <h6>
-                                            {{detail.qtyOrder}}
-                                        </h6>
-                                    </div>
-                                    <!-- total -->
-                                    <div class="detail_product_total">
-                                        <h6>
-                                            ${{detail.qtyOrder*detail.priceEach}}
-                                        </h6>
-                                    </div>
+                                        
+                                <!-- </table> -->
+                            </div>
+                            <!-- address -->
+                            <div class="detail_order_address">
+                                <!-- name -->
+                                <div>
+                                    <h6>
+                                        Name:
+                                    </h6>
+                                    <p>
+                                        {{ order.customerName}}
+                                    </p>
                                 </div>
-                                <!-- sumary -->
-                                <div class="wrapper_summary">
-                                    <div class="summary_list">
-                                        <!--subtotal  -->
-                                        <div class="summary_item">
-                                            <h6>
-                                                Subtotal
-                                            </h6>
-                                            <p class="money_bath">
-                                                {{ order.total }}
-                                            </p>
-                                        </div>
-                                        <!-- Shipping -->
-                                        <div class="summary_item">
-                                            <h6>
-                                                Shiping
-                                            </h6>
-                                            <p class="money_bath">
-                                                $0
-                                            </p>
-                                        </div>
-                                        <!-- Tax -->
-                                        <div class="summary_item">
-                                            <h6>
-                                                Tax
-                                            </h6>
-                                            <p class="money_bath">
-                                                $0
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!-- total -->
-                                    <div class="total">
-                                        <h6>
-                                            Total Payment
-                                        </h6>
-                                        <p class="money_bath">
-                                            ${{order.total}}
-                                        </p>
-                                    </div>
+                                <!-- address -->
+                                <div>
+                                    <h6>
+                                        Address:
+                                    </h6>
+                                    <p>
+                                        {{ order.address }}
+                                    </p>
                                 </div>
-                                    
-                            <!-- </table> -->
+                            </div>
                         </div>
                     
                     </div>
-                
-                </div>
-            <!-- </table> -->
-        </div>
+                <!-- </table> -->
+            </div>
+        <!-- </div> -->
         <!-- select page -->
         <BaseMovePage name="order_list" :current-page="currentPage" :total-amount-item="orderAmount" @returnCalculatePage="getCalculatePageInfo" @previousPage="previousPage" @nextPage="nextPage" />
         <!-- <div class="move_page">
@@ -739,11 +768,12 @@ onMounted(async()=>{
     border: none;
     border-radius: min(0.556dvw,8px);
     background-color: #fff;
+    overflow: auto;
 }
 .orders{
     display: flex;
     width: 100%;
-    height: inherit;
+    height: fit-content;
     flex-direction: column;
     gap: min(1.667dvw,24px);
 }
@@ -992,85 +1022,129 @@ onMounted(async()=>{
     background-color:#EEFFF0;
     color:#168A22;
 }
+
+
+
+
+
+
+/* .wrapper_content_orders{
+    display: flex;
+    width: 100%;
+} */
+
 /* orders list */
 .content_orders{
     display: flex;
     width: 100%;
+    /* max-width: 300px; */
     height: fit-content;
     max-height: 45dvh;
     overflow: auto;
     flex-direction: column;
 }
+
+/* header list */
 .content_orders .title_orders{
-    table-layout: fixed;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 2fr 4fr 2fr 2fr 2fr;
     width: 100%;
-    height: fit-content;
-    border-collapse: collapse;
-    
-}
-.title_orders{
-    display: flex;
-    width: 100%;
-    height: min(1.944dvw,28px);
-    vertical-align: top;
-    text-align: start;
+    height: fit-content; /*min(1.944dvw,28px);*/
+    /* vertical-align: top; */
+    /* text-align: start; */
     border-bottom: min(0.069dvw,1px) solid #E0E0E0;
-    font-size: min(0.833dvw,12px);
-    font-weight: 500;
-    color: #757575;
+    /* font-size: min(0.833dvw,12px); */
+    /* font-weight: 500; */
+    /* color: #757575; */
     /* border-bottom: min(0.069dvw,1px) solid #E0E0E0; */
-    white-space: nowrap;
+    /* white-space: nowrap; */
+    justify-content: center;
 }
 .title_orders >div{
-    width: 100%;
-    height: 100%;
+    display: flex;
+    width: 100%; /* dont know all size */
+    height: 28px;
+    padding: 0px 12px;
+    /* border-bottom: min(0.069dvw,1px) solid #E0E0E0; */
+
 }
 .title_orders >div h5{
     width: 100%;
     height: 100%;
+    text-align: start;
+    font-size: min(0.833dvw,12px);
+    font-weight: 500;
+    white-space: nowrap;
+    color: #757575;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 /* number of order */
-.order_number{
-    width: min(2.222dvw,32px); /* 2.222dvw */
+.content_orders .order_number{
+    display: flex;
+    /* width: min(2.222dvw,32px); 2.222dvw */
+    width: 3%; /* 2.222dvw */
     min-width: 32px;
-    max-width: 2.222vw;
+    max-width: 2.222dvw;
 }
 /* empty */
-.order_empty{
-    width: min(3.056dvw,44px); /*3.056dvw */
+.content_orders .order_empty{
+    display: flex;
+    width:fit-content;
+    /* width: min(3.056dvw,44px); 3.056dvw */
     min-width: 44px;
     max-width: 3.056dvw;
+    /* max-width: 3.056dvw; */
 }
 /* order id */
-.order_id{
-    width: clamp(fit-content,5.833vw,84px);
-    /* min-width: 84px; */
-    /* max-width: 5.833vw; */
+.content_orders .order_id{
+    display: flex;
+    width: fit-content;
+    /* width: clamp(fit-content,5.833vw,84px); */
+    min-width: 84px;
+    max-width: 5.833vw;
 }
 /* customer */
-.order_customer{
-    width: clamp(fit-content,9.722vw,140px);
-    /* min-width: 140px; */
-    /* max-width: 100%; */
+.content_orders .order_customer{
+    display: flex;
+    width:fit-content;
+    /* width: clamp(fit-content,9.722vw,140px); */
+    min-width: 140px;
+    max-width: 9.722vw;
 }
 /* address */
-.order_address{
-    width: clamp(fit-content,18.333vw,264px);
-    /* min-width: 264px; */
-    /* max-width: 100%; */
+.content_orders .order_address{
+    display: flex;
+    width: fit-content;
+    /* width: clamp(fit-content,18.333vw,264px); */
+    min-width: 264px;
+    max-width: 18.333vw;
 }
 /* date */
-.order_date,
-.order_price,
-.order_status{
-    width: clamp(fit-content,7.5vw,108px);
+.content_orders .order_date{
+    display: flex;
+    width: fit-content;
+    min-width: 108px;
+    max-width: 7.5vw;
+}
+.content_orders .order_price{
+    display: flex;
+    width: fit-content;
+    min-width: 108px;
+    max-width: 7.5vw;
+}
+.content_orders .order_status{
+    display: flex;
+    width: fit-content;
+    min-width: 108px;
+    max-width: 7.5vw;
+    /* width: clamp(fit-content,7.5vw,108px); */
     /* min-width: 108px; */
     /* max-width: 100%; */
 }
-/* status */
 
-
-.title_orders > div button{
+/* .title_orders > div button{
     display: flex;
     width: 100%;
     height: min(1.944dvw,28px);
@@ -1080,8 +1154,8 @@ onMounted(async()=>{
     justify-content: start;
     align-items: start; 
     cursor: pointer;
-}
-.title_orders > div button h5,.header th h5{
+} */
+/* .title_orders > div button h5,.header th h5{
     display: flex;
     width: fit-content;
     height: min(1.111dvw,16px);
@@ -1091,37 +1165,44 @@ onMounted(async()=>{
     justify-content: center;
     align-items: center;
     gap: min(0.278dvw,4px);
-}
-.title_orders > div button svg{
+} */
+/* .title_orders > div button svg{
     display: flex;
     width: min(0.833dvw,12px);
     height: min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
-}
+} */
 /* order item */
 .wrapper_order_item{
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    justify-content: center;
+    border-bottom: 1px solid #E0E0E0;
 }
 .order_item{
-    display: flex;
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 2fr 4fr 2fr 2fr 2fr;
+
     width: 100%;
     height: min(3.611dvw,52px);
-    max-height: fit-content;
+    justify-content: center;
+    
 }
-.order_item > div{
-    /* display: flex; */
+/* .order_item > div{
+    display: flex;
     width: 100%;
     height: 100%;
-}
-.order_item h6,.order_item p,
+} */
+.order_item >div h6,
+.order_item >div p,
 .order_item > div 
 {
-    
+    width: 100%;
+    /* max-width: 100%; */
+    height: 100%;
     color: #212121;
     font-weight: 400;
     font-size: min(0.972dvw,14px);
@@ -1129,11 +1210,11 @@ onMounted(async()=>{
     overflow: hidden;
     white-space: nowrap;
 }
-/* order item */
+/* order number item */
 .order_item .order_number >h6{
-    width: 100%;
-    padding: min(1.111dvw,16px) min(0.833dvw,12px) min(1.111dvw,16px) 0px;
-}
+        padding: min(1.111dvw,16px) min(0.833dvw,12px) min(1.111dvw,16px) 0px;
+
+ }
 /* detail button */
 .order_item .order_empty button{
     display: flex;
@@ -1150,11 +1231,28 @@ onMounted(async()=>{
     width: min(0.417dvw,6px);
     height: auto
 }
+/* order id */
+.order_item .order_id{
+    display: flex;
+    width:100%;
+}
+
+/* costomer name */
+.order_item .order_customer{
+    display: flex;
+    width:100%;
+}
+/* address */
+.order_item .order_address{
+    display: flex;
+    width:100%;
+}
+
 
 /* status button */
 /* .order_item div:nth-child(8){
 } */
-.order_item div:nth-child(8)> div{
+.order_item .order_status div{
     display: flex;
     width: 100%;
     height: 100%;
@@ -1164,7 +1262,7 @@ onMounted(async()=>{
     /* padding: 12px 0px 12px 12px; */
     
 }
-.order_item div:nth-child(8)> div> select{
+.order_item .order_status div> select{
     display: flex;
     width: fit-content;
     min-width: 96px;
@@ -1187,7 +1285,7 @@ onMounted(async()=>{
 } */
 /* drop down  */
 
-.order_item div:nth-child(8)> div > div{
+.order_item .order_status> div > div{
     display: none; 
     width:96px;
     height:fit-content;
@@ -1202,11 +1300,11 @@ onMounted(async()=>{
     overflow-y: auto;
     z-index: 999;
 }
-.order_item div:nth-child(8)> div > div >button{
+.order_item .order_status> div > div >button{
     background-color: green;
     cursor: pointer;
 }
-.order_item div:nth-child(8)> div >.drop_down_active{
+.order_item .order_status> div >.drop_down_active{
     display: flex;
 }
 /* .order_item th:nth-child(8) */
@@ -1221,7 +1319,9 @@ onMounted(async()=>{
     height: fit-content;
     /* column-span: 8; */
     padding: 0px 0px 0px 76px;
-    justify-content: end;
+    justify-content: start;
+    align-items: end;
+    flex-direction: column;
 }
 .detail_table{
     display: flex;
@@ -1484,6 +1584,38 @@ onMounted(async()=>{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+/* address and name */
+.detail_order .detail_order_address{
+    display: flex;
+    width: 800px;
+    height: fit-content;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    /* border-top: 1px solid #E0E0E0; */
+}
+.detail_order_address >div{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    gap: 4px;
+}
+.detail_order_address >div h6{
+    display: flex;
+    width: 80px;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color: #212121;
+}
+.detail_order_address >div p{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color: #616161;
 }
 /* 
 .move_page{
