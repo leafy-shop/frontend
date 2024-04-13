@@ -12,6 +12,7 @@ const goBank=()=>myRouter.push({name:'Bank_AS'})
 const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
 const goMyShop=()=>myRouter.push({name:'Shop_AS'})
 const goOrder=()=>myRouter.push({name:'Order_AS'})
+const goMyGallery=()=>myRouter.push({name:'MyGallery_AS'})
 //common attribute
 const userRole=ref('')
 const isShowNested=ref(false) //show nested link my shop
@@ -27,6 +28,7 @@ const arrayLink=ref([
     {name:'products',index:5,child:0},
     {name:'add-product',index:5,child:0},
     {name:'orders',index:5,child:1},
+    {name:'my-gallery',index:6},
 ])
 // for show nested link
 const showNestedLink=()=>{
@@ -165,6 +167,17 @@ onUpdated(()=>{
                     Orders
                 </button>
             </div>
+            <!-- My Gallery -->
+            <button class="url_link" @click="goMyGallery">
+                <div>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 13L5.586 8.414C5.96106 8.03906 6.46967 7.82843 7 7.82843C7.53033 7.82843 8.03894 8.03906 8.414 8.414L13 13M11 11L12.586 9.414C12.9611 9.03906 13.4697 8.82843 14 8.82843C14.5303 8.82843 15.0389 9.03906 15.414 9.414L17 11M11 5H11.01M3 17H15C15.5304 17 16.0391 16.7893 16.4142 16.4142C16.7893 16.0391 17 15.5304 17 15V3C17 2.46957 16.7893 1.96086 16.4142 1.58579C16.0391 1.21071 15.5304 1 15 1H3C2.46957 1 1.96086 1.21071 1.58579 1.58579C1.21071 1.96086 1 2.46957 1 3V15C1 15.5304 1.21071 16.0391 1.58579 16.4142C1.96086 16.7893 2.46957 17 3 17Z" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h5>
+                    My Gallery
+                </h5>
+            </button>
         </div>
         <!-- nested page -->
         <div class="wrapper_content">
