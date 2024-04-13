@@ -9,7 +9,7 @@ import validation from '../JS/validation'
 import BaseBankItemList from '../components/bank/BaseBankItemList.vue'
 import BaseOrderItem from '../components/myPurchase/BaseOrderItem.vue';
 import BaseSummary from '../components/cartList/BaseSummary.vue';
-
+import BaseBankItem from '../components/bank/BaseBankItem.vue';
 // link
 const myRoute=useRouter()
 const {params}=useRoute()
@@ -115,6 +115,7 @@ const getAddress=async()=>{
       }
     }
     addressList.value=data
+    console.log(data)
     // assign address default to addressSelected
     addressSelected.value=addressDefault.value
   }
@@ -392,11 +393,11 @@ onBeforeMount(async()=>{
           <div v-if="!showInputContainer" class="wrapper_address_overlay">
             <div class="address_overlay">
               <!-- header -->
-              <div>
-                <h6>
-                  My address
-                </h6>
-              </div>
+              <!-- <div class="header"> -->
+              <h6 class="header_address">
+                My address
+              </h6>
+              <!-- </div> -->
               <!-- list -->
               <div class="address_list_overlay">
                 <!-- default -->
@@ -406,8 +407,8 @@ onBeforeMount(async()=>{
                       <input v-model="addressSelected" :value="addressDefault" type="radio" name="address" id="address_default">
                     </div>
                     <!-- info -->
-                    <div>
-                      <!-- header -->
+                    <!-- <div>
+                      header
                       <div>
                         <div>
                           {{ addressDefault.addressname }}
@@ -415,7 +416,7 @@ onBeforeMount(async()=>{
                         </div>
                         
                       </div>
-                      <!-- detail -->
+                      detail
                       <div>
                         {{ addressDefault.address }}
                         {{ addressDefault.province }}
@@ -424,7 +425,11 @@ onBeforeMount(async()=>{
                         {{ addressDefault.postalCode }}
                       </div>
                       
-                    </div>
+                    </div> -->
+                    <BaseBankItem name="address_payment" :item-name="addressDefault.addressname" :item-number="addressDefault.phone" 
+                    :item-description="`${addressDefault.address} ${addressDefault.distrinct} ${addressDefault.subDistrinct} ${addressDefault.province} ${addressDefault.postalCode}`"
+                    :item-id="addressDefault.addressId" :show-bin-btn="false" :show-edit-btn="false" :is-default="false"
+                    />
                   </label>
 
                   <!-- list -->
@@ -433,9 +438,9 @@ onBeforeMount(async()=>{
                     <div>
                       <input v-model="addressSelected" :value="address" type="radio" name="address" :id="`address_${index}`">
                     </div>
-                    <!-- info -->
+                    <!-- info
                     <div>
-                      <!-- header -->
+                      header
                       <div>
                         <div>
                           {{ address.addressname }}
@@ -443,7 +448,7 @@ onBeforeMount(async()=>{
                         </div>
                         
                       </div>
-                      <!-- detail -->
+                      detail
                       <div>
                         {{ address.address }}
                         {{ address.province }}
@@ -451,39 +456,52 @@ onBeforeMount(async()=>{
                         {{ address.subDistrinct }}
                         {{ address.postalCode }}
                       </div>
-                      <!-- temperary btn -->
-                      <!-- <button>
+                      temperary btn
+                      <button>
                         change
-                      </button> -->
-                    </div>
+                      </button>
+                    </div> -->
+                    <BaseBankItem name="address_payment" :item-name="address.addressname" :item-number="address.phone" 
+                    :item-description="`${address.address} ${address.distrinct} ${address.subDistrinct} ${address.province} ${address.postalCode}`"
+                    :item-id="address.addressId" :show-bin-btn="false" :show-edit-btn="false" :is-default="false"
+                    />
                   </label>
-                  <!-- new address -->
-                  <div>
-                    <button @click="inputController(true)">
-                      + New Address
-                    </button>
-                  </div>
+                  
               </div>
-              <!-- submit -->
-              <div>
-                <button @click="addressOverlayController(false)">
+              <!-- new address -->
+              <div class="new_address">
+                <button @click="inputController(true)">
+                  <div>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0C5.26522 0 5.51957 0.105357 5.70711 0.292893C5.89464 0.48043 6 0.734784 6 1V4H9C9.26522 4 9.51957 4.10536 9.70711 4.29289C9.89464 4.48043 10 4.73478 10 5C10 5.26522 9.89464 5.51957 9.70711 5.70711C9.51957 5.89464 9.26522 6 9 6H6V9C6 9.26522 5.89464 9.51957 5.70711 9.70711C5.51957 9.89464 5.26522 10 5 10C4.73478 10 4.48043 9.89464 4.29289 9.70711C4.10536 9.51957 4 9.26522 4 9V6H1C0.734784 6 0.48043 5.89464 0.292893 5.70711C0.105357 5.51957 0 5.26522 0 5C0 4.73478 0.105357 4.48043 0.292893 4.29289C0.48043 4.10536 0.734784 4 1 4H4V1C4 0.734784 4.10536 0.48043 4.29289 0.292893C4.48043 0.105357 4.73478 0 5 0Z" fill="white"/>
+                    </svg>
+                  </div>
+                  <h6>
+                    New Address
+                  </h6>
+                </button>
+              </div>
+              
+            </div>
+            <!-- submit -->
+            <div class="address_confirm">
+                <button class="cancel" @click="addressOverlayController(false)">
                   Cancel
                 </button>
-                <button @click="addressOverlayController(true)">
+                <button class="confirm" @click="addressOverlayController(true)">
                   Confirm
                 </button>
               </div>
-            </div>
           </div>
           <!-- add address -->
           <div v-else class="wrapper_add_address_overlay">
             <div class="add_address_overlay">
               <!-- header -->
-              <div>
-                <h6>
-                  add Address
+              <!-- <div> -->
+                <h6 class="header_add_address">
+                  Add Address
                 </h6>
-              </div>
+              <!-- </div> -->
               <!-- detail -->
               <div class="container_add_address">
                 <!-- name & Phone-->
@@ -551,19 +569,19 @@ onBeforeMount(async()=>{
                     Set as Default Address
                   </label>
                 </div>
-                <!-- submit -->
-                <div class="">
-                  <button @click="inputController(false)">
-                    Cancel
-                  </button>
-                  <button @click="createAddress()">
-                    Submit
-                  </button>
-                </div>
-
               </div>
             </div>
+            <!-- submit -->
+            <div class="create_address">
+              <button class="calcel" @click="inputController(false)">
+                Cancel
+              </button>
+              <button class="submit" @click="createAddress()">
+                Submit
+              </button>
+            </div>
           </div>
+          
         </div>
     </div>
     <BaseFooter/>
@@ -611,7 +629,7 @@ onBeforeMount(async()=>{
   width: 100%;
   /* min-width: 736px; */
   height: fit-content;
-  min-height: 160px;
+  /* min-height: 160px; */
   padding: 20px;
   border: none;
   border-radius: 8px;
@@ -672,9 +690,9 @@ onBeforeMount(async()=>{
 .wrapper_payment_method{
   display: flex;
   width: 100%;
-  min-width: 352px;
+  /* min-width: 352px; */
   height: fit-content;
-  min-height: 160px;
+  /* min-height: 160px; */
   max-height: 100%;
   border: none;
   border-radius: 8px;
@@ -683,6 +701,14 @@ onBeforeMount(async()=>{
   background-color: #fff;
   box-shadow: 0px 1px 2px 0px #0000000F;
   flex-direction: column;
+}
+.wrapper_payment_method h6{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 700;
+  color: #262626;
 }
 .wrapper_payment_method .method_list{
   display: flex;
@@ -725,7 +751,7 @@ onBeforeMount(async()=>{
   background-color: #fff;
 }
 
-
+/* overlay */
 .overlay{
   display: flex;
   width: 100dvw;
@@ -740,15 +766,128 @@ onBeforeMount(async()=>{
 }
 .wrapper_address_overlay{
   display: flex;
-  width: 544px;
+  width: fit-content;
+  min-width: 544px;
+  max-width: 100%;
   height: fit-content;
   background-color: #fff;
   border: none;
   border-radius: 8px;
   box-shadow: 0px 1px 2px 0px #0000000F;
-  padding: 32px
+  flex-direction: column;
+  overflow: hidden
 
 }
+.wrapper_address_overlay .address_overlay{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px;
+
+}
+.address_overlay .header_address{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  color: #212121;
+}
+.address_overlay .address_list_overlay{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  max-height: 40dvh;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+.address_item_overlay{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  border-top: 1px solid #EEEEEE;
+  gap: 20px;
+  padding-top:12px ;
+  cursor: pointer;
+  /* justify-content: center;
+  align-items: center; */
+}
+.address_item_overlay input{
+  accent-color: #26AC34;
+}
+.new_address{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+}
+.new_address button{
+  display: flex;
+  width: 133px;
+  height: 36px;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background-color: #26AC34;
+  box-shadow: 0px 1px 2px 0px #0000000D;
+  gap: 4px;
+  justify-content: start;
+  align-items: center;
+  cursor: pointer;
+}
+.new_address button div{
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.new_address button h6{
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+
+}
+
+/* address confirm */
+.address_confirm{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  justify-content: end;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #FAFAFA;
+}
+.address_confirm button{
+  display: flex;
+  width: 80px;
+  height: 36px;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+.address_confirm .cancel{
+  background-color: #fff;
+  color:#212121;
+  border: 1px solid #E0E0E0;
+}
+.address_confirm .confirm{
+  background-color: #26AC34;
+  color: #fff;
+}
+
+/* add address */
 .wrapper_add_address_overlay{
   display: flex;
   width: 544px;
@@ -757,7 +896,109 @@ onBeforeMount(async()=>{
   border: none;
   border-radius: 8px;
   box-shadow: 0px 1px 2px 0px #0000000F;
-  padding: 32px
-
+  /* padding: 32px; */
+  flex-direction: column;
+  overflow: hidden
+}
+.wrapper_add_address_overlay .add_address_overlay{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 24px;
+  padding: 32px;
+  flex-direction: column;
+}
+.add_address_overlay .header_add_address{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  color: #212121;
+}
+.add_address_overlay .container_add_address{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 24px;
+  flex-direction: column;
+}
+.input_list{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 24px;
+}
+.input_field{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 4px;
+  flex-direction: column;
+}
+.input_field h6{
+  display: flex;
+  width:100%;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+.input_field input{
+  display: flex;
+  width: 100%;
+  height: 36px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0px 1px 2px 0px #0000000D;
+}
+.set_default {
+  display: flex;
+  width: 100%;
+  height: 20px;
+  gap: 8px;
+}
+.set_default label{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212121;
+  cursor: pointer;
+}
+.create_address{
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  padding: 12px 24px;
+  gap: 8px;
+  background-color: #FAFAFA;
+  align-items: center;
+  justify-content: end;
+}
+.create_address button{
+  display: flex;
+  width: 80px;
+  height: 36px;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0px 1px 2px 0px #0000000D;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  justify-content: center;
+  align-items: center;
+}
+.create_address .cancel{
+  background-color: #fff;
+  border: 1px solid#E0E0E0;
+  color:#212121;
+}
+.create_address .submit{
+  background-color: #26AC34;
+  color: #fff;
 }
 </style>

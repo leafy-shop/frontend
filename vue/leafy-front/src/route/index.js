@@ -216,7 +216,7 @@ router.beforeEach(async (to, from, next) => {
                 }
                 break;
             case "Payment":
-                if (!(from.name === "CartList" || from.name === "ProductDetail")) {
+                if (!(from.name === "CartList" || from.name === "ProductDetail"|| from.name==="Payment")) {
                     next({ name: "CartList" });
                 } else {
                     next(); // Call next() to allow navigation

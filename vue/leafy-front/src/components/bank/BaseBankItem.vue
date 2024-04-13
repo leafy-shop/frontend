@@ -3,20 +3,36 @@ import{ref,computed} from 'vue'
 import bankTypeList from '../../JS/enum/bankAccount'
 // const emit=defineEmits(["setDefaultBank","fullNameBank","showConfirm","goUpdate"])
 const props=defineProps({
-    dataList:{
-        type:Array,
-        // default:[],
-        required:true
-    },
+    // dataList:{
+    //     type:Array,
+    //     // default:[],
+    //     required:true
+    // },
     name:{
         type:String,
         default:'',
         required:true
     },
-    isDefault:{
-        type:Boolean,
-        default:false,
+    itemName:{
+        type:String,
+        default:''
+    },
+    itemNumber:{
+        type:String,
+        default:''
+    },
+    itemId:{
+        type:String,
+        default:''
+    },
+    itemDescription:{
+        type:String,
+        default:'',
         // required:true
+    },
+    showBinBtn:{
+        type:Boolean,
+        default:true,
     },
     showEditBtn:{
         type:Boolean,
@@ -25,6 +41,14 @@ const props=defineProps({
     showDefaultIcon:{
         type:Boolean,
         default:true
+    },
+    showSetDBtn:{
+        type:Boolean,
+        default:true
+    },
+    isDefault:{
+        type:Boolean,
+        default:false
     }
     // fullNameBank:{
     //     type:Function,
@@ -35,7 +59,9 @@ const props=defineProps({
 })
 const isDefaultData=computed(()=>props.isDefault)
 const isShowEditBtn=computed(()=>props.showEditBtn)
-// const isShowDefaultIcon=computed(()=>props.showDefaultIcon)
+const isShowDefaultIcon=computed(()=>props.showDefaultIcon)
+const isShowBinBtn=computed(()=>props.showBinBtn)
+const isShowSetDBtn=computed(()=>props.showSetDBtn)
 const dataList=computed(()=>{
     if(props.dataList==undefined||props.dataList[0]==undefined){
         return []
@@ -46,6 +72,16 @@ const dataList=computed(()=>{
         return props.dataList
     }
 })
+const itemDesc=computed(()=>{
+    if(props.name!=undefined){
+        if(props.name.includes('bank')){
+            return fullNameBank(props.itemDesc)
+        }else{
+            return props.itemDescription
+        }
+    }
+    
+})
 const fullNameBank = (keyword) => {
     //find keyword match to data then find index of that information
     let index = bankTypeList.map((x) => x.value == keyword).indexOf(true)
@@ -54,18 +90,18 @@ const fullNameBank = (keyword) => {
 }
 </script>
 <template>
-    <div v-if="dataList.length!=0" class="container_bank" :id="props.name">
+    <!-- <div v-if="dataList.length!=0" class="container_bank" :id="props.name"> -->
         <!-- bank -->
-        <div  v-if="name.includes('bank')" class="bank_list">
-            <div v-for="(data,index) of props.dataList" :key="`data_${props.name}`" class="bank_item">
+        <!-- <div  v-if="name.includes('bank')" class="bank_list"> -->
+            <div  class="bank_item">
                 <!-- title -->
                 <div class="title">
                     <div class="info">
                         <h5>
-                            {{ data.bankname }}
+                            {{ props.itemName }}
                         </h5>
                         <p>
-                            {{ data.bankAccount }}
+                            {{ props.itemNumber }}
                         </p>
                     </div>
 
@@ -73,7 +109,7 @@ const fullNameBank = (keyword) => {
 
                         <!-- edit -->
                         
-                        <button v-if="isShowEditBtn" @click="$emit('goUpdate',data.paymentId)">
+                        <button v-if="isShowEditBtn" @click="$emit('goUpdate',props.itemId)">
                             <!-- {{ isShowEditBtn }} -->
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -84,7 +120,7 @@ const fullNameBank = (keyword) => {
                             </svg>
                         </button>
                         <!-- bin -->
-                        <button  v-if="!isDefaultData" @click="$emit('showConfirm',data.paymentId)">
+                        <button  v-if="isShowBinBtn" @click="$emit('showConfirm',props.itemId)">
                             <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -98,43 +134,43 @@ const fullNameBank = (keyword) => {
                 <!-- discription -->
                 <div class="discription">
                     <p >
-                        {{fullNameBank(data.bankCode) }}
+                        {{itemDesc }}
                     </p>
                     
                     <!-- set default -->
-                    <button v-if="!isDefaultData" @click="$emit('setDefaultBank',data.paymentId)">
+                    <button v-if="isDefaultData&&isShowSetDBtn" @click="$emit('setDefaultBank',props.itemId)">
                         Set as default
                     </button>
 
                 </div>
                 <!-- default -->
-                <div v-if="isDefaultData&&data.isDefault" class="default_icon"  >
+                <div v-if="isDefaultData&&isShowDefaultIcon" class="default_icon"  >
                     Default
                 </div>
 
             <!-- <button @click="setDefaultBank(bank.paymentId)">Set as default</button> -->
             <!-- <button v-show="bank.isDefault" disabled>Default</button> -->
             </div>
-        </div>
+        <!-- </div> -->
 
         <!-- address -->
-        <div v-else  class="bank_list">
-            <div v-for="(data,index) of props.dataList" :key="`data_${props.name}`" class="bank_item">
+        <!-- <div v-else  class="bank_list"> -->
+            <div v-if="false" class="bank_item">
                 <!-- title -->
                 <div class="title">
                     <div class="info">
                         <h5>
-                            {{ data.addressname }}
+                            {{ props.itemName }}
                         </h5>
                         <p>
-                            {{ data.phone }}
+                            {{ props.itemNumber }}
                         </p>
                     </div>
 
                     <div class="operation">
 
                         <!-- edit -->
-                        <button v-if="isShowEditBtn" @click="$emit('goUpdate',data.addressId)">
+                        <button v-if="isShowEditBtn" @click="$emit('goUpdate',props.itemId)">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -145,7 +181,7 @@ const fullNameBank = (keyword) => {
 
                         </button>
                         <!-- bin -->
-                        <button  v-if="!isDefaultData" @click="$emit('showConfirm',data.addressId)">
+                        <button  v-if="isShowBinBtn" @click="$emit('showConfirm',props.itemId)">
                             <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -159,28 +195,25 @@ const fullNameBank = (keyword) => {
                 <!-- discription -->
                 <div class="discription">
                     <p >
-                        {{ 
-                        `${data.address}  ${data.province}  ${data.distrinct}
-                        ${data.subDistrinct}  ${data.postalCode}`
-                        }}
+                        {{ props.itemDescription}}
                     </p>
                     
                     <!-- set default -->
-                    <button v-if="!isDefaultData" @click="$emit('setDefaultAddress',data.addressId)">
+                    <button v-if="!isDefaultData" @click="$emit('setDefaultAddress',props.itemId)">
                         Set as default
                     </button>
 
                 </div>
                 <!-- default -->
-                <div v-if="isDefaultData&&data.isDefault" class="default_icon"  >
+                <div v-if="isDefaultData&&isShowDefaultIcon" class="default_icon"  >
                     Default
                 </div>
 
             <!-- <button @click="setDefaultBank(bank.paymentId)">Set as default</button> -->
             <!-- <button v-show="bank.isDefault" disabled>Default</button> -->
             </div>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 </template>
 <style scoped>
 *{
@@ -205,7 +238,8 @@ const fullNameBank = (keyword) => {
 
 .bank_item {
     display: flex;
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
     /* height: 92px; */
     height: fit-content;
     flex-direction: column;
