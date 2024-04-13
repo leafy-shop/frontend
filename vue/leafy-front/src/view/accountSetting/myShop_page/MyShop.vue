@@ -6,6 +6,8 @@ import fetch from '../../../JS/api';
 import cookie from '../../../JS/cookie';
 import validation from '../../../JS/validation'
 import productEnum from '../../../JS/enum/product'
+import BaseSelectPage from '../../../components/BaseSelectPage.vue';
+import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
@@ -21,11 +23,20 @@ const filterValuePosition=ref(0) //ตำแหน่งของค่า Filte
 const filterValue =ref(undefined) // value of filter
 // ดึงข้อมูลเกี่ยวกับรูปภาพ
 
+// move page attribute
+const currentPage=ref(1)
+const allPage=ref(0)
+const totalAmountItem=ref(0)
+// filter item
+const sortFilter=ref('')
+const sortNameFilter=ref('')
+
+
 // ดึงข้อมูลเกี่ยวกับ Product
-const getProduct=async(filter)=>{
+const getProduct=async()=>{
     let inputData={
-            page:1, 
-            limitP:18, 
+            page:currentPage.value, 
+            // limitP:18, 
             //min:undefined,
             //max:undefined, 
             //rating:undefined, 
@@ -33,25 +44,34 @@ const getProduct=async(filter)=>{
             //sort:undefined, // asc & desc
             owner:userName.value//me 
         }
-    if(filter!=undefined){
-        let{sort,sort_name}=filter
-        inputData["sort_name"]=sort_name
-        inputData["sort"]=sort
+    if(sortFilter.value.length!=0){
+        inputData["sort"]=sortFilter.value
     }
+    if(sortNameFilter.value.length!=0){
+        inputData["sort_name"]=sortNameFilter.value
+    }
+    // if(filter!=undefined){
+    //     let{sort,sort_name}=filter
+        
+        
+    // }
     
-    let {status,data}=await fetch.getAllProduct(inputData)
+    let {status,data}=await fetch.getAllProductOfSupplier(inputData)
     if(status){
-        if(inputData.sort_name=="sold_out"){
-            productList.value=data.outStock
-            console.log(data)
-        }else{
+        // if(inputData.sort_name=="sold_out"){
+        //     productList.value=data.outStock
+        //     console.log(data)
+        // }else{
             productList.value=data.list
+            currentPage.value=data.page
+            totalAmountItem.value=data.allItems
+            allPage.value=data.allPage
             console.log(data)
         }
         
-    }else{
-        //error
-    }
+    // }else{
+    //     //error
+    // }
             
 }
 
@@ -110,12 +130,29 @@ const productFilter=async(filterItem)=>{
     // console.log(filterObj.value)
     // console.log(filterValue.value)
     // console.log(filterValuePosition.value)
-    await getProduct({
-        sort:filterValue.value.type,
-        sort_name:filterValue.value.name
-    })
+    sortFilter.value=filterValue.value.type
+    sortNameFilter.value=filterValue.value.name
+    await getProduct()
 
 }
+
+
+
+// move page
+const nextPage=()=>{
+    // check if to next page and not out of all page
+    currentPage.value=(currentPage.value+1)>allPage.value?currentPage.value:currentPage.value+1
+    // document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
+    getProduct()
+}
+const previousPage=()=>{
+    currentPage.value=(currentPage.value-1)<=0?currentPage.value:currentPage.value-1
+    // document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
+    getProduct()
+}
+
+
+
 
 onBeforeMount(async()=>{
     userName.value=cookie.decrypt().username
@@ -128,8 +165,8 @@ onMounted(async()=>{
 })
 </script>
 <template>
-    <div class="wrapper_all">
-        <div class="wrapper_my_shop">
+    <!-- <div class="wrapper_all"> -->
+<div class="wrapper_my_shop">
     <div class="my_shop">
         <!-- header -->
         <div class="header_shop">
@@ -290,7 +327,7 @@ onMounted(async()=>{
                     <!-- stock -->
                     <td class="td_item">
                         <h6 class="normal_text">
-                            <!-- 999999 -->
+                            {{product.allStock}}
                         </h6>
                     </td>
                     <!-- rate -->
@@ -324,8 +361,11 @@ onMounted(async()=>{
         </div>
 
     </div>
+    <!-- move page -->
+    <!-- <BaseSelectPage @current-page="" @total-page="10" /> -->
+    <BaseMovePage name="my_shop" :current-page="currentPage" :total-amount-item="totalAmountItem" @previousPage="previousPage()" @nextPage="nextPage()" />
 </div>
-    </div>
+    <!-- </div> -->
 
 </template>
 <style scoped>
@@ -467,7 +507,7 @@ onMounted(async()=>{
     flex-direction: column;
     width: 100%;
     height: fit-content;
-    max-height: 500px;
+    max-height: 45dvh;
     overflow-y: auto;
 }
 table{
