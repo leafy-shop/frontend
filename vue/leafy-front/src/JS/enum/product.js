@@ -10,8 +10,8 @@ const productEnum={
     ]),
     sortTypeArrSupplier : Object.freeze([
         { name: "New Arrival", value: [{ name: "new_arrival", type: 'desc' }] },
-        { name: "Popular", value: [{ name: "popular", type: 'desc' }] },
-        { name: "Sold Out", value: [{ name: "sold_out", type: 'desc' }] },
+        // { name: "Popular", value: [{ name: "popular", type: 'desc' }] },
+        { name: "Sold Out", value: [{ name: "soldout", type: 'desc' }] },
         { name: "Top Sales", value: [{ name: "sales", type: 'desc' }] },
         { name: "Price", value: [
             { name: "price", type: 'asc' },
