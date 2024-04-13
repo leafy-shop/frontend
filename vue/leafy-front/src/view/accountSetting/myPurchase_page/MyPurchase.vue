@@ -27,7 +27,7 @@ const getOrders=async()=>{
         inputData["status"]=filterStatus.value
     }
     if(searchText.value.length!=0){
-        inputData["ownerItemOrProduct"]=searchText.value
+        inputData["search"]=searchText.value
     }
     let {status,data} = await fetch.getAllOrder(false,inputData)
 
