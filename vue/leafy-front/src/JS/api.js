@@ -1265,7 +1265,7 @@ const fetch = {
             dateStart,
             dateEnd,
             status, //status of order
-            ownerItemOrProduct
+            search
         } = inputData
         try {
             
@@ -1303,7 +1303,7 @@ const fetch = {
                 // status
                 if (status != undefined) url += `&status=${status}`;
                 // ownerItem Or Product
-                if(ownerItemOrProduct!=undefined) url +=`&ownerItemOrProduct=${ownerItemOrProduct}`
+                if(search!=undefined) url +=`&search=${search}`
                 
                 let res = await axios.get(url)
                 if (res.status == 200) {
