@@ -208,13 +208,13 @@ router.beforeEach(async (to, from, next) => {
                     next(); // Call next() to allow navigation
                 }
                 break;
-            case "Profile":
-                if (!isAuthenticated) {
-                    next({ name: "Home" });
-                } else {
-                    next(); // Call next() to allow navigation
-                }
-                break;
+            // case "Profile":
+            //     if (!isAuthenticated) {
+            //         next({ name: "Home" });
+            //     } else {
+            //         next(); // Call next() to allow navigation
+            //     }
+            //     break;
             case "AccountSetting":
                 if (!isAuthenticated) {
                     next({ name: "SignIn" });
