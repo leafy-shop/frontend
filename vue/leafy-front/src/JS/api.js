@@ -702,6 +702,38 @@ const fetch = {
         }
 
     },
+    async getGalleryByOwner(sort_name){
+        let returnData = { status: false, data: undefined, msg: '' }
+        // if(inputData!=undefined){
+        //     let{
+        //         sort_name,
+        //         sort
+        //     }=inputData
+        // }
+        try {
+            let url = `${origin}/api/contents/owner`
+            let res = await axios.get(url)
+            if(sort_name!=undefined) url +=`?sort_name=${sort_name}`
+
+            if (res.status==200) {
+                returnData.status=true
+                returnData.data=res.data
+                validation.function_Status('get gallery ' , true)
+            } 
+            return returnData
+        } catch (error) {
+            validation.function_Status('cannot get get gallery ' , false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+
+    },
     async getStore(owner) {
         let returnData = { status: false, data: undefined, msg: '' }
         console.log(owner, 'item owner')
