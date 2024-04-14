@@ -17,7 +17,7 @@ const getAllReviews = async () => {
     console.log(data.list)
     reviewArr.value = data.list
     starAverage.value = data.avg_rating
-    rating.value = Math.floor(starAverage.value)
+    rating.value = Math.round(starAverage.value)
     reviewAmount.value = data.allItems
 }
 
@@ -75,7 +75,7 @@ onBeforeMount(()=>{
                     <img v-for="(star,index) of rating>5?5:rating" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
                 </div>
                 <h4>
-                    {{ starAverage }} average
+                    {{ parseFloat(starAverage).toFixed(1) }} average
                 </h4>
                 <h4>
                     {{ calculateReview }} reviews
@@ -96,7 +96,7 @@ onBeforeMount(()=>{
                             {{ data.name }}                            
                             </h4>
                             <div>
-                                <img v-for="(star,index) of data.rating>5?5:data.rating" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
+                                <img v-for="(star,index) of data.rating>5?5:Math.round(data.rating)" :key="index" src="../../assets/icon/star.svg" alt="star_icon">
                             </div>
                         </div>
 
