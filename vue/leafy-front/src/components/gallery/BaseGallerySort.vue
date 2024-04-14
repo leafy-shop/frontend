@@ -6,6 +6,10 @@ const props =defineProps({
         type:String,
         required:true,
         default:''
+    },
+    isSetting:{
+        type:Boolean,
+        default:false
     }
 })
 // common attribute
@@ -83,7 +87,7 @@ onMounted(()=>{
             <!-- </div> -->
         </div>
         <!-- move page -->
-        <div class="container_move">
+        <div v-if="!props.isSetting" class="container_move">
             <!-- show all page -->
             <h5>
                 <span>
@@ -125,20 +129,22 @@ onMounted(()=>{
 .gallery_sort{
     display: flex;
     width: 100%;
-    height: 76px;
+    height: v-bind('props.isSetting==true?'36px':'76px'');
     border-radius: 8px;
     color: #EEEEEE;
     /* overflow: hidden; */
     align-items: center;
     justify-content: space-between;
-    background-color: #EEEEEE;
-    padding: 20px;
+    background-color: v-bind('props.isSetting==true?'':'#EEEEEE'');
+    padding: v-bind('props.isSetting==true?'0px':'20px'');
 }
 .container_sort{
     display: flex;
     width: 100%;
     height: 100%;
     gap: 12px;
+    justify-content: start;
+    align-items: center;
 }
 .container_sort button{
     display: flex;
@@ -155,6 +161,9 @@ onMounted(()=>{
     justify-content: center;
     align-items: center;
     gap: 8px;
+}
+.container_sort> button{
+    border: v-bind('props.isSetting==true?'1px solid #E0E0E0':'none'');
 }
 .container_sort button >div{
     display: flex;
@@ -177,6 +186,9 @@ onMounted(()=>{
 /* drop down sort */
 .container_sort .container_drop_down{
     position: relative;
+}
+.container_sort .container_drop_down >button{
+    border: v-bind('props.isSetting==true?'1px solid #E0E0E0':'none'');
 }
 .container_sort .drop_down_sort{
     display: flex;
