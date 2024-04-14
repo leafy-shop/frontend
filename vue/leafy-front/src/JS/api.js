@@ -675,7 +675,33 @@ const fetch = {
         }
 
     },
+    // product detail page
+    async getGallery(){
+        let returnData = { status: false, data: undefined, msg: '' }
 
+        try {
+            let url = `${origin}/api/contents`
+            let res = await axios.get(url)
+
+            if (res.status==200) {
+                returnData.status=true
+                returnData.data=res.data
+                validation.function_Status('get gallery ' , true)
+            } 
+            return returnData
+        } catch (error) {
+            validation.function_Status('cannot get get gallery ' , false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+
+    },
     async getStore(owner) {
         let returnData = { status: false, data: undefined, msg: '' }
         console.log(owner, 'item owner')
