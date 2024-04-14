@@ -106,7 +106,7 @@ onBeforeMount(()=>{
                             </p>
                         </div>
                         <div class="date">
-                            {{ Math.floor(data.time) }} {{ data.time > 2 ? "days": "day"}} ago
+                            {{ data.time }}
                         </div>
                     </div>
                 </div>
