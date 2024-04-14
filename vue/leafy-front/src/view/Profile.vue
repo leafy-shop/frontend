@@ -61,21 +61,9 @@ const changeMode=()=>{
     let includeMode=pMode.map(x=>x.mode==owner.value.role?true:false) //check role for select mode
 
     // change mode
-    if(owner.value.userId==cookieId.value){ //check is that me
-    // if(owner.value.userId!=cookieId.value){ //check is that me
-        isMe.value=true
+    if(owner.value.userId!=cookieId.value){ //this not me or not login
 
-        if(includeMode.includes(true)){ //check role, is exist?
-            console.log('store role',owner.value)
-            profileMode.value=owner.value.role
-        }else{
-            // error
-            console.log('role does not exist!!')
-
-        }   
-
-    }else{ 
-        isMe.value=false //this not me
+        isMe.value=false 
         
         if(includeMode.includes(true)){ //check role, is exist?
             console.log('store role',owner.value)
@@ -84,7 +72,19 @@ const changeMode=()=>{
             // error
             console.log('role does not exist!!')
 
-        }        
+        }   
+    }else{ 
+        // if(owner.value.userId!=cookieId.value){ //check is that me
+            isMe.value=true
+
+            if(includeMode.includes(true)){ //check role, is exist?
+                console.log('store role',owner.value)
+                profileMode.value=owner.value.role
+            }else{
+                // error
+                console.log('role does not exist!!')
+
+            }  
     }
 
 }
@@ -238,12 +238,16 @@ const moveRight = async (current) => {
 
 onBeforeMount(async() => {
     // param
+    
     id.value=validation.decrypt(params.id)
     // cookie
-    let cookieData=cookie.decrypt()
-    cookieId.value=cookieData.id
-    cookieRole.value=cookieData.role
-    
+    if(cookie.checkKeyPass()){
+        let cookieData=cookie.decrypt()
+        cookieId.value=cookieData.id
+        cookieRole.value=cookieData.role
+    }else{
+        
+    }
     await getStore() 
     await checkImage()
     await checkCoverImage()
