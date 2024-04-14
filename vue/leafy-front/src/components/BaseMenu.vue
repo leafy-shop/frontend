@@ -125,6 +125,7 @@ const signOut = async () => {
         return myRouter.push({ name: 'SignIn' })
     }
 }
+const goGalleryList=()=>myRouter.push({name:'Gallery'})
 
 // check img
 const checkImg = async () => {
@@ -190,7 +191,7 @@ onMounted(() => {
                     <button @click="goShop" class="link" name="shop">
                         Shop
                     </button>
-                    <button class="link" name="gallery">
+                    <button @click="goGalleryList" class="link" name="gallery">
                         Gallery
                     </button>
                     <button class="link " name="about">
