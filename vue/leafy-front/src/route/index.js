@@ -9,10 +9,12 @@ import CartList from '../view/Cart.vue'
 import Profile from '../view/Profile.vue'
 import Gallery from '../view/Gallery.vue'
 import GalleryDetail from '../view/GalleryDetail.vue'
+import GalleryProfile from '../view/GalleryProfile.vue'
 import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
 import Payment from '../view/Payment.vue'
+
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
 import Profile_AS from '../view/accountSetting/Profile.vue'
@@ -76,9 +78,14 @@ const routes=[
         component:Gallery
     },
     {
-        path:'/gallery-detail/:id',
+        path:'/gallery/gallery-detail/:id',
         name:'GalleryDetail',
         component:GalleryDetail
+    },
+    {
+        path:'/gallery/profile/:id',
+        name:'GalleryProfile',
+        component:GalleryProfile
     },
     {
         path:'/account-setting', //:id?
