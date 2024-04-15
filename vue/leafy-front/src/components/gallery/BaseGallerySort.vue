@@ -16,7 +16,7 @@ const props =defineProps({
 const showStyleFilter=ref(false)
 
 // choose style
-const selectFilter=(name,styleFilter)=>{
+const selectFilter=(name,styleFilter,isStyle=false)=>{
     if(styleFilter!=undefined){
         let element=document.getElementById(name)
         let allElement=document.getElementsByClassName("sort_btn")
@@ -26,8 +26,12 @@ const selectFilter=(name,styleFilter)=>{
         }
         element.classList.add('sort_btn_active')
         showStyleFilter.value=false
-        console.log(styleFilter)
-        return emit("getStyleFilter",styleFilter)
+        // console.log(styleFilter)
+        if(isStyle){
+            return emit("getStyleFilter",{style:styleFilter})
+        }else{
+            return emit("getStyleFilter",{sort_name:styleFilter})
+        }
     }
 }
 onMounted(()=>{
@@ -61,25 +65,25 @@ onMounted(()=>{
                     </div>
                 </button>
                 <div v-show="showStyleFilter" class="drop_down_sort">
-                    <button @click="selectFilter('style','modern')" class="style_sort">
+                    <button @click="selectFilter('style','modern','style')" class="style_sort">
                         Modern
                     </button>
-                    <button @click="selectFilter('style','tropical')" class="style_sort">
+                    <button @click="selectFilter('style','tropical',true)" class="style_sort">
                         Tropical
                     </button>
-                    <button @click="selectFilter('style','japanese')" class="style_sort">
+                    <button @click="selectFilter('style','japanese',true)" class="style_sort">
                         Japanese
                     </button>
-                    <button @click="selectFilter('style','english')" class="style_sort">
+                    <button @click="selectFilter('style','english',true)" class="style_sort">
                         English
                     </button>
-                    <button @click="selectFilter('style','europe')" class="style_sort">
+                    <button @click="selectFilter('style','europe',true)" class="style_sort">
                         Europe
                     </button>
-                    <button @click="selectFilter('style','desert')" class="style_sort">
+                    <button @click="selectFilter('style','desert',true)" class="style_sort">
                         Desert
                     </button>
-                    <button @click="selectFilter('style','other')" class="style_sort">
+                    <button @click="selectFilter('style','other',true)" class="style_sort">
                         Other
                     </button>
                 </div>
