@@ -702,18 +702,30 @@ const fetch = {
         }
 
     },
-    async getGalleryByOwner(sort_name){
+    async getGalleryByOwner(inputData){
         let returnData = { status: false, data: undefined, msg: '' }
         // if(inputData!=undefined){
-        //     let{
-        //         sort_name,
-        //         sort
-        //     }=inputData
+            let{
+                page,
+                sort_name,
+                sort,
+                style,
+                limit
+            }=inputData
         // }
+        // console.log(sort_name,'this from api')
         try {
             let url = `${origin}/api/contents/owner`
+            if(page!=undefined){
+                url+=`?page=${page}`
+            }else{
+                url+= `?page=${1}`
+            }
+            if(limit!=undefined) url +=`&limit=${limit}`
+
+            if(sort_name!=undefined) url +=`&sort_name=${sort_name}`
+            if(style!=undefined) url +=`&style=${style}`
             let res = await axios.get(url)
-            if(sort_name!=undefined) url +=`?sort_name=${sort_name}`
 
             if (res.status==200) {
                 returnData.status=true
@@ -733,6 +745,30 @@ const fetch = {
             }
         }
 
+    },
+    async deleteGallery(galleryId) {
+        // let returnData = { status: false, data: undefined, msg:'' }
+        let returnData = { status: false, msg: '' }
+        try {
+            let url = `${origin}/api/contents/${galleryId}`
+            let res = await axios.delete(url)
+            if (res.status == 200) {
+                validation.function_Status('gallery deleted.', true,)
+                returnData.status = true
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('Cannot delete gallery ', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+            }
+            else {
+                returnData.status = false
+            }
+            return returnData
+        }
     },
     async getStore(owner) {
         let returnData = { status: false, data: undefined, msg: '' }
