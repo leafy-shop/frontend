@@ -10,6 +10,7 @@ import BaseBankItemList from '../components/bank/BaseBankItemList.vue'
 import BaseOrderItem from '../components/myPurchase/BaseOrderItem.vue';
 import BaseSummary from '../components/cartList/BaseSummary.vue';
 import BaseBankItem from '../components/bank/BaseBankItem.vue';
+import BaseShowErrorInput from '../components/accountSetting/BaseShowErrorInput.vue';
 // link
 const myRoute=useRouter()
 const {params}=useRoute()
@@ -24,10 +25,12 @@ const rawData =ref(undefined)
 const isBuyNow=ref(undefined)
 // common status
 const showOverlay=ref(false)
+// payment status
+const paymentStatus=ref(false) //for show error when try to buy out of stock
 // address selected
 const addressSelected=ref({}) // for address selection
 // mode selection
-const showInputContainer=ref(false) //for 
+const showInputContainer=ref(false) //where data send from cart or product detail
 // input address
 const addressName=ref('')
 const addressPhone=ref('')
@@ -50,6 +53,22 @@ const addressFormData=computed(()=>{
   }
   return inputData
 })
+// input address status
+const addressNameS=ref(false)
+const addressPhoneS=ref(false)
+const addressDescS=ref(false)
+const addressProvinceS=ref(false)
+const addressDistrictS=ref(false)
+const addressSubDistrictS=ref(false)
+const addressZipS=ref(false)
+// input address msg
+const addressNameM=ref('')
+const addressPhoneM=ref('')
+const addressDescM=ref('')
+const addressProvinceM=ref('')
+const addressDistrictM=ref('')
+const addressSubDistrictM=ref('')
+const addressZipM=ref('')
 
 // mode controller
 const inputController=(show)=>{
@@ -120,23 +139,74 @@ const getAddress=async()=>{
     addressSelected.value=addressDefault.value
   }
 }
+
+
 // add new address
 const createAddress=async()=>{
-  let{status,msg,data}=await fetch.addAddress(userName.value,addressFormData.value)
-  if(status){
-    if(addressSetDefault.value){ //if set default data
-      let res=await fetch.updateAddressById(userName.value,data,{isDefault: true})
-      if(res.status){
-        
-        console.log('set default address successful')
-         // go back to address list when update successful
-      }else{
-        console.log('cannot set default address')
-      }
+  let submitStatus=true //use for check
+  // clear status & msg first
+  addressStatusClear()
+  addressMessageClear()
+  // name
+  if(addressName.value.length==0){
+    addressNameS.value=true
+    addressNameM.value='Address name invalid'
+    submitStatus=false
+  }
+  // phone
+  if(!validation.textRange(addressPhone.value,12,11)||!validation.number(addressPhone.value)){
+    addressPhoneS.value=true
+    addressPhoneM.value='Phone number invalid'
+    submitStatus=false
+  }
+  // address desc
+  if(addressDesc.value.length==0){
+      addressDescS.value=true
+      addressDescM.value='Address invalid'
+      submitStatus=false
     }
-    await getAddress()
-    inputClear()
-    inputController(false)
+    // province
+  if(addressProvince.value.length==0||!validation.text(addressProvince.value)){
+    addressProvinceS.value=true
+    addressProvinceM.value='Province invalid'
+    submitStatus=false
+  }
+  // district
+  if(addressDistrict.value.length==0||!validation.text(addressDistrict.value)){
+    addressDistrictS.value=true
+    addressDistrictM.value='District invalid'
+    submitStatus=false
+  }
+  // sub
+  if(addressSubDistrict.value.length==0||!validation.text(addressSubDistrict.value)){
+    addressSubDistrictS.value=true
+    addressSubDistrictM.value='Sub District invalid'
+    submitStatus=false
+  }
+  // zip
+  if(!validation.textRange(addressZip.value,5,5)||!validation.number(addressZip.value)){
+    addressZipS.value=true
+    addressZipM.value='Zip / Postal invalid'
+    submitStatus=false
+  }
+
+  if(submitStatus){
+    let{status,msg,data}=await fetch.addAddress(userName.value,addressFormData.value)
+    if(status){
+      if(addressSetDefault.value){ //if set default data
+        let res=await fetch.updateAddressById(userName.value,data,{isDefault: true})
+        if(res.status){
+          
+          console.log('set default address successful')
+          // go back to address list when update successful
+        }else{
+          console.log('cannot set default address')
+        }
+      }
+      await getAddress()
+      inputClear()
+      inputController(false)
+    }
   }
 }
 // clear input
@@ -149,6 +219,24 @@ const inputClear=()=>{
   addressSubDistrict.value=""
   addressZip.value=""
   addressSetDefault.value=false
+}
+const addressStatusClear=()=>{
+  addressNameS.value=false
+  addressPhoneS.value=false
+  addressDescS.value=false
+  addressProvinceS.value=false
+  addressDistrictS.value=false
+  addressSubDistrictS.value=false
+  addressZipS.value=false
+}
+const addressMessageClear=()=>{
+  addressNameM.value=""
+  addressPhoneM.value=""
+  addressDescM.value=""
+  addressProvinceM.value=""
+  addressDistrictM.value=""
+  addressSubDistrictM.value=""
+  addressZipM.value=""
 }
 
 // place order
@@ -314,26 +402,9 @@ onBeforeMount(async()=>{
                 </h6>
                 <div class="method_list">
                   <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
+                    <img src="../assets/icon/thai_qr_icon.png" alt="thai_payment_icon">
                   </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
+                  
                 </div>
               </div>
 
@@ -512,6 +583,7 @@ onBeforeMount(async()=>{
                       Full name
                     </h6>
                     <input v-model="addressName" type="text">
+                    <BaseShowErrorInput name="full_name" :msg="addressNameM" :show="addressNameS" />
                   </div>
                   <!-- Phone -->
                   <div class="input_field">
@@ -519,6 +591,7 @@ onBeforeMount(async()=>{
                       Phone
                     </h6>
                     <input v-model="addressPhone" maxlength="11" type="text">
+                    <BaseShowErrorInput name="phone_number" :msg="addressPhoneM" :show="addressPhoneS" />
                   </div>
                 </div>
                 <!-- address -->
@@ -527,6 +600,8 @@ onBeforeMount(async()=>{
                     address
                   </h6>
                   <input v-model="addressDesc" type="text">
+                  <BaseShowErrorInput name="address" :msg="addressDescM" :show="addressDescS"/>
+
                 </div>
                 <!-- province & district -->
                 <div class="input_list">
@@ -536,6 +611,8 @@ onBeforeMount(async()=>{
                       Province
                     </h6>
                     <input v-model="addressProvince" type="text">
+                    <BaseShowErrorInput name="province" :msg="addressProvinceM"  :show="addressProvinceS" />
+
                   </div>
                   <!-- district -->
                   <div class="input_field">
@@ -543,6 +620,8 @@ onBeforeMount(async()=>{
                       District
                     </h6>
                     <input v-model="addressDistrict" type="text">
+                    <BaseShowErrorInput name="district" :msg="addressDistrictM" :show="addressDistrictS" />
+
                   </div>
                 </div>
                 <!-- sub district & zip -->
@@ -553,6 +632,8 @@ onBeforeMount(async()=>{
                       Sub district
                     </h6>
                     <input v-model="addressSubDistrict" type="text">
+                    <BaseShowErrorInput name="sub_district" :msg="addressSubDistrictM" :show="addressSubDistrictS" />
+
                   </div>
                   <!-- zip -->
                   <div class="input_field">
@@ -560,12 +641,14 @@ onBeforeMount(async()=>{
                       Zip / Postal
                     </h6>
                     <input v-model="addressZip" maxlength="5" type="text">
+                    <BaseShowErrorInput name="zip" :msg="addressZipM" :show="addressZipS" />
+
                   </div>
                 </div>
                 <!-- set as Default Address -->
                 <div class="set_default">
-                  <input v-model="addressSetDefault"  type="checkbox" name="set_default" id="">
-                  <label for="set_default">
+                  <input v-model="addressSetDefault"  type="checkbox" name="set_default" id="set_default_btn">
+                  <label for="set_default_btn">
                     Set as Default Address
                   </label>
                 </div>
@@ -959,6 +1042,9 @@ onBeforeMount(async()=>{
   height: 20px;
   gap: 8px;
 }
+.set_default input{
+  accent-color: #26AC34;
+}
 .set_default label{
   display: flex;
   width: 100%;
@@ -1001,4 +1087,7 @@ onBeforeMount(async()=>{
   background-color: #26AC34;
   color: #fff;
 }
+
+
+
 </style>

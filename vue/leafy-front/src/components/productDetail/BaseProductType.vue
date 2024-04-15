@@ -151,7 +151,7 @@ let addToCart = async () => {
   }
 };
 
-let addressDefaultId = ref("");
+// let addressDefaultId = ref("");
 // get address
 // const getAddress = async (userName) => {
 //   let { status, data } = await fetch.getAllAddress(userName);
@@ -169,39 +169,43 @@ let addressDefaultId = ref("");
 // direct to payment page
 let payInOrder = async () => {
   if (userName.value != undefined) {
-    let paymentOrder = [
-      {
-        //array
-        shopName:itemOwner.value,
-        orderTotal:Number(stepInput.value)*Number(sizeObj.value.price),
-        order_detail:[
-          {
-            itemId: productStyle.value.itemId, //(use)
-            image:productStyle.value.image,
-            itemStyle: selectedStyle.value.style, //style (use)
-            itemname:productStyle.value.name,//name
-            priceEach:Number(sizeObj.value.price), //price
-            qtyOrder:Number(stepInput.value), //qty (use)
-            itemSize: sizeObj.value.size, //(use) //size
-            stock: sizeObj.value.stock,
-          }
-        ],
-        // addressId: addressDefaultId.value,
-        
-      },
-    ];
-    console.log(sizeObj.value)
-    let inputData={
-      isBuyNow:true,
-      dataList:paymentOrder
-    }
-    // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
-    // check stock
-    if (selectedStyle.value.stock != 0) {
-      goPayment(JSON.stringify(inputData).toString()); //tranform data to text
-      // console.log(selectedStyle.value)
-    } else {
-      //error can not buy
+    if(Number(sizeObj.value.stock)!=0){ //stock not 0
+      let paymentOrder = [
+        {
+          //array
+          shopName:itemOwner.value,
+          orderTotal:Number(stepInput.value)*Number(sizeObj.value.price),
+          order_detail:[
+            {
+              itemId: productStyle.value.itemId, //(use)
+              image:productStyle.value.image,
+              itemStyle: selectedStyle.value.style, //style (use)
+              itemname:productStyle.value.name,//name
+              priceEach:Number(sizeObj.value.price), //price
+              qtyOrder:Number(stepInput.value), //qty (use)
+              itemSize: sizeObj.value.size, //(use) //size
+              stock: sizeObj.value.stock,
+            }
+          ],
+          // addressId: addressDefaultId.value,
+          
+        },
+      ];
+      console.log(sizeObj.value)
+      let inputData={
+        isBuyNow:true,
+        dataList:paymentOrder
+      }
+      // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
+      // check stock
+      if (selectedStyle.value.stock != 0) {
+        goPayment(JSON.stringify(inputData).toString()); //tranform data to text
+        // console.log(selectedStyle.value)
+      } else {
+        //error can not buy
+      }
+    }else{
+      // stock 0
     }
     // await fetch.BuyNowWithoutCart(paymentOrder);
 
@@ -361,7 +365,7 @@ onUpdated(() => {
         <h4>
           {{ productStyle.name }}
         </h4>
-        <svg
+        <!-- <svg
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -398,7 +402,7 @@ onUpdated(() => {
             d="M18.1537 10.6248C17.7667 10.6248 17.4387 10.3278 17.4067 9.93578C17.3407 9.11378 16.7907 8.41978 16.0077 8.16678C15.6127 8.03878 15.3967 7.61578 15.5237 7.22278C15.6527 6.82878 16.0717 6.61478 16.4677 6.73878C17.8307 7.17978 18.7857 8.38678 18.9027 9.81378C18.9357 10.2268 18.6287 10.5888 18.2157 10.6218C18.1947 10.6238 18.1747 10.6248 18.1537 10.6248Z"
             fill="#FF5E65"
           />
-        </svg>
+        </svg> -->
       </div>
       <div class="information_details">
         <!-- for show rating and sold -->
@@ -471,7 +475,9 @@ onUpdated(() => {
             <input type="text" @input="detectNumber" v-model="stepInput" />
             <button @click="rightAdd">+</button>
           </div>
-          <p>{{ sizeObj.stock }} pieces avaliable</p>
+          <p :style="[sizeObj.stock==0?'color:#F75555':'']">
+            {{ sizeObj.stock }} pieces avaliable
+          </p>
         </div>
       </div>
       <div class="wrapper_apply_buy">
@@ -750,7 +756,9 @@ onUpdated(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  width: fit-content;
+  min-width: 40px;
+  max-width: 100px;
   height: inherit;
   border: none;
   text-align: center;

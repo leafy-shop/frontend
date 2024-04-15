@@ -128,7 +128,7 @@ const routes=[
                 component:MyPurchase_AS
             },
             {
-                path:'my-purchase/detail/:id?',
+                path:'my-purchase/detail/:id',
                 name:'MyPurchaseDetail',
                 component:MyPurchaseDetail_AS
             },
@@ -153,7 +153,7 @@ const routes=[
                 component:MyGallery_AS
             },
             {
-                path:'my-gallery/add-project/:id?',
+                path:'my-gallery/add-project/:method/:id?',
                 name:'MyGallery_AS_add',
                 component:MyGallery_AS_add
             },
@@ -208,13 +208,13 @@ router.beforeEach(async (to, from, next) => {
                     next(); // Call next() to allow navigation
                 }
                 break;
-            case "Profile":
-                if (!isAuthenticated) {
-                    next({ name: "Home" });
-                } else {
-                    next(); // Call next() to allow navigation
-                }
-                break;
+            // case "Profile":
+            //     if (!isAuthenticated) {
+            //         next({ name: "Home" });
+            //     } else {
+            //         next(); // Call next() to allow navigation
+            //     }
+            //     break;
             case "AccountSetting":
                 if (!isAuthenticated) {
                     next({ name: "SignIn" });

@@ -5,22 +5,63 @@ import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseGalleryCard from '../components/gallery/BaseGalleryCard.vue'
 import BaseGallerySort from '../components/gallery/BaseGallerySort.vue'
+import BaseMovePage from '../components/accountSetting/BaseMovePage.vue';
 import fetch from '../JS/api';
+import BaseSelectPage from '../components/BaseSelectPage.vue';
 // link
+let origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
 const goGalleryDetail=(galleryId)=>myRouter.push({name:'GalleryDetail',params:{id:galleryId}})
 // common attribute
 const {params} = useRoute()
 const galleryList=ref([])
 
+// page move
+const currentPage=ref(1)
+const allPage=ref(0)
+
+// filter
+const itemFilter=ref(undefined)
+
 // get gallery content
 const getGallery=async()=>{
-    let{status,data}= await fetch.getGallery()
+    let inputData={
+        page:currentPage.value
+    }
+    if(itemFilter.value!=undefined){
+        let [keyObj]=Object.keys(itemFilter.value)
+        console.log(keyObj)
+        if(keyObj=='style'){
+            inputData["style"]=itemFilter.value.style
+        }else{
+            if(itemFilter.value.sort_name!="all"){
+                inputData["sort_name"]=itemFilter.value.sort_name
+            }
+        }
+    }
+    let{status,data}= await fetch.getGallery(inputData)
     if(status){
         console.log(data)
         galleryList.value=data.list
+        allPage.value=data.allPage
     }
 }
+
+// filter
+const galleryFilter=async(filter)=>{
+    itemFilter.value=filter
+    currentPage.value=1
+    console.log(filter)
+    await getGallery()
+}
+
+// move page
+const changeCurrentPage=(input)=>{
+    currentPage.value=input
+    getGallery()
+}
+
+
 onBeforeMount(async()=>{
     await getGallery()
 })
@@ -39,14 +80,15 @@ onBeforeMount(async()=>{
     <!-- content -->
     <div class="wrapper_gallery">
         <div class="gallery">
-            <BaseGallerySort name="gallery_list_sort" />
+            <BaseGallerySort name="gallery_list_sort" @getStyleFilter="galleryFilter" @nextPage="changeCurrentPage" @previousPage="changeCurrentPage" :currentPage="currentPage" :allPage="allPage" />
             <!-- gallery list -->
             <div class="gallery_list">
                 <div v-if="galleryList!=undefined" v-for="(gallery,index) of galleryList" :key="index" class="wrapper_gallery_item">
-                    <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" name="gallery_list" :projectImg="undefined" :projectName="gallery.name"
-                    :createrImg="undefined" :createrName="gallery.contentOwner" :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
+                    <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" name="gallery_list" :projectId="String(gallery.contentId)" :projectImg="gallery.image" :projectName="gallery.name"
+                    :createrImg="gallery.icon" :createrName="gallery.contentOwner" :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
                 </div>
             </div>
+            <BaseSelectPage name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
         </div>
     </div>
     <BaseFooter/>

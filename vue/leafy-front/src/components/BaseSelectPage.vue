@@ -3,6 +3,11 @@ import {ref,onMounted,onUpdated,computed} from 'vue'
 import validation from '../JS/validation'
 const emit = defineEmits(["changePage","moveLeft","moveRight"])
 const props=defineProps({
+    name:{
+        type:String,
+        required:true,
+        default:''
+    },
     totalPage:{
         type:Number,
         required:true,
