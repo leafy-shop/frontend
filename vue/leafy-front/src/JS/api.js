@@ -676,11 +676,29 @@ const fetch = {
 
     },
     // product detail page
-    async getGallery(){
+    async getGallery(inputData){
         let returnData = { status: false, data: undefined, msg: '' }
-
+        let{
+            page,
+            limit,
+            sort_name,
+            style,
+            contentOwner
+        }= inputData
         try {
             let url = `${origin}/api/contents`
+            // page
+            if(page!=undefined)url+=`?page=${page}`;
+            else url+=`?page=${1}`;
+            // limit
+            if(limit!=undefined) url+=`&limit=${limit}`;
+            // contentOwner
+            if(contentOwner!=undefined) url+=`&contentOwner=${contentOwner}`;
+            // sort name
+            if(sort_name!=undefined) url+=`&sort_name=${sort_name}`;
+            // style
+            if(style!=undefined) url+=`&style=${style}`;
+            
             let res = await axios.get(url)
 
             if (res.status==200) {
@@ -1389,7 +1407,8 @@ const fetch = {
             dateStart,
             dateEnd,
             status, //status of order
-            search
+            search,
+            orderId
         } = inputData
         try {
             
@@ -1418,8 +1437,13 @@ const fetch = {
             } else { //for normal user
                 let url = `${origin}/api/orders`
                 // page
-                if(page ==undefined) url+=`?page=${1}`
-                else url+=`?page=${page}`
+                if(page ==undefined&&orderId==undefined){
+                    url+=`?page=${1}`
+                }else if(page !=undefined&&orderId==undefined){
+                    url+=`?page=${page}`
+                }else if(page==undefined&&orderId!=undefined){
+                    url+=`/${orderId}`
+                }
                 // limit
                 if (limitP != undefined) url += `&limit=${limitP}`;
                 // sort
