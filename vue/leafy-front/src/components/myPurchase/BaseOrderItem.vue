@@ -5,11 +5,14 @@ import ORDERSTATUSCOLOR from '../../JS/enum/orderStatusColor';
 import ORDERSTATUS from '../../JS/enum/order';
 import validation from '../../JS/validation'
 import {useRouter} from 'vue-router'
+import BaseStar from '../../components/productDetail/BaseStar.vue'
+import BaseStarInput from '../shop_page/BaseStarInput.vue';
+import BaseSubmit from '../../components/accountSetting/BaseSubmit.vue'
 // import validation from '../../JS/validation'
 // link
 const  origin = `${import.meta.env.VITE_BASE_URL}`;
-const myRouter=useRouter()
-const goProfile =(shopId)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopId)}})
+// const myRouter=useRouter()
+// const goProfile =(shopId)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopId)}})
 
 // common attribute
 const props=defineProps({
@@ -76,6 +79,12 @@ const orderStatus=computed(()=>props.orderStatus)
 //         // return  `../../assets/vue.svg`
 //     }
 // }
+
+
+// review
+// common attribute 
+const showReviewOverlay=ref(false) //for show overlay
+const isUpdateReview=ref(false) //for show list or container input
 
 </script>
 <template>
@@ -185,10 +194,154 @@ const orderStatus=computed(()=>props.orderStatus)
                     Buy Again
                 </button>
                 <!-- view mt rating -->
-                <button @click="$emit('view Rating')" class="view_my_rating">
+                <button @click="showReviewOverlay=!showReviewOverlay" class="view_my_rating">
                     View My Rating
                 </button>
 
+            </div>
+        </div>
+        <!-- review -->
+        <div v-if="showReviewOverlay" :id="`${props.name}`" class="overlay_review">
+            <!-- list -->
+            <div v-if="!isUpdateReview" class="wrapper_review">
+                <h5 class="header_review_list">
+                    My Rating
+                </h5>
+                <div class="review_list">
+                    <div v-for="(product,index) of props.orderDetail" :key="index" class="review_item">
+                        <!-- img -->
+                        <div class="product_img">
+                            <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img">
+                            <img v-else src="../../assets/vue.svg" :id="`default_product_img_${product.itemId}`" alt="product_img">
+                
+                        </div>
+                        <!-- name -->
+                        <div class="product_name">
+                            <h6 >
+                                {{ product.itemname }}
+                            </h6> 
+                            <p>
+                                {{ product.itemStyle }}: {{ product.itemSize }}
+                            </p>
+                        </div>
+                        
+                        <!-- rating -->
+                        <div class="product_star">
+                            <BaseStar :isGap="false" :rating="2" :name="`star_${props.name}_${index}`" :size="60" />
+                        </div>
+                        <!-- operation -->
+                        <div class="product_operation">
+                            <button @click="isUpdateReview=!isUpdateReview">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.16634 4.16664H4.99967C4.55765 4.16664 4.13372 4.34223 3.82116 4.65479C3.5086 4.96736 3.33301 5.39128 3.33301 5.83331V15C3.33301 15.442 3.5086 15.8659 3.82116 16.1785C4.13372 16.491 4.55765 16.6666 4.99967 16.6666H14.1663C14.6084 16.6666 15.0323 16.491 15.3449 16.1785C15.6574 15.8659 15.833 15.442 15.833 15V10.8333M14.6547 2.98831C14.8084 2.82912 14.9923 2.70215 15.1957 2.6148C15.399 2.52746 15.6177 2.48148 15.839 2.47956C16.0603 2.47763 16.2798 2.5198 16.4846 2.6036C16.6894 2.6874 16.8755 2.81116 17.032 2.96765C17.1885 3.12414 17.3122 3.31022 17.396 3.51505C17.4798 3.71988 17.522 3.93934 17.5201 4.16064C17.5182 4.38194 17.4722 4.60064 17.3848 4.80398C17.2975 5.00732 17.1705 5.19123 17.0113 5.34497L9.85634 12.5H7.49967V10.1433L14.6547 2.98831Z" stroke="#F75555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- button -->
+                <div class="close_review_list">
+                    <button>
+                        OK
+                    </button>
+                </div>
+            </div>
+            <!-- add or edit -->
+            <div v-else class="wrapper_review_input">
+                <!-- detail -->
+                <div class="container_review_input">
+                    <!-- header -->
+                    <div class="header_edit">
+                        <button>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7068 5.29303C12.8943 5.48056 12.9996 5.73487 12.9996 6.00003C12.9996 6.26519 12.8943 6.5195 12.7068 6.70703L9.41379 10L12.7068 13.293C12.8889 13.4816 12.9897 13.7342 12.9875 13.9964C12.9852 14.2586 12.88 14.5094 12.6946 14.6948C12.5092 14.8803 12.2584 14.9854 11.9962 14.9877C11.734 14.99 11.4814 14.8892 11.2928 14.707L7.29279 10.707C7.10532 10.5195 7 10.2652 7 10C7 9.73487 7.10532 9.48056 7.29279 9.29303L11.2928 5.29303C11.4803 5.10556 11.7346 5.00024 11.9998 5.00024C12.265 5.00024 12.5193 5.10556 12.7068 5.29303Z" fill="#212121"/>
+                            </svg>
+                            <h6>
+                                Back
+                            </h6>
+                        </button>
+                    </div>
+                    <!-- review input -->
+                    <div class="review_input">
+                        <!-- product -->
+                        <div class="container_product">
+                            <!-- product detail -->
+                            <div class="product_item">
+                                <!-- img -->
+                                <div class="product_item_image">
+                                    <img src="../../assets/vue.svg" alt="product_review_img">
+                                </div>
+                                <!-- product info -->
+                                <div class="product_item_detail">
+                                    <h6>
+                                        Polyscias Fabian
+                                    </h6>
+                                    <p>
+                                        Variation : SKU-name, SKU-name
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- quantity -->
+                            <div class="product_quantity">
+                                <h6>
+                                    Product Quality
+                                </h6>
+                                <div>
+                                    <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" />
+                                </div>
+                            </div>
+                            <!-- description -->
+                            <textarea class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers."></textarea>
+                            <!-- img container -->
+                            <!-- <div>
+                                <button>
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5C3.46957 5 2.96086 5.21071 2.58579 5.58579C2.21071 5.96086 2 6.46957 2 7V15C2 15.5304 2.21071 16.0391 2.58579 16.4142C2.96086 16.7893 3.46957 17 4 17H16C16.5304 17 17.0391 16.7893 17.4142 16.4142C17.7893 16.0391 18 15.5304 18 15V7C18 6.46957 17.7893 5.96086 17.4142 5.58579C17.0391 5.21071 16.5304 5 16 5H14.414C14.1488 4.99994 13.8945 4.89455 13.707 4.707L12.586 3.586C12.211 3.2109 11.7024 3.00011 11.172 3H8.828C8.29761 3.00011 7.78899 3.2109 7.414 3.586L6.293 4.707C6.10551 4.89455 5.85119 4.99994 5.586 5H4ZM10 14C10.394 14 10.7841 13.9224 11.1481 13.7716C11.512 13.6209 11.8427 13.3999 12.1213 13.1213C12.3999 12.8427 12.6209 12.512 12.7716 12.1481C12.9224 11.7841 13 11.394 13 11C13 10.606 12.9224 10.2159 12.7716 9.85195C12.6209 9.48797 12.3999 9.15726 12.1213 8.87868C11.8427 8.6001 11.512 8.37913 11.1481 8.22836C10.7841 8.0776 10.394 8 10 8C9.20435 8 8.44129 8.31607 7.87868 8.87868C7.31607 9.44129 7 10.2044 7 11C7 11.7956 7.31607 12.5587 7.87868 13.1213C8.44129 13.6839 9.20435 14 10 14Z" fill="white"/>
+                                    </svg>
+                                    <h6>
+                                        Add Photo
+                                    </h6>
+                                </button>
+                            </div> -->
+                        </div>
+                        <!-- service -->
+                        <div class="container_service">
+                            <!-- header -->
+                            <h5 class="header_service">
+                                About Service
+                            </h5>
+                            <!-- Seller Service -->
+                            <div class="seller_service">
+                                <h6>
+                                    Seller Service
+                                </h6>
+                                <div>
+                                    <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" />
+                                </div>
+                            </div>
+                            <!-- Delivery Service -->
+                            <div class="deliver_service">
+                                <h6>
+                                    Delivery Service
+                                </h6>
+                                <div>
+                                    <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- submit -->
+                <BaseSubmit :name="`${props.name}_submit`" :disabled="false" />
+                <!-- <div class="container_submit">
+                    <button>
+                        Cancel
+                    </button>
+                    <button>
+                        Submit
+                    </button>
+                </div> -->
             </div>
         </div>
     </div>
@@ -512,4 +665,385 @@ const orderStatus=computed(()=>props.orderStatus)
     border-color: #E0E0E0;
     background-color: transparent;
 }
+
+/* review */
+.overlay_review{
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100dvh;
+    background-color:#00000040;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper_review{
+    display: flex;
+    width: 544px;
+    height: fit-content;
+    flex-direction: column;
+    border: none;
+    border-radius: 8px;
+    padding: 32px;
+    gap: 24px;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 0px 1px 2px 0px #0000000F;
+}
+.wrapper_review .header_review_list{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    font-size: 16px;
+    font-weight: 500;
+    color: #212121;
+}
+/* list */
+.review_list{
+    display: flex;
+    width: 100%;
+    height:fit-content ;
+    max-height: 50dvh;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.review_item{
+    display: flex;
+    width: 100%;
+    height: 64px;
+    padding:12px 0px;
+    border-bottom: 1px solid #EEEEEE;
+    align-items: center;
+}
+/* img */
+.review_item .product_img{
+    display: flex;
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border: none;
+    border-radius: 4px;
+}
+.product_img img{
+    width: 100%;
+    height: auto;
+}
+/* name */
+.review_item .product_name{
+    display: flex;
+    width: 312px;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 12px;
+}
+.product_name > h6{
+    width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.product_name> p{
+    width: 100%;
+    height: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+    color:#616161;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* star */
+.review_item .product_star{
+    display: flex;
+    width: 84px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+/* operator */
+.review_item .product_operation{
+    display: flex;
+    width: 32px;
+    height: 100%;
+    justify-content: end;
+    align-items: center;
+}
+.product_operation button{
+    display: flex;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.close_review_list{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: end;
+    align-items: center;
+}
+.close_review_list button{
+    display: flex;
+    width: 80px;
+    height: 36px;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+}
+
+/* make review */
+.wrapper_review_input{
+    display: flex;
+    width: 544px;
+    height: fit-content;
+    flex-direction: column;
+    border: none;
+    border-radius: 8px;
+    /* padding: 32px; */
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0px 1px 2px 0px #0000000F;
+}
+/* detail */
+.wrapper_review_input .container_review_input{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    padding: 32px;
+    gap: 24px;
+}
+/* back btn */
+.container_review_input .header_edit{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    align-items: center;
+    justify-content: start;
+}
+.header_edit button{
+    display: flex;
+    width:fit-content;
+    height: 36px;
+    border: 1px solid #E0E0E0 ;
+    border-radius: 4px;
+    padding: 8px 12px;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: transparent;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+}
+.header_edit button svg{
+    width: 20px;
+    height: 20px;
+}
+.header_edit button h6{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+}
+/* review input */
+.review_input{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    gap: 24px;
+}
+/* product */
+.container_product{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    gap: 12px;
+    flex-direction: column;
+}
+.container_product .product_item{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+}
+/* img */
+.product_item .product_item_image{
+    display: flex;
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+.product_item .product_item_image img{
+    width: 100%;
+    height: auto;
+}
+/* name */
+.product_item .product_item_detail{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    padding: 6px 12px;
+    gap: 4px;
+    flex-direction: column;
+}
+.product_item_detail h6{
+    width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.product_item_detail p{
+    width: 100%;
+    height: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+    color:#616161;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* product_quantity */
+.container_product .product_quantity{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+}
+.container_product .product_quantity h6{
+    display: flex;;
+    width: 100%;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+}
+.container_product .product_quantity >div{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+/* description */
+.container_product .product_input_desc{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    min-height: 36px;
+    max-height: 100px;
+    padding: 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    resize: vertical;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+
+}
+/* service */
+.review_input .container_service{
+    display: flex;
+    width:100%;
+    height: fit-content;
+    gap: 12px;
+    flex-direction: column;
+}
+/* header */
+.container_service .header_service{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    font-size: 16px;
+    font-weight: 700;
+    color:#212121;
+}
+/* sellery */
+.container_service .seller_service{
+    display: flex;
+    width: 100%;;
+    height: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.container_service .seller_service h6{
+    width: 100%;;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.container_service .seller_service div{
+    display: flex;
+    width: fit-content;
+    height: 100%;
+}
+/* delivery */
+.container_service .deliver_service{
+    display: flex;
+    width: 100%;;
+    height: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+.container_service .deliver_service h6{
+    width: 100%;;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.container_service .deliver_service div{
+    display: flex;
+    width: fit-content;
+    height: 100%;
+}
+
+/* submit */
+/* .container_submit{
+    display: flex;
+    width:100%;
+    height: fit-content;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #FAFAFA;
+    justify-content: end;
+    align-items: center;
+}
+.container_submit button{
+    display: flex;
+    width: ;
+} */
+
+
 </style>
