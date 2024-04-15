@@ -4,18 +4,35 @@ import fetch from '../../JS/api';
 import ORDERSTATUSCOLOR from '../../JS/enum/orderStatusColor';
 import ORDERSTATUS from '../../JS/enum/order';
 import validation from '../../JS/validation'
-let origin = `${import.meta.env.VITE_BASE_URL}`;
+import {useRouter} from 'vue-router'
+// import validation from '../../JS/validation'
+// link
+const  origin = `${import.meta.env.VITE_BASE_URL}`;
+const myRouter=useRouter()
+const goProfile =(shopId)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopId)}})
+
+// common attribute
 const props=defineProps({
     name:{
         type:String,
         required:true,
         default:''
     },
+    orderId:{
+        type:String,
+        default:'',
+        // required:true
+    },
     shopName:{
         type:String,
         required:true,
         default:'ShopName'
     },
+    // shopId:{
+    //     type:String,
+    //     // required:true,
+    //     default:''
+    // },
     orderStatus:{
         type:String,
         // required:true,
@@ -34,7 +51,8 @@ const props=defineProps({
     isPayment:{
         type:Boolean,
         default:false
-    }
+    },
+
 
 })
 // common attribute
@@ -71,11 +89,11 @@ const orderStatus=computed(()=>props.orderStatus)
                 </h5>
                 <div v-if="!isPayment">
                     <!-- chat now -->
-                    <button class="chat_now">
+                    <!-- <button class="chat_now">
                         Chat now
-                    </button>
+                    </button> -->
                     <!-- view shop -->
-                    <button class="view_shop">
+                    <button @click="$emit('goProfile')" class="view_shop">
                         View Shop
                     </button>
                 </div>
@@ -98,7 +116,7 @@ const orderStatus=computed(()=>props.orderStatus)
         <!-- product list -->
         <div class="product_list">
             <!-- product item -->
-            <div v-if="props.orderDetail.length!=0" v-for="(product,index) of props.orderDetail" class="product_item">
+            <button @click="$emit('goPurchaseDetail',props.orderId)" v-if="props.orderDetail.length!=0" v-for="(product,index) of props.orderDetail" class="product_item">
                 <!-- img -->
                 <div class="product_img">
                     <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img">
@@ -141,7 +159,7 @@ const orderStatus=computed(()=>props.orderStatus)
                         </div>
                     </div>
                 </div>
-            </div>
+            </button>
         </div>
         <!-- order detail -->
         <div class="order_detail">
@@ -163,11 +181,11 @@ const orderStatus=computed(()=>props.orderStatus)
             </div>
             <div v-if="!isPayment" class="container_btn">
                 <!-- buy again -->
-                <button class="buy_again">
+                <button @click="$emit('buyAgain')" class="buy_again">
                     Buy Again
                 </button>
                 <!-- view mt rating -->
-                <button class="view_my_rating">
+                <button @click="$emit('view Rating')" class="view_my_rating">
                     View My Rating
                 </button>
 
@@ -301,8 +319,11 @@ const orderStatus=computed(()=>props.orderStatus)
     height: 64px;
     padding-bottom:12px ;
     align-items: center;
+    border: none;
+    background-color: transparent;
     border-bottom: 1px solid;
     border-color: #EEEEEE;
+    cursor: v-bind('props.orderId.length==0?'auto':'pointer'');
 }
 /* image */
 .product_item .product_img{
