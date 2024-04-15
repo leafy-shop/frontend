@@ -1,6 +1,6 @@
 <script setup>
 import {ref,onMounted} from 'vue'
-const emit=defineEmits(["getStyleFilter"])
+const emit=defineEmits(["getStyleFilter","nextPage","previousPage"])
 const props =defineProps({
     name:{
         type:String,
@@ -10,6 +10,14 @@ const props =defineProps({
     isSetting:{
         type:Boolean,
         default:false
+    },
+    currentPage:{
+        type:Number,
+        default:1
+    },
+    allPage:{
+        type:Number,
+        default:1
     }
 })
 // common attribute
@@ -34,6 +42,17 @@ const selectFilter=(name,styleFilter,isStyle=false)=>{
         }
     }
 }
+
+// move page
+const nextPage=()=>{
+    let currentPageNow=(props.currentPage+1)>props.allPage?props.allPage:props.currentPage+1
+    return emit('nextPage',currentPageNow)
+}
+const previousPage=()=>{
+    let currentPageNow=(props.currentPage-1)<=0?props.currentPage:props.currentPage-1
+    return emit('previousPage',currentPageNow)
+}
+
 onMounted(()=>{
     selectFilter('all_design','all')
 })
@@ -95,19 +114,19 @@ onMounted(()=>{
             <!-- show all page -->
             <h5>
                 <span>
-                    5
+                    {{props.currentPage==0?1:props.currentPage}}
                 </span>
-                /6
+                /{{props.allPage==0?1:props.allPage}}
             </h5>
             <div>
-                <button>
+                <button @click="previousPage">
                     <div>
                         <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M5.70679 0.292787C5.89426 0.480314 5.99957 0.734622 5.99957 0.999786C5.99957 1.26495 5.89426 1.51926 5.70679 1.70679L2.41379 4.99979L5.70679 8.29279C5.88894 8.48139 5.98974 8.73399 5.98746 8.99619C5.98518 9.25838 5.88001 9.5092 5.6946 9.6946C5.5092 9.88001 5.25838 9.98518 4.99619 9.98746C4.73399 9.98974 4.48139 9.88894 4.29279 9.70679L0.292787 5.70679C0.105316 5.51926 0 5.26495 0 4.99979C0 4.73462 0.105316 4.48031 0.292787 4.29279L4.29279 0.292787C4.48031 0.105316 4.73462 0 4.99979 0C5.26495 0 5.51926 0.105316 5.70679 0.292787Z" fill="#424242"/>
                         </svg>
                     </div>
                 </button>
-                <button>
+                <button @click="nextPage">
                     <div>
                         <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292787 9.70741C0.105316 9.51988 0 9.26557 0 9.00041C0 8.73524 0.105316 8.48094 0.292787 8.29341L3.58579 5.00041L0.292787 1.70741C0.110629 1.5188 0.00983372 1.2662 0.0121121 1.00401C0.0143906 0.741809 0.11956 0.490997 0.304968 0.305589C0.490376 0.120181 0.741189 0.0150115 1.00339 0.0127331C1.26558 0.0104547 1.51818 0.111249 1.70679 0.293408L5.70679 4.29341C5.89426 4.48094 5.99957 4.73524 5.99957 5.00041C5.99957 5.26557 5.89426 5.51988 5.70679 5.70741L1.70679 9.70741C1.51926 9.89488 1.26495 10.0002 0.999786 10.0002C0.734622 10.0002 0.480314 9.89488 0.292787 9.70741Z" fill="#424242"/>
