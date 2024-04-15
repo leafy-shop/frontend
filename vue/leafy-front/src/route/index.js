@@ -153,7 +153,7 @@ const routes=[
                 component:MyGallery_AS
             },
             {
-                path:'my-gallery/add-project/:id?',
+                path:'my-gallery/add-project/:method/:id?',
                 name:'MyGallery_AS_add',
                 component:MyGallery_AS_add
             },
