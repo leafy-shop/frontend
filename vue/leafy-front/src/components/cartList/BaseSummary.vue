@@ -78,13 +78,13 @@ const props=defineProps({
   display: flex;
   width: 100%;
   height: fit-content;
-  border-radius: 8px;
-  padding: 12px 20px;
+  border-radius: min(0.556dvw,8px);
+  padding: min(0.833dvw,12px) min(1.389dvw,20px);
   flex-direction: column;
   background-color: #fff;
   justify-content: start;
   align-items: center;
-  gap: 12px;
+  gap: min(0.833dvw,12px);
 }
 
 .summary {
@@ -92,15 +92,15 @@ const props=defineProps({
   width: 100%;
   height: fit-content;
   flex-direction: column;
-  gap: 12px;
+  gap: min(0.833dvw,12px);
 }
 
 .summary h4 {
   display: flex;
   width: 100%;
-  height: 24px;
+  height: min(1.667dvw,24px);
   font-weight: 700;
-  font-size: 16px;
+  font-size: min(1.111dvw,16px);
   color: #212121;
   align-items: center;
   justify-content: start;
@@ -111,13 +111,13 @@ const props=defineProps({
   width: 100%;
   height: fit-content;
   flex-direction: column;
-  gap: 4px;
+  gap: min(0.278dvw,4px);
 }
 
 .summary_list .summary_item {
   display: flex;
   width: 100%;
-  height: 20px;
+  height: min(1.389dvw,20px);
   justify-content: space-between;
 }
 
@@ -125,7 +125,7 @@ const props=defineProps({
   /* display: flex; */
   width: 100%;
   height: 100%;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 400;
   color: #616161;
 }
@@ -135,7 +135,7 @@ const props=defineProps({
   height: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 400;
   color: #212121;
   text-align: end;
@@ -146,9 +146,9 @@ const props=defineProps({
 .total {
   display: flex;
   width: 100%;
-  height: 32px;
-  padding-top: 12px;
-  border-top: 1px solid;
+  height: min(2.222dvw,32px);
+  padding-top: min(0.833dvw,12px);
+  border-top: min(0.069dvw,1px) solid;
   border-color: #eeeeee;
   justify-content: space-between;
   align-items: center;
@@ -158,15 +158,15 @@ const props=defineProps({
 .total h6 {
   width: fit-content;
   height: fit-content;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 700;
   color: #212121;
 }
 
 .total p {
-  width: 108px;
+  width: min(7.5dvw,108px);
   height: 100%;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 700;
   text-align: end;
   overflow: hidden;
@@ -177,16 +177,16 @@ const props=defineProps({
 .wrapper_summary > button {
   display: flex;
   width: 100%;
-  height: 52px;
+  height: min(3.611dvw,52px);
   border: none;
-  border-radius: 4px;
-  padding: 4px;
+  border-radius: min(0.278dvw,4px);
+  padding: min(0.278dvw,4px);
   background-color: #26ac34;
-  box-shadow: 0px 1px 2px 0px #0000000d;
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000d;
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: min(1.25dvw,18px);
   font-weight: 500;
   color: #fff;
 }

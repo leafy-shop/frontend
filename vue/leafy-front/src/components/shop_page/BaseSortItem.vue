@@ -146,7 +146,8 @@ onUpdated(()=>{
 
 .wrapper_sort{
     display: flex;
-    width: inherit;
+    /* width: inherit; */
+    width: 100%;
     height: min(5.278dvw,76px);
     padding: min(1.389dvw,20px);
     border-radius: min(0.556dvw, 8px);
@@ -267,6 +268,7 @@ onUpdated(()=>{
     .wrapper_sort{
         height: min(6.452dvw,48px);
         padding: min(1.613dvw,12px);
+        border-radius: min(1.075dvw,8px);
     }
     .sort_type{
         width: min(52.151dvw,388px);
@@ -284,6 +286,7 @@ onUpdated(()=>{
         height: min(3.226dvw,24px);
         padding: min(0.538dvw,4px) min(1.613dvw,12px);
         font-size: min(1.613dvw,12px);
+        border-radius: min( 0.538dvw,4px);
     }
     .sort_move{
         width: min(9.14dvw,68px);

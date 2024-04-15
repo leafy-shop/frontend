@@ -500,7 +500,8 @@ onUpdated(() => {
 
 .images {
   display: flex;
-  width: min(27.5dvw, 396px);
+  /* width: min(27.5dvw, 396px); */
+  width: auto;
   height: min(30.833dvw, 444px);
   gap: min(0.833dvw, 12px);
 }
@@ -551,6 +552,7 @@ onUpdated(() => {
 .show_image {
   display: flex;
   width: min(21.111dvw, 304px);
+  /* width: 100%; */
   height: min(30.833dvw, 444px);
   position: relative;
   justify-content: center;

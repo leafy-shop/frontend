@@ -10,6 +10,33 @@
   /* background-color: blue; */
 }
 
+/* 
+1440px
+min(0.069dvw,1px)
+min(0.139dvw,2px)
+min(0.278dvw,4px);
+min(0.556dvw,8px);
+min(0.833dvw,12px);
+min(0.972dvw,14px);
+min(1.111dvw,16px);
+min(1.25dvw,18px);
+min(1.389dvw,20px);
+min(1.667dvw,24px);
+min(1.944dvw,28px);
+min(2.222dvw,32px);
+min(2.5dvw,36px);
+min(2.778dvw,40px);
+min(3.611dvw,52px);
+min(3.889dvw,56px);
+min(6.944dvw,100px);
+min(7.5dvw,108px);
+min(8.889dvw,128px);
+min(11.111dvw,160px);
+min(25dvw,360px);
+
+744px
+min(1.075dvw,8px);
+*/
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
