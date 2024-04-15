@@ -308,6 +308,7 @@ onMounted(async()=>{
     height: inherit;
     flex-direction: column;
     gap: 24px;
+    position:relative;
 }
 .purchase{
     display: flex;
@@ -415,4 +416,7 @@ onMounted(async()=>{
     flex-direction:column;
     gap:16px;
 }
+
+
+
 </style>
