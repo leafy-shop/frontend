@@ -4,6 +4,13 @@ import fetch from '../../../JS/api'
 import BaseOrderItem from '../../../components/myPurchase/BaseOrderItem.vue'
 import ORDERSTATUS from '../../../JS/enum/order'
 import BaseSelectPage from '../../../components/BaseSelectPage.vue'
+import {useRouter} from 'vue-router'
+import validation from '../../../JS/validation'
+// link
+const myRouter=useRouter()
+const goPurchaseDetail=(orderId)=>myRouter.push({name:'MyPurchaseDetail',params:{id:orderId}})
+const goProfile =(shopName)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopName)}})
+
 // common attribute
 const orderList=ref([])
 const searchText=ref("")
@@ -192,8 +199,8 @@ onMounted(async()=>{
                     <div class="shop_list">
                         <!-- shop item -->
                         <div v-for="(shop,index) of orderList"  :key=index >
-                            <BaseOrderItem name="purchase" :shopName="shop.itemOwner" :orderStatus="shop.status"
-                            :orderDetail="shop.order_details" :orderTotal="shop.total" />
+                            <BaseOrderItem name="purchase" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
+                            :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" />
                         </div>
 
                         <!-- <div v-for="(shop,index) of orderList" :key="index" class="shop_item">
