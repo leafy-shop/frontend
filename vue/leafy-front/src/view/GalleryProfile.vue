@@ -16,9 +16,18 @@ const userId=ref('')
 const owner=ref({})
 const id=ref('')
 
+// move page
+const currentPage=ref(1)
+
 // get gallery
 const getGallery=async()=>{
-    let {status,data}= await fetch.getGalleryByOwner()
+    let inputData={
+        page:currentPage.value,
+    }
+    if(owner.value.username!=undefined){
+        inputData["content"]
+    }
+    let {status,data}= await fetch.getGalleryByOwner(inputData)
     if(status){
         console.log(data)
         galleryList.value=data.list
