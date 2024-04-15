@@ -7,9 +7,13 @@ const props=defineProps({
         required:true,
         default:''
     },
-    projectImg:{
+    projectId:{
         type:String,
         default:''
+    },
+    projectImg:{
+        type:String,
+        default:undefined
     },
     projectName:{
         type:String,
@@ -45,8 +49,8 @@ const props=defineProps({
     <div class="gallery_item">
         <!-- img -->
         <div class="gallery_item_img">
-            <!-- <img v-if="props.projectImg!=undefined" :src="`${origin}/api/image/users/${props.projectImg}`" alt="gallery_img"> -->
-            <img  src="../../assets/vue.svg" alt="gallery_img">
+            <img v-if="props.projectImg!=undefined" :src="`${origin}/api/image/gallery/${props.projectId} `" alt="gallery_img">
+            <img  v-else src="../../assets/vue.svg" alt="gallery_img">
         </div>
         <!-- cart detail -->
         <div class="container_gallery_card_detail">
