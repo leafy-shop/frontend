@@ -1,8 +1,55 @@
 <script setup>
-import {ref} from 'vue'
+import {ref,onBeforeMount} from 'vue'
 import BaseOrderItem from '../../../components/myPurchase/BaseOrderItem.vue';
 import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
+import {useRouter,useRoute} from 'vue-router'
+import validation from '../../../JS/validation'
+import fetch from '../../../JS/api'
+import ORDERSTATUS from '../../../JS/enum/order';
+// link
 
+const myRouter=useRouter()
+const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
+const goProfile =(shopName)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopName)}})
+
+// common attribute
+let {params} =useRoute()
+const orderId=ref('')
+const orderDetail=ref({})
+const address =ref('')
+const isCancel=ref(false)
+
+// getOrder
+const getOrderDetail=async()=>{
+    let inputData={
+        orderId:orderId.value
+    }
+    let{status,data}=await fetch.getAllOrder(false,inputData)
+    if(status){
+        console.log(data)
+        orderDetail.value=data
+        address.value=data.address
+        checkOrderStatus()
+    }
+}
+// for check cancel status
+const checkOrderStatus=()=>{
+    if(orderDetail.value.status==ORDERSTATUS.CANCELED){
+        isCancel.value=true
+    }else{
+        isCancel.value=false
+    }
+}
+
+// for 
+
+onBeforeMount(async()=>{
+    orderId.value=params.id
+
+    await getOrderDetail()
+
+    
+})
 </script>
 <template>
     <div class="wrapper_purchase_detail">
@@ -11,7 +58,7 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
             <div class="purchase_transition">
                 <div class="header_transition">
                     <!-- back btn -->
-                    <button class="back_btn">
+                    <button @click="goMyPurchase" class="back_btn">
                         <div>
                             <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.70679 0.293031C5.89426 0.480558 5.99957 0.734866 5.99957 1.00003C5.99957 1.26519 5.89426 1.5195 5.70679 1.70703L2.41379 5.00003L5.70679 8.29303C5.88894 8.48163 5.98974 8.73423 5.98746 8.99643C5.98518 9.25863 5.88001 9.50944 5.6946 9.69485C5.5092 9.88026 5.25838 9.98543 4.99619 9.9877C4.73399 9.98998 4.48139 9.88919 4.29279 9.70703L0.292787 5.70703C0.105316 5.5195 0 5.26519 0 5.00003C0 4.73487 0.105316 4.48056 0.292787 4.29303L4.29279 0.293031C4.48031 0.10556 4.73462 0.000244141 4.99979 0.000244141C5.26495 0.000244141 5.51926 0.10556 5.70679 0.293031Z" fill="#212121"/>
@@ -30,7 +77,7 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
                             </span>
                         </h6>
                         <!-- status -->
-                        <div>
+                        <!-- <div>
                             <div>
                                 <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="3" cy="3" r="3" fill="#212121"/>
@@ -39,11 +86,11 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
                             <h6>
                                 Complete
                             </h6>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!-- if status cancel  -->
-                <div v-if="true" class="transition_detail_calcel">
+                <div v-if="isCancel" class="transition_detail_calcel">
                     <h6>
                         Cancellation Completed
                     </h6>
@@ -52,7 +99,7 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
                     </p>
                 </div>
                 <!-- detail -->
-                <div v-if="false" class="transition_detail">
+                <div v-else class="transition_detail">
                     <!-- icon -->
                     <div class="step_list">
                         <!-- placed step -->
@@ -190,11 +237,14 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
                 <h6 class="header_address">
                     Delivery Address
                 </h6>
-                <BaseBankItemList name="address_purchase" :is-default="true" :show-edit-btn="false" :show-default-icon="false" :data-list="[{}]" />
-
+                <!-- <BaseBankItemList name="address_purchase_detail" :is-default="true" :show-edit-btn="false" :show-default-icon="false" :data-list="[{}]"  /> -->
+                <p>
+                    {{ address }}
+                </p>
             </div>
             <!-- order detail -->
-            <BaseOrderItem/>
+            <BaseOrderItem name="my_purchase_detail" :shop-name="orderDetail.itemOwner" :order-status="orderDetail.status" 
+            :order-detail="orderDetail.order_details" :order-total="orderDetail.total" @goProfile="goProfile(orderDetail.itemOwner)"/>
         </div>
     </div>
 
@@ -447,6 +497,7 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
     padding: 20px;
     background-color: #fff;
     flex-direction: column;
+    gap: 8px;
 }
 .deliver_address .header_address{
     display: flex;
@@ -455,5 +506,12 @@ import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
     font-size: 18px;
     font-weight: 500;
     color:#212121;
+}
+.deliver_address p{
+    width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color:#616161;
 }
 </style>
