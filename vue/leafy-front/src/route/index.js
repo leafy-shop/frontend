@@ -128,7 +128,7 @@ const routes=[
                 component:MyPurchase_AS
             },
             {
-                path:'my-purchase/detail/:id?',
+                path:'my-purchase/detail/:id',
                 name:'MyPurchaseDetail',
                 component:MyPurchaseDetail_AS
             },
