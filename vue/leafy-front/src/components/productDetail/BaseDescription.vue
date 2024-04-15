@@ -6,7 +6,7 @@ const props = defineProps({
 const showDescription=ref('')
 
 const msg=computed(()=>{
-    let text=props.description.replace(/\n/g, '<br>');
+    let text=props.description
     if(text==undefined||text==null){
         text=''
         showDescription.value=false
@@ -17,7 +17,7 @@ const msg=computed(()=>{
             showDescription.value=true
         }
     }
-    return text
+    return text.replace(/\n/g, '<br>');
 })
 // const text =ref('')
 const assignDescription=()=>{
