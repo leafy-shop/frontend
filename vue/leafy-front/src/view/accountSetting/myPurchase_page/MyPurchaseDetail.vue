@@ -18,23 +18,54 @@ const orderId=ref('')
 const orderDetail=ref({})
 const address =ref('')
 const isCancel=ref(false)
+// step element
 const orderStatusIndex=ref(0)
+
+// step information
+const placeDate=ref(undefined)
+const paidDate=ref(undefined)
+const shippedDate=ref(undefined)
+const receivedDate=ref(undefined)
+const rateDate=ref(undefined)
+const calcelDate=ref(undefined)
+
 // getOrder
 const getOrderDetail=async()=>{
     let inputData={
         orderId:orderId.value
     }
     let{status,data}=await fetch.getAllOrder(false,inputData)
-    if(status){
+    if(await status){
         console.log(data)
-        orderDetail.value=data
+        orderDetail.value=await data
         address.value=data.address
         checkOrderStatus()
 
+        let{
+            createdAt,
+            paidOrderDate,
+            shippedOrderDate,
+            receivedOrderDate,
+            rateOrderDate
+        }= await data
+        placeDate.value=createdAt
+        paidDate.value=paidOrderDate
+        shippedDate.value=shippedOrderDate
+        receivedDate.value=receivedOrderDate
+        rateDate.value=rateOrderDate
+        // calcelDate
         // assign index of order status 
-        let arrayValue=Object.values(ORDERSTATUS)
-        orderStatusIndex.value=arrayValue.indexOf(orderDetail.value.status)
+        if(await data.status!="canceled"){
+            let arrayValue=Object.values(ORDERSTATUS)
+            orderStatusIndex.value=arrayValue.indexOf(orderDetail.value.status)
+            if(await rateOrderDate!=undefined){// เพิ่มค่า หากมีการรีวิวแล้ว
+                orderStatusIndex.value+=1
+            }
+            activeStatus(orderStatusIndex.value)
+        }
+        // step date
         
+
     }
 }
 // for check cancel status
@@ -49,9 +80,12 @@ const checkOrderStatus=()=>{
 // for 
 const activeStatus=(number)=>{
     let allStepElement=document.getElementsByClassName('step_element')
-    let allStepInfo=document.getElementsByClassName('')
+    let allStepLine=document.getElementsByClassName('line_step')
     for(let i=0;i<=number;i++){//element first
         allStepElement[i].classList.add('step_element_active')
+    }
+    for(let i=0;i<=number-1;i++){//element first
+        allStepLine[i].classList.add('step_line_active')
     }
 }
 
@@ -72,7 +106,6 @@ onMounted(()=>{
     // console.log(arrayValue)
     // console.log(orderDetail.value)
     // activeStatus(statusIndex)
-    activeStatus(orderStatusIndex.value)
 })
 
 onBeforeMount(async()=>{
@@ -105,9 +138,13 @@ onBeforeMount(async()=>{
                         <h6>
                             Order ID: 
                             <span>
-                                {{ orderDetail.orderId }}
+                                {{ orderDetail.orderId }}                                
                             </span>
+                            <!-- <span>
+                                {{placeDate}}
+                            </span> -->
                         </h6>
+                        
                         <!-- status -->
                         <!-- <div>
                             <div>
@@ -126,8 +163,8 @@ onBeforeMount(async()=>{
                     <h6>
                         Cancellation Completed
                     </h6>
-                    <p>
-                        on 27-08-2021 13:57
+                    <p v-show="calcelDate!=undefined">
+                        {{calcelDate}}
                     </p>
                 </div>
                 <!-- detail -->
@@ -167,7 +204,7 @@ onBeforeMount(async()=>{
                             </div>
                         </div>
                         <!-- line -->
-                        <hr class="line_step">
+                        <hr class="line_step ">
                         <!-- order shipped out step -->
                         <div class="step_item ">
                             <div class="circle step_element">
@@ -179,7 +216,7 @@ onBeforeMount(async()=>{
                             </div>
                         </div>
                         <!-- line -->
-                        <hr class="line_step">
+                        <hr class="line_step ">
                         <!-- received shipped out step -->
                         <div class="step_item ">
                             <div class="circle step_element">
@@ -191,7 +228,7 @@ onBeforeMount(async()=>{
                             </div>
                         </div>
                         <!-- line -->
-                        <hr class="line_step">
+                        <hr class="line_step ">
                         <!-- received shipped out step -->
                         <div class="step_item ">
                             <div class="circle step_element">
@@ -207,57 +244,57 @@ onBeforeMount(async()=>{
                     <!-- text -->
                     <div class="step_detail">
                         <!-- order placed step -->
-                        <div class="step_item step_info">
+                        <div class="step_item ">
                             <div>
                                 <h6>
                                     Order Placed
                                 </h6>
-                                <p>
-                                    03-03-2024 00:09
+                                <p v-show="placeDate!=undefined">
+                                    {{placeDate}}
                                 </p>
                             </div>
                         </div>
                         <!-- order placed step -->
-                        <div class="step_item step_info">
+                        <div class="step_item ">
                             <div>
                                 <h6>
                                     Order Paid
                                 </h6>
-                                <p>
-                                    03-03-2024 00:09
+                                <p v-show="paidDate!=undefined">
+                                    {{paidDate}}
                                 </p>
                             </div>
                         </div>
                         <!-- order placed step -->
-                        <div class="step_item step_info">
+                        <div class="step_item ">
                             <div>
                                 <h6>
                                     Order Shipped Out
                                 </h6>
-                                <p>
-                                    03-03-2024 00:09
+                                <p v-show="shippedDate!=undefined">
+                                    {{shippedDate}}
                                 </p>
                             </div>
                         </div>
                         <!-- order placed step -->
-                        <div class="step_item step_info">
+                        <div class="step_item ">
                             <div>
                                 <h6>
                                     Order Received
                                 </h6>
-                                <p>
-                                    03-03-2024 00:09
+                                <p v-show="receivedDate!=undefined">
+                                    {{receivedDate}}
                                 </p>
                             </div>
                         </div>
                         <!-- order placed step -->
-                        <div class="step_item step_info">
+                        <div class="step_item ">
                             <div>
                                 <h6>
                                     Order Rated
                                 </h6>
-                                <p>
-                                    03-03-2024 00:09
+                                <p v-show="rateDate!=undefined">
+                                    {{rateDate}}
                                 </p>
                             </div>
                         </div>
@@ -275,7 +312,7 @@ onBeforeMount(async()=>{
                 </p>
             </div>
             <!-- order detail -->
-            <BaseOrderItem name="my_purchase_detail" :shop-name="orderDetail.itemOwner" :order-status="orderDetail.status" 
+            <BaseOrderItem name="my_purchase_detail" :shop-name="orderDetail.itemOwner" :order-status="orderDetail.status" :isDisabled="true"
             :orderId="orderDetail.orderId" :order-detail="orderDetail.order_details" :order-total="orderDetail.total" @goProfile="goProfile(orderDetail.itemOwner)"/>
         </div>
     </div>
@@ -372,7 +409,7 @@ onBeforeMount(async()=>{
 .container_order_id_stauts >h6{
     /* display: flex; */
     width: fit-content;
-    max-width: 350px;
+    max-width: 40dvw;
     height: fit-content;
     padding-right: 12px;
     border-right: 1px solid #E0E0E0;
@@ -453,6 +490,9 @@ onBeforeMount(async()=>{
 .step_element_active{
     background-color: #26AC34 !important;
 }
+.step_line_active{
+    background-color:#26AC34 !important;
+}
 /* line step */
 .line_step{
     display: flex;
@@ -481,7 +521,7 @@ onBeforeMount(async()=>{
     width: 100%;
     height: 100%;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 .step_item >div h6{
