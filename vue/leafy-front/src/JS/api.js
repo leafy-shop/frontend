@@ -1712,7 +1712,7 @@ const fetch = {
                 
                 let url = `${origin}/api/orders/${endpoint}/${orderId}`
                 let res
-                if(endpoint=="paid_order"||inputData==undefined){
+                if(endpoint=="paid_order"){
                     res = await axios.put(url)
                 }else{
                     res = await axios.put(url,inputData)
