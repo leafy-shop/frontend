@@ -14,10 +14,10 @@ const props=defineProps({
 <template>
     <!-- submit -->
     <div class="submit">
-        <button @click="$emit('goBanks')">
+        <button @click="$emit('goBack')">
             Cancel
         </button>
-        <button @click="$emit('bankSubmit')" :disabled="props.disabled" :class="[props.disabled==true?'btn_disable':'']">
+        <button @click="$emit('submit')" :disabled="props.disabled" :class="[props.disabled==true?'btn_disable':'']">
             Save
         </button>
     </div>
