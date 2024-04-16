@@ -2,11 +2,31 @@
 import {useRoute,useRouter} from 'vue-router'
 import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
+import {ref,onBeforeMount} from 'vue'
+import fetch from '../JS/api';
 // link
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+const {params} = useRoute()
 const myRouter =useRouter()
 const goGalleryList=()=>myRouter.push({name:"Gallery"})
+const goGalleryProfile=()=>myRouter.push({name:"GalleryProfile",params:{id:galleryDetail.value.userId}})
+// common attribute
+const galleryDetail=ref({})
+const galleryContentId=ref('')
 
-const {params} = useRoute()
+// get all data
+const getGalleryDetail=async()=>{
+    let{status,data}=await fetch.getGalleryById(galleryContentId.value)
+    if(await status){
+        console.log(data)
+        galleryDetail.value = await data
+    }
+}
+
+onBeforeMount(async()=>{
+    galleryContentId.value = params.id
+   await getGalleryDetail()
+})
 </script>
 <template>
     <!-- this is gallery detail : {{params.id}} -->
@@ -39,7 +59,7 @@ const {params} = useRoute()
             <!-- header -->
             <div class="header_gallery_detail">
                 <h4>
-                    Urban Oasis: A Modern Garden Design
+                    {{galleryDetail.name}}
                 </h4>
             </div>
             <!-- detail -->
@@ -47,14 +67,15 @@ const {params} = useRoute()
                 <!-- creater detail -->
                 <div class="container_creater_detail">
                     <!-- creater name -->
-                    <div class="creater_name">
+                    <div @click="goGalleryProfile" class="creater_name">
                         <!-- img -->
                         <div >
-                            <img src="../assets/vue.svg" alt="creater_img">
+                            <img v-if="galleryDetail.icon!=undefined" :src="`${origin}/api/image/users/${galleryDetail.userId}`" alt="creater_img">
+                            <img v-else src="../assets/vue.svg" alt="creater_img">
                         </div>
                         <!-- creater name -->
                         <h6>
-                            Lemon Cake
+                            {{galleryDetail.contentOwner}}
                         </h6>
                         
                     </div>
@@ -68,7 +89,7 @@ const {params} = useRoute()
                                 </svg>
                             </button>
                             <h6>
-                                23
+                                {{galleryDetail.like}}
                             </h6>
                         </div>
                         <!-- comment -->
@@ -79,7 +100,7 @@ const {params} = useRoute()
                                 </svg>
                             </button>
                             <h6>
-                                12
+                                {{galleryDetail.components}}
                             </h6>
                         </div>
                         <!-- create at -->
@@ -90,7 +111,7 @@ const {params} = useRoute()
                                 </svg>
                             </div>
                             <h6>
-                                Apr 9, 2024
+                                {{galleryDetail.createdAt}}
                             </h6>
                         </div>
                     </div>
@@ -99,25 +120,21 @@ const {params} = useRoute()
                 <div class="container_project_detail">
                     <!-- img -->
                     <div class="project_img">
-                        <img src="../assets/home_p/home_design_content_desert.png" alt="gallery_detail_img">
+                        <img v-if="galleryDetail.image!=undefined" :src="`${origin}/api/image/gallery/${galleryDetail.contentId}`" alt="gallery_detail_img">
                     </div>
                     <!-- description -->
                     <p class="project_description">
-                        The concept of a modern urban garden blends nature and contemporary design within urban spaces to create an "Urban Oasis" where people can relax and reconnect with nature amidst a creative and enjoyable city setting. Lorem ipsum dolor sit amet consectetur. Venenatis bibendum imperdiet enim posuere tellus ac suscipit amet. Diam massa magna leo enim. Enim nisi ultricies iaculis eu cursus nunc dictum commodo eleifend. A iaculis iaculis est integer semper. Lectus cum malesuada tortor massa placerat cras felis leo sit. Lorem vestibulum eu id vulputate iaculis vitae semper enim. Fringilla ac pellentesque vehicula viverra faucibus orci ac. Vitae elementum habitasse nam ut iaculis. Molestie netus lacus et ipsum faucibus commodo. In in neque sit vitae et molestie amet sit. Velit velit malesuada sed pellentesque elit eu id euismod felis. Aliquam est magna odio purus egestas.
-                        Amet enim enim lorem mattis volutpat. Enim sem nec faucibus quis ac suspendisse mauris bibendum. Malesuada imperdiet aliquam semper non. Fusce orci augue risus rutrum dui. Tortor consequat et fermentum id integer. Elit elementum varius morbi dui interdum. Montes justo pulvinar ornare leo pellentesque lacus porta faucibus cursus.
-                        Neque enim amet bibendum vivamus eu praesent diam consectetur vitae. Vitae ut nulla at integer justo. Proin ullamcorper ipsum feugiat curabitur viverra tellus urna. Malesuada eleifend odio odio nullam ornare eget. Volutpat nunc a velit euismod arcu urna ac feugiat. Cursus malesuada in id mattis pretium hendrerit quis sit eu. Odio quis facilisi amet et. Nunc egestas egestas pharetra consectetur nulla fames odio morbi. Morbi ut at gravida rhoncus sed est habitant lacus pellentesque.
-                        Tincidunt aliquam hac arcu accumsan sit mi maecenas faucibus lorem. Vitae dolor velit sed tellus placerat nisl semper a sapien. Facilisis blandit imperdiet sed in facilisi duis. Etiam at est elit augue mauris nibh elementum risus. Donec cursus id tempus vivamus consectetur facilisi id donec. Congue aliquet nisi sit ullamcorper ornare nibh amet. Proin commodo pellentesque rutrum luctus vel tempus. Aliquam luctus lacus auctor aliquam amet malesuada. Auctor libero nunc consectetur molestie duis commodo vel. Consequat quam fermentum nam egestas nec ipsum donec. Ultrices purus viverra imperdiet mi. Eu varius fermentum imperdiet vestibulum. Faucibus tortor rhoncus orci nibh morbi et magna. Amet feugiat blandit senectus interdum ultricies sit elit molestie justo. Vitae ut facilisi id amet ac viverra risus.
-                        Magna neque aliquam massa tortor. Consectetur porttitor a pharetra ac. Risus est cras in vel massa. Felis faucibus scelerisque nulla dolor erat lectus ultricies. Mollis morbi nulla massa ut nam. Pharetra adipiscing imperdiet a at arcu. Viverra tristique eros sed consectetur. Elementum lobortis vulputate pellentesque nunc. Molestie quisque id vitae turpis eget. Cursus gravida dolor ultricies a accumsan urna congue curabitur amet. Donec id netus nunc turpis. Tellus nulla dolor quam lorem. Felis vitae enim eget ut senectus dui id tellus. Purus in id gravida lectus elit sagittis consectetur.
+                        {{ galleryDetail.description }}
                     </p>
                 </div>
             </div>
             <!-- img list -->
-            <div class="gallery_img_list">
-                <!-- img -->
+            <!-- <div class="gallery_img_list">
+                img
                 <div class="gallery_img_item">
                     <img src="../assets/home_p/home_design_content_japanese.png" alt="gallery_img_item">
                 </div>
-            </div>
+            </div> -->
             <!-- comment -->
             <div class="gallery_comment">
                 <h6>
@@ -224,6 +241,7 @@ const {params} = useRoute()
     justify-content: start;
     align-items: center;
     gap: 4px;
+    cursor: pointer;
 }
 .creater_name >div{
     display: flex;
