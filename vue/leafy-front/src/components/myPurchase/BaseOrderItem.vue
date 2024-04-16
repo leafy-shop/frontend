@@ -80,15 +80,61 @@ const orderStatus=computed(()=>props.orderStatus)
 //     }
 // }
 
+// buy again
+const buyAgain=async()=>{
+    
+    if(props.orderDetail!=undefined){
+        for(let product of props.orderDetail){
+            let inputData={
+                itemId: product.itemId,
+                size: product.itemSize,
+                style: product.itemStyle 
+            }
+            let {status}=await fetch.addToCart(inputData)
+        }
+    }
+}
+
+
+
 
 // review
 // common attribute 
 const showReviewOverlay=ref(false) //for show overlay
 const isUpdateReview=ref(false) //for show list or container input
+const productDetail=ref({})
+const reviewDescription=ref('')
+const pqStar=ref(0)
+const SSStar=ref(0)
+const dsStar=ref(0)
+// make review 
+const makeReviewProduct=(product)=>{ //click to write
+    isUpdateReview.value=true
+    productDetail.value=product
+}
+// close review
+const closeReview=()=>{
+    showReviewOverlay.value=false
+    isUpdateReview.value=false
+}
+// submit
+const submitReview=async()=>{
+    let inputData={
+        orderId: props.orderId,
+        comment: reviewDescription.value,
+        PQrating: pqStar.value,
+        SSrating: SSStar.value,
+        DSrating: dsStar.value,
+        size: productDetail.value.itemSize,
+        style: productDetail.value.itemStyle
+    }
+    let {status,data}=await fetch.addReview(productDetail.value.itemId,inputData)
+    if(status){
+        console.log('submit review')
+        showReviewOverlay.value=false
+        isUpdateReview.value=false
 
-// make review
-const makeReviewProduct=()=>{
-
+    }
 }
 
 </script>
@@ -195,7 +241,7 @@ const makeReviewProduct=()=>{
             </div>
             <div v-if="!isPayment" class="container_btn">
                 <!-- buy again -->
-                <button @click="$emit('buyAgain')" class="buy_again">
+                <button @click="buyAgain" class="buy_again">
                     Buy Again
                 </button>
                 <!-- view mt rating -->
@@ -232,11 +278,11 @@ const makeReviewProduct=()=>{
                         
                         <!-- rating -->
                         <div class="product_star">
-                            <BaseStar :isGap="false" :rating="2" :name="`star_${props.name}_${index}`" :size="60" />
+                            <BaseStar :isGap="false" :rating="product.totalRating" :name="`star_${props.name}_${index}`" :size="60" />
                         </div>
                         <!-- operation -->
                         <div class="product_operation">
-                            <button @click="isUpdateReview=!isUpdateReview">
+                            <button @click="makeReviewProduct(product)">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9.16634 4.16664H4.99967C4.55765 4.16664 4.13372 4.34223 3.82116 4.65479C3.5086 4.96736 3.33301 5.39128 3.33301 5.83331V15C3.33301 15.442 3.5086 15.8659 3.82116 16.1785C4.13372 16.491 4.55765 16.6666 4.99967 16.6666H14.1663C14.6084 16.6666 15.0323 16.491 15.3449 16.1785C15.6574 15.8659 15.833 15.442 15.833 15V10.8333M14.6547 2.98831C14.8084 2.82912 14.9923 2.70215 15.1957 2.6148C15.399 2.52746 15.6177 2.48148 15.839 2.47956C16.0603 2.47763 16.2798 2.5198 16.4846 2.6036C16.6894 2.6874 16.8755 2.81116 17.032 2.96765C17.1885 3.12414 17.3122 3.31022 17.396 3.51505C17.4798 3.71988 17.522 3.93934 17.5201 4.16064C17.5182 4.38194 17.4722 4.60064 17.3848 4.80398C17.2975 5.00732 17.1705 5.19123 17.0113 5.34497L9.85634 12.5H7.49967V10.1433L14.6547 2.98831Z" stroke="#F75555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -247,7 +293,7 @@ const makeReviewProduct=()=>{
                 </div>
                 <!-- button -->
                 <div class="close_review_list">
-                    <button @click="showReviewOverlay=!showReviewOverlay">
+                    <button @click="showReviewOverlay=false">
                         OK
                     </button>
                 </div>
@@ -258,7 +304,7 @@ const makeReviewProduct=()=>{
                 <div class="container_review_input">
                     <!-- header -->
                     <div class="header_edit">
-                        <button>
+                        <button @click="isUpdateReview=false">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7068 5.29303C12.8943 5.48056 12.9996 5.73487 12.9996 6.00003C12.9996 6.26519 12.8943 6.5195 12.7068 6.70703L9.41379 10L12.7068 13.293C12.8889 13.4816 12.9897 13.7342 12.9875 13.9964C12.9852 14.2586 12.88 14.5094 12.6946 14.6948C12.5092 14.8803 12.2584 14.9854 11.9962 14.9877C11.734 14.99 11.4814 14.8892 11.2928 14.707L7.29279 10.707C7.10532 10.5195 7 10.2652 7 10C7 9.73487 7.10532 9.48056 7.29279 9.29303L11.2928 5.29303C11.4803 5.10556 11.7346 5.00024 11.9998 5.00024C12.265 5.00024 12.5193 5.10556 12.7068 5.29303Z" fill="#212121"/>
                             </svg>
@@ -275,15 +321,16 @@ const makeReviewProduct=()=>{
                             <div class="product_item">
                                 <!-- img -->
                                 <div class="product_item_image">
-                                    <img src="../../assets/vue.svg" alt="product_review_img">
+                                    <img v-if="productDetail.image!=undefined" :src="`${origin}/api/image/products/${productDetail.itemId}`" :id="`product_img_${productDetail.itemId}`" alt="product_img">
+                                    <img v-else src="../../assets/vue.svg" :id="`default_product_img_${productDetail.itemId}`" alt="product_img">
                                 </div>
                                 <!-- product info -->
                                 <div class="product_item_detail">
                                     <h6>
-                                        Polyscias Fabian
+                                        {{productDetail.itemname}}
                                     </h6>
                                     <p>
-                                        Variation : SKU-name, SKU-name
+                                        {{productDetail.itemStyle}}: {{productDetail.itemSize}}
                                     </p>
                                 </div>
                             </div>
@@ -293,11 +340,12 @@ const makeReviewProduct=()=>{
                                     Product Quality
                                 </h6>
                                 <div>
-                                    <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" />
+                                    <input v-model="pqStar" type="text" >
+                                    <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                 </div>
                             </div>
                             <!-- description -->
-                            <textarea class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers."></textarea>
+                            <textarea v-model="reviewDescription" class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers."></textarea>
                             <!-- img container -->
                             <!-- <div>
                                 <button>
@@ -322,7 +370,8 @@ const makeReviewProduct=()=>{
                                     Seller Service
                                 </h6>
                                 <div>
-                                    <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" />
+                                    <input v-model="SSStar" type="text" name="" id="">
+                                    <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                 </div>
                             </div>
                             <!-- Delivery Service -->
@@ -331,14 +380,15 @@ const makeReviewProduct=()=>{
                                     Delivery Service
                                 </h6>
                                 <div>
-                                    <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" />
+                                    <input v-model="dsStar" type="text">
+                                    <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- submit -->
-                <BaseSubmit :name="`${props.name}_submit`" :disabled="false" />
+                <BaseSubmit :name="`${props.name}_submit`" @goBack="closeReview" @submit="submitReview" :disabled="false" />
                 <!-- <div class="container_submit">
                     <button>
                         Cancel
