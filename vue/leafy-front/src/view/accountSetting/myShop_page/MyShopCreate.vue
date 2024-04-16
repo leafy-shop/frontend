@@ -730,7 +730,7 @@ onUpdated(async()=>{
                 </div>
                 <!-- submit -->
                 <div v-show="isEdit" class="submit" >
-                    <button @click="goBanks()">
+                    <button @click="goBack()">
                         Cancel
                     </button>
                     <button @click="updateProduct()" >
