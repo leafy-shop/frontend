@@ -939,6 +939,65 @@ const fetch = {
             }
         }
     },
+    async getProductReviewByOrder(orderId) {
+        let returnData = { status: false, data: undefined, msg: '' }
+
+        try {
+            let url = `${origin}/api/products/review_orders/${orderId}`
+            let res = await axios.get(url)
+            // console.log(url)
+
+            if (res.status==200){
+                validation.function_Status('get product review by order', true,)
+                returnData.status =true
+                returnData.msg='200'
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product review by order', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+                returnData.msg='404'
+                returnData.status = false
+                return returnData
+            }
+        }
+    },
+    async updateReview(itemId, reviewId,inputData) {
+        let returnData = { status: false, msg: '' }
+
+        try {
+            let url = `${origin}/api/products/${itemId}/reviews/${reviewId}`
+            let res = await axios.patch(url,inputData)
+            console.log(url)
+
+            if (res.status==200){
+                validation.function_Status('update review ', true,)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner review', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+                returnData.status = false
+                return returnData
+            }
+        }
+    },
     async addReview(productId, inputData) {
         let returnData = { status: false, msg: '' }
 
@@ -1642,7 +1701,7 @@ const fetch = {
             }
         }
     },
-    async changeOrderStatus(orderId,inputData) {
+    async changeOrderStatus(orderId,inputData,endpoint='prepare_order') {
         let returnData = { status: false ,msg:''}
         if (inputData != undefined) {
             try {
@@ -1651,8 +1710,13 @@ const fetch = {
                 //     "shippedDate": "2024-04-08 10:00:00"
                 // }
                 
-                let url = `${origin}/api/orders/prepare_order/${orderId}`
-                let res = await axios.put(url,inputData)
+                let url = `${origin}/api/orders/${endpoint}/${orderId}`
+                let res
+                if(endpoint=="paid_order"||inputData==undefined){
+                    res = await axios.put(url)
+                }else{
+                    res = await axios.put(url,inputData)
+                }
                 
                 if (res.status == 200) {
                     validation.function_Status("change order status successful", true)
