@@ -379,7 +379,8 @@ onBeforeMount(async() => {
               <div>
                 <!-- select -->
                 <div class="product_selection">
-                  <input
+                  <input 
+                    v-show="detail.stock!=0"
                     type="checkbox"
                     name=""
                     id=""
