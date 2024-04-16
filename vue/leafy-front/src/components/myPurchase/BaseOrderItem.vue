@@ -86,6 +86,11 @@ const orderStatus=computed(()=>props.orderStatus)
 const showReviewOverlay=ref(false) //for show overlay
 const isUpdateReview=ref(false) //for show list or container input
 
+// make review
+const makeReviewProduct=()=>{
+
+}
+
 </script>
 <template>
      <div :id="props.name "  class="shop_item">
@@ -242,7 +247,7 @@ const isUpdateReview=ref(false) //for show list or container input
                 </div>
                 <!-- button -->
                 <div class="close_review_list">
-                    <button>
+                    <button @click="showReviewOverlay=!showReviewOverlay">
                         OK
                     </button>
                 </div>
