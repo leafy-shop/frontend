@@ -17,6 +17,7 @@ const myRouter=useRouter()
 // const goProfile =(shopId)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopId)}})
 const goCart=()=>myRouter.push({name:"CartList"})
 // common attribute
+const emit=defineEmits(['refreshData'])
 const props=defineProps({
     name:{
         type:String,
@@ -57,7 +58,10 @@ const props=defineProps({
         type:Boolean,
         default:false
     },
-
+    isDisabled:{
+        type:Boolean,
+        default:false
+    }
 
 })
 // common attribute
@@ -84,26 +88,62 @@ const orderStatus=computed(()=>props.orderStatus)
 // pay order
 const payOrder=async()=>{
     if(props.orderId!=undefined){
-        let {status,msg}=await fetch.changeOrderStatus(props.orderId,undefined,'paid_order')
+        let {status,msg}=await fetch.changeOrderStatus(props.orderId,'nodata','paid_order')
         if(await status){// change to 
-            
+            alertType.value=0
+            alertDetail.value='Product paid successfully'
+            alertTime.value=3
+            isShowAlert.value=true
+            return emit('refreshData') //
         }else{
-
+            alertType.value=2
+            alertDetail.value='There is a problem with the server. Please try again later.'
+            alertTime.value=10
+            isShowAlert.value=true
         }
     }
 }
 // receive order
-const receiverOrder=async()=>{
-    let {status,msg}=await fetch.changeOrderStatus()
-    if(await status){// change to 
-        
-    }else{
-
+const receiveOrder=async()=>{
+    let inputData={
+        orderStatus:"completed"
+    }
+    if(props.orderStatus!=undefined){
+        let {status,msg}=await fetch.changeOrderStatus(props.orderId,inputData,'check_order')
+        if(await status){// change to 
+            alertType.value=0
+            alertDetail.value='Receive order successfully'
+            alertTime.value=3
+            isShowAlert.value=true
+            return emit('refreshData') //
+        }else{
+            alertType.value=2
+            alertDetail.value='There is a problem with the server. Please try again later.'
+            alertTime.value=10
+            isShowAlert.value=true
+        }
     }
 }
 // cancel order
 const cencelOrder=async()=>{
-
+    let inputData={
+        orderStatus:"canceled"
+    }
+    if(props.orderStatus!=undefined){
+        let {status,msg}=await fetch.changeOrderStatus(props.orderId,inputData,'check_order')
+        if(await status){// change to 
+            alertType.value=0
+            alertDetail.value='Cancel order successfully'
+            alertTime.value=3
+            isShowAlert.value=true
+            return emit('refreshData') //
+        }else{
+            alertType.value=2
+            alertDetail.value='There is a problem with the server. Please try again later.'
+            alertTime.value=10
+            isShowAlert.value=true
+        }
+    }
 }
 
 // buy again
@@ -195,7 +235,11 @@ const getReview=async()=>{
         console.log(data)
         getReviewStatus=await status //use for check is up date
         return getReviewStatus
-    }else{//error
+    }else
+    if(await msg=='404'){//error
+        getReviewStatus=await status
+        return getReviewStatus
+    }else{
         closeReview()
         clearStatusReview()
         clearMessageReview()
@@ -403,7 +447,7 @@ const getShowAlertChange=(input)=>{
         <!-- product list -->
         <div class="product_list">
             <!-- product item -->
-            <button @click="$emit('goPurchaseDetail',props.orderId)" v-if="props.orderDetail.length!=0" v-for="(product,index) of props.orderDetail" class="product_item">
+            <button @click="$emit('goPurchaseDetail',props.orderId)" v-if="props.orderDetail.length!=0" v-for="(product,index) of props.orderDetail" :disabled="props.isDisabled" class="product_item">
                 <!-- img -->
                 <div class="product_img">
                     <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img">
@@ -469,11 +513,11 @@ const getShowAlertChange=(input)=>{
             <!-- to pay  set -->
             <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
                 <!-- buy again -->
-                <button  @click="receiveOrder" class="buy_again">
+                <button  @click="payOrder" class="buy_again">
                     Pay now
                 </button>
                 <!-- view mt rating -->
-                <button  @click="" class="view_my_rating">
+                <button  @click="cencelOrder" class="view_my_rating">
                     Cancel Order
                 </button>
                 <button  @click="" class="view_my_rating">
@@ -509,7 +553,7 @@ const getShowAlertChange=(input)=>{
                     Buy Again
                 </button>
                 <!-- view mt rating -->
-                <button  @click="showReviewOverlay=true" class="view_my_rating">
+                <button  @click="$emit('goPurchaseDetail',props.orderId)" class="view_my_rating">
                     View Cancellation Details
                 </button>
             </div>
@@ -808,7 +852,7 @@ const getShowAlertChange=(input)=>{
     background-color: transparent;
     border-bottom: 1px solid;
     border-color: #EEEEEE;
-    cursor: v-bind('props.orderId.length==0?'auto':'pointer'');
+    cursor: v-bind('props.isDisabled==true?'default':'pointer'');
 }
 /* image */
 .product_item .product_img{
