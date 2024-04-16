@@ -68,21 +68,30 @@ const props=defineProps({
                 </h5>
                 <!-- creater -->
                 <div class="container_creater">
-                    <!-- img -->
-                    <div>   
-                        <!-- <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/gallery/${props.createrImg}`" alt="creater_name"> -->
-                        <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/users/${props.createrId}`" alt="creater_name">
-                        <img v-else src="../../assets/vue.svg" alt="creater_name">
+                    <div class="creater">
+                        <!-- img -->
+                        <div>   
+                            <!-- <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/gallery/${props.createrImg}`" alt="creater_name"> -->
+                            <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/users/${props.createrId}`" alt="creater_name">
+                            <img v-else src="../../assets/vue.svg" alt="creater_name">
+                        </div>
+                        <!--  name -->
+                        <h6>
+                            {{props.createrName}}
+                        </h6>
                     </div>
-                    <!--  name -->
-                    <h6>
-                        {{props.createrName}}{{ props.createrId }}
-                    </h6>
+                    <div class="create_date">
+                        <h6 >
+                            {{props.createAt}}
+                        </h6>
+                    </div>
+                    
                 </div>
+                
             </div>
             <!-- project like -->
-            <div class="project_detail">
-                <!-- like -->
+            <!-- <div class="project_detail">
+                like
                 <div>
                     <div>
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +102,7 @@ const props=defineProps({
                         {{props.likeCount}}
                     </h6>
                 </div>
-                <!-- comment -->
+                comment
                 <div>
                     <div>
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +113,7 @@ const props=defineProps({
                         {{props.commentCount}}
                     </h6>
                 </div>
-                <!-- create at -->
+                create at
                 <div>
                     <div>
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +124,7 @@ const props=defineProps({
                         {{props.createAt}}
                     </h6>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -164,9 +173,9 @@ const props=defineProps({
     height: 108px;
     flex-direction: column;
     gap: 12px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    /* padding: 12px; */
+    padding: 12px 0px;
 }
 .gallery_card_detail h5{
     display: -webkit-box;
@@ -185,10 +194,18 @@ const props=defineProps({
     display: flex;
     width: 232px;
     height: 24px;
-    gap: 4px;
+    gap: 6px;
     align-items: center;
 }
-.container_creater >div{
+.container_creater .creater{
+    display: flex;
+    width: 100%;
+    height: 24px;
+    gap: 4px;
+    justify-content: start;
+    align-items: center;
+}
+.container_creater .creater  >div{
     display: flex;
     width: 24px;
     height: 24px;
@@ -199,18 +216,38 @@ const props=defineProps({
     border: none;
     border-radius: 50%;
 }
-.container_creater >div img{
+.container_creater .creater >div img{
     width: 100%;
     height: auto;
 }
-.container_creater  h6{
-    width: 100%;
+.container_creater .creater h6{
+    width: fit-content;
+    max-width: 135px;
     height: fit-content;
     white-space: nowrap;
     font-size: 12px;
     font-weight: 400;
     color:#757575;
     text-decoration: underline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.create_date{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    
+}
+.create_date h6{
+    width: 100%;
+    height: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
