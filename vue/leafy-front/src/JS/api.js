@@ -11,7 +11,7 @@ const fetch = {
         let returnData = { status: false, data: undefined, msg: '' }
 
         try {
-            let url = `${origin}/api/users/garden_designer`
+            let url = `${origin}/api/contents?sort_name=popular&sort=desc`
             let res = await axios.get(url)
 
             if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
