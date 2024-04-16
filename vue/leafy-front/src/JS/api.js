@@ -675,7 +675,7 @@ const fetch = {
         }
 
     },
-    // product detail page
+    // gallery
     async getGallery(inputData){
         let returnData = { status: false, data: undefined, msg: '' }
         let{
@@ -693,7 +693,7 @@ const fetch = {
             // limit
             if(limit!=undefined) url+=`&limit=${limit}`;
             // contentOwner
-            if(contentOwner!=undefined) url+=`&contentOwner=${contentOwner}`;
+            if(contentOwner!=undefined) url+=`&content_owner=${contentOwner}`;
             // sort name
             if(sort_name!=undefined) url+=`&sort_name=${sort_name}`;
             // style
@@ -763,6 +763,96 @@ const fetch = {
             }
         }
 
+    },
+    async getGalleryById(contentId){
+        let returnData = { status: false, data: undefined, msg: '' }
+        // if(inputData!=undefined){
+            
+        // }
+        // console.log(sort_name,'this from api')
+        try {
+            let url = `${origin}/api/contents/${contentId}`
+            // if(page!=undefined){
+            //     url+=`?page=${page}`
+            // }else{
+            //     url+= `?page=${1}`
+            // }
+            // if(limit!=undefined) url +=`&limit=${limit}`
+
+            // if(sort_name!=undefined) url +=`&sort_name=${sort_name}`
+            // if(style!=undefined) url +=`&style=${style}`
+            let res = await axios.get(url)
+
+            if (res.status==200) {
+                returnData.status=true
+                returnData.data=res.data
+                validation.function_Status('get gallery ' , true)
+            } 
+            return returnData
+        } catch (error) {
+            validation.function_Status('cannot get get gallery ' , false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+
+    },
+    async addGallery(inputData) {
+        let returnData = { status: false, msg: '',data:undefined }
+        try {
+            let url = `${origin}/api/contents`
+            let res = await axios.post(url, inputData)
+
+            if (res.status == 201) {
+                validation.function_Status('add gallery', true, `add gallery successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('add gallery', false, `cannot add gallery `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('add gallery', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+    },
+    async updateGallery(galleryId,inputData) {
+        let returnData = { status: false, msg: '' }
+        try {
+            let url = `${origin}/api/contents/${galleryId}`
+            let res = await axios.patch(url,inputData)
+
+            if (res.status == 200) {
+                validation.function_Status('update gallery', true, `updated gallery successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('update gallery', false, `cannot update gallery `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('update gallery', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
     },
     async deleteGallery(galleryId) {
         // let returnData = { status: false, data: undefined, msg:'' }
