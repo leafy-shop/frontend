@@ -58,14 +58,14 @@ onBeforeMount(()=>{
                     </div>
                     <div>
                         <h3>
-                            {{ designer.username }}
+                            {{ designer.contentOwner }}
                             <!-- Test -->
                         </h3>
                         <p>
                             {{ designer.description }}    
                         </p>
                     </div>
-                    <button @click="goGalleryDetail(designer.userId)">
+                    <button @click="goGalleryDetail(designer.contentId)">
                         View
                     </button>
                 </div> 
