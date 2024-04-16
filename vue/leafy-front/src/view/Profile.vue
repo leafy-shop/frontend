@@ -18,6 +18,7 @@ import BaseStar from '../components/productDetail/BaseStar.vue'
 const myRouter=useRouter()
 const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
+const goGalleryProfile=()=>myRouter.push({name:"GalleryProfile",params:{id:owner.value.userId}})
 
 //common attribute
 let { params } = useRoute()
@@ -295,13 +296,13 @@ onUpdated(() => {
                         </h5>
                         <!-- chat & follower & new product -->
                         <div>
-                            <button v-if="!isMe&&profileMode==pMode[0].mode" class="chat_btn">
+                            <!-- <button v-if="!isMe&&profileMode==pMode[0].mode" class="chat_btn">
                                 Chat Now
                             </button>
                             <button v-if="!isMe&&profileMode==pMode[0].mode" class="follow_btn">
                                 Follow
-                            </button>
-
+                            </button> -->
+                            
                             <!-- myself -->
                             <button @click="goAdd" v-if="isMe&&profileMode==pMode[0].mode" class="new_product_btn">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -309,6 +310,15 @@ onUpdated(() => {
                                 </svg>
                                 <span>
                                     New Product
+                                </span>
+                            </button>
+                            <button @click="goGalleryProfile" class="follow_btn">
+                                <!-- is not me -->
+                                <span v-if="!isMe&&profileMode==pMode[0].mode">
+                                    View Gallery
+                                </span> 
+                                <span v-else>
+                                    My Gallery
                                 </span>
                             </button>
                         </div>
