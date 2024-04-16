@@ -137,10 +137,12 @@ onBeforeMount(async()=>{
     padding: 20px 160px;
     background-color: #F5F5F5;
     flex-direction: column;
+    align-items: center;
+    justify-content: start;
 }
 .gallery{
     display: flex;
-    width: 100%;
+    width: 1120px;
     height: fit-content;
     padding-bottom:20px ;
     gap: 40px;
