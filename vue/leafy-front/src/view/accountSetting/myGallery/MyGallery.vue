@@ -11,7 +11,7 @@ const myRouter=useRouter()
 const goMyGalleryCreate=()=>myRouter.push({name:'MyGallery_AS_add',params:{method:'add-gallery'}})
 const goMyGalleryUpdate=(galleryId)=>{
     console.log(galleryId)
-    myRouter.push({name:'MyGallery_AS_add',params:{method:'edit-gallery',id:validation.encrypt("000"+galleryId)}})
+    myRouter.push({name:'MyGallery_AS_add',params:{method:'edit-gallery',id:validation.encrypt(`000${galleryId}`)}})
 
 }
 // common attribute
