@@ -50,7 +50,7 @@ const checkOrderStatus=()=>{
 const activeStatus=(number)=>{
     let allStepElement=document.getElementsByClassName('step_element')
     let allStepInfo=document.getElementsByClassName('')
-    for(let i=0;i<number;i++){//element first
+    for(let i=0;i<=number;i++){//element first
         allStepElement[i].classList.add('step_element_active')
     }
 }
@@ -72,7 +72,7 @@ onMounted(()=>{
     // console.log(arrayValue)
     // console.log(orderDetail.value)
     // activeStatus(statusIndex)
-    activeStatus(2)
+    activeStatus(orderStatusIndex.value)
 })
 
 onBeforeMount(async()=>{
