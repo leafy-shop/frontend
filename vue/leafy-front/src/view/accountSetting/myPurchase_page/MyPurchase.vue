@@ -282,7 +282,7 @@ onMounted(async()=>{
                     </div>
                 </div>
                 <!-- move page -->
-                <BaseSelectPage :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
+                <BaseSelectPage name="my_purchase_select_page" :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
             </div>
         </div>
     <!-- </div> -->
