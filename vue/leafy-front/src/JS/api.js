@@ -939,6 +939,50 @@ const fetch = {
             }
         }
     },
+    async addReview(productId, inputData) {
+        let returnData = { status: false, msg: '' }
+
+        if (inputData != undefined) {
+            try {
+                let url = `${origin}/api/products/${productId}/reviews`
+                let res = await axios.post(url, inputData)
+                // console.log(res.data)
+                // cookie.decrypt("information")
+                if (res.status == 201) {
+                    validation.function_Status("add review", true)
+                    returnData.status = true
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("Can not add review", false, error)
+                // console.log(error) 
+
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
+                return returnData
+            }
+
+        } else {
+            validation.function_Status("Add payment", false, "cannot add payment" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
+        }
+    },
     async updateReviewLike(itemId, reviewId) {
         let returnData = { status: false, data: undefined, msg: '' }
 
