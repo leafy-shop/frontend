@@ -7,6 +7,7 @@ const props=defineProps({
         required:true,
         default:''
     },
+    // project
     projectId:{
         type:String,
         default:''
@@ -19,9 +20,14 @@ const props=defineProps({
         type:String,
         default:''
     },
-    createrImg:{
+    // creater
+    createrId:{
         type:String,
         default:''
+    },
+    createrImg:{
+        type:String,
+        default:undefined
     },
     createrName:{
         type:String,
@@ -65,11 +71,12 @@ const props=defineProps({
                     <!-- img -->
                     <div>   
                         <!-- <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/gallery/${props.createrImg}`" alt="creater_name"> -->
-                        <img src="../../assets/vue.svg" alt="creater_name">
+                        <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/users/${props.createrId}`" alt="creater_name">
+                        <img v-else src="../../assets/vue.svg" alt="creater_name">
                     </div>
                     <!--  name -->
                     <h6>
-                        {{props.createrName}}
+                        {{props.createrName}}{{ props.createrId }}
                     </h6>
                 </div>
             </div>
@@ -188,6 +195,9 @@ const props=defineProps({
     overflow: hidden;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    border: none;
+    border-radius: 50%;
 }
 .container_creater >div img{
     width: 100%;
