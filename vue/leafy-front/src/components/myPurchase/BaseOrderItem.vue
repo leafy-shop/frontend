@@ -8,12 +8,14 @@ import {useRouter} from 'vue-router'
 import BaseStar from '../../components/productDetail/BaseStar.vue'
 import BaseStarInput from '../shop_page/BaseStarInput.vue';
 import BaseSubmit from '../../components/accountSetting/BaseSubmit.vue'
+import BaseAlert from '../BaseAlert.vue';
+import BaseShowErrorInput from '../../components/accountSetting/BaseShowErrorInput.vue'
 // import validation from '../../JS/validation'
 // link
 const  origin = `${import.meta.env.VITE_BASE_URL}`;
-// const myRouter=useRouter()
+const myRouter=useRouter()
 // const goProfile =(shopId)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopId)}})
-
+const goCart=()=>myRouter.push({name:"CartList"})
 // common attribute
 const props=defineProps({
     name:{
@@ -79,10 +81,35 @@ const orderStatus=computed(()=>props.orderStatus)
 //         // return  `../../assets/vue.svg`
 //     }
 // }
+// pay order
+const payOrder=async()=>{
+    if(props.orderId!=undefined){
+        let {status,msg}=await fetch.changeOrderStatus(props.orderId,undefined,'paid_order')
+        if(await status){// change to 
+            
+        }else{
+
+        }
+    }
+}
+// receive order
+const receiverOrder=async()=>{
+    let {status,msg}=await fetch.changeOrderStatus()
+    if(await status){// change to 
+        
+    }else{
+
+    }
+}
+// cancel order
+const cencelOrder=async()=>{
+
+}
 
 // buy again
 const buyAgain=async()=>{
-    
+    let statusList=[]
+    let falseCount=0
     if(props.orderDetail!=undefined){
         for(let product of props.orderDetail){
             let inputData={
@@ -91,6 +118,34 @@ const buyAgain=async()=>{
                 style: product.itemStyle 
             }
             let {status}=await fetch.addToCart(inputData)
+            if(await status){
+                statusList.push(true)
+            }else {
+                statusList.push(false)
+                falseCount+=1
+            }
+        }
+        // check product out of stock
+        if(statusList.includes(false)){// some product cannot
+            if(falseCount==props.orderDetail.length){//all data false
+                alertType.value=1
+                alertDetail.value='Unable to add products to cart, please try again later.'
+                alertTime.value=10
+                isShowAlert.value=true
+            }else{ //some data false
+                setTimeout(()=>goCart(),4*1000)//go cart
+                alertType.value=2
+                alertDetail.value='There are some products out of stock.'
+                alertTime.value=4
+                isShowAlert.value=true
+            }
+            
+        }else{
+            setTimeout(()=>goCart(),2*1000)//go cart
+            alertType.value=0
+            alertDetail.value='Add item to cart successful'
+            alertTime.value=3
+            isShowAlert.value=true
         }
     }
 }
@@ -102,41 +157,213 @@ const buyAgain=async()=>{
 // common attribute 
 const showReviewOverlay=ref(false) //for show overlay
 const isUpdateReview=ref(false) //for show list or container input
-const productDetail=ref({})
+const productDetail=ref({}) //product detail 1 product
 const reviewDescription=ref('')
 const pqStar=ref(0)
 const SSStar=ref(0)
 const dsStar=ref(0)
+const reviewList=ref([])
+// const submitStatus=ref(false)
+// attribute status
+const reviewDescriptionS=ref(false)
+const pqStarS=ref(false)
+const SSStarS=ref(false)
+const dsStarS=ref(false)
+const productDetailS=ref(false) //product detail 1 product
+const orderIdS=ref(false)
+// attribute msg
+const productDetailM=ref('') //product detail 1 product
+const reviewDescriptionM=ref('')
+const pqStarM=ref('')
+const SSStarM=ref('')
+const dsStarM=ref('')
+const orderIdM=ref('')
+// attribute alert
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+// mode
+const isShowReviewService=ref(false) //for show ss and sd when create new review only
+const reviewId=ref('')
+// get review
+const getReview=async()=>{
+    let getReviewStatus=undefined //status for check is that edit?
+    let {status,data,msg} =await fetch.getProductReviewByOrder(props.orderId)
+    if(await msg=='200'){//แสดงว่าเคยมีรีวิวแล้ว
+        reviewList.value=await data
+        console.log(data)
+        getReviewStatus=await status //use for check is up date
+        return getReviewStatus
+    }else{//error
+        closeReview()
+        clearStatusReview()
+        clearMessageReview()
+        alertType.value=2
+        alertDetail.value='Server error try again later'
+        isShowAlert.value=true
+        alertTime.value=10
+    }
+    
+}
 // make review 
-const makeReviewProduct=(product)=>{ //click to write
-    isUpdateReview.value=true
-    productDetail.value=product
+const makeReviewProduct=async(product)=>{ //click to write
+    let isEdit = await getReview()// get review first for change mode
+    if(await isEdit){ //have data review
+        let[oldReview]=reviewList.value.map(review=>{//loop for get old review
+            if(review.itemId==product.itemId){
+                return review
+            }
+        })
+        // console.log(oldReview)
+        isShowReviewService.value=false
+        // assign data
+        reviewId.value=oldReview.itemReviewId
+        reviewDescription.value=oldReview.comment
+        pqStar.value=oldReview.rating
+        // SSStar.value=ref(0)
+        // dsStar.value=ref(0)
+        productDetail.value=product
+        isUpdateReview.value=true
+        
+    }else
+    if(await !isEdit){//create new review
+        // console.log('let create new data')
+        isShowReviewService.value=true
+        // assign data
+        productDetail.value=product
+        isUpdateReview.value=true
+       
+    }
+    
 }
 // close review
-const closeReview=()=>{
+const closeReview=()=>{ //close all review
     showReviewOverlay.value=false
     isUpdateReview.value=false
+    reviewDescription.value=''
+    pqStar.value=0
+    SSStar.value=0
+    dsStar.value=0
 }
 // submit
 const submitReview=async()=>{
-    let inputData={
-        orderId: props.orderId,
-        comment: reviewDescription.value,
-        PQrating: pqStar.value,
-        SSrating: SSStar.value,
-        DSrating: dsStar.value,
-        size: productDetail.value.itemSize,
-        style: productDetail.value.itemStyle
+    let submitStatus=true
+    // props order id
+    if(String(props.orderId).length==0){
+        submitStatus=false
+        orderIdM.value="Order id missing"
+        orderIdS.value=true
     }
-    let {status,data}=await fetch.addReview(productDetail.value.itemId,inputData)
-    if(status){
-        console.log('submit review')
-        showReviewOverlay.value=false
-        isUpdateReview.value=false
+    if(Object.keys(productDetail.value).length==0){
+        submitStatus=false
+        productDetailM.value='Product detail missing'
+        productDetailS.value=true
+    }
+    // description
+    if(reviewDescription.value.length==0){
+        submitStatus=false
+        reviewDescriptionS.value=true
+        reviewDescriptionM.value='Review comment missing'
+    }
+    // rq star
+    if(pqStar.value==0){
+        submitStatus=false
+        pqStarS.value=true
+        pqStarM.value='Product quantlity require'
+    }
+    // ss star
+    if(SSStar.value==0&&isShowReviewService.value){
+        submitStatus=false
+        SSStarS.value=true
+        SSStarM.value='Seller service require'
+    }
+    // ds star
+    if(dsStar.value==0&&isShowReviewService.value){
+        submitStatus=false
+        dsStarS.value=true
+        dsStarM.value='Delivery service require'
+    }
+    // form data
+    let inputData={}
+    if(props.orderId!=undefined)inputData["orderId"]=props.orderId
+    if(reviewDescription.value!=undefined)inputData["comment"]=reviewDescription.value
+    if(pqStar.value!=undefined)inputData["PQrating"]=pqStar.value
+    if(SSStar.value!=undefined&&SSStar.value!=0)inputData["SSrating"]=SSStar.value
+    if(dsStar.value!=undefined&&dsStar.value!=0)inputData["DSrating"]=dsStar.value
+    if(productDetail.value.itemSize!=undefined)inputData["size"]=productDetail.value.itemSize
+    if(productDetail.value.itemStyle!=undefined)inputData["style"]=productDetail.value.itemStyle
 
+    if(submitStatus){
+        if(isShowReviewService.value){//is create mode ?
+            let {status,data}=await fetch.addReview(productDetail.value.itemId,inputData)
+            if(await status){
+                console.log('submit review')
+                closeReview()
+                clearStatusReview()
+                clearMessageReview()
+                alertType.value=0
+                alertDetail.value='Review successful'
+                isShowAlert.value=true
+                alertTime.value=4
+            }else{
+                closeReview()
+                clearStatusReview()
+                clearMessageReview()
+                alertType.value=1
+                alertDetail.value='Can not write review'
+                isShowAlert.value=true
+                alertTime.value=10
+            }
+        }else{//this is edit mode
+            console.log(inputData)
+            let {status,msg}=await fetch.updateReview(productDetail.value.itemId,reviewId.value,inputData)
+            if(await status){
+                console.log('update successful')
+                closeReview()
+                clearStatusReview()
+                clearMessageReview()
+                alertType.value=0
+                alertDetail.value='Update review successful'
+                isShowAlert.value=true
+                alertTime.value=4
+            }else{
+                closeReview()
+                clearStatusReview()
+                clearMessageReview()
+                alertType.value=1
+                alertDetail.value='Can not update review'
+                isShowAlert.value=true
+                alertTime.value=10
+            }
+        }
     }
 }
 
+// clear Status
+const clearStatusReview=()=>{
+    pqStarS.value=false
+    SSStarS.value=false
+    dsStarS.value=false
+    productDetailS.value=false //product detail 1 product
+    orderIdS.value=false
+} 
+const clearMessageReview=()=>{
+    pqStarM.value=''
+    SSStarM.value= ''
+    dsStarM.value=''
+    productDetailM.value='' //product detail 1 product
+    orderIdM.value=''
+}
+// alert
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    isShowAlert.value=false
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+    // setTimeout(()=>isShowAlert.value=false,second*1000)
+}
 </script>
 <template>
      <div :id="props.name "  class="shop_item">
@@ -239,16 +466,52 @@ const submitReview=async()=>{
                     </span>
                 </h6>
             </div>
-            <div v-if="!isPayment" class="container_btn">
+            <!-- to pay  set -->
+            <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
                 <!-- buy again -->
-                <button @click="buyAgain" class="buy_again">
+                <button  @click="receiveOrder" class="buy_again">
+                    Pay now
+                </button>
+                <!-- view mt rating -->
+                <button  @click="" class="view_my_rating">
+                    Cancel Order
+                </button>
+                <button  @click="" class="view_my_rating">
+                    Change Payment Method
+                </button>
+            </div>
+            <!-- to receive  set -->
+            <div v-if="!isPayment&&ORDERSTATUS.INPROGRESS==props.orderStatus" class="container_btn">
+                <!-- buy again -->
+                <button  @click="receiveOrder" class="buy_again">
+                    Order Received
+                </button>
+                <!-- view mt rating -->
+                <!-- <button  @click="showReviewOverlay=true" class="view_my_rating">
+                    View My Rating
+                </button> -->
+            </div>
+            <!-- complete  set -->
+            <div v-if="!isPayment&&ORDERSTATUS.COMPLETED==props.orderStatus" class="container_btn">
+                <!-- buy again -->
+                <button  @click="buyAgain" class="buy_again">
                     Buy Again
                 </button>
                 <!-- view mt rating -->
-                <button @click="showReviewOverlay=!showReviewOverlay" class="view_my_rating">
+                <button  @click="showReviewOverlay=true" class="view_my_rating">
                     View My Rating
                 </button>
-
+            </div>
+            <!-- calcel  set -->
+            <div v-if="!isPayment&&ORDERSTATUS.CANCELED==props.orderStatus" class="container_btn">
+                <!-- buy again -->
+                <button  @click="buyAgain" class="buy_again">
+                    Buy Again
+                </button>
+                <!-- view mt rating -->
+                <button  @click="showReviewOverlay=true" class="view_my_rating">
+                    View Cancellation Details
+                </button>
             </div>
         </div>
         <!-- review -->
@@ -335,17 +598,24 @@ const submitReview=async()=>{
                                 </div>
                             </div>
                             <!-- quantity -->
-                            <div class="product_quantity">
-                                <h6>
-                                    Product Quality
-                                </h6>
-                                <div>
-                                    <input v-model="pqStar" type="text" >
-                                    <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
+                            <div class="container_input"> 
+                                <div class="product_quantity">
+                                    <h6>
+                                        Product Quality
+                                    </h6>
+                                    <div>
+                                        <input v-model="pqStar" type="text" >
+                                        <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
+                                    </div>
                                 </div>
+                                <BaseShowErrorInput name="product_qty" :show="pqStarS" :msg="pqStarM" />
                             </div>
                             <!-- description -->
-                            <textarea v-model="reviewDescription" class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers."></textarea>
+                            <div class="container_input">
+                                <textarea v-model="reviewDescription" class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers."></textarea>
+                                <BaseShowErrorInput name="product_description" :show="reviewDescriptionS" :msg="reviewDescriptionM" />
+
+                            </div>
                             <!-- img container -->
                             <!-- <div>
                                 <button>
@@ -359,30 +629,36 @@ const submitReview=async()=>{
                             </div> -->
                         </div>
                         <!-- service -->
-                        <div class="container_service">
+                        <div v-if="isShowReviewService" class="container_service">
                             <!-- header -->
                             <h5 class="header_service">
                                 About Service
                             </h5>
                             <!-- Seller Service -->
-                            <div class="seller_service">
-                                <h6>
-                                    Seller Service
-                                </h6>
-                                <div>
-                                    <input v-model="SSStar" type="text" name="" id="">
-                                    <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
+                            <div class="container_input">
+                                <div class="seller_service">
+                                    <h6>
+                                        Seller Service
+                                    </h6>
+                                    <div>
+                                        <input v-model="SSStar" type="text" name="" id="">
+                                        <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
+                                    </div>
                                 </div>
+                                <BaseShowErrorInput name="seller_service" :show="SSStarS" :msg="SSStarM" />
                             </div>
                             <!-- Delivery Service -->
-                            <div class="deliver_service">
-                                <h6>
-                                    Delivery Service
-                                </h6>
-                                <div>
-                                    <input v-model="dsStar" type="text">
-                                    <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
+                            <div class="container_input">
+                                <div class="deliver_service">
+                                    <h6>
+                                        Delivery Service
+                                    </h6>
+                                    <div>
+                                        <input v-model="dsStar" type="text">
+                                        <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
+                                    </div>
                                 </div>
+                                <BaseShowErrorInput name="delivery_service" :show="dsStarS" :msg="dsStarM" />
                             </div>
                         </div>
                     </div>
@@ -399,6 +675,7 @@ const submitReview=async()=>{
                 </div> -->
             </div>
         </div>
+        <BaseAlert name="order_item_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"  />
     </div>
 </template>
 <style scoped>
@@ -984,6 +1261,13 @@ const submitReview=async()=>{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.container_input{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    gap:4px;
 }
 /* product_quantity */
 .container_product .product_quantity{
