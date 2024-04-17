@@ -6,6 +6,7 @@ import cookie from '../../../JS/cookie';
 import ORDERSTATUS from '../../../JS/enum/order.js'
 import ORDERSTATUSCOLOR from '../../../JS/enum/orderStatusColor'
 import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
+import BaseAlert from '../../../components/BaseAlert.vue';
 // common attribute
 const date=ref('')
 const uesrName=ref('')
@@ -23,12 +24,7 @@ const calculatePageStart=ref(0) // use for set data from baseMovePage
 // change status
 const newStatus=ref(undefined)
 // color list by order status
-// const colorStatusList=[
-//     {font:'#FACC15',bg:'#FFD30014'}, //pending
-//     {font:'#235DFF',bg:'#235DFF14'}, //in progress
-//     {font:'#12D18E',bg:'#17CE9214'}, //completed
-//     {font:'#F75555',bg:'#F5484A14'}, //canceled
-// ]
+
 // date attribute
 const startDate=ref("")
 const endDate=ref("")
@@ -38,6 +34,12 @@ const completedCount=ref(0)
 const pendingCount=ref(0)
 const cancelCount=ref(0)
 const allCount=ref(0)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // filter
 const resetfilterDate=async()=>{
@@ -56,12 +58,12 @@ const submitFilterDate=async()=>{
 const nextPage=()=>{
     // check if to next page and not out of all page
     currentPage.value=(currentPage.value+1)>allPage.value?currentPage.value:currentPage.value+1
-    document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
+    // document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
     getAllOrder()
 }
 const previousPage=()=>{
     currentPage.value=(currentPage.value-1)<=0?currentPage.value:currentPage.value-1
-    document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
+    // document.getElementById("header_order").scrollIntoView({ behavior: "smooth" }) //go to top first
     getAllOrder()
 }
 //computed page info
@@ -76,6 +78,13 @@ const getCalculatePageInfo=(input)=>{
     calculatePageStart.value=input.startWith
 }
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 // get all order for supplier
 const getAllOrder=async()=>{
@@ -104,11 +113,14 @@ const getAllOrder=async()=>{
         orderList.value=data.list
         orderAmount.value=data.allItems
         allPage.value=data.allPage
-
+        await getAllStatusCount() //get count
         // console.log(orderAmount.value)
-
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
-    await getAllStatusCount() //get count
 }
 // get order status count
 const getOrderStatusCount=async(orderStatus)=>{
@@ -160,12 +172,17 @@ const filterOrder=async(name,filterItem="ALL")=>{
 // use for calculate next setp only
 const calculateStatusStep=(currentStatus)=>{
     if(currentStatus!=undefined){
-        let statusValue = Object.values(ORDERSTATUS)
-        let indexCurrent =statusValue.indexOf(currentStatus) // check index that of step in order status
-        let step =statusValue.slice(indexCurrent+1,statusValue.length-2)//list all not calcel and complete tho
-        // console.log(currentStatus)
-        // console.log(step )
-        return step
+        let statusValue = Object.values(ORDERSTATUS).splice(0).slice(1,4)
+        if(currentStatus!=ORDERSTATUS.REQUIRED&&currentStatus!=ORDERSTATUS.CANCELED){ //if order status !=required
+            let indexCurrent =statusValue.indexOf(currentStatus) // check index that of step in order status
+            let step =statusValue.slice(indexCurrent+1,statusValue.length-1)//list all not calcel and complete tho
+            // console.log(currentStatus)
+            // console.log(step )
+            return step
+        }else{
+            return []
+        }
+        
     }
     
 }
@@ -194,7 +211,11 @@ const changeStatus=async()=>{
         resetStatusSelection() 
     }else{
         // error
-        console.log("error something")
+        isChangeStatus.value=false
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
         
     }
 }
@@ -737,6 +758,7 @@ onMounted(async()=>{
             </div>
         </div>
     </div>
+    <BaseAlert name="order_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
 </div>   
 </template>
 <style scoped>
@@ -902,7 +924,7 @@ onMounted(async()=>{
     border:none;
     border-radius: min(0.556dvw,8px);
     padding:min(0.278dvw,4px);
-
+    z-index: 99;
 }
 #date_range_drop >label{
     display:flex;
