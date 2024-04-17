@@ -42,14 +42,14 @@ const getOrders=async()=>{
     }
     let {status,data} = await fetch.getAllOrder(false,inputData)
     // isShowAlert.value=await status
-    if(status){
+    if(await status){
         console.log(data)
-        orderList.value=data.list
-        allPage.value=data.allPage
+        orderList.value=await data.list
+        allPage.value=await data.allPage
         
     }else{
         // error
-        alertDetail.value='Can not get data from server try again later'
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertType.value=2
         isShowAlert.value=true
         alertTime.validation=10
@@ -222,7 +222,7 @@ onMounted(async()=>{
                         <!-- shop item -->
                         <div v-for="(shop,index) of orderList"  :key=index >
                             <BaseOrderItem name="purchase" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
-                            :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" />
+                            :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" @refresh-data="getOrders" />
                         </div>
 
                         <!-- <div v-for="(shop,index) of orderList" :key="index" class="shop_item">
