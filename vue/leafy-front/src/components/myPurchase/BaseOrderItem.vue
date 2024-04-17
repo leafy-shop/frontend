@@ -113,9 +113,9 @@ const receiveOrder=async()=>{
         if(await status){// change to 
             alertType.value=0
             alertDetail.value='Receive order successfully'
-            alertTime.value=3
+            alertTime.value=2
             isShowAlert.value=true
-            return emit('refreshData') //
+            return setTimeout(()=>emit('refreshData'),2*1000) //
         }else{
             alertType.value=2
             alertDetail.value='There is a problem with the server. Please try again later.'
@@ -134,9 +134,9 @@ const cencelOrder=async()=>{
         if(await status){// change to 
             alertType.value=0
             alertDetail.value='Cancel order successfully'
-            alertTime.value=3
+            alertTime.value=2
             isShowAlert.value=true
-            return emit('refreshData') //
+            return setTimeout(()=>emit('refreshData'),2*1000) //
         }else{
             alertType.value=2
             alertDetail.value='There is a problem with the server. Please try again later.'
@@ -253,7 +253,7 @@ const getReview=async()=>{
 // make review 
 const makeReviewProduct=async(product)=>{ //click to write
     let isEdit = await getReview()// get review first for change mode
-    if(await isEdit){ //have data review
+    if(isEdit==true){ //have data review
         let[oldReview]=reviewList.value.map(review=>{//loop for get old review
             if(review.itemId==product.itemId){
                 return review
@@ -271,7 +271,7 @@ const makeReviewProduct=async(product)=>{ //click to write
         isUpdateReview.value=true
         
     }else
-    if(await !isEdit){//create new review
+    if(isEdit==false){//create new review
         // console.log('let create new data')
         isShowReviewService.value=true
         // assign data
@@ -410,7 +410,7 @@ const getShowAlertChange=(input)=>{
 }
 </script>
 <template>
-     <div :id="props.name "  class="shop_item">
+     <div v-if="props.orderDetail.length!=0" :id="props.name "  class="shop_item">
         <!-- shop name and status -->
         <div class="header_shop">
             <!-- name and button -->
@@ -520,9 +520,9 @@ const getShowAlertChange=(input)=>{
                 <button  @click="cencelOrder" class="view_my_rating">
                     Cancel Order
                 </button>
-                <button  @click="" class="view_my_rating">
+                <!-- <button  @click="" class="view_my_rating">
                     Change Payment Method
-                </button>
+                </button> -->
             </div>
             <!-- to receive  set -->
             <div v-if="!isPayment&&ORDERSTATUS.INPROGRESS==props.orderStatus" class="container_btn">
