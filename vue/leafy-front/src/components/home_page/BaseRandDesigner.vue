@@ -3,10 +3,11 @@ import { onBeforeMount, ref } from 'vue';
 import js from '../../JS/validation.js'
 import fetch from '../../JS/api.js'
 import {useRouter}from 'vue-router'
+import validation from '../../JS/validation'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 const myRouter = useRouter()
-const goGalleryDetail=(id)=>myRouter.push({name:'GalleryDetail',params:{id:id}})
+const goGalleryDetail=(id)=>myRouter.push({name:'GalleryDetail',params:{id:validation.encrypt(`000${id}`)}})
 
 const designerList = ref([])
 
@@ -39,7 +40,7 @@ onBeforeMount(()=>{
 
 </script>
 <template>
-<div class="wrapper_designer">
+<div v-if="designerList.length!=0" class="wrapper_designer">
     <div class="container_designer">
         <div class="scroll_button">
         <button @click="js.scroll('previous','.wrapper_list',amountMove)" class=" pre" >

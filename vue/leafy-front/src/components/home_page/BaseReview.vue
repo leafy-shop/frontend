@@ -65,7 +65,7 @@ onBeforeMount(()=>{
 
 </script>
 <template>
-    <div class="wrapper">
+    <div v-if="reviewArr.length!=0" class="wrapper">
         <div class="container_review">
             <div class="overall_review">
                 <h3>
