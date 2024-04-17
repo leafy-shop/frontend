@@ -8,11 +8,15 @@ import cookie from '../JS/cookie';
 import {ref,onBeforeMount,onBeforeUpdate} from 'vue'
 import {useRoute,useRouter} from 'vue-router'
 import validation from '../JS/validation'
+import BaseAlert from '../components/BaseAlert.vue';
 import BaseSelectPage from '../components/BaseSelectPage.vue';
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
-const goShopProfile=()=>myRouter.push({name:'Profile',params:{id:validation.encrypt(`000${owner.value.userId}`)}})
+const goShopProfile=()=>myRouter.push({name:'Profile',params:{id:owner.value.userId}})
+const goMyGalleryUpdate=(galleryId)=>myRouter.push({name:'MyGallery_AS_add',params:{method:'edit-gallery',id:validation.encrypt(`000${galleryId}`)}})
+const goGalleryDetail=(galleryId)=>myRouter.push({name:'GalleryDetail',params:{id:galleryId}})
+
 // common attribute
 let {params} =useRoute()
 const galleryList=ref([])
@@ -31,6 +35,12 @@ const itemFilter=ref(undefined)
 // img
 const imageS=ref(false)
 const coverphotoS=ref(false)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // get gallery
 const getGallery=async()=>{
@@ -60,6 +70,11 @@ const getGallery=async()=>{
             galleryList.value =await data.list
             allPage.value=await data.allPage
         // }
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -91,9 +106,14 @@ const getStore =async()=>{
 // delete gallery
 const deleteGallery=async(galleryId)=>{
     let{status,msg}=await fetch.deleteGallery(galleryId)
-    if(status){
+    if(await status){
         console.log('delete successful')
         await getGallery()
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -122,7 +142,13 @@ const checkImg = async (type) => {
     }
 }
 
-
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(async()=>{
     // param
@@ -206,7 +232,7 @@ onBeforeMount(async()=>{
                 <!-- gallery list -->
                 <div  class="gallery_list">
                     <div v-for="(gallery,index) of galleryList" :key="index" class="wrapper_gallery_item">
-                        <BaseGalleryCard name="gallery_profile_item" :project-id="String(gallery.contentId)" :project-name="gallery.name" :project-img="gallery.image"
+                        <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" name="gallery_profile_item" :project-id="String(gallery.contentId)" :project-name="gallery.name" :project-img="gallery.image"
                         :creater-name="gallery.contentOwner" :creater-id="String(gallery.userId)" :creater-img="gallery.icon" :like-count="gallery.like" :comment-count="gallery.comment" :create-at="gallery.createdAt" />
                     </div>
                 </div>
@@ -237,7 +263,7 @@ onBeforeMount(async()=>{
                                     </h6>
                                     <div >
                                         <!-- edit -->
-                                        <button>
+                                        <button @click="goMyGalleryUpdate(gallery.contentId)">
                                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M7.16732 3.16664H3.00065C2.55862 3.16664 2.1347 3.34223 1.82214 3.65479C1.50958 3.96736 1.33398 4.39128 1.33398 4.83331V14C1.33398 14.442 1.50958 14.8659 1.82214 15.1785C2.1347 15.491 2.55862 15.6666 3.00065 15.6666H12.1673C12.6093 15.6666 13.0333 15.491 13.3458 15.1785C13.6584 14.8659 13.834 14.442 13.834 14V9.83331M12.6557 1.98831C12.8094 1.82912 12.9933 1.70215 13.1966 1.6148C13.4 1.52746 13.6187 1.48148 13.84 1.47956C14.0613 1.47763 14.2807 1.5198 14.4856 1.6036C14.6904 1.6874 14.8765 1.81116 15.033 1.96765C15.1895 2.12414 15.3132 2.31022 15.397 2.51505C15.4808 2.71988 15.523 2.93934 15.5211 3.16064C15.5191 3.38194 15.4732 3.60064 15.3858 3.80398C15.2985 4.00732 15.1715 4.19123 15.0123 4.34497L7.85732 11.5H5.50065V9.14331L12.6557 1.98831Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
@@ -297,7 +323,7 @@ onBeforeMount(async()=>{
             </div>
         </div>
         <BaseSelectPage name="gallery_profile_move" :total-page="allPage" :current-page="currentPage" @changePage="changePage" @moveLeft="changePage" @moveRight="changePage" />
-
+        <BaseAlert name="gallery_profile_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
     <BaseFooter/>
 </template>
