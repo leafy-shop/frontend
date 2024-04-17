@@ -132,7 +132,7 @@ onBeforeMount(()=>{
 }
 .container_review{
     display: flex;
-    width: auto;
+    width: 100%;
     height: 100%;
     gap: min(0.556dvw,8px);
     justify-content: center;
@@ -168,8 +168,8 @@ onBeforeMount(()=>{
 }
 
 .wrapper_review{
-
-    width:min(58.333dvw,840px); 
+    width: 100%;
+    /* width:min(58.333dvw,840px);  */
     height:min(15.833dvw,228px);
     overflow-x: auto;
     
