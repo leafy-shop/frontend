@@ -6,6 +6,7 @@ import cookie from '../../../JS/cookie';
 import fetch from '../../../JS/api';
 import bankTypeList from '../../../JS/enum/bankAccount.js'
 import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
+import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 const myRouter = useRouter()
 const goAdd = () => myRouter.push({ name: 'Bank_AS_add', params: { method: 'new-bank' } })
@@ -17,28 +18,22 @@ const userName = ref('')
 const bankList = ref([])
 const bankId = ref('')
 const bankDefault=ref(undefined)//for default data
-// const bankTypeList=ref([
-//     {name:"ธนาคารกรุงเทพ จำกัด ( BBL )",value:"BBL"},
-//     {name:"ธนาคารกสิกรไทย ( KBANK )",value:"KBANK"},
-//     {name:"ธนาคารไทยพาณิชย์ ( SCB )",value:"SCB"},
-//     {name:"ธนาคารกรุงศรีอยุธยา ( BAY )",value:"BAY"},
-//     {name:"ธนาคารออมสิน ( GSB )",value:"GSB"},
-//     {name:"ธนาคารกรุงไทย ( KTB )",value:"KTB"},
-//     {name:"ธนาคารทหารไทย ( TMB )",value:"TMB"},
-//     {name:"ธนาคารทหารไทยธนชาติ ( TTB )",value:"TTB"},
-//     {name:"ธนาคารซิตี้แบงค์ ( CITI )",value:"CITI"},
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
-// ])
 // const isBank=computed({
 //for match full name
-const fullNameBank = (keyword) => {
-    //find keyword match to data then find index of that information
-    let index = bankTypeList.map((x) => x.value == keyword).indexOf(true)
-    // console.log(index)
-    if (index != -1) return bankTypeList[index].name;
+// const fullNameBank = (keyword) => {
+//     //find keyword match to data then find index of that information
+//     let index = bankTypeList.map((x) => x.value == keyword).indexOf(true)
+//     // console.log(index)
+//     if (index != -1) return bankTypeList[index].name;
 
 
-}
+// }
 // })
 const showConfirm = (id) => {
     isDelete.value = true
@@ -67,7 +62,7 @@ const getBank = async () => {
     let { username } = cookie.decrypt()
     userName.value = username
     let { status, msg, data } = await fetch.getAllPayment(username)
-    if (status) {
+    if (await status) {
         // remove default data list
         // get default 
         // let [indexD]= data.map(x=>{
@@ -86,23 +81,29 @@ const getBank = async () => {
             console.log(data)
             // console.log(indexD)
         }
-        
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 const deleteBank = async () => {
     // console.log(addressId.value)
     // let status =true
     let { status, msg } = await fetch.deletePaymentById(userName.value, bankId.value)
-    if (status) {
+    if (await status) {
         // close overlay
         isDelete.value = false
         console.log("close overlay")
         await getBank()
-    } else {
+    } else{
         //error 
         isDelete.value = false
-        console.log("close overlay")
-        console.log(msg)
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 
 }
@@ -117,9 +118,19 @@ const setDefaultBank = async (paymentId) => {
     } else {
         //error 
         isDelete.value = false
-        console.log("close overlay")
-        console.log(msg)
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
+}
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
 }
 
 onBeforeMount(async () => {
@@ -289,6 +300,7 @@ onBeforeMount(async () => {
                 </div>
             </div>
         </div>
+        <BaseAlert name="bank_list" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
 </template>
 <style scoped>
