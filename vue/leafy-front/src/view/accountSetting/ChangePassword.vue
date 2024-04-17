@@ -4,6 +4,7 @@ import { onBeforeMount, ref } from 'vue'
 import cookie from '../../JS/cookie';
 import fetch from '../../JS/api'
 import validation from '../../JS/validation'
+import BaseAlert from '../../components/BaseAlert.vue';
 const myRouter = useRouter()
 // const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
 const userName = ref('')
@@ -22,7 +23,11 @@ const newPasswordS = ref(false)
 const newPasswordConfirm = ref('')
 const newPasswordConfirmS = ref(false)
 const newPasswordConfirmM = ref('')
-
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 const showPassword = (index) => {
     let input = document.getElementsByClassName('input_field')
@@ -50,20 +55,42 @@ const showPassword = (index) => {
 
 const checkPassword = async () => {
     let { status, msg } = await fetch.login(userName.value, oldPassword.value)
-    if (!status) {
+    if (await status) {
+        
+        return true
+    }else
+    if(await msg=='401'){
         oldPasswordM.value = "Password does not exist."
-        oldPasswordS.value = true
+        oldPasswordS.value = true 
+        return false
+    }else{
+        // error
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
+        
+        return false
     }
     // console.log(status, msg)
-    return status
 }
 const updatePassword = async () => {
+    let statusUpdate=false
     // console.log(newPassword.value)
     if (newPassword.value == newPasswordConfirm.value) {
         let pw = { password: newPassword.value }
         let { status, msg } = await fetch.updataUserInfo(pw)
-        console.log(status, msg)
-        return status
+        if(await status){
+            console.log(status, msg)
+            return true
+        }else{
+            // error
+            isShowAlert.value=true
+            alertType.value=1
+            alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+            alertTime.value=10
+            return false
+        }
     } else {
         newPasswordM.value = "Password not match."
         newPasswordS.value = true
@@ -169,8 +196,16 @@ const submitChangePasswrod = async () => {
                 }
             }
         }
+}
 
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    isShowAlert.value=false
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
 }
 
 onBeforeMount(() => {
@@ -220,9 +255,9 @@ onBeforeMount(() => {
                         </button>
                     </div>
                     <!-- forget password -->
-                    <button>
+                    <!-- <button>
                         Forgot Password ?
-                    </button>
+                    </button> -->
                     <!-- worning -->
                     <div v-show="oldPasswordS" class="wrapper_errorMsg">
                         <div>
@@ -336,17 +371,17 @@ onBeforeMount(() => {
                 </div>
             </div>
             
-
+            <BaseAlert name="change_password_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
         </div>
     </div><!-- submit -->
-            <div class="submit">
-                <button @click="cancelChangePassword()">
-                    Cancel
-                </button>
-                <button @click="submitChangePasswrod()">
-                    Next
-                </button>
-            </div>
+        <div class="submit">
+            <button @click="cancelChangePassword()">
+                Cancel
+            </button>
+            <button @click="submitChangePasswrod()">
+                Next
+            </button>
+        </div>
     </div>
 </template>
 <style scoped>

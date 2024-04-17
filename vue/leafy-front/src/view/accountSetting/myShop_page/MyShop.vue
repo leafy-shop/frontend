@@ -8,6 +8,7 @@ import validation from '../../../JS/validation'
 import productEnum from '../../../JS/enum/product'
 import BaseSelectPage from '../../../components/BaseSelectPage.vue';
 import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
+import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
@@ -30,7 +31,11 @@ const totalAmountItem=ref(0)
 // filter item
 const sortFilter=ref('')
 const sortNameFilter=ref('')
-
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // ดึงข้อมูลเกี่ยวกับ Product
 const getProduct=async()=>{
@@ -56,18 +61,29 @@ const getProduct=async()=>{
         
     // }
     
-    let {status,data}=await fetch.getAllProductOfSupplier(inputData)
-    if(status){
+    let {status,data,msg}=await fetch.getAllProductOfSupplier(inputData)
+    if(await status){
         // if(inputData.sort_name=="sold_out"){
         //     productList.value=data.outStock
         //     console.log(data)
         // }else{
-            productList.value=data.list
-            currentPage.value=data.page
-            totalAmountItem.value=data.allItems
-            allPage.value=data.allPage
-            console.log(data)
-        }
+        productList.value=data.list
+        currentPage.value=data.page
+        totalAmountItem.value=data.allItems
+        allPage.value=data.allPage
+        console.log(data)
+    }else
+    if(await msg=='404'){
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Sorry, we couldn't find the information you're looking for."
+        alertTime.value=10
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
+    }
         
     // }else{
     //     //error
@@ -78,11 +94,21 @@ const getProduct=async()=>{
 // delete product
 const deleteProduct=async(id)=>{
     let {status,msg}=await fetch.deleteProductById(id)
-    if(status){
+    if(await status){
         console.log('delete success')
         await getProduct()
+    }else
+    if(await msg=='400'){// error
+
+        isShowAlert.value=true
+        alertType.value=2
+        alertDetail.value='The product cannot be deleted because the product has already been purchased.'
+        alertTime.value=10
     }else{
-        // error
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -151,7 +177,14 @@ const previousPage=()=>{
     getProduct()
 }
 
-
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    isShowAlert.value=false
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 
 onBeforeMount(async()=>{
@@ -364,6 +397,7 @@ onMounted(async()=>{
     <!-- move page -->
     <!-- <BaseSelectPage @current-page="" @total-page="10" /> -->
     <BaseMovePage name="my_shop" :current-page="currentPage" :total-amount-item="totalAmountItem" @previousPage="previousPage()" @nextPage="nextPage()" />
+    <BaseAlert name="shop_list" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
 </div>
     <!-- </div> -->
 

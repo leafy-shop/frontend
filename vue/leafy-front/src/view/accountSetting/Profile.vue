@@ -4,7 +4,7 @@ import fetch from '../../JS/api'
 import validation from '../../JS/validation'
 import { useRoute } from 'vue-router';
 import cookie from '../../JS/cookie';
-
+import BaseShowErrorInput from '../../components/accountSetting/BaseShowErrorInput.vue';
 const { params } = useRoute()
 const userId = ref("")
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -505,7 +505,7 @@ onBeforeMount(async () => {
 
                         </div>
                         <div v-show="coverImage != undefined || coverImageS == true" @drop="dropHandle" @dragover="dragover">
-                            <label for="cover_image">
+                            <label for="cover_image" class="cover_img_result">
                                 <!-- รูปที่จะเพิ่ม -->
                                 <img v-show="coverImage != undefined" src="#" draggable="false" alt="preview_image"
                                     id="cover-preview">
@@ -517,6 +517,7 @@ onBeforeMount(async () => {
                         </div>
 
                     </div>
+                    <BaseShowErrorInput name="cover_img_profile"/>
                 </div>
             </div>
             <!-- submit --> 
@@ -889,10 +890,15 @@ onBeforeMount(async () => {
     height: 100%;
     overflow: hidden;
 } */
+.img_cover .cover_img_result{
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 .img_cover>div label img {
     width: 100%;
     height: auto;
-    background-position: center;
+    /* background-position: center; */
 
 }
 

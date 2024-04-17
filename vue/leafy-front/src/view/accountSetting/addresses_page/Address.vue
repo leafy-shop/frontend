@@ -5,6 +5,7 @@ import fetch from '../../../JS/api';
 import cookie from '../../../JS/cookie';
 import validation from '../../../JS/validation'
 import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
+import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 const myRouter =useRouter()
 const goAdd=()=>myRouter.push({name:'Address_AS_add',params:{method:'new-address'}})
@@ -18,6 +19,13 @@ const userName=ref('')
 const addressList=ref([])
 const addressId=ref('')
 const addressDefault=ref(undefined)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+
 const showConfirm=(id)=>{
     isDelete.value=true
     addressId.value=id
@@ -44,7 +52,7 @@ const getAddress=async()=>{
     let {username}=cookie.decrypt()
     userName.value=username
     let {status,msg,data}=await fetch.getAllAddress(username)
-    if(status){
+    if(await status){
         console.log(data)
         let indexD= data.findIndex(x=>{
             return x.isDefault==true
@@ -61,13 +69,18 @@ const getAddress=async()=>{
         // // addressList.value=data
         console.log(addressList.value)
         console.log(addressDefault.value)
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 const deleteAddress =async()=>{
     // console.log(addressId.value)
     // let status =true
     let {status,msg}= await fetch.deleteAddressById(userName.value,addressId.value)
-    if(status){
+    if(await status){
         // close overlay
         isDelete.value=false
         console.log("close overlay")
@@ -75,14 +88,16 @@ const deleteAddress =async()=>{
     }else {
         //error 
         isDelete.value=false
-        console.log("close overlay")
-        console.log(msg)
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
 const setDefaultAddress = async (addressId) => {
     let {status,msg}= await fetch.updateAddressById(userName.value,addressId, {isDefault: true})
-    if(status){
+    if(await status){
         // close overlay
         isDelete.value=false
         console.log("close overlay")
@@ -90,11 +105,21 @@ const setDefaultAddress = async (addressId) => {
     }else {
         //error 
         isDelete.value=false
-        console.log("close overlay")
-        console.log(msg)
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(async()=>{
     // console.log(userName.value)
@@ -180,6 +205,7 @@ onBeforeMount(async()=>{
                 </div>
             </div> 
         </div>
+        <BaseAlert name="address_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
 </template>
 <style scoped>

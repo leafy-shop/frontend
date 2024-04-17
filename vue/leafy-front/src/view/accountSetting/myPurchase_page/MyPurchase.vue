@@ -6,6 +6,7 @@ import ORDERSTATUS from '../../../JS/enum/order'
 import BaseSelectPage from '../../../components/BaseSelectPage.vue'
 import {useRouter} from 'vue-router'
 import validation from '../../../JS/validation'
+import BaseAlert from '../../../components/BaseAlert.vue'
 // link
 const myRouter=useRouter()
 const goPurchaseDetail=(orderId)=>myRouter.push({name:'MyPurchaseDetail',params:{id:orderId}})
@@ -20,8 +21,11 @@ const allPage=ref()
 // filter attribute
 const filterStatus=ref(undefined)
 
-
-
+// alert
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(3)
 
 const getOrders=async()=>{
     let inputData={
@@ -37,11 +41,18 @@ const getOrders=async()=>{
         inputData["search"]=searchText.value
     }
     let {status,data} = await fetch.getAllOrder(false,inputData)
-
-    if(status){
+    // isShowAlert.value=await status
+    if(await status){
         console.log(data)
-        orderList.value=data.list
-        allPage.value=data.allPage
+        orderList.value=await data.list
+        allPage.value=await data.allPage
+        
+    }else{
+        // error
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertType.value=2
+        isShowAlert.value=true
+        alertTime.validation=10
     }
 }
 
@@ -56,6 +67,11 @@ const filterOrder=async(name,orderStatus="ALL")=>{
     if(orderStatus=="ALL"){
         filterStatus.value=orderStatus
         element.classList.add("sort_item_active")
+    }else
+    if(orderStatus==ORDERSTATUS.REQUIRED){ // to ship
+        filterStatus.value=orderStatus
+        element.classList.add("sort_item_active")
+
     }else
     if(orderStatus==ORDERSTATUS.PENDING){ // to ship
         filterStatus.value=orderStatus
@@ -106,6 +122,12 @@ const getCurrentPage=async(input)=>{
     await getOrders()
 }
 
+// 
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    // setTimeout(()=>isShowAlert.value=false,second*1000)
+}
+
 
 onBeforeMount(async()=>{
     // await getOrders()
@@ -124,17 +146,17 @@ onMounted(async()=>{
                     <!-- <div class="title_list"> -->
                         <ul>
                             <!-- all -->
-                            <li>
+                            <li> <!-- isShowAlert=true-->
                                 <button @click="filterOrder('filter_all')" id="filter_all" class="sort_item sort_item_active">
                                     All
                                 </button>
                             </li>
                             <!-- to pay -->
-                            <!-- <li>
-                                <button>
+                            <li>
+                                <button @click="filterOrder('filter_required',ORDERSTATUS.REQUIRED)" id="filter_required" class="sort_item">
                                     To Pay
                                 </button>
-                            </li> -->
+                            </li>
                             <!-- to ship -->
                             <li>
                                 <button @click="filterOrder('filter_pending',ORDERSTATUS.PENDING)" id="filter_pending" class="sort_item">
@@ -200,7 +222,7 @@ onMounted(async()=>{
                         <!-- shop item -->
                         <div v-for="(shop,index) of orderList"  :key=index >
                             <BaseOrderItem name="purchase" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
-                            :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" />
+                            :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" @refresh-data="getOrders" />
                         </div>
 
                         <!-- <div v-for="(shop,index) of orderList" :key="index" class="shop_item">
@@ -282,8 +304,10 @@ onMounted(async()=>{
                     </div>
                 </div>
                 <!-- move page -->
-                <BaseSelectPage :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
+                <BaseSelectPage name="my_purchase_select_page" :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
             </div>
+            <!-- alert  :show-alert="isShowAlert"-->
+            <BaseAlert name="purchase_list" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
         </div>
     <!-- </div> -->
 </template>
@@ -308,6 +332,7 @@ onMounted(async()=>{
     height: inherit;
     flex-direction: column;
     gap: 24px;
+    position:relative;
 }
 .purchase{
     display: flex;
@@ -415,4 +440,7 @@ onMounted(async()=>{
     flex-direction:column;
     gap:16px;
 }
+
+
+
 </style>

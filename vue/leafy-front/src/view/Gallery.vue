@@ -84,8 +84,8 @@ onBeforeMount(async()=>{
             <!-- gallery list -->
             <div class="gallery_list">
                 <div v-if="galleryList!=undefined" v-for="(gallery,index) of galleryList" :key="index" class="wrapper_gallery_item">
-                    <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" name="gallery_list" :projectId="String(gallery.contentId)" :projectImg="gallery.image" :projectName="gallery.name"
-                    :createrImg="gallery.icon" :createrName="gallery.contentOwner" :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
+                    <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" :name="`gallery_list_${index}`" :projectId="String(gallery.contentId)" :projectImg="gallery.image" :projectName="gallery.name"
+                     :createrImg="gallery.icon" :creater-id="gallery.userId" :createrName="gallery.contentOwner" :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
                 </div>
             </div>
             <BaseSelectPage name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
@@ -137,10 +137,12 @@ onBeforeMount(async()=>{
     padding: min(1.389dvw,20px) min(11.111dvw, 160px);
     background-color: #F5F5F5;
     flex-direction: column;
+    align-items: center;
+    justify-content: start;
 }
 .gallery{
     display: flex;
-    width: 100%;
+    width: 1120px;
     height: fit-content;
     padding-bottom: min(1.389dvw,20px);
     gap: min(2.778dvw,40px);

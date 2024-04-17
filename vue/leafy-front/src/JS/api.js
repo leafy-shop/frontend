@@ -11,7 +11,7 @@ const fetch = {
         let returnData = { status: false, data: undefined, msg: '' }
 
         try {
-            let url = `${origin}/api/users/garden_designer`
+            let url = `${origin}/api/contents?sort_name=popular&sort=desc`
             let res = await axios.get(url)
 
             if (res.data.page == 0 || res.data.page == undefined || res.data.page == null) {
@@ -489,6 +489,7 @@ const fetch = {
             let res = await axios.delete(url)
             if (res.status == 200) {
                 validation.function_Status('Product deleted.', true,)
+                returnData.msg=
                 returnData.status = true
             }
             return returnData
@@ -498,11 +499,22 @@ const fetch = {
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
+                return returnData
+
             }
             else {
-                returnData.status = false
+                // error 404
+                if (error.response.status == 400 ) {
+                    returnData.msg='400'
+                    returnData.status = false
+                } else 
+                if(error.response.status == 403){
+                    returnData.msg='403'
+                    returnData.status = false
+                }
+                
+                return returnData
             }
-            return returnData
         }
     },
     async updateProduct(productId, inputData) {
@@ -675,7 +687,7 @@ const fetch = {
         }
 
     },
-    // product detail page
+    // gallery
     async getGallery(inputData){
         let returnData = { status: false, data: undefined, msg: '' }
         let{
@@ -693,7 +705,7 @@ const fetch = {
             // limit
             if(limit!=undefined) url+=`&limit=${limit}`;
             // contentOwner
-            if(contentOwner!=undefined) url+=`&contentOwner=${contentOwner}`;
+            if(contentOwner!=undefined) url+=`&content_owner=${contentOwner}`;
             // sort name
             if(sort_name!=undefined) url+=`&sort_name=${sort_name}`;
             // style
@@ -759,10 +771,107 @@ const fetch = {
                 return returnData
             }
             else {
+                // error 404
+                if (error.response.status == 404 ) {
+                    returnData.msg='404'
+                    returnData.status = false
+                    
+                }
+                return returnData
+                
+            }
+        }
+
+    },
+    async getGalleryById(contentId){
+        let returnData = { status: false, data: undefined, msg: '' }
+        // if(inputData!=undefined){
+            
+        // }
+        // console.log(sort_name,'this from api')
+        try {
+            let url = `${origin}/api/contents/${contentId}`
+            // if(page!=undefined){
+            //     url+=`?page=${page}`
+            // }else{
+            //     url+= `?page=${1}`
+            // }
+            // if(limit!=undefined) url +=`&limit=${limit}`
+
+            // if(sort_name!=undefined) url +=`&sort_name=${sort_name}`
+            // if(style!=undefined) url +=`&style=${style}`
+            let res = await axios.get(url)
+
+            if (res.status==200) {
+                returnData.status=true
+                returnData.data=res.data
+                validation.function_Status('get gallery ' , true)
+            } 
+            return returnData
+        } catch (error) {
+            validation.function_Status('cannot get get gallery ' , false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
 
             }
         }
 
+    },
+    async addGallery(inputData) {
+        let returnData = { status: false, msg: '',data:undefined }
+        try {
+            let url = `${origin}/api/contents`
+            let res = await axios.post(url, inputData)
+
+            if (res.status == 201) {
+                validation.function_Status('add gallery', true, `add gallery successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('add gallery', false, `cannot add gallery `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('add gallery', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
+    },
+    async updateGallery(galleryId,inputData) {
+        let returnData = { status: false, msg: '' }
+        try {
+            let url = `${origin}/api/contents/${galleryId}`
+            let res = await axios.patch(url,inputData)
+
+            if (res.status == 200) {
+                validation.function_Status('update gallery', true, `updated gallery successful.`)
+                returnData.status = true
+                returnData.data = res.data
+            } else {
+                validation.function_Status('update gallery', false, `cannot update gallery `)
+            }
+            return returnData
+        } catch (error) {
+            validation.function_Status('update gallery', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+
+            }
+        }
     },
     async deleteGallery(galleryId) {
         // let returnData = { status: false, data: undefined, msg:'' }
@@ -781,11 +890,22 @@ const fetch = {
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
+                return returnData
+
             }
             else {
-                returnData.status = false
+                // error 404
+                if (error.response.status == 404 ) {
+                    returnData.msg='400'
+                    returnData.status = false
+                } else 
+                if(error.response.status == 403){
+                    returnData.msg='403'
+                    returnData.status = false
+                }
+                
+                return returnData
             }
-            return returnData
         }
     },
     async getStore(owner) {
@@ -847,6 +967,118 @@ const fetch = {
             else {
 
             }
+        }
+    },
+    async getProductReviewByOrder(orderId) {
+        let returnData = { status: false, data: undefined, msg: '' }
+
+        try {
+            let url = `${origin}/api/products/review_orders/${orderId}`
+            let res = await axios.get(url)
+            // console.log(url)
+
+            if (res.status==200){
+                validation.function_Status('get product review by order', true,)
+                returnData.status =true
+                returnData.msg='200'
+                returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product review by order', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+                // error 404
+                if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
+                    returnData.msg='404'
+                    returnData.status = false
+                } else {
+                    // error
+                    console.log("another error")
+                }
+                
+                return returnData
+            }
+        }
+    },
+    async updateReview(itemId, reviewId,inputData) {
+        let returnData = { status: false, msg: '' }
+
+        try {
+            let url = `${origin}/api/products/${itemId}/reviews/${reviewId}`
+            let res = await axios.patch(url,inputData)
+            console.log(url)
+
+            if (res.status==200){
+                validation.function_Status('update review ', true,)
+                returnData.status = true
+                // returnData.status = true
+                // returnData.data = res.data
+            }
+            return returnData
+
+        } catch (error) {
+            validation.function_Status('get product owner review', false, error)
+            if (error.code == "ERR_NETWORK") {//check back-end server error
+                returnData.msg = "Server Error try again later"
+                returnData.status = false
+                return returnData
+            }
+            else {
+                returnData.status = false
+                return returnData
+            }
+        }
+    },
+    async addReview(productId, inputData) {
+        let returnData = { status: false, msg: '' }
+
+        if (inputData != undefined) {
+            try {
+                let url = `${origin}/api/products/${productId}/reviews`
+                let res = await axios.post(url, inputData)
+                // console.log(res.data)
+                // cookie.decrypt("information")
+                if (res.status == 201) {
+                    validation.function_Status("add review", true)
+                    returnData.status = true
+
+                }
+                return returnData
+
+            } catch (error) {
+                validation.function_Status("Can not add review", false, error)
+                // console.log(error) 
+
+                if (error.code == "ERR_NETWORK") {//check back-end server error
+                    returnData.msg = "Server Error try again later"
+                    returnData.status = false
+                    return returnData
+                }
+                else{
+                    // error 404
+                    if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
+                    } else {
+                        // error
+                        console.log("another error")
+                    }
+                    return returnData
+                }
+                
+            }
+
+        } else {
+            validation.function_Status("Add payment", false, "cannot add payment" + '\n' + "because some data missing.")
+            returnData.status = false
+            returnData.msg = "Please input information"
+            return returnData
         }
     },
     async updateReviewLike(itemId, reviewId) {
@@ -1085,11 +1317,22 @@ const fetch = {
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
+                return returnData
             }
             else {
-                returnData.status = false
+                // error 404
+                if (error.response.status == 404 ) {
+                    returnData.msg = '404'
+                    returnData.status = false
+                } else {
+                    // error
+                    console.log("another error")
+                    returnData.msg = error.response.data.error
+                    returnData.status = false
+                }
+                return returnData
             }
-            return returnData
+            
         }
     },
     async getAllAddress(username) {
@@ -1508,7 +1751,7 @@ const fetch = {
             }
         }
     },
-    async changeOrderStatus(orderId,inputData) {
+    async changeOrderStatus(orderId,inputData,endpoint='prepare_order') {
         let returnData = { status: false ,msg:''}
         if (inputData != undefined) {
             try {
@@ -1517,8 +1760,13 @@ const fetch = {
                 //     "shippedDate": "2024-04-08 10:00:00"
                 // }
                 
-                let url = `${origin}/api/orders/prepare_order/${orderId}`
-                let res = await axios.put(url,inputData)
+                let url = `${origin}/api/orders/${endpoint}/${orderId}`
+                let res
+                if(endpoint=="paid_order"){
+                    res = await axios.put(url)
+                }else{
+                    res = await axios.put(url,inputData)
+                }
                 
                 if (res.status == 200) {
                     validation.function_Status("change order status successful", true)
@@ -1668,10 +1916,13 @@ const fetch = {
                 }
                 else
                     // error 404
-                    if (error.response.status == 404 || error.response.status == 401 || error.response.status == 403) {
+                    if (error.response.status == 404 || error.response.status == 403) {
                         returnData.msg = error.response.data.error
                         returnData.status = false
-                    } else {
+                    }else 
+                    if(error.response.status == 401 ){
+                        returnData.msg = '401'
+                        returnData.status = false
                         // error
                         console.log("another error")
                     }

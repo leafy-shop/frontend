@@ -13,11 +13,13 @@ import cookie from '../JS/cookie';
 import pMode from '../JS/enum/profileMode'
 import sortTypeArr from '../JS/enum/product'
 import BaseStar from '../components/productDetail/BaseStar.vue'
+import BaseAlert from '../components/BaseAlert.vue';
 
 // link
 const myRouter=useRouter()
 const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
+const goGalleryProfile=()=>myRouter.push({name:"GalleryProfile",params:{id:owner.value.userId}})
 
 //common attribute
 let { params } = useRoute()
@@ -54,7 +56,11 @@ const sort = ref(undefined)
 // img
 const userImgS=ref(false)
 const coverImageS=ref(false)
-
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 
 const changeMode=()=>{
@@ -92,11 +98,15 @@ const changeMode=()=>{
 // delete product
 const deleteProduct=async(itemId)=>{
     let{status,msg} =await fetch.deleteProductById(itemId)
-    if(status){
+    if(await status){
         console.log('delete product successful')
         await getProduct(currentPage.value)
     }else{
-        console.log('cannot delete product by id')
+        // console.log('cannot delete product by id')
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -168,16 +178,22 @@ const getProduct = async (page) => {
     }
 
     let { status, data } = await fetch.getAllProduct(productInput)
-    // console.log(data.list)
-    // productList.value=data
-    console.log(data,"sdjflasdlfjasdfjlasfd")
-    productList.value = data.list
-    outStockList.value = data.outStock
-    allItems.value = data.allItems
-    totalPage.value = data.allPage
+    if(await status){
+        // console.log(data.list)
+        // productList.value=data
+        // console.log(data,"sdjflasdlfjasdfjlasfd")
+        productList.value = await data.list
+        outStockList.value = await data.outStock
+        allItems.value = await data.allItems
+        totalPage.value = await data.allPage
 
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
+    }
     
-    validation.navigationTo()
 }
 
 // if change page input must be a number only
@@ -236,6 +252,14 @@ const moveRight = async (current) => {
     // validation.navigationTo(top)
 }
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
+
 onBeforeMount(async() => {
     // param
     
@@ -260,7 +284,7 @@ onMounted(() => {
     
     validation.navigationTo()
     console.log('alsdjflasdf',id.value)
-    
+    validation.navigationTo()
     // pageHidden(currentPage.value, totalPage.value)
 })
 onUpdated(() => {
@@ -295,13 +319,13 @@ onUpdated(() => {
                         </h5>
                         <!-- chat & follower & new product -->
                         <div>
-                            <button v-if="!isMe&&profileMode==pMode[0].mode" class="chat_btn">
+                            <!-- <button v-if="!isMe&&profileMode==pMode[0].mode" class="chat_btn">
                                 Chat Now
                             </button>
                             <button v-if="!isMe&&profileMode==pMode[0].mode" class="follow_btn">
                                 Follow
-                            </button>
-
+                            </button> -->
+                            
                             <!-- myself -->
                             <button @click="goAdd" v-if="isMe&&profileMode==pMode[0].mode" class="new_product_btn">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -309,6 +333,15 @@ onUpdated(() => {
                                 </svg>
                                 <span>
                                     New Product
+                                </span>
+                            </button>
+                            <button @click="goGalleryProfile" class="follow_btn">
+                                <!-- is not me -->
+                                <span v-if="!isMe&&profileMode==pMode[0].mode">
+                                    View Gallery
+                                </span> 
+                                <span v-else>
+                                    My Gallery
                                 </span>
                             </button>
                         </div>
@@ -516,7 +549,7 @@ onUpdated(() => {
             <!-- select page -->
             <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
                     @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
-
+            
         </div>
         <!-- <div class="container_product">
             <BaseFilterItem/>
@@ -525,6 +558,8 @@ onUpdated(() => {
                 <BaseProductList :product-list="productList"  :gridColumn="3"  />
             </div>
         </div> -->
+        <BaseAlert name="profile_shop_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
+
     </div>
     <BaseFooter />
 </template>

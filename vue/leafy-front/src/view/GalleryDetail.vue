@@ -2,11 +2,31 @@
 import {useRoute,useRouter} from 'vue-router'
 import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
+import {ref,onBeforeMount} from 'vue'
+import fetch from '../JS/api';
 // link
+let origin = `${import.meta.env.VITE_BASE_URL}`;
+const {params} = useRoute()
 const myRouter =useRouter()
 const goGalleryList=()=>myRouter.push({name:"Gallery"})
+const goGalleryProfile=()=>myRouter.push({name:"GalleryProfile",params:{id:galleryDetail.value.userId}})
+// common attribute
+const galleryDetail=ref({})
+const galleryContentId=ref('')
 
-const {params} = useRoute()
+// get all data
+const getGalleryDetail=async()=>{
+    let{status,data}=await fetch.getGalleryById(galleryContentId.value)
+    if(await status){
+        console.log(data)
+        galleryDetail.value = await data
+    }
+}
+
+onBeforeMount(async()=>{
+    galleryContentId.value = params.id
+   await getGalleryDetail()
+})
 </script>
 <template>
     <!-- this is gallery detail : {{params.id}} -->
@@ -39,91 +59,54 @@ const {params} = useRoute()
             <!-- header -->
             <div class="header_gallery_detail">
                 <h4>
-                    Urban Oasis: A Modern Garden Design
+                    {{galleryDetail.name}}
                 </h4>
+                <hr/>
+                <h6>
+                    APRIL 9, 2024
+                </h6>
             </div>
+            
             <!-- detail -->
-            <div class="container_gallery_project">
-                <!-- creater detail -->
-                <div class="container_creater_detail">
-                    <!-- creater name -->
-                    <div class="creater_name">
-                        <!-- img -->
-                        <div >
-                            <img src="../assets/vue.svg" alt="creater_img">
-                        </div>
-                        <!-- creater name -->
-                        <h6>
-                            Lemon Cake
-                        </h6>
-                        
+            <div class="project_detail">
+                <!-- creater -->
+                <div @click="goGalleryProfile" class="container_creater">
+                    <!-- img -->
+                    <div class="creater_img">
+                        <img v-if="galleryDetail.icon!=undefined" :src="`${origin}/api/image/users/${galleryDetail.userId}`" alt="creater_img">
+                        <img v-else src="../assets/icon/unknow_user_icon.png" alt="creater_img">
                     </div>
-                    <!-- like project -->
-                    <div class="container_project_like">
-                        <!-- like -->
-                        <div>
-                            <button>
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.92501 0.250568C7.24051 0.250568 7.55551 0.295068 7.85501 0.395568C9.70051 0.995568 10.3655 3.02057 9.81001 4.79057C9.49501 5.69507 8.98001 6.52057 8.30551 7.19507C7.34001 8.13007 6.28051 8.96007 5.14001 9.67507L5.01501 9.75057L4.88501 9.67007C3.74051 8.96007 2.67501 8.13007 1.70051 7.19007C1.03051 6.51557 0.515008 5.69507 0.195008 4.79057C-0.369992 3.02057 0.295008 0.995568 2.16051 0.385068C2.30551 0.335068 2.45501 0.300068 2.60501 0.280568H2.66501C2.80551 0.260068 2.94501 0.250568 3.08501 0.250568H3.14001C3.45501 0.260068 3.76001 0.315068 4.05551 0.415568H4.08501C4.10501 0.425068 4.12001 0.435568 4.13001 0.445068C4.24051 0.480568 4.34501 0.520568 4.44501 0.575568L4.63501 0.660568C4.68092 0.685054 4.73245 0.722468 4.77699 0.754803C4.80521 0.77529 4.83062 0.793739 4.85001 0.805568C4.85817 0.810382 4.86646 0.815222 4.87482 0.820102C4.91769 0.845129 4.96235 0.871198 5.00001 0.900068C5.55551 0.475568 6.23001 0.245568 6.92501 0.250568ZM8.25501 3.85057C8.46001 3.84507 8.63501 3.68057 8.65001 3.47007V3.41057C8.66501 2.71007 8.24051 2.07557 7.59501 1.83057C7.39001 1.76007 7.16501 1.87057 7.09001 2.08057C7.02001 2.29057 7.13001 2.52057 7.34001 2.59507C7.66051 2.71507 7.87501 3.03057 7.87501 3.38007V3.39557C7.86551 3.51007 7.90001 3.62057 7.97001 3.70557C8.04001 3.79057 8.14501 3.84007 8.25501 3.85057Z" fill="#BDBDBD"/>
-                                </svg>
-                            </button>
-                            <h6>
-                                23
-                            </h6>
-                        </div>
-                        <!-- comment -->
-                        <div>
-                            <button>
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5.00751C0 2.37356 2.105 0 5.01 0C7.85 0 10 2.32849 10 4.99249C10 8.08212 7.48 10 5 10C4.18 10 3.27 9.77967 2.54 9.34902C2.285 9.19379 2.07 9.07862 1.795 9.16875L0.785 9.4692C0.53 9.54932 0.3 9.34902 0.375 9.07862L0.71 7.95694C0.765 7.8017 0.755 7.63645 0.675 7.50626C0.245 6.71507 0 5.84877 0 5.00751ZM4.35 5.00751C4.35 5.36304 4.635 5.64847 4.99 5.65348C5.345 5.65348 5.63 5.36304 5.63 5.01252C5.63 4.65699 5.345 4.37156 4.99 4.37156C4.64 4.36655 4.35 4.65699 4.35 5.00751ZM6.655 5.01252C6.655 5.36304 6.94 5.65348 7.295 5.65348C7.65 5.65348 7.935 5.36304 7.935 5.01252C7.935 4.65699 7.65 4.37156 7.295 4.37156C6.94 4.37156 6.655 4.65699 6.655 5.01252ZM2.685 5.65348C2.335 5.65348 2.045 5.36304 2.045 5.01252C2.045 4.65699 2.33 4.37156 2.685 4.37156C3.04 4.37156 3.325 4.65699 3.325 5.01252C3.325 5.36304 3.04 5.64847 2.685 5.65348Z" fill="#BDBDBD"/>
-                                </svg>
-                            </button>
-                            <h6>
-                                12
-                            </h6>
-                        </div>
-                        <!-- create at -->
-                        <div>   
-                            <div>
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5 10C2.24 10 0 7.765 0 5C0 2.24 2.24 0 5 0C7.765 0 10 2.24 10 5C10 7.765 7.765 10 5 10ZM6.595 6.855C6.655 6.89 6.72 6.91 6.79 6.91C6.915 6.91 7.04 6.845 7.11 6.725C7.215 6.55 7.16 6.32 6.98 6.21L5.2 5.15V2.84C5.2 2.63 5.03 2.465 4.825 2.465C4.62 2.465 4.45 2.63 4.45 2.84V5.365C4.45 5.495 4.52 5.615 4.635 5.685L6.595 6.855Z" fill="#BDBDBD"/>
-                                </svg>
-                            </div>
-                            <h6>
-                                Apr 9, 2024
-                            </h6>
-                        </div>
+                    <!-- name -->
+                    <div class="creater_name">
+                        <h6 >
+                            {{galleryDetail.contentOwner}}
+                        </h6>
+                    </div>
+                </div>
+                <!-- project -->
+                <div class="container_project">
+                    <!-- img -->
+                    <div class="project_img">
+                        <img v-if="galleryDetail.image!=undefined" :src="`${origin}/api/image/gallery/${galleryDetail.contentId}`" alt="gallery_detail_img">
+                    </div>
+                    <!-- project detail -->
+                    <div class="project_description">
+                        <p>
+                            {{ galleryDetail.description }}
+                        </p>
                     </div>
                 </div>
                 <!-- project detail -->
-                <div class="container_project_detail">
-                    <!-- img -->
+                <!-- <div class="container_project_detail">
+                    img
                     <div class="project_img">
-                        <img src="../assets/home_p/home_design_content_desert.png" alt="gallery_detail_img">
+                        <img v-if="galleryDetail.image!=undefined" :src="`${origin}/api/image/gallery/${galleryDetail.contentId}`" alt="gallery_detail_img">
                     </div>
-                    <!-- description -->
+                    description
                     <p class="project_description">
-                        The concept of a modern urban garden blends nature and contemporary design within urban spaces to create an "Urban Oasis" where people can relax and reconnect with nature amidst a creative and enjoyable city setting. Lorem ipsum dolor sit amet consectetur. Venenatis bibendum imperdiet enim posuere tellus ac suscipit amet. Diam massa magna leo enim. Enim nisi ultricies iaculis eu cursus nunc dictum commodo eleifend. A iaculis iaculis est integer semper. Lectus cum malesuada tortor massa placerat cras felis leo sit. Lorem vestibulum eu id vulputate iaculis vitae semper enim. Fringilla ac pellentesque vehicula viverra faucibus orci ac. Vitae elementum habitasse nam ut iaculis. Molestie netus lacus et ipsum faucibus commodo. In in neque sit vitae et molestie amet sit. Velit velit malesuada sed pellentesque elit eu id euismod felis. Aliquam est magna odio purus egestas.
-                        Amet enim enim lorem mattis volutpat. Enim sem nec faucibus quis ac suspendisse mauris bibendum. Malesuada imperdiet aliquam semper non. Fusce orci augue risus rutrum dui. Tortor consequat et fermentum id integer. Elit elementum varius morbi dui interdum. Montes justo pulvinar ornare leo pellentesque lacus porta faucibus cursus.
-                        Neque enim amet bibendum vivamus eu praesent diam consectetur vitae. Vitae ut nulla at integer justo. Proin ullamcorper ipsum feugiat curabitur viverra tellus urna. Malesuada eleifend odio odio nullam ornare eget. Volutpat nunc a velit euismod arcu urna ac feugiat. Cursus malesuada in id mattis pretium hendrerit quis sit eu. Odio quis facilisi amet et. Nunc egestas egestas pharetra consectetur nulla fames odio morbi. Morbi ut at gravida rhoncus sed est habitant lacus pellentesque.
-                        Tincidunt aliquam hac arcu accumsan sit mi maecenas faucibus lorem. Vitae dolor velit sed tellus placerat nisl semper a sapien. Facilisis blandit imperdiet sed in facilisi duis. Etiam at est elit augue mauris nibh elementum risus. Donec cursus id tempus vivamus consectetur facilisi id donec. Congue aliquet nisi sit ullamcorper ornare nibh amet. Proin commodo pellentesque rutrum luctus vel tempus. Aliquam luctus lacus auctor aliquam amet malesuada. Auctor libero nunc consectetur molestie duis commodo vel. Consequat quam fermentum nam egestas nec ipsum donec. Ultrices purus viverra imperdiet mi. Eu varius fermentum imperdiet vestibulum. Faucibus tortor rhoncus orci nibh morbi et magna. Amet feugiat blandit senectus interdum ultricies sit elit molestie justo. Vitae ut facilisi id amet ac viverra risus.
-                        Magna neque aliquam massa tortor. Consectetur porttitor a pharetra ac. Risus est cras in vel massa. Felis faucibus scelerisque nulla dolor erat lectus ultricies. Mollis morbi nulla massa ut nam. Pharetra adipiscing imperdiet a at arcu. Viverra tristique eros sed consectetur. Elementum lobortis vulputate pellentesque nunc. Molestie quisque id vitae turpis eget. Cursus gravida dolor ultricies a accumsan urna congue curabitur amet. Donec id netus nunc turpis. Tellus nulla dolor quam lorem. Felis vitae enim eget ut senectus dui id tellus. Purus in id gravida lectus elit sagittis consectetur.
+                        {{ galleryDetail.description }}
                     </p>
-                </div>
-            </div>
-            <!-- img list -->
-            <div class="gallery_img_list">
-                <!-- img -->
-                <div class="gallery_img_item">
-                    <img src="../assets/home_p/home_design_content_japanese.png" alt="gallery_img_item">
-                </div>
-            </div>
-            <!-- comment -->
-            <div class="gallery_comment">
-                <h6>
-                    Comments
-                </h6>
-                <input type="text">
+                </div> -->
             </div>
         </div>
     </div>
@@ -171,28 +154,34 @@ const {params} = useRoute()
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 20px 160px;
-    gap: 20px;
-    background-color: #F5F5F5;
+    min-height: 90dvh;
+    /* gap: 20px; */
+    background-color: #fff;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    padding:60px 0px; 
 }
 .wrapper_gallery_detail .gallery_detail{
     display: flex;
-    width: 100%;
+    width: 800px;
     height: fit-content;
     flex-direction: column;
     border: none;
-    border-radius: 8px;
-    padding: 20px;
-    gap: 20px;
-    background-color: #fff;
+    gap: 40px;
 }
 /* header */
 .gallery_detail .header_gallery_detail{
     display: flex;
     width: 100%;
-    height: 48px;
+    height: fit-content;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid #E0E0E0;
+    gap: 12px;
+    padding-bottom: 40px;
+
 }
 .header_gallery_detail h4{
     width: fit-content;
@@ -201,173 +190,120 @@ const {params} = useRoute()
     font-size: 32px;
     font-weight: 500;
     color: #212121;
+    white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
 }
-/* content */
-.container_gallery_project{
+.header_gallery_detail hr{
+    width: 48px;
+    height: 1px;
+    background-color: #757575;
+}
+.header_gallery_detail h6{
     display: flex;
-    width: 100%;
-    height: fit-content;
-    flex-direction: column;
-}
-/* creater detail and project */
-.container_creater_detail{
-    display: flex;
-    width: 100%;
-    height: fit-content;
-    gap: 12px;
-    flex-direction: column;
-}
-.container_creater_detail .creater_name{
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 4px;
-}
-.creater_name >div{
-    display: flex;
-    width: 24px;
-    height: 24px;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    border-radius: 50%;
-}
-.creater_name >div img{
-    width: 100%;
-    height: auto;
-}
-.creater_name h6{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 12px;
-    font-weight: 400;
-    color:#757575;
-}
-.container_creater_detail .container_project_like{
-    display: flex;
-    width: 100%;
-    height:40px;
-    border-top:1px solid #EEEEEE;
-    padding: 12px;
-    gap: 8px;
-}
-.container_project_like >div{
-    display: flex;
-    width: fit-content;
-    height: 100%;
-    align-items: center;
-    justify-content: start;
-    gap: 4px;
-}
-.container_project_like >div button,
-.container_project_like >div div
-{
-    display: flex;
-    width: 12px;
-    height: 12px;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    
-}
-.container_project_like >div h6{
-    width: fit-content;
-    max-width: 100%;
-    height: fit-content;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-}
-
-/* project detail */
-.container_project_detail{
-    /* display: flex; */
-    width: 100%;
-    height: fit-content;
-    /* flex-direction: column; */
-}
-/* img */
-.container_project_detail .project_img{
-    display: flex;
-    width: 560px;
-    height: fit-content;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    float: left;
-    overflow: hidden;
-    border: none;
-    
-}
-.project_img img{
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-}
-/* description */
-.container_project_detail .project_description{
-    /* display: flex; */
-    width: 100%;
-    height: fit-content;
-    font-size: 14px;
-    font-weight: 400;
-    color: #212121;
-}
-/* img list */
-.gallery_img_list{
-    display: grid;
-    width: 100%;
-    height: fit-content;
-    grid-template-columns: repeat(5,1fr);
-    gap: 8px;
-}
-.gallery_img_list .gallery_img_item{
-    display: flex;
-    width: 100%;
-    height: 140px;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    border-radius: 4px;
-}
-.gallery_img_item img{
-    width:100%;
-    height: auto;
-    
-    
-}
-/* comment */
-.gallery_comment{
-    display: flex;
-    width: 100%;
-    height: fit-content;
-    flex-direction: column;
-    gap: 4px;
-}
-.gallery_comment h6{
-    display: flex;
-    width: fit-content;
-    height: 20px;
+    text-align: center;
     font-size: 14px;
     font-weight: 500;
-    color: #212121;
+    color: #9E9E9E;
 }
-.gallery_comment input{
+/* content */
+.project_detail{
     display: flex;
     width: 100%;
-    height: 36px;
-    padding: 8px 12px;
-    border: 1px solid #D1D5DB;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    height: fit-content;
+    flex-direction: column;
+    gap: 12px;
+}
+/* creater */
+.project_detail .container_creater{
+    display: flex;
+    width: 100%;
+    height: 48px;
+    gap: 20px;
+    cursor: pointer;
+}
+/* img */
+.container_creater .creater_img{
+    display: flex;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+.container_creater .creater_img img{
+    width: 100%;
+    height: auto;
+}
+/* creater name */
+.container_creater .creater_name{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: 100%;
+    align-items: center;
+}
+.container_creater .creater_name h6{
+    width:100%;
+    height: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #212121;
+    text-transform: capitalize
+}
+/* project detail */
+.container_project{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: start;
+    align-items: center;
+}
+/* img */
+.container_project .project_img{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    max-height: 100%;
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+}
+.container_project .project_img img{
+    width: 100%;
+    height: auto;
+}
+/* detail */
+.project_description{
+    display: flex;
+    width:100%;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+.project_description p{
+    display: flex;
+    width: 100%;
+    height: fit-content;
     font-size: 14px;
     font-weight: 400;
-    color: #212121;
+    color:#212121;
 }
 </style>
