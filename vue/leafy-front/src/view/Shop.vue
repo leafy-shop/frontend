@@ -9,6 +9,7 @@ import { ref, onBeforeMount, onMounted } from 'vue'
 import fetch from '../JS/api';
 import { useRoute } from 'vue-router'
 import validation from '../JS/validation'
+import BaseAlert from '../components/BaseAlert.vue';
 
 const myRoute = useRoute()
 //category list
@@ -35,6 +36,12 @@ const isShowFilter = ref(undefined)
 // sorting product
 const sortName = ref(undefined)
 const sort = ref(undefined)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 const sortTypeArr = [
     { name: "Popular", value: { name: "popular", type: 'desc' } },
@@ -102,14 +109,20 @@ const getProduct = async (page) => {
     }
 
     let { status, data } = await fetch.getAllProduct(productInput)
-    console.log(data.list)
-    // productList.value=data
-    productList.value = data.list
-    allItems.value = data.allItems
-    totalPage.value = data.allPage
-
+    if(await status){
+        console.log(await data.list)
+        // productList.value=data
+        productList.value = await data.list
+        allItems.value = await data.allItems
+        totalPage.value = await data.allPage
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
+    }
     // totalPage.value=10
-    validation.navigationTo()
+    
 }
 
 // if change page input must be a number only
@@ -175,6 +188,13 @@ const moveRight = async (current) => {
     // validation.navigationTo(top)
 }
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(() => {
     getProduct(currentPage.value)
@@ -245,11 +265,12 @@ onMounted(() => {
                         </li>
                     </ul>
                 </div> -->
-                <BaseSelectPage :current-page="currentPage" :total-page="totalPage" @move-left="moveLeft"
+                <BaseSelectPage name="shop_list_all_page_select" :current-page="currentPage" :total-page="totalPage" @move-left="moveLeft"
                     @change-page="changePage" @move-right="moveRight" />
             </div>
 
         </div>
+        <BaseAlert name="shop_list_all_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
     <BaseFooter />
 </template>
