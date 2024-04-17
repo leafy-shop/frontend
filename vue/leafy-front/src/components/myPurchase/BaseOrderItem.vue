@@ -228,17 +228,18 @@ const isShowReviewService=ref(false) //for show ss and sd when create new review
 const reviewId=ref('')
 // get review
 const getReview=async()=>{
-    let getReviewStatus=undefined //status for check is that edit?
+    // let getReviewStatus=undefined //status for check is that edit?
     let {status,data,msg} =await fetch.getProductReviewByOrder(props.orderId)
-    if(await msg=='200'){//แสดงว่าเคยมีรีวิวแล้ว
+    await msg
+    if(await status){//แสดงว่าเคยมีรีวิวแล้ว
         reviewList.value=await data
         console.log(data)
-        getReviewStatus=await status //use for check is up date
-        return getReviewStatus
+        // getReviewStatus=await status //use for check is up date
+        return true
     }else
     if(await msg=='404'){//error
-        getReviewStatus=await status
-        return getReviewStatus
+        // getReviewStatus=await status
+        return false
     }else{
         closeReview()
         clearStatusReview()
@@ -247,6 +248,7 @@ const getReview=async()=>{
         alertDetail.value='Server error try again later'
         isShowAlert.value=true
         alertTime.value=10
+        return undefined
     }
     
 }
@@ -255,21 +257,28 @@ const makeReviewProduct=async(product)=>{ //click to write
     let isEdit = await getReview()// get review first for change mode
     if(isEdit==true){ //have data review
         let[oldReview]=reviewList.value.map(review=>{//loop for get old review
-            if(review.itemId==product.itemId){
+            if(Number(review.itemId)===Number(product.itemId)){
                 return review
             }
         })
-        // console.log(oldReview)
-        isShowReviewService.value=false
-        // assign data
-        reviewId.value=oldReview.itemReviewId
-        reviewDescription.value=oldReview.comment
-        pqStar.value=oldReview.rating
-        // SSStar.value=ref(0)
-        // dsStar.value=ref(0)
-        productDetail.value=product
-        isUpdateReview.value=true
-        
+        console.log(oldReview)
+        if(oldReview!=undefined){
+            console.log(oldReview)
+            isShowReviewService.value=false
+            // assign data
+            reviewId.value=oldReview.itemReviewId
+            reviewDescription.value=oldReview.comment
+            pqStar.value=oldReview.PQrating
+            SSStar.value=oldReview.SSrating
+            dsStar.value=oldReview.DSrating
+            productDetail.value=product
+            isUpdateReview.value=true
+        }else{
+            isShowReviewService.value=true
+            // assign data
+            productDetail.value=product
+            isUpdateReview.value=true
+        }
     }else
     if(isEdit==false){//create new review
         // console.log('let create new data')
@@ -285,6 +294,8 @@ const makeReviewProduct=async(product)=>{ //click to write
 const closeReview=()=>{ //close all review
     showReviewOverlay.value=false
     isUpdateReview.value=false
+    reviewList.value=[]
+    productDetail.value={}
     reviewDescription.value=''
     pqStar.value=0
     SSStar.value=0
@@ -673,7 +684,7 @@ const getShowAlertChange=(input)=>{
                             </div> -->
                         </div>
                         <!-- service -->
-                        <div v-if="isShowReviewService" class="container_service">
+                        <div  class="container_service">
                             <!-- header -->
                             <h5 class="header_service">
                                 About Service
