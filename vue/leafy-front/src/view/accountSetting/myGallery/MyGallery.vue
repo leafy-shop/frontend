@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import {onBeforeMount, ref,onMounted} from 'vue'
 import fetch from '../../../JS/api';
 import validation from '../../../JS/validation'
+import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
@@ -23,6 +24,12 @@ const itemFilter=ref(undefined)
 const currentPage=ref(1)
 const allPage=ref(0)
 const allItem=ref(0)
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+
 
 // get gallery
 const getMyGallery=async()=>{
@@ -42,20 +49,33 @@ const getMyGallery=async()=>{
         }
     }
     let {status,data} =await fetch.getGalleryByOwner(inputData)
-    if(status){
-        console.log(data)
-        myGalleryList.value=data.list
-        allItem.value=data.allItems
-        allPage.value=data.allPage
+
+    if(await status){
+        console.log(await data)
+        myGalleryList.value=await data.list
+        allItem.value=await data.allItems
+        allPage.value=await data.allPage
+    }else{
+        console.log(await status,'status from get gallery')
+
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
 // delete gallery
 const deleteGallery=async(galleryId)=>{
     let{status,msg}=await fetch.deleteGallery(galleryId)
-    if(status){
+    if(await status){
         console.log('delete successful')
         await getMyGallery()
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -63,7 +83,10 @@ const deleteGallery=async(galleryId)=>{
 const galleryFilter=async(filter)=>{
     itemFilter.value=filter
     console.log(filter)
-    await getMyGallery()
+    // if(filter.sort_name!= 'all'){
+        await getMyGallery()
+    // }
+
 }
 
 
@@ -80,8 +103,19 @@ const previousPage=()=>{
     getMyGallery()
 }
 
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
+
+
+
 onBeforeMount(async()=>{
-    await getMyGallery()
+    // await getMyGallery()
 })
 </script>
 <template>
@@ -219,6 +253,8 @@ onBeforeMount(async()=>{
             </div>
         </div>
         <BaseMovePage name="my_gallery" :current-page="currentPage" :total-amount-item="allItem" @next-page="nextPage" @previous-page="previousPage" />
+        <BaseAlert name="my_gallery_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
+
     </div>
 </template>
 <style scoped>
