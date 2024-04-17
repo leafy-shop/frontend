@@ -489,6 +489,7 @@ const fetch = {
             let res = await axios.delete(url)
             if (res.status == 200) {
                 validation.function_Status('Product deleted.', true,)
+                returnData.msg=
                 returnData.status = true
             }
             return returnData
@@ -498,11 +499,22 @@ const fetch = {
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
+                return returnData
+
             }
             else {
-                returnData.status = false
+                // error 404
+                if (error.response.status == 400 ) {
+                    returnData.msg='400'
+                    returnData.status = false
+                } else 
+                if(error.response.status == 403){
+                    returnData.msg='403'
+                    returnData.status = false
+                }
+                
+                return returnData
             }
-            return returnData
         }
     },
     async updateProduct(productId, inputData) {
@@ -759,7 +771,14 @@ const fetch = {
                 return returnData
             }
             else {
-
+                // error 404
+                if (error.response.status == 404 ) {
+                    returnData.msg='404'
+                    returnData.status = false
+                    
+                }
+                return returnData
+                
             }
         }
 
@@ -871,11 +890,22 @@ const fetch = {
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
+                return returnData
+
             }
             else {
-                returnData.status = false
+                // error 404
+                if (error.response.status == 404 ) {
+                    returnData.msg='400'
+                    returnData.status = false
+                } else 
+                if(error.response.status == 403){
+                    returnData.msg='403'
+                    returnData.status = false
+                }
+                
+                return returnData
             }
-            return returnData
         }
     },
     async getStore(owner) {
@@ -963,8 +993,15 @@ const fetch = {
                 return returnData
             }
             else {
-                returnData.msg='404'
-                returnData.status = false
+                // error 404
+                if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
+                    returnData.msg='404'
+                    returnData.status = false
+                } else {
+                    // error
+                    console.log("another error")
+                }
+                
                 return returnData
             }
         }
@@ -1023,7 +1060,7 @@ const fetch = {
                     returnData.status = false
                     return returnData
                 }
-                else
+                else{
                     // error 404
                     if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
                         returnData.msg = error.response.data.error
@@ -1032,7 +1069,9 @@ const fetch = {
                         // error
                         console.log("another error")
                     }
-                return returnData
+                    return returnData
+                }
+                
             }
 
         } else {
@@ -1278,11 +1317,22 @@ const fetch = {
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
+                return returnData
             }
             else {
-                returnData.status = false
+                // error 404
+                if (error.response.status == 404 ) {
+                    returnData.msg = '404'
+                    returnData.status = false
+                } else {
+                    // error
+                    console.log("another error")
+                    returnData.msg = error.response.data.error
+                    returnData.status = false
+                }
+                return returnData
             }
-            return returnData
+            
         }
     },
     async getAllAddress(username) {
@@ -1866,10 +1916,13 @@ const fetch = {
                 }
                 else
                     // error 404
-                    if (error.response.status == 404 || error.response.status == 401 || error.response.status == 403) {
+                    if (error.response.status == 404 || error.response.status == 403) {
                         returnData.msg = error.response.data.error
                         returnData.status = false
-                    } else {
+                    }else 
+                    if(error.response.status == 401 ){
+                        returnData.msg = '401'
+                        returnData.status = false
                         // error
                         console.log("another error")
                     }
