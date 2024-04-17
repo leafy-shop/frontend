@@ -6,6 +6,7 @@ import BaseFooter from '../components/BaseFooter.vue';
 import Another from '../components/authorization/Another.vue';
 import validation from '../JS/validation'
 import fetch from '../JS/api';
+import BaseAlert from '../components/BaseAlert.vue';
 const {params}=useRoute()
 
 //for move to sign-up page
@@ -38,6 +39,12 @@ const emailM=ref('')
 const passwordM=ref('')
 const confirmPM=ref('')
 const phoneNumberM=ref('')
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // for show error 
 const isShowE=ref(false)
@@ -121,21 +128,32 @@ const signUp=async()=>{
         let {status,msg}=await fetch.signUp(userData)
 
         //if status not good will show error
-        if(!status){
-            isShowE.value=true
-            console.log(msg)
-            errorMSG.value=msg
-        }else{
+        if(await status){
             isShowE.value=false
             console.log('created user successful!!')
             goSignIn()
+        }else
+        if(await msg=='400'||await msg=='403'){
+            isShowE.value=true
+            // console.log(msg)
+            errorMSG.value='This account is already in our system!'
+        }else{
+            isShowAlert.value=true
+            alertType.value=1
+            alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+            alertTime.value=10
         }
-    }else{
-        //for error 
-        // isShowE.value=true
-
     }
 }
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
+
 // const
 onMounted(()=>{
     validation.navigationTo()
@@ -303,6 +321,8 @@ onMounted(()=>{
                
             <!-- other way -->
             <Another :-show-sign-up="false" />
+            <BaseAlert name="gallery_detail_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
+
         </div>
     </div>
     <BaseFooter/>
