@@ -6,6 +6,7 @@ import {useRouter,useRoute} from 'vue-router'
 import validation from '../../../JS/validation'
 import fetch from '../../../JS/api'
 import ORDERSTATUS from '../../../JS/enum/order';
+import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 
 const myRouter=useRouter()
@@ -19,7 +20,7 @@ const orderDetail=ref({})
 const address =ref('')
 const isCancel=ref(false)
 // step element
-const orderStatusIndex=ref(0)
+const orderStatusIndex=ref(-1)
 
 // step information
 const placeDate=ref(undefined)
@@ -28,6 +29,12 @@ const shippedDate=ref(undefined)
 const receivedDate=ref(undefined)
 const rateDate=ref(undefined)
 const calcelDate=ref(undefined)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // getOrder
 const getOrderDetail=async()=>{
@@ -38,7 +45,7 @@ const getOrderDetail=async()=>{
     if(await status){
         console.log(data)
         orderDetail.value=await data
-        address.value=data.address
+        address.value=await data.address
         checkOrderStatus()
 
         let{
@@ -65,7 +72,11 @@ const getOrderDetail=async()=>{
         }
         // step date
         
-
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 // for check cancel status
@@ -89,10 +100,18 @@ const activeStatus=(number)=>{
     }
 }
 
-
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onUpdated(()=>{
-    
+    if(orderDetail.value.status!="canceled"&&orderStatusIndex.value!=-1){
+        activeStatus(orderStatusIndex.value)
+    }
 })
 
 onMounted(()=>{
@@ -315,6 +334,7 @@ onBeforeMount(async()=>{
             <BaseOrderItem name="my_purchase_detail" :shop-name="orderDetail.itemOwner" :order-status="orderDetail.status" :isDisabled="true"
             :orderId="orderDetail.orderId" :order-detail="orderDetail.order_details" :order-total="orderDetail.total" @goProfile="goProfile(orderDetail.itemOwner)"/>
         </div>
+        <BaseAlert name="purchase_detail_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
 
 </template>
