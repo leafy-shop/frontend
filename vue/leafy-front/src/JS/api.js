@@ -71,7 +71,7 @@ const fetch = {
         try {
             let url = `${origin}/api/image/${endpoint}/${id}`
             url += type != undefined ? `/${type}` : ''
-            let res = await axios.get(url,{responseType:'blob'})
+            let res = await axios.get(url, { responseType: 'blob' })
 
             if (res.status == 200) {
                 validation.function_Status('Image founded.', true, `type: ${type}`)
@@ -138,17 +138,17 @@ const fetch = {
     },
     async addImages(data, endpoint, id, type) {
         // let returnData = { status: false, data: undefined, msg:'' }
-        let returnData = { status: false ,msg:""}
+        let returnData = { status: false, msg: "" }
         const formData = new FormData();
         try {
             let url = `${origin}/api/images/${endpoint}/${id}`
             url += type != undefined ? `/${type}` : ''
-            console.log(data,'from api')
-            for(let img of data){
+            console.log(data, 'from api')
+            for (let img of data) {
                 formData.append('file', img)
             }
 
-            let res = await axios.post(url,formData)
+            let res = await axios.post(url, formData)
 
             if (res.status == 201) {
                 validation.function_Status('Image updated.', true, `type: ${type}`)
@@ -371,10 +371,10 @@ const fetch = {
         console.log('startttttttttttttttt')
         console.log(owner)
         try {
-            
+
             let url = `${origin}/api/products/supplier/${owner}`
-            if(page==undefined)url+=`?page=${1}`;
-            else url+=`?page=${page}`
+            if (page == undefined) url += `?page=${1}`;
+            else url += `?page=${page}`
             // search value
             // if (searchItem != undefined) {
             //     if (searchItem.length !== 0) url += `&product=${searchItem}`;
@@ -407,7 +407,7 @@ const fetch = {
             // if (owner != undefined) url += `&owner=${owner}`
             // limit item perpage
             if (limitP !== undefined) url += `&limit=${limitP}`
-            
+
 
             // console.log(url)
 
@@ -462,16 +462,11 @@ const fetch = {
                     returnData.status = false
                     return returnData
                 }
-                else
-                    // error 404
-                    if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
-                        returnData.msg = error.response.data.error
-                        returnData.status = false
-                    } else {
-                        // error
-                        console.log("another error")
-                    }
-                return returnData
+                else {
+                    returnData.msg = error.response.data.error
+                    returnData.status = false
+                    return returnData
+                }
             }
 
         } else {
@@ -489,7 +484,6 @@ const fetch = {
             let res = await axios.delete(url)
             if (res.status == 200) {
                 validation.function_Status('Product deleted.', true,)
-                returnData.msg=
                 returnData.status = true
             }
             return returnData
@@ -498,21 +492,17 @@ const fetch = {
             validation.function_Status('Cannot delete product ', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
-                returnData.status = false
                 return returnData
 
             }
             else {
                 // error 404
-                if (error.response.status == 400 ) {
-                    returnData.msg='400'
-                    returnData.status = false
-                } else 
-                if(error.response.status == 403){
-                    returnData.msg='403'
-                    returnData.status = false
+                if (error.response.status == 400) {
+                    returnData.msg = '400'
+                } else if (error.response.status == 403) {
+                    returnData.msg = '403'
                 }
-                
+
                 return returnData
             }
         }
@@ -527,19 +517,18 @@ const fetch = {
                 validation.function_Status('update product', true, `updated product successful.`)
                 returnData.status = true
                 returnData.data = res.data
-            } else {
-                validation.function_Status('update product', false, `cannot update product `)
             }
             return returnData
         } catch (error) {
             validation.function_Status('update product ', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
-                returnData.status = false
                 return returnData
             }
             else {
-
+                validation.function_Status('update product', false, `cannot update product `)
+                returnData.msg = error.response.data.error
+                return returnData
             }
         }
     },
@@ -553,19 +542,18 @@ const fetch = {
                 validation.function_Status('add product style', true, `add product style successful.`)
                 returnData.status = true
                 returnData.data = res.data
-            } else {
-                validation.function_Status('add product style', false, `cannot add product style `)
             }
             return returnData
         } catch (error) {
             validation.function_Status('add product style', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
-                returnData.status = false
                 return returnData
             }
             else {
-
+                validation.function_Status('add product style', false, `cannot add product style `)
+                returnData.msg = error.response.data.error
+                return returnData
             }
         }
     },
@@ -574,24 +562,23 @@ const fetch = {
         try {
             let url = `${origin}/api/products/${productId}/${skuId}`
             let res = await axios.put(url, inputData)
-
             if (res.status == 200) {
                 validation.function_Status('update product style', true, `updated product style successful.`)
                 returnData.status = true
                 returnData.data = res.data
-            } else {
-                validation.function_Status('update product style', false, `cannot update product style `)
             }
             return returnData
         } catch (error) {
-            validation.function_Status('update product  style', false, error)
+            validation.function_Status('update product style', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
                 return returnData
             }
             else {
-
+                validation.function_Status('update product style', false, `cannot update product style `)
+                returnData.msg = error.response.data.error
+                return returnData
             }
         }
     },
@@ -688,39 +675,39 @@ const fetch = {
 
     },
     // gallery
-    async getGallery(inputData){
+    async getGallery(inputData) {
         let returnData = { status: false, data: undefined, msg: '' }
-        let{
+        let {
             page,
             limit,
             sort_name,
             style,
             contentOwner
-        }= inputData
+        } = inputData
         try {
             let url = `${origin}/api/contents`
             // page
-            if(page!=undefined)url+=`?page=${page}`;
-            else url+=`?page=${1}`;
+            if (page != undefined) url += `?page=${page}`;
+            else url += `?page=${1}`;
             // limit
-            if(limit!=undefined) url+=`&limit=${limit}`;
+            if (limit != undefined) url += `&limit=${limit}`;
             // contentOwner
-            if(contentOwner!=undefined) url+=`&content_owner=${contentOwner}`;
+            if (contentOwner != undefined) url += `&content_owner=${contentOwner}`;
             // sort name
-            if(sort_name!=undefined) url+=`&sort_name=${sort_name}`;
+            if (sort_name != undefined) url += `&sort_name=${sort_name}`;
             // style
-            if(style!=undefined) url+=`&style=${style}`;
-            
+            if (style != undefined) url += `&style=${style}`;
+
             let res = await axios.get(url)
 
-            if (res.status==200) {
-                returnData.status=true
-                returnData.data=res.data
-                validation.function_Status('get gallery ' , true)
-            } 
+            if (res.status == 200) {
+                returnData.status = true
+                returnData.data = res.data
+                validation.function_Status('get gallery ', true)
+            }
             return returnData
         } catch (error) {
-            validation.function_Status('cannot get get gallery ' , false, error)
+            validation.function_Status('cannot get get gallery ', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
@@ -732,39 +719,39 @@ const fetch = {
         }
 
     },
-    async getGalleryByOwner(inputData){
+    async getGalleryByOwner(inputData) {
         let returnData = { status: false, data: undefined, msg: '' }
         // if(inputData!=undefined){
-            let{
-                page,
-                sort_name,
-                sort,
-                style,
-                limit
-            }=inputData
+        let {
+            page,
+            sort_name,
+            sort,
+            style,
+            limit
+        } = inputData
         // }
         // console.log(sort_name,'this from api')
         try {
             let url = `${origin}/api/contents/owner`
-            if(page!=undefined){
-                url+=`?page=${page}`
-            }else{
-                url+= `?page=${1}`
+            if (page != undefined) {
+                url += `?page=${page}`
+            } else {
+                url += `?page=${1}`
             }
-            if(limit!=undefined) url +=`&limit=${limit}`
+            if (limit != undefined) url += `&limit=${limit}`
 
-            if(sort_name!=undefined) url +=`&sort_name=${sort_name}`
-            if(style!=undefined) url +=`&style=${style}`
+            if (sort_name != undefined) url += `&sort_name=${sort_name}`
+            if (style != undefined) url += `&style=${style}`
             let res = await axios.get(url)
 
-            if (res.status==200) {
-                returnData.status=true
-                returnData.data=res.data
-                validation.function_Status('get gallery ' , true)
-            } 
+            if (res.status == 200) {
+                returnData.status = true
+                returnData.data = res.data
+                validation.function_Status('get gallery ', true)
+            }
             return returnData
         } catch (error) {
-            validation.function_Status('cannot get get gallery ' , false, error)
+            validation.function_Status('cannot get get gallery ', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
@@ -772,21 +759,21 @@ const fetch = {
             }
             else {
                 // error 404
-                if (error.response.status == 404 ) {
-                    returnData.msg='404'
+                if (error.response.status == 404) {
+                    returnData.msg = '404'
                     returnData.status = false
-                    
+
                 }
                 return returnData
-                
+
             }
         }
 
     },
-    async getGalleryById(contentId){
+    async getGalleryById(contentId) {
         let returnData = { status: false, data: undefined, msg: '' }
         // if(inputData!=undefined){
-            
+
         // }
         // console.log(sort_name,'this from api')
         try {
@@ -802,14 +789,14 @@ const fetch = {
             // if(style!=undefined) url +=`&style=${style}`
             let res = await axios.get(url)
 
-            if (res.status==200) {
-                returnData.status=true
-                returnData.data=res.data
-                validation.function_Status('get gallery ' , true)
-            } 
+            if (res.status == 200) {
+                returnData.status = true
+                returnData.data = res.data
+                validation.function_Status('get gallery ', true)
+            }
             return returnData
         } catch (error) {
-            validation.function_Status('cannot get get gallery ' , false, error)
+            validation.function_Status('cannot get get gallery ', false, error)
             if (error.code == "ERR_NETWORK") {//check back-end server error
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
@@ -822,7 +809,7 @@ const fetch = {
 
     },
     async addGallery(inputData) {
-        let returnData = { status: false, msg: '',data:undefined }
+        let returnData = { status: false, msg: '', data: undefined }
         try {
             let url = `${origin}/api/contents`
             let res = await axios.post(url, inputData)
@@ -847,11 +834,11 @@ const fetch = {
             }
         }
     },
-    async updateGallery(galleryId,inputData) {
+    async updateGallery(galleryId, inputData) {
         let returnData = { status: false, msg: '' }
         try {
             let url = `${origin}/api/contents/${galleryId}`
-            let res = await axios.patch(url,inputData)
+            let res = await axios.patch(url, inputData)
 
             if (res.status == 200) {
                 validation.function_Status('update gallery', true, `updated gallery successful.`)
@@ -895,15 +882,15 @@ const fetch = {
             }
             else {
                 // error 404
-                if (error.response.status == 404 ) {
-                    returnData.msg='400'
+                if (error.response.status == 404) {
+                    returnData.msg = '400'
                     returnData.status = false
-                } else 
-                if(error.response.status == 403){
-                    returnData.msg='403'
-                    returnData.status = false
-                }
-                
+                } else
+                    if (error.response.status == 403) {
+                        returnData.msg = '403'
+                        returnData.status = false
+                    }
+
                 return returnData
             }
         }
@@ -977,10 +964,10 @@ const fetch = {
             let res = await axios.get(url)
             // console.log(url)
 
-            if (res.status==200){
+            if (res.status == 200) {
                 validation.function_Status('get product review by order', true,)
-                returnData.status =true
-                returnData.msg='200'
+                returnData.status = true
+                returnData.msg = '200'
                 returnData.data = res.data
             }
             return returnData
@@ -995,26 +982,26 @@ const fetch = {
             else {
                 // error 404
                 if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
-                    returnData.msg='404'
+                    returnData.msg = '404'
                     returnData.status = false
                 } else {
                     // error
                     console.log("another error")
                 }
-                
+
                 return returnData
             }
         }
     },
-    async updateReview(itemId, reviewId,inputData) {
+    async updateReview(itemId, reviewId, inputData) {
         let returnData = { status: false, msg: '' }
 
         try {
             let url = `${origin}/api/products/${itemId}/reviews/${reviewId}`
-            let res = await axios.patch(url,inputData)
+            let res = await axios.patch(url, inputData)
             console.log(url)
 
-            if (res.status==200){
+            if (res.status == 200) {
                 validation.function_Status('update review ', true,)
                 returnData.status = true
                 // returnData.status = true
@@ -1060,7 +1047,7 @@ const fetch = {
                     returnData.status = false
                     return returnData
                 }
-                else{
+                else {
                     // error 404
                     if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
                         returnData.msg = error.response.data.error
@@ -1071,7 +1058,7 @@ const fetch = {
                     }
                     return returnData
                 }
-                
+
             }
 
         } else {
@@ -1321,7 +1308,7 @@ const fetch = {
             }
             else {
                 // error 404
-                if (error.response.status == 404 ) {
+                if (error.response.status == 404) {
                     returnData.msg = '404'
                     returnData.status = false
                 } else {
@@ -1332,7 +1319,7 @@ const fetch = {
                 }
                 return returnData
             }
-            
+
         }
     },
     async getAllAddress(username) {
@@ -1385,7 +1372,7 @@ const fetch = {
         }
     },
     async addAddress(userName, inputData) {
-        let returnData = { status: false, msg: '',data:undefined }
+        let returnData = { status: false, msg: '', data: undefined }
 
         if (inputData != undefined) {
             try {
@@ -1394,7 +1381,7 @@ const fetch = {
                 // console.log(res.data)
                 // cookie.decrypt("information")
                 if (res.status == 201) {
-                    returnData.data=res.data.addressId
+                    returnData.data = res.data.addressId
                     validation.function_Status("add address", true)
                     returnData.status = true
 
@@ -1658,12 +1645,12 @@ const fetch = {
             orderId
         } = inputData
         try {
-            
+
             if (isSupplier) { // for role supplier
                 let url = `${origin}/api/orders/supplier`
                 // page
-                if(page ==undefined) url+=`?page=${1}`
-                else url+=`?page=${page}`
+                if (page == undefined) url += `?page=${1}`
+                else url += `?page=${page}`
                 // limit
                 if (limitP != undefined) url += `&limit=${limitP}`;
                 // sort
@@ -1684,12 +1671,12 @@ const fetch = {
             } else { //for normal user
                 let url = `${origin}/api/orders`
                 // page
-                if(page ==undefined&&orderId==undefined){
-                    url+=`?page=${1}`
-                }else if(page !=undefined&&orderId==undefined){
-                    url+=`?page=${page}`
-                }else if(page==undefined&&orderId!=undefined){
-                    url+=`/${orderId}`
+                if (page == undefined && orderId == undefined) {
+                    url += `?page=${1}`
+                } else if (page != undefined && orderId == undefined) {
+                    url += `?page=${page}`
+                } else if (page == undefined && orderId != undefined) {
+                    url += `/${orderId}`
                 }
                 // limit
                 if (limitP != undefined) url += `&limit=${limitP}`;
@@ -1698,8 +1685,8 @@ const fetch = {
                 // status
                 if (status != undefined) url += `&status=${status}`;
                 // ownerItem Or Product
-                if(search!=undefined) url +=`&search=${search}`
-                
+                if (search != undefined) url += `&search=${search}`
+
                 let res = await axios.get(url)
                 if (res.status == 200) {
                     validation.function_Status('get order all for user', true)
@@ -1729,17 +1716,17 @@ const fetch = {
     },
     async getOrderStatusCountSupplier(orderStatus) { //for sub and user
         let returnData = { status: false, data: undefined, msg: '' }
-        
+
         try {
             let url = `${origin}/api/orders/supplier/count/${orderStatus}`
-            
+
             let res = await axios.get(url)
             if (res.status == 200) {
                 validation.function_Status('get count order status successful', true)
                 returnData.status = true
                 returnData.data = res.data
             }
-            
+
             return returnData
         } catch (error) {
             validation.function_Status('get order all', false, error)
@@ -1755,23 +1742,23 @@ const fetch = {
             }
         }
     },
-    async changeOrderStatus(orderId,inputData,endpoint='prepare_order') {
-        let returnData = { status: false ,msg:''}
+    async changeOrderStatus(orderId, inputData, endpoint = 'prepare_order') {
+        let returnData = { status: false, msg: '' }
         if (inputData != undefined) {
             try {
                 // {
                 //     "orderStatus": "in progress",
                 //     "shippedDate": "2024-04-08 10:00:00"
                 // }
-                
+
                 let url = `${origin}/api/orders/${endpoint}/${orderId}`
                 let res
-                if(endpoint=="paid_order"){
+                if (endpoint == "paid_order") {
                     res = await axios.put(url)
-                }else{
-                    res = await axios.put(url,inputData)
+                } else {
+                    res = await axios.put(url, inputData)
                 }
-                
+
                 if (res.status == 200) {
                     validation.function_Status("change order status successful", true)
                     returnData.status = true
@@ -1805,7 +1792,7 @@ const fetch = {
             returnData.msg = "Please input information"
             return returnData
         }
-        
+
 
     },
     async BuyNow(cartInput) {
@@ -1853,7 +1840,7 @@ const fetch = {
         }
     },
     async BuyNowWithoutCart(itemInput) {
-        
+
         if (itemInput != undefined) {
             let returnData = { status: false, msg: '' }
             try {
