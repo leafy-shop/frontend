@@ -134,18 +134,19 @@ const props=defineProps({
 }
 .gallery_item{
     display: flex;
-    width: 256px;
-    height: 368px;
+    /* width: min(17.778dvw,256px); */
+    width: 100%;
+    height: min(25.556dvw,368px);
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 2px 0px #0000000F;
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
     overflow: hidden;
     background-color: #fff;
     flex-direction: column;
     cursor: pointer;
 }
 .gallery_item:hover{
-    border: 1px solid #26AC34;
+    border: min(0.069dvw,1px) solid #26AC34;
 }
 .gallery_item .gallery_item_img{
     display: flex;
@@ -163,27 +164,29 @@ const props=defineProps({
 .container_gallery_card_detail{
     display: flex;
     width: 100%;
-    height: 148px;
+    height: min(7.5dvw,108px);
     flex-direction:column;
 }
 /* detail */
 .gallery_card_detail{
     display: flex;
     width: 100%;
-    height: 108px;
+    height: min(5.833dvw,84px);
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
     justify-content: space-between;
-    align-items: center;
-    padding: 12px 0px;
+    /* align-items: center; */
+    padding: min(0.833dvw,12px);
 }
 .gallery_card_detail h5{
     display: -webkit-box;
-    width: 232px;
+    /* width: min(16.111dvw,232px); */
+    width: 100%;
     height: fit-content;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    font-size:  16px;
+    font-size: min(1.111dvw,16px);
+    line-height: 150%;
     font-weight: 500;
     overflow: hidden;
     /* padding-top: min(0.278dvw, 4px); */
@@ -192,7 +195,8 @@ const props=defineProps({
 }
 .gallery_card_detail .container_creater{
     display: flex;
-    width: 232px;
+    /* width: min(16.111dvw,232px); */
+    width: 100%;
     height: 24px;
     gap: 6px;
     align-items: center;
@@ -200,15 +204,15 @@ const props=defineProps({
 .container_creater .creater{
     display: flex;
     width: 100%;
-    height: 24px;
-    gap: 4px;
+    height: min(1.667dvw,24px);
+    gap: min(0.278dvw,4px);
     justify-content: start;
     align-items: center;
 }
 .container_creater .creater  >div{
     display: flex;
-    width: 24px;
-    height: 24px;
+    width: min(1.667dvw,24px);
+    height: min(1.667dvw,24px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -225,7 +229,7 @@ const props=defineProps({
     max-width: 135px;
     height: fit-content;
     white-space: nowrap;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color:#757575;
     text-decoration: underline;
@@ -244,7 +248,7 @@ const props=defineProps({
 .create_date h6{
     width: 100%;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color: #757575;
     white-space: nowrap;
@@ -255,36 +259,36 @@ const props=defineProps({
 .project_detail{
     display: flex;
     width: 100%;
-    height: 40px;
-    border-top:1px solid #EEEEEE;
-    padding: 12px;
-    gap: 8px;
+    height: min(2.778dvw,40px);
+    border-top: min(0.069dvw,1px) solid #EEEEEE;
+    padding: min(0.833dvw,12px);
+    gap: min(0.556dvw,8px);
 }
 .project_detail >div{
     display: flex;
     width: 100%;
     height: 100%;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     align-items: center;
     justify-content: start;
 }
 /* svg */
 .project_detail >div>div{
     display: flex;
-    width: 12px;
-    height: 12px;
+    width: min(0.833dvw,12px);
+    height: min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
 }
 .project_detail >div>div svg{
-    width: 10;
+    width: min(0.694dvw,10px);
     height: auto;
 }
 /* text */
 .project_detail >div h6{
     width: 100%;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color: #757575;
     white-space: nowrap;

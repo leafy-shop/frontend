@@ -233,7 +233,7 @@ const fullNameBank = (keyword) => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 
 .bank_item {
@@ -244,17 +244,17 @@ const fullNameBank = (keyword) => {
     height: fit-content;
     flex-direction: column;
     /* padding-top: 24px; */
-    border-top: v-bind('isShowEditBtn==true?'1px solid':'none'')  ;
+    border-top: v-bind('isShowEditBtn==true?'min(0.069dvw,1px) solid':'none'')  ;
     border-color: #E0E0E0;
     justify-content: end;
-    padding-top: v-bind('isShowEditBtn==true?'12px':'none'');
-    gap: 4px;
+    padding-top: v-bind('isShowEditBtn==true?'min(0.833dvw,12px)':'none'');
+    gap: min(0.278dvw,4px);
 }
 
 .title {
     display: flex;
     width: inherit;
-    height: 24px;
+    height: min(1.667dvw,24px);
     justify-content: space-between;
     align-items: center;
 }
@@ -263,19 +263,19 @@ const fullNameBank = (keyword) => {
     display: flex;
     width: fit-content;
     height: inherit;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     align-items: center;
 }
 
 .info h5 {
     width: 100%;
-    max-width: 300px;
+    max-width: min(20.833dvw,300px);
     height: fit-content;
-    font-size: 16px;
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
     color: #212121;
-    padding-right: 8px;
-    border-right: 1px solid;
+    padding-right: min(0.556dvw,8px);
+    border-right: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -283,25 +283,25 @@ const fullNameBank = (keyword) => {
 }
 
 .info p {
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #616161;
-
+    line-height: 144%;
 }
 
 .title .operation {
     display: flex;
-    width: 48px;
+    width: min(3.333dvw,48px);
     height: inherit;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
 }
 
 .operation button {
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     border: none;
     background-color: #fff;
     justify-content: center;
@@ -317,43 +317,45 @@ const fullNameBank = (keyword) => {
 }
 .discription p {
     display: flex;
-    width: 540px;
+    width: min(37.5dvw,540px);
     height: fit-content;
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     color: #616161;
+    line-height: 144%;
     /* text-overflow: ellipsis; */
 }
 .discription button{
     display: flex;
-    width: 103px;
-    height: 24px;
+    width: fit-content;
+    height: min(1.667dvw,24px);
     justify-content: center;
     align-items: center;
-    border: 1px solid;
-    padding: 4px 12px;
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.278dvw,4px) min(0.833dvw,12px);
     border-color: #E0E0E0;
     background-color: #fff;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    border-radius: 4px;
-    font-size: 12px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
     color: #212121;
     cursor: pointer;
 }
 .default_icon{
     display: flex;
-    width: 59px;
-    height: 20px;
-    padding: 4px 12px;
+    width: min(4.167dvw,60px);
+    height: min(1.389dvw,20px);
+    padding: min(0.278dvw,4px) min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
-    border: 1px solid;
-    border-radius: 4px;
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #26AC34;
     color: #26AC34;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    font-size: 10px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    font-size: min(0.694dvw,10px);
+    line-height: 120%;
     font-weight: 500;
 }
 

@@ -34,20 +34,20 @@ const props=defineProps({
 .submit {
     display: flex;
     width: 100%;
-    height: 60px;
-    padding: 12px 20px;
-    gap: 8px;
+    height: min(4.167dvw,60px);
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
+    gap: min(0.556dvw,8px);
     justify-content: end;
     background-color: #FAFAFA;
 }
 
 .submit button {
-    width: 80px;
-    height: 36px;
-    border: 1px solid;
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 

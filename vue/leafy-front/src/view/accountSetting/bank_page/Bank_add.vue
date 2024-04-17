@@ -302,8 +302,8 @@ onBeforeMount(async () => {
 .wrapper_all {
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     /* gap: 24px; */
 }
 .wrapper_bank {
@@ -313,7 +313,7 @@ onBeforeMount(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: min(1.389dvw,20px);
     background-color: #fff;
 }
 
@@ -324,14 +324,14 @@ onBeforeMount(async () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .bank h4 {
     display: flex;
     width: inherit;
-    height: 28px;
-    font-size: 18px;
+    height: min(1.944dvw,28px);
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
@@ -342,14 +342,14 @@ onBeforeMount(async () => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .container_bank .inputs {
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
     justify-content: start;
     align-items: center;
 }
@@ -358,46 +358,46 @@ onBeforeMount(async () => {
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     flex-direction: column;
 }
 
 .input_field h5 {
     width: fit-content;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
     font-weight: 500;
     color: #212121;
 }
 
 .input_field .input {
     width: 100%;
-    height: 36px;
-    border: 1px solid;
-    border-radius: 4px;
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #D1D5DB;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    padding: 8px 12px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    padding: min(0.556dvw,8px) 12px;
 }
 
 
 .submit {
     display: flex;
     width: 100%;
-    height: 60px;
-    padding: 12px 20px;
-    gap: 8px;
+    height: min(4.167dvw,60px);
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
+    gap: min(0.556dvw,8px);
     justify-content: end;
     background-color: #FAFAFA;
 }
 
 .submit button {
-    width: 80px;
-    height: 36px;
-    border: 1px solid;
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.556dvw,8px) 12px;
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 
@@ -444,7 +444,7 @@ onBeforeMount(async () => {
     font-weight: 400;
     line-height: 136%;
     /* 16.32px */
-    letter-spacing: 0.2px;
+    letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;

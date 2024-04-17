@@ -107,7 +107,6 @@ onBeforeMount(async()=>{
     align-items: center;
     overflow: hidden;
     /* z-index: 1; */
-
 }
 
 .shop_title h3 {
@@ -122,7 +121,6 @@ onBeforeMount(async()=>{
 }
 
 .shop_title img {
-
     /* opacity: 10%; */
     width: 100%;
     height: auto;
@@ -142,7 +140,7 @@ onBeforeMount(async()=>{
 }
 .gallery{
     display: flex;
-    width: 1120px;
+    width: 100%;
     height: fit-content;
     padding-bottom: min(1.389dvw,20px);
     gap: min(2.778dvw,40px);

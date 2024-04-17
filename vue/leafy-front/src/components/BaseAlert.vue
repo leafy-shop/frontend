@@ -101,21 +101,21 @@ const closeAlertNow=()=>{
     z-index: 999;
     justify-content: center;
     align-items: start;
-    padding: 50px;
+    padding: min(3.472dvw,50px);
     cursor: pointer;
 }
 .alert_box{
     display: flex;
     width: fit-content;
-    min-width: 352px;
+    min-width: min(24.444dvw,352px);
     max-width: 70%;
     height: fit-content;
     border: none;
-    border-radius: 6px;
-    padding: 16px;
-    gap: 12px;
+    border-radius: min(0.417dvw,6px);
+    padding: min(1.111dvw,16px);
+    gap: min(0.833dvw,12px);
     /* background-color: #121212; */
-    box-shadow: 0px 1px 2px 0px #0000000F;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
     align-items: center;
 
 }
@@ -124,7 +124,8 @@ const closeAlertNow=()=>{
     width:fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 14px ;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #fff;
 }

@@ -951,7 +951,9 @@ onBeforeMount(async() => {
   border-color: #e0e0e0;
   /* border-color: transparent; */
 }
-
+.product_item > div:nth-child(2) .product_quantity button:hover {
+  background-color: #F5F5F5;
+}
 .product_item > div:nth-child(2) .product_quantity .reduce {
   border-right: none;
   border-radius: min(0.278dvw,4px) 0px 0px min(0.278dvw,4px);
@@ -985,7 +987,9 @@ onBeforeMount(async() => {
   line-height: 144%;
   color: #212121;
 }
-
+.product_item > div:nth-child(2) .product_quantity input:hover {
+  background-color: #F5F5F5;
+}
 .product_item > div:nth-child(2) .product_total {
   /* display: flex; */
   width: min(6.944dvw,100px);

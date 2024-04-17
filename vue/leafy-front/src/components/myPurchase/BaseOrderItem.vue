@@ -737,32 +737,32 @@ const getShowAlertChange=(input)=>{
     overflow:hidden;
     background-color:#fff;
     border:none;
-    border-radius:8px;
-    padding-top:20px;
+    border-radius:min(0.556dvw,8px);
+    padding-top:min(1.389dvw,20px);
 }
 /* header */
 .header_shop{
     display:flex;
     width:100%;
-    height:36px;
-    padding:0px 20px 12px 20px;
+    height:min(2.5dvw,36px);
+    padding:0px min(1.389dvw,20px) min(0.833dvw,12px) min(1.389dvw,20px);
     justify-content:space-between;
     align-items:center;
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw,1px) solid;
     border-color: #EEEEEE;
 }
 .header_shop .shop_name{
     display:flex;
     width:fit-content;
     height:100%;
-    gap:8px;
+    gap:min(0.556dvw,8px);
     align-items:center;
 }
 .shop_name h5{
     width:fit-content;
-    max-width:300px;
+    max-width:min(20.833dvw,300px);
     height:fit-content;
-    font-size:16px;
+    font-size:min(1.111dvw,16px);
     font-weight:700;
     color:#212121;
     text-overflow:ellipsis;
@@ -772,33 +772,33 @@ const getShowAlertChange=(input)=>{
     display:flex;
     width:fit-content;
     height:fit-content;
-    gap:8px;
+    gap:min(0.556dvw,8px);
 }
 .shop_name >div> button{
     display:flex;
-    width:81px;
-    height:24px;
+    width: fit-content;
+    height:min(1.667dvw,24px);
     border:none;
-    border-radius:4px;
+    border-radius:min(0.278dvw,4px);
     /* border-color:#26AC34; */
-    padding:4px 12px;
+    padding:min(0.278dvw,4px) min(0.833dvw,12px);
     justify-content:center;
     align-items:center;
     white-space:nowrap;
     cursor:pointer;
     background-color:#fff;
-    font-size:12px;
+    font-size:min(0.833dvw,12px);
     font-weight:500;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
 
 }
 .shop_name >div> .chat_now{
-    border:1px solid;
+    border:min(0.069dvw,1px) solid;
     border-color:#26AC34;
     color:#26AC34;
 }
 .shop_name >div> .view_shop{
-    border:1px solid;
+    border:min(0.069dvw,1px) solid;
     border-color:#E0E0E0;
     color:#212121;
 }
@@ -807,30 +807,30 @@ const getShowAlertChange=(input)=>{
     display:flex;
     width:fit-content;
     height:100%;
-    gap:8px;
-    padding:2px 10px 2px 8px;
+    gap:min(0.556dvw,8px);
+    padding:min(0.139dvw,2px) min(0.694dvw,10px) min(0.139dvw,2px) min(0.556dvw,8px);
     justify-content:center;
     align-items:center;
     border:none;
-    border-radius:10px;
+    border-radius:min(0.694dvw,10px);
     background-color:#E0E0E0;
 }
 .header_shop .status >div{
     display:flex;
-    width:8px;
-    height:8px;
+    width:min(0.556dvw,8px);
+    height:min(0.556dvw,8px);
     justify-content:center;
     align-items:center;
     
 }
 .header_shop .status >div svg{
-    width:6px;
-    height:6px;
+    width:min(0.417dvw,6px);
+    height:min(0.417dvw,6px);
 }
 .header_shop .status h6{
     width:fit-content;
     height:fit-content;
-    font-size:12px;
+    font-size:min(0.833dvw,12px);
     font-weight:500;
 }
 /* product list */
@@ -838,32 +838,32 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 12px 20px 0px 20px;
+    padding: min(0.833dvw,12px) min(1.389dvw,20px) 0px min(1.389dvw,20px);
     flex-direction: column;
 
 }
 .product_list .product_item{
     display: flex;
     width:100%;
-    height: 64px;
-    padding-bottom:12px ;
+    height: min(4.444dvw,64px);
+    padding-bottom:min(0.833dvw,12px) ;
     align-items: center;
     border: none;
     background-color: transparent;
-    border-bottom: 1px solid;
+    border-bottom: min(0.069dvw,1px) solid;
     border-color: #EEEEEE;
     cursor: v-bind('props.isDisabled==true?'default':'pointer'');
 }
 /* image */
 .product_item .product_img{
     display: flex;
-    width: 52px;
-    height: 52px;
+    width: min(3.611dvw,52px);
+    height: min(3.611dvw,52px);
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     background-color: #212121;
 }
 .product_item .product_img img{
@@ -879,20 +879,21 @@ const getShowAlertChange=(input)=>{
 .product_info .detail{
     display: flex;
     width: 100%;
-    min-width: 536px;
+    min-width: min(37.222dvw,536px);
     /* max-width: 100%; */
     height: fit-content;
-    min-height: 32px;
-    padding: 6px 12px;
+    min-height: min(2.222dvw,32px);
+    padding: min(0.417dvw,6px) min(0.833dvw,12px);
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 /* detail item */
 .detail h6{
     width: fit-content;
     max-width: 100%;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #212121;
     overflow: hidden;
@@ -901,8 +902,8 @@ const getShowAlertChange=(input)=>{
 .detail p{
     width: fit-content;
     max-width: 100%;
-    height: 16px;
-    font-size: 12px;
+    height: min(1.111dvw,16px);
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color: #616161;
     overflow: hidden;
@@ -910,7 +911,7 @@ const getShowAlertChange=(input)=>{
 }
 .product_info .container_price_qty{
     display: flex;
-    width:300px;
+    width:min(20.833dvw,300px);
     height: fit-content;
     justify-content: center;
     align-items: center
@@ -918,17 +919,18 @@ const getShowAlertChange=(input)=>{
 /* price each*/
 .product_info .price_each{
     display: flex;
-    width: 100px;
+    width: min(6.944dvw,100px);
     /* min-width: ; */
-    height: 52px;
-    padding: 16px 12px;
+    height: min(3.611dvw,52px);
+    padding: min(1.111dvw,16px) min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
 }
 .price_each h6{
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color:#616161;
     overflow: hidden;
@@ -937,16 +939,17 @@ const getShowAlertChange=(input)=>{
 /* qty */
 .product_info .qty{
     display: flex;
-    width: 100px;
-    height: 52px;
-    padding: 16px 12px;
+    width: min(6.944dvw,100px);
+    height: min(3.611dvw,52px);
+    padding: min(1.111dvw,16px) min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
 }
 .qty h6{
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color:#616161;
     overflow: hidden;
@@ -955,16 +958,17 @@ const getShowAlertChange=(input)=>{
 /* total price */
 .product_info .price_total{
     display: flex;
-    width: 100px;
-    height: 52px;
-    padding: 16px 12px;
+    width: min(6.944dvw,100px);
+    height: min(3.611dvw,52px);
+    padding: min(1.111dvw,16px) 0px min(1.111dvw,16px) min(0.833dvw,12px);
     justify-content: end;
     align-items: center;
 }
 .price_total h6{
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#616161;
     overflow: hidden;
@@ -976,24 +980,24 @@ const getShowAlertChange=(input)=>{
 .order_detail{
     display: flex;
     width: 100%;
-    height: 60px;
+    height: min(4.167dvw,60px);
     justify-content: end;
     align-items: center;
-    gap: 20px;
-    padding: 12px 20px
+    gap: min(1.389dvw,20px);
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
 }
 .order_detail .order_info{
     display: flex;
     width: fit-content;
-    height: 20px;
-    gap: 8px;
+    height: min(1.389dvw,20px);
+    gap: min(0.556dvw,8px);
     align-items: center
 }
 .order_info p{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color: #212121;
     overflow: hidden;
@@ -1003,7 +1007,8 @@ const getShowAlertChange=(input)=>{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 700;
     color: #26AC34;
     overflow: hidden;
@@ -1014,19 +1019,20 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width:fit-content;
     height: 100%;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 .container_btn button{
     display: flex;
     width: fit-content;
-    height: 36px;
-    font-size: 14px;
+    height: min(2.5dvw,36px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
     /* border: none; */
-    border-radius: 4px;
-    padding: 8px 12px;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     white-space: nowrap;
     justify-content: center;
     align-items: center;
@@ -1037,7 +1043,7 @@ const getShowAlertChange=(input)=>{
     color: #fff;
 }
 .container_btn .view_my_rating{
-    border: 1px solid;
+    border: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
     background-color: transparent;
 }
@@ -1057,22 +1063,22 @@ const getShowAlertChange=(input)=>{
 }
 .wrapper_review{
     display: flex;
-    width: 544px;
+    width: min(37.778dvw,544px);
     height: fit-content;
     flex-direction: column;
     border: none;
-    border-radius: 8px;
-    padding: 32px;
-    gap: 24px;
+    border-radius: min(0.556dvw,8px);
+    padding: min(2.222dvw,32px);
+    gap: min(1.667dvw,24px);
     background-color: #fff;
     overflow: hidden;
-    box-shadow: 0px 1px 2px 0px #0000000F;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
 }
 .wrapper_review .header_review_list{
     display: flex;
     width: 100%;
     height: fit-content;
-    font-size: 16px;
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
     color: #212121;
 }
@@ -1088,21 +1094,21 @@ const getShowAlertChange=(input)=>{
 .review_item{
     display: flex;
     width: 100%;
-    height: 64px;
-    padding:12px 0px;
-    border-bottom: 1px solid #EEEEEE;
+    height: min(4.444dvw,64px);
+    padding:min(0.833dvw,12px) 0px;
+    border-bottom: min(0.069dvw,1px) solid #EEEEEE;
     align-items: center;
 }
 /* img */
 .review_item .product_img{
     display: flex;
-    width: 52px;
-    height: 52px;
+    width: min(3.611dvw,52px);
+    height: min(3.611dvw,52px);
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
 }
 .product_img img{
     width: 100%;
@@ -1111,16 +1117,17 @@ const getShowAlertChange=(input)=>{
 /* name */
 .review_item .product_name{
     display: flex;
-    width: 312px;
+    width: min(21.667dvw,312px);
     height: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 6px 12px;
+    padding: min(0.417dvw,6px) min(0.833dvw,12px);
 }
 .product_name > h6{
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
     white-space: nowrap;
@@ -1130,7 +1137,7 @@ const getShowAlertChange=(input)=>{
 .product_name> p{
     width: 100%;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color:#616161;
     white-space: nowrap;
@@ -1140,7 +1147,7 @@ const getShowAlertChange=(input)=>{
 /* star */
 .review_item .product_star{
     display: flex;
-    width: 84px;
+    width: min(5.833dvw,84px);
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -1148,15 +1155,15 @@ const getShowAlertChange=(input)=>{
 /* operator */
 .review_item .product_operation{
     display: flex;
-    width: 32px;
+    width: min(2.222dvw,32px);
     height: 100%;
     justify-content: end;
     align-items: center;
 }
 .product_operation button{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1170,17 +1177,18 @@ const getShowAlertChange=(input)=>{
 }
 .close_review_list button{
     display: flex;
-    width: 80px;
-    height: 36px;
-    border: 1px solid #E0E0E0;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    border-radius: 4px;
-    padding: 8px 12px;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid #E0E0E0;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     cursor: pointer;
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
 }
@@ -1188,15 +1196,15 @@ const getShowAlertChange=(input)=>{
 /* make review */
 .wrapper_review_input{
     display: flex;
-    width: 544px;
+    width: min(37.778dvw,544px);
     height: fit-content;
     flex-direction: column;
     border: none;
-    border-radius: 8px;
-    /* padding: 32px; */
+    border-radius: min(0.556dvw,8px);
+    /* padding: min(2.222dvw,32px); */
     overflow: hidden;
     background-color: #fff;
-    box-shadow: 0px 1px 2px 0px #0000000F;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
 }
 /* detail */
 .wrapper_review_input .container_review_input{
@@ -1204,8 +1212,8 @@ const getShowAlertChange=(input)=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    padding: 32px;
-    gap: 24px;
+    padding: min(2.222dvw,32px);
+    gap: min(1.667dvw,24px);
 }
 /* back btn */
 .container_review_input .header_edit{
@@ -1218,26 +1226,27 @@ const getShowAlertChange=(input)=>{
 .header_edit button{
     display: flex;
     width:fit-content;
-    height: 36px;
-    border: 1px solid #E0E0E0 ;
-    border-radius: 4px;
-    padding: 8px 12px;
-    gap: 8px;
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid #E0E0E0 ;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    gap: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
     cursor: pointer;
     background-color: transparent;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
 }
 .header_edit button svg{
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
 }
 .header_edit button h6{
     display: flex;
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
 }
@@ -1247,14 +1256,14 @@ const getShowAlertChange=(input)=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 /* product */
 .container_product{
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
     flex-direction: column;
 }
 .container_product .product_item{
@@ -1265,10 +1274,10 @@ const getShowAlertChange=(input)=>{
 /* img */
 .product_item .product_item_image{
     display: flex;
-    width: 52px;
-    height: 52px;
+    width: min(3.611dvw,52px);
+    height: min(3.611dvw,52px);
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -1282,14 +1291,15 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 6px 12px;
-    gap: 4px;
+    padding: min(0.417dvw,6px) min(0.833dvw,12px);
+    gap: min(0.278dvw,4px);
     flex-direction: column;
 }
 .product_item_detail h6{
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
     white-space: nowrap;
@@ -1299,7 +1309,7 @@ const getShowAlertChange=(input)=>{
 .product_item_detail p{
     width: 100%;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
     color:#616161;
     white-space: nowrap;
@@ -1311,7 +1321,7 @@ const getShowAlertChange=(input)=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap:4px;
+    gap:min(0.278dvw,4px);
 }
 /* product_quantity */
 .container_product .product_quantity{
@@ -1320,10 +1330,11 @@ const getShowAlertChange=(input)=>{
     height: fit-content;
 }
 .container_product .product_quantity h6{
-    display: flex;;
+    display: flex;
     width: 100%;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
 }
@@ -1338,14 +1349,14 @@ const getShowAlertChange=(input)=>{
 .container_product .product_input_desc{
     display: flex;
     width: 100%;
-    height: 50px;
-    min-height: 36px;
-    max-height: 100px;
-    padding: 12px;
-    border: 1px solid #D1D5DB;
-    border-radius: 4px;
+    height: min(3.611dvw,52px);
+    min-height: min(2.5dvw,36px);
+    max-height: min(6.944dvw,100px);
+    padding: min(0.833dvw,12px);
+    border: min(0.069dvw,1px) solid #D1D5DB;
+    border-radius: min(0.278dvw,4px);
     resize: vertical;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
 
 }
 /* service */
@@ -1353,7 +1364,7 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width:100%;
     height: fit-content;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
     flex-direction: column;
 }
 /* header */
@@ -1361,22 +1372,23 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    font-size: 16px;
+    font-size: min(1.111dvw,16px);
     font-weight: 700;
     color:#212121;
 }
 /* sellery */
 .container_service .seller_service{
     display: flex;
-    width: 100%;;
-    height: 20px;
+    width: 100%;
+    height: min(1.389dvw,20px);
     justify-content: space-between;
     align-items: center;
 }
 .container_service .seller_service h6{
-    width: 100%;;
+    width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
     overflow: hidden;
@@ -1391,15 +1403,16 @@ const getShowAlertChange=(input)=>{
 /* delivery */
 .container_service .deliver_service{
     display: flex;
-    width: 100%;;
-    height: 20px;
+    width: 100%;
+    height: min(1.389dvw,20px);
     justify-content: space-between;
     align-items: center;
 }
 .container_service .deliver_service h6{
-    width: 100%;;
+    width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
     overflow: hidden;
@@ -1417,8 +1430,8 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width:100%;
     height: fit-content;
-    gap: 8px;
-    padding: 12px 24px;
+    gap: min(0.556dvw,8px);
+    padding: min(0.833dvw,12px) min(1.667dvw,24px);
     background-color: #FAFAFA;
     justify-content: end;
     align-items: center;

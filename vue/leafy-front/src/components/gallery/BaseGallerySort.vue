@@ -152,51 +152,57 @@ onMounted(()=>{
 .gallery_sort{
     display: flex;
     width: 100%;
-    height: v-bind('props.isSetting==true?'36px':'76px'');
-    border-radius: 8px;
+    height: v-bind('props.isSetting==true?'36px':'min(5.278dvw,76px)'');
+    
+    /* height: fit-content; */
+    border-radius: min(1.075dvw,8px);
     color: #EEEEEE;
     /* overflow: hidden; */
     align-items: center;
     justify-content: space-between;
     background-color: v-bind('props.isSetting==true?'':'#EEEEEE'');
-    padding: v-bind('props.isSetting==true?'0px':'20px'');
+    padding: v-bind('props.isSetting==true?'0px':'min(1.389dvw,20px)'');
+}
+.sort_btn {
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
 }
 .container_sort{
     display: flex;
     width: 100%;
-    height: 100%;
-    gap: 12px;
+    height: fit-content;
+    gap: min(0.833dvw,12px);
     justify-content: start;
     align-items: center;
 }
 .container_sort button{
     display: flex;
     width: fit-content;
-    height: 100%;
+    height: min(2.5dvw,36px);
     justify-content: center;
     align-items: center;
     border: none;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    border-radius: 4px;
-    padding: 8px 12px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    padding: min(1.075dvw,8px) min(0.833dvw,12px);
     background-color: #fff;
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: min(1.075dvw,8px);
 }
 .container_sort> button{
     border: v-bind('props.isSetting==true?'1px solid #E0E0E0':'none'');
 }
 .container_sort button >div{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     
 }
 .container_sort button >div svg{
-    width: 10px;
+    width: min(0.694dvw,10px);
     height: auto;
 }
 .container_sort button:hover{
@@ -216,16 +222,17 @@ onMounted(()=>{
 .container_sort .drop_down_sort{
     display: flex;
     position: absolute;
-    width: 140px;
+    width: min(9.722dvw,140px);
     height: fit-content;
     background-color: #fff;
     color: #212121;
-    bottom: -250px;
+    /* bottom: min(19.444dvw,-280px); */
+    top: min(2.5dvw,7dvw);
     right: 0px;
-    border: 1px solid #E0E0E0;
-    border-radius: 4px;
-    padding: 8px 0px;
-    box-shadow: 0px 4px 6px -2px #0000000D;
+    border: min(0.069dvw,1px) solid #E0E0E0;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) 0px;
+    box-shadow: 0px min(0.278dvw,4px) min(0.417dvw,6px) min(0.139dvw,-2px) #0000000D;
     justify-content: center;
     align-items: start;
     flex-direction: column;
@@ -236,6 +243,13 @@ onMounted(()=>{
     display: flex;
     width: 100%;
     cursor: pointer;
+    border-radius: 0px;
+    box-shadow: none;
+    font-weight: 400;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #212121;
 }
 .drop_down_sort .style_sort:hover{
     background-color: #26AC34;
@@ -246,8 +260,8 @@ onMounted(()=>{
 .container_move{
     display: flex;
     width: fit-content;
-    height: 100%;
-    gap: 20px;
+    height: fit-content;
+    gap: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
 }
@@ -256,7 +270,7 @@ onMounted(()=>{
     width: fit-content;
     height: fit-content;
     color:#212121;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 500;
 }
 .container_move h5 span{
@@ -266,29 +280,38 @@ onMounted(()=>{
     display: flex;
     width: fit-content;
     height: 100%;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
+    justify-content: center;
+    align-items: center;
 }
 .container_move >div button{
     display: flex;
-    width: 44px;
-    height: 36px;
+    width: min(3.056dvw,44px);
+    height: min(2.5dvw,36px);
     border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     background-color: #fff;
     cursor: pointer;
     justify-content: center;
-    align-items: center
+    align-items: center;
 }
 .container_move >div button div{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center
 }
 .container_move >div button div svg{
-    width: 6px;
+    width: min(0.417dvw,6px);
     height: auto;
 }
+.container_move >div button:hover {
+    background-color: #26AC34;
+}
+.container_move >div button:hover svg path {
+    fill: #FFF;
+}
+
 </style>

@@ -160,15 +160,15 @@ onBeforeMount(async()=>{
     justify-content: start;
     align-items: center;
     flex-direction: column;
-    padding:60px 0px; 
+    padding: min(4.167dvw,60px) min(22.222dvw,320px);
 }
 .wrapper_gallery_detail .gallery_detail{
     display: flex;
-    width: 800px;
+    width: 100%;
     height: fit-content;
     flex-direction: column;
     border: none;
-    gap: 40px;
+    gap: min(2.778dvw,40px);
 }
 /* header */
 .gallery_detail .header_gallery_detail{
@@ -178,16 +178,16 @@ onBeforeMount(async()=>{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border-bottom: 1px solid #E0E0E0;
-    gap: 12px;
-    padding-bottom: 40px;
+    border-bottom: min(0.069dvw,1px) solid #E0E0E0;
+    gap: min(0.833dvw,12px);
+    padding-bottom: min(2.778dvw,40px);
 
 }
 .header_gallery_detail h4{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 32px;
+    font-size: min(2.222dvw,32px);
     font-weight: 500;
     color: #212121;
     white-space: wrap;
@@ -196,8 +196,8 @@ onBeforeMount(async()=>{
     text-align: center;
 }
 .header_gallery_detail hr{
-    width: 48px;
-    height: 1px;
+    width: min(3.333dvw,48px);
+    height: min(0.069dvw,1px);
     background-color: #757575;
 }
 .header_gallery_detail h6{
@@ -209,7 +209,8 @@ onBeforeMount(async()=>{
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #9E9E9E;
 }
@@ -219,23 +220,23 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 /* creater */
 .project_detail .container_creater{
     display: flex;
     width: 100%;
-    height: 48px;
-    gap: 20px;
+    height: min(3.333dvw,48px);
+    gap: min(1.389dvw,20px);
     cursor: pointer;
 }
 /* img */
 .container_creater .creater_img{
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     border: none;
-    border-radius: 50px;
+    border-radius: min(0.556dvw,8px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -259,7 +260,7 @@ onBeforeMount(async()=>{
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-    font-size: 18px;
+    font-size: min(1.25dvw,18px);
     font-weight: 700;
     color: #212121;
     text-transform: capitalize
@@ -270,7 +271,7 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
     justify-content: start;
     align-items: center;
 }
@@ -282,7 +283,7 @@ onBeforeMount(async()=>{
     max-height: 100%;
     overflow: hidden;
     border: none;
-    border-radius: 8px;
+    border-radius: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
 }
@@ -302,7 +303,8 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color:#212121;
 }

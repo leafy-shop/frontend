@@ -190,4 +190,10 @@ const props=defineProps({
   font-weight: 500;
   color: #fff;
 }
+.wrapper_summary > button:hover {
+  background-color: #168a22;
+}
+.wrapper_summary > button:active {
+  background-color: #58d264;
+}
 </style>

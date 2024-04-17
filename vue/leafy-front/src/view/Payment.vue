@@ -392,7 +392,6 @@ onBeforeMount(async()=>{
             <!-- product List -->
             <div v-for="(shop,index) of convertCartList" class="wrapper_product_list">
               <BaseOrderItem name="payment" :shop-name="shop.shopName" :is-payment="true" :order-detail="shop.order_detail" :order-total="shop.orderTotal" />  
-
             </div>
             
             <!-- payment method -->
@@ -404,7 +403,6 @@ onBeforeMount(async()=>{
                   <button @click="">
                     <img src="../assets/icon/thai_qr_icon.png" alt="thai_payment_icon">
                   </button>
-                  
                 </div>
               </div>
 
@@ -683,7 +681,7 @@ onBeforeMount(async()=>{
     justify-content: center;
     align-items: start;
     background-color:  #f5f5f5;
-    padding: 20px 160px;
+    padding: min(1.389dvw,20px) min(11.111dvw,160px);
 }
 .payment{
   display: flex;
@@ -694,8 +692,8 @@ onBeforeMount(async()=>{
   /* background-color: #fff; */
   flex-direction: column;
   border: none;
-  border-radius: 8px;
-  gap: 20px;
+  border-radius: min(0.556dvw,8px);
+  gap: min(1.389dvw,20px);
 }
 /* container of address and payment method */
 .container_address_payment{
@@ -704,7 +702,7 @@ onBeforeMount(async()=>{
   height: fit-content;
   /* justify-content: space-between; */
   align-items: center;
-  gap: 32px;
+  gap: min(2.222dvw,32px);
   flex-direction: column;
 }
 .wrapper_address{
@@ -713,10 +711,10 @@ onBeforeMount(async()=>{
   /* min-width: 736px; */
   height: fit-content;
   /* min-height: 160px; */
-  padding: 20px;
+  padding: min(1.389dvw,20px);
   border: none;
-  border-radius: 8px;
-  gap: 20px;
+  border-radius: min(0.556dvw,8px);
+  gap: min(1.389dvw,20px);
   background-color: #fff;
   align-items: start;
   /* flex-direction: column; */
@@ -726,48 +724,55 @@ onBeforeMount(async()=>{
   width: 100%;
   height: fit-content;
   flex-direction: column;
-  gap: 4px;
+  gap: min(0.278dvw,4px);
 }
 .container_header_address .header_address{
   display: flex;
   width: fit-content;
-  height: 24px;
-  gap: 8px;
+  height: min(1.667dvw,24px);
+  gap: min(0.556dvw,8px);
   align-items: center;
 }
 .header_address >div{
   display: flex;
-  width: 20px;
-  height: 20px;
+  width: min(1.389dvw,20px);
+  height: min(1.389dvw,20px);
   justify-content: center;
   align-items: center;
 }
 .header_address >div svg{
-  width: 14px;
+  width: min(0.972dvw,14px);
   height: auto;
 }
 .header_address  h5{
   width: fit-content;
   height: fit-content;
-  font-size: 16px;
+  font-size: min(1.111dvw,16px);
   font-weight: 500;
   color: #26AC34;
 }
 .wrapper_address .change_btn{
   display: flex;
-  width: 76px;
-  height: 36px;
-  border: 1px solid;
+  width: min(5.278dvw,76px);
+  height: min(2.5dvw,36px);
+  border: min(0.069dvw,1px) solid;
   border-color: #E0E0E0;
-  border-radius:4px ;
-  padding: 8px 12px;
-  font-size: 14px;
+  border-radius: min(0.278dvw,4px);
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
+  font-size: min(0.972dvw,14px);
   font-weight: 500;
   color: #212121;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   background-color: transparent;
+}
+.change_btn:hover {
+  border-color: #26AC34;
+  color: #26AC34;
+}
+.change_btn:active {
+  background-color: #EEFFF0;
 }
 /* payment method */
 .wrapper_payment_method{
@@ -778,18 +783,18 @@ onBeforeMount(async()=>{
   /* min-height: 160px; */
   max-height: 100%;
   border: none;
-  border-radius: 8px;
-  padding: 20px;
-  gap: 16px;
+  border-radius: min(0.556dvw,8px);
+  padding: min(1.389dvw,20px);
+  gap: min(1.111dvw,16px);
   background-color: #fff;
-  box-shadow: 0px 1px 2px 0px #0000000F;
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
   flex-direction: column;
 }
 .wrapper_payment_method h6{
   display: flex;
   width: 100%;
   height: fit-content;
-  font-size: 16px;
+  font-size: min(1.111dvw,16px);
   font-weight: 700;
   color: #262626;
 }
@@ -798,14 +803,14 @@ onBeforeMount(async()=>{
   width: 100%;
   height: fit-content;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: min(0.556dvw,8px);
 }
 .method_list button{
   display: flex;
-  width: 72px;
-  height: 36px;
-  border: 1px solid;
-  border-radius: 4px;
+  width: min(5dvw,72px);
+  height: min(2.5dvw,36px);
+  border: min(0.069dvw,1px) solid;
+  border-radius: min(0.278dvw,4px);
   border-color: #EEEEEE;
   justify-content: center;
   align-items: center;
@@ -814,13 +819,15 @@ onBeforeMount(async()=>{
 }
 .method_list button img{
   width: auto;
-  height: 16px;
+  height: min(1.111dvw,16px);
   
 }
 .method_list button:hover{
   border-color: #26AC34;
 }
-
+.method_list button:active{
+  background-color: #EEFFF0;
+}
 
 .wrapper_product_list{
   display: flex;
@@ -850,13 +857,13 @@ onBeforeMount(async()=>{
 .wrapper_address_overlay{
   display: flex;
   width: fit-content;
-  min-width: 544px;
+  min-width: min(37.778dvw,544px);
   max-width: 100%;
   height: fit-content;
   background-color: #fff;
   border: none;
-  border-radius: 8px;
-  box-shadow: 0px 1px 2px 0px #0000000F;
+  border-radius: min(0.556dvw,8px);
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
   flex-direction: column;
   overflow: hidden
 
@@ -866,15 +873,15 @@ onBeforeMount(async()=>{
   width: 100%;
   height: fit-content;
   flex-direction: column;
-  gap: 14px;
-  padding: 32px;
+  gap: min(0.972dvw,14px);
+  padding: min(2.222dvw,32px);
 
 }
 .address_overlay .header_address{
   display: flex;
   width: 100%;
   height: fit-content;
-  font-size: 16px;
+  font-size: min(1.111dvw,16px);
   font-weight: 500;
   color: #212121;
 }
@@ -884,16 +891,16 @@ onBeforeMount(async()=>{
   height: fit-content;
   max-height: 40dvh;
   flex-direction: column;
-  gap: 12px;
+  gap: min(0.833dvw,12px);
   overflow-y: auto;
 }
 .address_item_overlay{
   display: flex;
   width: 100%;
   height: fit-content;
-  border-top: 1px solid #EEEEEE;
-  gap: 20px;
-  padding-top:12px ;
+  border-top: min(0.069dvw,1px) solid #EEEEEE;
+  gap: min(1.389dvw,20px);
+  padding-top: min(0.833dvw,12px);
   cursor: pointer;
   /* justify-content: center;
   align-items: center; */
@@ -908,22 +915,22 @@ onBeforeMount(async()=>{
 }
 .new_address button{
   display: flex;
-  width: 133px;
-  height: 36px;
+  width: fit-content;
+  height: min(2.5dvw,36px);
   border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: min(0.278dvw,4px);
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
   background-color: #26AC34;
-  box-shadow: 0px 1px 2px 0px #0000000D;
-  gap: 4px;
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+  gap: min(0.278dvw,4px);
   justify-content: start;
   align-items: center;
   cursor: pointer;
 }
 .new_address button div{
   display: flex;
-  width: 20px;
-  height: 20px;
+  width: min(1.389dvw,20px);
+  height: min(1.389dvw,20px);
   justify-content: center;
   align-items: center;
 }
@@ -931,7 +938,7 @@ onBeforeMount(async()=>{
   display: flex;
   width: fit-content;
   height: fit-content;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 500;
   color: #fff;
 
@@ -943,27 +950,28 @@ onBeforeMount(async()=>{
   width: 100%;
   height: fit-content;
   justify-content: end;
-  gap: 8px;
-  padding: 12px 24px;
+  gap: min(0.556dvw,8px);
+  padding: min(0.833dvw,12px) min(1.667dvw,24px);
   background-color: #FAFAFA;
 }
 .address_confirm button{
   display: flex;
-  width: 80px;
-  height: 36px;
+  width: min(5.556dvw,80px);
+  height: min(2.5dvw,36px);
   border: none;
   border-radius: 4px;
-  padding: 8px 12px;
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
+  line-height: 144%;
   font-weight: 500;
 }
 .address_confirm .cancel{
   background-color: #fff;
   color:#212121;
-  border: 1px solid #E0E0E0;
+  border: min(0.069dvw,1px) solid #E0E0E0;
 }
 .address_confirm .confirm{
   background-color: #26AC34;
@@ -973,12 +981,12 @@ onBeforeMount(async()=>{
 /* add address */
 .wrapper_add_address_overlay{
   display: flex;
-  width: 544px;
+  width: min(37.778dvw,544px);
   height: fit-content;
   background-color: #fff;
   border: none;
-  border-radius: 8px;
-  box-shadow: 0px 1px 2px 0px #0000000F;
+  border-radius: min(0.556dvw,8px);
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
   /* padding: 32px; */
   flex-direction: column;
   overflow: hidden
@@ -987,15 +995,15 @@ onBeforeMount(async()=>{
   display: flex;
   width: 100%;
   height: fit-content;
-  gap: 24px;
-  padding: 32px;
+  gap: min(1.667dvw,24px);
+  padding: min(2.222dvw,32px);
   flex-direction: column;
 }
 .add_address_overlay .header_add_address{
   display: flex;
   width: 100%;
   height: fit-content;
-  font-size: 16px;
+  font-size: min(1.111dvw,16px);
   font-weight: 500;
   color: #212121;
 }
@@ -1003,44 +1011,44 @@ onBeforeMount(async()=>{
   display: flex;
   width: 100%;
   height: fit-content;
-  gap: 24px;
+  gap: min(1.667dvw,24px);
   flex-direction: column;
 }
 .input_list{
   display: flex;
   width: 100%;
   height: fit-content;
-  gap: 24px;
+  gap: min(1.667dvw,24px);
 }
 .input_field{
   display: flex;
   width: 100%;
   height: fit-content;
-  gap: 4px;
+  gap: min(0.278dvw,4px);
   flex-direction: column;
 }
 .input_field h6{
   display: flex;
   width:100%;
-  height: 20px;
-  font-size: 14px;
+  height: min(1.389dvw,20px);
+  font-size: min(0.972dvw,14px);
   font-weight: 500;
   color: #374151;
 }
 .input_field input{
   display: flex;
   width: 100%;
-  height: 36px;
-  border: 1px solid #D1D5DB;
-  border-radius: 4px;
-  padding: 8px 12px;
-  box-shadow: 0px 1px 2px 0px #0000000D;
+  height: min(2.5dvw,36px);
+  border: min(0.069dvw,1px) solid #D1D5DB;
+  border-radius: min(0.278dvw,4px);
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
 }
 .set_default {
   display: flex;
   width: 100%;
-  height: 20px;
-  gap: 8px;
+  height: min(1.389dvw,20px);
+  gap: min(0.556dvw,8px);
 }
 .set_default input{
   accent-color: #26AC34;
@@ -1049,7 +1057,7 @@ onBeforeMount(async()=>{
   display: flex;
   width: 100%;
   height: 100%;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 500;
   color: #212121;
   cursor: pointer;
@@ -1058,29 +1066,29 @@ onBeforeMount(async()=>{
   display: flex;
   width: 100%;
   height: fit-content;
-  padding: 12px 24px;
-  gap: 8px;
+  padding: min(0.833dvw,12px) min(1.667dvw,24px);
+  gap: min(0.556dvw,8px);
   background-color: #FAFAFA;
   align-items: center;
   justify-content: end;
 }
 .create_address button{
   display: flex;
-  width: 80px;
-  height: 36px;
+  width: min(5.556dvw,80px);
+  height: min(2.5dvw,36px);
   border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  box-shadow: 0px 1px 2px 0px #0000000D;
+  border-radius: min(0.278dvw,4px);
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
   cursor: pointer;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
   font-weight: 500;
   justify-content: center;
   align-items: center;
 }
 .create_address .cancel{
   background-color: #fff;
-  border: 1px solid#E0E0E0;
+  border: min(0.069dvw,1px) solid#E0E0E0;
   color:#212121;
 }
 .create_address .submit{

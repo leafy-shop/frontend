@@ -12,10 +12,14 @@
 
 /* 
 1440px
-min(0.069dvw,1px)
-min(0.139dvw,2px)
+min(0.014dvw,0.2px);
+min(0.069dvw,1px) min(0.139dvw,2px)
+min(0.208dvw,3px)
 min(0.278dvw,4px);
-min(0.556dvw,8px);
+min(0.347dvw,5px);
+min(0.417dvw,6px);
+min(0.556dvw,8px) min(0.833dvw,12px);
+min(0.694dvw,10px);
 min(0.833dvw,12px);
 min(0.972dvw,14px);
 min(1.111dvw,16px);
@@ -26,13 +30,43 @@ min(1.944dvw,28px);
 min(2.222dvw,32px);
 min(2.5dvw,36px);
 min(2.778dvw,40px);
+min(3.056dvw,44px);
+min(3.333dvw,48px);
+min(3.472dvw,50px);
 min(3.611dvw,52px);
 min(3.889dvw,56px);
+min(4.167dvw,60px);
+min(4.444dvw,64px);
+min(5dvw,72px);
+min(5.278dvw,76px);
+min(5.556dvw,80px);
+min(5.833dvw,84px);
 min(6.944dvw,100px);
 min(7.5dvw,108px);
 min(8.889dvw,128px);
+min(9.167dvw,132px);
+min(9.722dvw,140px);
+min(10.278dvw,148px);
 min(11.111dvw,160px);
+min(13.333dvw,192px);
+min(15.833dvw,228px);
+min(16.111dvw,232px);
+min(17.361dvw,250px);
+min(17.778dvw,256px);
+min(20.833dvw,300px);
+min(21.667dvw,312px);
+min(22.222dvw,320px);
+min(24.444dvw,352px);
 min(25dvw,360px);
+min(25.556dvw,368px);
+min(31.111dvw,448px);
+min(37.222dvw,536px);
+min(37.5dvw,540px);
+min(37.778dvw,544px);
+min(54.167dvw,780px);
+min(61.944dvw,892px);
+min(64.444dvw,928px);
+min(77.778dvw,1120px);
 
 744px
 min(1.075dvw,8px);

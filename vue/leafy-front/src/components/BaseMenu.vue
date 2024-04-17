@@ -55,10 +55,11 @@ const checkCurrentURL = () => {
         for (let i = 0; i < link.length; i++) {
             //change text
             if (window.innerWidth > 744) {
-                link[i].setAttribute('style', 'color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA;')
+                // link[i].setAttribute('style', 'color:#26AC34;border-bottom: 2px solid #26AC34; padding-bottom: min(1.613dvw, 12px);background: #FAFAFA;')
+                link[i].setAttribute('style', 'color:#26AC34;border-bottom: 2px solid #26AC34; padding-bottom: min(1.613dvw, 12px);')
             } else {
-                link[i].setAttribute('style', 'color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA;')
-
+                link[i].setAttribute('style', 'color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA; border-radius: min(0.583dvw, 4px);')
+                // link[i].setAttribute('style', 'color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);')
             }
             changeIconColor(link[i])
         }
@@ -69,10 +70,11 @@ const checkCurrentURL = () => {
         for (let i = 0; i < link.length; i++) {
             //change text
             if (window.innerWidth > 744) {
-                link[i].setAttribute('style', 'color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA; border-radius: min(0.583dvw, 4px);')
+                // link[i].setAttribute('style', 'color:#26AC34;border-bottom: 2px solid #26AC34;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA; border-radius: min(0.583dvw, 4px);')
+                link[i].setAttribute('style', 'color:#26AC34;border-bottom: 2px solid #26AC34; padding-bottom: min(1.613dvw, 12px);')
             } else {
                 link[i].setAttribute('style', 'color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);background: #FAFAFA; border-radius: min(0.583dvw, 4px);')
-
+                // link[i].setAttribute('style', 'color:#26AC34;border-bottom: none;padding-bottom: min(1.613dvw, 12px);')
             }
 
             changeIconColor(link[i])
