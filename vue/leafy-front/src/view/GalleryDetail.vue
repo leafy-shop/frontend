@@ -2,6 +2,7 @@
 import {useRoute,useRouter} from 'vue-router'
 import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
+import BaseAlert from '../components/BaseAlert.vue';
 import {ref,onBeforeMount} from 'vue'
 import fetch from '../JS/api';
 // link
@@ -13,6 +14,11 @@ const goGalleryProfile=()=>myRouter.push({name:"GalleryProfile",params:{id:galle
 // common attribute
 const galleryDetail=ref({})
 const galleryContentId=ref('')
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // get all data
 const getGalleryDetail=async()=>{
@@ -20,7 +26,20 @@ const getGalleryDetail=async()=>{
     if(await status){
         console.log(data)
         galleryDetail.value = await data
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
+}
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
 }
 
 onBeforeMount(async()=>{
@@ -63,7 +82,7 @@ onBeforeMount(async()=>{
                 </h4>
                 <hr/>
                 <h6>
-                    APRIL 9, 2024
+                    {{galleryDetail.createdAt}}
                 </h6>
             </div>
             
@@ -73,8 +92,8 @@ onBeforeMount(async()=>{
                 <div @click="goGalleryProfile" class="container_creater">
                     <!-- img -->
                     <div class="creater_img">
-                        <img v-if="galleryDetail.icon!=undefined" :src="`${origin}/api/image/users/${galleryDetail.userId}`" alt="creater_img">
-                        <img v-else src="../assets/icon/unknow_user_icon.png" alt="creater_img">
+                        <img v-if="galleryDetail.icon!=undefined" :src="`${origin}/api/image/users/${galleryDetail.userId}`" alt="creater_img" draggable="false">
+                        <img v-else src="../assets/icon/unknow_user_icon.png" alt="creater_img" draggable="false" >
                     </div>
                     <!-- name -->
                     <div class="creater_name">
@@ -87,7 +106,7 @@ onBeforeMount(async()=>{
                 <div class="container_project">
                     <!-- img -->
                     <div class="project_img">
-                        <img v-if="galleryDetail.image!=undefined" :src="`${origin}/api/image/gallery/${galleryDetail.contentId}`" alt="gallery_detail_img">
+                        <img v-if="galleryDetail.image!=undefined" :src="`${origin}/api/image/gallery/${galleryDetail.contentId}`" alt="gallery_detail_img" draggable="false">
                     </div>
                     <!-- project detail -->
                     <div class="project_description">
@@ -109,6 +128,7 @@ onBeforeMount(async()=>{
                 </div> -->
             </div>
         </div>
+        <BaseAlert name="gallery_detail_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
     <BaseFooter/>
 </template>
