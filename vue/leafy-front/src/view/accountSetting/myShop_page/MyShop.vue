@@ -99,7 +99,6 @@ const deleteProduct=async(id)=>{
         await getProduct()
     }else
     if(await msg=='400'){// error
-
         isShowAlert.value=true
         alertType.value=2
         alertDetail.value='The product cannot be deleted because the product has already been purchased.'
