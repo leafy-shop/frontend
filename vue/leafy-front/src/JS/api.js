@@ -995,13 +995,16 @@ const fetch = {
             else {
                 // error 404
                 if (error.response.status == 400 || error.response.status == 401 || error.response.status == 403) {
+                    returnData.msg=error.response.status
+                    returnData.status = false
+                } else 
+                if(error.response.status == 404){
                     returnData.msg='404'
                     returnData.status = false
-                } else {
-                    // error
-                    console.log("another error")
+                }else{
+                    returnData.msg=error.response.status
+                    returnData.status = false
                 }
-                
                 return returnData
             }
         }
