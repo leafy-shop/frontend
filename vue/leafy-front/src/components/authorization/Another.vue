@@ -12,7 +12,7 @@ const goSignUp=()=>myRouter.push({name:'SignUp'})
 const goSignIn=()=>myRouter.push({name:'SignIn'})
 </script>
 <template>
-    <div class="wrapper_other_login">
+    <!-- <div class="wrapper_other_login">
         <h4>
             or
         </h4>
@@ -24,7 +24,7 @@ const goSignIn=()=>myRouter.push({name:'SignIn'})
                 <img src="../../assets/icon/facebook_color.png" alt="facebook">
             </button>
         </div>
-    </div>
+    </div> -->
     <div v-if="ShowSignUp" class="account_operation">
         <div>
             <h4>
