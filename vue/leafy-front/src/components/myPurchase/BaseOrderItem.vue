@@ -255,14 +255,12 @@ const getReview=async()=>{
 // make review 
 const makeReviewProduct=async(product)=>{ //click to write
     let isEdit = await getReview()// get review first for change mode
-    if(isEdit==true){ //have data review
-        let[oldReview]=reviewList.value.map(review=>{//loop for get old review
-            if(Number(review.itemId)===Number(product.itemId)){
-                return review
-            }
-        })
+    if(isEdit){ //have data review
+        //loop for get old review
+        let[oldReview]=reviewList.value.filter(review=>Number(review.itemId)===Number(product.itemId))
         console.log(oldReview)
-        if(oldReview!=undefined){
+        console.log(product)
+        if(oldReview!=undefined&&oldReview.itemId==product.itemId){
             console.log(oldReview)
             isShowReviewService.value=false
             // assign data
@@ -279,8 +277,7 @@ const makeReviewProduct=async(product)=>{ //click to write
             productDetail.value=product
             isUpdateReview.value=true
         }
-    }else
-    if(isEdit==false){//create new review
+    }else{//create new review
         // console.log('let create new data')
         isShowReviewService.value=true
         // assign data
