@@ -263,7 +263,7 @@ const getShowAlertChange=(input)=>{
 onBeforeMount(async() => {
     // param
     
-    id.value=validation.decrypt(params.id)
+    id.value=params.id
     // cookie
     if(cookie.checkKeyPass()){
         let cookieData=cookie.decrypt()

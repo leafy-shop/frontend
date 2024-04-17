@@ -5,9 +5,11 @@ import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseGalleryCard from '../components/gallery/BaseGalleryCard.vue'
 import BaseGallerySort from '../components/gallery/BaseGallerySort.vue'
-import BaseMovePage from '../components/accountSetting/BaseMovePage.vue';
+// import BaseMovePage from '../components/accountSetting/BaseMovePage.vue';
 import fetch from '../JS/api';
 import BaseSelectPage from '../components/BaseSelectPage.vue';
+import BaseAlert from '../components/BaseAlert.vue';
+// import validation from '../JS/validation'
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
@@ -22,6 +24,12 @@ const allPage=ref(0)
 
 // filter
 const itemFilter=ref(undefined)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // get gallery content
 const getGallery=async()=>{
@@ -40,10 +48,15 @@ const getGallery=async()=>{
         }
     }
     let{status,data}= await fetch.getGallery(inputData)
-    if(status){
-        console.log(data)
-        galleryList.value=data.list
-        allPage.value=data.allPage
+    if(await status){
+        console.log(await data)
+        galleryList.value=await data.list
+        allPage.value=await data.allPage
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -61,6 +74,13 @@ const changeCurrentPage=(input)=>{
     getGallery()
 }
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(async()=>{
     await getGallery()
@@ -85,11 +105,12 @@ onBeforeMount(async()=>{
             <div class="gallery_list">
                 <div v-if="galleryList!=undefined" v-for="(gallery,index) of galleryList" :key="index" class="wrapper_gallery_item">
                     <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" :name="`gallery_list_${index}`" :projectId="String(gallery.contentId)" :projectImg="gallery.image" :projectName="gallery.name"
-                     :createrImg="gallery.icon" :creater-id="gallery.userId" :createrName="gallery.contentOwner" :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
+                     :createrImg="gallery.icon" :creater-id="String(gallery.userId)" :createrName="gallery.contentOwner"   :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
                 </div>
             </div>
             <BaseSelectPage name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
         </div>
+        <BaseAlert name="gallery_list_all_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
     <BaseFooter/>
 </template>

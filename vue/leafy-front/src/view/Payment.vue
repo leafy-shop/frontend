@@ -11,6 +11,7 @@ import BaseOrderItem from '../components/myPurchase/BaseOrderItem.vue';
 import BaseSummary from '../components/cartList/BaseSummary.vue';
 import BaseBankItem from '../components/bank/BaseBankItem.vue';
 import BaseShowErrorInput from '../components/accountSetting/BaseShowErrorInput.vue';
+import BaseAlert from '../components/BaseAlert.vue';
 // link
 const myRoute=useRouter()
 const {params}=useRoute()
@@ -70,6 +71,12 @@ const addressDistrictM=ref('')
 const addressSubDistrictM=ref('')
 const addressZipM=ref('')
 
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+
 // mode controller
 const inputController=(show)=>{
   if(show){ //add mode
@@ -125,18 +132,23 @@ const convertCartList=computed(()=>{
 // list all address
 const getAddress=async()=>{
   let {status,data}=await fetch.getAllAddress(userName.value)
-  if(status){
+  if(await status){
     // console.log(data)
-    for(let x of data){
+    for(let x of await data){
       if(x.isDefault){
         addressDefault.value=x
-        data.splice(data.indexOf(x),1) //remove default
+        await data.splice(await data.indexOf(x),1) //remove default
       }
     }
-    addressList.value=data
-    console.log(data)
+    addressList.value=await data
+    console.log(await data)
     // assign address default to addressSelected
     addressSelected.value=addressDefault.value
+  }else{
+    isShowAlert.value=true
+    alertType.value=1
+    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+    alertTime.value=10
   }
 }
 
@@ -192,7 +204,7 @@ const createAddress=async()=>{
 
   if(submitStatus){
     let{status,msg,data}=await fetch.addAddress(userName.value,addressFormData.value)
-    if(status){
+    if(await status){
       if(addressSetDefault.value){ //if set default data
         let res=await fetch.updateAddressById(userName.value,data,{isDefault: true})
         if(res.status){
@@ -206,6 +218,11 @@ const createAddress=async()=>{
       await getAddress()
       inputClear()
       inputController(false)
+    }else{
+      isShowAlert.value=true
+      alertType.value=1
+      alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+      alertTime.value=10
     }
   }
 }
@@ -258,10 +275,23 @@ const orderSubmit=async()=>{
     // fetch
     let {status,msg}=await fetch.BuyNow(inputData)
     if(status){
-      console.log('buy many of the product successful')
-      goShop()
+      isShowAlert.value=true
+      alertType.value=0
+      alertDetail.value="Your purchase was successful!"
+      alertTime.value=2
+      // goShop()
+      setTimeout(()=>goShop(),3*1000)
+    }else
+    if(msg=='400'){
+      isShowAlert.value=true
+      alertType.value=2
+      alertDetail.value="It seems you'll need to add your address first."
+      alertTime.value=5
     }else{
-      console.log('can not buy many of the product')
+      isShowAlert.value=true
+      alertType.value=1
+      alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+      alertTime.value=10
     }
   }else{ //data from product detail
     let [order]=convertCartList.value
@@ -276,16 +306,36 @@ const orderSubmit=async()=>{
     
     // fetch
     let {status,msg} =await fetch.BuyNowWithoutCart(inputData);
-    if(status){
-      console.log('buy 1 product successful')
-      goShop()
+    if(await status){
+      
+      isShowAlert.value=true
+      alertType.value=0
+      alertDetail.value="Your purchase was successful!"
+      alertTime.value=2
+      // goShop()
+      setTimeout(()=>goShop(),3*1000)
+    }else
+    if(await msg=='400'){
+      isShowAlert.value=true
+      alertType.value=2
+      alertDetail.value="It seems you'll need to add your address first."
+      alertTime.value=5
     }else{
-      console.log('can not buy 1 product')
+      isShowAlert.value=true
+      alertType.value=1
+      alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+      alertTime.value=10
     }
   }  
 }
 
-
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(async()=>{
     // cookie
@@ -324,11 +374,16 @@ onBeforeMount(async()=>{
                     </h5>
                   </div>
                   <!-- address -->
-                  <BaseBankItemList name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false"  />
+                  <BaseBankItemList v-show="Object.keys(addressSelected).length!=0" name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false"  />
                 </div>
                 <!-- <div class="change_btn"> -->
                   <button @click="showOverlay=!showOverlay" class="change_btn">
-                    change
+                    <span v-if="Object.keys(addressSelected).length!=0">
+                      Change
+                    </span>
+                    <span v-else>
+                      Add
+                    </span>
                   </button>
                 <!-- </div> -->
                 <!-- <div v-show="addressDefault!=undefined" class="address_item">
@@ -662,8 +717,9 @@ onBeforeMount(async()=>{
               </button>
             </div>
           </div>
-          
         </div>
+        <BaseAlert name="payment_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
+
     </div>
     <BaseFooter/>
 </template>

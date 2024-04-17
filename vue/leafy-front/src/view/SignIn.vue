@@ -6,7 +6,7 @@ import fetch from '../JS/api'
 import BaseMenu from '../components/BaseMenu.vue'
 import Basefooter from '../components/BaseFooter.vue'
 import validation from '../JS/validation'
-
+import BaseAlert from '../components/BaseAlert.vue'
 const myRouter =useRouter()
 const goBack=()=>myRouter.go(-1)
 
@@ -16,6 +16,12 @@ const password=ref('')
 // status for login
 const signInStatus=ref(undefined)
 const errorMsg=ref("")
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 //input password status 
 const passwordStatus=ref(undefined)
@@ -37,14 +43,20 @@ const login =async()=>{
     // console.log(passwordValidation(password.value))
     if(passwordValidation(password.value)){
         let {msg,status}=await fetch.login(email.value,password.value)
-        console.log(msg)
-        console.log(status)
+        // console.log(msg)
+        // console.log(status)
         
-        if(status){
+        if(await status){
             goBack()
+        }else
+        if(await msg=='401'||await msg=='404'||await msg=='403'){
+            signInStatus.value=await status
+            errorMsg.value= "Sorry, this account doesn't exist."
         }else{
-            signInStatus.value=status
-            errorMsg.value=msg
+            isShowAlert.value=true
+            alertType.value=1
+            alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+            alertTime.value=10
         }
     }
     
@@ -57,6 +69,13 @@ const showPassword=computed(()=>{
     return returnType
 })
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 </script>
 <template>
@@ -115,7 +134,7 @@ const showPassword=computed(()=>{
                 </button>
             </div> -->
         </div>
-        
+        <BaseAlert name="sign_in_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
 
     <Basefooter/>
