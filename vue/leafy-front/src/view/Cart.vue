@@ -7,6 +7,8 @@ import fetch from "../JS/api";
 import cookie from "../JS/cookie";
 import validation from '../JS/validation'
 import BaseSummary from "../components/cartList/BaseSummary.vue";
+import BaseAlert from "../components/BaseAlert.vue";
+import BaseConfirm from "../components/BaseConfirm.vue";
 //link
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
@@ -19,22 +21,37 @@ const count = ref(0);
 const qty = ref(0);
 const addressDefaultId=ref('')
 const userName=ref('')
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+// show confirm
+const showConfirm=ref(false)
 
 const getCarts = async () => {
   let cartList = await fetch.getCart();
-  let cartCount = await fetch.getCartCount();
-  carts.value = cartList.data;
-  carts.value.isAllSelected = false;
-  carts.value.carts = cartList.data.carts.map((cart) => {
-    cart.isGroupSelected = false;
-    cart.cartOwner = cart.cartOwner.map((cartDetail) => {
-      cartDetail.isSelected = false;
-      return cartDetail;
+  if(await cartList.status){
+    let cartCount = await fetch.getCartCount();
+    carts.value = cartList.data;
+    carts.value.isAllSelected = false;
+    carts.value.carts = cartList.data.carts.map((cart) => {
+      cart.isGroupSelected = false;
+      cart.cartOwner = cart.cartOwner.map((cartDetail) => {
+        cartDetail.isSelected = false;
+        return cartDetail;
+      });
+      return cart;
     });
-    return cart;
-  });
-  count.value = cartCount.data.count;
-  console.log(carts.value);
+    count.value = cartCount.data.count;
+    console.log(carts.value);
+  }else{//error
+    isShowAlert.value=true
+    alertType.value=1
+    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+    alertTime.value=10
+  }
+  
 };
 
 const makeGroupSelection = (owner) => {
@@ -123,8 +140,8 @@ const countCheckOut = computed(() => {
 // get address
 const getAddress=async()=>{
   let {status,data}=await fetch.getAllAddress(userName.value)
-  if(status){
-    data.map(x=>{ //assign default address
+  if(await status){
+    await data.map(x=>{ //assign default address
       if(x.isDefault){
         addressDefaultId.value=x.addressId
       }
@@ -214,25 +231,28 @@ const checkOrder = async() => {
                 
               }
         }
-      }else{
-        // out of stock error
-        console.log("out of stock")
       }
+      // // else{
+      //   // out of stock error
+      //   console.log("out of stock")
+      // }
     })
   );
+
     let inputData={
       isBuyNow:false,
       dataList:selectedCart
     }
     console.log(selectedCart)
-    // console.log(carts.value)
-  // console.log(selectedCart,'cart value')
-  // console.log(JSON.stringify(selectedCart).toString() );
-  if(selectedCart.length!=0){
-    goPayment(JSON.stringify(inputData).toString())
-  }else{
-    // alert something
-  }
+
+    if(selectedCart.length!=0){//have selected product
+      goPayment(JSON.stringify(inputData).toString())
+    }else{//alert for no product selected
+      isShowAlert.value=true
+      alertType.value=2
+      alertDetail.value="Please make sure to select the products you want"
+      alertTime.value=5
+    }
   // fetch
   // let cartData={
   //   carts : selectedCart,
@@ -247,24 +267,108 @@ const checkOrder = async() => {
   // }
 };
 
-// clear state ment
 
-// confirmation delete
+// attribute reduce/delete product from order 
+const cartIdDetail=ref(undefined)
+const cartQtyDetail=ref(undefined)//use for change type and use for change data
+// confirm function
+const confirmFunction=async(qtyValue)=>{
+
+    if(qtyValue!=undefined){//qty have data(do reduce)
+      await updateCartQTY(cartIdDetail.value,cartQtyDetail.value-1)
+      clearAllValue()
+    }else{ //not have qty value(do delete)
+      await deleteProductFromCart(cartIdDetail.value)
+      clearAllValue()
+    }
+
+}
+// cancel confirm
+const clearAllValue=()=>{
+  showConfirm.value=false
+  cartIdDetail.value=undefined
+  cartQtyDetail.value=undefined
+}
+
+// for assign cart id & qty
 const reduceQty = async (cartId, qty) => {
-  await fetch.getUpdateCart(cartId, { qty: qty - 1 });
-  await getCarts();
+  cartIdDetail.value=cartId
+  cartQtyDetail.value=qty
+  if(qty==1){
+    showConfirm.value=true
+  }else{
+    await updateCartQTY(cartIdDetail.value,cartQtyDetail.value-1)
+  }
+  // await updateCartQTY(cartIdDetail.value,cartQtyDetail.value-1)
+  
+};
+// for assign cart id
+const deleteCart = async(cartId) => {
+  cartIdDetail.value=cartId
+  showConfirm.value=true
+  // deleteProductFromCart()
 };
 
+// update qty
+const updateCartQTY=async(cartId,qty)=>{
+  let{status,msg}=await fetch.getUpdateCart(cartId, { qty: qty });
+  if(await status){
+    await getCarts();
+  }else
+  if(await msg=='400'){
+    isShowAlert.value=true
+    alertType.value=2
+    alertDetail.value="Sorry, we can't decrease the quantity if the item is out of stock."
+    alertTime.value=3
+  }else{
+    isShowAlert.value=true
+    alertType.value=1
+    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+    alertTime.value=10
+  }
+}
+const deleteProductFromCart=async(cartId)=>{
+  let{status,msg}=await fetch.deleteCart(cartId);
+  if(await status){
+    cartIdDetail.value=undefined;
+    cartQtyDetail.value=undefined
+    await getCarts();
+  }else{
+    isShowAlert.value=true
+    alertType.value=1
+    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+    alertTime.value=10
+  }
+}
+//add addqty
 const addQty = async (cartId, qty) => {
   // console.log(qty)
-  await fetch.getUpdateCart(cartId, { qty: qty + 1 });
-  await getCarts();
+  let{status,msg}=await fetch.getUpdateCart(cartId, { qty: qty + 1 });
+  if(await status){
+    await getCarts();
+  }else
+  if(await msg=='400'){
+    isShowAlert.value=true
+    alertType.value=2
+    alertDetail.value="Sorry, we can't increase the quantity if the item is out of stock."
+    alertTime.value=3
+  }else{
+    isShowAlert.value=true
+    alertType.value=1
+    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+    alertTime.value=10
+  }
 };
 
-const deleteCart = async (cartId) => {
-  await fetch.deleteCart(cartId);
-  await getCarts();
-};
+
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(async() => {
   userName.value=cookie.decrypt().username
@@ -384,6 +488,7 @@ onBeforeMount(async() => {
                     type="checkbox"
                     name=""
                     id=""
+                    :disabled="detail.stock==0"
                     v-model="detail.isSelected"
                   />
                 </div>
@@ -462,7 +567,7 @@ onBeforeMount(async() => {
         </div>
       </div>
 
-      <BaseSummary name="summary_cart" :total="Number(carts.total)" :shipping="carts.shipping" 
+      <BaseSummary  name="summary_cart" :total="Number(carts.total)" :shipping="carts.shipping" 
       :tax="carts.tax" :summary-total="Number(carts.total) +Number(carts.shipping) + Number(carts.tax)" 
       :count-check-out="countCheckOut" @submit="checkOrder" />
       <!-- summary
@@ -506,7 +611,10 @@ onBeforeMount(async() => {
         <button @click="checkOrder">Check Out ({{ countCheckOut }})</button>
       </div> -->
     </div>
+    <BaseAlert name="cart_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
   </div>
+  <BaseConfirm name="cart_list_confirm" header-confirm="Do you want to remove this item?" submit-title="Delete" :show-confirm="showConfirm" @submit="confirmFunction(cartQtyDetail)" @cancel="clearAllValue()" />
+
   <BaseFooter />
 </template>
 <style scoped>
