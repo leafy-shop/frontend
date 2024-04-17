@@ -1379,7 +1379,8 @@ const fetch = {
                 return returnData
             }
             else {
-
+                returnData.status = false
+                return returnData
             }
         }
     },
@@ -1610,8 +1611,11 @@ const fetch = {
                 returnData.status = false
                 return returnData
             }
-            else {
-
+            else 
+            if(error.response.status == 400){
+                returnData.msg='400'
+                returnData.status = false
+                return returnData
             }
         }
     },
@@ -1830,12 +1834,13 @@ const fetch = {
                 }
                 else
                     // error 404
-                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
-                        returnData.msg = error.response.data.error
+                    if (error.response.status == 400 ) {
+                        returnData.msg = '400'
                         returnData.status = false
                     } else {
                         // error
-                        console.log("another error")
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
                     }
                 return returnData
             }
@@ -1873,12 +1878,13 @@ const fetch = {
                 }
                 else
                     // error 404
-                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
+                    if (error.response.status == 400 ) {
+                        returnData.msg = '400'
+                        returnData.status = false
+                    } else 
+                    if(error.response.status == 404 || error.response.status == 403){
                         returnData.msg = error.response.data.error
                         returnData.status = false
-                    } else {
-                        // error
-                        console.log("another error")
                     }
                 return returnData
             }
@@ -1916,15 +1922,19 @@ const fetch = {
                 }
                 else
                     // error 404
-                    if (error.response.status == 404 || error.response.status == 403) {
-                        returnData.msg = error.response.data.error
+                    if (error.response.status == 404 ) {
+                        returnData.msg = '404'
                         returnData.status = false
                     }else 
                     if(error.response.status == 401 ){
                         returnData.msg = '401'
                         returnData.status = false
                         // error
-                        console.log("another error")
+                        // console.log("another error")
+                    }else
+                    if(error.response.status == 403){
+                        returnData.msg = '403'
+                        returnData.status = false
                     }
                 return returnData
             }
@@ -2050,19 +2060,25 @@ const fetch = {
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
                 return returnData
-            }
-            else if (error.response.status == 400 || error.response.status == 403) {
-                returnData.msg = error.response.data.error
+            }else
+            if (error.response.status == 400 ) {
+                returnData.msg = '400'
                 returnData.status = false
                 return returnData
 
-            } else {
-                // unknown error
-                console.log("another error")
-                returnData.msg = "another error"
+            } else
+            if(error.response.status == 403){
+                returnData.msg = '403'
                 returnData.status = false
                 return returnData
             }
+            // else {
+            //     // unknown error
+            //     console.log("another error")
+            //     returnData.msg = "another error"
+            //     returnData.status = false
+            //     return returnData
+            // }
 
         }
 
