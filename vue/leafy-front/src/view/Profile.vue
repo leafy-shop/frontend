@@ -13,6 +13,7 @@ import cookie from '../JS/cookie';
 import pMode from '../JS/enum/profileMode'
 import sortTypeArr from '../JS/enum/product'
 import BaseStar from '../components/productDetail/BaseStar.vue'
+import BaseAlert from '../components/BaseAlert.vue';
 
 // link
 const myRouter=useRouter()
@@ -55,7 +56,11 @@ const sort = ref(undefined)
 // img
 const userImgS=ref(false)
 const coverImageS=ref(false)
-
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 
 const changeMode=()=>{
@@ -93,11 +98,15 @@ const changeMode=()=>{
 // delete product
 const deleteProduct=async(itemId)=>{
     let{status,msg} =await fetch.deleteProductById(itemId)
-    if(status){
+    if(await status){
         console.log('delete product successful')
         await getProduct(currentPage.value)
     }else{
-        console.log('cannot delete product by id')
+        // console.log('cannot delete product by id')
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
 }
 
@@ -169,16 +178,22 @@ const getProduct = async (page) => {
     }
 
     let { status, data } = await fetch.getAllProduct(productInput)
-    // console.log(data.list)
-    // productList.value=data
-    console.log(data,"sdjflasdlfjasdfjlasfd")
-    productList.value = data.list
-    outStockList.value = data.outStock
-    allItems.value = data.allItems
-    totalPage.value = data.allPage
+    if(await status){
+        // console.log(data.list)
+        // productList.value=data
+        // console.log(data,"sdjflasdlfjasdfjlasfd")
+        productList.value = await data.list
+        outStockList.value = await data.outStock
+        allItems.value = await data.allItems
+        totalPage.value = await data.allPage
 
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
+    }
     
-    validation.navigationTo()
 }
 
 // if change page input must be a number only
@@ -237,6 +252,14 @@ const moveRight = async (current) => {
     // validation.navigationTo(top)
 }
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
+
 onBeforeMount(async() => {
     // param
     
@@ -261,7 +284,7 @@ onMounted(() => {
     
     validation.navigationTo()
     console.log('alsdjflasdf',id.value)
-    
+    validation.navigationTo()
     // pageHidden(currentPage.value, totalPage.value)
 })
 onUpdated(() => {
@@ -526,7 +549,7 @@ onUpdated(() => {
             <!-- select page -->
             <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
                     @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
-
+            
         </div>
         <!-- <div class="container_product">
             <BaseFilterItem/>
@@ -535,6 +558,8 @@ onUpdated(() => {
                 <BaseProductList :product-list="productList"  :gridColumn="3"  />
             </div>
         </div> -->
+        <BaseAlert name="profile_shop_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
+
     </div>
     <BaseFooter />
 </template>
