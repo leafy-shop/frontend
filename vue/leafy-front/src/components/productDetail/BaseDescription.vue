@@ -68,8 +68,10 @@ onBeforeUpdate(()=>{
 .wrapper_description h5 {
     font-size: min(1.389dvw, 20px);
     line-height: 160%;
+    font-weight: 500;
+    color: #212121;
 }
-.description textarea{
+.description p{
     display: flex;
     width: 100%;
     height: fit-content;

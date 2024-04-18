@@ -534,9 +534,9 @@ onUpdated(() => {
         <div class="stocks">
           <h6>Quantity</h6>
           <div class="stocks_list">
-            <button @click="leftSubstract">-</button>
+            <button class="reduce" @click="leftSubstract">-</button>
             <input type="text" @input="detectNumber" v-model="stepInput" />
-            <button @click="rightAdd">+</button>
+            <button class="add" @click="rightAdd">+</button>
           </div>
           <p :style="[sizeObj.stock==0?'color:#F75555':'']">
             {{ sizeObj.stock }} pieces avaliable
@@ -572,7 +572,8 @@ onUpdated(() => {
 
 .images {
   display: flex;
-  width: min(27.5dvw, 396px);
+  /* width: min(27.5dvw, 396px); */
+  width: auto;
   height: min(30.833dvw, 444px);
   gap: min(0.833dvw, 12px);
 }
@@ -623,6 +624,7 @@ onUpdated(() => {
 .show_image {
   display: flex;
   width: min(21.111dvw, 304px);
+  /* width: 100%; */
   height: min(30.833dvw, 444px);
   position: relative;
   justify-content: center;
@@ -732,13 +734,14 @@ onUpdated(() => {
 .rating_item p {
   width: fit-content;
   height: inherit;
-  font-size: 14px;
+  font-size: min(0.972dvw,14px);
+  line-height: 144%;
   text-decoration: underline;
 }
 .price {
   display: flex;
   width: 100%;
-  height: 48px;
+  height: min(3.333dvw,48px);
   align-items: center;
 }
 .price h3 {
@@ -770,6 +773,11 @@ onUpdated(() => {
   overflow: hidden;
   border: none;
   cursor: pointer;
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
+}
+.grid_item:hover {
+  border: min(0.069dvw,1px) solid #26AC34;
+  filter: drop-shadow(0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1)) drop-shadow(0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06));
 }
 .product_img {
   display: flex;
@@ -796,14 +804,14 @@ onUpdated(() => {
 .stocks {
   display: flex;
   width: 100%;
-  height: 36px;
+  height: min(2.5dvw,36px);
   align-items: center;
   text-align: center;
   gap: min(0.556dvw, 8px);
 }
 .stocks h6 {
   display: flex;
-  width: 80px;
+  width: min(5.556dvw,80px);
   font-size: min(1.111dvw, 16px);
   color: #212121;
   font-weight: 400;
@@ -816,10 +824,10 @@ onUpdated(() => {
 .stocks_list {
   display: flex;
   width: fit-content;
-  height: 36px;
-  border-radius: 4px;
+  height: min(2.5dvw,36px);
+  border-radius: min(0.278dvw,4px);
   overflow: hidden;
-  border: 1px;
+  border: min(0.069dvw,1px);
   /* border-color: #E0E0E0; */
   /* border: 1px solid #E0E0E0; */
   align-items: center;
@@ -828,44 +836,70 @@ onUpdated(() => {
 
 .stocks_list input {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: fit-content;
-  min-width: 40px;
-  max-width: 100px;
-  height: inherit;
-  border: none;
-  text-align: center;
-  padding: 8px 12px;
+  min-width: min(2.778dvw,40px);
+  max-width: min(6.944dvw,100px);
+  height: min(2.5dvw,36px);
+  border: min(0.069dvw,1px) solid;
   background-color: #fff;
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
   outline: none;
+  box-shadow: 0px;
+  z-index: 5;
+  border-color: #e0e0e0;
+  text-align: center;
+  font-size: min(0.972dvw,14px);
+  line-height: 144%;
+  color: #212121;
+}
+.stocks_list input:hover{
+  background-color: #F5F5F5;
 }
 .stocks_list button {
-  width: 32px;
-  height: 36px;
-  height: min(2.5dvw, 36px);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px, 12px;
-  border: none;
-  background-color: #e0e0e0;
-  border-color: #e0e0e0;
+  display: flex;
+  width: min(2.222dvw,32px);
+  height: min(2.5dvw,36px);
+  padding: min(0.556dvw,8px) min(0.833dvw,12px);
+  justify-content: center;
+  align-items: center;
+  border: min(0.069dvw,1px) solid;
   cursor: pointer;
+  box-shadow: none;
+  background-color: #fff;
+  z-index: 4;
+  border-color: #e0e0e0;
 }
+.stocks_list button:hover{
+  background-color: #F5F5F5;
+}
+.stocks_list .reduce {
+  border-right: none;
+  border-radius: min(0.278dvw,4px) 0px 0px min(0.278dvw,4px);
+  font-size: min(0.972dvw,14px);
+  line-height: 144%;
+  color: #212121;
+}
+.stocks_list .add {
+  border-left: none;
+  border-radius: 0px min(0.278dvw,4px) min(0.278dvw,4px) 0px;
+  font-size: min(0.972dvw,14px);
+  line-height: 144%;
+  color: #212121;
+} 
 .sizes {
   display: flex;
   width: fit-content;
   max-width: 100%;
-  height: 36px;
-  gap: 8px;
+  height: min(2.5dvw,36px);
+  gap: min(0.556dvw,8px);
   justify-content: center;
   align-items: center;
 }
 .sizes h6 {
   display: flex;
-  width: 80px;
+  width: min(5.556dvw,80px);
   height: fit-content;
-  font-size: 16px;
+  font-size: min(1.111dvw,16px);
   font-weight: 400;
 }
 .sizes ul {
@@ -875,25 +909,40 @@ onUpdated(() => {
   height: fit-content;
   flex-wrap: wrap;
   list-style: none;
-  gap: 20px;
+  gap: min(1.389dvw,20px);
 }
 .sizes li {
   display: flex;
   width: fit-content;
   height: fit-content;
-  gap: 10px;
+  gap: min(0.694dvw,10px);
 }
 .sizes li button {
   display: flex;
   width: fit-content;
-  height: 28px;
-  border: 1px solid;
+  height: min(1.944dvw,28px);
+  border: min(0.069dvw,1px) solid;
   border-color: #e0e0e0;
-  border-radius: 4px;
-  padding: 4px 12px;
+  border-radius: min(0.278dvw,4px);
+  padding: min(0.278dvw,4px) min(0.833dvw,12px);
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-weight: 400;
+  font-size: min(0.972dvw,14px);
+  line-height: 144%;
+  letter-spacing: min(0.014dvw,0.2px);
+  background-color: #fff;
+  color: #212121;
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
+}
+.sizes li button:hover {
+  border-color: #26AC34;
+}
+.sizes li button:active {
+  background-color: #58d264;
+  color: #fff;
+  border-color: #58d264;
 }
 /* size active */
 .item_size_active{
@@ -917,16 +966,16 @@ onUpdated(() => {
   border: min(0.069dvw, 1px) solid;
   border-color: #26ac34;
   border-radius: min(0.278dvw, 4px);
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
 }
 .wrapper_apply_buy button:nth-child(1):hover {
-  background-color: #26ac34;
+  background-color: #EEFFF0;
   border-color: #26ac34;
-  color: #fff;
 }
 .wrapper_apply_buy button:nth-child(1):active {
   border-color: #58d264;
   background: #58d264;
+  color: #fff;
 }
 .wrapper_apply_buy button {
   /* width: min(15dvw, 216px); */
@@ -940,7 +989,7 @@ onUpdated(() => {
   border-radius: min(0.278dvw, 4px);
   cursor: pointer;
   font-size: min(1.111dvw, 16px);
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
   justify-content: center;
   align-items: center;
   cursor: pointer;

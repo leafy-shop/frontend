@@ -146,7 +146,7 @@ const getShowAlertChange=(input)=>{
 .signIn{
     width: auto;
     height: fit-content;
-    padding: min(6.944dvw,100px) 0px min(20.833dvw,300px) 0px;
+    padding: min(13.889dvw,200px) 0px;
     /* box-sizing: border-box; */
     background-color: #F5F5F5;
 }
@@ -293,13 +293,13 @@ const getShowAlertChange=(input)=>{
     border: none;
     cursor: pointer;
     padding: min(0.833dvw,12px);
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
 }
 .signIn_button:hover {
     /* border: min(0.069dvw, 1px) solid #26AC34;
     color: #26AC34; */
     background-color: #168A22;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
 }
 .signIn_button:active {
     background-color: #58d264;

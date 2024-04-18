@@ -399,7 +399,9 @@ onUpdated(() => {
 .wrapper_filter {
     display: flex;
     flex-direction: column;
-    width: min(17.778dvw, 256px);
+    max-width: min(17.778dvw, 256px);
+    /* max-width: ; */
+    /* width: 100%; */
     height: fit-content;
     padding: min(1.389dvw, 20px) 0px;
     gap: min(1.389dvw, 20px);
@@ -716,7 +718,7 @@ onUpdated(() => {
 
 @media (width<=744px) {
     .wrapper_filter {
-        width: min(20.43dvw, 152px);
+        /* width: min(20.43dvw, 152px); */
         padding: min(1.613dvw, 12px) 0px;
         gap: min(1.075dvw, 8px);
     }
@@ -773,7 +775,7 @@ onUpdated(() => {
     }
 
     .price_filter input {
-        width: min(9.14dvw, 68px);
+        /* width: min(9.14dvw, 68px); */
         height: min(3.226dvw, 24px);
         padding: min(0.538dvw, 4px) min(1.075dvw, 8px);
         font-size: min(1.613dvw, 12px);
@@ -860,7 +862,7 @@ onUpdated(() => {
     }
 
     .wrapper_apply_clear button {
-        width: min(20.43dvw, 152px);
+        /* width: min(20.43dvw, 152px); */
         height: min(4.839dvw, 36px);
         font-size: min(1.882dvw, 14px);
         border-radius: min(0.538dvw, 4px);

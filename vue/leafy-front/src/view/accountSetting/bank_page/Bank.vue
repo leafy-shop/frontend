@@ -311,8 +311,8 @@ onBeforeMount(async () => {
 .wrapper_all {
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     /* gap: 24px; */
 }
 
@@ -320,10 +320,10 @@ onBeforeMount(async () => {
     display: flex;
     position: relative;
     width: inherit;
-    min-width: 816px;
+    min-width: min(56.667dvw,816px);
     max-width: 100%;
     height: fit-content;
-    padding: 20px;
+    padding: min(1.389dvw,20px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -338,7 +338,7 @@ onBeforeMount(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .header_bank {
@@ -347,7 +347,7 @@ onBeforeMount(async () => {
     height: fit-content;
     justify-content: space-between;
     align-items: start;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
 }
 
 .header_bank div {
@@ -355,7 +355,7 @@ onBeforeMount(async () => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     align-items: start;
     justify-content: center;
 }
@@ -363,8 +363,8 @@ onBeforeMount(async () => {
 .header_bank div h4 {
     display: flex;
     width: inherit;
-    height: 28px;
-    font-size: 18px;
+    height: min(1.944dvw,28px);
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
@@ -373,9 +373,10 @@ onBeforeMount(async () => {
 .header_bank div p {
     display: flex;
     width: inherit;
-    height: 40px;
+    height: min(2.778dvw,40px);
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #757575;
     align-items: center
 }
@@ -383,16 +384,17 @@ onBeforeMount(async () => {
 .header_bank button {
     display: flex;
     width: fit-content;
-    height: 36px;
-    border-radius: 4px;
+    height: min(2.5dvw,36px);
+    border-radius: min(0.278dvw,4px);
     border: none;
-    padding: 8px 12px 8px 8px;
-    gap: 4px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px) min(0.556dvw,8px) min(0.556dvw,8px);
+    gap: min(0.278dvw,4px);
     background-color: #26AC34;
     color: #fff;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     align-items: center;
     justify-content: start;
     cursor: pointer;
@@ -400,9 +402,9 @@ onBeforeMount(async () => {
 }
 
 .header_bank button svg {
-    width: 10px;
-    height: 10px;
-    margin: 5px;
+    width: min(0.694dvw,10px);
+    height: min(0.694dvw,10px);
+    margin: min(0.347dvw,5px);
 }
 
 .container_bank {
@@ -419,7 +421,7 @@ onBeforeMount(async () => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 
 .bank_item {
@@ -429,17 +431,17 @@ onBeforeMount(async () => {
     height: fit-content;
     flex-direction: column;
     /* padding-top: 24px; */
-    border-top: 1px solid ;
+    border-top: min(0.069dvw,1px) solid ;
     border-color: #E0E0E0;
     justify-content: end;
-    padding-top: 12px;
-    gap: 4px;
+    padding-top: min(0.833dvw,12px);
+    gap: min(0.278dvw,4px);
 }
 
 .title {
     display: flex;
     width: inherit;
-    height: 24px;
+    height: min(1.667dvw,24px);
     justify-content: space-between;
     align-items: center;
 }
@@ -448,21 +450,21 @@ onBeforeMount(async () => {
     display: flex;
     width: fit-content;
     height: inherit;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     align-items: center;
 }
 
 .info h5 {
-    font-size: 16px;
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
     color: #212121;
-    padding-right: 8px;
-    border-right: 1px solid;
+    padding-right: min(0.556dvw,8px);
+    border-right: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
 }
 
 .info p {
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #616161;
 
@@ -470,17 +472,17 @@ onBeforeMount(async () => {
 
 .title .operation {
     display: flex;
-    width: 48px;
+    width: min(3.333dvw,48px);
     height: inherit;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
 }
 
 .operation button {
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     border: none;
     background-color: #fff;
     justify-content: center;
@@ -496,42 +498,45 @@ onBeforeMount(async () => {
 }
 .discription p {
     display: flex;
-    width: 540px;
+    width: min(37.5dvw,540px);
     height: fit-content;
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #616161;
 }
 .discription button{
     display: flex;
-    width: 103px;
-    height: 24px;
+    width: fit-content;
+    height: min(1.667dvw,24px);
     justify-content: center;
     align-items: center;
-    border: 1px solid;
-    padding: 4px 12px;
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.278dvw,4px) min(0.833dvw,12px);
     border-color: #E0E0E0;
     background-color: #fff;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    border-radius: 4px;
-    font-size: 12px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    font-size: min(0.833dvw,12px);
+    line-height: 136%;
     font-weight: 500;
     color: #212121;
     cursor: pointer;
 }
 .default_icon{
     display: flex;
-    width: 59px;
-    height: 20px;
-    padding: 4px 12px;
+    width: min(4.167dvw,60px);
+    height: min(1.389dvw,20px);
+    padding: min(0.278dvw,4px) min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
-    border: 1px solid;
-    border-radius: 4px;
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #26AC34;
     color: #26AC34;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    font-size: 10px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    font-size: min(0.694dvw,10px);
+    line-height: 120%;
     font-weight: 500;
 }
 
@@ -551,20 +556,20 @@ onBeforeMount(async () => {
 
 .confirm_delete {
     display: flex;
-    width: 448px;
-    height: 148px;
+    width: min(31.111dvw,448px);
+    height: min(10.278dvw,148px);
     flex-direction: column;
     background-color: #fff;
-    padding: 32px 40px;
-    border-radius: 8px;
-    gap: 24px;
+    padding: min(2.222dvw,32px) min(2.778dvw,40px);
+    border-radius: min(0.556dvw,8px);
+    gap: min(1.667dvw,24px);
 }
 
 .confirm_delete h5 {
     display: flex;
     width: 100%;
-    height: 24px;
-    font-size: 16px;
+    height: min(1.667dvw,24px);
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
     /* text-align: center; */
     justify-content: center;
@@ -575,25 +580,25 @@ onBeforeMount(async () => {
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
 }
 
 .confirm_delete div button {
     display: flex;
-    width: 80px;
-    height: 36px;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
-    padding: 8px 12px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 
 .confirm_delete div button:nth-child(1) {
-    border: 1px solid;
+    border: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;

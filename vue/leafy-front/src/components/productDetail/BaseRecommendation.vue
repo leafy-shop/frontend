@@ -75,9 +75,9 @@ onBeforeMount(()=>{
 .wrapper_recommend h5{
     display: flex;
     width: fit-content;
-    height: 36px;
+    height: min(2.5dvw,36px);
     font-weight: 500;
-    font-size: 24px;
+    font-size: min(1.667dvw,24px);
     color: #212121;
     align-items: center;
 }

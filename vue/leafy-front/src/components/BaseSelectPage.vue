@@ -163,7 +163,7 @@ onUpdated(()=>{
     border-radius: min(0.278dvw,4px);
     padding: min(0.556dvw,8px) min(1.111dvw,16px);
     cursor: pointer;
-    box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+    box-shadow: 0px min(0.278dvw,4px) min(2.778dvw,40px) 0px rgba(4, 6, 15, 0.08);
     font-size: min(0.972dvw,14px);
     letter-spacing: min(0.014dvw,0.2px); 
 }
@@ -218,7 +218,7 @@ onUpdated(()=>{
     .link_page_container ul li button{
         border-radius: min(0.538dvw,4px);
         padding: min(0.538dvw,4px) min(1.613dvw,12px);
-        box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+        box-shadow: 0px min(0.538dvw,4px) min(5.376dvw,40px) 0px rgba(4, 6, 15, 0.08);
         font-size: min(1.613dvw,12px);
         letter-spacing: min(0.027dvw,0.2px); 
     }

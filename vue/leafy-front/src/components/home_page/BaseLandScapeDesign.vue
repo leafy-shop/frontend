@@ -86,31 +86,35 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
 .container_content{
     display: grid;
     text-align: center;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: min(2.222dvw, 32px);
     justify-content: center;
     /* overflow: hidden; */
     /* margin-top: min(1.389dvw, 20px); */
     /* height: min(49.444dvw, 712px); */
     height: fit-content;
-    width: min(77.778dvw, 1120px);
+    /* width: min(77.778dvw, 1120px); */
+    width: 100%;
     flex-direction: row;
     align-items: center;
 }
 .content_item {
     display: flex;
-    /* width: min(24.444dvw, 352px);
-    height: min(23.611dvw, 340px);  */
+    /* width: min(24.444dvw, 352px); */
+    width: auto;
+    /* height: min(23.611dvw, 340px);  */
+    /* width: 100%; */
     flex-direction: column;
     justify-content: center;
     /* overflow: hidden; */
-    width: fit-content;
+    /* width: fit-content; */
     height: fit-content;
     cursor: pointer;
     gap: min(0.833dvw, 12px);
 }
 .content_item img{
-    width: min(24.444dvw, 352px);
+    /* width: min(24.444dvw, 352px); */
+    width: 100%;
     height: min(20.833dvw, 330px);
     border-radius: min(0.556dvw, 8px);
     /* background-color: gray; */

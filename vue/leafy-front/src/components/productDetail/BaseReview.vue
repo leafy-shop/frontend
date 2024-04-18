@@ -262,7 +262,6 @@ onUpdated(() => {
     /* background-color: #fff;
     border-radius: min(0.556dvw, 8px); */
 }
-
 .container_header {
     display: flex;
     width: 100%;
@@ -277,11 +276,14 @@ onUpdated(() => {
     height: inherit;
     justify-content: center;
     gap: min(0.833dvw, 12px);
+    align-items: center;
 }
 
 .container_rating h5 {
     font-size: min(1.389dvw, 20px);
     font-weight: 500;
+    line-height: 160%;
+    color: #212121;
 }
 
 .rating_score {
@@ -354,6 +356,7 @@ onUpdated(() => {
     font-size: min(1.111dvw, 16px);
     font-weight: 500;
     color: #9E9E9E;
+    
 }
 
 .filter_title div {
@@ -363,13 +366,21 @@ onUpdated(() => {
     justify-content: center;
     align-items: center;
 }
+/* .selected option h5 {
+    font-weight: 500;
+    font-size: min(1.111dvw,16px);
+    line-height: 150%;
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #212121;
+    background-color: aqua;
+} */
 
 /*style the items (options), including the selected item:*/
 .select-items div,
 .select-selected {
     color: #ffffff;
-    padding: 8px 16px;
-    border: 1px solid transparent;
+    padding: min(0.556dvw,8px) min(1.111dvw,16px);
+    border: min(0.069dvw,1px) solid transparent;
     border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
     cursor: pointer;
     user-select: none;
@@ -433,14 +444,14 @@ onUpdated(() => {
 .review_info {
     display: flex;
     width: inherit;
-    height: min(6.452dvw, 48px);
+    height: min(3.333dvw,48px);
     gap: min(0.556dvw, 8px);
 }
 
 .user_img {
     display: flex;
-    width: min(6.452dvw, 48px);
-    height: min(6.452dvw, 48px);
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     justify-content: center;
     align-items: center;
     border: none;
@@ -465,8 +476,8 @@ onUpdated(() => {
 
 .user_info h6 {
     width: fit-content;
-    height: min(2.151dvw, 16px);
-    font-size: min(1.613dvw, 12px);
+    height: min(1.111dvw,16px);
+    font-size: min(0.833dvw,12px);
     font-weight: 400;
 }
 
@@ -552,7 +563,7 @@ onUpdated(() => {
     color: #9E9E9E;
 }
 
-@media (width <=744px) {
+/* @media (width <=744px) {
     .wrapper_Review {
         gap: min(1.613dvw, 12px);
     }
@@ -666,16 +677,6 @@ onUpdated(() => {
         font-size: min(1.613dvw, 12px);
     }
 
-    /* .style_list{
-        height: min(5.556dvw,80px);
-        gap: min(1.075dvw, 8px);
-    }
-    .style_list div{
-        width: min(5.556dvw,80px);
-        height: min(5.556dvw,80px);
-        border-radius: min(0.278dvw, 4px);
-    } */
-
     .style_type {
         height: min(1.613dvw, 12px);
     }
@@ -697,9 +698,9 @@ onUpdated(() => {
         font-size: min(1.344dvw, 10px);
 
     }
-}
+} */
 
-@media (width<=376px) {
+/* @media (width<=376px) { */
     /* .wrapper_Review {
         gap: min(1.613dvw, 12px);
     }
@@ -813,5 +814,5 @@ onUpdated(() => {
         font-size: min(1.344dvw, 10px);
 
     }  */
-}
+/* } */
 </style>

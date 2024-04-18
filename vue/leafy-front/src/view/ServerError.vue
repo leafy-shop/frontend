@@ -6,10 +6,8 @@ const goHome=()=>myRouter.push({name:'Home'})
 <template>
        <div class="wrapper_server_error">
         <div class="server_error">
-            <div>
+            <div class="text_detail">
                 <img src="../assets/500.png" alt="500_img">
-            </div>
-            <div>
                 <h5>
                     Oops!
                 </h5>
@@ -18,12 +16,11 @@ const goHome=()=>myRouter.push({name:'Home'})
                 </p>
             </div>
             <div>
-                <button @click="goHome">
+                <button @click="goHome" class="btn_home">
                     Go Home
                 </button>
             </div>
         </div>
-
     </div>
 </template>
 <style scoped>
@@ -45,18 +42,55 @@ const goHome=()=>myRouter.push({name:'Home'})
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: min(2.778dvw,40px);
 }
-.server_error div:nth-child(1) {
-    width: inherit;
-    height: auto;
-}
-.server_error div:nth-child(1) img{
-    width: inherit;
-    height: auto;
-}
-.server_error div:nth-child(2){
+.text_detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: inherit;
     height: fit-content;
-    text-align: center;
+}
+.text_detail img {
+    width: inherit;
+    height: fit-content;
+}
+.text_detail h5 {
+    font-weight: 700;
+    font-size: min(3.333dvw,48px);
+    line-height: 150%;
+    color: #212121;
+}
+.text_detail p {
+    font-weight: 500;
+    font-size: min(1.25dvw,18px);
+    line-height: 156%;
+    color: #212121;
+}
+.btn_home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    width: fit-content;
+    height: min(2.778dvw,40px);
+    background: #26AC34;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.05);
+    border-radius: min(0.278dvw,4px);
+    font-weight: 500;
+    font-size: min(1.111dvw,16px);
+    line-height: 150%;
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+.btn_home:hover {
+    background-color: #168A22;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+.btn_home:active {
+    background-color: #58d264;
 }
 </style>

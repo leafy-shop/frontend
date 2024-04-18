@@ -583,7 +583,6 @@ onUpdated(() => {
     background-color: #F5F5F5;
     justify-content: start;
     align-items: center;
-
 }
 
 .container_user_info {
@@ -614,46 +613,56 @@ onUpdated(() => {
     display: flex;
     position: absolute;
     flex-direction: column;
-    width: auto;
+    width: 100dvw;
     height: fit-content;
     justify-content: center;
     align-items: center;
     bottom: 0;
-    left: 50%;
-    right: 50%;
+    /* left: 50%;
+    right: 50%; */
     z-index: 1;
 }
 
 .user {
     display: flex;
     position: relative;
-    width: fit-content;
+    /* width: fit-content; */
+    width: 100%;
     height: min(8.889dvw, 128px);
     /* position: absolute; 
     bottom: -50px;*/
     justify-content: center;
-    align-items: center;
+    align-items: end;
     gap: min(1.389dvw, 20px);
     bottom: 0;
+    padding: 0px min(11.111dvw,160px);
 }
 
 .user_img {
-    width: min(8.889dvw, 128px);
-    height: min(8.889dvw, 128px);
+    width: min(8.889dvw,128px);
+    /* height: min(8.889dvw, 128px); */
+    height: auto;
     border-radius: 50%;
     border: min(0.278dvw, 4px) solid #FFF;
     overflow: hidden;
     background-color: #FAFAFA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .user_img img {
     width: 100%;
     height: auto;
+    /* width: min(8.889dvw,128px);
+    height: min(8.889dvw,128px); */
 }
 
 .user_info {
     display: flex;
-    width: min(67.5dvw, 972px);
+    /* min-width: min(67.5dvw, 972px);
+    max-width: 100%; */
+    width: 100%;
     height: 100%;
     justify-content: space-between;
     align-items: end;
@@ -699,16 +708,16 @@ onUpdated(() => {
 /* myself */
 .user_info .new_product_btn{
     white-space: nowrap;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     color: #fff;
     background-color: #26AC34 ;
 }
 .user_info .new_product_btn svg{
-    width: 12px;
+    width: min(0.833dvw,12px);
     height: auto;
 }
 .user_info .new_product_btn span{
-    font-size: 16px;
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
 }
 .follow_btn:hover,
@@ -733,17 +742,19 @@ onUpdated(() => {
 }
 .wrapper_details {
     display: flex;
-    width: auto;
+    width: 100%;
     flex-direction: column;
     height: fit-content;
     justify-content: center;
     align-items: center;
+    padding: 0px min(11.111dvw,160px);
 }
 
 .container_details {
     display: flex;
     flex-direction: column;
-    width: min(77.778dvw, 1120px);
+    /* width: min(77.778dvw, 1120px); */
+    width: 100%;
     height: fit-content;
     gap: min(1.389dvw, 20px);
     justify-content: center;
@@ -770,12 +781,17 @@ onUpdated(() => {
 
 .suplier_details {
     display: flex;
-    width: inherit;
+    /* width: inherit; */
+    width: 100%;
     height: fit-content;
     background-color: white;
     padding: min(1.389dvw, 20px);
     gap: min(4.167dvw, 60px);
     border-radius: min(0.556dvw, 8px);
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .suplier_details div {
@@ -783,17 +799,18 @@ onUpdated(() => {
     flex-direction: column;
     justify-content: space-between;
     gap: min(0.833dvw, 12px);
-
 }
 
 .suplier_details div div {
     display: flex;
-    width: min(22.222dvw, 320px);
+    min-width: min(22.222dvw, 320px);
+    /* width: 100%; */
     height: min(1.389dvw, 20px);
     flex-direction: row;
     gap: min(0.833dvw, 12px);
     text-align: center;
     align-items: center;
+    justify-content: space-between;
 }
 
 .suplier_details div>div:nth-child(3) {
@@ -812,16 +829,19 @@ onUpdated(() => {
 
 .container_product {
     display: flex;
-    width: min(77.778dvw, 1120px);
+    /* width: min(77.778dvw, 1120px); */
+    width: 100%;
     height: fit-content;
     justify-content: center;
     padding-bottom: min(1.389dvw, 20px);
     gap: min(2.222dvw, 32px);
+    padding: 0px min(11.111dvw,160px);
 }
 
 .wrapper_product {
     display: flex;
-    width: min(57.778dvw, 832px);
+    /* width: min(57.778dvw, 832px); */
+    width: 100%;
     flex-direction: column;
     gap: min(2.778dvw, 40px);
 }
@@ -830,6 +850,7 @@ onUpdated(() => {
     display: flex;
     flex-direction: column;
     gap: min(2.222dvw, 32px);
+    width: 100%;
 }
 
 
@@ -871,7 +892,7 @@ onUpdated(() => {
     border-radius: min(0.278dvw, 4px);
     padding: min(0.556dvw, 8px) min(1.111dvw, 16px);
     cursor: pointer;
-    box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+    box-shadow: 0px min(0.278dvw,4px) min(2.778dvw,40px) 0px rgba(4, 6, 15, 0.08);
     font-size: min(0.972dvw, 14px);
     letter-spacing: min(0.014dvw, 0.2px);
 }
@@ -896,12 +917,14 @@ onUpdated(() => {
 /* me not other user*/
 .container_product_me{
     display: flex;
-    width: min(77.778dvw, 1120px);
+    /* width: min(77.778dvw, 1120px); */
+    width: 100%;
     height: fit-content;
     justify-content: center;
     padding-bottom: min(1.389dvw, 20px);
     gap: min(2.222dvw, 32px);
     flex-direction: column;
+    padding: 0px min(11.111dvw,160px);
 }
 .product_list_me{
     display: flex;
@@ -910,7 +933,7 @@ onUpdated(() => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .product_item_me{
     display: flex;
@@ -918,15 +941,15 @@ onUpdated(() => {
     height: fit-content;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
+    border-radius: min(0.556dvw,8px);
     overflow: hidden;
     background-color: #fff;
 }
 /* img */
 .product_item_me .img_me{
     display: flex;
-    width: 192px;
-    height: 192px;
+    width: min(13.333dvw,192px);
+    height: min(13.333dvw,192px);
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -938,20 +961,16 @@ onUpdated(() => {
 }
 .product_item_me .detail_me{
     display: flex;
-    width: 928px;
+    /* width: min(64.444dvw,928px); */
+    width: 100%;
     max-width: 100%;
-    height: 192px;
+    height: min(13.333dvw,192px);
     /* max-height: 100%; */
     /* min-height: ; */
     justify-content: space-between;
     flex-direction: column;
-    padding: 12px;
-    
-    box-shadow: 0px 1px 2px 0px #0000000F;
-
-    /* box-shadow: 0px 1px 3px 0px #0000001A; */
-
-
+    padding: min(0.833dvw,12px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
 }
 /* info */
 .info_me{
@@ -959,7 +978,7 @@ onUpdated(() => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .info_me .name_me {
     display: flex;
@@ -972,9 +991,9 @@ onUpdated(() => {
 /* name and star */
 .info_me .name_me>div:nth-child(1){
     display: flex;
-    width: 780px;
-    height: 32px;
-    gap: 8px;
+    width: min(54.167dvw,780px);
+    height: min(2.222dvw,32px);
+    gap: min(0.556dvw,8px);
     justify-content: start;
     align-items: center;
     white-space: nowrap;
@@ -983,7 +1002,7 @@ onUpdated(() => {
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 20px;
+    font-size: min(1.389dvw,20px);
     font-weight: 500;
     color: #212121;
     overflow: hidden;
@@ -995,12 +1014,12 @@ onUpdated(() => {
     display: flex;
     width: fit-content;
     height: 100%;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 .info_me .name_me>div:nth-child(2) button{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
     border: none;
@@ -1008,15 +1027,15 @@ onUpdated(() => {
     cursor: pointer;
 }
 .info_me .name_me>div:nth-child(2) button svg{
-    width: 16px;
+    width: min(1.111dvw,16px);
     height: auto;
 }
 .info_me .price_me{
     display: flex;
     width: fit-content;
     max-width: 100%;
-    height: 24px;
-    font-size: 16px;
+    height: min(1.667dvw,24px);
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
     color: #26AC34;
     overflow: hidden;
@@ -1026,18 +1045,23 @@ onUpdated(() => {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    width: 780px;
+    width: min(54.167dvw,780px);
     max-width: 100%;
     height: fit-content;
-    max-height: 40px;
+    max-height: min(2.778dvw,40px);
     overflow: hidden;
     /* word-wrap: keep-all; */
+    font-weight: 400;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #212121;
 }
 /* stock */
 .stock_me{
     display: flex;
     width: 100%;
-    height: 20px;
+    height: min(1.389dvw,20px);
     justify-content: space-between;
     align-items: center;
 }
@@ -1048,26 +1072,29 @@ onUpdated(() => {
     height: inherit;
     align-items: center;
     justify-self: start;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .stock_me div h5{
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #26AC34;
 }
 .stock_me div h6{
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #212121;
 }
 .stock_me h6{
     width: fit-content;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
+    line-height: 136%;
     font-weight: 400;
     color: #212121;
 }
@@ -1093,11 +1120,13 @@ onUpdated(() => {
 
     .user_img {
         width: min(17.204dvw, 128px);
-        height: min(17.204dvw, 128px);
+        /* height: min(17.204dvw, 128px); */
+        height: auto;
     }
 
     .user_info {
-        width: min(68.28dvw, 508px);
+        /* width: min(68.28dvw, 508px); */
+        width: 100%;
     }
 
     .user_info h5 {
@@ -1128,7 +1157,13 @@ onUpdated(() => {
         font-size: min(2.688dvw, 20px);
     }
 
+    .user, .wrapper_details, .container_product_me {
+        padding: 0px min(5.914dvw,44px);
+    }
+
     .suplier_details {
+        /* min-width: min(26.882dvw, 200px); */
+        width: 100%;
         padding: min(2.151dvw, 16px);
         gap: min(1.613dvw, 12px);
         border-radius: min(0.538dvw, 4px);
@@ -1196,7 +1231,8 @@ onUpdated(() => {
     .user_img {
         position: absolute;
         width: min(25.532dvw, 96px);
-        height: min(25.532dvw, 96px);
+        /* height: min(25.532dvw, 96px); */
+        height: auto;
         left: min(4.255dvw, 16px);
         top: 0;
     }

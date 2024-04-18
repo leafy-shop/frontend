@@ -128,7 +128,6 @@ onBeforeMount(async()=>{
     align-items: center;
     overflow: hidden;
     /* z-index: 1; */
-
 }
 
 .shop_title h3 {
@@ -143,7 +142,6 @@ onBeforeMount(async()=>{
 }
 
 .shop_title img {
-
     /* opacity: 10%; */
     width: 100%;
     height: auto;
@@ -155,7 +153,7 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     /* gap: 32px; */
-    padding: 20px 160px;
+    padding: min(1.389dvw,20px) min(11.111dvw, 160px);
     background-color: #F5F5F5;
     flex-direction: column;
     align-items: center;
@@ -163,10 +161,10 @@ onBeforeMount(async()=>{
 }
 .gallery{
     display: flex;
-    width: 1120px;
+    width: 100%;
     height: fit-content;
-    padding-bottom:20px ;
-    gap: 40px;
+    padding-bottom: min(1.389dvw,20px);
+    gap: min(2.778dvw,40px);
     flex-direction: column;
 }
 /* gallery list */
@@ -174,7 +172,7 @@ onBeforeMount(async()=>{
     display: grid;
     grid-template-columns: repeat(4,1fr);
     justify-content: center;
-    gap: 32px;
+    gap: min(2.222dvw,32px);
 }
 .wrapper_gallery_item{
     display: flex;

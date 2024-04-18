@@ -756,7 +756,7 @@ table .product_item{
     display: flex;
     width: 100%;
     height: fit-content;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 }
 /* operation */
@@ -764,7 +764,7 @@ table .product_item{
     display: flex;
     width: 100%;
     height: 100%;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     gap: 8px;
 }

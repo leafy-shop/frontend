@@ -100,15 +100,18 @@ const goProductDetail=(p)=>{
 .wrapper_product_list{
     /* display: flex; */
     width: 100%;
+    /* max-width: min(77.778dvw,1120px); */
     height: fit-content;
 }
 .grid_container{
     display: grid;
     /* display: flex; */
     width: 100%;
-    min-width: 100%;
+    /* min-width: min(57.778dvw,832px); */
+    /* max-width: min(77.778dvw,1120px); */
+    /* min-width: 100%; */
     height: fit-content;
-      /* flex-wrap: wrap;  */
+    /* flex-wrap: wrap;  */
     /*justify-content: center;
     align-items: center; */
     grid-template-columns: v-bind(changeGridT());
@@ -117,9 +120,10 @@ const goProductDetail=(p)=>{
 .grid_item{
     display: flex;
     /*width: min(17.778dvw,256px);*/
-    width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256)));
-    /* height: min(v-bind(changeSize(23.333,'dvw')),v-bind(changeSize(336))); */
-    height: fit-content;
+    /* width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256))); */
+    width: auto;
+    height: min(v-bind(changeSize(23.333,'dvw')),v-bind(changeSize(336)));
+    /* height: fit-content; */
     flex-direction: column;
     border-radius: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
     overflow: hidden;
@@ -129,7 +133,8 @@ const goProductDetail=(p)=>{
 .product_item {
     display: flex;
     flex-direction: column;
-    width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256)));; 
+    /* width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256)));;  */
+    width: 100%;
     /* height: min(23.333dvw,336px); */
     height: fit-content;
     border-radius: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
@@ -251,11 +256,11 @@ const goProductDetail=(p)=>{
         gap: min(v-bind(changeSize(2.151,'dvw')),v-bind(changeSize(16)));
     }
     .grid_item{
-        width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152)));
+        /* width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152))); */
         height: min(v-bind(changeSize(32.796,'dvw')),v-bind(changeSize(244)));
     }
     .product_item {
-        width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152)));
+        /* width: min(v-bind(changeSize(20.43,'dvw')),v-bind(changeSize(152))); */
         border-radius: min(v-bind(changeSize(1.075,'dvw')),v-bind(changeSize(8)));
         border: min(v-bind(changeSize(0.134,'dvw')),v-bind(changeSize(1))) solid;
         border-color: rgb(0, 0, 0, 0.01);

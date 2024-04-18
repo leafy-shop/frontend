@@ -318,7 +318,8 @@ onMounted(() => {
     /* height: 1672px; */
     height: fit-content;
     width: auto;
-    padding: min(1.389dvw, 20px) 0px;
+    /* width: 100%; */
+    padding: min(1.389dvw, 20px) min(11.111dvw,160px);
     align-items: center;
     justify-content: center;
     background-color: #F5F5F5;
@@ -327,7 +328,8 @@ onMounted(() => {
 .wrapper_content {
     display: flex;
     flex-direction: row;
-    width: inherit;
+    /* width: inherit; */
+    width: auto;
     /* height: 1632px; */
     height: inherit;
     gap: min(2.222dvw, 32px);
@@ -336,7 +338,8 @@ onMounted(() => {
 
 .wrapper_productList {
     display: flex;
-    width: min(57.778dvw, 832px);
+    /* width: min(57.778dvw, 832px); */
+    width: 100%;
     height: inherit;
     flex-direction: column;
     gap: min(1.389dvw, 20px);
@@ -455,7 +458,7 @@ onMounted(() => {
     }
 
     .wrapper_productList {
-        width: min(65.591dvw, 488px);
+        /* width: min(65.591dvw, 488px); */
         gap: min(2.688dvw, 20px);
     }
 

@@ -89,7 +89,8 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
     display: flex;
     /* width: fit-content; */
     height: fit-content;
-    width: min(77.778dvw, 1120px);
+    /* width: min(77.778dvw, 1120px); */
+    width: 100%;
     flex-direction: row;
     justify-content: left;
     align-items: center;
@@ -98,7 +99,8 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
 }
 .plant_type{
     display: flex;
-    width: min(24.444dvw, 352px);
+    /* width: min(24.444dvw, 352px); */
+    width: 100%;
     height: min(36.667dvw, 528px);
     flex-direction: column;
     text-align: center;
@@ -107,7 +109,8 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
     flex-grow: 1;
 }
 .plant_type img{
-    width: min(24.444dvw, 352px);
+    /* width: min(24.444dvw, 352px); */
+    width: auto;
     height: min(25dvw, 360px);
     border-radius: min(0.556dvw, 8px);
 }
@@ -183,7 +186,8 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
         /* gap: min(1.613dvw, 12px); */
     }
     .plant_type img{
-        width: min(27.967dvw, 208px);
+        /* width: min(27.967dvw, 208px); */
+        width: 100%;
         height: min(37.634dvw, 280px);
         border-radius: min(1.075dvw, 8px);
     }

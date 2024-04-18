@@ -58,30 +58,30 @@ onUpdated(()=>{
 }
 .move_page p{
     width: fit-content;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     
 }
 .move_page p span{
-    font-weight: 500 ; 
+    font-weight: 500; 
     color: #374151;
 }
 .move_page div{
     display: flex;
     width: fit-content;
-    height: 36px;
-    gap: 12px;
+    height: min(2.5dvw,36px);
+    gap: min(0.833dvw,12px);
 }
 .move_page div button{
     display: flex;
     width: fit-content;
     height: 100%;
-    padding: 8px 12px;
-    border: 1px solid;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
     background-color: #fff;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     cursor: pointer;
     justify-content: center;
     align-items: center;

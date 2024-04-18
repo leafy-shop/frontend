@@ -56,9 +56,9 @@ const removeSort=()=>{
     let eSelected=document.getElementsByClassName('sort_list')
     // console.log(eSelected)
     for(let i=0;i<eSelected.length;i++){
-        for(let p=0;p<eSelected[i].getElementsByTagName('button').length;p++){
-            eSelected[i].getElementsByTagName('button')[p].setAttribute('style','background-color:#FFF;')
-
+        for(let p=0;p<eSelected[i].getElementsByTagName('button').length;p++) {
+            // eSelected[i].getElementsByTagName('button')[p].setAttribute('style','background-color:#FFF;')
+            eSelected[i].getElementsByTagName('button')[p].setAttribute('style','background-color:#FFF; color:#212121; border: min(0.069dvw,1px) solid; border-color: #fff;')
         }
     }
 }
@@ -67,8 +67,9 @@ const sortSelecter=(data,name)=>{
     removeSort()
     // if(data.name!=sortItem.value){   
         for(let i=0;i<eSelected.length;i++){
-            eSelected[0].setAttribute('style','background-color:#26AC34;color:#FFFFFF;')
-        }
+            // eSelected[0].setAttribute('style','background-color:#26AC34;color:#fff;')
+            eSelected[0].setAttribute('style','background-color:#26AC34; color:#fff; border: min(0.069dvw,1px) solid; border-color: #26AC34;')
+        } 
             sortItem.value=data.name
     // }
     // else{
@@ -146,7 +147,8 @@ onUpdated(()=>{
 
 .wrapper_sort{
     display: flex;
-    width: inherit;
+    /* width: inherit; */
+    width: 100%;
     height: min(5.278dvw,76px);
     padding: min(1.389dvw,20px);
     border-radius: min(0.556dvw, 8px);
@@ -168,12 +170,12 @@ onUpdated(()=>{
     margin-bottom: auto; */
 
 }
-.sort_type div{
+.sort_type > div{
     width: 90%;
     height: inherit;
    overflow: auto; 
 }
-.sort_type div::-webkit-scrollbar{
+.sort_type > div::-webkit-scrollbar{
     display: none;
 }
 .sort_list{
@@ -194,18 +196,21 @@ onUpdated(()=>{
     font-weight: 500;
     line-height: 144%; /* 20.16px */
     letter-spacing: min(0.014dvw,0.2px);
-    background: #FFF;
+    /* background: #fff; */
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    /* box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05); */
     color: #212121;
     white-space: nowrap;
+    /* border: min(0.069dvw,1px) solid; */
+    /* border-color: #FFF; */
 }
 .sort_item:hover {
     background-color: #26AC34;
-    color: #FFF;
+    color: #fff;
+    border-color: #26AC34;
 }
 .sort_item:active {
     background-color: #58d264;
@@ -243,7 +248,7 @@ onUpdated(()=>{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px rgba(0, 0, 0, 0.05);
     color: #212121;
 }
 .move_to button:hover {
@@ -267,6 +272,7 @@ onUpdated(()=>{
     .wrapper_sort{
         height: min(6.452dvw,48px);
         padding: min(1.613dvw,12px);
+        border-radius: min(1.075dvw,8px);
     }
     .sort_type{
         width: min(52.151dvw,388px);
@@ -284,6 +290,7 @@ onUpdated(()=>{
         height: min(3.226dvw,24px);
         padding: min(0.538dvw,4px) min(1.613dvw,12px);
         font-size: min(1.613dvw,12px);
+        border-radius: min( 0.538dvw,4px);
     }
     .sort_move{
         width: min(9.14dvw,68px);

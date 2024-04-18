@@ -73,18 +73,16 @@ onUpdated(()=>{
         width: min(v-bind(changeSize(1.389,'dvw')),v-bind(changeSize(20))); 
         height: min(v-bind(changeSize(1.389,'dvw')), v-bind(changeSize(20)));
     }
-@media(width<=744px){
+/* @media(width<=744px){
     .star_list_gap{
         gap: min(v-bind(changeSize(0.538,'dvw')),v-bind(changeSize(4)));
-        /* gap: v-bind("props.isGap==true?'min(0.538dvw,4px)':'0px'") ; */
     }
     .star_list_no_gap{
         gap: 0px;
-        /* gap: v-bind("props.isGap==true?'min(0.538dvw,4px)':'0px'") ; */
     }
     .star{
         width: min(v-bind(changeSize(2.688,'dvw')),v-bind(changeSize(20)));
         height: min(v-bind(changeSize(2.688,'dvw')),v-bind(changeSize(20)));
     }
-}
+} */
 </style>

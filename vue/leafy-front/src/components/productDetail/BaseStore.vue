@@ -137,6 +137,7 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.en
     font-size: min(1.389dvw, 20px);
     color: #212121;
     line-height: 160%;
+    font-weight: 500;
 }
 .wrapper_chat_shop {
     display: flex;
