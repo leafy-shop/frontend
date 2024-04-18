@@ -10,12 +10,12 @@ import BaseStarInput from '../shop_page/BaseStarInput.vue';
 import BaseSubmit from '../../components/accountSetting/BaseSubmit.vue'
 import BaseAlert from '../BaseAlert.vue';
 import BaseShowErrorInput from '../../components/accountSetting/BaseShowErrorInput.vue'
-// import validation from '../../JS/validation'
 // link
 const  origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
 // const goProfile =(shopId)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopId)}})
 const goCart=()=>myRouter.push({name:"CartList"})
+const goConfirmPayment=()=>myRouter.push({name:"ConfirmPayment",params:{id:validation.encrypt(props.orderId)}})
 // common attribute
 const emit=defineEmits(['refreshData'])
 const props=defineProps({
@@ -117,7 +117,7 @@ const receiveOrder=async()=>{
             isShowAlert.value=true
             return setTimeout(()=>emit('refreshData'),2*1000) //
         }else{
-            alertType.value=2
+            alertType.value=1
             alertDetail.value='There is a problem with the server. Please try again later.'
             alertTime.value=10
             isShowAlert.value=true
@@ -138,7 +138,7 @@ const cencelOrder=async()=>{
             isShowAlert.value=true
             return setTimeout(()=>emit('refreshData'),2*1000) //
         }else{
-            alertType.value=2
+            alertType.value=1
             alertDetail.value='There is a problem with the server. Please try again later.'
             alertTime.value=10
             isShowAlert.value=true
@@ -198,6 +198,7 @@ const buyAgain=async()=>{
 const showReviewOverlay=ref(false) //for show overlay
 const isUpdateReview=ref(false) //for show list or container input
 const productDetail=ref({}) //product detail 1 product
+const productReviewDetail=ref({})
 const reviewDescription=ref('')
 const pqStar=ref(0)
 const SSStar=ref(0)
@@ -224,23 +225,19 @@ const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
 // mode
-const isShowReviewService=ref(false) //for show ss and sd when create new review only
+const isReviewEditMode=ref(false) //for show ss and sd when create new review only
 const reviewId=ref('')
 // get review
-const getReview=async()=>{
+const getReview=async(itemId,itemStyle,itemSize)=>{
     // let getReviewStatus=undefined //status for check is that edit?
-    let {status,data,msg} =await fetch.getProductReviewByOrder(props.orderId)
-    await msg
+    let {status,data,msg} =await fetch.getProductReviewByOrder(props.orderId,itemId,itemStyle,itemSize)
     if(await status){//แสดงว่าเคยมีรีวิวแล้ว
-        reviewList.value=await data
-        console.log(data)
-        // getReviewStatus=await status //use for check is up date
+        productReviewDetail.value=data
         return true
     }else
-    if(await msg=='404'){//error
-        // getReviewStatus=await status
+    if(await msg=='404'){//not found
         return false
-    }else{
+    }else{//error
         closeReview()
         clearStatusReview()
         clearMessageReview()
@@ -254,42 +251,44 @@ const getReview=async()=>{
 }
 // make review 
 const makeReviewProduct=async(product)=>{ //click to write
-    let isEdit = await getReview()// get review first for change mode
+    let isEdit = await getReview(product.itemId,product.itemStyle,product.itemSize)// get review first for change mode
+    
     if(isEdit){ //have data review
-        //loop for get old review
-        let[oldReview]=reviewList.value.filter(review=>Number(review.itemId)===Number(product.itemId))
-        console.log(oldReview)
-        console.log(product)
-        if(oldReview!=undefined&&oldReview.itemId==product.itemId){
-            console.log(oldReview)
-            isShowReviewService.value=false
-            // assign data
-            reviewId.value=oldReview.itemReviewId
-            reviewDescription.value=oldReview.comment
-            pqStar.value=oldReview.PQrating
-            SSStar.value=oldReview.SSrating
-            dsStar.value=oldReview.DSrating
-            productDetail.value=product
-            isUpdateReview.value=true
-        }else{
-            isShowReviewService.value=true
-            // assign data
-            productDetail.value=product
-            isUpdateReview.value=true
-        }
+
+        console.log(productReviewDetail.value)
+            
+        // assign data
+        reviewId.value=productReviewDetail.value.itemReviewId //review id
+        reviewDescription.value=productReviewDetail.value.comment //review desc
+        pqStar.value=productReviewDetail.value.PQrating //pq rating
+        SSStar.value=productReviewDetail.value.SSrating //ss rating
+        dsStar.value=productReviewDetail.value.DSrating //ds rating
+        productDetail.value=product //product
+        isReviewEditMode.value=true //status of this product for review
+        isUpdateReview.value=true
+        
     }else{//create new review
-        // console.log('let create new data')
-        isShowReviewService.value=true
+        
         // assign data
         productDetail.value=product
         isUpdateReview.value=true
-       
+        isReviewEditMode.value=false
     }
     
 }
 // close review
 const closeReview=()=>{ //close all review
     showReviewOverlay.value=false
+    isUpdateReview.value=false
+    reviewList.value=[]
+    productDetail.value={}
+    reviewDescription.value=''
+    pqStar.value=0
+    SSStar.value=0
+    dsStar.value=0
+}
+const goBackReview=()=>{ //close all review
+    // showReviewOverlay.value=false
     isUpdateReview.value=false
     reviewList.value=[]
     productDetail.value={}
@@ -325,13 +324,13 @@ const submitReview=async()=>{
         pqStarM.value='Product quantlity require'
     }
     // ss star
-    if(SSStar.value==0&&isShowReviewService.value){
+    if(SSStar.value==0 ){
         submitStatus=false
         SSStarS.value=true
         SSStarM.value='Seller service require'
     }
     // ds star
-    if(dsStar.value==0&&isShowReviewService.value){
+    if(dsStar.value==0 ){
         submitStatus=false
         dsStarS.value=true
         dsStarM.value='Delivery service require'
@@ -347,7 +346,7 @@ const submitReview=async()=>{
     if(productDetail.value.itemStyle!=undefined)inputData["style"]=productDetail.value.itemStyle
 
     if(submitStatus){
-        if(isShowReviewService.value){//is create mode ?
+        if(!isReviewEditMode.value){//is create mode ?
             let {status,data}=await fetch.addReview(productDetail.value.itemId,inputData)
             if(await status){
                 console.log('submit review')
@@ -355,15 +354,16 @@ const submitReview=async()=>{
                 clearStatusReview()
                 clearMessageReview()
                 alertType.value=0
-                alertDetail.value='Review successful'
+                alertDetail.value="Your review has been submitted successfully!"
                 isShowAlert.value=true
                 alertTime.value=4
+                emit('refreshData')
             }else{
                 closeReview()
                 clearStatusReview()
                 clearMessageReview()
                 alertType.value=1
-                alertDetail.value='Can not write review'
+                alertDetail.value="Sorry, it seems there's an issue with the server right now. Please try again later."
                 isShowAlert.value=true
                 alertTime.value=10
             }
@@ -376,17 +376,19 @@ const submitReview=async()=>{
                 clearStatusReview()
                 clearMessageReview()
                 alertType.value=0
-                alertDetail.value='Update review successful'
-                isShowAlert.value=true
+                alertDetail.value="Your review has been successfully updated!"
+                isShowAlert.value=true 
                 alertTime.value=4
+                emit('refreshData')
             }else{
                 closeReview()
                 clearStatusReview()
                 clearMessageReview()
                 alertType.value=1
-                alertDetail.value='Can not update review'
+                alertDetail.value="Sorry, it seems there's an issue with the server right now. Please try again later."
                 isShowAlert.value=true
                 alertTime.value=10
+                
             }
         }
     }
@@ -410,11 +412,9 @@ const clearMessageReview=()=>{
 // alert
 const getShowAlertChange=(input)=>{
     isShowAlert.value=input
-    isShowAlert.value=false
     alertType.value=0
     alertDetail.value=''
     alertTime.value=2
-    // setTimeout(()=>isShowAlert.value=false,second*1000)
 }
 </script>
 <template>
@@ -521,7 +521,7 @@ const getShowAlertChange=(input)=>{
             <!-- to pay  set -->
             <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
                 <!-- buy again -->
-                <button  @click="payOrder" class="buy_again">
+                <button  @click="goConfirmPayment" class="buy_again">
                     Pay now
                 </button>
                 <!-- view mt rating -->
@@ -619,7 +619,7 @@ const getShowAlertChange=(input)=>{
                 <div class="container_review_input">
                     <!-- header -->
                     <div class="header_edit">
-                        <button @click="isUpdateReview=false">
+                        <button @click="goBackReview()">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7068 5.29303C12.8943 5.48056 12.9996 5.73487 12.9996 6.00003C12.9996 6.26519 12.8943 6.5195 12.7068 6.70703L9.41379 10L12.7068 13.293C12.8889 13.4816 12.9897 13.7342 12.9875 13.9964C12.9852 14.2586 12.88 14.5094 12.6946 14.6948C12.5092 14.8803 12.2584 14.9854 11.9962 14.9877C11.734 14.99 11.4814 14.8892 11.2928 14.707L7.29279 10.707C7.10532 10.5195 7 10.2652 7 10C7 9.73487 7.10532 9.48056 7.29279 9.29303L11.2928 5.29303C11.4803 5.10556 11.7346 5.00024 11.9998 5.00024C12.265 5.00024 12.5193 5.10556 12.7068 5.29303Z" fill="#212121"/>
                             </svg>
@@ -656,7 +656,7 @@ const getShowAlertChange=(input)=>{
                                         Product Quality
                                     </h6>
                                     <div>
-                                        <input v-model="pqStar" type="text" >
+                                        <input v-model="pqStar" type="number" min="1" max="5">
                                         <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                     </div>
                                 </div>
@@ -664,7 +664,7 @@ const getShowAlertChange=(input)=>{
                             </div>
                             <!-- description -->
                             <div class="container_input">
-                                <textarea v-model="reviewDescription" class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers."></textarea>
+                                <textarea v-model="reviewDescription" class="product_input_desc" name="" placeholder="Share more thoughts on the product to help other buyers." maxlength="500"></textarea>
                                 <BaseShowErrorInput name="product_description" :show="reviewDescriptionS" :msg="reviewDescriptionM" />
 
                             </div>
@@ -693,7 +693,7 @@ const getShowAlertChange=(input)=>{
                                         Seller Service
                                     </h6>
                                     <div>
-                                        <input v-model="SSStar" type="text" name="" id="">
+                                        <input v-model="SSStar" type="number" min="1" max="5">
                                         <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                     </div>
                                 </div>
@@ -706,7 +706,7 @@ const getShowAlertChange=(input)=>{
                                         Delivery Service
                                     </h6>
                                     <div>
-                                        <input v-model="dsStar" type="text">
+                                        <input v-model="dsStar" type="number" min="1" max="5">
                                         <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                     </div>
                                 </div>
