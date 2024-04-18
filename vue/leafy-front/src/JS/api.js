@@ -956,11 +956,12 @@ const fetch = {
             }
         }
     },
-    async getProductReviewByOrder(orderId) {
+    async getProductReviewByOrder(orderId,itemId,itemStyle,itemSize) {
         let returnData = { status: false, data: undefined, msg: '' }
 
         try {
-            let url = `${origin}/api/products/review_orders/${orderId}`
+            let url = `${origin}/api/products/review_orders/${orderId}/${itemId}/${itemStyle}/${itemSize}`
+            // let url = `${origin}/api/products/review_orders/Somchai-WA5LFJ3MSW9D/3721/No/1000 gram`
             let res = await axios.get(url)
             // console.log(url)
 
