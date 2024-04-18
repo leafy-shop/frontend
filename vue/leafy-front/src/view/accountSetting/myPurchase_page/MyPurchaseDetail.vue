@@ -11,7 +11,7 @@ import BaseAlert from '../../../components/BaseAlert.vue';
 
 const myRouter=useRouter()
 const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
-const goProfile =(shopName)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopName)}})
+const goProfile =(shopName)=>myRouter.push({name:'Profile',params:{id:shopName}})
 
 // common attribute
 let {params} =useRoute()
