@@ -9,7 +9,7 @@ let props = defineProps({
         required: true
     }
 })
-const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.encrypt(email)}})
+const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
 </script>
 <template>
     <div class="wrapper_store">
@@ -23,9 +23,9 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:validation.en
                 {{owner.username}}
             </h5>
             <div class="wrapper_chat_shop">
-                <button @click="chatNow">
+                <!-- <button @click="chatNow">
                     Chat Now 
-                </button>
+                </button> -->
                 <button @click="goProfile(owner.username)">
                     View Shop
                 </button>
