@@ -11,6 +11,8 @@ let{params}=useRoute()
 const myRouter=useRouter()
 const goMyPurchaseDetail=()=>myRouter.push({name:'MyPurchaseDetail',params:{id:orderId.value}})
 const goPurchase =()=>myRouter.push({name:'MyPurchase'})
+const goCart=()=>myRouter.push({name:'CartList'})
+const goHome=()=>myRouter.push({name:'Home'})
 // common attribute
 const orderId=ref('')
 const myTimeOut=ref('')
@@ -109,7 +111,7 @@ onBeforeMount(async()=>{
             />
             </svg>
             <!-- product -->
-            <h5 @click="goShop" class="link">Cart</h5>
+            <h5 @click="goCart" class="link">Cart</h5>
             <svg
             class="right_arrow"
             viewBox="0 0 24 44"
