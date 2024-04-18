@@ -37,7 +37,7 @@ onMounted(()=>{
         <img src="../assets/icon/chat_icon.svg" alt="chat_icon">
         <span>chat</span>
     </button> -->
-    <BaseChat/>
+    <!-- <BaseChat/> -->
 </template>
 <style >
 
