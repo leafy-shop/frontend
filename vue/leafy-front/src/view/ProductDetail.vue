@@ -38,6 +38,10 @@ let sortFilter = ref({sort:'newest',name: ""})
 let currentPage = ref(1)
 let allStyleReviews = ref([])
 
+// call cart count status
+const CountCartStatus=ref(false)
+
+
 const itemOwner=ref('')
 
 // selected styles
@@ -122,7 +126,9 @@ const addToCart = async (itemId, style, size, qty) => {
     // console.log("cart", cart);
     // console.log(cart);
     let { status, msg } = await fetch.addToCart(cart);
-    if(await !status){
+    if(await status){
+        CountCartStatus.value=true
+    }else{
         // stock 0
       alertType.value=2
       alertDetail.value="Oops! It seems like the item is currently out of stock."
@@ -181,6 +187,11 @@ const getShowAlertChange=(input)=>{
     alertTime.value=2
 }
 
+// set new value call cart status
+const getCountCartStatus=(input)=>{
+    CountCartStatus.value=input
+}
+
 onBeforeMount(async() => {
    await getProductDetail(productId)
     // console.log(productId,'product id')
@@ -192,7 +203,7 @@ onMounted(()=>{
 </script>
 <template>
 <!-- this is pro detail {{ params.id }} -->
-    <BaseMenu class="menu" :count="cartCount"/>
+    <BaseMenu class="menu" :count="cartCount" :get-count-cart="CountCartStatus" @getCountCartStatus="getCountCartStatus" />
     <div class="container_access">
         <!-- home icon -->
         <svg @click="goHome" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
