@@ -299,6 +299,8 @@ const goBackReview=()=>{ //close all review
 }
 // submit
 const submitReview=async()=>{
+    clearStatusReview()
+    clearMessageReview()
     let submitStatus=true
     // props order id
     if(String(props.orderId).length==0){
@@ -318,19 +320,19 @@ const submitReview=async()=>{
         reviewDescriptionM.value='Review comment missing'
     }
     // rq star
-    if(pqStar.value==0){
+    if(pqStar.value==0 ||pqStar.value>5){
         submitStatus=false
         pqStarS.value=true
-        pqStarM.value='Product quantlity require'
+        pqStarM.value='Product quantlity invalid'
     }
     // ss star
-    if(SSStar.value==0 ){
+    if(SSStar.value==0 ||SSStar.value>5){
         submitStatus=false
         SSStarS.value=true
-        SSStarM.value='Seller service require'
+        SSStarM.value='Seller service invalid'
     }
     // ds star
-    if(dsStar.value==0 ){
+    if(dsStar.value==0 ||dsStar.value>5){
         submitStatus=false
         dsStarS.value=true
         dsStarM.value='Delivery service require'
