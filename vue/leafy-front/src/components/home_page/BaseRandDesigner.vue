@@ -7,7 +7,7 @@ import validation from '../../JS/validation'
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 const myRouter = useRouter()
-const goGalleryDetail=(id)=>myRouter.push({name:'GalleryDetail',params:{id:validation.encrypt(`000${id}`)}})
+const goGalleryDetail=(id)=>myRouter.push({name:'GalleryDetail',params:{id:id}})
 
 const designerList = ref([])
 
