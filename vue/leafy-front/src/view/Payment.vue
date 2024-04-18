@@ -16,7 +16,7 @@ import BaseAlert from '../components/BaseAlert.vue';
 const myRoute=useRouter()
 const {params}=useRoute()
 const myRouter=useRouter()
-const goShop=()=>myRouter.push({name:"Shop"})
+const goMyPurchase=()=>myRouter.push({name:"MyPurchase"})
 //common attribute
 const addressList=ref([]) //list all
 const addressDefault=ref({}) //default selected
@@ -76,6 +76,7 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
+const myTimeOut=ref(undefined)
 
 // mode controller
 const inputController=(show)=>{
@@ -280,7 +281,7 @@ const orderSubmit=async()=>{
       alertDetail.value="Your purchase was successful!"
       alertTime.value=2
       // goShop()
-      setTimeout(()=>goShop(),3*1000)
+      myTimeOut.value=setTimeout(()=>goMyPurchase(),3*1000)
     }else
     if(msg=='400'){
       isShowAlert.value=true
@@ -313,7 +314,7 @@ const orderSubmit=async()=>{
       alertDetail.value="Your purchase was successful!"
       alertTime.value=2
       // goShop()
-      setTimeout(()=>goShop(),3*1000)
+      myTimeOut.value=setTimeout(()=>goMyPurchase(),3*1000)
     }else
     if(await msg=='400'){
       isShowAlert.value=true
@@ -335,6 +336,7 @@ const getShowAlertChange=(input)=>{
     alertType.value=0
     alertDetail.value=''
     alertTime.value=2
+    // clearTimeout(myTimeOut.value)
 }
 
 onBeforeMount(async()=>{
