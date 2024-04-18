@@ -5,6 +5,7 @@ import validation from "../../JS/validation";
 import BaseStar from "./BaseStar.vue";
 import fetch from "./../../JS/api";
 import cookie from "./../../JS/cookie";
+import BaseAlert from "../BaseAlert.vue";
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 const emit = defineEmits(["styleSelected","addToCart"]);
@@ -46,6 +47,12 @@ const goPayment = (cartList) =>
     params: { cartList: validation.encrypt(cartList) },
   });
 const goSignIn = () => myRouter.push({ name: "SignIn" });
+
+// attribute alert
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 let detectNumber = (input) => {
   // console.log(input.target.value)
@@ -128,8 +135,14 @@ let addToCart = async () => {
     // console.log(selectedStyle.value,'seleced style')
     // console.log(selectedStyle.value, "selected style");
     // console.log(productStyle.value, "selected style");
-    return emit("addToCart", productStyle.value.itemId, selectedStyle.value.style, sizeObj.value.size, stepInput.value)
-
+    if(stepInput.value!=0){
+      return emit("addToCart", productStyle.value.itemId, selectedStyle.value.style, sizeObj.value.size, stepInput.value)
+    }else{
+      alertType.value=2
+      alertDetail.value="It seems like the item is currently out of stock."
+      isShowAlert.value=true
+      alertTime.value=3
+    }
     // console.log("cart", cart);
     // console.log(cart);
     // let { status, msg } = await fetch.addToCart(cart);
@@ -169,7 +182,7 @@ let addToCart = async () => {
 // direct to payment page
 let payInOrder = async () => {
   if (userName.value != undefined) {
-    if(Number(sizeObj.value.stock)!=0){ //stock not 0
+    if(Number(sizeObj.value.stock)!=0&&stepInput.value <= sizeObj.value.stock){ //stock not 0
       let paymentOrder = [
         {
           //array
@@ -198,14 +211,19 @@ let payInOrder = async () => {
       }
       // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
       // check stock
-      if (selectedStyle.value.stock != 0) {
+      if (selectedStyle.value.stock != 0 &&stepInput.value <=sizeObj.value.stock) {
         goPayment(JSON.stringify(inputData).toString()); //tranform data to text
         // console.log(selectedStyle.value)
       } else {
         //error can not buy
+        
       }
     }else{
       // stock 0
+      alertType.value=2
+      alertDetail.value="Oops! It seems like the item is currently out of stock."
+      isShowAlert.value=true
+      alertTime.value=3
     }
     // await fetch.BuyNowWithoutCart(paymentOrder);
 
@@ -247,11 +265,54 @@ let imageRight = () => {
 //     return emit("styleSelected",index)
 // }
 
+// alert
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
+
+
+// show border what we selected
+const selectedItemStyle=(name,index)=>{
+  let element =document.getElementById(name)
+  let allElement=document.getElementsByClassName('grid_item')
+  // clear first
+  for(let element of allElement){
+    element.classList.remove('item_style_active')
+  }
+  if(element!=undefined&&element!=null){
+    element.classList.add('item_style_active')
+
+  }
+  if(index!=undefined){
+    props.changeStyle(index)
+  }
+}
+// size
+const selectedItemSize=(name,value)=>{
+  let element =document.getElementById(name)
+  let allElement=document.getElementsByClassName('size_btn')
+  for(let element of allElement){
+    element.classList.remove('item_size_active')
+  }
+  if(element!=undefined&&element!=null){
+  element.classList.add('item_size_active')
+  }
+  if(value!=undefined){
+    selectedSize(value)
+  }
+}
+
 onMounted(() => {
   // validation.ratingStar("star_item","path",productStyle.value.ratingFloor)
   userName.value = cookie.get("information")
     ? cookie.decrypt().username
     : undefined;
+    selectedItemStyle(`item_style_0`)
+    selectedItemSize('item_size_0')
+  // first selected
   // if (userName.value !== undefined) getAddress(userName.value);
 });
 onUpdated(() => {
@@ -259,6 +320,7 @@ onUpdated(() => {
   // console.log(props.productStyle,'product style')
   console.log(props.selectedStyle, "style selected");
   console.log(sizeObj.value, "size selected");
+
 });
 </script>
 <template>
@@ -437,14 +499,15 @@ onUpdated(() => {
         <!-- for show type -->
         <div class="grid_container">
           <button
-            @click="props.changeStyle(index)"
+            @click="selectedItemStyle(`item_style_${index}`,index)"
             v-for="(style, index) in productStyle.styles"
-            class="grid_item"
-            :key="index"
+            class="grid_item " 
+            :id="`item_style_${index}`"
+            :key="index" :disabled="(style.sizes.length==1)&&(style.sizes[0].stock==0)" :style="[(style.sizes.length==1)&&(style.sizes[0].stock==0)?'background-color:#00000066;cursor:not-allowed;':'']"
           >
             <div class="product_img">
               <img
-                v-if="style.images && style.images.length"
+                v-if="style.images && style.images.length" :style="[(style.sizes.length==1)&&(style.sizes[0].stock==0)?'filter: grayscale(90%);':'']"
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`"
                 alt="product_style"
               />
@@ -460,8 +523,8 @@ onUpdated(() => {
         >
           <h6>Size</h6>
           <ul>
-            <li v-for="(value, idx) in selectedStyle.sizes" :key="idx">
-              <button @click="selectedSize(value)">
+            <li v-for="(value, idx) in selectedStyle.sizes" :key="idx" >
+              <button @click="selectedItemSize(`item_size_${idx}`,value)" :id="`item_size_${idx}`" class="size_btn" :disabled="value.stock==0" :style="[value.stock==0?'background-color: #00000066;color:#fff;cursor:not-allowed;':'']">
                 {{ value.size }}
               </button>
             </li>
@@ -485,7 +548,10 @@ onUpdated(() => {
         <button @click="payInOrder()">Buy Now</button>
       </div>
     </div>
+
   </div>
+  <BaseAlert name="product_detail_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"  />
+
 </template>
 <style scoped>
 * {
@@ -689,6 +755,10 @@ onUpdated(() => {
   /* grid-template-columns: auto auto auto auto auto auto auto ; */
   gap: min(0.556dvw, 8px);
 }
+/* active */
+.item_style_active{
+  border: 1px solid #26AC34 !important;
+}
 .grid_item {
   display: flex;
   /* width: min(v-bind(changeSize(6.111,'dvw')),v-bind(changeSize(88)));
@@ -703,10 +773,16 @@ onUpdated(() => {
 }
 .product_img {
   display: flex;
-  width: inherit;
+  width: 100%;
   height: min(6.111dvw, 88px);
   /* height: min(v-bind(changeSize(15.278,'dvw')),v-bind(changeSize(220))); */
   overflow: hidden;
+  justify-content:center;
+  align-items:center;
+}
+.product_img img{
+  width:100%;
+  height:auto;
 }
 /* .grid_container button {
     width: min(6.111dvw, 88px);
@@ -818,6 +894,10 @@ onUpdated(() => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+/* size active */
+.item_size_active{
+  border: 1px solid #26AC34 !important;
 }
 .wrapper_apply_buy {
   display: flex;
