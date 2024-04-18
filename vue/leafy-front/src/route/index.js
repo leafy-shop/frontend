@@ -14,6 +14,7 @@ import SignUp from '../view/SignUp.vue'
 import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
 import Payment from '../view/Payment.vue'
+import ConfirmPayment from '../view/ConfirmPayment.vue'
 
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
@@ -86,6 +87,11 @@ const routes=[
         path:'/gallery/profile/:id',
         name:'GalleryProfile',
         component:GalleryProfile
+    },
+    {
+        path:'/pay-order/:id?',
+        name:'ConfirmPayment',
+        component:ConfirmPayment
     },
     {
         path:'/account-setting', //:id?
@@ -222,6 +228,13 @@ router.beforeEach(async (to, from, next) => {
                     next({ name: "Profile_AS" });
                 }
                 break;
+            case "ConfirmPayment":
+                if (( from.name==="MyPurchase" || from.name==="MyPurchaseDetail")) {
+                    next();
+                } else {
+                    next({ name: "MyPurchase" });
+                }
+                break;    
             case "Payment":
                 if (!(from.name === "CartList" || from.name === "ProductDetail"|| from.name==="Payment")) {
                     next({ name: "CartList" });
