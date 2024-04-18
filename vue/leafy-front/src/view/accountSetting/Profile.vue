@@ -517,7 +517,7 @@ onBeforeMount(async () => {
                         </div>
 
                     </div>
-                    <BaseShowErrorInput name="cover_img_profile"/>
+                    <!-- <BaseShowErrorInput name="cover_img_profile"/> -->
                 </div>
             </div>
             <!-- submit --> 
