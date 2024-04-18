@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
-import { ref, computed, onBeforeMount, onMounted } from 'vue'
+import { ref, computed, onBeforeMount, onMounted,onUpdated } from 'vue'
 import validation from '../JS/validation'
 import cookie from '../JS/cookie';
 import fetch from '../JS/api'
@@ -8,7 +8,7 @@ import fetch from '../JS/api'
 // common attribute
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const showOption = ref(false)
-const emit = defineEmits(['search'])
+const emit = defineEmits(['search','getCountCartStatus'])
 const props = defineProps({
     search: {
         type: String,
@@ -17,6 +17,10 @@ const props = defineProps({
     count: {
         type: Number,
         default: 0
+    },
+    getCountCart:{
+        type:Boolean,
+        default:false
     }
 })
 // image status
@@ -85,7 +89,7 @@ const checkCurrentURL = () => {
 
 let countCart = ref(0)
 let addCount = computed(() => (props.count))
-
+const getCountCart=computed(()=>props.getCountCart)
 const callCountCart = async () => {
     // console.log(cartCount.value, "T")
     countCart.value=0
@@ -153,6 +157,14 @@ const showMenu2 = ref(false)
 onMounted(() => {
     checkCurrentURL()
     callCountCart()
+    
+})
+onUpdated(async()=>{
+    // if getCountCart == true recall
+    if(getCountCart.value==true){
+        await callCountCart()
+        emit('getCountCartStatus',false)
+    }
 })
 
 </script>
@@ -251,7 +263,7 @@ onMounted(() => {
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 17.9928C9.672 17.9928 9 18.6648 9 19.4928C9 20.3208 9.672 20.9928 10.5 20.9928C11.328 20.9928 12 20.3208 12 19.4928C12 18.6648 11.328 17.9928 10.5 17.9928Z" fill="#252525"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 17.9928C16.672 17.9928 16 18.6648 16 19.4928C16 20.3208 16.672 20.9928 17.5 20.9928C18.328 20.9928 19 20.3208 19 19.4928C19 18.6648 18.328 17.9928 17.5 17.9928Z" fill="#252525"/>
                         <path d="M3 5H5.331C6.297 5 7.126 5.691 7.299 6.642L8.701 14.358C8.874 15.309 9.703 16 10.669 16H17.494C18.386 16 19.17 15.41 19.416 14.553L20.961 9.181C21.136 8.572 20.707 7.955 20.074 7.908L8 7" stroke="#252525" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg> ({{ countCart + addCount }}) <!--countCart + addCount -->
+                    </svg> ({{ countCart }}) <!--countCart + addCount -->
                 </button>
                 <!-- profile -->
                 <!-- <button v-show="true" class="profile_icon">
