@@ -12,6 +12,7 @@ import BaseReview from '../components/productDetail/BaseReview.vue'
 import BaseRecommedation from '../components/productDetail/BaseRecommendation.vue'
 import validation from '../JS/validation'
 import BaseSelectPage from '../components/BaseSelectPage.vue'
+import BaseAlert from '../components/BaseAlert.vue';
 import fetch from '../JS/api';
 import {useRouter} from 'vue-router'
 const {params} =useRoute()
@@ -19,6 +20,12 @@ const productId = validation.decrypt(params.id)
 const myRouter = useRouter()
 const goShop =()=>myRouter.push({name:"Shop"})
 const goHome =()=>myRouter.push({name:"Home"})
+
+// attribute alert
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // initial value for prop in component
 let productType = ref({})
@@ -115,6 +122,13 @@ const addToCart = async (itemId, style, size, qty) => {
     // console.log("cart", cart);
     // console.log(cart);
     let { status, msg } = await fetch.addToCart(cart);
+    if(await !status){
+        // stock 0
+      alertType.value=2
+      alertDetail.value="Oops! It seems like the item is currently out of stock."
+      isShowAlert.value=true
+      alertTime.value=3
+    }
 }
 
 const changeStyle = async (idx) => {
@@ -156,6 +170,15 @@ const moveRightR=async(current)=>{
 const changePageR=async (number)=>{
     currentPageReview.value = number
     await getProductReview(currentPageReview.value, sortFilter.value)
+}
+
+
+// alert
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
 }
 
 onBeforeMount(async() => {
@@ -205,6 +228,8 @@ onMounted(()=>{
             </div>
         </div>
         <BaseRecommedation  />
+        <BaseAlert name="product_detail_main_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"  />
+
     </div>
     <BaseFooter/>
 </template>
