@@ -167,7 +167,7 @@ const createAddress=async()=>{
     submitStatus=false
   }
   // phone
-  if(!validation.textRange(addressPhone.value,12,11)||!validation.number(addressPhone.value)){
+  if(!validation.textRange(addressPhone.value,11,10)||!validation.number(addressPhone.value)){
     addressPhoneS.value=true
     addressPhoneM.value='Phone number invalid'
     submitStatus=false
