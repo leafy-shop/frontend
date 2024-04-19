@@ -408,21 +408,21 @@ onMounted(async()=>{
 .wrapper_all {
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     /* gap: 24px; */
 }
 .wrapper_my_shop{
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 20px;
-    gap: 24px;
+    padding: min(1.389dvw,20px);
+    gap: min(1.667dvw,24px);
     flex-direction: column;
     justify-content: center;
     align-items: start;
     border: none;
-    border-radius: 8px;
+    border-radius: min(0.556dvw,8px);
     background-color: #fff;
 }
 .my_shop{
@@ -430,7 +430,7 @@ onMounted(async()=>{
     width: 100%;
     height: inherit;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 .header_shop{
     display: flex;
@@ -442,33 +442,34 @@ onMounted(async()=>{
 .header_shop h4{
     display: flex;
     /* width: inherit; */
-    height: 28px;
-    font-size: 18px;
+    height: min(1.944dvw,28px);
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
 }
 .header_shop  button{
     display: flex;
-    width: 133px;
-    height: 36px;
-    border-radius: 4px;
+    width: fit-content;
+    height: min(2.5dvw,36px);
+    border-radius: min(0.278dvw,4px);
     border: none;
-    padding: 8px 12px 8px 8px;
-    gap: 4px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px) min(0.556dvw,8px) min(0.556dvw,8px);
+    gap: min(0.278dvw,4px);
     background-color: #26AC34;
     color: #fff;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     align-items: center;
     justify-content: start;
     cursor: pointer;
 }
 .header_shop  button svg{
-    width: 10px;
-    height: 10px;
-    margin: 5px;
+    width: min(0.694dvw,10px);
+    height: min(0.694dvw,10px);
+    margin: min(0.347dvw,5px);
 }
 .sort_shop{
     width: 100%;
@@ -479,25 +480,26 @@ onMounted(async()=>{
     display: flex;
     width: fit-content;
     height: fit-content;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .sort_item{
     display: flex;
     width: fit-content;
-    height: 36px;
+    height: min(2.5dvw,36px);
     justify-content: center;
     align-items: center;
-    border: 1px solid;
-    border-radius: 4px;
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #E0E0E0;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    padding: 8px 12px;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     cursor: pointer;
     font-weight: 500;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #212121;
     background-color: #fff;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     white-space: nowrap;
 }
 .sort_active{
@@ -509,8 +511,8 @@ onMounted(async()=>{
 }
 .sort_item >div{
     display: none;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
 }
@@ -532,7 +534,7 @@ onMounted(async()=>{
 /* for arrow */
 .sort_item >div .arrow_active{
     display: flex ;
-    width: 10px;
+    width: min(0.694dvw,10px);
 }
 
 .content_shop{
@@ -553,38 +555,38 @@ table{
 }
 table .header{
     width: 100%;
-    height: 28px;
+    height: min(1.944dvw,28px);
     vertical-align: top;
-    border-bottom: 1px solid #E0E0E0;
-    font-size: 12px;
+    border-bottom: min(0.069dvw,1px) solid #E0E0E0;
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
     color: #757575;
     
 }
 /* column */
 .header th:nth-child(1){
-    width: 52px;
+    width: min(3.611dvw,52px);
     min-width: fit-content;
     max-width: 100%;
 }
 .header th:nth-child(2){
-    width: 80px;
+    width: min(5.556dvw,80px);
     min-width: fit-content;
     max-width: 100%;
 }
 .header th:nth-child(3){
-    width: 200px;
+    width: min(13.889dvw,200px);
     min-width: fit-content;
     max-width: 100%;
 }
 .header th:nth-child(4){
-    width: 116px;
+    width: min(8.056dvw,116px);
     min-width: fit-content;
     max-width: 100%;
     /* width: 116px; */
 }
 .header th:nth-child(5){
-    width: 200px;
+    width: min(13.889dvw,200px);
     min-width: fit-content;
     max-width: 100%;
 }
@@ -610,8 +612,8 @@ td,th{
 th button{
     display: flex;
     width: 100%;
-    height: 28px;
-    padding: 0px 12px;
+    height: min(1.944dvw,28px);
+    padding: 0px min(0.833dvw,12px);
     border: none;
     background-color: transparent;
     /* display: flex; */   
@@ -622,43 +624,44 @@ th button{
 th button h6,th h6{
     display: flex;
     width: fit-content;
-    height: 16px;
-    font-size: 12px;
+    height: min(1.111dvw,16px);
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
     color: #757575;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 th h6 svg{
     display: flex;
-    width: 12px;
-    height: 12px;
+    width: min(0.833dvw,12px);
+    height: min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
 }
 table .product_item{
     width: 100%;
-    height: 76px;
-    padding: 12px 0px;
-    border-bottom:1px solid #EEEEEE;
+    height: min(5.278dvw,76px);
+    padding: min(0.833dvw,12px) 0px;
+    border-bottom:min(0.069dvw,1px) solid #EEEEEE;
 }
 .normal_text{
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 .td_item{
-    padding: 16px 12px;
+    padding: min(1.111dvw,16px) min(0.833dvw,12px);
 }
 /* image */
 
 .product_item td:nth-child(1) div{
     display: flex;
-    width: 52px;
-    height: 52px;
-    border-radius: 4px;
+    width: min(3.611dvw,52px);
+    height: min(3.611dvw,52px);
+    border-radius: min(0.278dvw,4px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -679,7 +682,7 @@ table .product_item{
     max-width: 100%;
     height: 100%;
     flex-direction: column;
-    padding: 6px 12px;
+    padding: min(5.278dvw,76px) min(0.833dvw,12px);
     align-items: center;
 } 
 .product_item td:nth-child(3) div{
@@ -693,21 +696,22 @@ table .product_item{
 }
 .product_item td:nth-child(3) div h5{
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw,20px);
     text-overflow: ellipsis;
     word-break: break-all;
     font-weight: 500;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #212121;
     overflow: hidden;
 }
 .product_item td:nth-child(3) div p{
     width: 100%;
-    height: 16px;
+    height: min(1.111dvw,16px);
     text-overflow: ellipsis;
     word-break: break-all;
     font-weight: 400;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     color: #616161;
     overflow: hidden;
 
@@ -716,29 +720,30 @@ table .product_item{
 .product_item td:nth-child(4){
     width: fit-content;
     height: 100%;
-    padding: 12px;
+    padding: min(0.833dvw,12px);
 }
 .product_item td:nth-child(4) div{
 
     width: fit-content;
-    min-width: 50px;
+    min-width: min(3.472dvw,50px);
     max-width: 100%;
-    height: 28px;
-    padding: 4px 8px;
+    height: min(1.944dvw,28px);
+    padding: min(0.278dvw,4px) min(0.556dvw,8px);
     background-color: #EEEEEE;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     word-break: keep-all;
     text-overflow: ellipsis;
     overflow: hidden;
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
 }
 /* price */
 .product_item td:nth-child(5) h6{
     display: flex;
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw,20px);
 }
 .product_item td:nth-child(5) h6::before{
     content: '฿ ';
@@ -746,11 +751,11 @@ table .product_item{
 /* stock */
 .product_item td:nth-child(6) h6{
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw,20px);
 }
 /* star */
 .product_item td:nth-child(7){
-    padding: 20px 12px;
+    padding: min(1.389dvw,20px) min(0.833dvw,12px);
 }
 .product_item td:nth-child(7) div{
     display: flex;
@@ -766,12 +771,12 @@ table .product_item{
     height: 100%;
     justify-content: left;
     align-items: center;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 .product_item td:nth-child(8) div button{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
     border: none;
@@ -779,7 +784,7 @@ table .product_item{
     cursor: pointer;
 }
 .product_item td:nth-child(8) div button svg{
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
 }
 </style>

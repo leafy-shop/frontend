@@ -924,7 +924,7 @@ onUpdated(() => {
     padding-bottom: min(1.389dvw, 20px);
     gap: min(2.222dvw, 32px);
     flex-direction: column;
-    padding: 0px min(11.111dvw,160px);
+    padding: 0px min(11.111dvw,160px) min(2.778dvw,40px) min(11.111dvw,160px);
 }
 .product_list_me{
     display: flex;

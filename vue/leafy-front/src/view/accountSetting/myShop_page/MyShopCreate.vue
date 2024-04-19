@@ -1104,13 +1104,13 @@ onUpdated(async () => {
 
 .wrapper_all {
     width: inherit;
-    min-width: 928px;
+    min-width: min(64.444dvw,928px);
     height: 100%;
     /* min-height: 100%; */
     /* max-height: 200dvh; */
     overflow: hidden;
     /* border: none; */
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .wrapper_shop {
@@ -1120,11 +1120,11 @@ onUpdated(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
 }
 
 .wrapper_shop_create {
@@ -1139,9 +1139,9 @@ onUpdated(async () => {
     background-color: #FFFFFF;
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-    gap: 24px;
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
+    gap: min(1.667dvw,24px);
 }
 
 .shop_create {
@@ -1151,10 +1151,10 @@ onUpdated(async () => {
     height: fit-content;
     flex-direction: column;
     justify-content: center;
-    padding: 20px;
+    padding: min(1.389dvw,20px);
     align-items: start;
     /* align-items: center; */
-    gap: 24px;
+    gap: min(1.667dvw,24px);
     /* background-color: #3683c7; */
 }
 
@@ -1164,15 +1164,15 @@ onUpdated(async () => {
     height: inherit;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
     /* background-color: #42c736; */
 }
 
 .header_shop_create h4 {
     display: flex;
     width: 100%;
-    height: 28px;
-    font-size: 18px;
+    height: min(1.944dvw,28px);
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
@@ -1181,16 +1181,17 @@ onUpdated(async () => {
 .header_shop_create button {
     display: flex;
     width: fit-content;
-    height: 36px;
-    border-radius: 4px;
+    height: min(2.5dvw,36px);
+    border-radius: min(0.278dvw,4px);
     border: none;
-    padding: 8px 12px 8px 8px;
-    gap: 4px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px) min(0.556dvw,8px) min(0.556dvw,8px);
+    gap: min(0.278dvw,4px);
     background-color: #BDBDBD;
     color: #fff;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     align-items: center;
     justify-content: start;
     cursor: pointer;
@@ -1198,9 +1199,9 @@ onUpdated(async () => {
 }
 
 .header_shop_create button svg {
-    width: 10px;
-    height: 10px;
-    margin: 5px;
+    width: min(0.694dvw,10px);
+    height: min(0.694dvw,10px);
+    margin: min(0.347dvw,5px);
 }
 
 .container_input {
@@ -1208,7 +1209,7 @@ onUpdated(async () => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .container_input .input_field {
@@ -1216,27 +1217,28 @@ onUpdated(async () => {
     width: inherit;
     height: fit-content;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 
 .container_input .input_field h5 {
     display: flex;
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw,20px);
     align-items: center;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
 }
 
 .input_field .input {
     width: 100%;
-    height: 36px;
-    padding: 8px 12px;
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     background-color: #fff;
-    border: 1px solid;
-    border-radius: 4px;
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #D1D5DB;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
 
 }
 
@@ -1246,16 +1248,16 @@ onUpdated(async () => {
 
 .input_field .input_description {
     width: 100%;
-    height: 100px;
-    min-height: 36px;
-    max-height: 150px;
-    padding: 8px 12px;
+    height: min(6.944dvw,100px);
+    min-height: min(2.5dvw,36px);
+    max-height: min(10.417dvw,150px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     resize: vertical;
-    border: 1px solid;
-    border-radius: 4px;
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #D1D5DB;
     background-color: #fff;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
 }
 
 .input_field .input_price {
@@ -1270,7 +1272,8 @@ onUpdated(async () => {
 }
 
 .input_field .input_price h6 {
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #9E9E9E;
 }
@@ -1278,9 +1281,9 @@ onUpdated(async () => {
 .input_field .input_img {
     display: flex;
     width: 100%;
-    height: 140px;
-    border: 2px dashed;
-    border-radius: 4px;
+    height: min(9.722dvw,140px);
+    border: min(0.139dvw,2px) dashed;
+    border-radius: min(0.278dvw,4px);
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
@@ -1293,13 +1296,13 @@ onUpdated(async () => {
     height: 100%;
     align-items: end;
     justify-content: center;
-    padding-top: 24px;
+    padding-top: min(1.667dvw,24px);
 }
 
 .remove_variance button {
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1314,30 +1317,31 @@ onUpdated(async () => {
 .input_field .new_variance {
     display: flex;
     width: 100%;
-    height: 36px;
+    height: min(2.5dvw,36px);
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    gap: 4px;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    gap: min(0.278dvw,4px);
     background-color: #BDBDBD;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 
 .new_variance h6 {
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 100;
     color: #fff;
 }
 
 .new_variance div {
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
 }
@@ -1349,9 +1353,9 @@ onUpdated(async () => {
 .img_cover>div {
     display: flex;
     width: 100%;
-    height: 140px;
-    border: 2px dashed;
-    border-radius: 4px;
+    height: min(9.722dvw,140px);
+    border: min(0.139dvw,2px) dashed;
+    border-radius: min(0.278dvw,4px);
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
@@ -1368,7 +1372,7 @@ onUpdated(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -1377,21 +1381,22 @@ onUpdated(async () => {
 
 .img_cover>div label div {
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     justify-content: center;
     align-items: center;
 }
 
 .img_cover>div label div svg {
-    width: 36px;
-    height: 36px;
+    width: min(2.5dvw,36px);
+    height: min(2.5dvw,36px);
 }
 
 .img_cover>div label h6 {
     width: fit-content;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #757575;
 }
@@ -1403,9 +1408,9 @@ onUpdated(async () => {
 
 .img_cover>div label p {
     width: fit-content;
-    height: 16px;
+    height: min(1.111dvw,16px);
     font-weight: 400;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     color: #6B7280;
 }
 
@@ -1432,7 +1437,7 @@ onUpdated(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -1441,21 +1446,22 @@ onUpdated(async () => {
 
 .input_img>label>div {
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     justify-content: center;
     align-items: center;
 }
 
 .input_img>label>div svg {
-    width: 36px;
-    height: 36px;
+    width: min(2.5dvw,36px);
+    height: min(2.5dvw,36px);
 }
 
 .input_img>label h6 {
     width: fit-content;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #757575;
 }
@@ -1467,9 +1473,9 @@ onUpdated(async () => {
 
 .input_img>label p {
     width: fit-content;
-    height: 16px;
+    height: min(1.111dvw,16px);
     font-weight: 400;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     color: #6B7280;
 }
 
@@ -1485,19 +1491,19 @@ onUpdated(async () => {
     width: 100%;
     height: fit-content;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 
 .style_preview_img>button {
     display: flex;
-    width: 140px;
-    height: 140px;
+    width: min(9.722dvw,140px);
+    height: min(9.722dvw,140px);
     position: relative;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     background-color: #212121;
 
 }
@@ -1508,13 +1514,13 @@ onUpdated(async () => {
 
 .style_preview_img .remove {
     display: none;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: min(0.347dvw,5px);
+    top: min(0.347dvw,5px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1522,7 +1528,7 @@ onUpdated(async () => {
 }
 
 .style_preview_img>button:hover img {
-    filter: blur(4px);
+    filter: blur(min(0.278dvw,4px));
 
 }
 
@@ -1534,11 +1540,11 @@ onUpdated(async () => {
 
 .style_preview_img>label {
     display: flex;
-    width: 140px;
-    height: 140px;
+    width: min(9.722dvw,140px);
+    height: min(9.722dvw,140px);
     justify-content: center;
     align-items: center;
-    border: 2px dashed;
+    border: min(0.139dvw,2px) dashed;
     border-color: #E0E0E0;
     cursor: pointer;
 }
@@ -1552,24 +1558,25 @@ onUpdated(async () => {
 
 .style_preview_img>label>div div {
     display: flex;
-    width: 44px;
-    height: 44px;
+    width: min(3.056dvw,44px);
+    height: min(3.056dvw,44px);
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 
 .style_preview_img>label>div div svg {
-    width: 33px;
+    width: min(2.222dvw,32px);
     height: auto;
 }
 
 .style_preview_img>label>div h6 {
     display: flex;
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw,20px);
     align-items: center;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #26AC34;
 }
@@ -1585,7 +1592,7 @@ onUpdated(async () => {
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .product_list {
@@ -1598,8 +1605,8 @@ onUpdated(async () => {
 .product_list .product_item {
     display: flex;
     width: 100%;
-    height: 100px;
-    padding: 12px 0px;
+    height: min(6.944dvw,100px);
+    padding: min(0.833dvw,12px) 0px;
 }
 
 .product_item .product_info {
@@ -1617,11 +1624,11 @@ onUpdated(async () => {
 /* img */
 .product_img {
     display: flex;
-    width: 76px;
-    height: 76px;
+    width: min(5.278dvw,76px);
+    height: min(5.278dvw,76px);
     overflow: hidden;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     justify-content: center;
     align-items: center;
     background-color: #D9D9D9;
@@ -1636,7 +1643,7 @@ onUpdated(async () => {
     display: flex;
     width: 100%;
     height: 100%;
-    padding-left: 24px;
+    padding-left: min(1.667dvw,24px);
     overflow: hidden;
     flex-direction: column;
     justify-content: space-between;
@@ -1646,7 +1653,7 @@ onUpdated(async () => {
 .product_detail .header {
     display: flex;
     width: 100%;
-    height: 20px;
+    height: min(1.389dvw,20px);
     justify-content: space-between;
 }
 
@@ -1655,13 +1662,14 @@ onUpdated(async () => {
     display: flex;
     width: 100%;
     height: 100%;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 
 .info h5 {
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #212121
 }
@@ -1669,7 +1677,8 @@ onUpdated(async () => {
 .info h6 {
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #616161;
     text-overflow: ellipsis;
@@ -1680,13 +1689,13 @@ onUpdated(async () => {
     display: flex;
     width: fit-content;
     height: 100%;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 
 .operator button {
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1704,12 +1713,12 @@ onUpdated(async () => {
 .product_detail .price {
     display: flex;
     width: 100%;
-    height: 24px;
+    height: min(1.667dvw,24px);
     align-items: center;
 }
 
 .price h6 {
-    font-size: 16px;
+    font-size: min(1.111dvw,16px);
     font-weight: 400;
     color: #26AC34;
     text-overflow: ellipsis;
@@ -1719,14 +1728,15 @@ onUpdated(async () => {
 .product_detail .variation {
     display: flex;
     width: 100%;
-    height: 20px;
-    gap: 24px;
+    height: min(1.389dvw,20px);
+    gap: min(1.667dvw,24px);
 }
 
 .variation h6 {
     width: fit-content;
     height: 100%;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #212121;
     text-overflow: ellipsis;
@@ -1734,7 +1744,8 @@ onUpdated(async () => {
 }
 
 .variation p {
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #616161;
     text-overflow: ellipsis;
@@ -1772,7 +1783,7 @@ onUpdated(async () => {
     font-weight: 400;
     line-height: 136%;
     /* 16.32px */
-    letter-spacing: 0.2px;
+    letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1781,20 +1792,20 @@ onUpdated(async () => {
 .submit {
     display: flex;
     width: 100%;
-    height: 60px;
-    padding: 12px 20px;
-    gap: 8px;
+    height: min(4.167dvw,60px);
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
+    gap: min(0.556dvw,8px);
     justify-content: end;
     background-color: #FAFAFA;
 }
 
 .submit button {
-    width: 80px;
-    height: 36px;
-    border: 1px solid;
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 

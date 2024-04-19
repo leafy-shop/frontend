@@ -269,10 +269,10 @@ onBeforeMount(async()=>{
     max-width: 100%;
     background-color: #fff;
     border: none;
-    border-radius:8px ;
-    box-shadow: 0px 1px 2px 0px #0000000F;
-    gap: 24px;
-    padding: 20px ;
+    border-radius:min(0.556dvw,8px) ;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
+    gap: min(1.667dvw,24px);
+    padding: min(1.389dvw,20px) ;
     flex-direction: column;
 }
 .my_gallery{
@@ -280,13 +280,13 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 /* header */
 .my_gallery .header_my_gallery{
     display: flex;
     width: 100%;
-    height: 36px;
+    height: min(2.5dvw,36px);
     justify-content: space-between;
     align-items: center;
 }
@@ -295,7 +295,7 @@ onBeforeMount(async()=>{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 18px;
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
 }
@@ -303,25 +303,25 @@ onBeforeMount(async()=>{
     display: flex;
     width: fit-content;
     height: 100%;
-    padding: 8px 12px 8px 8px;
-    gap: 4px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px) min(0.556dvw,8px) min(0.556dvw,8px);
+    gap: min(0.278dvw,4px);
     background-color: #26AC34;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 .header_my_gallery >button div{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
 }
 .header_my_gallery >button div svg{
-    width: 10px;
+    width: min(0.694dvw,10px);
     height: auto;
 }
 .header_my_gallery >button h5{
@@ -329,7 +329,8 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     color: #fff;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
 }
 /* content */
@@ -343,9 +344,9 @@ onBeforeMount(async()=>{
 .wrapper_content .header_gallery{
     display: grid;
     width: 100%;
-    height: 28px;
+    height: min(1.944dvw,28px);
     grid-template-columns: 4fr 6fr 3fr 3fr 2fr;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: min(0.069dvw,1px) solid #E0E0E0;
 }
 .header_gallery >div{
     display: flex;
@@ -356,7 +357,7 @@ onBeforeMount(async()=>{
 .header_gallery >div h5{
     width: 100%;
     height: 100%;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
     color: #757575;
     overflow: hidden;
@@ -375,13 +376,13 @@ onBeforeMount(async()=>{
     grid-template-columns: 4fr 6fr 3fr 3fr 2fr;
     width: 100%;
     height: fit-content;
-    padding: 12px 0px;
-    border-bottom:1px solid #EEEEEE;    
+    padding: min(0.833dvw,12px) 0px;
+    border-bottom:min(0.069dvw,1px) solid #EEEEEE;    
 }
 .gallery_item >div{
     display: flex;
     width: 100%;
-    height: 124px;
+    height: min(8.611dvw,124px);
     justify-content: center;
     align-items: center;
 
@@ -400,13 +401,13 @@ onBeforeMount(async()=>{
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: 2px;
+    padding: min(0.139dvw,2px);
     /* background-color: black; */
 }
 .wrapper_content .gallery_img img{
     width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
 
 }
 /* name */
@@ -415,10 +416,10 @@ onBeforeMount(async()=>{
     /* width: 100%;
     padding: 12px; */
     width: 100%;
-    min-width: 420px;
+    min-width: min(29.167dvw,420px);
     max-width: 29.167dvw;
     /* width: 100%; */
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     flex-direction: column;
 }
 /* .gallery_item .gallery_name{
@@ -426,16 +427,17 @@ onBeforeMount(async()=>{
 } */
 .gallery_item .gallery_name >div{
     width: 100%;
-    height: 100px;
+    height: min(6.944dvw,100px);
     max-width: 100%;
-    padding: 6px 12px;
+    padding: min(0.417dvw,6px) min(0.833dvw,12px);
 
 }
 .wrapper_content .gallery_name h6{
     width: 100%;
     /* max-width: 100%; */
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color:#212121;
     overflow: hidden;
@@ -449,7 +451,7 @@ onBeforeMount(async()=>{
     height: fit-content;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    font-size:  12px;
+    font-size:  min(0.833dvw,12px);
     font-weight: 400;
     overflow: hidden;
     color: #616161;
@@ -457,18 +459,19 @@ onBeforeMount(async()=>{
 /* style */
 .wrapper_content .gallery_style{
     width: 100%;
-    min-width: 116px;
+    min-width: min(8.056dvw,116px);
     max-width: 8.056dvw;
 }
 .gallery_item .gallery_style h6{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    padding: 4px 8px;
+    padding: min(0.278dvw,4px) min(0.556dvw,8px);
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     background: #EEEEEE;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color:#212121;
     overflow: hidden;
@@ -477,7 +480,7 @@ onBeforeMount(async()=>{
 }
 /* date */
 .wrapper_content .gallery_date{
-    min-width: 108px;
+    min-width: min(7.5dvw,108px);
     max-width: 7.5dvw;
     height: 100%;
     justify-content: center;
@@ -487,7 +490,8 @@ onBeforeMount(async()=>{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color:#6B7280;
     overflow: hidden;
@@ -500,12 +504,12 @@ onBeforeMount(async()=>{
     width: 100%;
     min-width: 84px;
     max-width: 5.833dvw;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 .gallery_item .gallery_operation button{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
     border: none;
     justify-content: center;
     align-items: center;

@@ -391,15 +391,15 @@ onBeforeMount(() => {
 .wrapper_all {
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
 }
 .wrapper_change_PW {
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 20px;
-    gap: 24px;
+    padding: min(1.389dvw,20px);
+    gap: min(1.667dvw,24px);
     flex-direction: column;
     justify-content: center;
     align-items: start;
@@ -413,7 +413,7 @@ onBeforeMount(() => {
     width: 100%;
     height: inherit;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .header_change_PW {
@@ -421,7 +421,7 @@ onBeforeMount(() => {
     width: inherit;
     height: inherit;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     align-items: start;
     justify-content: center;
 }
@@ -429,8 +429,8 @@ onBeforeMount(() => {
 .header_change_PW h4 {
     display: flex;
     width: inherit;
-    height: 28px;
-    font-size: 18px;
+    height: min(1.944dvw,28px);
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
@@ -439,9 +439,10 @@ onBeforeMount(() => {
 .header_change_PW p {
     display: flex;
     width: inherit;
-    height: 20px;
+    height: min(1.389dvw,20px);
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #757575;
     align-items: center
 }
@@ -459,30 +460,31 @@ onBeforeMount(() => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 
 .input_item h5 {
     display: flex;
     width: inherit;
-    height: 20px;
+    height: min(1.389dvw,20px);
     font-weight: 500;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #212121;
 }
 
 .input_item .input_field {
     display: flex;
-    width: 320px;
-    height: 36px;
+    width: min(22.222dvw,320px);
+    height: min(2.5dvw,36px);
     background-color: #fff;
-    border: 1px solid;
+    border: min(0.069dvw,1px) solid;
     border-color: #D1D5DB;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     justify-content: center;
     align-items: center;
-    padding-right: 12px;
+    padding-right: min(0.833dvw,12px);
 }
 
 .input_item .input_field:focus-within {
@@ -494,7 +496,7 @@ onBeforeMount(() => {
     height: inherit;
     border: none;
     outline: none;
-    padding: 8px 0px 8px 12px;
+    padding: min(0.556dvw,8px) 0px min(0.556dvw,8px) min(0.833dvw,12px);
     background-color: transparent;
 }
 
@@ -510,8 +512,8 @@ onBeforeMount(() => {
 }
 
 .input_item .input_field button svg {
-    width: 20px;
-    height: 20px;
+    width: min(1.389dvw,20px);
+    height: min(1.389dvw,20px);
 }
 
 .input_item .input_field button svg:nth-child(2) {
@@ -520,8 +522,9 @@ onBeforeMount(() => {
 
 .input_item button {
     width: fit-content;
-    height: 20px;
-    font-weight: 14px;
+    height: min(1.389dvw,20px);
+    font-weight: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #9E9E9E;
     border: none;
@@ -531,10 +534,11 @@ onBeforeMount(() => {
 .input_item p {
     display: flex;
     width: 100%;
-    height: 20px;
+    height: min(1.389dvw,20px);
     justify-content: start;
     align-items: center;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #9E9E9E;
 }
@@ -544,27 +548,27 @@ onBeforeMount(() => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 
 .submit {
     display: flex;
     width: 100%;
-    height: 60px;
-    padding: 12px 20px;
-    gap: 8px;
+    height: min(4.167dvw,60px);
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
+    gap: min(0.556dvw,8px);
     justify-content: end;
     background-color: #FAFAFA;
 }
 
 .submit button {
-    width: 80px;
-    height: 36px;
-    border: 1px solid;
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 
@@ -611,7 +615,7 @@ onBeforeMount(() => {
     font-weight: 400;
     line-height: 136%;
     /* 16.32px */
-    letter-spacing: 0.2px;
+    letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;

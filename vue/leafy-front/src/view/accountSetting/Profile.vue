@@ -658,8 +658,8 @@ onBeforeMount(async () => {
 .wrapper_all {
     overflow: hidden;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     /* gap: 24px; */
 }
 
@@ -669,7 +669,7 @@ onBeforeMount(async () => {
     height: inherit;
     flex-direction: column;
     /* padding: 20px; */
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .wrapper_profile>div {
@@ -685,8 +685,8 @@ onBeforeMount(async () => {
     display: flex;
     width: 100%;
     height: fit-content;
-    padding: 20px;
-    gap: 24px;
+    padding: min(1.389dvw,20px);
+    gap: min(1.667dvw,24px);
     flex-direction: column;
     justify-content: center;
     align-items: start;
@@ -698,7 +698,7 @@ onBeforeMount(async () => {
     width: inherit;
     height: inherit;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     align-items: start;
     justify-content: center;
 }
@@ -706,8 +706,8 @@ onBeforeMount(async () => {
 .title h4 {
     display: flex;
     width: inherit;
-    height: 28px;
-    font-size: 18px;
+    height: min(1.944dvw,28px);
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
@@ -716,9 +716,9 @@ onBeforeMount(async () => {
 .title p {
     display: flex;
     width: inherit;
-    height: 20px;
+    height: min(1.389dvw,20px);
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.833dvw,12px);
     color: #757575;
     align-items: center
 }
@@ -727,71 +727,75 @@ onBeforeMount(async () => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 .profile_item {
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 
 .profile_item h5 {
     width: 100%;
-    height: 20px;
+    height: min(1.389dvw,20px);
     font-weight: 500;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #212121;
 }
 
 .username input {
     width: 100%;
-    height: 36px;
-    padding: 8px 12px;
-    border: 1px solid;
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
-    border-radius: 4px;
-    font-size: 14px;
+    border-radius: min(0.278dvw,4px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #212121;
 }
 
 .about_me textarea {
     width: 100%;
-    height: 100px;
-    min-height: 36px;
-    max-height: 200px;
+    height: min(6.944dvw,100px);
+    min-height: min(2.5dvw,36px);
+    max-height: min(13.889dvw,200px);
     resize: vertical;
-    padding: 8px 12px;
-    border: 1px solid;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border: min(0.069dvw,1px) solid;
     border-color: #D1D5DB;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     font-weight: 400;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     color: #212121;
 }
 
 .about_me p {
     width: 100%;
-    height: 20px;
-    margin-top: 8px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    margin-top: min(0.556dvw,8px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #9E9E9E;
 }
 
 .image>div {
     display: flex;
-    height: 48px;
+    height: min(3.333dvw,48px);
     align-items: center;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
 }
 
 .image>div div {
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     border: none;
     border-radius: 50%;
     overflow: hidden;
@@ -813,21 +817,27 @@ onBeforeMount(async () => {
 
 .image>div label {
     display: flex;
-    width: 51px;
-    height: 36px;
-    padding: 8px 12px;
-    border: 1px solid;
-    border-radius: 4px;
+    width: fit-content;
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #E0E0E0;
     cursor: pointer;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    color: #616161;
+    font-weight: 500;
+    letter-spacing: min(0.014dvw,0.2px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.05);
 }
 
 .img_cover>div {
     display: flex;
     width: 100%;
-    height: 140px;
-    border: 2px dashed;
-    border-radius: 4px;
+    height: min(9.722dvw,140px);
+    border: min(0.139dvw,2px) dashed;
+    border-radius: min(0.278dvw,4px);
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
@@ -844,7 +854,7 @@ onBeforeMount(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -853,21 +863,22 @@ onBeforeMount(async () => {
 
 .img_cover>div label div {
     display: flex;
-    width: 48px;
-    height: 48px;
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     justify-content: center;
     align-items: center;
 }
 
 .img_cover>div label div svg {
-    width: 36px;
-    height: 36px;
+    width: min(2.5dvw,36px);
+    height: min(2.5dvw,36px);
 }
 
 .img_cover>div label h6 {
     width: fit-content;
-    height: 20px;
-    font-size: 14px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #757575;
 }
@@ -879,9 +890,9 @@ onBeforeMount(async () => {
 
 .img_cover>div label p {
     width: fit-content;
-    height: 16px;
+    height: min(1.111dvw,16px);
     font-weight: 400;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     color: #6B7280;
 }
 
@@ -905,9 +916,9 @@ onBeforeMount(async () => {
 .submit {
     display: flex;
     width: 100%;
-    height: 60px;
-    padding: 12px 20px;
-    gap: 8px;
+    height: min(4.167dvw,60px);
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
+    gap: min(0.556dvw,8px);
     justify-content: end;
     background-color: #FAFAFA;
 }
@@ -917,18 +928,19 @@ onBeforeMount(async () => {
     width: fit-content;
     height: 100%;
     font-weight: 500;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     align-items: center;
     color: #F75555;
 }
 
 .submit button {
-    width: 80px;
-    height: 36px;
-    border: 1px solid;
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 
@@ -950,38 +962,44 @@ onBeforeMount(async () => {
     height: fit-content;
     justify-content: start;
     align-items: start;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
 }
 
 .info_item {
     display: flex;
-    width: 372px;
+    /* width: min(25.833dvw,372px); */
+    width: 100%;
     height: inherit;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 
 .info_item h5 {
     width: fit-content;
-    height: 20px;
+    height: min(1.389dvw,20px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    font-weight: 500;
 }
 
 .importen_input::after {
     content: "*";
     color: #F75555;
-    font-size: 14px;
-    font-weight: 500;
+    /* font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    font-weight: 500; */
 }
 
 .info_item input {
     width: 100%;
-    height: 36px;
-    border: 1px solid;
-    border-radius: 4px;
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #D1D5DB;
-    padding: 8px 12px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
-    font-size: 14px;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #212121;
 }
@@ -1017,7 +1035,7 @@ onBeforeMount(async () => {
     font-weight: 400;
     line-height: 136%;
     /* 16.32px */
-    letter-spacing: 0.2px;
+    letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
