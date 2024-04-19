@@ -65,7 +65,7 @@ onUpdated(()=>{
 }
 .move_page p span{
     font-weight: 500; 
-    color: #374151;
+    color: #212121;
 }
 .move_page div{
     display: flex;
@@ -85,5 +85,10 @@ onUpdated(()=>{
     cursor: pointer;
     justify-content: center;
     align-items: center;
+    font-weight: 500;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #212121;
 }
 </style>
