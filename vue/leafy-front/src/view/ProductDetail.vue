@@ -66,7 +66,7 @@ const getProductDetail = async (id, selectedId=0) => {
     // console.log(id)
     let {status,data} = await fetch.getProductDetail(id)
     // console.log(data.name)
-    if(status){
+    if(await status){
         // product type page
         productType.value.itemId = productId
         productType.value.name = data.name
@@ -79,7 +79,7 @@ const getProductDetail = async (id, selectedId=0) => {
         productType.value.image = data.image //image
         itemOwner.value=data.itemOwner// item owner
         selectedStyle.value = productType.value.styles[selectedId]
-        
+
         //store
         await getStore()
         // console.log(data.itemOwner,'item owner')
@@ -128,10 +128,19 @@ const addToCart = async (itemId, style, size, qty) => {
     let { status, msg } = await fetch.addToCart(cart);
     if(await status){
         CountCartStatus.value=true
+        // await getProductDetail()
+    }else
+    if(await msg=='404'){
+        // stock 0
+        alertType.value=2
+        alertDetail.value="Oops! It seems like the item is currently out of stock."
+        isShowAlert.value=true
+        alertTime.value=3
+        // await getProductDetail()
     }else{
         // stock 0
       alertType.value=2
-      alertDetail.value="Oops! It seems like the item is currently out of stock."
+      alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
       isShowAlert.value=true
       alertTime.value=3
     }
