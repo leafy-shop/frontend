@@ -830,8 +830,7 @@ const getShowAlertChange=(input)=>{
     width:min(0.556dvw,8px);
     height:min(0.556dvw,8px);
     justify-content:center;
-    align-items:center;
-    
+    align-items:center; 
 }
 .header_shop .status >div svg{
     width:min(0.417dvw,6px);
@@ -850,7 +849,6 @@ const getShowAlertChange=(input)=>{
     height: fit-content;
     padding: min(0.833dvw,12px) min(1.389dvw,20px) 0px min(1.389dvw,20px);
     flex-direction: column;
-
 }
 .product_list .product_item{
     display: flex;
@@ -1451,5 +1449,104 @@ const getShowAlertChange=(input)=>{
     width: ;
 } */
 
+/* mobile */
+@media (width<=432px){
+
+    .shop_item{
+        border-radius:8px;
+        padding-top:20px;
+    }
+    .header_shop{
+        height:36px;
+        padding:0px 20px 12px 20px;
+        border-bottom: 1px solid #EEEEEE;
+    }
+    .header_shop .shop_name{
+        gap:8px;
+    }
+    .shop_name h5{
+        width:fit-content;
+        max-width:150px;
+        font-size:16px;
+        font-weight:700;
+    }
+    .shop_name >div{
+        gap:8px;
+    }
+    .shop_name >div> button{
+
+        height:24px;
+        border-radius:4px;
+        padding:4px 12px; 
+        font-size:12px;
+        font-weight:500;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+    }
+    .shop_name >div> .chat_now{
+        border:1px solid #26AC34;
+    }
+    .shop_name >div> .view_shop{
+        border:1px solid #E0E0E0;
+    }
+    .header_shop .status{
+        gap:8px;
+        padding:2px 10px 2px 8px;
+        border-radius:10px;
+        background-color:#E0E0E0;
+    }
+    .header_shop .status >div{
+        width:8px;
+        height:8px;
+    }
+    .header_shop .status >div svg{
+        width:6px;
+        height:6px;
+    }
+    .header_shop .status h6{
+        font-size:12px;
+        font-weight:500;
+    }
+    /* product list */
+    .product_list{
+        padding: 12px 20px 0px 20px;
+    }
+    .product_list .product_item{
+        height: 64px;
+        padding-bottom:12px ;
+        border-bottom:1px solid #EEEEEE;
+    }
+    /* image */
+    .product_item .product_img{
+        width: 52px;
+        height: 52px;
+        border-radius: 4px;
+    }
+    /* informatoin */
+    /* .product_item .product_info{
+    } */
+    .product_info .detail{
+        width: fit-content;
+        min-width: 100%;
+        min-height: 52px;
+        padding: 6px 12px;
+        gap: 4px;
+    }
+    /* detail item */
+    .detail h6{
+        height: 20px;
+        font-size: 14px;
+    }
+    .detail p{
+        height: 16px;
+        font-size: 12px;
+    }
+    .product_info .container_price_qty{
+        display: flex;
+        width:min(20.833dvw,300px);
+        height: fit-content;
+        justify-content: center;
+        align-items: center
+    }
+}
 
 </style>

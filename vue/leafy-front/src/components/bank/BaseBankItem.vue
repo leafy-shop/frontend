@@ -93,7 +93,7 @@ const fullNameBank = (keyword) => {
     <!-- <div v-if="dataList.length!=0" class="container_bank" :id="props.name"> -->
         <!-- bank -->
         <!-- <div  v-if="name.includes('bank')" class="bank_list"> -->
-            <div  class="bank_item">
+            <div :id="props.name" class="bank_item">
                 <!-- title -->
                 <div class="title">
                     <div class="info">
@@ -105,7 +105,7 @@ const fullNameBank = (keyword) => {
                         </p>
                     </div>
 
-                    <div class="operation">
+                    <div v-if="isShowEditBtn || isShowBinBtn" class="operation">
 
                         <!-- edit -->
                         
@@ -167,7 +167,7 @@ const fullNameBank = (keyword) => {
                         </p>
                     </div>
 
-                    <div class="operation">
+                    <div v-if="isShowEditBtn || isShowBinBtn" class="operation">
 
                         <!-- edit -->
                         <button v-if="isShowEditBtn" @click="$emit('goUpdate',props.itemId)">
@@ -219,27 +219,27 @@ const fullNameBank = (keyword) => {
 *{
     box-sizing: border-box;
 }
-.container_bank {
+/* .container_bank {
     display: flex;
     width: 100%;
     height: fit-content;
     justify-content: center;
     align-items: start;
     
-}
+} */
 
-.bank_list {
+/* .bank_list {
     display: flex;
     width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: min(0.833dvw,12px);
-}
+} */
 
 .bank_item {
     display: flex;
-    width: fit-content;
-    max-width: 100%;
+    width: 100%;
+    /* max-width: 100%;/ */
     /* height: 92px; */
     height: fit-content;
     flex-direction: column;
@@ -253,7 +253,8 @@ const fullNameBank = (keyword) => {
 
 .title {
     display: flex;
-    width: inherit;
+    width: 100%;
+    /* max-width: 100%; */
     height: min(1.667dvw,24px);
     justify-content: space-between;
     align-items: center;
@@ -262,14 +263,16 @@ const fullNameBank = (keyword) => {
 .title .info {
     display: flex;
     width: fit-content;
-    height: inherit;
+    max-width: 100%;
+    height: fit-content;
     gap: min(0.556dvw,8px);
     align-items: center;
 }
 
 .info h5 {
-    width: 100%;
-    max-width: min(20.833dvw,300px);
+    width: fit-content;
+    /* max-width: min(20.833dvw,300px); */
+    max-width: 100%;
     height: fit-content;
     font-size: min(1.111dvw,16px);
     font-weight: 500;
@@ -283,6 +286,9 @@ const fullNameBank = (keyword) => {
 }
 
 .info p {
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
     font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #616161;
@@ -359,4 +365,64 @@ const fullNameBank = (keyword) => {
     font-weight: 500;
 }
 
+/* mobile */
+@media (width<=432px){
+    .bank_item{
+        border-top: v-bind('isShowEditBtn==true?'1px solid':'none'')  ;
+        border-color: #E0E0E0;
+        padding-top: v-bind('isShowEditBtn==true?'12px':'none'');
+        gap: 4px;
+    } 
+    .title {
+        height:24px;
+    }
+    .title .info {
+        width: 100%;
+        gap: 8px;
+    }
+    .info h5 {
+        font-size: 16px;
+        font-weight: 500;
+        padding-right:8px;
+        border-right: 1px solid #E0E0E0;;
+    }
+    .info p{
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .title .operation {
+        width: 48px;
+        gap: 8px;
+    }
+    .operation button{
+        width: 20px;
+        height: 20px;
+    }
+    /* .bank_item .discription{} */
+    .discription p{
+        width: fit-content;
+        max-width: 100%;
+        font-weight: 400;
+        font-size: 14px;
+    }
+    .discription button{
+        height: 24px;
+        border: 1px solid #E0E0E0;
+        padding: 4px 12px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        border-radius:4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .default_icon{
+    width: 60px;
+    height: 20px;
+    padding: 4px 12px;
+    border: 1px solid #26AC34;
+    border-radius:4px;
+    color: #26AC34;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+    font-size: 10px;
+    }
+}
 </style>
