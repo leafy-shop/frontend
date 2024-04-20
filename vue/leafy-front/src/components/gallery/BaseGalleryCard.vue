@@ -158,7 +158,8 @@ const props=defineProps({
 }
 .gallery_item_img img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     /* z-index: ; */
 }
 .container_gallery_card_detail{
@@ -222,7 +223,8 @@ const props=defineProps({
 }
 .container_creater .creater >div img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 .container_creater .creater h6{
     width: fit-content;

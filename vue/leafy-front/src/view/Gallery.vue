@@ -144,7 +144,8 @@ onBeforeMount(async()=>{
 .shop_title img {
     /* opacity: 10%; */
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     /* top: -750px; */
     /* z-index: -1; */
 }
@@ -163,8 +164,7 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    padding-bottom: min(1.389dvw,20px);
-    gap: min(2.778dvw,40px);
+    gap: min(1.389dvw,20px);
     flex-direction: column;
 }
 /* gallery list */

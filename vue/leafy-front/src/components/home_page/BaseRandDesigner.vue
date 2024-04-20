@@ -152,9 +152,12 @@ onBeforeMount(()=>{
     /* background-color: rgb(167, 167, 167); */
 }
 .designer .user_img img{
-    width:inherit;
+    /* width:inherit;
     height:inherit;
-    margin:auto;
+    margin:auto; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
 }
 .designer h3{
     width:100%;

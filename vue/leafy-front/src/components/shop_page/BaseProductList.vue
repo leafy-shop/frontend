@@ -32,7 +32,7 @@ let props = defineProps({
 const changeGridT=()=>{
     let gridT=''
     for(let i=0;i<props.gridColumn;i++){
-        gridT=gridT+'auto '
+        gridT=gridT+'1fr '
     }
     console.log(gridT)
     return gridT
@@ -119,9 +119,9 @@ const goProductDetail=(p)=>{
 }
 .grid_item{
     display: flex;
-    /*width: min(17.778dvw,256px);*/
+    /* width: min(17.778dvw,256px); */
     /* width: min(v-bind(changeSize(17.778,'dvw')),v-bind(changeSize(256))); */
-    width: auto;
+    width: 100%;
     height: min(v-bind(changeSize(23.333,'dvw')),v-bind(changeSize(336)));
     /* height: fit-content; */
     flex-direction: column;
@@ -151,19 +151,17 @@ const goProductDetail=(p)=>{
     border-color: #58d264;
 }
 .product_img{
-    /* display: flex; */
-    position: relative;
-    /* width: inherit; */
-    /* width: min(17.778dvw,256px); */
+    display: flex;
     width: 100%;
     height: min(v-bind(changeSize(15.278,'dvw')),v-bind(changeSize(220)));
     overflow: hidden;
-    /* z-index: 0; */
+    justify-content: center;
+    align-items: center;
 }
 .product_img img{
     width: 100%;
-    height: auto;
-    /* z-index: -1; */
+    height: 100%;
+    object-fit:cover;
 }
 .product_img> .sold_out{
     display: flex;

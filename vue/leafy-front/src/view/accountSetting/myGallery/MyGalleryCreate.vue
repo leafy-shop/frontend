@@ -790,7 +790,6 @@ onBeforeMount(async()=>{
     width: 100%;
     height: auto;
     background-position: center;
-
 }
 .submit {
     display: flex;

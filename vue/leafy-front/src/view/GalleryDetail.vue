@@ -256,14 +256,15 @@ onBeforeMount(async()=>{
     width: min(3.333dvw,48px);
     height: min(3.333dvw,48px);
     border: none;
-    border-radius: min(0.556dvw,8px);
+    border-radius: min(3.472dvw,50px);
     overflow: hidden;
     justify-content: center;
     align-items: center;
 }
 .container_creater .creater_img img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 /* creater name */
 .container_creater .creater_name{

@@ -112,6 +112,9 @@ const goShop=(searchValue="")=>myRouter.push({name:"Shop",params:{search:validat
     /* width: min(24.444dvw, 352px); */
     width: auto;
     height: min(25dvw, 360px);
+    /* width: 100%; */
+    /* height: 100%; */
+    object-fit:cover;
     border-radius: min(0.556dvw, 8px);
 }
 .plant_type h4{

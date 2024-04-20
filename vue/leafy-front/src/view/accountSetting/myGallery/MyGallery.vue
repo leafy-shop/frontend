@@ -166,13 +166,12 @@ onBeforeMount(async()=>{
                     </div>
                 </button>
             </div> -->
-
             <!-- content table -->
             <div class="wrapper_content">
                 <!-- header -->
                 <div class="header_gallery">
                     <!-- img -->
-                    <div class="gallery_img">
+                    <div class="gallery_img img_detail">
                         <h5>
                             #
                         </h5>
@@ -206,7 +205,7 @@ onBeforeMount(async()=>{
                     <!-- gallery item -->
                     <div v-for="(gallery,index) of myGalleryList" :key="index" class="gallery_item">
                         <!-- img -->
-                        <div class="gallery_img">
+                        <div class="gallery_img img_detail">
                             <img v-if="gallery.image!=undefined" :src="`${origin}/api/image/gallery/${gallery.contentId}`" alt="gallery_img">
                             <img v-else src="../../../assets/home_p/home_design_content_tropical.png" alt="gallery_img">
                         </div>
@@ -234,7 +233,7 @@ onBeforeMount(async()=>{
                             </h6>
                         </div>
                         <!-- date -->
-                        <div class="gallery_operation">
+                        <div class="gallery_operation operation_detail">
                             <!-- edit -->
                             <button @click="goMyGalleryUpdate(gallery.contentId)">
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -352,7 +351,7 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: 100%;
-    
+    padding: 0px min(0.833dvw,12px) min(0.833dvw,12px) min(0.833dvw,12px);
 }
 .header_gallery >div h5{
     width: 100%;
@@ -382,10 +381,11 @@ onBeforeMount(async()=>{
 .gallery_item >div{
     display: flex;
     width: 100%;
-    height: min(8.611dvw,124px);
-    justify-content: center;
+    /* height: min(8.611dvw,124px); */
+    height: 8.611dvw;
+    justify-content: left;
     align-items: center;
-
+    padding: min(0.833dvw,12px);
 }
 /* img */
 .wrapper_content .gallery_img{
@@ -398,17 +398,23 @@ onBeforeMount(async()=>{
     /* width: 160px; */
     /* max-width: 100%; */
     /* height: 100%; */
+    width: 11.111dvw;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: min(0.139dvw,2px);
+    /* padding: none !important; */
     /* background-color: black; */
+    /* border-radius: min(0.278dvw,4px); */
 }
 .wrapper_content .gallery_img img{
     width: 100%;
     height: auto;
+    max-width: auto;
+    max-height: 100%;
     border-radius: min(0.278dvw,4px);
-
+}
+.wrapper_content .img_detail {
+    padding: 0px !important;
 }
 /* name */
 .wrapper_content .gallery_name{
@@ -427,9 +433,10 @@ onBeforeMount(async()=>{
 } */
 .gallery_item .gallery_name >div{
     width: 100%;
-    height: min(6.944dvw,100px);
-    max-width: 100%;
-    padding: min(0.417dvw,6px) min(0.833dvw,12px);
+    /* height: min(6.944dvw,100px); */
+    /* max-width: 100%; */
+    height: 100%;
+    /* padding: min(0.417dvw,6px) min(0.833dvw,12px); */
 
 }
 .wrapper_content .gallery_name h6{

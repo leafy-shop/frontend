@@ -10,37 +10,49 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
         </h3>
         <div class="container_content">
             <div @click="goGallery('modern')" class="content_item">
-                <img src="../../assets/home_p/home_design_content_modern.png" alt="modern_style_img">
+                <div>
+                    <img src="../../assets/home_p/home_design_content_modern.png" alt="modern_style_img">
+                </div>
                 <h4>
                     Modern Style
                 </h4>
             </div>
             <div @click="goGallery('tropical')" class="content_item">
-                <img src="../../assets/home_p/home_design_content_tropical.png" alt="tropical_style_img">
+                <div>
+                    <img src="../../assets/home_p/home_design_content_tropical.png" alt="tropical_style_img">
+                </div>
                 <h4>
                     Tropical Style
                 </h4>
             </div>  
             <div @click="goGallery('japanese')" class="content_item">
-                <img src="../../assets/home_p/home_design_content_japanese.png" alt="japanese_style_img">
+                <div>
+                    <img src="../../assets/home_p/home_design_content_japanese.png" alt="japanese_style_img">
+                </div>
                 <h4>
                     Japanese Style
                 </h4>
             </div> 
             <div @click="goGallery('english')" class="content_item">
-                <img src="../../assets/home_p/home_design_content_english.png" alt="english_style_img">
+                <div>
+                    <img src="../../assets/home_p/home_design_content_english.png" alt="english_style_img">
+                </div>
                 <h4>
                     English Style
                 </h4>
             </div>     
             <div @click="goGallery('europe')" class="content_item">
-                <img src="../../assets/home_p/home_design_content_europe.png" alt="europe_style_img">
+                <div>
+                    <img src="../../assets/home_p/home_design_content_europe.png" alt="europe_style_img">
+                </div>
                 <h4>
                     Europe Style
                 </h4>
             </div> 
             <div @click="goGallery('desert')" class="content_item">
-                <img src="../../assets/home_p/home_design_content_desert.png" alt="desert_style_img">
+                <div>
+                    <img src="../../assets/home_p/home_design_content_desert.png" alt="desert_style_img">
+                </div>
                 <h4>
                     Desert Style
                 </h4>
@@ -101,21 +113,29 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
 .content_item {
     display: flex;
     /* width: min(24.444dvw, 352px); */
-    width: auto;
+    width: 1005;
     /* height: min(23.611dvw, 340px);  */
+    height: fit-content;
     /* width: 100%; */
     flex-direction: column;
     justify-content: center;
     /* overflow: hidden; */
     /* width: fit-content; */
-    height: fit-content;
+    /* height: fit-content; */
     cursor: pointer;
     gap: min(0.833dvw, 12px);
 }
-.content_item img{
-    /* width: min(24.444dvw, 352px); */
+.content_item >div {
     width: 100%;
     height: min(20.833dvw, 330px);
+    display: flex;
+}
+.content_item img{
+    /* width: min(24.444dvw, 352px); */
+    /* width: 100%; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
     border-radius: min(0.556dvw, 8px);
     /* background-color: gray; */
 }

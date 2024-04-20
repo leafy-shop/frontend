@@ -301,7 +301,7 @@ onMounted(async()=>{
                 </svg>
                 
             </button> -->
-            <div   id="date_rage_picker" >
+            <div id="date_rage_picker" >
                 <button @click="showDateFilter=!showDateFilter">
                     <div>
                         <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -355,9 +355,6 @@ onMounted(async()=>{
                     </div>
                 </div>  
             </div>
-            
-            
-            
         </div>
 
         <!-- sorter type-->
@@ -468,7 +465,7 @@ onMounted(async()=>{
                         <div class="order_status">
                             <!-- <button> -->
                             <h5>
-                                status
+                                Status
                                 <!-- <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.99997 0.800781C3.15909 0.800815 3.31167 0.864052 3.42417 0.976581L5.22417 2.77658C5.33346 2.88974 5.39394 3.0413 5.39257 3.19862C5.39121 3.35594 5.3281 3.50643 5.21686 3.61767C5.10562 3.72892 4.95513 3.79202 4.79781 3.79339C4.64049 3.79475 4.48893 3.73428 4.37577 3.62498L2.99997 2.24918L1.62417 3.62498C1.51101 3.73428 1.35945 3.79475 1.20213 3.79339C1.04481 3.79202 0.894323 3.72892 0.783078 3.61767C0.671834 3.50643 0.608732 3.35594 0.607365 3.19862C0.605998 3.0413 0.666475 2.88974 0.77577 2.77658L2.57577 0.976581C2.68827 0.864052 2.84085 0.800815 2.99997 0.800781ZM0.77577 6.37658C0.888286 6.2641 1.04087 6.20091 1.19997 6.20091C1.35907 6.20091 1.51165 6.2641 1.62417 6.37658L2.99997 7.75238L4.37577 6.37658C4.48893 6.26729 4.64049 6.20681 4.79781 6.20818C4.95513 6.20954 5.10562 6.27265 5.21686 6.38389C5.3281 6.49514 5.39121 6.64562 5.39257 6.80294C5.39394 6.96026 5.33346 7.11182 5.22417 7.22498L3.42417 9.02498C3.31165 9.13746 3.15907 9.20065 2.99997 9.20065C2.84087 9.20065 2.68829 9.13746 2.57577 9.02498L0.77577 7.22498C0.663287 7.11246 0.600098 6.95988 0.600098 6.80078C0.600098 6.64168 0.663287 6.4891 0.77577 6.37658Z" fill="#757575"/>
                                 </svg> -->
@@ -784,6 +781,7 @@ onMounted(async()=>{
     border-radius: min(0.556dvw,8px);
     background-color: #fff;
     overflow: auto;
+    color: #212121;
 }
 .orders{
     display: flex;
@@ -809,10 +807,8 @@ onMounted(async()=>{
 .header_orders >div{
     display: flex;
     position: relative;
-    /* width: 168px; */
-    width: min(12.5dvw,180px);
+    width: fit-content;
     height: min(2.5dvw,36px);
-    /* gap: 4px; */
     justify-content: center;
     align-items: center;
 
@@ -820,14 +816,14 @@ onMounted(async()=>{
 }
 .header_orders >div >button{
     display:flex;
-    width:100%;
+    width:fit-content;
     height:100%;
     justify-content:start;
     align-items:center;
     gap: min(0.556dvw,8px);
     border: none;
     border-radius: min(0.278dvw,4px);
-    padding: min(0.278dvw,4px);
+    padding: min(0.278dvw,4px) min(0.556dvw,8px);
     background-color: #26AC34;
     cursor:pointer;
 }
@@ -921,11 +917,12 @@ onMounted(async()=>{
     bottom:min(-8.333dvw,-120px);
     right:0;
     background-color:#fff;
-    box-shadow: 0px min(0.694dvw,10px) min(1.042dvw,15px) min(0.208dvw,-3px) #0000001A;
-    border:none;
-    border-radius: min(0.556dvw,8px);
-    padding:min(0.278dvw,4px);
+    border: min(0.069dvw, 1px) solid;
+    border-radius: min(0.278dvw, 4px);
+    border-color: #E0E0E0;
+    padding: min(0.556dvw, 8px);
     z-index: 99;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 #date_range_drop >label{
     display:flex;
@@ -935,7 +932,7 @@ onMounted(async()=>{
     justify-content:center;
     gap:min(0.278dvw,4px);
     cursor:pointer;
-    padding:min(0.278dvw,4px);
+    /* padding:min(0.278dvw,4px) 0px; */
 }
 #date_range_drop >label h6{
     width:min(2.5dvw,36px);
@@ -1012,7 +1009,6 @@ onMounted(async()=>{
     /* border-color: #E0E0E0; #168A22 */
     padding: 0px min(0.278dvw,4px) min(1.111dvw,16px) min(0.278dvw,4px);
     cursor: pointer;
-    
     color: #212121; /*#168A22 */
     background-color: #fff;
     gap: min(0.556dvw,8px);
@@ -1053,7 +1049,7 @@ onMounted(async()=>{
     width: 100%;
     /* max-width: 300px; */
     height: fit-content;
-    max-height: 45dvh;
+    /* max-height: 45dvh; */
     overflow: auto;
     flex-direction: column;
 }
@@ -1290,6 +1286,11 @@ onMounted(async()=>{
     align-items: center;
     cursor: pointer;
     background-color:#EEEEEE;
+    font-weight: 500;
+    font-size: min(0.833dvw,12px);
+    line-height: 136%;
+    letter-spacing: min(0.014dvw,0.2px);
+    text-transform: capitalize;
 }
 /* .order_item div:nth-child(8)> div> select:focus{
     outline: none;
@@ -1339,12 +1340,12 @@ onMounted(async()=>{
 }
 .detail_table{
     display: flex;
-    width: fit-content;
+    width: 100%;
     height: 100%;
     padding-top: min(1.111dvw,16px);
     padding-bottom: min(0.833dvw,12px);
-
     flex-direction: column;
+    align-items: end;
 }
 .product_item{
     display: flex;
@@ -1358,6 +1359,7 @@ onMounted(async()=>{
 }
 /*  title of product detail list*/
 .header_detail{
+    width: 100%;
     display: flex;
     height: fit-content;
     border-bottom: min(0.069dvw,1px) solid;
@@ -1389,7 +1391,8 @@ onMounted(async()=>{
 }
 .detail_product_number div img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* sku */
@@ -1611,7 +1614,7 @@ onMounted(async()=>{
 /* address and name */
 .detail_order .detail_order_address{
     display: flex;
-    width: 800px;
+    width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: min(0.278dvw,4px);

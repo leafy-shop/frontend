@@ -68,7 +68,6 @@ onBeforeMount(()=>{
     display: flex;
     width: 100%;
     /* max-width: 100%; */
-    
     flex-direction: column;
     gap: min(1.389dvw,20px);
 }
@@ -90,6 +89,8 @@ onBeforeMount(()=>{
 }
 .recommend_list>div{
     display: flex;
+    width: 100%;
+    height: fit-content;
     justify-content: center;
 }
 </style>

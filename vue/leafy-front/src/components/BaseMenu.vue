@@ -616,8 +616,11 @@ onUpdated(async()=>{
 }
 
 .user_profile img {
-    width: inherit;
-    height: inherit;
+    /* width: inherit;
+    height: inherit; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
 }
 
 .option_account {

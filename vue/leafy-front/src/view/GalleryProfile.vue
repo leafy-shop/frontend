@@ -214,8 +214,6 @@ onBeforeMount(async()=>{
                                 <!-- <button v-if="true" class="follow_btn">
                                     Follow
                                 </button> -->
-
-                                
                             </div>
                         </div>
                     </div>
@@ -375,19 +373,22 @@ onBeforeMount(async()=>{
     display: flex;
     position: absolute;
     flex-direction: column;
-    width: auto;
+    /* width: auto; */
+    width: 100%;
     height: fit-content;
     justify-content: center;
     align-items: center;
     bottom: 0;
-    left: 50%;
-    right: 50%;
-    z-index: 1;
+    /* left: 50%;
+    right: 50%; */
+    /* z-index: 1; */
+    padding: 0px min(11.111dvw,160px);
 }
 .user {
     display: flex;
     position: relative;
-    width: fit-content;
+    /* width: fit-content; */
+    width: 100%;
     height: min(8.889dvw, 128px);
     /* position: absolute; 
     bottom: -50px;*/
@@ -408,12 +409,14 @@ onBeforeMount(async()=>{
 
 .user_img img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit:cover;
 }
 
 .user_info {
     display: flex;
-    width: min(67.5dvw, 972px);
+    /* width: min(67.5dvw, 972px); */
+    width: 100%;
     height: 100%;
     justify-content: space-between;
     align-items: end;
@@ -524,11 +527,12 @@ onBeforeMount(async()=>{
 /* is me */
 .container_gallery_me{
     display: flex;
-    width: min(77.778dvw,1120px);
+    /* width: min(77.778dvw,1120px); */
+    width: 100%;
     height: fit-content;
     flex-direction: column;
     gap: min(1.389dvw,20px);
-    padding: min(1.389dvw,20px) 0px;
+    padding: min(1.389dvw,20px) min(11.111dvw,160px);
 }
 .gallery_list_me{
     display: flex;
@@ -559,12 +563,14 @@ onBeforeMount(async()=>{
 }
 .gallery_img_me img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit:cover;
 }
 /* detail */
 .gallery_item .wrapper_gallery_detail_me{
     display: flex;
-    width: min(61.944dvw,892px);
+    /* width: min(61.944dvw,892px); */
+    width: 100%;
     height: 100%;
     flex-direction: column;
     padding: min(0.833dvw,12px);

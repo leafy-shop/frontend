@@ -621,11 +621,12 @@ onUpdated(() => {
     /* left: 50%;
     right: 50%; */
     z-index: 1;
+    padding: 0px min(11.111dvw,160px);
 }
 
 .user {
     display: flex;
-    position: relative;
+    /* position: relative; */
     /* width: fit-content; */
     width: 100%;
     height: min(8.889dvw, 128px);
@@ -635,13 +636,14 @@ onUpdated(() => {
     align-items: end;
     gap: min(1.389dvw, 20px);
     bottom: 0;
-    padding: 0px min(11.111dvw,160px);
+    /* padding: 0px min(11.111dvw,160px); */
 }
 
 .user_img {
     width: min(8.889dvw,128px);
-    /* height: min(8.889dvw, 128px); */
-    height: auto;
+    height: min(8.889dvw, 128px);
+    /* height: auto; */
+    /* height: 100%; */
     border-radius: 50%;
     border: min(0.278dvw, 4px) solid #FFF;
     overflow: hidden;
@@ -652,17 +654,21 @@ onUpdated(() => {
 }
 
 .user_img img {
+    /* width: 100%;
+    height: auto; */
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit:cover;
     /* width: min(8.889dvw,128px);
     height: min(8.889dvw,128px); */
 }
 
 .user_info {
     display: flex;
-    /* min-width: min(67.5dvw, 972px);
-    max-width: 100%; */
+    /* width: 67.5dvw; */
+    /* min-width: min(67.5dvw, 972px); */
     width: 100%;
+    /* max-width: 100%; */
     height: 100%;
     justify-content: space-between;
     align-items: end;
@@ -956,8 +962,11 @@ onUpdated(() => {
     background-color: #212121;
 }
 .product_item_me .img_me img{
-    width: 120%;
-    height: auto;
+    /* width: 120%;
+    height: auto; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
 }
 .product_item_me .detail_me{
     display: flex;

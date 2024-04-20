@@ -317,8 +317,8 @@ onMounted(() => {
     display: flex;
     /* height: 1672px; */
     height: fit-content;
-    width: auto;
-    /* width: 100%; */
+    /* width: auto; */
+    width: 100%;
     padding: min(1.389dvw, 20px) min(11.111dvw,160px);
     align-items: center;
     justify-content: center;
@@ -329,7 +329,7 @@ onMounted(() => {
     display: flex;
     flex-direction: row;
     /* width: inherit; */
-    width: auto;
+    width: 100%;
     /* height: 1632px; */
     height: inherit;
     gap: min(2.222dvw, 32px);
