@@ -144,7 +144,7 @@ onBeforeMount(async () => {
         <div class="wrapper_bank">
             <div class="bank">
                 <div class="header_bank">
-                    <div>
+                    <div class="header_detail">
                         <h4>
                             Bank Accounts
                         </h4>
@@ -350,7 +350,7 @@ onBeforeMount(async () => {
     gap: min(1.389dvw,20px);
 }
 
-.header_bank div {
+.header_bank .header_detail {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -360,7 +360,7 @@ onBeforeMount(async () => {
     justify-content: center;
 }
 
-.header_bank div h4 {
+.header_bank .header_detail > h4 {
     display: flex;
     width: inherit;
     height: min(1.944dvw,28px);
@@ -370,7 +370,7 @@ onBeforeMount(async () => {
     align-items: center;
 }
 
-.header_bank div p {
+.header_bank .header_detail >p {
     display: flex;
     width: inherit;
     height: min(2.778dvw,40px);
@@ -381,7 +381,7 @@ onBeforeMount(async () => {
     align-items: center
 }
 
-.header_bank button {
+.header_bank >button {
     display: flex;
     width: fit-content;
     height: min(2.5dvw,36px);
@@ -401,13 +401,13 @@ onBeforeMount(async () => {
     white-space: nowrap
 }
 
-.header_bank button svg {
+.header_bank >button >svg {
     width: min(0.694dvw,10px);
     height: min(0.694dvw,10px);
     margin: min(0.347dvw,5px);
 }
-
-.container_bank {
+/* // */
+/* .container_bank {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -427,10 +427,8 @@ onBeforeMount(async () => {
 .bank_item {
     display: flex;
     width: 100%;
-    /* height: 92px; */
     height: fit-content;
     flex-direction: column;
-    /* padding-top: 24px; */
     border-top: min(0.069dvw,1px) solid ;
     border-color: #E0E0E0;
     justify-content: end;
@@ -454,7 +452,7 @@ onBeforeMount(async () => {
     align-items: center;
 }
 
-.info h5 {
+.info >h5 {
     font-size: min(1.111dvw,16px);
     font-weight: 500;
     color: #212121;
@@ -463,7 +461,7 @@ onBeforeMount(async () => {
     border-color: #E0E0E0;
 }
 
-.info p {
+.info >p {
     font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #616161;
@@ -479,7 +477,7 @@ onBeforeMount(async () => {
     align-items: center;
 }
 
-.operation button {
+.operation> button {
     display: flex;
     width: min(1.389dvw,20px);
     height: min(1.389dvw,20px);
@@ -538,8 +536,8 @@ onBeforeMount(async () => {
     font-size: min(0.694dvw,10px);
     line-height: 120%;
     font-weight: 500;
-}
-
+} */
+/* end */
 .wrapper_confirm_delete {
     display: flex;
     position: fixed;
