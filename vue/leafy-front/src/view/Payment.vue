@@ -390,65 +390,7 @@ onBeforeMount(async()=>{
                     <BaseBankItem name="payment_address" :item-name="addressSelected.addressname" :item-description="`${addressSelected.address} ${addressSelected.province} ${addressSelected.distrinct} ${addressSelected.subDistrinct} ${addressSelected.postalCode}`"
                     :item-number="addressSelected.phone" :is-default="false" :showEditBtn="false" :showBinBtn="false" />
                   </div>
-                <!-- <div class="change_btn"> -->
-                  
-                <!-- </div> -->
-                <!-- <div v-show="addressDefault!=undefined" class="address_item">
-                  header
-                  <div>
-                    <div>
-                      {{ addressSelected.addressname }}
-                      {{ addressSelected.phone }}<br/>
-                    </div>
-                    change detault
-                    <button @click="showOverlay=!showOverlay">
-                      change
-                    </button>
-                  </div>
-                  detail
-                  <div>
-                    {{ addressSelected.address }}
-                    {{ addressSelected.province }}
-                    {{ addressSelected.distrinct }}
-                    {{ addressSelected.subDistrinct }}
-                    {{ addressSelected.postalCode }}
-                  </div>
-                  temperary btn
-                  <button @click="showOverlay=!showOverlay">
-                    change
-                  </button>
-                </div>-->
               </div> 
-
-              <!-- payment method
-              <div class="wrapper_payment_method">
-                <h6>
-                  Payment
-                </h6>
-                <div class="method_list">
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                </div>
-              </div> -->
             </div>
 
             <!-- product List -->
@@ -1218,8 +1160,47 @@ onBeforeMount(async()=>{
     color: #212121;
 
   }
+  .wrapper_address_component{
+    display: flex;
+    width: 100%;;
+    height: fit-content;
+    flex-direction: column;
+  }
+  /* .wrapper_product_list{
+  } */
+  /* payment */
+  .wrapper_payment_method{
+    
+    border-radius: none;
+    padding: 12px 20px;
+    gap: 12px;
+    background-color: #fff;
+    box-shadow: 0px 1px 2px 0px #0000000F;
+    flex-direction: column;
+  }
+  .wrapper_payment_method h6{
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .wrapper_payment_method .method_list{
+   
+    gap: 8px;
+  }
+  .method_list button{
+    width: 72px;
+    height: 36px;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
 
-  
+  }
+  .method_list button:nth-child(1){
+    border: 1px solid #26AC34;
+  }
+  .method_list button img{
+    width: auto;
+    height: 16px;
+    
+  }
 
 
 }
