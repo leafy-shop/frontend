@@ -45,7 +45,7 @@ const routes=[
         component: Shop,
     },
     {
-        path:'/shop/product-detail/:id',
+        path:'/product-detail/:id',
         name:'ProductDetail',
         component: ProductDetail
     },
