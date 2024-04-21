@@ -13,6 +13,7 @@ const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
 const goMyShop=()=>myRouter.push({name:'Shop_AS'})
 const goOrder=()=>myRouter.push({name:'Order_AS'})
 const goMyGallery=()=>myRouter.push({name:'MyGallery_AS'})
+const goSignIn=()=>myRouter.push({name:'SignIn'})
 //common attribute
 const userRole=ref('')
 const isShowNested=ref(false) //show nested link my shop
@@ -69,11 +70,14 @@ onMounted(()=>{
     linkSelected()
 })
 onBeforeMount(()=>{
-    userRole.value=cookie.decrypt().role
-     if( userRole.value=='supplier'){
-        isSupplier.value=true
-     }
-
+    if(cookie.decrypt()!=undefined){
+        userRole.value=cookie.decrypt().role
+        if( userRole.value=='supplier'){
+            isSupplier.value=true
+        }
+    }else{
+        goSignIn()
+    }
     //  console.log(cookie.decrypt().role,'lsdfjlkasdf')
 })
 onUpdated(()=>{
