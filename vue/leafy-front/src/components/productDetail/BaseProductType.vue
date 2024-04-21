@@ -326,7 +326,7 @@ onUpdated(() => {
   // console.log(props.productStyle,'product style')
   console.log(props.selectedStyle, "style selected");
   console.log(sizeObj.value, "size selected");
-  selectedItemStyle(`item_style_0`)
+  // selectedItemStyle(`item_style_0`)
 
 });
 </script>
@@ -351,11 +351,13 @@ onUpdated(() => {
                 v-if="selectedStyle.images.length == 0"
                 src="../../assets/vue.svg"
                 alt="image_style"
+                draggable="false"
               />
               <img
                 v-else
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`"
                 alt="image_style"
+                draggable="false"
               />
             </button>
             <button v-else>
@@ -363,11 +365,13 @@ onUpdated(() => {
                 v-if="selectedStyle.images.length == 0"
                 src="../../assets/vue.svg"
                 alt="image_style"
+                draggable="false"
               />
               <img
                 v-else
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`"
                 alt="image_style"
+                draggable="false"
               />
             </button>
           </li>
@@ -379,10 +383,11 @@ onUpdated(() => {
           v-if="selectedStyle.images && selectedStyle.images.length"
           :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`"
           alt="image_style"
+          draggable="false"
         />
         <!-- <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style"> -->
         <!-- <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style"> -->
-        <img v-else src="../../assets/vue.svg" alt="image_style" />
+        <img v-else src="../../assets/vue.svg" alt="image_style" draggable="false" />
         <!-- {{ productStyle }} -->
         <div
           v-show="
@@ -516,9 +521,9 @@ onUpdated(() => {
               <img
                 v-if="style.images && style.images.length" :style="[(style.sizes.length==1)&&(style.sizes[0].stock==0)?'filter: grayscale(90%);':'']"
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`"
-                alt="product_style"
+                alt="product_style" draggable="false"
               />
-              <img v-else src="../../assets/vue.svg" alt="product_style" />
+              <img v-else src="../../assets/vue.svg" alt="product_style" draggable="false" />
             </div>
             <!-- {{ style }} -->
           </button>
