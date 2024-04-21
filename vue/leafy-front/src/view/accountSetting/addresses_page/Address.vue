@@ -4,7 +4,7 @@ import {ref,onBeforeMount} from 'vue'
 import fetch from '../../../JS/api';
 import cookie from '../../../JS/cookie';
 import validation from '../../../JS/validation'
-import BaseBankItemList from '../../../components/bank/BaseBankItemList.vue';
+import BaseBankItem from '../../../components/bank/BaseBankItem.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 const myRouter =useRouter()
@@ -142,7 +142,11 @@ onBeforeMount(async()=>{
                     </button>
                 </div>
                 <!-- default -->
-                <BaseBankItemList name="address_default" :dataList="[addressDefault]" :isDefault="true" @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultAddress="setDefaultAddress" />
+                <!-- <BaseBankItemList name="address_default" :dataList="[addressDefault]" :isDefault="true" @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultAddress="setDefaultAddress" /> -->
+                <div v-if="addressDefault!=undefined" class="wrapper_address_component">
+                    <BaseBankItem name="address_default"  :item-name="addressDefault.addressname" :item-id="addressDefault.addressId" :item-description="`${addressDefault.address} ${addressDefault.province} ${addressDefault.distrinct} ${addressDefault.subDistrinct} ${addressDefault.postalCode}`"
+                    :item-number="addressDefault.phone" :is-default="true" />
+                </div>
                 <!-- <div class="container_address">
                     <div class="address_list">
                         <div v-for="(address,index) of addressList" :key="index" class="address_item">
@@ -184,8 +188,11 @@ onBeforeMount(async()=>{
                     </div>
                 </div> -->
                 <!-- address list -->
-                <BaseBankItemList name="address_list" :dataList="addressList"  @goUpdate="goUpdate" @showConfirm="showConfirm" @setDefaultAddress="setDefaultAddress" />
-
+                <!-- <BaseBankItemList name="address_list" :dataList="addressList"  @goUpdate="goUpdate" @showConfirm="showConfirm" @setDefaultAddress="setDefaultAddress" /> -->
+                <div v-if="addressList.length!=0" v-for="(address,index) of addressList" :key="index"  class="wrapper_address_component">
+                    <BaseBankItem name="address_default"  :item-name="address.addressname" :item-id="address.addressId" :item-description="`${address.address} ${address.province} ${address.distrinct} ${address.subDistrinct} ${address.postalCode}`"
+                    :item-number="address.phone" :is-default="true" @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultBank="setDefaultAddress" />
+                </div> 
             </div>   
 
             <div v-show="isDelete" class="wrapper_confirm_delete">
@@ -277,6 +284,12 @@ onBeforeMount(async()=>{
     width: min(0.694dvw,10px);
     height: min(0.694dvw,10px);
     margin: min(0.347dvw,5px);
+}
+.address .wrapper_address_component{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
 }
 /* start */
 /* .container_address{
