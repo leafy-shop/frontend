@@ -135,7 +135,7 @@ let addToCart = async () => {
     // console.log(selectedStyle.value,'seleced style')
     // console.log(selectedStyle.value, "selected style");
     // console.log(productStyle.value, "selected style");
-    if(stepInput.value!=0){
+    if(stepInput.value<=sizeObj.value.stock&&stepInput.value>0){
       return emit("addToCart", productStyle.value.itemId, selectedStyle.value.style, sizeObj.value.size, stepInput.value)
     }else{
       alertType.value=2
@@ -211,7 +211,9 @@ let payInOrder = async () => {
       }
       // console.log(JSON.stringify(paymentOrder).toString()) //convert to json
       // check stock
-      if (selectedStyle.value.stock != 0 &&stepInput.value <=sizeObj.value.stock) {
+      console.log(stepInput.value)
+      console.log(sizeObj.value)
+      if (stepInput.value<=sizeObj.value.stock&&stepInput.value>0) {
         goPayment(JSON.stringify(inputData).toString()); //tranform data to text
         // console.log(selectedStyle.value)
       } else {
@@ -276,8 +278,9 @@ const getShowAlertChange=(input)=>{
 
 // show border what we selected
 const selectedItemStyle=(name,index)=>{
-  let element =document.getElementById(name)
-  let allElement=document.getElementsByClassName('grid_item')
+  const element =document.getElementById(name)// style
+  const allElement=document.getElementsByClassName('grid_item')// style
+
   // clear first
   for(let element of allElement){
     element.classList.remove('item_style_active')
@@ -286,14 +289,16 @@ const selectedItemStyle=(name,index)=>{
     element.classList.add('item_style_active')
 
   }
+  selectedItemSize('item_size_0')
   if(index!=undefined){
     props.changeStyle(index)
+    // selectedItemSize('item_size_0')
   }
 }
 // size
 const selectedItemSize=(name,value)=>{
-  let element =document.getElementById(name)
-  let allElement=document.getElementsByClassName('size_btn')
+  const element =document.getElementById(name)
+  const allElement=document.getElementsByClassName('size_btn')
   for(let element of allElement){
     element.classList.remove('item_size_active')
   }
@@ -311,7 +316,8 @@ onMounted(() => {
     ? cookie.decrypt().username
     : undefined;
     selectedItemStyle(`item_style_0`)
-    selectedItemSize('item_size_0')
+
+    // selectedItemSize('item_size_0')
   // first selected
   // if (userName.value !== undefined) getAddress(userName.value);
 });
@@ -320,6 +326,7 @@ onUpdated(() => {
   // console.log(props.productStyle,'product style')
   console.log(props.selectedStyle, "style selected");
   console.log(sizeObj.value, "size selected");
+  selectedItemStyle(`item_style_0`)
 
 });
 </script>

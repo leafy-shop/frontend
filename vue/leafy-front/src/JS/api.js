@@ -1515,12 +1515,13 @@ const fetch = {
                 }
                 else
                     // error 404
-                    if (error.response.status == 400 || error.response.status == 404 || error.response.status == 403) {
-                        returnData.msg = error.response.data.error
+                    if (error.response.status == 400 ){
+                        returnData.msg = '400'
                         returnData.status = false
                     } else {
                         // error
-                        console.log("another error")
+                        returnData.msg = error.response.data.error
+                        returnData.status = false
                     }
                 return returnData
             }

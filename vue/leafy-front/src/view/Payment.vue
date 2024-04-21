@@ -376,9 +376,6 @@ onBeforeMount(async()=>{
                     </h5>
                   </div>
                   <!-- address -->
-                  <BaseBankItemList v-show="Object.keys(addressSelected).length!=0" name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false"  />
-                </div>
-                <!-- <div class="change_btn"> -->
                   <button @click="showOverlay=!showOverlay" class="change_btn">
                     <span v-if="Object.keys(addressSelected).length!=0">
                       Change
@@ -387,6 +384,14 @@ onBeforeMount(async()=>{
                       Add
                     </span>
                   </button>
+                </div>
+                <div class="wrapper_address_component">
+                    <!-- <BaseBankItemList v-show="Object.keys(addressSelected).length!=0" name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false"  /> -->
+                    <BaseBankItem name="payment_address" :item-name="addressSelected.addressname" :item-description="`${addressSelected.address} ${addressSelected.province} ${addressSelected.distrinct} ${addressSelected.subDistrinct} ${addressSelected.postalCode}`"
+                    :item-number="addressSelected.phone" :is-default="false" :showEditBtn="false" :showBinBtn="false" />
+                  </div>
+                <!-- <div class="change_btn"> -->
+                  
                 <!-- </div> -->
                 <!-- <div v-show="addressDefault!=undefined" class="address_item">
                   header
@@ -772,17 +777,21 @@ onBeforeMount(async()=>{
   padding: min(1.389dvw,20px);
   border: none;
   border-radius: min(0.556dvw,8px);
-  gap: min(1.389dvw,20px);
+  gap: min(0.278dvw,4px);
   background-color: #fff;
   align-items: start;
-  /* flex-direction: column; */
+  flex-direction: column;
+
 }
+/* header */
 .container_header_address{
   display: flex;
   width: 100%;
   height: fit-content;
-  flex-direction: column;
-  gap: min(0.278dvw,4px);
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+
 }
 .container_header_address .header_address{
   display: flex;
@@ -791,25 +800,26 @@ onBeforeMount(async()=>{
   gap: min(0.556dvw,8px);
   align-items: center;
 }
-.header_address >div{
+ 
+.container_header_address .header_address >div{
   display: flex;
   width: min(1.389dvw,20px);
   height: min(1.389dvw,20px);
   justify-content: center;
   align-items: center;
 }
-.header_address >div svg{
+.container_header_address .header_address >div svg{
   width: min(0.972dvw,14px);
   height: auto;
 }
-.header_address  h5{
+.container_header_address .header_address  h5{
   width: fit-content;
   height: fit-content;
   font-size: min(1.111dvw,16px);
   font-weight: 500;
   color: #26AC34;
 }
-.wrapper_address .change_btn{
+.container_header_address .change_btn{
   display: flex;
   width: min(5.278dvw,76px);
   height: min(2.5dvw,36px);
@@ -832,6 +842,11 @@ onBeforeMount(async()=>{
 .change_btn:active {
   background-color: #EEFFF0;
 }
+.wrapper_address .wrapper_address_component{
+  display: flex;
+  width: 100%;
+}
+
 /* payment method */
 .wrapper_payment_method{
   display: flex;
@@ -1154,6 +1169,59 @@ onBeforeMount(async()=>{
   color: #fff;
 }
 
+/* mobild */
+@media (width<=432px){
 
+  .wrapper_payment{
+    padding: 8px 0px 20px 0px;
+  }
+  .payment{
+    gap: 8px
+  }
+  /* .container_address_payment{
+  } */
+  .wrapper_address{
+    padding: 12px 20px;
+    gap: 4px;
+  }
+  /* .container_header_address{
+  } */
+  .container_header_address .header_address{
+    height: 24px;
+    gap: 8px;
+  }
+  /* icon */
+  .container_header_address .header_address >div{
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+  .container_header_address .header_address >div svg{
+    width: 14px;
+    height: auto;
+  }
+  /* title */
+  .container_header_address .header_address > h5{
+    font-size: 16px;
+    font-weight: 500;
+  }
+  /* button */
+  .container_header_address .change_btn{
+    width: 68px;
+    height: 24px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size:  12px;
+    font-weight: 500;
+    color: #212121;
+
+  }
+
+  
+
+
+}
 
 </style>

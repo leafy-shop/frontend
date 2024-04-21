@@ -247,7 +247,7 @@ onBeforeMount(async()=>{
     justify-content: space-between;
     align-items: center;
 }
-.header_address h4{
+.header_address >h4{
     display: flex;
     /* width: inherit; */
     height: min(1.944dvw,28px);
@@ -256,7 +256,7 @@ onBeforeMount(async()=>{
     color: #212121;
     align-items: center;
 }
-.header_address button{
+.header_address >button{
     display: flex;
     width: fit-content;
     height: min(2.5dvw,36px);
@@ -273,12 +273,13 @@ onBeforeMount(async()=>{
     justify-content: start;
     cursor: pointer;
 }
-.header_address button svg{
+.header_address> button >svg{
     width: min(0.694dvw,10px);
     height: min(0.694dvw,10px);
     margin: min(0.347dvw,5px);
 }
-.container_address{
+/* start */
+/* .container_address{
     display: flex;
     width: 100%;
     height: fit-content;
@@ -295,7 +296,6 @@ onBeforeMount(async()=>{
 .address_item{
     display: flex;
     width: inherit;
-    /* height: 92px; */
     height: fit-content;
     flex-direction: column;
     padding-top: min(1.667dvw,24px);
@@ -357,7 +357,8 @@ onBeforeMount(async()=>{
     font-weight: 400;
     font-size: 14px;
     color: #616161;
-}
+} */
+/* end */
 .wrapper_confirm_delete{
     display: flex;
     position: fixed;

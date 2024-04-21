@@ -604,7 +604,7 @@ onBeforeMount(async()=>{
     font-weight: 500;
     color:#212121;
 }
-.deliver_address p{
+.deliver_address > p{
     width: 100%;
     height: fit-content;
     font-size: 14px;
