@@ -373,14 +373,20 @@ onMounted(async()=>{
                         <div>
                             <!-- edit -->
                             <button @click="goEdit(product.itemId)">
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7.16683 3.16762H3.00016C2.55814 3.16762 2.13421 3.34321 1.82165 3.65577C1.50909 3.96833 1.3335 4.39225 1.3335 4.83428V14.0009C1.3335 14.443 1.50909 14.8669 1.82165 15.1795C2.13421 15.492 2.55814 15.6676 3.00016 15.6676H12.1668C12.6089 15.6676 13.0328 15.492 13.3453 15.1795C13.6579 14.8669 13.8335 14.443 13.8335 14.0009V9.83428M12.6552 1.98928C12.8089 1.8301 12.9928 1.70313 13.1962 1.61578C13.3995 1.52843 13.6182 1.48245 13.8395 1.48053C14.0608 1.47861 14.2803 1.52078 14.4851 1.60458C14.6899 1.68838 14.876 1.81214 15.0325 1.96862C15.189 2.12511 15.3127 2.3112 15.3965 2.51603C15.4803 2.72085 15.5225 2.94032 15.5206 3.16162C15.5187 3.38292 15.4727 3.60162 15.3853 3.80496C15.298 4.0083 15.171 4.1922 15.0118 4.34595L7.85683 11.5009H5.50016V9.14428L12.6552 1.98928Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> -->
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.16634 4.16664H4.99967C4.55765 4.16664 4.13372 4.34223 3.82116 4.65479C3.5086 4.96736 3.33301 5.39128 3.33301 5.83331V15C3.33301 15.442 3.5086 15.8659 3.82116 16.1785C4.13372 16.491 4.55765 16.6666 4.99967 16.6666H14.1663C14.6084 16.6666 15.0323 16.491 15.3449 16.1785C15.6574 15.8659 15.833 15.442 15.833 15V10.8333M14.6547 2.98831C14.8084 2.82912 14.9923 2.70215 15.1957 2.6148C15.399 2.52746 15.6177 2.48148 15.839 2.47956C16.0603 2.47763 16.2798 2.5198 16.4846 2.6036C16.6894 2.6874 16.8755 2.81116 17.032 2.96765C17.1885 3.12414 17.3122 3.31022 17.396 3.51505C17.4798 3.71988 17.522 3.93934 17.5201 4.16064C17.5182 4.38194 17.4722 4.60064 17.3848 4.80398C17.2975 5.00732 17.1705 5.19123 17.0113 5.34497L9.85634 12.5H7.49967V10.1433L14.6547 2.98831Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </button>
                             <!-- delete -->
                             <button @click="deleteProduct(product.itemId)">
-                                <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> -->
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.33301 9.16667V14.1667M11.6663 9.16667V14.1667M3.33301 5.83333H16.6663M15.833 5.83333L15.1105 15.9517C15.0806 16.3722 14.8924 16.7657 14.5839 17.053C14.2755 17.3403 13.8696 17.5 13.448 17.5H6.55134C6.12979 17.5 5.7239 17.3403 5.41541 17.053C5.10693 16.7657 4.91877 16.3722 4.88884 15.9517L4.16634 5.83333H15.833ZM12.4997 5.83333V3.33333C12.4997 3.11232 12.4119 2.90036 12.2556 2.74408C12.0993 2.5878 11.8874 2.5 11.6663 2.5H8.33301C8.11199 2.5 7.90003 2.5878 7.74375 2.74408C7.58747 2.90036 7.49967 3.11232 7.49967 3.33333V5.83333H12.4997Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </button>                            
                         </div>
@@ -575,9 +581,10 @@ table .header{
     max-width: 100%;
 }
 .header th:nth-child(3){
-    width: min(13.889dvw,200px);
+    /* width: min(13.889dvw,200px);
     min-width: fit-content;
-    max-width: 100%;
+    max-width: 100%; */
+    width: 100%;
 }
 .header th:nth-child(4){
     width: min(8.056dvw,116px);
@@ -591,19 +598,21 @@ table .header{
     max-width: 100%;
 }
 .header th:nth-child(6){
-    width: 72px;
+    width: min(5dvw,72px);
     min-width: fit-content;
     max-width: 100%;
 }
 .header th:nth-child(7){
-    width: 84px;
+    /* width: min(5.833dvw,84px);
     min-width: fit-content;
-    max-width: 100%;
+    max-width: 100%; */
+    width: fit-content;
 }
 .header th:nth-child(8){
-    width: 84px;
-    min-width: fit-content;
-    max-width: 100%;
+    /* width: min(5.833dvw,84px); */
+    /* min-width: fit-content;
+    max-width: 100%; */
+    width: fit-content;
 }
 td,th{
     text-align: left;
@@ -667,8 +676,9 @@ table .product_item{
     align-items: center;
 }
 .product_item td:nth-child(1) div img{
-    width: 120%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 /* SKU */
 .product_item td:nth-child(2) h6{
@@ -682,7 +692,7 @@ table .product_item{
     max-width: 100%;
     height: 100%;
     flex-direction: column;
-    padding: min(5.278dvw,76px) min(0.833dvw,12px);
+    padding: min(0.833dvw,12px);
     align-items: center;
 } 
 .product_item td:nth-child(3) div{
