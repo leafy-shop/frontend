@@ -5,6 +5,8 @@ import validation from '../../JS/validation'
 import { useRoute } from 'vue-router';
 import cookie from '../../JS/cookie';
 import BaseShowErrorInput from '../../components/accountSetting/BaseShowErrorInput.vue';
+import BaseSubmit from '../../components/accountSetting/BaseSubmit.vue';
+import BaseAlert from '../../components/BaseAlert.vue';
 const { params } = useRoute()
 const userId = ref("")
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -23,6 +25,8 @@ const aboutMeS = ref(false)
 const userImageS = ref(false)
 const coverImageS = ref(false)
 const refreshPageS = ref(false)
+const refreshPageUserImgS=ref(false)
+const refreshPageCoverImgS=ref(false)
 // profile info message
 // const userNameM = ref('')
 const aboutMeM = ref('')
@@ -46,18 +50,25 @@ const lastNameM = ref('')
 const emailM = ref('')
 const phoneNumberM = ref('')
 
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+
 // ตรวจสอบว่า ข้อมูลได้เปลี่ยนไปจากข้อมูลต้นฉบับ ?
 const isChangeProfileInfo = computed(() => {
     let status = false
-    if (userDetail.value != {}) {
+    if (Object.keys(userDetail.value).length != 0) {
+        
         let { username, description } = userDetail.value
         if (username != userName.value) status = true;
         else
-            if (description != aboutMe.value) status = true;
-            else
-                if (userImage.value != undefined) status = true;
-                else
-                    if (coverImage.value != undefined) status = true;
+        if(description != aboutMe.value) status = true;
+        else
+        if (userImage.value != undefined) status = true;
+        else
+        if (coverImage.value != undefined) status = true;
     }
     return status
 })
@@ -70,11 +81,11 @@ const isChangePersonalInfo = computed(() => {
         let { firstname, lastname, email, phone } = userDetail.value
         if (firstname != firstName.value) status = true;
         else
-            if (lastname != lastName.value) status = true;
-            else
-                if (email != emailUser.value) status = true;
-                else
-                    if (phone != phoneNumber.value) status = true;
+        if (lastname != lastName.value) status = true;
+        else
+        if (email != emailUser.value) status = true;
+        else
+        if (phone != phoneNumber.value) status = true;
     }
     return status
 })
@@ -105,6 +116,10 @@ const getUserInfo = async () => {
 
     } else {
         //error console
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
     }
     console.log(data)
     userImageS.value = await checkUserImage()
@@ -140,7 +155,18 @@ const profileSubmit = async () => {
                 //     aboutMeS.value = false
                 //     aboutMe.value = userRes.msg
                 // }
-                await fetch.updataUserInfo(data)
+                let{status,msg}=await fetch.updataUserInfo(data)
+                if(await status){
+                    await getUserInfo()
+                    await fetch.getRefresh()
+                    // refreshPageS.value = true
+                }else{
+                    //error
+                    isShowAlert.value=true
+                    alertType.value=1
+                    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                    alertTime.value=10
+                }
                 // aboutMeS.value = true
                 // if (userRes.status) {
                 //     // console.log('updated')
@@ -158,13 +184,20 @@ const profileSubmit = async () => {
             if (userImage.value != undefined) {
                 let userImgRes = await fetch.updateImage(userImage.value, 'users', userId.value)
                 // let userImgRes=await fetch.deleteImage('users',userId)
-                if (userImgRes.status) {
+                if (await userImgRes.status) {
                     console.log('update successful')
+                    userImage.value=undefined
                     userImageS.value = true
+                    refreshPageUserImgS.value = true
                 } else {
                     console.log('update add image')
                     userImageS.value = false
                     userImageM.value = 'Can not update user Image from server'
+                    //error console
+                    isShowAlert.value=true
+                    alertType.value=1
+                    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                    alertTime.value=10
                 }
             }
 
@@ -172,18 +205,23 @@ const profileSubmit = async () => {
             if (coverImage.value != undefined) {
                 let userImgRes = await fetch.updateImage(coverImage.value, 'users', userId.value, 'coverphoto')
                 // let userImgRes=await fetch.deleteImage('users',userId)
-                if (userImgRes.status) {
+                if (await userImgRes.status) {
                     // console.log('update successful')
+                    coverImage.value=undefined
                     coverImageS.value = true
+                    refreshPageCoverImgS.value = true
                 } else {
                     // console.log('update add image')
                     coverImageS.value = false
                     coverImageM.value = 'Can not update cover Image from server'
-
+                    //error console
+                    isShowAlert.value=true
+                    alertType.value=1
+                    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                    alertTime.value=10
                 }
             }
-            await fetch.getRefresh()
-            refreshPageS.value = true
+            
             // location.reload()
             // await profileClear()
             // await getUserInfo()
@@ -199,19 +237,19 @@ const personalInfoSubmit = async () => {
     // console.log(isChangePersonalInfo.value)
     // let msg={data:'',userImg:'',coverImg:''}
     if (isChangePersonalInfo.value) {
-        if (!validation.text(firstName.value)) { //check first name
+        if (firstName.value.length==0||!validation.text(firstName.value)) { //check first name
             submitValidation = false
             firstNameM.value = 'First name invalid.'
             firstNameS.value = true
             console.log('firstname:', submitValidation)
         }
-        if (!validation.text(lastName.value)) { //check last name
+        if (lastName.value.length==0||!validation.text(lastName.value)) { //check last name
             submitValidation = false
             lastNameM.value = 'Last name invalid.'
             lastNameS.value = true
             console.log('lastname:', submitValidation)
         }
-        if (!validation.email(emailUser.value)) { // check email
+        if (emailUser.value.length==0||!validation.email(emailUser.value)) { // check email
             submitValidation = false
             emailM.value = 'Email invalid.'
             emailS.value = true
@@ -241,6 +279,10 @@ const personalInfoSubmit = async () => {
                 await getUserInfo()
             } else {
                 // error
+                isShowAlert.value=true
+                alertType.value=1
+                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                alertTime.value=10
             }
         }
 
@@ -322,7 +364,10 @@ const uploadImage = (event) => {
             userImage.value = file;
             previewCoverImage(file, "user_preview")
         } else {
-            console.log('file too big')
+            isShowAlert.value=true
+            alertType.value=2
+            alertDetail.value="The image is too big, over 1 MB in size!"
+            alertTime.value=3
         }
 
     }
@@ -353,7 +398,10 @@ const uploadCoverImage = (event) => {
             else coverImage.value = file;
             previewCoverImage(file, "cover-preview")
         } else {
-            console.log('file too big')
+            isShowAlert.value=true
+            alertType.value=2
+            alertDetail.value="The image is too big, over 1 MB in size!"
+            alertTime.value=3
         }
 
     }
@@ -392,6 +440,13 @@ const dragover = (event) => {
     event.preventDefault()
 }
 
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 onBeforeMount(async () => {
     userId.value = cookie.decrypt().id
@@ -458,7 +513,7 @@ onBeforeMount(async () => {
                         <div>
                             <div>
                                 <!-- รูปพื้นฐาน ไม่เคยมีรูป -->
-                                <img v-show="userImage == undefined && userImageS != true" src="../../assets/vue.svg"
+                                <img v-show="userImage == undefined && userImageS != true" src="../../assets/icon/user_icon.png"
                                     draggable="false" alt="user_preview">
                                 <!-- รูปเพิ่งเพิ่ม -->
                                 <img v-show="userImage != undefined" src="#" id="user_preview" draggable="false"
@@ -472,15 +527,18 @@ onBeforeMount(async () => {
                                 Add
                             </label>
                         </div>
-
+                        <p v-show="refreshPageUserImgS" class="refresh_page_require">
+                            Please refresh the page to load the latest image 
+                        </p>
                     </div>
 
                     <!-- cover photo -->
                     <div class="img_cover profile_item">
                         <h5>
                             Cover photo
+                            
                         </h5>
-                        <div v-show="coverImage == undefined && coverImageS == false" @drop="dropHandle" @dragover="dragover">
+                        <div v-show="coverImage == undefined && coverImageS == false" @drop="dropHandle" @dragover="dragover" class="no_img">
                             <input @change="uploadCoverImage" id="cover_image" type="file" accept="image/*">
                             <label for="cover_image">
                                 <div>
@@ -504,7 +562,7 @@ onBeforeMount(async () => {
                             </label>
 
                         </div>
-                        <div v-show="coverImage != undefined || coverImageS == true" @drop="dropHandle" @dragover="dragover">
+                        <div v-show="coverImage != undefined || coverImageS == true" @drop="dropHandle" @dragover="dragover" class="has_img">
                             <label for="cover_image" class="cover_img_result">
                                 <!-- รูปที่จะเพิ่ม -->
                                 <img v-show="coverImage != undefined" src="#" draggable="false" alt="preview_image"
@@ -515,13 +573,16 @@ onBeforeMount(async () => {
                                     alt="preview_image" id="cover-preview">
                             </label>
                         </div>
-
+                        <p v-show="refreshPageCoverImgS" class="refresh_page_require">
+                            Please refresh the page to load the latest image                        
+                        </p>
                     </div>
                     <!-- <BaseShowErrorInput name="cover_img_profile"/> -->
                 </div>
             </div>
             <!-- submit --> 
-            <div v-show="isChangeProfileInfo || refreshPageS" class="submit">
+            <BaseSubmit name="profile_info" :disabled="!isChangeProfileInfo" @goBack="profileClear(), profileClearStatus()" @submit="profileSubmit" />
+            <!-- <div v-show="isChangeProfileInfo || refreshPageS" class="submit">
                 <button v-show="!refreshPageS" @click="profileClear(), profileClearStatus()">
                     Cancel
                 </button>
@@ -531,7 +592,7 @@ onBeforeMount(async () => {
                 <p v-show="refreshPageS" class="importen_input">
                     Require refresh page to reload image
                 </p>
-            </div>
+            </div> -->
         </div>
         <!-- personal info -->
         <div class="wrapper_all">
@@ -639,16 +700,19 @@ onBeforeMount(async () => {
                 </div>
             </div>
             <!-- submit -->
-            <div v-show="isChangePersonalInfo || (firstNameS || lastNameS || emailS || phoneNumberS)" class="submit">
+            <BaseSubmit  name="change_personal_info" :disabled="!isChangePersonalInfo" @goBack="personalInfoClear(), personalInfoClearStatus()" @submit="personalInfoSubmit" />
+            <!-- <div v-show="isChangePersonalInfo || (firstNameS || lastNameS || emailS || phoneNumberS)" class="submit">
                 <button @click="personalInfoClear(), personalInfoClearStatus()">
                     Cancel
                 </button>
                 <button @click="personalInfoSubmit">
                     Save
                 </button>
-            </div>
+            </div> -->
+            <BaseAlert name="profile_setting_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
         </div>
     </div>
+
 </template>
 <style scoped>
 * {
@@ -787,27 +851,28 @@ onBeforeMount(async () => {
 
 .image>div {
     display: flex;
-    height: min(3.333dvw,48px);
+    height: fit-content;
     align-items: center;
     gap: min(1.389dvw,20px);
 }
 
 .image>div div {
     display: flex;
-    width: min(3.333dvw,48px);
-    height: min(3.333dvw,48px);
+    width: min(8.264dvw,119px);
+    height: min(8.264dvw,119px);
     border: none;
-    border-radius: 50%;
-    overflow: hidden;
+    /* border-radius: 50%; */
+    /* overflow: hidden; */
     background-position: center;
-    background-color: #212121;
+    background-color: #fff;
     justify-content: center;
     align-items: center;
 }
 
 .image>div div img {
-    width: 150%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     /* z-index: -1; */
 }
 
@@ -831,8 +896,12 @@ onBeforeMount(async () => {
     letter-spacing: min(0.014dvw,0.2px);
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.05);
 }
-
-.img_cover>div {
+p.refresh_page_require{
+    font-size: 12px;
+    font-weight: 500;
+    color: #F75555;
+}
+.img_cover .no_img{
     display: flex;
     width: 100%;
     height: min(9.722dvw,140px);
@@ -842,7 +911,15 @@ onBeforeMount(async () => {
     justify-content: center;
     align-items: center;
 }
-
+.img_cover .has_img{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: min(9.722dvw,140px);
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
 .img_cover>div input {
     display: none;
 }
@@ -908,7 +985,8 @@ onBeforeMount(async () => {
 }
 .img_cover>div label img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     /* background-position: center; */
 
 }
