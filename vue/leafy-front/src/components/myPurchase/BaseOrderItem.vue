@@ -61,8 +61,11 @@ const props=defineProps({
     isDisabled:{
         type:Boolean,
         default:false
+    },
+    isGroup:{
+        type:Boolean,
+        default:false
     }
-
 })
 // common attribute
 
@@ -125,26 +128,26 @@ const receiveOrder=async()=>{
     }
 }
 // cancel order
-const cencelOrder=async()=>{
-    let inputData={
-        orderStatus:"canceled"
-    }
-    if(props.orderStatus!=undefined){
-        let {status,msg}=await fetch.changeOrderStatus(props.orderId,inputData,'check_order')
-        if(await status){// change to 
-            alertType.value=0
-            alertDetail.value='Cancel order successfully'
-            alertTime.value=2
-            isShowAlert.value=true
-            return setTimeout(()=>emit('refreshData'),2*1000) //
-        }else{
-            alertType.value=1
-            alertDetail.value='There is a problem with the server. Please try again later.'
-            alertTime.value=10
-            isShowAlert.value=true
-        }
-    }
-}
+// const cencelOrder=async()=>{
+//     let inputData={
+//         orderStatus:"canceled"
+//     }
+//     if(props.orderStatus!=undefined){
+//         let {status,msg}=await fetch.changeOrderStatus(props.orderId,inputData,'check_order')
+//         if(await status){// change to 
+//             alertType.value=0
+//             alertDetail.value='Cancel order successfully'
+//             alertTime.value=2
+//             isShowAlert.value=true
+//             return setTimeout(()=>emit('refreshData'),2*1000) //
+//         }else{
+//             alertType.value=1
+//             alertDetail.value='There is a problem with the server. Please try again later.'
+//             alertTime.value=10
+//             isShowAlert.value=true
+//         }
+//     }
+// }
 
 // buy again
 const buyAgain=async()=>{
@@ -544,7 +547,7 @@ const getShowAlertChange=(input)=>{
             
         </div>
         <!-- order detail -->
-        <div v-if="!isPayment" class="order_detail">
+        <div v-if="!isPayment&&!props.isGroup" class="order_detail">
             <!-- info -->
             <div class="order_info">
                 <p>
@@ -562,19 +565,15 @@ const getShowAlertChange=(input)=>{
                 </h6>
             </div>
             <!-- to pay  set -->
-            <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
-                <!-- buy again -->
+            <!-- <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
                 <button  @click="goConfirmPayment" class="buy_again">
                     Pay now
                 </button>
-                <!-- view mt rating -->
                 <button  @click="cencelOrder" class="view_my_rating">
                     Cancel Order
                 </button>
-                <!-- <button  @click="" class="view_my_rating">
-                    Change Payment Method
-                </button> -->
-            </div>
+
+            </div> -->
             <!-- to receive  set -->
             <div v-if="!isPayment&&ORDERSTATUS.INPROGRESS==props.orderStatus" class="container_btn">
                 <!-- buy again -->
@@ -787,9 +786,11 @@ const getShowAlertChange=(input)=>{
     flex-direction:column;
     overflow:hidden;
     background-color:#fff;
-    border:none;
+    /* border:none; */
     border-radius:min(0.556dvw,8px);
-    padding-top:min(1.389dvw,20px);
+    /* padding-top:v-bind('props.isGroup==true?'0px':'min(1.389dvw,20px)''); */
+    padding-top: min(1.389dvw,20px);
+    /* border-top: v-bind('props.isGroup==true?'1px solid #EEEEEE':'0px''); */
 }
 /* header */
 .header_shop{
