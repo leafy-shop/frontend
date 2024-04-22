@@ -18,6 +18,7 @@ const {params}=useRoute()
 const myRouter=useRouter()
 // const goMyPurchase=()=>myRouter.push({name:"MyPurchase"})
 const goConfirmPayment=()=>myRouter.push({name:"ConfirmPayment",params:{id:validation.encrypt(orderGroupId.value)}})
+const goCart=()=>myRouter.push({name:"CartList"})
 //common attribute
 const addressList=ref([]) //list all
 const addressDefault=ref({}) //default selected
@@ -370,7 +371,71 @@ onBeforeMount(async()=>{
 // })
 </script>
 <template>
+  <div class="menu wrapper_menu_component" >
     <BaseMenu/>
+  </div>
+  <!-- access -->
+  <div class="container_access">
+    <!-- home icon -->
+    <svg
+      @click="goHome"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10.707 2.293C10.5195 2.10553 10.2652 2.00021 10 2.00021C9.73485 2.00021 9.48054 2.10553 9.29301 2.293L2.29301 9.293C2.11085 9.4816 2.01006 9.7342 2.01234 9.9964C2.01461 10.2586 2.11978 10.5094 2.30519 10.6948C2.4906 10.8802 2.74141 10.9854 3.00361 10.9877C3.26581 10.99 3.51841 10.8892 3.70701 10.707L4.00001 10.414V17C4.00001 17.2652 4.10537 17.5196 4.2929 17.7071C4.48044 17.8946 4.73479 18 5.00001 18H7.00001C7.26523 18 7.51958 17.8946 7.70712 17.7071C7.89465 17.5196 8.00001 17.2652 8.00001 17V15C8.00001 14.7348 8.10537 14.4804 8.2929 14.2929C8.48044 14.1054 8.73479 14 9.00001 14H11C11.2652 14 11.5196 14.1054 11.7071 14.2929C11.8947 14.4804 12 14.7348 12 15V17C12 17.2652 12.1054 17.5196 12.2929 17.7071C12.4804 17.8946 12.7348 18 13 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8947 17.5196 16 17.2652 16 17V10.414L16.293 10.707C16.4816 10.8892 16.7342 10.99 16.9964 10.9877C17.2586 10.9854 17.5094 10.8802 17.6948 10.6948C17.8802 10.5094 17.9854 10.2586 17.9877 9.9964C17.99 9.7342 17.8892 9.4816 17.707 9.293L10.707 2.293Z"
+        fill="#757575"
+      />
+    </svg>
+    <!-- right arrow -->
+    <svg
+      class="right_arrow"
+      viewBox="0 0 24 44"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z"
+        fill="#EEEEEE"
+      />
+    </svg>
+    <!-- product -->
+    <h5 @click="" class="link">Cart</h5>
+    <svg
+      class="right_arrow"
+      viewBox="0 0 24 44"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z"
+        fill="#EEEEEE"
+      />
+    </svg>
+    <!-- product -->
+    <h5 @click="" class="link">check out</h5>
+  </div>
+
+  <!-- mobile -->
+  <div class="container_access_mobile menu">
+    <!-- back -->
+    <button @click="goCart" class="go_back_btn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <!-- header -->
+    <h5 class="header">
+      Checkout
+    </h5>
+    <!-- empty  -->
+    <div class="empty">
+
+    </div>
+  </div>
     <!-- content -->
     <div class="wrapper_payment">
         <div class="payment">
@@ -410,7 +475,7 @@ onBeforeMount(async()=>{
 
             <!-- product List -->
             <div v-for="(shop,index) of convertCartList" class="wrapper_product_list">
-              <BaseOrderItem name="payment" :shop-name="shop.shopName" :is-payment="true" :order-detail="shop.order_detail" :order-total="shop.orderTotal" />  
+              <BaseOrderItem name="payment" :shop-name="shop.shopName" :is-payment="true" :order-detail="shop.order_detail" :order-total="shop.orderTotal" :is-disabled="true" />  
             </div>
             
             <!-- payment method -->
@@ -477,6 +542,23 @@ onBeforeMount(async()=>{
         <!-- overlay -->
         <!-- myAddress -->
         <div v-show="showOverlay" class="overlay">
+          <!-- mobile -->
+          <div class="container_access_mobile menu">
+            <!-- back -->
+            <button @click="addressOverlayController(true),inputController(false)" class="go_back_btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <!-- header -->
+            <h5 class="header">
+              Address Selection
+            </h5>
+            <!-- empty  -->
+            <div class="empty">
+
+            </div>
+          </div>
           <!-- address -->
           <div v-if="!showInputContainer" class="wrapper_address_overlay">
             <div class="address_overlay">
@@ -691,6 +773,49 @@ onBeforeMount(async()=>{
 *{
     box-sizing: border-box;
 }
+/* access layer */
+.container_access_mobile{
+  display: none;
+}
+.container_access {
+  display: flex;
+  width: auto;
+  height: min(3.056dvw, 44px);
+  background-color: #ffffff;
+  border-bottom: min(0.069dvw, 1px) solid;
+  border-color: #eeeeee;
+  padding: 0px min(11.111dvw, 160px);
+  align-items: center;
+  gap: min(1.111dvw, 16px);
+}
+
+.container_access svg:nth-child(1) {
+  width: min(1.667dvw, 24px);
+  height: min(1.667dvw, 24px);
+  cursor: pointer;
+}
+
+.container_access svg:nth-child(1):hover path {
+  fill: #26ac34;
+}
+
+.link {
+  font-size: min(0.972dvw, 14px);
+  font-weight: 500;
+  color: #757575;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #26ac34;
+}
+
+.right_arrow {
+  display: flex;
+  width: min(1.667dvw, 24px);
+  height: min(3.056dvw, 44px);
+}
+
 .wrapper_payment{
     display: flex;
     position: relative;
@@ -883,6 +1008,7 @@ onBeforeMount(async()=>{
   justify-content: center;
   align-items: center;
   background: #00000040;
+  flex-direction: column;
 }
 .wrapper_address_overlay{
   display: flex;
@@ -1128,7 +1254,72 @@ onBeforeMount(async()=>{
 
 /* mobild */
 @media (width<=432px){
-
+  .wrapper_menu_component{
+    /* display: flex;
+    width: 100%;
+    height: fit-content; */
+    display: none;
+  }
+  /* access layer */
+  .container_access {
+    display: none
+  }
+  .container_access_mobile{
+    display: flex;
+    width: 100%;
+    height: 60px;
+    padding: 12px 20px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 1px 3px 0px #0000001A;
+    background-color: #fff;
+  }
+  .container_access_mobile .go_back_btn{
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .container_access_mobile h5.header{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    font-size:18px ;
+    font-weight: 700;
+    color: #212121;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+  }
+  .container_access_mobile h5.header span{
+    width: fit-content;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color: #616161;
+    vertical-align: center;
+  }
+  .container_access_mobile div.empty{
+    display: flex;
+    width: 24px;
+    height: 24px;
+    letter-spacing: 0.20000000298023224px;
+  }
+  .wrapper_cart {   
+    padding: 0px;
+    gap: 16px;
+  }
+  .cart {
+    gap: 16px;
+  }
+  .header_cart{
+    display: none;
+  }
+  /* payment */
   .wrapper_payment{
     padding: 8px 0px 20px 0px;
   }
@@ -1216,8 +1407,134 @@ onBeforeMount(async()=>{
     height: 16px;
     
   }
+  /* overlay */
+  .overlay{
+
+    background: #fff;
+    align-items: center;
+    justify-content: start;
+    gap: 0px;
+    overflow-y: auto;
+    /* padding: 20px; */
+  }
+  .wrapper_address_overlay{
+    min-width:100%;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px 0px #0000000F;
+  }
+  .wrapper_address_overlay .address_overlay{
+    gap: 14px;
+    padding: 20px;
+    
+  }
+  /* header */
+  .address_overlay .header_address{
+    font-size: 16px;
+  }
+  /* list */
+  .address_overlay .address_list_overlay{
+    gap: 12px;
+    height: fit-content;
+    max-height: 100%;
+  }
+  .address_item_overlay{
+    border-top:1px solid #EEEEEE;
+    gap: 20px;
+    padding-top: 12px;
+  }
+  /* .new_address{
+  } */
+  .new_address button{
+    width: 100%;
+    height: 36px;
+    border-radius: 4px;
+    padding: 8px 12px;
+    background-color: #26AC34;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+  }
+  .new_address button div{
+    width: 20px;
+    height: 20px;
+  }
+  .new_address button h6{
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+  }
+  /* address confirm */
+  .address_confirm{
+    display: none;
+  }
 
 
+  
+  /* add address */
+  .wrapper_add_address_overlay{
+    overflow-y:auto;
+    width: 100%;
+    height:fit-content;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px 0px #0000000F;
+    padding: 20px;
+    gap:20px;
+  }
+  .wrapper_add_address_overlay .add_address_overlay{
+    gap: 20px;
+    padding:0px;
+    
+  }
+  .add_address_overlay .header_add_address{
+    display: none;
+  }
+  .add_address_overlay .container_add_address{
+    gap: 12px;
+  }
+  .input_list{
+    gap: 12px;
+    flex-direction: column
+  }
+  .input_field{
+    gap: 4px;
+  }
+  .input_field h6{
+    height:20px;
+    font-size: 14px;
+  }
+  .input_field input{
+    height: 36px;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+  }
+  .set_default {
+    height: 20px;
+    gap: 8px;
+  }
+  .set_default label{
+    font-size: 14px;
+    font-weight: 400;
+  }
+  /* button */
+  .create_address{
+   
+    padding: 0px;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+  .create_address button{
+    width: 100%;
+    height: 36px;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 </style>
