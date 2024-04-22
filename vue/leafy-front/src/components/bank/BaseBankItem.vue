@@ -136,7 +136,7 @@ const isShowSetDBtn=computed(()=>props.showSetDBtn)
             </p>
             
             <!-- set default -->
-            <button v-if="!isDefaultData&&isShowSetDBtn" @click="$emit('setDefaultBank',props.itemId)">
+            <button v-if="isShowSetDBtn" @click="$emit('setDefaultBank',props.itemId)">
                 Set as default
             </button>
 
