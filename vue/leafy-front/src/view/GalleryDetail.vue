@@ -60,7 +60,9 @@ onBeforeMount(async()=>{
 </script>
 <template>
     <!-- this is gallery detail : {{params.id}} -->
-    <BaseMenu class="menu"/>
+    <div class="wrapper_menu_component">
+        <BaseMenu class="menu"/>
+    </div>
     <div class="container_access">
         <!-- home icon -->
         <svg @click="goHome" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,6 +84,23 @@ onBeforeMount(async()=>{
         <h5 class="link">
             Gallery Detail
         </h5>
+    </div>
+    <!-- mobile -->
+    <div class="container_access_mobile menu">
+        <!-- back -->
+        <button @click="goGalleryList" class="go_back_btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </button>
+        <!-- header -->
+        <h5 class="header">
+        Gallery Detail
+        </h5>
+        <!-- empty  -->
+        <div class="empty">
+
+        </div>
     </div>
     <!-- content -->
     <div class="wrapper_gallery_detail">
@@ -146,6 +165,9 @@ onBeforeMount(async()=>{
 <style scoped>
 *{
     box-sizing: border-box;
+}
+.container_access_mobile{
+  display: none;
 }
 .container_access{
     display: flex;
@@ -267,7 +289,7 @@ onBeforeMount(async()=>{
     width: min(3.333dvw,48px);
     height: min(3.333dvw,48px);
     border: none;
-    border-radius: min(3.472dvw,50px);
+    border-radius: 50%;
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -339,5 +361,129 @@ onBeforeMount(async()=>{
     line-height: 144%;
     font-weight: 400;
     color:#212121;
+}
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_menu_component{
+        /* display: flex;
+        width: 100%;
+        height: fit-content; */
+        display: none;
+    }
+    /* access layer */
+    .container_access {
+        display: none
+    }
+    .container_access_mobile{
+        display: flex;
+        width: 100%;
+        height: 60px;
+        padding: 12px 20px;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 1px 3px 0px #0000001A;
+        background-color: #fff;
+    }
+    .container_access_mobile .go_back_btn{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    .container_access_mobile h5.header{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        font-size:18px ;
+        font-weight: 700;
+        color: #212121;
+        gap: 4px;
+        justify-content: center;
+        align-items: center;
+    }
+    .container_access_mobile h5.header span{
+        width: fit-content;
+        height: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        color: #616161;
+        vertical-align: center;
+    }
+    .container_access_mobile div.empty{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        letter-spacing: 0.20000000298023224px;
+    }
+
+  /* gallery */
+    .wrapper_gallery_detail{
+        padding: 40px 44px 20px 44px;
+    }
+    .wrapper_gallery_detail .gallery_detail{
+        gap: 20px;
+    }
+    /* header */
+    .gallery_detail .header_gallery_detail{
+        border-bottom: 1px solid #E0E0E0;
+        gap: 8px;
+        padding-bottom: 20px;
+
+    }
+    .header_gallery_detail h4{
+        font-size: 18px;
+    }
+    .header_gallery_detail hr{
+        width: 32px;
+        height: 1px;
+    }
+    .header_gallery_detail h6{
+        font-size: 12px;
+    }
+    /* content */
+    .project_detail{
+        gap: 12px;
+    }
+    /* creater */
+    .project_detail .container_creater{
+        height: 40px;
+        gap: 12px;
+    }
+    /* img */
+    .container_creater .creater_img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    /* creater name */
+    /* .container_creater .creater_name{
+    } */
+    .container_creater .creater_name h6{
+        font-size: 14px;
+        font-weight: 500;
+    }
+    /* project detail */
+    .container_project{
+        gap: 12px;
+    }
+    /* img */
+    .container_project .project_img{
+        border-radius: 8px;
+    }
+    .container_project .project_img img{
+        width: 100%;
+        height: auto;
+    }
+    /* detail */
+    /* .project_description{
+    } */
+    .project_description p{
+        font-size: 12px;
+    }
 }
 </style>
