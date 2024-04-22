@@ -13,6 +13,7 @@ import BaseConfirm from "../components/BaseConfirm.vue";
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
 const goPayment=(list)=>myRouter.push({name:'Payment',params:{cartList:validation.encrypt(list)}})
+const goBack=()=>myRouter.go(-1)
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 // common attribute
@@ -377,7 +378,9 @@ onBeforeMount(async() => {
 });
 </script>
 <template>
-  <BaseMenu class="menu" />
+  <div class="menu wrapper_menu_component" >
+    <BaseMenu />
+  </div>
   <!-- access -->
   <div class="container_access">
     <!-- home icon -->
@@ -407,8 +410,30 @@ onBeforeMount(async() => {
       />
     </svg>
     <!-- product -->
-    <h5 @click="goShop" class="link">Cart</h5>
+    <h5 @click="" class="link">Cart</h5>
   </div>
+
+  <!-- mobile -->
+  <div class="container_access_mobile menu">
+    <!-- back -->
+    <button @click="goBack" class="go_back_btn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <!-- header -->
+    <h5 class="header">
+      Shopping Cart 
+      <span>
+        ({{ count }})
+      </span>
+    </h5>
+    <!-- empty  -->
+    <div class="empty">
+
+    </div>
+  </div>
+
   <!-- content -->
   <div class="wrapper_cart">
     <!-- cart -->
@@ -493,7 +518,7 @@ onBeforeMount(async() => {
           <div class="product_list" :style="[detail.stock==0?'background-color:#EEEEEE;':'']" v-for="(detail,index) in shop.cartOwner" :key="index">
             <!-- product item -->
             <div class="product_item">
-              <div>
+              <div class="container_info_detail">
                 <!-- select -->
                 <div class="product_selection">
                   <input 
@@ -514,6 +539,7 @@ onBeforeMount(async() => {
                   />
                   <img v-else src="../assets/vue.svg" alt="product_img" />
                 </div>
+
                 <!-- product_detail -->
                 <div class="product_detail">
                   <h6>{{ detail.itemName }}</h6>
@@ -526,8 +552,98 @@ onBeforeMount(async() => {
                     </h6>
                   </div>
                 </div>
+
+                <!-- mobile -->
+                <div class="wrapper_product_detail">
+                  <!-- detail -->
+                  <div class="container_product_detail">
+                    <div class="product_detail">
+                      <h6>
+                        {{ detail.itemName }}
+                      </h6>
+                      <!-- variance selection -->
+                      <div :for="`variation_${index}`">
+                        <p>
+                          {{detail.itemStyle}} :&nbsp;
+                        </p>
+                        <h6 :id="`variation_${index}`">
+                          {{detail.itemSize}}
+                          <!-- <option value=""></option> -->
+                        </h6>
+
+                      </div>
+                    </div>
+                    <!-- price each -->
+                    <div class="price_each">
+                      <h6>
+                          {{ detail.priceEach }}
+                      </h6>
+                    </div>
+                  </div>
+                  <!-- price qty reduce -->
+                  <div class="container_price_qty">
+                    <!-- input qty -->
+                    <div class="product_quantity">
+                      <!-- reduce -->
+                      <button
+                        class="reduce"
+                        @click="reduceQty(detail.cartId, detail.qty)"
+                      >
+                        -
+                      </button>
+                      <input type="text" v-model="detail.qty" disabled/>
+                      <!-- add -->
+                      <button
+                        class="add"
+                        @click="addQty(detail.cartId, detail.qty)"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <!-- total -->
+                    <div class="product_total">
+                      ฿{{ detail.priceEach * detail.qty }}
+                    </div>
+                    <!-- delete -->
+                    <div class="product_delete" @click="deleteCart(detail.cartId)">
+                      <button>
+                        <div>
+                          <!-- <svg
+                            width="16"
+                            height="18"
+                            viewBox="0 0 16 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z"
+                              stroke="#F75555"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg> -->
+                          <svg 
+                            width="20" 
+                            height="20" 
+                            viewBox="0 0 20 20" 
+                            fill="none" 
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.3335 9.16667V14.1667M11.6668 9.16667V14.1667M3.3335 5.83333H16.6668M15.8335 5.83333L15.111 15.9517C15.0811 16.3722 14.8929 16.7657 14.5844 17.053C14.2759 17.3403 13.87 17.5 13.4485 17.5H6.55183C6.13028 17.5 5.72439 17.3403 5.4159 17.053C5.10742 16.7657 4.91926 16.3722 4.88933 15.9517L4.16683 5.83333H15.8335ZM12.5002 5.83333V3.33333C12.5002 3.11232 12.4124 2.90036 12.2561 2.74408C12.0998 2.5878 11.8878 2.5 11.6668 2.5H8.3335C8.11248 2.5 7.90052 2.5878 7.74424 2.74408C7.58796 2.90036 7.50016 3.11232 7.50016 3.33333V5.83333H12.5002Z" 
+                              stroke="#F75555" 
+                              stroke-width="2" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
               </div>
-              <div>
+              <!-- price qty reduce -->
+              <div class="container_info_price">
                 <!-- price -->
                 <div class="product_price">฿{{ detail.priceEach }}</div>
                 <!-- quantity -->
@@ -648,6 +764,9 @@ onBeforeMount(async() => {
 }
 
 /* access layer */
+.container_access_mobile{
+  display: none;
+}
 .container_access {
   display: flex;
   width: auto;
@@ -904,13 +1023,13 @@ onBeforeMount(async() => {
 }
 
 /* left of item detail */
-.product_item > div:nth-child(1) div {
+.product_item div.container_info_detail div {
   width: auto;
   height: 100%;
 }
 
 /* selection */
-.product_item > div:nth-child(1) .product_selection {
+.product_item div.container_info_detail .product_selection {
   display: flex;
   width: min(2.222dvw,32px);
   height: 100%;
@@ -918,14 +1037,14 @@ onBeforeMount(async() => {
   align-items: center;
 }
 
-.product_item > div:nth-child(1) .product_selection input {
+.product_item div.container_info_detail .product_selection input {
   width: min(1.111dvw,16px);
   height: min(1.111dvw,16px);
   accent-color: #168a22;
 }
 
 /* img */
-.product_item > div:nth-child(1) .product_img {
+.product_item div.container_info_detail .product_img {
   display: flex;
   width: min(3.611dvw,52px);
   height: min(3.611dvw,52px);
@@ -936,13 +1055,14 @@ onBeforeMount(async() => {
   overflow: hidden;
 }
 
-.product_item > div:nth-child(1) .product_img img {
+.product_item div.container_info_detail .product_img img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* detail */
-.product_item > div:nth-child(1) .product_detail {
+.product_item div.container_info_detail .product_detail {
   display: flex;
   width: 100%;
   /* max-width: 100%; */
@@ -952,7 +1072,7 @@ onBeforeMount(async() => {
   gap: min(0.278dvw,4px);
 }
 
-.product_item > div:nth-child(1) .product_detail >h6 {
+.product_item div.container_info_detail .product_detail >h6 {
   width: fit-content;
   max-width: 100%;
   height: min(1.389dvw,20px);
@@ -963,7 +1083,7 @@ onBeforeMount(async() => {
   text-overflow: ellipsis;
 }
 
-.product_item > div:nth-child(1) .product_detail >div {
+.product_item div.container_info_detail .product_detail >div {
   display: flex;
   width: 100%;
   max-width: 100%;
@@ -979,7 +1099,7 @@ onBeforeMount(async() => {
   outline: auto;
 } */
 
-.product_item > div:nth-child(1) .product_detail >div p {
+.product_item div.container_info_detail .product_detail >div p {
   display: flex;
   width: fit-content;
   height: min(1.111dvw,16px);
@@ -989,7 +1109,7 @@ onBeforeMount(async() => {
   white-space: nowrap;
 }
 
-.product_item > div:nth-child(1) .product_detail >div >h6 {
+.product_item div.container_info_detail .product_detail >div >h6 {
   display: flex;
   width: 100%;
   height: min(1.111dvw,16px);
@@ -1002,14 +1122,14 @@ onBeforeMount(async() => {
 }
 
 /* right price quantity total */
-.product_item > div:nth-child(2) {
+.product_item div.container_info_price {
   display: flex;
   width: fit-content;
   height: fit-content;
   align-items: center;
 }
 
-.product_item > div:nth-child(2) .product_price {
+.product_item div.container_info_price .product_price {
   display: flex;
   width: min(6.944dvw,100px);
   height: min(3.611dvw,52px);
@@ -1022,7 +1142,7 @@ onBeforeMount(async() => {
   font-weight: 400;
 }
 
-.product_item > div:nth-child(2) .product_quantity {
+.product_item div.container_info_price .product_quantity {
   display: flex;
   width: min(8.889dvw,128px);
   height: 100%;
@@ -1031,7 +1151,7 @@ onBeforeMount(async() => {
   align-items: center;
 }
 
-.product_item > div:nth-child(2) .product_quantity div {
+.product_item div.container_info_price .product_quantity div {
   display: flex;
   width: 100%;
   height: min(2.5dvw,36px);
@@ -1044,7 +1164,7 @@ onBeforeMount(async() => {
   box-shadow: 0px min(0.278dvw,4px) min(2.778dvw,40px) 0px #04060f14;
 }
 
-.product_item > div:nth-child(2) .product_quantity button {
+.product_item div.container_info_price .product_quantity button {
   display: flex;
   width: min(2.222dvw,32px);
   height: min(2.5dvw,36px);
@@ -1059,10 +1179,10 @@ onBeforeMount(async() => {
   border-color: #e0e0e0;
   /* border-color: transparent; */
 }
-.product_item > div:nth-child(2) .product_quantity button:hover {
+.product_item div.container_info_price .product_quantity button:hover {
   background-color: #F5F5F5;
 }
-.product_item > div:nth-child(2) .product_quantity .reduce {
+.product_item div.container_info_price .product_quantity .reduce {
   border-right: none;
   border-radius: min(0.278dvw,4px) 0px 0px min(0.278dvw,4px);
   font-size: min(0.972dvw,14px);
@@ -1070,7 +1190,7 @@ onBeforeMount(async() => {
   color: #212121;
 }
 
-.product_item > div:nth-child(2) .product_quantity .add {
+.product_item div.container_info_price .product_quantity .add {
   border-left: none;
   border-radius: 0px min(0.278dvw,4px) min(0.278dvw,4px) 0px;
   font-size: min(0.972dvw,14px);
@@ -1078,7 +1198,7 @@ onBeforeMount(async() => {
   color: #212121;
 }
 
-.product_item > div:nth-child(2) .product_quantity input {
+.product_item div.container_info_price .product_quantity input {
   display: flex;
   width: 100%;
   /* min-width: 32px; */
@@ -1095,10 +1215,10 @@ onBeforeMount(async() => {
   line-height: 144%;
   color: #212121;
 }
-.product_item > div:nth-child(2) .product_quantity input:hover {
+.product_item div.container_info_price .product_quantity input:hover {
   background-color: #F5F5F5;
 }
-.product_item > div:nth-child(2) .product_total {
+.product_item div.container_info_price .product_total {
   /* display: flex; */
   width: min(6.944dvw,100px);
   height: min(3.611dvw,52px);
@@ -1113,7 +1233,7 @@ onBeforeMount(async() => {
   text-overflow: ellipsis;
 }
 
-.product_item > div:nth-child(2) .product_delete {
+.product_item div.container_info_price .product_delete {
   display: flex;
   width: min(2.222dvw,32px);
   height: min(3.611dvw,52px);
@@ -1123,7 +1243,7 @@ onBeforeMount(async() => {
   align-items: center;
 }
 
-.product_item > div:nth-child(2) .product_delete button {
+.product_item div.container_info_price .product_delete button {
   display: flex;
   width: min(1.389dvw,20px);
   height: min(1.389dvw,20px);
@@ -1134,12 +1254,176 @@ onBeforeMount(async() => {
   cursor: pointer;
 }
 
-.product_item > div:nth-child(2) .product_delete button svg{
+.product_item div.container_info_price .product_delete button svg{
   /* width: min(0.833dvw,12px); */
   width: 100%;
   height: auto;
   justify-content: center;
   align-items: center;
+}
+
+/* mobile */
+@media (width<=432px){
+  .wrapper_menu_component{
+    /* display: flex;
+    width: 100%;
+    height: fit-content; */
+    display: none;
+  }
+  /* access layer */
+  .container_access {
+    display: none
+  }
+  .container_access_mobile{
+    display: flex;
+    width: 100%;
+    height: 60px;
+    padding: 12px 20px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 1px 3px 0px #0000001A;
+    background-color: #fff;
+  }
+  .container_access_mobile .go_back_btn{
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .container_access_mobile h5.header{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    font-size:18px ;
+    font-weight: 700;
+    color: #212121;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+  }
+  .container_access_mobile h5.header span{
+    width: fit-content;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color: #616161;
+    vertical-align: center;
+  }
+  .container_access_mobile div.empty{
+    display: flex;
+    width: 24px;
+    height: 24px;
+    letter-spacing: 0.20000000298023224px;
+  }
+  .wrapper_cart {   
+    padding: 0px;
+    gap: 16px;
+  }
+  .cart {
+    gap: 16px;
+  }
+  .header_cart{
+    display: none;
+  }
+  
+  /* shop */
+  .shop_list {
+    gap: 8px;
+  }
+  .shop_item {
+    border-radius:0px;
+    gap: 12px;
+    padding: 12px 0px 0px 0px;
+    box-shadow: 0px 1px 2px 0px #0000000f;
+  }
+  /* header */
+  .header_shop {
+    height: 36px;
+    border-bottom: 1px solid #eeeeee;
+    border-color: #eeeeee;
+    align-items: center;
+    padding: 0px 20px 12px 20px;
+    gap: 16px;
+  }
+  /* .header_shop .shop_selection {
+  } */
+  .header_shop input {
+    width: 16px;
+    height: 16px;
+  }
+  .header_shop > div h5 {
+    font-size: 16px;
+  }
+  .header_shop > div div {
+    width: 20px;
+    height: 20px;
+  }
+  .name_shop {
+    gap: 4px;
+  }
+  /* product list */
+  .product_list {
+    padding: 0px;
+  }
+  .product_item {
+    padding: 0px 20px 12px 20px;
+  }
+  .product_item > div {
+    height: 92px;
+  }
+  /* left of item detail */
+  /* .product_item div.container_info_detail div {
+  } */
+
+  /* selection */
+  .product_item div.container_info_detail .product_selection {
+    width: 32px;
+  }
+  .product_item div.container_info_detail .product_selection input {
+    width: 16px;
+    height: 16px;
+  }
+  /* img */
+  .product_item div.container_info_detail .product_img {
+    width: 52px;
+    height:52px;
+    border-radius: 4px;
+
+  }
+  /* detail */
+  .product_item div.container_info_detail .product_detail {
+    display: none;
+  }
+  /* detail mobile */
+  .wrapper_product_detail {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    max-height: 100%;
+    flex-direction: column;
+  }
+  .wrapper_product_detail div.container_product_detail{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+  }
+  .wrapper_product_detail div.container_product_detail div.product_detail{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+  }
+  
+  /* price qty reduce  */
+  .product_item div.container_info_price {
+    display: none;
+  }
+
 }
 
 /* .wrapper_summary {
