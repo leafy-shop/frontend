@@ -221,7 +221,7 @@ const getFilterItem = async (data) => {
     // console.log(data)
     await getProduct(currentPage.value)
     // console.log("passing data from BaseFilter to shop success!!")
-    pageHidden(currentPage.value, totalPage.value)
+    // pageHidden(currentPage.value, totalPage.value)
 }
 
 const showFilterItem = (data) => {
@@ -347,12 +347,33 @@ onUpdated(() => {
                         </div>
                     </div>
                 </div>
+                <!-- container mobile btn -->
+                <div class="container_btn_mobile">
+                    <button @click="goAdd" v-if="isMe&&profileMode==pMode[0].mode" class="new_product_btn">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6 0C6.31826 0 6.62348 0.126428 6.84853 0.351472C7.07357 0.576516 7.2 0.88174 7.2 1.2V4.8H10.8C11.1183 4.8 11.4235 4.92643 11.6485 5.15147C11.8736 5.37652 12 5.68174 12 6C12 6.31826 11.8736 6.62348 11.6485 6.84853C11.4235 7.07357 11.1183 7.2 10.8 7.2H7.2V10.8C7.2 11.1183 7.07357 11.4235 6.84853 11.6485C6.62348 11.8736 6.31826 12 6 12C5.68174 12 5.37652 11.8736 5.15147 11.6485C4.92643 11.4235 4.8 11.1183 4.8 10.8V7.2H1.2C0.88174 7.2 0.576516 7.07357 0.351472 6.84853C0.126428 6.62348 0 6.31826 0 6C0 5.68174 0.126428 5.37652 0.351472 5.15147C0.576516 4.92643 0.88174 4.8 1.2 4.8H4.8V1.2C4.8 0.88174 4.92643 0.576516 5.15147 0.351472C5.37652 0.126428 5.68174 0 6 0Z" fill="white"/>
+                        </svg>
+                        <span>
+                            New Product
+                        </span>
+                    </button>
+                    <button @click="goGalleryProfile" class="follow_btn">
+                        <!-- is not me -->
+                        <span v-if="!isMe&&profileMode==pMode[0].mode">
+                            View Gallery
+                        </span> 
+                        <span v-else>
+                            My Gallery
+                        </span>
+                    </button>
+                </div>
             </div>
 
         </div>
 
         <!-- detail and recommend -->
         <div v-if="profileMode==pMode[0].mode" class="wrapper_details">
+            
             <div class="container_details">
                 <!-- suplier detail -->
                 <div class="suplier_details">
@@ -434,20 +455,53 @@ onUpdated(() => {
                     </div>
 
                 </div>
+                <!-- mobile -->
+                <div class="suplier_details_mobile">
+                    <!-- ratings -->
+                    <div>
+                        <h6 class="header">
+                            Ratings
+                        </h6>
+                        <h6 class="result">
+                            {{ owner.rating==null?0:owner.rating }}
+                        </h6>
+                    </div>
+                    <!-- products -->
+                    <div>
+                        <h6 class="header">
+                            Products
+                        </h6>
+                        <h6 class="result">
+                            {{ owner.products }}
+                        </h6>
+                    </div>
+                    <!-- response rate -->
+                    <div>
+                        <h6 class="header">
+                            Response Rate
+                        </h6>
+                        <h6 class="result">
+                            100%
+                        </h6>
+                    </div>
+                </div>
                 <div v-if="!isMe" class="recommedation">
                     <!-- recommendation -->
-                    <h5>
+                    <h5 class="header">
                         Recommended for You
                     </h5>
-                    <BaseProductList :product-list="recommendProduct" :gridColumn="4" />
+                    <div class="wrapper_recommendation_component">
+                        <BaseProductList :product-list="recommendProduct" :gridColumn="4" />
+                    </div>
                 </div>
             </div>
+            
         </div>
         <!-- supplier and not me -->
         <!-- product list and filter -->
         <div v-if="!isMe&&profileMode==pMode[0].mode" class="container_product">
                 <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="showFilterItem"
-                    :sort-type-arr="sortTypeArr" />
+                     />
                 <div class="wrapper_product">
                     <div class="product_list">
                         <Basesortitem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
@@ -456,11 +510,11 @@ onUpdated(() => {
                         <BaseProductList :product-list="productList" :gridColumn="3" />
                     </div>
 
-                    <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
+                    <BaseSelectPage name="profile_not_me" :total-page="totalPage" :current-page="currentPage"
                     @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
 
                     <div class="product_sold_out">
-                        <h5>
+                        <h5 class="header">
                             Sold Out
                         </h5>
                         <BaseProductList :product-list="outStockList"  :gridColumn="3" :sold-out="true" />
@@ -471,6 +525,10 @@ onUpdated(() => {
         </div>
         <!-- myself -->
         <div v-else-if="isMe&&profileMode==pMode[0].mode" class="container_product_me">
+            <div class="filter_me">
+                <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="showFilterItem"
+                 />
+            </div>
             <Basesortitem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
                 @moveLeft="moveLeft" @moveRight="moveRight"
                 :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
@@ -516,9 +574,13 @@ onUpdated(() => {
                             <!-- price -->
                             <h5 class="price_me">
                                 <!-- $80 -->
-                                {{ product.minPrice }} 
+                                <span class="moneny_bath">
+                                    {{ product.minPrice }} 
+                                </span> 
                                 <span v-show="product.maxPrice==0?false:true">&nbsp;-&nbsp;</span>
-                                {{ product.maxPrice }}
+                                <span class="moneny_bath">
+                                    {{ product.maxPrice }}
+                                </span>
                             </h5>
                             
                             <!-- discription -->
@@ -547,7 +609,7 @@ onUpdated(() => {
                 </div>
             </div>
             <!-- select page -->
-            <BaseSelectPage :total-page="totalPage" :current-page="currentPage"
+            <BaseSelectPage name="profile_me" :total-page="totalPage" :current-page="currentPage"
                     @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
             
         </div>
@@ -590,7 +652,7 @@ onUpdated(() => {
     width: 100%;
     position: relative;
     flex-direction: column;
-    width: inherit;
+    width: 100%;
     height: min(17.778dvw, 256px);
 }
 
@@ -601,75 +663,67 @@ onUpdated(() => {
     overflow: hidden;
     justify-content: center;
     align-items: center;
+    z-index: 0;
 }
 
 .big_image img {
     width: 100%;
-    height: auto;
-    z-index: 0;
+    height: 100%;
+    object-fit: cover;
 }
 
 .wrapper_user {
     display: flex;
     position: absolute;
     flex-direction: column;
-    width: 100dvw;
-    height: fit-content;
+    width: 100%;
+    height: min(8.889dvw,128px);
     justify-content: center;
     align-items: center;
     bottom: 0;
-    /* left: 50%;
-    right: 50%; */
-    z-index: 1;
+
     padding: 0px min(11.111dvw,160px);
 }
 
 .user {
     display: flex;
-    /* position: relative; */
-    /* width: fit-content; */
     width: 100%;
-    height: min(8.889dvw, 128px);
-    /* position: absolute; 
-    bottom: -50px;*/
+    height: 100%;
     justify-content: center;
     align-items: end;
     gap: min(1.389dvw, 20px);
-    bottom: 0;
-    /* padding: 0px min(11.111dvw,160px); */
 }
 
-.user_img {
+.user .user_img {
+    display: flex;
     width: min(8.889dvw,128px);
-    height: min(8.889dvw, 128px);
-    /* height: auto; */
-    /* height: 100%; */
+    height: min(8.889dvw,128px);
+    flex-grow: 1;
     border-radius: 50%;
-    border: min(0.278dvw, 4px) solid #FFF;
+    /* border: min(0.278dvw, 4px) solid #FFF; */
+    /* margin: 4px; */
     overflow: hidden;
     background-color: #FAFAFA;
-    display: flex;
+    border-collapse: collapse;
     justify-content: center;
     align-items: center;
 }
 
 .user_img img {
-    /* width: 100%;
-    height: auto; */
+    
     width: 100%;
     height: 100%;
     object-fit:cover;
-    /* width: min(8.889dvw,128px);
-    height: min(8.889dvw,128px); */
 }
 
 .user_info {
     display: flex;
+    flex-shrink: 6;
     /* width: 67.5dvw; */
     /* min-width: min(67.5dvw, 972px); */
     width: 100%;
     /* max-width: 100%; */
-    height: 100%;
+    height: fit-content;
     justify-content: space-between;
     align-items: end;
     gap: min(0.833dvw, 12px);
@@ -692,7 +746,9 @@ onUpdated(() => {
     height: fit-content;
     gap: min(0.833dvw, 12px);
 }
-
+.wrapper_user .container_btn_mobile{
+    display: none;
+}
 .user_info div button {
     display: flex;
     /* width: min(8.611dvw, 124px); */
@@ -755,7 +811,9 @@ onUpdated(() => {
     align-items: center;
     padding: 0px min(11.111dvw,160px);
 }
-
+.suplier_details_mobile{
+    display: none
+}
 .container_details {
     display: flex;
     flex-direction: column;
@@ -932,6 +990,9 @@ onUpdated(() => {
     flex-direction: column;
     padding: 0px min(11.111dvw,160px) min(2.778dvw,40px) min(11.111dvw,160px);
 }
+.container_product_me .filter_me{
+    display:none;
+}
 .product_list_me{
     display: flex;
     width: 100%;
@@ -1040,8 +1101,8 @@ onUpdated(() => {
     height: auto;
 }
 .info_me .price_me{
-    display: flex;
     width: fit-content;
+    max-width: 100%;
     max-width: 100%;
     height: min(1.667dvw,24px);
     font-size: min(1.111dvw,16px);
@@ -1049,6 +1110,9 @@ onUpdated(() => {
     color: #26AC34;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.price_me span.moneny_bath::before{
+    content: '฿'
 }
 .info_me .discription_me{
     display: -webkit-box;
@@ -1074,7 +1138,7 @@ onUpdated(() => {
     justify-content: space-between;
     align-items: center;
 }
-.stock_me div{
+.stock_me >div{
     display: flex;
     width: fit-content;
     max-width: 100%;
@@ -1083,7 +1147,7 @@ onUpdated(() => {
     justify-self: start;
     gap: min(0.833dvw,12px);
 }
-.stock_me div h5{
+.stock_me >div >h5{
     width: fit-content;
     height: fit-content;
     font-size: min(0.972dvw,14px);
@@ -1091,7 +1155,7 @@ onUpdated(() => {
     font-weight: 500;
     color: #26AC34;
 }
-.stock_me div h6{
+.stock_me >div >h6{
     width: fit-content;
     height: fit-content;
     font-size: min(0.972dvw,14px);
@@ -1099,7 +1163,7 @@ onUpdated(() => {
     font-weight: 400;
     color: #212121;
 }
-.stock_me h6{
+.stock_me >h6{
     width: fit-content;
     height: fit-content;
     font-size: min(0.833dvw,12px);
@@ -1108,7 +1172,289 @@ onUpdated(() => {
     color: #212121;
 }
 
+@media (width<=432px){
+    .wrapper_profile {
+        gap:  12px;
+    }
+    .container_user_info {
+        height: 225px;
+        
+    }
+    .big_image {
+        height: 128px;
+    }
+    .wrapper_user {
+        height: fit-content;
+        padding: 0px 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .user {
+        gap:  20px;
+    }
+    .user .user_img {
+        width: 96px;
+        height: 96px;
+    }
+    /* info */
+    .user_info{
+        gap: 0px;
+    }
+    .user_info >h5{
+        height: 36px;
+        font-size: 24px;
+    }
+    .user_info > div{
+        display: none;
+    }
+    .wrapper_user .container_btn_mobile{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        overflow: auto;
+        gap: 12px;
+    }
+    .container_btn_mobile button{
+        display: flex;
+        /* width: min(8.611dvw, 124px); */
+        width: 100%;
+        min-width: fit-content;
+        height: 36px;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid;
+        border-color: #26AC34;
+        color: #26AC34;
+        background-color: #FFF;
+        border-radius: 4px;
+        padding: 8px 12px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .container_btn_mobile .new_product_btn{
+        white-space: nowrap;
+        gap: 4px;
+        color: #fff;
+        background-color: #26AC34 ;
+    }
+    .container_btn_mobile .new_product_btn svg{
+        width: 12px;
+        height: auto;
+    }
+    .container_btn_mobile .new_product_btn span{
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .follow_btn:hover{
+        border-color: #26AC34;
+        color: #fff;
+        background-color: #26AC34;
+    }
 
+    .follow_btn:active{
+        background-color: #58d264;
+        border-color: #58d264;
+    }
+
+    /* profile detail */
+    .wrapper_details{
+        padding: 0px;
+        height: fit-content;
+        /* height: 40px; */
+    }
+    .wrapper_details .container_details{
+        /* padding: 0px 20px; */
+        gap: 8px;
+    }
+    .wrapper_details .suplier_details{
+        display: none;
+    }
+    .wrapper_details .suplier_details_mobile{
+        display: flex;
+        width: 100%;
+        height: 40px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        background-color: #fff;
+    }
+    .suplier_details_mobile >div{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        gap: 8px;
+    }
+    .suplier_details_mobile >div .header{
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        font-size: 12px;
+        font-weight: 400;
+        color: #9E9E9E;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+    .suplier_details_mobile >div .result{
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        font-size: 12px;
+        font-weight: 500;
+        color: #26AC34;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+
+    }
+    /* recommendatino */
+    .container_details .recommedation{
+        gap: 8px;
+        padding: 0px 20px;
+    }
+    .recommedation .header{
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        font-size: 18px;
+        font-weight: 700;
+        color: #252525;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+
+    /* container_product */
+    .container_product {
+        display: flex;
+        /* width: min(77.778dvw, 1120px); */
+        width: 100%;
+        height: fit-content;
+        justify-content: center;
+        padding-bottom: 20px;
+        gap: 32px;
+        padding: 20px;
+    }
+    .container_product .product_sold_out{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+    }
+    .product_sold_out h5.header{
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        font-size: 18px;
+        font-weight: 700;
+        color: #252525;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    /* is me */
+    .container_product_me{
+        gap: 12px;
+        padding: 0px 20px 20px 20px;
+    }
+    .container_product_me .filter_me{
+        display:flex;
+        width:100%;
+        height:fit-content;
+        flex-direction:column;
+    }
+    .product_list_me{
+        gap: 12px;
+    }
+    .product_item_me{
+        border-radius: 4px;
+    }
+    /* img */
+    .product_item_me .img_me{
+        width: 92px;
+        height: 92px;
+    }
+    .product_item_me .detail_me{
+        width:300px;
+        height: 92px;
+        /* gap:4px; */
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 8px;
+        box-shadow: 0px 1px 2px 0px #0000000F;
+    }
+    /* info */
+    .info_me{
+        
+        gap: 4px;
+    }
+    /* .info_me .name_me {
+    } */
+
+    /* name and star */
+    .info_me .name_me>div:nth-child(1){
+        display: flex;
+        width: 284px;
+        height: 16px;
+        gap:8px;
+    }
+    .info_me .name_me>div:nth-child(1) h5{
+        font-size: 12px;
+    }
+    /* operation */
+    .info_me .name_me>div:nth-child(2){
+        gap: 4px;
+    }
+    .info_me .name_me>div:nth-child(2) button{
+        width: 16px;
+        height: 16px;
+
+    }
+    .info_me .name_me>div:nth-child(2) button svg{
+        width: 11px;
+        height: auto;
+    }
+    .info_me .price_me{
+        height: 16px;
+        font-size: 12px;
+    }
+    .info_me .discription_me{
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        width: 200px;
+        max-width: 100%;
+        height: fit-content;
+        max-height: 20px;
+        overflow: hidden;
+        /* word-wrap: keep-all; */
+        font-weight: 400;
+        font-size: 12px;
+        color: #212121;
+    }
+    /* stock */
+    .stock_me{
+        height: 12px;
+    }
+    .stock_me >div{
+        gap: 12px;
+    }
+    .stock_me >div >h5{
+        font-size: 10px;
+    }
+    .stock_me >div >h6{
+        font-size: 10px;
+    }
+    .stock_me >h6{
+        font-size: 8px;
+    }
+}
+
+/* 
 @media (width<=744px) {
     .wrapper_profile {
         gap: min(2.688dvw, 20px);
@@ -1129,12 +1475,10 @@ onUpdated(() => {
 
     .user_img {
         width: min(17.204dvw, 128px);
-        /* height: min(17.204dvw, 128px); */
         height: auto;
     }
 
     .user_info {
-        /* width: min(68.28dvw, 508px); */
         width: 100%;
     }
 
@@ -1171,7 +1515,6 @@ onUpdated(() => {
     }
 
     .suplier_details {
-        /* min-width: min(26.882dvw, 200px); */
         width: 100%;
         padding: min(2.151dvw, 16px);
         gap: min(1.613dvw, 12px);
@@ -1240,7 +1583,6 @@ onUpdated(() => {
     .user_img {
         position: absolute;
         width: min(25.532dvw, 96px);
-        /* height: min(25.532dvw, 96px); */
         height: auto;
         left: min(4.255dvw, 16px);
         top: 0;
@@ -1268,7 +1610,6 @@ onUpdated(() => {
 
     .user_info div button {
         width: min(44.149dvw, 166px);
-        /* width: 100%; */
         height: min(9.574dvw, 36px);
         font-size: min(3.723dvw, 14px);
         border: min(0.266dvw, 1px) solid;
@@ -1351,5 +1692,5 @@ onUpdated(() => {
         text-align: center;
     }
 
-}
+} */
 </style>
