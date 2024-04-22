@@ -7,6 +7,7 @@ import ORDERSTATUS from '../../../JS/enum/order.js'
 import ORDERSTATUSCOLOR from '../../../JS/enum/orderStatusColor'
 import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
+import BaseEmptyList from '../../../components/BaseEmptyList.vue';
 // common attribute
 const date=ref('')
 const uesrName=ref('')
@@ -40,6 +41,10 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
+
+// get status
+const getDataStatus=ref(undefined)
+
 
 // filter
 const resetfilterDate=async()=>{
@@ -88,7 +93,7 @@ const getShowAlertChange=(input)=>{
 
 // get all order for supplier
 const getAllOrder=async()=>{
-
+    getDataStatus.value=undefined
     let inputData={
         page:currentPage.value, //current page
         status:filterStatus.value, // status
@@ -110,16 +115,22 @@ const getAllOrder=async()=>{
     let {status,data,msg}=await fetch.getAllOrder(true,inputData)
     if(status){
         console.log(data)
-        orderList.value=data.list
-        orderAmount.value=data.allItems
-        allPage.value=data.allPage
+        orderList.value=await data.list
+        orderAmount.value=await data.allItems
+        allPage.value=await data.allPage
         await getAllStatusCount() //get count
         // console.log(orderAmount.value)
+        if(await data.list.length==0){
+            getDataStatus.value=false
+        }else{
+            getDataStatus.value=true
+        }
     }else{
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertTime.value=10
+        getDataStatus.value=false
     }
 }
 // get order status count
@@ -402,8 +413,10 @@ onMounted(async()=>{
         <!-- order list -->
         <!-- <div class="wrapper_content_orders"> -->
             <div class="content_orders">
+                <BaseEmptyList name="order_list" title="You don’t have order yet." :showEmpty="getDataStatus" />
+
                 <!-- <table> -->
-                    <div class="title_orders">
+                    <div v-if="getDataStatus==true" class="title_orders">
                         <div class="order_number">
                             <h5>
                             # 
