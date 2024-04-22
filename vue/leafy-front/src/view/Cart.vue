@@ -602,40 +602,16 @@ onBeforeMount(async() => {
                     </div>
                     <!-- total -->
                     <div class="product_total">
-                      ฿{{ detail.priceEach * detail.qty }}
+                      <h6>
+                        ฿{{ detail.priceEach * detail.qty }}
+                      </h6>
                     </div>
                     <!-- delete -->
-                    <div class="product_delete" @click="deleteCart(detail.cartId)">
-                      <button>
-                        <div>
-                          <!-- <svg
-                            width="16"
-                            height="18"
-                            viewBox="0 0 16 18"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z"
-                              stroke="#F75555"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg> -->
-                          <svg 
-                            width="20" 
-                            height="20" 
-                            viewBox="0 0 20 20" 
-                            fill="none" 
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.3335 9.16667V14.1667M11.6668 9.16667V14.1667M3.3335 5.83333H16.6668M15.8335 5.83333L15.111 15.9517C15.0811 16.3722 14.8929 16.7657 14.5844 17.053C14.2759 17.3403 13.87 17.5 13.4485 17.5H6.55183C6.13028 17.5 5.72439 17.3403 5.4159 17.053C5.10742 16.7657 4.91926 16.3722 4.88933 15.9517L4.16683 5.83333H15.8335ZM12.5002 5.83333V3.33333C12.5002 3.11232 12.4124 2.90036 12.2561 2.74408C12.0998 2.5878 11.8878 2.5 11.6668 2.5H8.3335C8.11248 2.5 7.90052 2.5878 7.74424 2.74408C7.58796 2.90036 7.50016 3.11232 7.50016 3.33333V5.83333H12.5002Z" 
-                              stroke="#F75555" 
-                              stroke-width="2" 
-                              stroke-linecap="round" 
-                              stroke-linejoin="round"/>
-                          </svg>
-                        </div>
+                    <div class="product_delete">
+                      <button  @click="deleteCart(detail.cartId)">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.3335 9.16667V14.1667M11.6668 9.16667V14.1667M3.3335 5.83333H16.6668M15.8335 5.83333L15.111 15.9517C15.0811 16.3722 14.8929 16.7657 14.5844 17.053C14.2759 17.3403 13.87 17.5 13.4485 17.5H6.55183C6.13028 17.5 5.72439 17.3403 5.4159 17.053C5.10742 16.7657 4.91926 16.3722 4.88933 15.9517L4.16683 5.83333H15.8335ZM12.5002 5.83333V3.33333C12.5002 3.11232 12.4124 2.90036 12.2561 2.74408C12.0998 2.5878 11.8878 2.5 11.6668 2.5H8.3335C8.11248 2.5 7.90052 2.5878 7.74424 2.74408C7.58796 2.90036 7.50016 3.11232 7.50016 3.33333V5.83333H12.5002Z" stroke="#F75555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -1062,6 +1038,9 @@ onBeforeMount(async() => {
 }
 
 /* detail */
+.product_item div.wrapper_product_detail{
+  display: none;
+}
 .product_item div.container_info_detail .product_detail {
   display: flex;
   width: 100%;
@@ -1373,7 +1352,9 @@ onBeforeMount(async() => {
     padding: 0px 20px 12px 20px;
   }
   .product_item > div {
-    height: 92px;
+    height: fit-content;
+    
+    /* height: 92px; */
   }
   /* left of item detail */
   /* .product_item div.container_info_detail div {
@@ -1388,7 +1369,7 @@ onBeforeMount(async() => {
     height: 16px;
   }
   /* img */
-  .product_item div.container_info_detail .product_img {
+  .product_item div.container_info_detail div.product_img {
     width: 52px;
     height:52px;
     border-radius: 4px;
@@ -1399,27 +1380,179 @@ onBeforeMount(async() => {
     display: none;
   }
   /* detail mobile */
-  .wrapper_product_detail {
+  .product_item div.wrapper_product_detail {
     display: flex;
-    width: 100%;
+    width: 100%; 
+    /* 304px */
     height: fit-content;
-    max-height: 100%;
+    /* max-height: 100%; */
     flex-direction: column;
   }
   .wrapper_product_detail div.container_product_detail{
     display: flex;
     width: 100%;
     height: fit-content;
-    flex-direction: column;
+    /* flex-direction: column; */
   }
+  /* detail text */
   .wrapper_product_detail div.container_product_detail div.product_detail{
+    display: flex;
+    width: 224px;
+    height: 56px;
+    flex-direction: column;
+    padding: 4px 12px;
+    gap: 4px
+  }
+  /* item name */
+  .wrapper_product_detail div.container_product_detail div.product_detail >h6{
+    width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    color:#212121;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  /* item style and variance */
+  .wrapper_product_detail div.container_product_detail div.product_detail >div{
     display: flex;
     width: 100%;
     height: fit-content;
-    flex-direction: column;
+    gap: 4px;
   }
-  
-  /* price qty reduce  */
+  .wrapper_product_detail div.container_product_detail div.product_detail >div p{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+    color:#212121;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+  }
+  .wrapper_product_detail div.container_product_detail div.product_detail >div h6{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+    color:#212121;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  /* detail price */
+  .wrapper_product_detail div.container_product_detail div.price_each{
+    display: flex;
+    width: 80px;
+    height: 52px;
+    justify-content: end;
+    align-items: center;
+    padding: 16px 0px 16px 12px;
+  }
+  .wrapper_product_detail div.container_product_detail .price_each h6{
+    width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color:#616161;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: end;
+  }
+
+  /* price qty */
+  .wrapper_product_detail div.container_price_qty{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: center;
+  }
+  /* qty */
+  .wrapper_product_detail div.container_price_qty .product_quantity{
+    display: flex;
+    width: fit-content;
+    min-width: 95px;
+    max-width: 100%;
+    height: 36px;
+    padding: 6px 12px;
+  }
+  .wrapper_product_detail div.container_price_qty .product_quantity >input{
+    display: flex;
+    width: 24px;
+    max-width: 90px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 0px;
+    border: 1px solid #E0E0E0;
+  }
+  .wrapper_product_detail div.container_price_qty .product_quantity >button{
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid #E0E0E0;
+    cursor: pointer;
+  }
+  .wrapper_product_detail div.container_price_qty .product_quantity button.reduce{
+    border-right:0px ;
+    border-radius:4px 0px 0px 4px;
+  }
+  .wrapper_product_detail div.container_price_qty .product_quantity button.add{
+    border-left:0px ;
+    border-radius:0px 4px 4px 0px;
+  }
+  /* total price */
+  .wrapper_product_detail div.container_price_qty div.product_total{
+    display: flex;
+    width: 100px;
+    height: 36px;
+    padding: 8px 12px;
+    justify-content: center;
+    align-items: center;
+  }
+  .wrapper_product_detail div.container_price_qty div.product_total >h6{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    color:#26AC34;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  /* bin */
+  .wrapper_product_detail div.container_price_qty div.product_delete{
+    display: flex;
+    width:32px;
+    height: 36px;
+    padding: 8px 0px 8px 12px;
+  }
+  .wrapper_product_detail div.container_price_qty div.product_delete >button{
+    display: flex;;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .wrapper_product_detail div.container_price_qty div.product_delete >button svg{
+    width: 100%;
+    height: auto
+  }
+  /* price qty reduce window */
   .product_item div.container_info_price {
     display: none;
   }
