@@ -261,6 +261,7 @@ onUpdated(()=>{
     font-size: min(0.972dvw,14px);
     line-height: 144%;
     letter-spacing: min(0.014dvw,0.2px);
+    cursor: pointer;
 }
 .container_menu .url_link .link_icon {
     display: flex;
