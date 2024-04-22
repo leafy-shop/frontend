@@ -1758,11 +1758,11 @@ const fetch = {
 
                 let url = `${origin}/api/orders/${endpoint}/${orderId}`
                 let res
-                if (endpoint == "paid_order") {
-                    res = await axios.put(url)
-                } else {
-                    res = await axios.put(url, inputData)
-                }
+                // if (endpoint == "paid_order") {
+                //     res = await axios.put(url)
+                // } else {
+                    res = await axios.put(url,inputData)
+                // }
 
                 if (res.status == 200) {
                     validation.function_Status("change order status successful", true)
@@ -1801,7 +1801,7 @@ const fetch = {
 
     },
     async BuyNow(cartInput) {
-        let returnData = { status: false, msg: '' }
+        let returnData = { status: false, msg: '' ,data:undefined}
 
         if (cartInput != undefined) {
             try {
@@ -1810,6 +1810,7 @@ const fetch = {
 
                 if (res.status == 201) {
                     validation.function_Status("buy successful", true)
+                    returnData.data=res.data
                     returnData.status = true
 
                 }
@@ -1847,13 +1848,14 @@ const fetch = {
     async BuyNowWithoutCart(itemInput) {
 
         if (itemInput != undefined) {
-            let returnData = { status: false, msg: '' }
+            let returnData = { status: false, msg: '',data:undefined }
             try {
                 let url = `${origin}/api/orders/no_cart`
                 let res = await axios.post(url, itemInput)
 
                 if (res.status == 201) {
                     validation.function_Status("buy successful", true)
+                    returnData.data=res.data
                     returnData.status = true
 
                 }
