@@ -6,6 +6,7 @@ import {onBeforeMount, ref,onMounted} from 'vue'
 import fetch from '../../../JS/api';
 import validation from '../../../JS/validation'
 import BaseAlert from '../../../components/BaseAlert.vue';
+import BaseEmptyList from '../../../components/BaseEmptyList.vue';
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
@@ -30,9 +31,12 @@ const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
 
+// get status
+const getDataStatus=ref(undefined)
 
 // get gallery
 const getMyGallery=async()=>{
+    getDataStatus.value=undefined
     let inputData={
         page:currentPage.value,
         limit:10
@@ -55,6 +59,11 @@ const getMyGallery=async()=>{
         myGalleryList.value=await data.list
         allItem.value=await data.allItems
         allPage.value=await data.allPage
+        if(await data.list.length==0){
+            getDataStatus.value=false
+        }else{
+            getDataStatus.value=true
+        }
     }else{
         console.log(await status,'status from get gallery')
 
@@ -62,6 +71,7 @@ const getMyGallery=async()=>{
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertTime.value=10
+        getDataStatus.value=false
     }
 }
 
@@ -167,7 +177,8 @@ onBeforeMount(async()=>{
                 </button>
             </div> -->
             <!-- content table -->
-            <div class="wrapper_content">
+            <BaseEmptyList name="my_gallery_list" title="You don’t have content yet." :showEmpty="getDataStatus" />
+            <div v-if="getDataStatus==true" class="wrapper_content">
                 <!-- header -->
                 <div class="header_gallery">
                     <!-- img -->
@@ -257,7 +268,7 @@ onBeforeMount(async()=>{
                 </div>
             </div>
         </div>
-        <BaseMovePage name="my_gallery" :current-page="currentPage" :total-amount-item="allItem" @next-page="nextPage" @previous-page="previousPage" />
+        <BaseMovePage v-if="getDataStatus==true" name="my_gallery" :current-page="currentPage" :total-amount-item="allItem" @next-page="nextPage" @previous-page="previousPage" />
         <BaseAlert name="my_gallery_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
 
     </div>
