@@ -64,7 +64,7 @@ const routes=[
         component:CartList
     },
     {
-        path:'/cart-list/payment/:cartList',
+        path:'/cart-list/check-out/:cartList',
         name:'Payment',
         component:Payment
     },
