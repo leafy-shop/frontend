@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onUpdated, onMounted } from 'vue'
 import validation from '../../JS/validation'
+import product from '../../JS/enum/product'
 const emit = defineEmits(["filterItem", "closeFilter"])
 
 const props = defineProps({
@@ -9,10 +10,10 @@ const props = defineProps({
         require: true,
         default: false
     },
-    sortTypeArr: {
-        type: Array,
-        require: true
-    }
+    // sortTypeArr: {
+    //     type: Array,
+    //     require: true
+    // }
 })
 const category = ref([])
 const min = ref(undefined)
@@ -295,7 +296,7 @@ onUpdated(() => {
                     Sort By
                 </h4>
                 <div class="sort_list">
-                    <div v-for="(sort, index) of props.sortTypeArr" :key="index" class="sort_item">
+                    <div v-for="(sort, index) of product.sortTypeArr" :key="index" class="sort_item">
                         <input type="radio" :id="`sort_${index}`" :value="sort.value" v-model="sortBy">
                         <label :for="`sort_${index}`">{{ sort.name }}</label>
                     </div>
@@ -875,7 +876,7 @@ onUpdated(() => {
         height: 100dvh;
         padding: min(4.63dvw,20px);
         overflow: auto;
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         z-index: 999;
