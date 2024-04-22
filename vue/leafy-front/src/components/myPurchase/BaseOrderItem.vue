@@ -61,8 +61,11 @@ const props=defineProps({
     isDisabled:{
         type:Boolean,
         default:false
+    },
+    isGroup:{
+        type:Boolean,
+        default:false
     }
-
 })
 // common attribute
 
@@ -125,26 +128,26 @@ const receiveOrder=async()=>{
     }
 }
 // cancel order
-const cencelOrder=async()=>{
-    let inputData={
-        orderStatus:"canceled"
-    }
-    if(props.orderStatus!=undefined){
-        let {status,msg}=await fetch.changeOrderStatus(props.orderId,inputData,'check_order')
-        if(await status){// change to 
-            alertType.value=0
-            alertDetail.value='Cancel order successfully'
-            alertTime.value=2
-            isShowAlert.value=true
-            return setTimeout(()=>emit('refreshData'),2*1000) //
-        }else{
-            alertType.value=1
-            alertDetail.value='There is a problem with the server. Please try again later.'
-            alertTime.value=10
-            isShowAlert.value=true
-        }
-    }
-}
+// const cencelOrder=async()=>{
+//     let inputData={
+//         orderStatus:"canceled"
+//     }
+//     if(props.orderStatus!=undefined){
+//         let {status,msg}=await fetch.changeOrderStatus(props.orderId,inputData,'check_order')
+//         if(await status){// change to 
+//             alertType.value=0
+//             alertDetail.value='Cancel order successfully'
+//             alertTime.value=2
+//             isShowAlert.value=true
+//             return setTimeout(()=>emit('refreshData'),2*1000) //
+//         }else{
+//             alertType.value=1
+//             alertDetail.value='There is a problem with the server. Please try again later.'
+//             alertTime.value=10
+//             isShowAlert.value=true
+//         }
+//     }
+// }
 
 // buy again
 const buyAgain=async()=>{
@@ -500,10 +503,51 @@ const getShowAlertChange=(input)=>{
                         </div>
                     </div>
                 </div>
+                <!-- mobile -->
+                <div class="product_info_mobile">
+                    <!-- detail -->
+                    <div class="container_detail_price_mobile">
+                        <div class="detail_mobile">
+                            <h6>
+                                {{ product.itemname }}
+                            </h6>
+                            <p>
+                                <span>
+                                    {{product.itemStyle}} :
+                                </span>
+                                <span>
+                                    {{product.itemSize}}
+                                </span>
+                            </p>
+                        </div>
+                        <!-- price each -->
+                        <div class="price_each_mobile">
+                            <h6 class="money_bath">
+                                {{product.priceEach}}
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="container_price_qty_mobile">
+                        <!-- qty -->
+                        <div class="qty_mobile">
+                            <h6>
+                                {{product.qtyOrder}}
+                            </h6>
+                        </div>
+                        <!-- total price -->
+                        <div class="price_total_mobile">
+                            <h6 class="money_bath">
+                                {{product.qtyOrder*product.priceEach}}
+                            </h6>
+                        </div>
+                    </div>
+                    
+                </div>
             </button>
+            
         </div>
         <!-- order detail -->
-        <div class="order_detail">
+        <div v-if="!isPayment&&!props.isGroup" class="order_detail">
             <!-- info -->
             <div class="order_info">
                 <p>
@@ -521,19 +565,15 @@ const getShowAlertChange=(input)=>{
                 </h6>
             </div>
             <!-- to pay  set -->
-            <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
-                <!-- buy again -->
+            <!-- <div v-if="!isPayment&&ORDERSTATUS.REQUIRED==props.orderStatus" class="container_btn">
                 <button  @click="goConfirmPayment" class="buy_again">
                     Pay now
                 </button>
-                <!-- view mt rating -->
                 <button  @click="cencelOrder" class="view_my_rating">
                     Cancel Order
                 </button>
-                <!-- <button  @click="" class="view_my_rating">
-                    Change Payment Method
-                </button> -->
-            </div>
+
+            </div> -->
             <!-- to receive  set -->
             <div v-if="!isPayment&&ORDERSTATUS.INPROGRESS==props.orderStatus" class="container_btn">
                 <!-- buy again -->
@@ -746,9 +786,11 @@ const getShowAlertChange=(input)=>{
     flex-direction:column;
     overflow:hidden;
     background-color:#fff;
-    border:none;
+    /* border:none; */
     border-radius:min(0.556dvw,8px);
-    padding-top:min(1.389dvw,20px);
+    /* padding-top:v-bind('props.isGroup==true?'0px':'min(1.389dvw,20px)''); */
+    padding-top: min(1.389dvw,20px);
+    /* border-top: v-bind('props.isGroup==true?'1px solid #EEEEEE':'0px''); */
 }
 /* header */
 .header_shop{
@@ -853,7 +895,8 @@ const getShowAlertChange=(input)=>{
 .product_list .product_item{
     display: flex;
     width:100%;
-    height: min(4.444dvw,64px);
+    height: fit-content;;
+    min-height: min(4.444dvw,64px);
     padding-bottom:min(0.833dvw,12px) ;
     align-items: center;
     border: none;
@@ -879,6 +922,9 @@ const getShowAlertChange=(input)=>{
     height: auto;
 }
 /* informatoin */
+.product_item .product_info_mobile{
+    display: none;
+}
 .product_item .product_info{
     display: flex;
     width: 100%;
@@ -934,7 +980,7 @@ const getShowAlertChange=(input)=>{
     justify-content: center;
     align-items: center;
 }
-.price_each h6{
+.price_each> h6{
     width: 100%;
     height: fit-content;
     font-size: min(0.972dvw,14px);
@@ -1453,7 +1499,7 @@ const getShowAlertChange=(input)=>{
 @media (width<=432px){
 
     .shop_item{
-        border-radius:8px;
+        border-radius:none;
         padding-top:20px;
     }
     .header_shop{
@@ -1511,9 +1557,10 @@ const getShowAlertChange=(input)=>{
         padding: 12px 20px 0px 20px;
     }
     .product_list .product_item{
-        height: 64px;
+        height: fit-content;
         padding-bottom:12px ;
         border-bottom:1px solid #EEEEEE;
+        align-items: start;
     }
     /* image */
     .product_item .product_img{
@@ -1522,31 +1569,132 @@ const getShowAlertChange=(input)=>{
         border-radius: 4px;
     }
     /* informatoin */
-    /* .product_item .product_info{
-    } */
-    .product_info .detail{
-        width: fit-content;
-        min-width: 100%;
-        min-height: 52px;
+    .product_item .product_info{
+        display:  none
+    }
+    .product_item .product_info_mobile{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-direction: column;
+    }
+    .product_info_mobile .container_detail_price_mobile{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        /* flex-direction: row; */
+        justify-content: space-between;
+        align-items: center;
+    }
+    .product_info_mobile .detail_mobile{
+        display: flex;
+        width: 60.185dvw;
+        height: fit-content;
+        min-height: 32px;
         padding: 6px 12px;
+        flex-direction: column;
         gap: 4px;
+        justify-content: center;
+        align-items: start;
     }
     /* detail item */
-    .detail h6{
+    .detail_mobile h6{
+        width: 100%;
         height: 20px;
         font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: start;
+
     }
-    .detail p{
+    .detail_mobile p{
+        width: 100%;
         height: 16px;
         font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: start;
+
     }
-    .product_info .container_price_qty{
+    /* each price */
+    .container_detail_price_mobile .price_each_mobile{
         display: flex;
-        width:min(20.833dvw,300px);
+        width: 18.519dvw;
+        /* min-width: ; */
+        height: 100%;
+        padding:8px 0px 8px 12px;
+        justify-content: end;
+        align-items: center;
+    }
+    .price_each_mobile h6{
+        width: 100%;
         height: fit-content;
-        justify-content: center;
+        font-size: 14px;
+        line-height: 144%;
+        font-weight: 400;
+        color:#616161;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: end;
+        text-overflow: ellipsis;
+    }
+    /* qty and total price */
+    .product_info_mobile .container_price_qty_mobile{
+        display: flex;
+        width:100%;
+        height: 36px;
+        justify-content: space-between;
         align-items: center
     }
+    .container_price_qty_mobile .qty_mobile{
+        display: flex;
+        width: fit-content;
+        max-width: 100%;
+        min-width: 95px;
+        height: 100%;
+        padding: 6px 12px;
+
+        justify-content: center;
+        align-items: center;
+    }
+    .qty_mobile h6{
+        width: 100%;
+        height: fit-content;
+        font-size: 14px;
+        line-height: 144%;
+        font-weight: 400;
+        color:#616161;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .container_price_qty_mobile .price_total_mobile{
+        display: flex;
+        width: 100px;
+        height: 100%;
+        padding: 8px 0px 8px 12px;
+        justify-content: end;
+        align-items: center;
+    }
+    
+    .price_total_mobile h6{
+        width: 100%;
+        height: fit-content;
+        font-size: 14px;
+        line-height: 144%;
+        font-weight: 500;
+        color:#26AC34;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: end;
+    }
+    /* order detail */
+    /* .order_detail{
+        display: none
+    } */
 }
 
 </style>

@@ -155,15 +155,12 @@ const goProductDetail=(p)=>{
     width: 100%;
     height: min(v-bind(changeSize(15.278,'dvw')),v-bind(changeSize(220)));
     overflow: hidden;
+    position: relative;
     justify-content: center;
     align-items: center;
 }
-.product_img img{
-    width: 100%;
-    height: 100%;
-    object-fit:cover;
-}
-.product_img> .sold_out{
+
+.product_img .sold_out{
     display: flex;
     width: 100%;
     height: min(v-bind(changeSize(2.778,'dvw')),v-bind(changeSize(40)));
@@ -179,7 +176,11 @@ const goProductDetail=(p)=>{
     font-weight: 700;
     z-index: 2;
 }
-
+.product_img img{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
 .product_info{
     display: flex;
     /* width: inherit; */

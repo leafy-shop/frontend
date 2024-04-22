@@ -45,7 +45,7 @@ const routes=[
         component: Shop,
     },
     {
-        path:'/shop/product-detail/:id',
+        path:'/product-detail/:id',
         name:'ProductDetail',
         component: ProductDetail
     },
@@ -229,7 +229,7 @@ router.beforeEach(async (to, from, next) => {
                 }
                 break;
             case "ConfirmPayment":
-                if (( from.name==="MyPurchase" || from.name==="MyPurchaseDetail")) {
+                if (( from.name==="MyPurchase" || from.name==="ConfirmPayment" || from.name==="Payment")) {
                     next();
                 } else {
                     next({ name: "MyPurchase" });

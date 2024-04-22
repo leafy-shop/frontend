@@ -6,6 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import validation from '../JS/validation'
 import BaseAlert from '../components/BaseAlert.vue';
 import fetch from '../JS/api';
+import ORDERSTATUS from '../JS/enum/order';
 // link
 let{params}=useRoute()
 const myRouter=useRouter()
@@ -52,14 +53,15 @@ const getOrderDetail=async()=>{
 }
 // for change status become to pay
 const payOrder=async()=>{
+    let inputData={orderStatus: ORDERSTATUS.REQUIRED}
     if(orderId.value!=undefined){
-        let {status,msg}=await fetch.changeOrderStatus(orderId.value,'nodata','paid_order')
+        let {status,msg}=await fetch.changeOrderStatus(orderId.value,inputData,'paid_order')
         if(await status){// change to 
             alertType.value=0
             alertDetail.value='Payment successful!'
             alertTime.value=3
             isShowAlert.value=true
-            myTimeOut.value=setTimeout(()=>goMyPurchaseDetail(),3*1000)
+            myTimeOut.value=setTimeout(()=>goPurchase(),3*1000)
             //
         }else{
             alertType.value=1
@@ -76,7 +78,10 @@ const payOrder=async()=>{
 }
 onBeforeMount(async()=>{
     // assign id
-    orderId.value=validation.decrypt(params.id)
+    if(validation.decrypt(params.id)!=undefined){
+        orderId.value=validation.decrypt(params.id)
+    }
+   
 
     await getOrderDetail()
 })

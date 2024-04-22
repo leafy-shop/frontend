@@ -32,7 +32,9 @@ const props=defineProps({
     <div class="wrapper_summary" :id="props.name">
         <div class="summary">
           <!-- header -->
-          <h4>Order Summary</h4>
+          <h4 class="header_summary">
+            Order Summary
+          </h4>
           <!-- summary list -->
           <div class="summary_list">
             <!--subtotal  -->
@@ -195,5 +197,62 @@ const props=defineProps({
 }
 .wrapper_summary > button:active {
   background-color: #58d264;
+}
+
+/* mobeile */
+@media (width<=432px){
+  .wrapper_summary {
+    border-radius: none;
+    padding: 12px 20px;
+    gap: 12px;
+  }
+  .summary {
+    gap: min(0.833dvw,12px);
+  }
+  .summary .header_summary{
+    display: none;
+  }
+  .summary .summary_list{
+    display: none;
+  }
+  .summary .total{
+    display: flex;
+    width: 100%;
+    height: 32px;
+    padding: 0px;
+    border-top: none;
+    justify-content: end;
+    align-items: center;
+    gap: 12px;
+  }
+  .total h6 {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .total p {
+    width: fit-content;
+    max-width: 100%;
+    /* min-width: 62px; */
+    height: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  /* submit btn */
+  .wrapper_summary > button {
+    height:40px;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0px 1px 2px 0px #0000000d;
+    font-size: 16px;
+
+  }
+  .wrapper_summary > button:hover {
+    background-color: #168a22;
+  }
+  .wrapper_summary > button:active {
+    background-color: #58d264;
+  }
+
 }
 </style>

@@ -7,10 +7,12 @@ import BaseSelectPage from '../../../components/BaseSelectPage.vue'
 import {useRouter} from 'vue-router'
 import validation from '../../../JS/validation'
 import BaseAlert from '../../../components/BaseAlert.vue'
+import BaseEmptyList from '../../../components/BaseEmptyList.vue'
+import BaseOrderGroup from '../../../components/myPurchase/BaseOrderGroup.vue'
 // link
 const myRouter=useRouter()
 const goPurchaseDetail=(orderId)=>myRouter.push({name:'MyPurchaseDetail',params:{id:orderId}})
-const goProfile =(shopName)=>myRouter.push({name:'Profile',params:{id:validation.encrypt(shopName)}})
+const goProfile =(shopName)=>myRouter.push({name:'Profile',params:{id:shopName}})
 
 // common attribute
 const orderList=ref([])
@@ -27,7 +29,11 @@ const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(3)
 
+// get status
+const getDataStatus=ref(undefined)
+
 const getOrders=async()=>{
+    getDataStatus.value=undefined
     let inputData={
         // sort:'desc',
         page:currentPage.value,
@@ -46,18 +52,25 @@ const getOrders=async()=>{
         console.log(data)
         orderList.value=await data.list
         allPage.value=await data.allPage
+        if(await data.list.length==0){
+            getDataStatus.value=false
+        }else{
+            getDataStatus.value=true
+        }
         
     }else{
         // error
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
-        alertType.value=2
+        alertType.value=1
         isShowAlert.value=true
         alertTime.validation=10
+        getDataStatus.value=false
     }
 }
 
 //filter
-const filterOrder=async(name,orderStatus="ALL")=>{
+const filterOrder=(name,orderStatus="ALL")=>{
+    currentPage.value=1
     let element=document.getElementById(name)
     let allElement=document.getElementsByClassName('sort_item')
     // clear first
@@ -93,7 +106,7 @@ const filterOrder=async(name,orderStatus="ALL")=>{
         element.classList.add("sort_item_active")
 
     }
-    await getOrders()
+    getOrders()
 }
 
 
@@ -218,93 +231,25 @@ onMounted(async()=>{
                 <!-- content -->
                 <div class="content_purchase">
                     <!-- product list earch shop-->
-                    <div class="shop_list">
+                    <BaseEmptyList name="my_purchase_list" title="You don’t have order yet." :showEmpty="getDataStatus" />
+
+                    <div v-if="getDataStatus==true" class="shop_list">
                         <!-- shop item -->
-                        <div v-for="(shop,index) of orderList"  :key=index >
+                        <!-- <div v-for="(shop,index) of orderList"  :key=index >
                             <BaseOrderItem name="purchase" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
                             :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" @refresh-data="getOrders" />
-                        </div>
-
-                        <!-- <div v-for="(shop,index) of orderList" :key="index" class="shop_item">
-                            shop name and status
-                            <div class="header_shop">
-                                name and button
-                                <div class="shop_name">
-                                    <h5 >
-                                        ShopName
-                                    </h5>
-                                    chat now
-                                    <button>
-                                        Chat now
-                                    </button>
-                                    view shop
-                                    <button>
-                                        View Shop
-                                    </button>
-                                </div>
-
-                                status
-                                <div>
-                                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="3" cy="3" r="3" fill="#9CA3AF"/>
-                                    </svg>
-                                    <h6>
-                                        {{ shop.status }}
-                                        To Ship
-                                    </h6>
-
-                                </div>
-                            </div>   
-                            product list
-                            <div class="product_list">
-                                product item
-                                <div v-for="(product,index) of shop.order_details" class="product_item">
-                                    img
-                                    <div>
-                                        <img src="../../../assets/vue.svg" alt="product_img">
-                                    </div>
-                                    info
-                                    <div>
-                                        {{ product.itemname }}
-                                        name and more wait for design
-                                    </div>
-                                </div>
-                            </div>
-                            order detail
-                            <div class="order_detail">
-                                info
-                                <div class="order_info">
-                                    <p>
-                                        Order Total(
-                                        <span>
-                                            {{ shop.order_details !== undefined ? shop.order_details.length : 0 }}
-                                        </span> items) : 
-                                    </p>
-                                    <h6>
-                                        ฿77.99
-                                        ฿
-                                        <span>
-                                            {{ shop.total }}
-                                        </span>
-                                    </h6>
-                                </div>
-                                <div class="container_btn">
-                                    buy again
-                                    <button>
-                                        Buy Again
-                                    </button>
-                                    view mt rating
-                                    <button>
-                                        View My Rating
-                                    </button>
-
-                                </div>
-                            </div>
                         </div> -->
+                        <div v-for="(shop,index) of orderList" :key="index">
+                            <BaseOrderGroup v-if="shop.orders!=undefined" name="purchase" :orderList="shop.orders" :orderGroupId="shop.orderGroupId" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
+                            :orderDetail="shop.order_details" :orderTotal="shop.total"  @refreshData="getOrders" />
+                            
+                            <BaseOrderItem v-else name="purchase" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
+                            :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" @refresh-data="getOrders" />
+                        </div>
                     </div>
                 </div>
                 <!-- move page -->
-                <BaseSelectPage name="my_purchase_select_page" :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
+                <BaseSelectPage v-if="getDataStatus==true" name="my_purchase_select_page" :current-page="currentPage" :total-page="allPage" @change-page="getCurrentPage" @move-left="moveLeft" @move-right="moveRight" />
             </div>
             <!-- alert  :show-alert="isShowAlert"-->
             <BaseAlert name="purchase_list" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />

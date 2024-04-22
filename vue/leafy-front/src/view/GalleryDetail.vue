@@ -3,7 +3,7 @@ import {useRoute,useRouter} from 'vue-router'
 import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseAlert from '../components/BaseAlert.vue';
-import {ref,onBeforeMount} from 'vue'
+import {ref,onBeforeMount,computed,onBeforeUpdate} from 'vue'
 import fetch from '../JS/api';
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -14,6 +14,14 @@ const goGalleryProfile=()=>myRouter.push({name:"GalleryProfile",params:{id:galle
 // common attribute
 const galleryDetail=ref({})
 const galleryContentId=ref('')
+const galleryDesc=computed(()=>{
+    let {description} =galleryDetail.value
+    if(description!=undefined){
+        return description.replace(/\n/g, '<br>')
+    }else{
+        return ''
+    }
+})
 // alert attribute
 const isShowAlert=ref(false)
 const alertType=ref(0)
@@ -41,7 +49,10 @@ const getShowAlertChange=(input)=>{
     alertDetail.value=''
     alertTime.value=2
 }
-
+onBeforeUpdate(()=>{
+   let element=document.getElementById('content_description')
+    element.innerHTML=galleryDesc.value
+})
 onBeforeMount(async()=>{
     galleryContentId.value = params.id
    await getGalleryDetail()
@@ -110,8 +121,8 @@ onBeforeMount(async()=>{
                     </div>
                     <!-- project detail -->
                     <div class="project_description">
-                        <p>
-                            {{ galleryDetail.description }}
+                        <p id="content_description">
+                            
                         </p>
                     </div>
                 </div>

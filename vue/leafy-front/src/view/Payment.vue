@@ -16,7 +16,8 @@ import BaseAlert from '../components/BaseAlert.vue';
 const myRoute=useRouter()
 const {params}=useRoute()
 const myRouter=useRouter()
-const goMyPurchase=()=>myRouter.push({name:"MyPurchase"})
+// const goMyPurchase=()=>myRouter.push({name:"MyPurchase"})
+const goConfirmPayment=()=>myRouter.push({name:"ConfirmPayment",params:{id:validation.encrypt(orderGroupId.value)}})
 //common attribute
 const addressList=ref([]) //list all
 const addressDefault=ref({}) //default selected
@@ -24,6 +25,7 @@ const userName=ref('')
 const cartList=ref(undefined)
 const rawData =ref(undefined)
 const isBuyNow=ref(undefined)
+const orderGroupId=ref('')
 // common status
 const showOverlay=ref(false)
 // payment status
@@ -274,14 +276,21 @@ const orderSubmit=async()=>{
     }
     console.log(inputData)
     // fetch
-    let {status,msg}=await fetch.BuyNow(inputData)
-    if(status){
+    let {status,msg,data}=await fetch.BuyNow(inputData)
+    if(await status){
+      console.log(data)
       isShowAlert.value=true
       alertType.value=0
       alertDetail.value="Your purchase was successful!"
-      alertTime.value=2
+      alertTime.value=1
+      
       // goShop()
-      myTimeOut.value=setTimeout(()=>goMyPurchase(),3*1000)
+      if(orderGroupId.value!=undefined){
+        orderGroupId.value=await data.orderGroupId
+        myTimeOut.value=setTimeout(()=>goConfirmPayment(),1*1000)
+        // goConfirmPayment()
+      }
+      
     }else
     if(msg=='400'){
       isShowAlert.value=true
@@ -306,15 +315,21 @@ const orderSubmit=async()=>{
     }
     
     // fetch
-    let {status,msg} =await fetch.BuyNowWithoutCart(inputData);
+    let {status,msg,data} =await fetch.BuyNowWithoutCart(inputData);
     if(await status){
-      
+      console.log(data)
       isShowAlert.value=true
       alertType.value=0
       alertDetail.value="Your purchase was successful!"
-      alertTime.value=2
+      alertTime.value=1
+      
       // goShop()
-      myTimeOut.value=setTimeout(()=>goMyPurchase(),3*1000)
+      if(orderGroupId.value!=undefined){
+        orderGroupId.value=await data.orderGroupId
+        myTimeOut.value=setTimeout(()=>goConfirmPayment(),1*1000)
+        // goConfirmPayment()
+      }
+      // myTimeOut.value=setTimeout(()=>goMyPurchase(),3*1000)
     }else
     if(await msg=='400'){
       isShowAlert.value=true
@@ -388,67 +403,9 @@ onBeforeMount(async()=>{
                 <div class="wrapper_address_component">
                     <!-- <BaseBankItemList v-show="Object.keys(addressSelected).length!=0" name="payment_address" :data-list="[addressSelected]" :is-default="true" :show-edit-btn="false"  /> -->
                     <BaseBankItem name="payment_address" :item-name="addressSelected.addressname" :item-description="`${addressSelected.address} ${addressSelected.province} ${addressSelected.distrinct} ${addressSelected.subDistrinct} ${addressSelected.postalCode}`"
-                    :item-number="addressSelected.phone" :is-default="false" :showEditBtn="false" :showBinBtn="false" />
+                    :item-number="addressSelected.phone" :is-default="false" :showEditBtn="false" :showBinBtn="false" :show-set-d-btn="false" />
                   </div>
-                <!-- <div class="change_btn"> -->
-                  
-                <!-- </div> -->
-                <!-- <div v-show="addressDefault!=undefined" class="address_item">
-                  header
-                  <div>
-                    <div>
-                      {{ addressSelected.addressname }}
-                      {{ addressSelected.phone }}<br/>
-                    </div>
-                    change detault
-                    <button @click="showOverlay=!showOverlay">
-                      change
-                    </button>
-                  </div>
-                  detail
-                  <div>
-                    {{ addressSelected.address }}
-                    {{ addressSelected.province }}
-                    {{ addressSelected.distrinct }}
-                    {{ addressSelected.subDistrinct }}
-                    {{ addressSelected.postalCode }}
-                  </div>
-                  temperary btn
-                  <button @click="showOverlay=!showOverlay">
-                    change
-                  </button>
-                </div>-->
               </div> 
-
-              <!-- payment method
-              <div class="wrapper_payment_method">
-                <h6>
-                  Payment
-                </h6>
-                <div class="method_list">
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                  <button @click="">
-                    <img src="../assets/vue.svg" alt="thai_payment_icon">
-                  </button>
-                </div>
-              </div> -->
             </div>
 
             <!-- product List -->
@@ -559,7 +516,7 @@ onBeforeMount(async()=>{
                     </div> -->
                     <BaseBankItem name="address_payment" :item-name="addressDefault.addressname" :item-number="addressDefault.phone" 
                     :item-description="`${addressDefault.address} ${addressDefault.distrinct} ${addressDefault.subDistrinct} ${addressDefault.province} ${addressDefault.postalCode}`"
-                    :item-id="addressDefault.addressId" :show-bin-btn="false" :show-edit-btn="false" :is-default="false"
+                    :item-id="addressDefault.addressId" :show-bin-btn="false" :show-edit-btn="false" :is-default="false" :show-set-d-btn="false"
                     />
                   </label>
 
@@ -594,7 +551,7 @@ onBeforeMount(async()=>{
                     </div> -->
                     <BaseBankItem name="address_payment" :item-name="address.addressname" :item-number="address.phone" 
                     :item-description="`${address.address} ${address.distrinct} ${address.subDistrinct} ${address.province} ${address.postalCode}`"
-                    :item-id="address.addressId" :show-bin-btn="false" :show-edit-btn="false" :is-default="false"
+                    :item-id="address.addressId" :show-bin-btn="false" :show-edit-btn="false" :is-default="false" :show-set-d-btn="false"
                     />
                   </label>
                   
@@ -1218,8 +1175,47 @@ onBeforeMount(async()=>{
     color: #212121;
 
   }
+  .wrapper_address_component{
+    display: flex;
+    width: 100%;;
+    height: fit-content;
+    flex-direction: column;
+  }
+  /* .wrapper_product_list{
+  } */
+  /* payment */
+  .wrapper_payment_method{
+    
+    border-radius: none;
+    padding: 12px 20px;
+    gap: 12px;
+    background-color: #fff;
+    box-shadow: 0px 1px 2px 0px #0000000F;
+    flex-direction: column;
+  }
+  .wrapper_payment_method h6{
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .wrapper_payment_method .method_list{
+   
+    gap: 8px;
+  }
+  .method_list button{
+    width: 72px;
+    height: 36px;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
 
-  
+  }
+  .method_list button:nth-child(1){
+    border: 1px solid #26AC34;
+  }
+  .method_list button img{
+    width: auto;
+    height: 16px;
+    
+  }
 
 
 }

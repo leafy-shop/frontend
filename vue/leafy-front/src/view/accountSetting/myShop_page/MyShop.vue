@@ -9,6 +9,7 @@ import productEnum from '../../../JS/enum/product'
 import BaseSelectPage from '../../../components/BaseSelectPage.vue';
 import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
+import BaseEmptyList from '../../../components/BaseEmptyList.vue';
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
@@ -37,8 +38,12 @@ const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
 
+// get status
+const getDataStatus=ref(undefined)
+
 // ดึงข้อมูลเกี่ยวกับ Product
 const getProduct=async()=>{
+    getDataStatus.value=undefined
     let inputData={
             page:currentPage.value, 
             // limitP:18, 
@@ -67,22 +72,29 @@ const getProduct=async()=>{
         //     productList.value=data.outStock
         //     console.log(data)
         // }else{
-        productList.value=data.list
-        currentPage.value=data.page
-        totalAmountItem.value=data.allItems
-        allPage.value=data.allPage
+        productList.value=await data.list
+        currentPage.value=await data.page
+        totalAmountItem.value=await data.allItems
+        allPage.value=await data.allPage
         console.log(data)
+        if(await data.list.length==0){
+            getDataStatus.value=false
+        }else{
+            getDataStatus.value=true
+        }
     }else
     if(await msg=='404'){
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Sorry, we couldn't find the information you're looking for."
         alertTime.value=10
+        getDataStatus.value=false
     }else{
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertTime.value=10
+        getDataStatus.value=false
     }
         
     // }else{
@@ -236,7 +248,8 @@ onMounted(async()=>{
         </div>
         <!-- product list -->
         <div class="content_shop">
-            <table >
+            <BaseEmptyList name="my_shop_list" title="You don’t have product yet." :showEmpty="getDataStatus" />
+            <table v-if="getDataStatus==true" >
                 <tr class="header">
                     <th>
                         <h6>
@@ -401,7 +414,7 @@ onMounted(async()=>{
     </div>
     <!-- move page -->
     <!-- <BaseSelectPage @current-page="" @total-page="10" /> -->
-    <BaseMovePage name="my_shop" :current-page="currentPage" :total-amount-item="totalAmountItem" @previousPage="previousPage()" @nextPage="nextPage()" />
+    <BaseMovePage v-show="getDataStatus==true" name="my_shop" :current-page="currentPage" :total-amount-item="totalAmountItem" @previousPage="previousPage()" @nextPage="nextPage()" />
     <BaseAlert name="shop_list" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
 </div>
     <!-- </div> -->
