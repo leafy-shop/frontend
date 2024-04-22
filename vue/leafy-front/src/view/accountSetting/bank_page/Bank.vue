@@ -7,6 +7,7 @@ import fetch from '../../../JS/api';
 import bankTypeList from '../../../JS/enum/bankAccount.js'
 import BaseBankItem from '../../../components/bank/BaseBankItem.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
+import BaseEmptyList from '../../../components/BaseEmptyList.vue';
 // link
 const myRouter = useRouter()
 const goAdd = () => myRouter.push({ name: 'Bank_AS_add', params: { method: 'new-bank' } })
@@ -23,6 +24,9 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
+
+// get status
+const getDataStatus=ref(undefined)
 
 // const isBank=computed({
 //for match full name
@@ -57,33 +61,40 @@ const confirmBank = async (input = false) => {
 }
 
 const getBank = async () => {
+    getDataStatus.value=undefined
     let { username } = cookie.decrypt()
     userName.value = username
     let { status, msg, data } = await fetch.getAllPayment(username)
     if (await status) {
-        // remove default data list
-        // get default 
-        // let [indexD]= data.map(x=>{
-        //     if(x.isDefault==true){
-        //         return data.indexOf(x) //return default data
-        //     }
-        // })
-        let indexD= data.findIndex(x=>{
+
+        
+
+        let indexD= await data.findIndex(x=>{
             return x.isDefault==true
         })
-        if(data[indexD]!=undefined){
-            bankDefault.value=data[indexD] //assign data to attribute
-            data.splice(indexD, 1)
-            bankList.value = data //remove data default
+        
+        if(await data[indexD]!=undefined){
+            if(await data.length==0){
+                getDataStatus.value=false
+            }else{
+                getDataStatus.value=true
+                bankDefault.value=data[indexD] //assign data to attribute
+                data.splice(indexD, 1)
+                bankList.value = data //remove data default
+                
+                console.log(data)
+            }
             
-            console.log(data)
             // console.log(indexD)
         }
+        
+        
     }else{
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertTime.value=10
+        getDataStatus.value=false
     }
 }
 const deleteBank = async () => {
@@ -167,10 +178,11 @@ onBeforeMount(async () => {
                 </div>
                 
                 <!-- bank list -->
-                <div v-if="bankList.length!=0" v-for="(bank,index) of bankList" :key="index" class="wrapper_bank_component">
-                    <BaseBankItem name="bank" :item-name="bank.bankname" :item-id="bank.paymentId" :item-number="bank.bankAccount" :item-description="fullNameBank(bank.bankCode)" :is-default="false" @setDefaultBank="setDefaultBank" @showConfirm="showConfirm" @goUpdate="goUpdate"  />
+                <div v-if="getDataStatus==true" v-for="(bank,index) of bankList" :key="index" class="wrapper_bank_component">
+                    <BaseBankItem name="bank" :item-name="bank.bankname" :item-id="bank.paymentId" :item-number="bank.bankAccount" :item-description="fullNameBank(bank.bankCode)" :is-default="false" :show-set-d-btn="true" @setDefaultBank="setDefaultBank" @showConfirm="showConfirm" @goUpdate="goUpdate"  />
                 </div>
-                
+                <BaseEmptyList name="bank_list" title="You don’t have bank yet." :showEmpty="getDataStatus" />
+
             </div>
 
             <div v-show="isDelete" class="wrapper_confirm_delete">
