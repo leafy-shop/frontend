@@ -841,7 +841,7 @@ onBeforeMount(async()=>{
   height: min(2.5dvw,36px);
   border: min(0.069dvw,1px) solid;
   border-radius: min(0.278dvw,4px);
-  border-color: #EEEEEE;
+  border-color: #26AC34;
   justify-content: center;
   align-items: center;
   background-color: transparent;
