@@ -6,6 +6,7 @@ import cookie from '../../../JS/cookie';
 import validation from '../../../JS/validation'
 import BaseBankItem from '../../../components/bank/BaseBankItem.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
+import BaseEmptyList from '../../../components/BaseEmptyList.vue';
 // link
 const myRouter =useRouter()
 const goAdd=()=>myRouter.push({name:'Address_AS_add',params:{method:'new-address'}})
@@ -25,6 +26,9 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
+
+// get status
+const getDataStatus=ref(undefined)
 
 const showConfirm=(id)=>{
     isDelete.value=true
@@ -49,31 +53,41 @@ const confirmAddress=async(input=false)=>{
 }
 
 const getAddress=async()=>{
+    getDataStatus.value=undefined
     let {username}=cookie.decrypt()
     userName.value=username
     let {status,msg,data}=await fetch.getAllAddress(username)
     if(await status){
-        console.log(data)
+        // console.log(data)
+        
         let indexD= data.findIndex(x=>{
             return x.isDefault==true
         })
         console.log(indexD)
         if(data[indexD]!=undefined){
-            addressDefault.value=data[indexD] //assign data to attribute
-            data.splice(indexD, 1)
-            addressList.value = data //remove data default
+            if(await data.length==0){
+                getDataStatus.value=false
+            }else{
+                getDataStatus.value=true
+                addressDefault.value=data[indexD] //assign data to attribute
+                data.splice(indexD, 1)
+                addressList.value = data //remove data default
+                
+                console.log(data)
+            }
             
-            console.log(data)
             // console.log(indexD)
         }
         // // addressList.value=data
-        console.log(addressList.value)
-        console.log(addressDefault.value)
+        // console.log(addressList.value)
+        // console.log(addressDefault.value)
+        
     }else{
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertTime.value=10
+        getDataStatus.value=false
     }
 }
 const deleteAddress =async()=>{
@@ -145,7 +159,7 @@ onBeforeMount(async()=>{
                 <!-- <BaseBankItemList name="address_default" :dataList="[addressDefault]" :isDefault="true" @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultAddress="setDefaultAddress" /> -->
                 <div v-if="addressDefault!=undefined" class="wrapper_address_component">
                     <BaseBankItem name="address_default"  :item-name="addressDefault.addressname" :item-id="addressDefault.addressId" :item-description="`${addressDefault.address} ${addressDefault.province} ${addressDefault.distrinct} ${addressDefault.subDistrinct} ${addressDefault.postalCode}`"
-                    :item-number="addressDefault.phone" :is-default="true" />
+                    :item-number="addressDefault.phone" :is-default="true" :show-set-d-btn="false" />
                 </div>
                 <!-- <div class="container_address">
                     <div class="address_list">
@@ -189,10 +203,12 @@ onBeforeMount(async()=>{
                 </div> -->
                 <!-- address list -->
                 <!-- <BaseBankItemList name="address_list" :dataList="addressList"  @goUpdate="goUpdate" @showConfirm="showConfirm" @setDefaultAddress="setDefaultAddress" /> -->
-                <div v-if="addressList.length!=0" v-for="(address,index) of addressList" :key="index"  class="wrapper_address_component">
+                <div v-if="getDataStatus==true" v-for="(address,index) of addressList" :key="index"  class="wrapper_address_component">
                     <BaseBankItem name="address_default"  :item-name="address.addressname" :item-id="address.addressId" :item-description="`${address.address} ${address.province} ${address.distrinct} ${address.subDistrinct} ${address.postalCode}`"
                     :item-number="address.phone" :is-default="true" @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultBank="setDefaultAddress" />
                 </div> 
+                <BaseEmptyList name="address_list" title="You don’t have address yet." :showEmpty="getDataStatus" />
+
             </div>   
 
             <div v-show="isDelete" class="wrapper_confirm_delete">
