@@ -229,7 +229,7 @@ router.beforeEach(async (to, from, next) => {
                 }
                 break;
             case "ConfirmPayment":
-                if (( from.name==="MyPurchase" || from.name==="MyPurchaseDetail")) {
+                if (( from.name==="MyPurchase" || from.name==="ConfirmPayment" || from.name==="Payment")) {
                     next();
                 } else {
                     next({ name: "MyPurchase" });
