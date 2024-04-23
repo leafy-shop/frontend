@@ -330,7 +330,7 @@ onUpdated(async()=>{
                         </svg>
                         <h3> Shop</h3>
                     </button>
-                    <button @click="validation.clickingTest('link gallery')" name="gallery">
+                    <button @click="goGalleryList" name="gallery">
                         <!-- <img  src="../assets/icon/gallery.png" alt="gallery_icon"> -->
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
