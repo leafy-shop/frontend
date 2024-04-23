@@ -6,6 +6,7 @@ import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue';
 import BaseShowErrorInput from '../../../components/accountSetting/BaseShowErrorInput.vue'
 import {useRoute,useRouter} from 'vue-router'
 import { v4 as uuidv4 } from 'uuid';
+import BaseAlert from '../../../components/BaseAlert.vue';
 // link
 const myRouter=useRouter()
 const goMyGallery=()=>myRouter.push({name:'MyGallery_AS'})
@@ -41,7 +42,11 @@ const galleryStyleM=ref('')
 const galleryOtherStyleM=ref('')
 const galleryPhotoM=ref(undefined)
 
-
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
 
 // form data
 const galleryFormData=computed(()=>{
@@ -97,35 +102,70 @@ const submitGallery=async()=>{
     if(submitStatus){
         if(isEdit.value){ //this edit
             if(galleryFormData.value.isChange){
+                let fetchStatus=true
+
                 let{status,msg}= await fetch.updateGallery(galleryContentId.value,galleryFormData.value.data)
                 if(await status){
                     console.log("update data successful")
                     await getGallery()
-                    goMyGallery()
+                    fetchStatus=true
+                }else{
+                    isShowAlert.value=true
+                    alertType.value=1
+                    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                    alertTime.value=10
+                    fetchStatus=false
                 }
 
                 if(galleryCoverImg.value!=undefined){// start to upload
                     let{status,msg}=await fetch.addImage(galleryCoverImg.value,'gallery',galleryContentId.value)
                     if(status){
                         console.log('add main img successful')
+                        fetchStatus=true
+                    }else{
+                        isShowAlert.value=true
+                        alertType.value=1
+                        alertDetail.value="Oops! It seems like there's a server error preventing image uploads at the moment. "
+                        alertTime.value=10
+                        fetchStatus=false
                     }
+                }
+                if(fetchStatus){ // all status true
+                    goMyGallery()
                 }
             }else{
                 // error
             }
         }else{ //this create
+            let fetchStatus=true
             let{status,msg,data}= await fetch.addGallery(galleryFormData.value.data)
             if(await status){
                 console.log("create data successfull")
                 galleryContentId.value=data.contentId
+                fetchStatus=true
+            }else{
+                isShowAlert.value=true
+                alertType.value=1
+                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                alertTime.value=10
+                fetchStatus=false
             }
+
             if(galleryCoverImg.value!=undefined){// start to upload
                 let{status,msg}=await fetch.addImage(galleryCoverImg.value,'gallery',galleryContentId.value)
-                if(status){
+                if(await status){
                     console.log('add main img successful')
-                    goMyGallery()
+                    fetchStatus=true
+                }else{
+                    isShowAlert.value=true
+                    alertType.value=1
+                    alertDetail.value="Oops! It seems like there's a server error preventing image uploads at the moment. "
+                    alertTime.value=10
+                    fetchStatus=false
                 }
-            }else{
+            }
+
+            if(fetchStatus){
                 goMyGallery()
             }
         }
@@ -175,88 +215,14 @@ const getGallery=async()=>{
         if(images!=undefined)galleryPhotoS.value=true //styl photo
         galleryOrigin.value=await data
         console.log(data)
-    }
-}
-
-// img fuction
-
-const removeImgStyle=(index)=>{
-    galleryPhotoList.value.splice(index,1)
-    console.log("remove successful!!")
-}
-
-const addStyleImgObj=(file=undefined,name='')=>{
-    let styleImgOBJ={}
-    let fileName=`${galleryContentId.value}-${uuidv4()}`
-    // assign name using product id and random number
-    if(name.length==0)styleImgOBJ["name"]=fileName;
-    else styleImgOBJ["name"]=name
-    //validate file
-    if(file!=undefined){
-        styleImgOBJ["isFile"]=true
     }else{
-        styleImgOBJ["isFile"]=false
-    }
-    styleImgOBJ["file"]=file
-    console.log(styleImgOBJ)
-
-    return galleryPhotoList.value.push(styleImgOBJ)
-    
-}
-//preview style img 
-const previewStyleImage = (event,elementId) => {
-    const preview = document.getElementById(elementId)
-    // assign img
-    preview.setAttribute('src', URL.createObjectURL(event))
-
-}
-const uploadStyleImage = async(event) => {
-    if (event == undefined) {
-        console.log("pls up load style photo")
-    } else {
-        let file
-        // แยกประเภทว่าเป็นแบบ Drop ?
-        if (event.target != undefined) {
-            file = event.target.files[0] //แยกไฟล์ออกมา
-            console.log('not drop')
-        } else {
-            // console.log(event)
-            file = event
-            console.log('drop')
-        }
-        const fSize = Math.round((file.size / 100000))
-        const maxFileSize = 10
-        // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
-        console.log('file size :', fSize)
-        if (maxFileSize >= fSize) {
-            console.log('nice file')
-            if(galleryPhotoList.value.length<maxGalleryPhotoList){
-                if (event.target != undefined) addStyleImgObj(file);
-                else addStyleImgObj(file)
-            }else{
-                console.log('Style image limit 10 picture each style')
-            }
-            // previewCoverImage(file, "cover-preview")
-        } else {
-            console.log('file too big')
-        }
+        alertType.value=2
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        isShowAlert.value=true
+        alertTime.value=10
     }
 }
-const dropStyleHandle = (event) => {
-    event.preventDefault() //when drop not make new page for show image just drop
-    // Use DataTransferItemList interface to access the file(s)
-    if (event.dataTransfer.items) {
-        let fileType = event.dataTransfer.items[0].type.split("/")
-        let itemAmount = event.dataTransfer.items.length //check length of file
-        if (itemAmount == 1 && fileType.includes("image")) { //1 file only and type only image
 
-            console.log(event.dataTransfer.items[0].getAsFile())
-            uploadStyleImage(event.dataTransfer.items[0].getAsFile())
-        } else {
-            console.log('please 1 file and image only')
-        }
-    }
-}
 
 //preview cover img 
 const previewCoverImage = (event, elementId) => {
@@ -298,7 +264,10 @@ const uploadCoverImage = (event) => {
             else galleryCoverImg.value = file;
             previewCoverImage(file, "cover-preview")
         } else {
-            console.log('file too big')
+            alertType.value=2
+            alertDetail.value="The image is too big, over 1 MB in size!"
+            isShowAlert.value=true
+            alertTime.value=10
         }
 
     }
@@ -318,7 +287,10 @@ const dropCoverHandle = (event) => {
                 uploadCoverImage(event.dataTransfer.items[0].getAsFile())
 
         } else {
-            console.log('please 1 file and image only')
+            alertType.value=2
+            alertDetail.value="Please upload only one file."
+            isShowAlert.value=true
+            alertTime.value=10
         }
     }
 }
@@ -326,15 +298,22 @@ const dragover = (event) => {
     event.preventDefault()
 }
 
+// alert
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+}
 
 
 onUpdated(async()=>{
     // reassign every updated
-    for(let i of galleryPhotoList.value){
-        if(i.isFile){
-            previewStyleImage(i.file,`style_preview_${i.name}`)
-        }
-    }
+    // for(let i of galleryPhotoList.value){
+    //     if(i.isFile){
+    //         previewStyleImage(i.file,`style_preview_${i.name}`)
+    //     }
+    // }
     // console.log(await fetch.getImage('products',productId.value))
     // console.log(styleImgList.value,'style img list')
 })
@@ -460,6 +439,8 @@ onBeforeMount(async()=>{
                 Save
             </button>
         </div> -->
+        <BaseAlert name="order_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
+
     </div>
 </template>
 <style scoped>
