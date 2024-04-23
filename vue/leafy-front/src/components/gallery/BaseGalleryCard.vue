@@ -136,7 +136,7 @@ const props=defineProps({
     display: flex;
     /* width: min(17.778dvw,256px); */
     width: 100%;
-    height: min(25.556dvw,368px);
+    height: min(22.778dvw,328px);
     border: none;
     border-radius: min(0.556dvw,8px);
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
@@ -151,7 +151,7 @@ const props=defineProps({
 .gallery_item .gallery_item_img{
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 220px;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -172,7 +172,7 @@ const props=defineProps({
 .gallery_card_detail{
     display: flex;
     width: 100%;
-    height: min(5.833dvw,84px);
+    height: 100%;
     flex-direction: column;
     gap: min(0.833dvw,12px);
     justify-content: space-between;
@@ -184,14 +184,12 @@ const props=defineProps({
     /* width: min(16.111dvw,232px); */
     width: 100%;
     height: fit-content;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     font-size: min(1.111dvw,16px);
     line-height: 150%;
     font-weight: 500;
     overflow: hidden;
-    /* padding-top: min(0.278dvw, 4px); */
-    /* letter-spacing: min(0.014dvw, 0.2px); */
     color: #212121;
 }
 .gallery_card_detail .container_creater{
@@ -210,6 +208,7 @@ const props=defineProps({
     justify-content: start;
     align-items: center;
 }
+/* img */
 .container_creater .creater  >div{
     display: flex;
     width: min(1.667dvw,24px);
@@ -244,8 +243,7 @@ const props=defineProps({
     max-width: 100%;
     height: 100%;
     align-items: center;
-    justify-content: center;
-    
+    justify-content: center; 
 }
 .create_date h6{
     width: 100%;
@@ -258,7 +256,7 @@ const props=defineProps({
     text-overflow: ellipsis;
 }
 /* project detail */
-.project_detail{
+/* .project_detail{
     display: flex;
     width: 100%;
     height: min(2.778dvw,40px);
@@ -274,7 +272,7 @@ const props=defineProps({
     align-items: center;
     justify-content: start;
 }
-/* svg */
+svg
 .project_detail >div>div{
     display: flex;
     width: min(0.833dvw,12px);
@@ -286,7 +284,7 @@ const props=defineProps({
     width: min(0.694dvw,10px);
     height: auto;
 }
-/* text */
+text
 .project_detail >div h6{
     width: 100%;
     height: fit-content;
@@ -296,5 +294,54 @@ const props=defineProps({
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+} */
+
+@media (width<=432px){
+    .gallery_item{
+        height: 272px;
+        border-radius: 8px;
+        box-shadow: 0px 1px 2px 0px #0000000F;
+    }
+    .gallery_item:hover{
+        border: 1px solid #26AC34;
+    }
+    .gallery_item .gallery_item_img{
+        height: 168px;
+    }
+    .container_gallery_card_detail{
+        height: 104px;
+    }
+    /* detail */
+    .gallery_card_detail{
+        gap: 12px;
+        padding: 12px;
+    }
+    .gallery_card_detail h5{
+        font-size: 16px;
+    }
+    .gallery_card_detail .container_creater{
+        height: 20px;
+        gap: 4px;
+    }
+    .container_creater .creater{
+        height: 100%;
+        gap: 4px;
+    }
+    /* img */
+    .container_creater .creater  >div{
+        width: 24px;
+        height: 24px;
+    }
+    .container_creater .creater h6{
+        max-width: 86px;
+        font-size: 10px;
+        font-weight: 400;
+    }
+    /* .create_date{
+    } */
+    .create_date h6{
+        font-size: 10px;
+        font-weight: 400;
+    }
 }
 </style>
