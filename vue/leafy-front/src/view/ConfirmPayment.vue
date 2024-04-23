@@ -14,6 +14,7 @@ const goMyPurchaseDetail=()=>myRouter.push({name:'MyPurchaseDetail',params:{id:o
 const goPurchase =()=>myRouter.push({name:'MyPurchase'})
 const goCart=()=>myRouter.push({name:'CartList'})
 const goHome=()=>myRouter.push({name:'Home'})
+const goBack=()=>myRouter.go(-1)
 // common attribute
 const orderId=ref('')
 const myTimeOut=ref('')
@@ -37,10 +38,8 @@ const getShowAlertChange=(input)=>{
 
 // get order detail
 const getOrderDetail=async()=>{
-    let inputData={
-        orderId:orderId.value
-    }
-    let{status,data}=await fetch.getAllOrder(false,inputData)
+    
+    let{status,data}=await fetch.getOrderGroupById(orderId.value)
     if(await status){
         console.log(data)
         orderDetail.value=await data
@@ -87,50 +86,74 @@ onBeforeMount(async()=>{
 })
 </script>
 <template>
-    <BaseMenu class="menu" />
-        <div class="container_access">
-            <!-- home icon -->
-            <svg
-            @click="goHome"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            >
-            <path
-                d="M10.707 2.293C10.5195 2.10553 10.2652 2.00021 10 2.00021C9.73485 2.00021 9.48054 2.10553 9.29301 2.293L2.29301 9.293C2.11085 9.4816 2.01006 9.7342 2.01234 9.9964C2.01461 10.2586 2.11978 10.5094 2.30519 10.6948C2.4906 10.8802 2.74141 10.9854 3.00361 10.9877C3.26581 10.99 3.51841 10.8892 3.70701 10.707L4.00001 10.414V17C4.00001 17.2652 4.10537 17.5196 4.2929 17.7071C4.48044 17.8946 4.73479 18 5.00001 18H7.00001C7.26523 18 7.51958 17.8946 7.70712 17.7071C7.89465 17.5196 8.00001 17.2652 8.00001 17V15C8.00001 14.7348 8.10537 14.4804 8.2929 14.2929C8.48044 14.1054 8.73479 14 9.00001 14H11C11.2652 14 11.5196 14.1054 11.7071 14.2929C11.8947 14.4804 12 14.7348 12 15V17C12 17.2652 12.1054 17.5196 12.2929 17.7071C12.4804 17.8946 12.7348 18 13 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8947 17.5196 16 17.2652 16 17V10.414L16.293 10.707C16.4816 10.8892 16.7342 10.99 16.9964 10.9877C17.2586 10.9854 17.5094 10.8802 17.6948 10.6948C17.8802 10.5094 17.9854 10.2586 17.9877 9.9964C17.99 9.7342 17.8892 9.4816 17.707 9.293L10.707 2.293Z"
-                fill="#757575"
-            />
-            </svg>
-            <!-- right arrow -->
-            <svg
-            class="right_arrow"
-            viewBox="0 0 24 44"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            >
-            <path
-                d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z"
-                fill="#EEEEEE"
-            />
-            </svg>
-            <!-- product -->
-            <h5 @click="goCart" class="link">Cart</h5>
-            <svg
-            class="right_arrow"
-            viewBox="0 0 24 44"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            >
-            <path
-                d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z"
-                fill="#EEEEEE"
-            />
-            </svg>
-            <h5 @click="goShop" class="link">Confirmation</h5>
-        </div>
+    <div class="menu wrapper_menu_component" >
+        <BaseMenu  />
+    </div>
+    <!-- access -->
+    <div class="container_access">
+        <!-- home icon -->
+        <svg
+        @click="goHome"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <path
+            d="M10.707 2.293C10.5195 2.10553 10.2652 2.00021 10 2.00021C9.73485 2.00021 9.48054 2.10553 9.29301 2.293L2.29301 9.293C2.11085 9.4816 2.01006 9.7342 2.01234 9.9964C2.01461 10.2586 2.11978 10.5094 2.30519 10.6948C2.4906 10.8802 2.74141 10.9854 3.00361 10.9877C3.26581 10.99 3.51841 10.8892 3.70701 10.707L4.00001 10.414V17C4.00001 17.2652 4.10537 17.5196 4.2929 17.7071C4.48044 17.8946 4.73479 18 5.00001 18H7.00001C7.26523 18 7.51958 17.8946 7.70712 17.7071C7.89465 17.5196 8.00001 17.2652 8.00001 17V15C8.00001 14.7348 8.10537 14.4804 8.2929 14.2929C8.48044 14.1054 8.73479 14 9.00001 14H11C11.2652 14 11.5196 14.1054 11.7071 14.2929C11.8947 14.4804 12 14.7348 12 15V17C12 17.2652 12.1054 17.5196 12.2929 17.7071C12.4804 17.8946 12.7348 18 13 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8947 17.5196 16 17.2652 16 17V10.414L16.293 10.707C16.4816 10.8892 16.7342 10.99 16.9964 10.9877C17.2586 10.9854 17.5094 10.8802 17.6948 10.6948C17.8802 10.5094 17.9854 10.2586 17.9877 9.9964C17.99 9.7342 17.8892 9.4816 17.707 9.293L10.707 2.293Z"
+            fill="#757575"
+        />
+        </svg>
+        <!-- right arrow -->
+        <svg
+        class="right_arrow"
+        viewBox="0 0 24 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <path
+            d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z"
+            fill="#EEEEEE"
+        />
+        </svg>
+        <!-- product -->
+        <h5 @click="goCart" class="link">Cart</h5>
+        <!-- right arrow -->
+        <svg
+        class="right_arrow"
+        viewBox="0 0 24 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <path
+            d="M0.292999 0L22.293 22L0.292999 44H1.707L23.707 22L1.707 0H0.292999Z"
+            fill="#EEEEEE"
+        />
+        </svg>
+        <!-- product -->
+        <h5 @click="" class="link">Confirm pay</h5>
+    </div>
 
+    <!-- mobile -->
+    <div class="container_access_mobile menu">
+        <!-- back -->
+        <button @click="goBack" class="go_back_btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </button>
+        <!-- header -->
+        <h5 class="header">
+            Payment Information
+        </h5>
+        <!-- empty  -->
+        <div class="empty">
+
+        </div>
+    </div>
+        
+    <!-- payment -->
     <div class="wrapper_confirm_payment">
         <div class="confirm_payment">
             <!-- header -->
@@ -243,6 +266,9 @@ onBeforeMount(async()=>{
     box-sizing: border-box;
 }
 /* access layer */
+.container_access_mobile{
+  display: none;
+}
 .container_access {
   display: flex;
   width: auto;
@@ -358,7 +384,7 @@ onBeforeMount(async()=>{
     text-overflow: ellipsis;
 }
 /* payment_within */
-.container_payment_detail .payment_within{
+/* .container_payment_detail .payment_within{
     display: flex;
     width: 100%;
     height: 64px;
@@ -409,7 +435,7 @@ onBeforeMount(async()=>{
     font-size: 14px;
     font-weight: 400;
     color: #757575;
-}
+} */
 /* qr sample */
 .container_qr_sample{
     display: flex;
@@ -558,5 +584,171 @@ height: auto;
 .container_btn .pay_complete{
     background-color: #26AC34;
     color: #fff;
+}
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_menu_component{
+        display: none;
+    }
+    /* access layer */
+    .container_access {
+        display: none
+    }
+    .container_access_mobile{
+        display: flex;
+        width: 100%;
+        height: 60px;
+        padding: 12px 20px;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 1px 3px 0px #0000001A;
+        background-color: #fff;
+    }
+    .container_access_mobile .go_back_btn{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    .container_access_mobile h5.header{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        font-size:18px ;
+        font-weight: 700;
+        color: #212121;
+        gap: 4px;
+        justify-content: center;
+        align-items: center;
+    }
+    .container_access_mobile h5.header span{
+        width: fit-content;
+        height: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        color: #616161;
+        vertical-align: center;
+    }
+    .container_access_mobile div.empty{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        letter-spacing: 0.20000000298023224px;
+    }
+  /* payment */
+    .wrapper_confirm_payment{
+        gap: 8px;
+        padding : 8px 0px 12px 0px;
+    }
+    .confirm_payment{ 
+        width: 100%;
+        gap: 8px;
+    }
+    /* header */
+    .header_confirm_payment{
+       display: none;
+    }
+    /* total container */
+    /* .container_payment_detail{
+    } */
+    /* payment total */
+    .container_payment_detail .payment_total{
+        height:44px;
+        padding: 0px 20px;
+        border-bottom: 0px;
+        align-items: center;
+    }
+    .payment_total h5{
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .payment_total h6{
+        font-size: 14px;
+        font-weight: 700;
+    }
+    /* payment_within */
+    .container_payment_detail .payment_within{
+        display: none;
+    }
+    /* qr sample */
+    .container_qr_sample{
+        gap: 12px;
+    }
+    /* header */
+    .container_qr_sample .header_qr{
+        height: 40px;
+    }
+    /* .header_qr img{
+    } */
+    .container_qr_sample .qr_img{
+        width: 200px;
+        height: 200px;
+    }
+    /* .qr_img img{
+    } */
+    /* destination */
+    .qr_destination{
+        gap: 4px;
+    }
+    .qr_destination h6{
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .qr_destination p{
+        font-size: 12px;
+        font-weight: 500;
+    }
+    /* instruction */
+    .container_instruction{
+        gap: 12px;
+        padding: 0px 20px;
+    }
+    .container_instruction .header_instruction{
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .container_instruction .description_instruction{
+        font-size: 10px;
+        font-weight: 400;
+    }
+    /* remark */
+    .description_remark{
+        font-size: 12px;
+        font-weight: 400;
+    }
+    /* container button */
+    .wrapper_btn{
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+    }
+    .container_btn{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        justify-content: end;
+        align-items: center;
+        gap: 8px;
+    }
+    .container_btn >button{
+        display: flex;
+        width: 100%;
+        height: 36px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        cursor: pointer;
+        border: none;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        justify-content: center;
+        align-items: center;
+    }
 }
 </style>
