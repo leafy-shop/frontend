@@ -240,8 +240,8 @@ onMounted(async()=>{
                             :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" @refresh-data="getOrders" />
                         </div> -->
                         <div v-for="(shop,index) of orderList" :key="index">
-                            <BaseOrderGroup v-if="shop.orders!=undefined" name="purchase" :orderList="shop.orders" :orderGroupId="shop.orderGroupId" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
-                            :orderDetail="shop.order_details" :orderTotal="shop.total"  @refreshData="getOrders" />
+                            <BaseOrderGroup v-if="shop.orders!=undefined" name="purchase" :orderList="shop.orders" :orderGroupId="shop.orderGroupId"   
+                            :order-group-total="shop.total" :order-group-all-item="shop.totalQty"  @refreshData="getOrders" />
                             
                             <BaseOrderItem v-else name="purchase" :orderId="shop.orderId"  :shopName="shop.itemOwner" :orderStatus="shop.status"
                             :orderDetail="shop.order_details" :orderTotal="shop.total" @goPurchaseDetail="goPurchaseDetail" @goProfile="goProfile(shop.itemOwner)" @refresh-data="getOrders" />
