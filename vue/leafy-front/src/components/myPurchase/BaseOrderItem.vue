@@ -245,7 +245,7 @@ const getReview=async(itemId,itemStyle,itemSize)=>{
         clearStatusReview()
         clearMessageReview()
         alertType.value=2
-        alertDetail.value='Server error try again later'
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         isShowAlert.value=true
         alertTime.value=10
         return undefined
@@ -557,7 +557,6 @@ const getShowAlertChange=(input)=>{
                     </span> items) : 
                 </p>
                 <h6 class="money_bath">
-                    <!-- ฿77.99 -->
                     
                     <span>
                         {{ props.orderTotal }}
@@ -635,7 +634,7 @@ const getShowAlertChange=(input)=>{
                         
                         <!-- rating -->
                         <div class="product_star">
-                            <BaseStar :isGap="false" :rating="product.totalRating" :name="`star_${props.name}_${index}`" :size="60" />
+                            <BaseStar :isGap="false" :rating="product.rating" :name="`star_${props.name}_${index}`" :size="60" />
                         </div>
                         <!-- operation -->
                         <div class="product_operation">
