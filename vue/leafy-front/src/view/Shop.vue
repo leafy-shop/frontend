@@ -222,7 +222,7 @@ onMounted(() => {
     <div class="shop_content">
         <div class="wrapper_content">
             <BaseFilterItem @filter-item="getFilterItem" :isShowFilter="isShowFilter" @closeFilter="showFilterItem"
-                :sort-type-arr="sortTypeArr" />
+                 />
             <div class="wrapper_productList">
                 <BaseSortItem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
                     @moveLeft="moveLeft" @moveRight="moveRight"
