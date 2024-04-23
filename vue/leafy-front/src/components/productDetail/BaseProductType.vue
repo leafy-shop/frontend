@@ -240,10 +240,13 @@ let payInOrder = async () => {
   }
 };
 
-let selectedImage = (idx) => {
-  // console.log(idx)
-  slideImage.value = idx;
-};
+const selectedImage = (idx) => {
+  console.log(idx,'testing')
+  slideImage.value = idx
+  // let element =document.getElementById("show_image_selected")
+  // element.src=`${origin}/api/image/products/${productStyle.value.itemId}/${selectedStyle.value.style}/${selectedStyle.value.images[slideImage.value]}`
+  // console.log('change image')
+}
 
 let selectedSize = (size) => {
   sizeObj.value = size; //for store size obj
@@ -360,7 +363,7 @@ onUpdated(() => {
                 draggable="false"
               />
             </button>
-            <button v-else>
+            <button v-else @click="selectedImage(idx)">
               <img
                 v-if="selectedStyle.images.length == 0"
                 src="../../assets/vue.svg"
@@ -383,8 +386,15 @@ onUpdated(() => {
           v-if="selectedStyle.images && selectedStyle.images.length"
           :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`"
           alt="image_style"
+          id="show_image_selected"
           draggable="false"
         />
+        <!-- <img
+          v-if="selectedStyle.images && selectedStyle.images.length"
+          :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${selectedStyle.images[slideImage]}`"
+          alt="image_style"
+          draggable="false"
+        /> -->
         <!-- <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style"> -->
         <!-- <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style"> -->
         <img v-else src="../../assets/vue.svg" alt="image_style" draggable="false" />
@@ -1013,5 +1023,10 @@ onUpdated(() => {
 .wrapper_apply_buy button:active {
   border-color: #58d264;
   background: #58d264;
+}
+
+/* mobile */
+@media (width<=432px){
+  
 }
 </style>
