@@ -243,7 +243,7 @@ onMounted(()=>{
             <BaseReview :product-review="reviews" :total-rating="ratingReview" 
             :sort-filter="sortFilter" :allStyle="allStyleReviews" @sort-filter-review="sortFilterReview" @like-review="likeReview" />
             <div v-show="reviews.length">
-                <BaseSelectPage  :current-page="currentPageReview" :total-page="totalPageReview"
+                <BaseSelectPage name="product_detail_review" :current-page="currentPageReview" :total-page="totalPageReview"
                 @move-left="moveLeftR" @move-right="moveRightR" @change-page="changePageR"/>
             </div>
         </div>
