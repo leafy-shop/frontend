@@ -40,7 +40,7 @@ const props=defineProps({
     },
     showDefaultIcon:{
         type:Boolean,
-        default:true
+        default:false
     },
     showSetDBtn:{
         type:Boolean,
@@ -142,7 +142,7 @@ const isShowSetDBtn=computed(()=>props.showSetDBtn)
 
         </div>
         <!-- default -->
-        <div v-if="isDefaultData&&isShowDefaultIcon" class="default_icon"  >
+        <div v-if="isShowDefaultIcon" class="default_icon"  >
             Default
         </div>
     </div>
