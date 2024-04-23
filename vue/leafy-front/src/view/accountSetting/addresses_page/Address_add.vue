@@ -4,6 +4,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import fetch from '../../../JS/api'
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
+import BaseAlert from '../../../components/BaseAlert.vue'
 // common attribute
 const { params } = useRoute()
 const addressId = ref('')
@@ -12,6 +13,7 @@ const addressOrigin = ref({})
 // link
 const myRouter = useRouter()
 const goAddress = () => myRouter.push({ name: 'Address_AS' })
+
 // attribute
 const addressName = ref('')
 const addressPhone = ref('')
@@ -38,6 +40,13 @@ const subDistrictM = ref('')
 const zipM = ref('')
 //change mode
 const isEditMode = ref(false)
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+
 
 // only use in edit mode
 const isAddress = computed(() => {
@@ -112,8 +121,8 @@ const isSubmitTime=computed(()=>{
 // get only use edit mode
 const getAddressById = async () => {
     let { status, msg, data } = await fetch.getAddressById(userName.value, addressId.value)
-    if (status) {
-        addressOrigin.value = data
+    if (await status) {
+        addressOrigin.value = await data
         console.log(addressOrigin.value)
         // assign value
         addressName.value = data.addressname
@@ -123,45 +132,17 @@ const getAddressById = async () => {
         addressDistrinct.value = data.distrinct
         addressSubDistrinct.value = data.subDistrinct
         addressZip.value = data.postalCode
+    }else{
+        isShowAlert.value=true
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        alertTime.value=10
+        getDataStatus.value=false
     }
 }
 // submit button
 const AddressSubmit = async () => {
     let submitStatus = true
-    // console.log(validation.textRange(address.value, 1, 50))
-    //validate data every thing can do
-    // if(addressName.value.length === 0){
-    //     submitStatus=false
-    //     nameS.value=true
-    //     nameM.value="Please input your address's name"
-    // }
-    // if(address.value.length === 0){
-    //     submitStatus=false
-    //     addressS.value=true
-    //     addressM.value="Please input your address"
-    // }
-    // if(addressProvince.value.length === 0){
-    //     submitStatus=false
-    //     provinceS.value=true
-    //     provinceM.value="Please input your province"
-    // }
-    // if(addressDistrinct.value.length === 0){
-    //     submitStatus=false
-    //     districtS.value=true 
-    //     districtM.value="Please input your district"
-    // }
-    // if(addressZip.value.length !== 5){
-    //     submitStatus=false
-    //     zipS.value=true
-    //     zipM.value="Please input your zip"
-    // }
-    // if(addressPhone.value.length !== 10 && addressPhone.value.length !== 11){
-    //     submitStatus=false
-    //     phoneS.value=true
-    //     phoneM.value="Please input your phone"
-    // }
-
-
     if (!validation.text(addressName.value) || !validation.textRange(addressName.value, 50, 1)) {
         submitStatus = false
         nameS.value = true
@@ -217,11 +198,16 @@ const AddressSubmit = async () => {
 
             let { status, msg } = await fetch.addAddress(userName.value, isAddress.value.data)
             // let status =true
-            if (status) {
+            if (await status) {
                 console.log('add new success')
                 goAddress()
             } else {
                 // error from server
+                isShowAlert.value=true
+                alertType.value=1
+                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                alertTime.value=10
+                getDataStatus.value=false
             }
         } else //edit mode
             if (isEditMode.value && addressId.value.length != 0) {
@@ -234,12 +220,26 @@ const AddressSubmit = async () => {
                         goAddress()
                     } else {
                         // error from server
+                        isShowAlert.value=true
+                        alertType.value=1
+                        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                        alertTime.value=10
+                        getDataStatus.value=false
                     }
                 }
             }
     }
 }
 
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
+    goAddress()
+}
 
 onBeforeMount(async () => {
     //get username
@@ -452,6 +452,7 @@ onBeforeMount(async () => {
                 Save
             </button>
         </div>
+        <BaseAlert name="order_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
     </div>
 </template>
 <style scoped>
