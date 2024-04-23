@@ -174,7 +174,7 @@ onBeforeMount(async () => {
                 </div>
                 <!-- default -->
                 <div v-if="bankDefault!=undefined" class="wrapper_bank_component">
-                    <BaseBankItem name="bank_default" :item-name="bankDefault.bankname" :item-id="bankDefault.paymentId" :item-number="bankDefault.bankAccount" :item-description="fullNameBank(bankDefault.bankCode)" :is-default="true" :show-bin-btn="false" :show-set-d-btn="false" @showConfirm="showConfirm" @goUpdate="goUpdate" />
+                    <BaseBankItem name="bank_default" :item-name="bankDefault.bankname" :item-id="bankDefault.paymentId" :item-number="bankDefault.bankAccount" :item-description="fullNameBank(bankDefault.bankCode)" :is-default="true" :show-bin-btn="false" :showDefaultIcon="true" :show-set-d-btn="false" @showConfirm="showConfirm" @goUpdate="goUpdate" />
                 </div>
                 
                 <!-- bank list -->
