@@ -1164,7 +1164,7 @@ onMounted(async()=>{
 .content_orders .order_status{
     display: flex;
     /* width: fit-content; */
-    width: min(6.667dvw,96px);
+    width: min(7.5dvw,108px);
     padding-left: min(0.833dvw,12px);
     /* min-width: min(7.5dvw,108px); */
     /* max-width: 7.5vw; */
@@ -1283,29 +1283,29 @@ onMounted(async()=>{
 } */
 .order_item .order_status div{
     display: flex;
-    width: 100%;
+    /* width: 100%; */
+    width: min(7.5dvw,108px);
     height: 100%;
     justify-content: center;
     align-items: center;
     position: relative;
     /* padding: 12px 0px 12px 12px; */
-    
 }
 .order_item .order_status div> select{
+    /* appearance: none; */
     display: flex;
     /* width: fit-content; */
     /* min-width: min(6.667dvw,96px); */
     flex-direction: column;
     width: min(6.667dvw,96px);
     height: min(1.667dvw,24px);
-    padding: min(0.278dvw,4px);
+    padding: min(0.278dvw,4px) min(0.556dvw,8px) min(0.278dvw,4px) 0px;
     gap: min(0.278dvw,4px);
     border: none;
     border-radius: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    background-color:#EEEEEE;
     font-weight: 500;
     font-size: min(0.833dvw,12px);
     line-height: 136%;
