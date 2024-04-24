@@ -51,6 +51,8 @@ const errS = ref(false)
 const errM = ref("")
 const errProdS = ref(false)
 const errProdM = ref("")
+const errSkuS = ref(false)
+const errSkuM = ref("")
 
 // for set format input data
 const formDataProduct = computed(() => {
@@ -110,7 +112,7 @@ const formDataProduct = computed(() => {
                     }
         }
     }
-    
+
     // send data
     if (status) {
         productTag.value = tagText.value.split(",")
@@ -387,9 +389,13 @@ const deleteStyle = async (skuId = '') => {
         let { status, msg } = await fetch.deleteProductStyle(productId.value, skuId)
         if (status) {
             console.log('delete style successful')
+            styleStatusClear()
+            removeImgStyle(styleImgList.value.indexOf(skuId))
             await getProductDetail(productId.value)
         } else {
             console.log('cannot delete style')
+            errSkuS.value = true
+            errSkuM.value = msg
         }
     }
 }
@@ -670,8 +676,6 @@ onBeforeMount(async () => {
 })
 onMounted(() => {
     addVariance()
-
-
 })
 onUpdated(async () => {
     // reassign every updated
@@ -819,7 +823,7 @@ onUpdated(async () => {
                         <h4>
                             Product Style
                         </h4>
-                        <button @click="showInputFiel">
+                        <button @click="showInputFiel" v-if="productStyleList.length < maxVariance">
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -967,7 +971,7 @@ onUpdated(async () => {
                             </div>
                         </div>
                         <!-- add variation -->
-                        <div @click="addVariance" class="input_field">
+                        <div @click="addVariance" class="input_field" v-if="styleVariance.length < maxVariance">
                             <button class="new_variance">
                                 <div>
                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
@@ -1077,9 +1081,21 @@ onUpdated(async () => {
                                         </span>
                                     </p>
                                 </div>
-
                             </div>
-                            <!-- </div> -->
+                        </div>
+                        <!-- worning -->
+                        <div v-show="errSkuS" class="wrapper_errorMsg">
+                            <div>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 8.99951C1.5 4.86026 4.86 1.49951 9 1.49951C13.1475 1.49951 16.5 4.86026 16.5 8.99951C16.5 13.1403 13.1475 16.4995 9 16.4995C4.86 16.4995 1.5 13.1403 1.5 8.99951ZM8.34 6.15701C8.34 5.79776 8.64 5.49701 9 5.49701C9.36 5.49701 9.6525 5.79776 9.6525 6.15701V9.47201C9.6525 9.83276 9.36 10.1245 9 10.1245C8.64 10.1245 8.34 9.83276 8.34 9.47201V6.15701ZM9.0075 12.5103C8.64 12.5103 8.3475 12.2103 8.3475 11.8503C8.3475 11.4903 8.64 11.1978 9 11.1978C9.3675 11.1978 9.66 11.4903 9.66 11.8503C9.66 12.2103 9.3675 12.5103 9.0075 12.5103Z"
+                                        fill="#F75555" />
+                                </svg>
+                                <p>
+                                    {{ errSkuM }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1104,13 +1120,13 @@ onUpdated(async () => {
 
 .wrapper_all {
     width: inherit;
-    min-width: min(64.444dvw,928px);
+    min-width: min(64.444dvw, 928px);
     height: 100%;
     /* min-height: 100%; */
     /* max-height: 200dvh; */
     overflow: hidden;
     /* border: none; */
-    gap: min(1.667dvw,24px);
+    gap: min(1.667dvw, 24px);
 }
 
 .wrapper_shop {
@@ -1120,11 +1136,11 @@ onUpdated(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    gap: min(1.667dvw,24px);
+    gap: min(1.667dvw, 24px);
     overflow: hidden;
     border: none;
-    border-radius: min(0.556dvw,8px);
-    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
+    border-radius: min(0.556dvw, 8px);
+    box-shadow: 0px min(0.069dvw, 1px) min(0.208dvw, 3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw, 1px) min(0.139dvw, 2px) rgba(0, 0, 0, 0.06);
 }
 
 .wrapper_shop_create {
@@ -1139,9 +1155,9 @@ onUpdated(async () => {
     background-color: #FFFFFF;
     overflow: hidden;
     border: none;
-    border-radius: min(0.556dvw,8px);
-    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
-    gap: min(1.667dvw,24px);
+    border-radius: min(0.556dvw, 8px);
+    box-shadow: 0px min(0.069dvw, 1px) min(0.208dvw, 3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw, 1px) min(0.139dvw, 2px) rgba(0, 0, 0, 0.06);
+    gap: min(1.667dvw, 24px);
 }
 
 .shop_create {
@@ -1151,10 +1167,10 @@ onUpdated(async () => {
     height: fit-content;
     flex-direction: column;
     justify-content: center;
-    padding: min(1.389dvw,20px);
+    padding: min(1.389dvw, 20px);
     align-items: start;
     /* align-items: center; */
-    gap: min(1.667dvw,24px);
+    gap: min(1.667dvw, 24px);
     /* background-color: #3683c7; */
 }
 
@@ -1164,15 +1180,15 @@ onUpdated(async () => {
     height: inherit;
     justify-content: space-between;
     align-items: center;
-    gap: min(1.389dvw,20px);
+    gap: min(1.389dvw, 20px);
     /* background-color: #42c736; */
 }
 
 .header_shop_create h4 {
     display: flex;
     width: 100%;
-    height: min(1.944dvw,28px);
-    font-size: min(1.25dvw,18px);
+    height: min(1.944dvw, 28px);
+    font-size: min(1.25dvw, 18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
@@ -1181,17 +1197,17 @@ onUpdated(async () => {
 .header_shop_create button {
     display: flex;
     width: fit-content;
-    height: min(2.5dvw,36px);
-    border-radius: min(0.278dvw,4px);
+    height: min(2.5dvw, 36px);
+    border-radius: min(0.278dvw, 4px);
     border: none;
-    padding: min(0.556dvw,8px) min(0.833dvw,12px) min(0.556dvw,8px) min(0.556dvw,8px);
-    gap: min(0.278dvw,4px);
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px) min(0.556dvw, 8px) min(0.556dvw, 8px);
+    gap: min(0.278dvw, 4px);
     background-color: #BDBDBD;
     color: #fff;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
-    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
     align-items: center;
     justify-content: start;
     cursor: pointer;
@@ -1199,9 +1215,9 @@ onUpdated(async () => {
 }
 
 .header_shop_create button svg {
-    width: min(0.694dvw,10px);
-    height: min(0.694dvw,10px);
-    margin: min(0.347dvw,5px);
+    width: min(0.694dvw, 10px);
+    height: min(0.694dvw, 10px);
+    margin: min(0.347dvw, 5px);
 }
 
 .container_input {
@@ -1209,7 +1225,7 @@ onUpdated(async () => {
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: min(1.667dvw,24px);
+    gap: min(1.667dvw, 24px);
 }
 
 .container_input .input_field {
@@ -1217,28 +1233,28 @@ onUpdated(async () => {
     width: inherit;
     height: fit-content;
     flex-direction: column;
-    gap: min(0.278dvw,4px);
+    gap: min(0.278dvw, 4px);
 }
 
 .container_input .input_field h5 {
     display: flex;
     width: fit-content;
-    height: min(1.389dvw,20px);
+    height: min(1.389dvw, 20px);
     align-items: center;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
 }
 
 .input_field .input {
     width: 100%;
-    height: min(2.5dvw,36px);
-    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    height: min(2.5dvw, 36px);
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
     background-color: #fff;
-    border: min(0.069dvw,1px) solid;
-    border-radius: min(0.278dvw,4px);
+    border: min(0.069dvw, 1px) solid;
+    border-radius: min(0.278dvw, 4px);
     border-color: #D1D5DB;
-    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
 
 }
 
@@ -1248,16 +1264,16 @@ onUpdated(async () => {
 
 .input_field .input_description {
     width: 100%;
-    height: min(6.944dvw,100px);
-    min-height: min(2.5dvw,36px);
-    max-height: min(10.417dvw,150px);
-    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    height: min(6.944dvw, 100px);
+    min-height: min(2.5dvw, 36px);
+    max-height: min(10.417dvw, 150px);
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
     resize: vertical;
-    border: min(0.069dvw,1px) solid;
-    border-radius: min(0.278dvw,4px);
+    border: min(0.069dvw, 1px) solid;
+    border-radius: min(0.278dvw, 4px);
     border-color: #D1D5DB;
     background-color: #fff;
-    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
 }
 
 .input_field .input_price {
@@ -1272,7 +1288,7 @@ onUpdated(async () => {
 }
 
 .input_field .input_price h6 {
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 400;
     color: #9E9E9E;
@@ -1281,9 +1297,9 @@ onUpdated(async () => {
 .input_field .input_img {
     display: flex;
     width: 100%;
-    height: min(9.722dvw,140px);
-    border: min(0.139dvw,2px) dashed;
-    border-radius: min(0.278dvw,4px);
+    height: min(9.722dvw, 140px);
+    border: min(0.139dvw, 2px) dashed;
+    border-radius: min(0.278dvw, 4px);
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
@@ -1296,13 +1312,13 @@ onUpdated(async () => {
     height: 100%;
     align-items: end;
     justify-content: center;
-    padding-top: min(1.667dvw,24px);
+    padding-top: min(1.667dvw, 24px);
 }
 
 .remove_variance button {
     display: flex;
-    width: min(1.389dvw,20px);
-    height: min(1.389dvw,20px);
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1317,22 +1333,22 @@ onUpdated(async () => {
 .input_field .new_variance {
     display: flex;
     width: 100%;
-    height: min(2.5dvw,36px);
+    height: min(2.5dvw, 36px);
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: min(0.278dvw,4px);
-    padding: min(0.556dvw,8px) min(0.833dvw,12px);
-    gap: min(0.278dvw,4px);
+    border-radius: min(0.278dvw, 4px);
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
+    gap: min(0.278dvw, 4px);
     background-color: #BDBDBD;
-    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
     cursor: pointer;
 }
 
 .new_variance h6 {
     width: fit-content;
     height: fit-content;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 100;
     color: #fff;
@@ -1340,8 +1356,8 @@ onUpdated(async () => {
 
 .new_variance div {
     display: flex;
-    width: min(1.389dvw,20px);
-    height: min(1.389dvw,20px);
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
     justify-content: center;
     align-items: center;
 }
@@ -1353,9 +1369,9 @@ onUpdated(async () => {
 .img_cover>div {
     display: flex;
     width: 100%;
-    height: min(9.722dvw,140px);
-    border: min(0.139dvw,2px) dashed;
-    border-radius: min(0.278dvw,4px);
+    height: min(9.722dvw, 140px);
+    border: min(0.139dvw, 2px) dashed;
+    border-radius: min(0.278dvw, 4px);
     border-color: #E0E0E0;
     justify-content: center;
     align-items: center;
@@ -1372,7 +1388,7 @@ onUpdated(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: min(0.278dvw,4px);
+    gap: min(0.278dvw, 4px);
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -1381,21 +1397,21 @@ onUpdated(async () => {
 
 .img_cover>div label div {
     display: flex;
-    width: min(3.333dvw,48px);
-    height: min(3.333dvw,48px);
+    width: min(3.333dvw, 48px);
+    height: min(3.333dvw, 48px);
     justify-content: center;
     align-items: center;
 }
 
 .img_cover>div label div svg {
-    width: min(2.5dvw,36px);
-    height: min(2.5dvw,36px);
+    width: min(2.5dvw, 36px);
+    height: min(2.5dvw, 36px);
 }
 
 .img_cover>div label h6 {
     width: fit-content;
-    height: min(1.389dvw,20px);
-    font-size: min(0.972dvw,14px);
+    height: min(1.389dvw, 20px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
     color: #757575;
@@ -1408,9 +1424,9 @@ onUpdated(async () => {
 
 .img_cover>div label p {
     width: fit-content;
-    height: min(1.111dvw,16px);
+    height: min(1.111dvw, 16px);
     font-weight: 400;
-    font-size: min(0.833dvw,12px);
+    font-size: min(0.833dvw, 12px);
     color: #6B7280;
 }
 
@@ -1437,7 +1453,7 @@ onUpdated(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: min(0.278dvw,4px);
+    gap: min(0.278dvw, 4px);
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -1446,21 +1462,21 @@ onUpdated(async () => {
 
 .input_img>label>div {
     display: flex;
-    width: min(3.333dvw,48px);
-    height: min(3.333dvw,48px);
+    width: min(3.333dvw, 48px);
+    height: min(3.333dvw, 48px);
     justify-content: center;
     align-items: center;
 }
 
 .input_img>label>div svg {
-    width: min(2.5dvw,36px);
-    height: min(2.5dvw,36px);
+    width: min(2.5dvw, 36px);
+    height: min(2.5dvw, 36px);
 }
 
 .input_img>label h6 {
     width: fit-content;
-    height: min(1.389dvw,20px);
-    font-size: min(0.972dvw,14px);
+    height: min(1.389dvw, 20px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
     color: #757575;
@@ -1473,9 +1489,9 @@ onUpdated(async () => {
 
 .input_img>label p {
     width: fit-content;
-    height: min(1.111dvw,16px);
+    height: min(1.111dvw, 16px);
     font-weight: 400;
-    font-size: min(0.833dvw,12px);
+    font-size: min(0.833dvw, 12px);
     color: #6B7280;
 }
 
@@ -1491,19 +1507,19 @@ onUpdated(async () => {
     width: 100%;
     height: fit-content;
     flex-wrap: wrap;
-    gap: min(0.556dvw,8px);
+    gap: min(0.556dvw, 8px);
 }
 
 .style_preview_img>button {
     display: flex;
-    width: min(9.722dvw,140px);
-    height: min(9.722dvw,140px);
+    width: min(9.722dvw, 140px);
+    height: min(9.722dvw, 140px);
     position: relative;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border: none;
-    border-radius: min(0.278dvw,4px);
+    border-radius: min(0.278dvw, 4px);
     background-color: #212121;
 
 }
@@ -1514,13 +1530,13 @@ onUpdated(async () => {
 
 .style_preview_img .remove {
     display: none;
-    width: min(1.389dvw,20px);
-    height: min(1.389dvw,20px);
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: min(0.347dvw,5px);
-    top: min(0.347dvw,5px);
+    right: min(0.347dvw, 5px);
+    top: min(0.347dvw, 5px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1528,7 +1544,7 @@ onUpdated(async () => {
 }
 
 .style_preview_img>button:hover img {
-    filter: blur(min(0.278dvw,4px));
+    filter: blur(min(0.278dvw, 4px));
 
 }
 
@@ -1540,11 +1556,11 @@ onUpdated(async () => {
 
 .style_preview_img>label {
     display: flex;
-    width: min(9.722dvw,140px);
-    height: min(9.722dvw,140px);
+    width: min(9.722dvw, 140px);
+    height: min(9.722dvw, 140px);
     justify-content: center;
     align-items: center;
-    border: min(0.139dvw,2px) dashed;
+    border: min(0.139dvw, 2px) dashed;
     border-color: #E0E0E0;
     cursor: pointer;
 }
@@ -1558,24 +1574,24 @@ onUpdated(async () => {
 
 .style_preview_img>label>div div {
     display: flex;
-    width: min(3.056dvw,44px);
-    height: min(3.056dvw,44px);
+    width: min(3.056dvw, 44px);
+    height: min(3.056dvw, 44px);
     justify-content: center;
     align-items: center;
-    gap: min(0.278dvw,4px);
+    gap: min(0.278dvw, 4px);
 }
 
 .style_preview_img>label>div div svg {
-    width: min(2.222dvw,32px);
+    width: min(2.222dvw, 32px);
     height: auto;
 }
 
 .style_preview_img>label>div h6 {
     display: flex;
     width: fit-content;
-    height: min(1.389dvw,20px);
+    height: min(1.389dvw, 20px);
     align-items: center;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
     color: #26AC34;
@@ -1592,7 +1608,7 @@ onUpdated(async () => {
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: min(1.667dvw,24px);
+    gap: min(1.667dvw, 24px);
 }
 
 .product_list {
@@ -1605,8 +1621,8 @@ onUpdated(async () => {
 .product_list .product_item {
     display: flex;
     width: 100%;
-    height: min(6.944dvw,100px);
-    padding: min(0.833dvw,12px) 0px;
+    height: min(6.944dvw, 100px);
+    padding: min(0.833dvw, 12px) 0px;
 }
 
 .product_item .product_info {
@@ -1624,11 +1640,11 @@ onUpdated(async () => {
 /* img */
 .product_img {
     display: flex;
-    width: min(5.278dvw,76px);
-    height: min(5.278dvw,76px);
+    width: min(5.278dvw, 76px);
+    height: min(5.278dvw, 76px);
     overflow: hidden;
     border: none;
-    border-radius: min(0.278dvw,4px);
+    border-radius: min(0.278dvw, 4px);
     justify-content: center;
     align-items: center;
     background-color: #D9D9D9;
@@ -1643,7 +1659,7 @@ onUpdated(async () => {
     display: flex;
     width: 100%;
     height: 100%;
-    padding-left: min(1.667dvw,24px);
+    padding-left: min(1.667dvw, 24px);
     overflow: hidden;
     flex-direction: column;
     justify-content: space-between;
@@ -1653,7 +1669,7 @@ onUpdated(async () => {
 .product_detail .header {
     display: flex;
     width: 100%;
-    height: min(1.389dvw,20px);
+    height: min(1.389dvw, 20px);
     justify-content: space-between;
 }
 
@@ -1662,13 +1678,13 @@ onUpdated(async () => {
     display: flex;
     width: 100%;
     height: 100%;
-    gap: min(0.833dvw,12px);
+    gap: min(0.833dvw, 12px);
 }
 
 .info h5 {
     width: fit-content;
     height: fit-content;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
     color: #212121
@@ -1677,7 +1693,7 @@ onUpdated(async () => {
 .info h6 {
     width: fit-content;
     height: fit-content;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 400;
     color: #616161;
@@ -1689,13 +1705,13 @@ onUpdated(async () => {
     display: flex;
     width: fit-content;
     height: 100%;
-    gap: min(0.556dvw,8px);
+    gap: min(0.556dvw, 8px);
 }
 
 .operator button {
     display: flex;
-    width: min(1.389dvw,20px);
-    height: min(1.389dvw,20px);
+    width: min(1.389dvw, 20px);
+    height: min(1.389dvw, 20px);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -1713,12 +1729,12 @@ onUpdated(async () => {
 .product_detail .price {
     display: flex;
     width: 100%;
-    height: min(1.667dvw,24px);
+    height: min(1.667dvw, 24px);
     align-items: center;
 }
 
 .price h6 {
-    font-size: min(1.111dvw,16px);
+    font-size: min(1.111dvw, 16px);
     font-weight: 400;
     color: #26AC34;
     text-overflow: ellipsis;
@@ -1728,14 +1744,14 @@ onUpdated(async () => {
 .product_detail .variation {
     display: flex;
     width: 100%;
-    height: min(1.389dvw,20px);
-    gap: min(1.667dvw,24px);
+    height: min(1.389dvw, 20px);
+    gap: min(1.667dvw, 24px);
 }
 
 .variation h6 {
     width: fit-content;
     height: 100%;
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 500;
     color: #212121;
@@ -1744,7 +1760,7 @@ onUpdated(async () => {
 }
 
 .variation p {
-    font-size: min(0.972dvw,14px);
+    font-size: min(0.972dvw, 14px);
     line-height: 144%;
     font-weight: 400;
     color: #616161;
@@ -1783,7 +1799,7 @@ onUpdated(async () => {
     font-weight: 400;
     line-height: 136%;
     /* 16.32px */
-    letter-spacing: min(0.014dvw,0.2px);
+    letter-spacing: min(0.014dvw, 0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1792,20 +1808,20 @@ onUpdated(async () => {
 .submit {
     display: flex;
     width: 100%;
-    height: min(4.167dvw,60px);
-    padding: min(0.833dvw,12px) min(1.389dvw,20px);
-    gap: min(0.556dvw,8px);
+    height: min(4.167dvw, 60px);
+    padding: min(0.833dvw, 12px) min(1.389dvw, 20px);
+    gap: min(0.556dvw, 8px);
     justify-content: end;
     background-color: #FAFAFA;
 }
 
 .submit button {
-    width: min(5.556dvw,80px);
-    height: min(2.5dvw,36px);
-    border: min(0.069dvw,1px) solid;
-    padding: min(0.556dvw,8px) min(0.833dvw,12px);
-    border-radius: min(0.278dvw,4px);
-    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
+    width: min(5.556dvw, 80px);
+    height: min(2.5dvw, 36px);
+    border: min(0.069dvw, 1px) solid;
+    padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
+    border-radius: min(0.278dvw, 4px);
+    box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
     cursor: pointer;
 }
 
