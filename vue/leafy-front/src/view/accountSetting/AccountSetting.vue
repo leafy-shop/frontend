@@ -2,18 +2,36 @@
 import BaseMenu from '../../components/BaseMenu.vue';
 import BaseFooter from '../../components/BaseFooter.vue';
 import {useRouter} from 'vue-router'
-import {onMounted, onUpdated, ref,onBeforeMount} from 'vue'
+import {onMounted, onUpdated, ref,onBeforeMount,computed} from 'vue'
 import cookie from '../../JS/cookie';
 const myRouter =useRouter()
-const goProfile=()=>myRouter.push({name:'Profile_AS'})
-const goAddress=()=>myRouter.push({name:'Address_AS'})
-const goChangePW=()=>myRouter.push({name:'ChangePW_AS'})
-const goBank=()=>myRouter.push({name:'Bank_AS'})
-const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
-const goMyShop=()=>myRouter.push({name:'Shop_AS'})
-const goOrder=()=>myRouter.push({name:'Order_AS'})
-const goMyGallery=()=>myRouter.push({name:'MyGallery_AS'})
-const goSignIn=()=>myRouter.push({name:'SignIn'})
+const goProfile=()=>{
+    myRouter.push({name:'Profile_AS'})
+}
+const goAddress=()=>{
+    myRouter.push({name:'Address_AS'})
+}
+const goChangePW=()=>{
+    myRouter.push({name:'ChangePW_AS'})
+}
+const goBank=()=>{
+    myRouter.push({name:'Bank_AS'})
+}
+const goMyPurchase=()=>{
+    myRouter.push({name:'MyPurchase'})
+}
+const goMyShop=()=>{
+    myRouter.push({name:'Shop_AS'})
+}
+const goOrder=()=>{
+    myRouter.push({name:'Order_AS'})
+}
+const goMyGallery=()=>{
+    myRouter.push({name:'MyGallery_AS'})
+}
+const goSignIn=()=>{
+    myRouter.push({name:'SignIn'})
+}
 //common attribute
 const userRole=ref('')
 const isShowNested=ref(false) //show nested link my shop
@@ -32,10 +50,29 @@ const arrayLink=ref([
     {name:'orders',index:6,child:1},
     
 ])
+// for check mobile?
+const isMobile=ref(false)
+const showContent =ref(false)
+const checkWidth=()=>{
+    if(window.innerWidth<=432){ // is mobile
+        // console.log(window.innerWidth)
+        // console.log('this is mobile')
+        isMobile.value=true
+    }else{ // not mobile
+        // console.log(window.innerWidth)
+        // console.log('this is not mobile')
+        isMobile.value=false
+    }   
+}
+
+// show content page
+const showContentPage=()=>{
+    showContent.value=true
+}
+
 // for show nested link
 const showNestedLink=()=>{
     goMyShop()
-
 }
 
 //function for detect link
@@ -53,21 +90,25 @@ const linkSelected=()=>{
             linkLocation=i
         }
     }
+    if(element[linkLocation.index]!=undefined){
+        element[linkLocation.index].classList.add('link_selected')
     
-    element[linkLocation.index].classList.add('link_selected')
-    if(linkLocation.index==6){
-        
-        isShowNested.value=true
-        if(linkLocation.child!=undefined){
-            //add
-            document.getElementsByClassName('child_link')[linkLocation.child].classList.add('link_selected')
+        if(linkLocation.index==6){
+            
+            isShowNested.value=true
+            if(linkLocation.child!=undefined){
+                //add
+                document.getElementsByClassName('child_link')[linkLocation.child].classList.add('link_selected')
+            }
         }
     }
+    
 }
 
 onMounted(()=>{
-   
+    checkWidth() // for check window size
     linkSelected()
+    
 })
 onBeforeMount(()=>{
     if(cookie.decrypt()!=undefined){
@@ -194,9 +235,12 @@ onUpdated(()=>{
             </div>
             
         </div>
-        <!-- nested page -->
-        <div class="wrapper_content">
-            <router-view></router-view>
+        <div class="container_menu_mobile">
+
+        </div>
+        <!-- nested page v-show="(isMobile&&showContent)||!isMobile" -->
+        <div  class="wrapper_content">
+            <router-view ></router-view>
         </div>
     </div>
     <BaseFooter/>
@@ -215,7 +259,9 @@ onUpdated(()=>{
     gap: min(2.222dvw,32px);
     background-color: #F5F5F5;
 }
-
+.container_menu_mobile{
+    display: none;
+}
 .container_menu{
     display: flex;
     width: min(11.111dvw,160px);
