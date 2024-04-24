@@ -41,19 +41,16 @@ onBeforeUpdate(()=>{
         </h5>
         <!-- for show content long text -->
         <div class="description">
-            <!-- <p>
-                Polyscias are versatile, small, indoor, branching trees. They grow in a compact, upright manner, making them suitable even in smaller spaces. Their thick, woody trunks are their main appeal. Each plant is unique as the large, rounded leaves can develop anywhere along the length of the branches, exposing different degrees of woody stem on each plant. They are often called Dinner Plate Aralia due to their round, flat leaf shape. Polyscias translates from the Greek as "many" and "shade", a reference to their abundant foliage.
-            </p>
-            <br> -->
             <p id="content_description">
                 
             </p>
-            <!-- <textarea name="description"  disabled>{{ msg }}</textarea> -->
-
         </div>
     </div>
 </template>
 <style scoped>
+*{
+    box-sizing: border-box
+}
 .wrapper_description{
     display: flex;
     width: 100%;
@@ -84,4 +81,21 @@ onBeforeUpdate(()=>{
     background-color: transparent;
 }
 
+/* mobile */
+@media (width<=432px){
+    .wrapper_description{
+        padding: 12px 20px;
+        border-radius:  9px;
+        gap: 8px;
+    }
+    .wrapper_description h5 {
+        font-size: 16px;
+    }
+    .description p{
+        font-size: 14px;
+    }
+    br::before{
+        white-space: pre-line;
+    }
+}
 </style>
