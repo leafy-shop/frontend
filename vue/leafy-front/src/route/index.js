@@ -224,7 +224,10 @@ router.beforeEach(async (to, from, next) => {
             case "AccountSetting":
                 if (!isAuthenticated) {
                     next({ name: "SignIn" });
-                } else {
+                } else
+                if(window.innerWidth<=432){ //if is mobile
+                    next();
+                }else {
                     next({ name: "Profile_AS" });
                 }
                 break;
