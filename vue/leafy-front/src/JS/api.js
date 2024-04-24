@@ -215,9 +215,9 @@ const fetch = {
         let { status } = await this.getImage(endpoint, id, type)
 
         if (status) {
-            let deleteRes = await this.deleteImage(endpoint, id, type)
+            // let deleteRes = await this.deleteImage(endpoint, id, type)
             let addRes = await this.addImage(data, endpoint, id, type)
-            if (deleteRes.status == true && addRes.status == true) {
+            if (addRes.status == true) {
                 returnData.status = true
                 validation.function_Status('updated image successful', true)
             } else {
