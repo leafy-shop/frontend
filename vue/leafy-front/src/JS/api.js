@@ -215,9 +215,9 @@ const fetch = {
         let { status } = await this.getImage(endpoint, id, type)
 
         if (status) {
-            let deleteRes = await this.deleteImage(endpoint, id, type)
+            // let deleteRes = await this.deleteImage(endpoint, id, type)
             let addRes = await this.addImage(data, endpoint, id, type)
-            if (deleteRes.status == true && addRes.status == true) {
+            if (addRes.status == true) {
                 returnData.status = true
                 validation.function_Status('updated image successful', true)
             } else {
@@ -587,7 +587,10 @@ const fetch = {
         let returnData = { status: false, msg: '' }
         try {
             let url = `${origin}/api/products/${productId}/${skuId}`
+            let urlImage = `${origin}/api/images/products/${productId}/${skuId}/all`
+            await axios.delete(urlImage)
             let res = await axios.delete(url)
+
             if (res.status == 200) {
                 validation.function_Status('Product style deleted.', true,)
                 returnData.status = true
@@ -601,6 +604,7 @@ const fetch = {
                 returnData.status = false
             }
             else {
+                returnData.msg = error.response.data.error
                 returnData.status = false
             }
             return returnData
