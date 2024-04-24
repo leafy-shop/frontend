@@ -634,7 +634,8 @@ onUpdated(() => {
 .styles ul li button img {
   display: flex;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   justify-content: center;
   align-items: center;
 }
@@ -685,7 +686,8 @@ onUpdated(() => {
 .show_image img {
   display: flex;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   justify-content: center;
   align-items: center;
   background-position: center;
@@ -812,7 +814,8 @@ onUpdated(() => {
 }
 .product_img img{
   width:100%;
-  height:auto;
+  height:100%;
+  object-fit: cover;
 }
 /* .grid_container button {
     width: min(6.111dvw, 88px);
