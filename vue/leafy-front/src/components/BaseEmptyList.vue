@@ -34,43 +34,44 @@ const showEmpty=computed(()=>props.showEmpty)
 .wrapper_empty{
     display: flex;
     width: 100%;
-    height: 200px;
+    height: min(13.889dvw,200px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color:#fff;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
 }
 .wrapper_empty > h4{
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
-    color:#000000;
+    color:#212121;
 }
 /* HTML: <div class="loader"></div> */
 .loader {
-  width: 65px;
-  height: 30px;
+  width: min(4.444dvw,64px);
+  height: min(1.944dvw,28px);
   position: relative;
 }
 .loader:before {
   content: "";
   position: absolute;
-  border-radius: 50px;
-  box-shadow: 0 0 0 3px inset #26AC34;
+  border-radius: min(3.472dvw,50px);
+  box-shadow: 0 0 0 min(0.208dvw,3px) inset #26AC34;
   animation: l3 0.75s infinite alternate;
 }
 @keyframes l3 {
   0% {
-    inset: 0 35px 0 0;
+    inset: 0 min(2.431dvw,35px) 0 0;
   }
   50% {
     inset: 0 0 0 0;
   }
   100% {
-    inset: 0 0 0 35px;
+    inset: 0 0 0 min(2.431dvw,35px);
   }
 }
 </style>

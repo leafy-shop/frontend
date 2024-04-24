@@ -245,7 +245,6 @@ onBeforeMount(async()=>{
                 </p>
                 
             </div>
-        </div>
         <!-- container btn -->
         <div class="wrapper_btn">
             <div class="container_btn">
@@ -256,7 +255,9 @@ onBeforeMount(async()=>{
                     Payment Completed
                 </button>
             </div>
+        </div>    
         </div>
+        
         <BaseAlert name="confirm_payment_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"  />
     </div>
     <BaseFooter/>
@@ -312,25 +313,26 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     min-height: 90dvh;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding : 20px 0px;
+    padding: min(1.389dvw,20px) min(29.167dvw,420px);
 }
 .confirm_payment{
     display: flex;
-    width: 600px;
-    max-width: 100%;
+    /* width: min(41.667dvw,600px); */
+    /* max-width: 100%; */
+    width: 100%;
     height: fit-content;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
     flex-direction: column
 }
 /* header */
 .header_confirm_payment{
     display: flex;
     width: 100%;
-    height: 24px;
+    height: min(1.667dvw,24px);
     justify-content: start;
     align-items: center;
 }
@@ -339,7 +341,7 @@ onBeforeMount(async()=>{
     max-width: 100%;
     height: fit-content;
     white-space: nowrap;
-    font-size: 24px;
+    font-size: min(1.667dvw,24px);
     font-weight: 500;
     color: #212121;
     overflow: hidden;
@@ -356,17 +358,18 @@ onBeforeMount(async()=>{
 .container_payment_detail .payment_total{
     display: flex;
     width: 100%;
-    height:32px;
+    height:min(2.222dvw,32px);
     justify-content: space-between;
     align-items: start;
-    border-bottom: 1px solid #EEEEEE;
+    border-bottom: min(0.069dvw,1px) solid #EEEEEE;
 }
 .payment_total h5{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
     color: #212121;
     overflow: hidden;
@@ -377,7 +380,8 @@ onBeforeMount(async()=>{
     max-width: 100%;
     height: fit-content;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 700;
     color: #26AC34;
     overflow: hidden;
@@ -442,7 +446,7 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
 }
@@ -450,26 +454,27 @@ onBeforeMount(async()=>{
 .container_qr_sample .header_qr{
     display: flex;
     width: 100%;
-    height: 40px;;
+    height: min(2.778dvw,40px);
     background-color: #1A3761;
     justify-content: center;
     align-items: center;
 }
 .header_qr img{
-    width: 100px;
+    width: min(6.944dvw,100px);
     height: auto;
 }
 .container_qr_sample .qr_img{
     display: flex;
-    width: 200px;
-    height: 200px;
+    width: min(13.889dvw,200px);
+    height: min(13.889dvw,200px);
     justify-content: center;
     align-items: center;
     overflow: hidden
 }
 .qr_img img{
 width: 100%;
-height: auto;
+height: 100%;
+object-fit: cover;
 }
 /* destination */
 .qr_destination{
@@ -477,7 +482,7 @@ height: auto;
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     justify-content: center;
     align-items: center;
 }
@@ -486,7 +491,8 @@ height: auto;
     max-width: 100%;
     height: fit-content;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 400;
     color: #26AC34;
     overflow: hidden;
@@ -497,7 +503,8 @@ height: auto;
     max-width: 100%;
     height: fit-content;
     white-space: nowrap;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
+    line-height: 136%;
     font-weight: 500;
     color: #757575;
     overflow: hidden;
@@ -509,18 +516,26 @@ height: auto;
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 12px;
+    gap: min(0.833dvw,12px);
 }
 .container_instruction .header_instruction{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
-    color: #000000;
+    color: #212121;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.container_instruction li {
+    font-weight: 400;
+    font-size: min(0.833dvw,12px);
+    line-height: 136%;
+    letter-spacing: min(0.014dvw,0.2px);
+    color: #757575;
 }
 .container_instruction .description_instruction{
     /* display: flex; */
@@ -533,14 +548,14 @@ height: auto;
     font-size: 12px;
     font-weight: 400;
     color: #757575;
-
 }
 /* remark */
 .description_remark{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
+    line-height: 136%;
     font-weight: 400;
     color: #757575;
 }
@@ -552,28 +567,30 @@ height: auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 12px 0px;
+    padding: min(0.833dvw,12px) 0px;
 }
 .container_btn{
     display: flex;
-    width: 600px;
+    /* width: min(41.667dvw,600px); */
+    width: 100%;
     height: fit-content;
     justify-content: end;
     align-items: center;
     /* background-color: #000000 */
-    gap: 8px;
+    gap: min(0.556dvw,8px);
 }
 .container_btn >button{
     display: flex;
     width: fit-content;
-    height: 36px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    height: min(2.5dvw,36px);;
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    border-radius: min(0.278dvw,4px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
     border: none;
-    gap: 8px;
-    font-size: 14px;
+    gap: min(0.556dvw,8px);
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
     font-weight: 500;
 }
 .container_btn .back{
@@ -598,17 +615,17 @@ height: auto;
     .container_access_mobile{
         display: flex;
         width: 100%;
-        height: 60px;
-        padding: 12px 20px;
+        height: min(13.889dvw,60px);
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0px 1px 3px 0px #0000001A;
+        box-shadow: 0px min(0.231dvw,1px) min(0.694dvw,3px) 0px #0000001A;
         background-color: #fff;
     }
     .container_access_mobile .go_back_btn{
         display: flex;
-        width: 24px;
-        height: 24px;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
         justify-content: center;
         align-items: center;
         border: none;
@@ -619,35 +636,40 @@ height: auto;
         display: flex;
         width: fit-content;
         height: fit-content;
-        font-size:18px ;
+        font-size: min(4.167dvw,18px);
         font-weight: 700;
         color: #212121;
-        gap: 4px;
+        gap: min(0.926dvw,4px);
         justify-content: center;
         align-items: center;
     }
     .container_access_mobile h5.header span{
         width: fit-content;
         height: fit-content;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 400;
         color: #616161;
         vertical-align: center;
     }
     .container_access_mobile div.empty{
         display: flex;
-        width: 24px;
-        height: 24px;
-        letter-spacing: 0.20000000298023224px;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
+        letter-spacing: min(0.046dvw,0.2px);
     }
   /* payment */
     .wrapper_confirm_payment{
-        gap: 8px;
-        padding : 8px 0px 12px 0px;
+        justify-content: start;
+        align-items: center;
+        gap: min(1.852dvw,8px);
+        padding : min(1.852dvw,8px) 0px min(2.778dvw,12px) 0px;
+        background: #EEE;
     }
     .confirm_payment{ 
         width: 100%;
-        gap: 8px;
+        gap: min(1.852dvw,8px);
+        background-color: #FFF;
     }
     /* header */
     .header_confirm_payment{
@@ -658,17 +680,19 @@ height: auto;
     } */
     /* payment total */
     .container_payment_detail .payment_total{
-        height:44px;
-        padding: 0px 20px;
+        height: min(10.185dvw,44px);
+        padding: 0px min(4.63dvw,20px);
         border-bottom: 0px;
         align-items: center;
     }
     .payment_total h5{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 500;
     }
     .payment_total h6{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 700;
     }
     /* payment_within */
@@ -677,55 +701,69 @@ height: auto;
     }
     /* qr sample */
     .container_qr_sample{
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     /* header */
     .container_qr_sample .header_qr{
-        height: 40px;
+        height: min(9.259dvw,40px);
     }
-    /* .header_qr img{
-    } */
+    .header_qr img{
+        width: min(23.148dvw,100px);
+    }
     .container_qr_sample .qr_img{
-        width: 200px;
-        height: 200px;
+        width: min(46.296dvw,200px);
+        height: min(46.296dvw,200px);
     }
     /* .qr_img img{
     } */
     /* destination */
     .qr_destination{
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .qr_destination h6{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 400;
     }
     .qr_destination p{
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
+        line-height: 136%;
         font-weight: 500;
     }
     /* instruction */
     .container_instruction{
-        gap: 12px;
-        padding: 0px 20px;
+        gap: min(2.778dvw,12px);
+        padding: 0px min(4.63dvw,20px);
     }
     .container_instruction .header_instruction{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 500;
     }
+    .container_instruction li {
+        font-weight: 400;
+        font-size: min(2.315dvw,10px);
+        line-height: 120%;
+        letter-spacing: min(0.046dvw,0.2px);
+        color: #757575;
+    }
     .container_instruction .description_instruction{
-        font-size: 10px;
+        font-size: min(2.315dvw,10px);
+        line-height: 120%;
         font-weight: 400;
     }
     /* remark */
     .description_remark{
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
+        line-height: 136%;
         font-weight: 400;
     }
     /* container button */
     .wrapper_btn{
-        padding: 12px 20px;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
         justify-content: center;
         align-items: center;
+        background-color: #FFF;
     }
     .container_btn{
         display: flex;
@@ -733,19 +771,20 @@ height: auto;
         height: fit-content;
         justify-content: end;
         align-items: center;
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     .container_btn >button{
         display: flex;
         width: 100%;
-        height: 36px;
-        padding: 8px 12px;
-        border-radius: 4px;
-        box-shadow: 0px 1px 2px 0px #0000000D;
+        height: min(8.333dvw,36px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        border-radius: min(0.926dvw,4px);
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
         cursor: pointer;
         border: none;
-        gap: 8px;
-        font-size: 14px;
+        gap:min(1.852dvw,8px);
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 500;
         justify-content: center;
         align-items: center;

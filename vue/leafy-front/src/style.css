@@ -29,6 +29,7 @@ min(1.667dvw,24px);
 min(1.944dvw,28px);
 min(2.222dvw,32px);
 min(2.5dvw,36px);
+min(2.431dvw,35px);
 min(2.778dvw,40px);
 min(3.056dvw,44px);
 min(3.333dvw,48px);
@@ -73,6 +74,7 @@ min(31.111dvw,448px);
 min(37.222dvw,536px);
 min(37.5dvw,540px);
 min(37.778dvw,544px);
+min(41.667dvw,600px);
 min(54.167dvw,780px);
 min(61.944dvw,892px);
 min(64.444dvw,928px);
@@ -80,6 +82,24 @@ min(77.778dvw,1120px);
 
 744px
 min(1.075dvw,8px);
+
+432px
+min(0.046dvw,0.2px);
+min(0.231dvw,1px)
+min(0.463dvw,2px)
+min(0.694dvw,3px);
+min(0.926dvw,4px);
+min(1.852dvw,8px);
+min(2.315dvw,10px);
+min(2.778dvw,12px);
+min(3.241dvw,14px);
+min(4.167dvw,18px);
+min(4.63dvw,20px);
+min(5.556dvw,24px);
+min(9.259dvw,40px);
+min(10.185dvw,44px);
+min(13.889dvw,60px);
+min(46.296dvw,200px);
 */
 
 /* :root {

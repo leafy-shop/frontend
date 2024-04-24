@@ -687,6 +687,9 @@ onUpdated(async()=>{
     background-color: inherit;
     border: none;
     cursor: pointer;
+    font-size: min(1.111dvw,16px);
+    font-weight: 400;
+    color: #212121;
 }
 
 .cart_b svg {
@@ -1090,6 +1093,9 @@ svg:hover path:nth-child(2) {
     .cart_b {
         display: flex;
         margin: auto 0px;
+        font-size: min(2.151dvw,16px);
+        font-weight: 400;
+        color: #212121;
     }
 
     .cart_b svg {

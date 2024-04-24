@@ -261,7 +261,7 @@ onMounted(async()=>{
     box-sizing: border-box;
 }
 .header_purchase .sort_item_active{
-    border-bottom: 2px solid #26AC34 ;
+    border-bottom: min(0.139dvw,2px) solid #26AC34 ;
     color: #212121;
 }
 /* .wrapper_all {
@@ -276,7 +276,7 @@ onMounted(async()=>{
     width: inherit;
     height: inherit;
     flex-direction: column;
-    gap: 24px;
+    gap: min(1.667dvw,24px);
     position:relative;
 }
 .purchase{
@@ -284,18 +284,18 @@ onMounted(async()=>{
     width: 100%;
     height: 100%;
     flex-direction: column;
-    gap: 16px;
+    gap: min(1.111dvw,16px);
 }
 /* header */
 .header_purchase{
     display:flex;
     width:100%;
-    height:52px;
+    height:min(3.611dvw,52px);
     justify-content:center;
     align-items:center;
     border:none;
-    border-radius:8px;
-    box-shadow: 0px 1px 3px 0px #0000001A;
+    border-radius:min(0.556dvw,8px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) 0px #0000001A;
     background-color:#fff;
     overflow:hidden;
 }
@@ -315,13 +315,14 @@ onMounted(async()=>{
 .header_purchase ul li button{
     display:flex;
     width:100%;
-    min-width:132px;
+    min-width:min(9.167dvw,132px);
     height:100%;
     border:none;
     /* border-width: 0px 0px 2px 0px; */
     justify-content:center;
     align-items:center;
-    font-size:14px;
+    font-size:min(0.972dvw,14px);
+    line-height: 144%;
     font-weight:500;
     color:#9E9E9E;
     cursor:pointer;
@@ -331,13 +332,13 @@ onMounted(async()=>{
 .search_purchase{
     display:flex;
     width:100%;
-    height:40px;
-    padding:8px 12px;
-    gap:12px;
+    height:min(2.778dvw,40px);
+    padding:min(0.556dvw,8px) min(0.833dvw,12px);
+    gap:min(0.833dvw,12px);
     background-color:#EEEEEE;
     overflow:hidden;
     border:none;
-    border-radius:8px;
+    border-radius:min(0.556dvw,8px);
     align-items:center;
 }
 .search_purchase:focus-within{
@@ -345,14 +346,14 @@ onMounted(async()=>{
 }
 .search_purchase .icon{
     display:flex;
-    width:20px;
-    height:20px;
+    width:min(1.389dvw,20px);
+    height:min(1.389dvw,20px);
     justify-content:center;
     align-items:center;
     cursor:pointer
 }
 .search_purchase .icon svg{
-    width:16px;
+    width:min(1.111dvw,16px);
     height:auto;
 }
 .search_purchase input{
@@ -363,7 +364,7 @@ onMounted(async()=>{
     border:none;
     background-color:transparent;
     color:#757575;
-    font-size:16px;
+    font-size:min(1.111dvw,16px);
     font-weight:400;
 }
 /* content */
@@ -383,7 +384,7 @@ onMounted(async()=>{
     height:fit-content;
     max-height:100%;
     flex-direction:column;
-    gap:16px;
+    gap:min(1.111dvw,16px);
 }
 
 
