@@ -51,15 +51,21 @@ let selectedStyle = ref({})
 const getProductReview=async(page, sortFilter)=>{
     let {status,data} = await fetch.getProductReview(productId, page, sortFilter.sort, sortFilter.name)
     // console.log("this is ",data)
-    totalPageReview.value=data.allPage
-    reviews.value = data.list
-    return data.list
+    if(await status){
+        totalPageReview.value=data.allPage
+        reviews.value = data.list
+        return data.list
+    }
 }
 
 const getStore =async()=>{
     let {status,data} = await fetch.getStore(itemOwner.value)
-    store.value = data
-    return data
+    if(await status){
+        console.log(data)
+        store.value = data
+        return data
+    }
+
 }
 
 const getProductDetail = async (id, selectedId=0) => {
@@ -259,7 +265,7 @@ onMounted(()=>{
 }
 .container_access{
     display: flex;
-    width: auto;
+    width: 100%;
     height: min(3.056dvw,44px);
     background-color: #FFFFFF;
     border-bottom: min(0.069dvw,1px) solid;
@@ -310,7 +316,41 @@ onMounted(()=>{
     border-radius: min(0.556dvw, 8px);
     padding: min(1.389dvw, 20px);
 }
-@media (width <=744px) {
+@media (width<=432px){
+    .container_access{
+        height: 36px;
+        border-bottom: 1px solid #EEEEEE;
+        padding: 0px 20px;
+        gap: 8px;
+    }
+    .container_access svg:nth-child(1){
+        width: 12px;
+        height: 12px;
+    }
+    .right_arrow{
+        display: flex;
+        width: 16px;
+        height: 36px;
+    }
+    .link{
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .wrapper_content{
+        padding: 0px 0px 16px 0px;
+        gap: 8px;
+    }
+    .container_review{
+        
+        gap: 0px;
+        border-radius: 0px;
+        padding: 12px 20px;
+    }
+    
+
+}
+/* @media (width <=744px) {
     .container_access{
         height: min(5.376dvw,40px);
         background-color: #FFFFFF;
@@ -353,5 +393,5 @@ onMounted(()=>{
         border-radius: min(1.075dvw, 8px);
         padding: min(2.151dvw, 16px);
     }
-}
+} */
 </style>
