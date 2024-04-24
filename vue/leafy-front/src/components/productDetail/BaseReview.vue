@@ -230,19 +230,24 @@ onUpdated(() => {
                     </h6>
                 </div>
                 <!-- like for user -->
-                <!-- <div class="wrapper_like">
-                    <button @click="likeReview(review)">
-                        <img src="../../assets/vue.svg" alt="like_icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <div class="wrapper_like">
+                    <!-- <img src="../../assets/vue.svg" alt="like_icon"> -->
+                    <h6>
+                        <svg v-if="review.isLike" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                            @click="likeReview(review)">
+                            <path
+                                d="M1.60001 8.39998C1.60001 8.24239 1.63105 8.08635 1.69135 7.94075C1.75166 7.79516 1.84005 7.66288 1.95148 7.55145C2.06291 7.44002 2.1952 7.35163 2.34079 7.29132C2.48638 7.23101 2.64242 7.19998 2.80001 7.19998C2.95759 7.19998 3.11364 7.23101 3.25923 7.29132C3.40482 7.35163 3.5371 7.44002 3.64853 7.55145C3.75996 7.66288 3.84836 7.79516 3.90866 7.94075C3.96897 8.08635 4.00001 8.24239 4.00001 8.39998V13.2C4.00001 13.5182 3.87358 13.8235 3.64853 14.0485C3.42349 14.2735 3.11827 14.4 2.80001 14.4C2.48175 14.4 2.17652 14.2735 1.95148 14.0485C1.72643 13.8235 1.60001 13.5182 1.60001 13.2V8.39998ZM4.80001 8.26638V12.6104C4.79987 12.9077 4.88258 13.1992 5.03887 13.4521C5.19516 13.7051 5.41883 13.9095 5.68481 14.0424L5.72481 14.0624C6.16872 14.2842 6.65814 14.3998 7.15441 14.4H11.4872C11.8572 14.4001 12.2159 14.272 12.5021 14.0375C12.7882 13.8029 12.9843 13.4764 13.0568 13.1136L14.0168 8.31358C14.0632 8.08147 14.0575 7.84197 14.0002 7.61233C13.9428 7.38269 13.8352 7.16863 13.6852 6.98558C13.5351 6.80254 13.3463 6.65507 13.1324 6.5538C12.9184 6.45254 12.6847 6.4 12.448 6.39998H9.60001V3.19998C9.60001 2.77563 9.43144 2.36866 9.13138 2.0686C8.83132 1.76855 8.42435 1.59998 8.00001 1.59998C7.78783 1.59998 7.58435 1.68426 7.43432 1.83429C7.28429 1.98432 7.20001 2.1878 7.20001 2.39998V2.93358C7.20001 3.62596 6.97544 4.29967 6.56001 4.85358L5.44001 6.34638C5.02458 6.90028 4.80001 7.57399 4.80001 8.26638Z"
+                                fill="#26AC34" />
+                        </svg>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                            @click="likeReview(review)">
                             <path
                                 d="M1.60001 8.39998C1.60001 8.24239 1.63105 8.08635 1.69135 7.94075C1.75166 7.79516 1.84005 7.66288 1.95148 7.55145C2.06291 7.44002 2.1952 7.35163 2.34079 7.29132C2.48638 7.23101 2.64242 7.19998 2.80001 7.19998C2.95759 7.19998 3.11364 7.23101 3.25923 7.29132C3.40482 7.35163 3.5371 7.44002 3.64853 7.55145C3.75996 7.66288 3.84836 7.79516 3.90866 7.94075C3.96897 8.08635 4.00001 8.24239 4.00001 8.39998V13.2C4.00001 13.5182 3.87358 13.8235 3.64853 14.0485C3.42349 14.2735 3.11827 14.4 2.80001 14.4C2.48175 14.4 2.17652 14.2735 1.95148 14.0485C1.72643 13.8235 1.60001 13.5182 1.60001 13.2V8.39998ZM4.80001 8.26638V12.6104C4.79987 12.9077 4.88258 13.1992 5.03887 13.4521C5.19516 13.7051 5.41883 13.9095 5.68481 14.0424L5.72481 14.0624C6.16872 14.2842 6.65814 14.3998 7.15441 14.4H11.4872C11.8572 14.4001 12.2159 14.272 12.5021 14.0375C12.7882 13.8029 12.9843 13.4764 13.0568 13.1136L14.0168 8.31358C14.0632 8.08147 14.0575 7.84197 14.0002 7.61233C13.9428 7.38269 13.8352 7.16863 13.6852 6.98558C13.5351 6.80254 13.3463 6.65507 13.1324 6.5538C12.9184 6.45254 12.6847 6.4 12.448 6.39998H9.60001V3.19998C9.60001 2.77563 9.43144 2.36866 9.13138 2.0686C8.83132 1.76855 8.42435 1.59998 8.00001 1.59998C7.78783 1.59998 7.58435 1.68426 7.43432 1.83429C7.28429 1.98432 7.20001 2.1878 7.20001 2.39998V2.93358C7.20001 3.62596 6.97544 4.29967 6.56001 4.85358L5.44001 6.34638C5.02458 6.90028 4.80001 7.57399 4.80001 8.26638Z"
                                 fill="#BDBDBD" />
                         </svg>
-                    </button>
-                    <h6>
                         {{ review.like }}
                     </h6>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -262,6 +267,7 @@ onUpdated(() => {
     /* background-color: #fff;
     border-radius: min(0.556dvw, 8px); */
 }
+
 .container_header {
     display: flex;
     width: 100%;
@@ -358,7 +364,7 @@ onUpdated(() => {
     font-size: min(1.111dvw, 16px);
     font-weight: 500;
     color: #9E9E9E;
-    
+
 }
 
 .filter_title div {
@@ -368,6 +374,7 @@ onUpdated(() => {
     justify-content: center;
     align-items: center;
 }
+
 /* .selected option h5 {
     font-weight: 500;
     font-size: min(1.111dvw,16px);
@@ -381,8 +388,8 @@ onUpdated(() => {
 .select-items div,
 .select-selected {
     color: #ffffff;
-    padding: min(0.556dvw,8px) min(1.111dvw,16px);
-    border: min(0.069dvw,1px) solid transparent;
+    padding: min(0.556dvw, 8px) min(1.111dvw, 16px);
+    border: min(0.069dvw, 1px) solid transparent;
     border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
     cursor: pointer;
     user-select: none;
@@ -447,15 +454,15 @@ onUpdated(() => {
 .review_info {
     display: flex;
     width: inherit;
-    height: min(3.333dvw,48px);
+    height: min(3.333dvw, 48px);
     gap: min(0.556dvw, 8px);
     align-items: center
 }
 
 .user_img {
     display: flex;
-    width: min(3.333dvw,48px);
-    height: min(3.333dvw,48px);
+    width: min(3.333dvw, 48px);
+    height: min(3.333dvw, 48px);
     justify-content: center;
     align-items: center;
     border: none;
@@ -482,8 +489,8 @@ onUpdated(() => {
 .user_info h6 {
     width: fit-content;
     max-width: 100%;
-    height: min(1.111dvw,16px);
-    font-size: min(0.833dvw,12px);
+    height: min(1.111dvw, 16px);
+    font-size: min(0.833dvw, 12px);
     font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
@@ -581,86 +588,105 @@ onUpdated(() => {
 } */
 
 /* mobile */
-@media (width<=432px){
+@media (width<=432px) {
     .wrapper_Review {
         gap: 8px;
     }
+
     /* .container_header {
     } */
     .container_rating {
         gap: 8px;
     }
+
     .container_rating h5 {
         font-size: 16px;
         font-weight: 500;
     }
+
     .rating_score {
         gap: 4px;
     }
+
     .rating_score h5 {
         font-size: 10px;
     }
+
     .rating_score h5>span {
         font-size: 10px;
     }
+
     .wrapper_rating_list {
         gap: 4px;
     }
+
     .wrapper_sort_filter {
         gap: 4px;
     }
+
     .filter {
         display: none;
     }
+
     /* review */
     /* .review_list{} */
     .review_list h5 {
-        margin:  12px;
-        font-size:  16px;
+        margin: 12px;
+        font-size: 16px;
         font-weight: 500;
     }
+
     .no_review {
         height: 80px;
     }
+
     .review_item {
-        padding:  8px 0px;
+        padding: 8px 0px;
         gap: 8px;
         border-top: 1px solid #E0E0E0;
     }
+
     .review_info {
-        height:28px;
+        height: 28px;
         gap: 8px;
-        
+
     }
+
     .user_img {
         width: 28px;
         height: 28px;
-        
+
     }
+
     .user_info {
         gap: 4px;
     }
+
     .user_info h6 {
         height: 12px;
         font-size: 10px;
     }
+
     .user_info div {
         height: 12px;
     }
+
     /* .review_des {
     } */
     .review_des p {
-        font-size:10px;
+        font-size: 10px;
         font-weight: 400;
     }
+
     .style_type {
         height: 12px;
     }
+
     .style_type h6 {
         font-size: 10px;
         font-weight: 400;
     }
-    
+
 }
 
 
@@ -802,7 +828,7 @@ onUpdated(() => {
 } */
 
 /* @media (width<=376px) { */
-    /* .wrapper_Review {
+/* .wrapper_Review {
         gap: min(1.613dvw, 12px);
     }
     .container_rating{
