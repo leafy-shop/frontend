@@ -1,37 +1,21 @@
 <script setup>
 import BaseMenu from '../../components/BaseMenu.vue';
 import BaseFooter from '../../components/BaseFooter.vue';
-import {useRouter} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
 import {onMounted, onUpdated, ref,onBeforeMount,computed} from 'vue'
 import cookie from '../../JS/cookie';
 const myRouter =useRouter()
-const goProfile=()=>{
-    myRouter.push({name:'Profile_AS'})
-}
-const goAddress=()=>{
-    myRouter.push({name:'Address_AS'})
-}
-const goChangePW=()=>{
-    myRouter.push({name:'ChangePW_AS'})
-}
-const goBank=()=>{
-    myRouter.push({name:'Bank_AS'})
-}
-const goMyPurchase=()=>{
-    myRouter.push({name:'MyPurchase'})
-}
-const goMyShop=()=>{
-    myRouter.push({name:'Shop_AS'})
-}
-const goOrder=()=>{
-    myRouter.push({name:'Order_AS'})
-}
-const goMyGallery=()=>{
-    myRouter.push({name:'MyGallery_AS'})
-}
-const goSignIn=()=>{
-    myRouter.push({name:'SignIn'})
-}
+const goProfile=()=>myRouter.push({name:'Profile_AS'})
+const goAddress=()=>myRouter.push({name:'Address_AS'})
+const goChangePW=()=>myRouter.push({name:'ChangePW_AS'})
+const goBank=()=>myRouter.push({name:'Bank_AS'})
+const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
+const goMyShop=()=>myRouter.push({name:'Shop_AS'})
+const goOrder=()=>myRouter.push({name:'Order_AS'})
+const goMyGallery=()=>myRouter.push({name:'MyGallery_AS'})
+const goSignIn=()=>myRouter.push({name:'SignIn'})
+const goSetting=()=>myRouter.push({name:"AccountSetting"})
+const goShopList=()=>myRouter.push({name:"Shop"})
 //common attribute
 const userRole=ref('')
 const isShowNested=ref(false) //show nested link my shop
@@ -53,10 +37,24 @@ const arrayLink=ref([
 // for check mobile?
 const isMobile=ref(false)
 const showContent =ref(false)
+const showMenuContent=ref(false)
+const currentLinkName=ref("")
 const checkWidth=()=>{
     if(window.innerWidth<=432){ // is mobile
         // console.log(window.innerWidth)
-        // console.log('this is mobile')
+        if(useRoute().name=="AccountSetting"){
+            console.log(useRoute().name,'router name now')
+            currentLinkName.value=useRoute().name
+            showMenuContent.value=true
+            showContent.value=false
+
+        }else{
+            console.log(useRoute().name)
+            currentLinkName.value=useRoute().name
+            showMenuContent.value=false
+            showContent.value=true
+            
+        }
         isMobile.value=true
     }else{ // not mobile
         // console.log(window.innerWidth)
@@ -64,11 +62,20 @@ const checkWidth=()=>{
         isMobile.value=false
     }   
 }
+const goBackController=()=>{
+    if(window.innerWidth<=432){
+        if(currentLinkName.value=="AccountSetting"){
+            goShopList()
+        }else{
+            goSetting()
+        }
+    }
+}
 
 // show content page
-const showContentPage=()=>{
-    showContent.value=true
-}
+// const showContentPage=()=>{
+//     showContent.value=true
+// }
 
 // for show nested link
 const showNestedLink=()=>{
@@ -82,7 +89,8 @@ const linkSelected=()=>{
     const element =document.getElementsByClassName('url_link')
 
     //get url and split it out to get last one
-    let urlArray=location.href.split('/') //url
+    // let urlArray=location.href.split('/') //url
+    let urlArray=useRoute().path.split('/') //url
     for(let i of arrayLink.value){ //array link
         let status=urlArray.includes(i.name)
         if(status){
@@ -119,6 +127,8 @@ onBeforeMount(()=>{
     }else{
         goSignIn()
     }
+    checkWidth() // for check window size
+
     //  console.log(cookie.decrypt().role,'lsdfjlkasdf')
 })
 onUpdated(()=>{
@@ -126,7 +136,28 @@ onUpdated(()=>{
 })
 </script>
 <template>
-    <BaseMenu/>
+    <div class="wrapper_menu_component" >
+        <BaseMenu/>
+    </div>
+
+    <!-- mobile -->
+    <div class="container_access_mobile menu">
+        <!-- back -->
+        <button @click="goBackController" class="go_back_btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </button>
+        <!-- header -->
+        <h5 class="header">
+            Settings
+        </h5>
+        <!-- empty  -->
+        <div class="empty">
+
+        </div>
+    </div>
+    <!-- account -->
     <div class="wrapper_account">
         <!-- menu -->
         <div class="container_menu">
@@ -235,12 +266,79 @@ onUpdated(()=>{
             </div>
             
         </div>
-        <div class="container_menu_mobile">
-
+        <div v-show="!isMobile||(isMobile&&showMenuContent)" class="container_menu_mobile">
+           <ul>
+            <!-- profile -->
+            <li>
+                <button @click="goProfile" class="menu_link">
+                    <h6>
+                        Profile
+                    </h6>
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.251 11.9999L13.8975 12.3535L9.94592 16.305C9.9459 16.305 9.94588 16.305 9.94586 16.3051C9.81467 16.4363 9.74097 16.6143 9.74097 16.7999C9.74097 16.9855 9.81465 17.1634 9.94581 17.2947C9.94585 17.2947 9.94588 17.2948 9.94592 17.2948M14.251 11.9999L9.94592 17.2948M14.251 11.9999L13.8975 11.6463L9.94935 7.69823C9.82348 7.56651 9.7539 7.39085 9.75548 7.20857C9.75708 7.02503 9.8307 6.84946 9.96048 6.71967C10.0903 6.58989 10.2658 6.51627 10.4494 6.51467C10.6317 6.51309 10.8073 6.58267 10.939 6.70854L15.7355 11.505C15.8667 11.6363 15.9405 11.8143 15.9405 11.9999C15.9405 12.1855 15.8667 12.3635 15.7355 12.4948L10.9356 17.2947M14.251 11.9999L10.9356 17.2947M9.94592 17.2948C10.0772 17.426 10.2551 17.4996 10.4407 17.4996C10.6263 17.4996 10.8043 17.4259 10.9356 17.2947M9.94592 17.2948L10.9356 17.2947M10.9356 17.2947C10.9356 17.2947 10.9356 17.2947 10.9356 17.2947M10.9356 17.2947L10.9356 17.2947" fill="#9E9E9E" stroke="#9E9E9E"/>
+                    </svg>
+                </button>
+            </li>
+            <!-- addresses -->
+            <li>
+                <button @click="goAddress" class="menu_link">
+                    <h6>
+                        Addresses
+                    </h6>
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.251 11.9999L13.8975 12.3535L9.94592 16.305C9.9459 16.305 9.94588 16.305 9.94586 16.3051C9.81467 16.4363 9.74097 16.6143 9.74097 16.7999C9.74097 16.9855 9.81465 17.1634 9.94581 17.2947C9.94585 17.2947 9.94588 17.2948 9.94592 17.2948M14.251 11.9999L9.94592 17.2948M14.251 11.9999L13.8975 11.6463L9.94935 7.69823C9.82348 7.56651 9.7539 7.39085 9.75548 7.20857C9.75708 7.02503 9.8307 6.84946 9.96048 6.71967C10.0903 6.58989 10.2658 6.51627 10.4494 6.51467C10.6317 6.51309 10.8073 6.58267 10.939 6.70854L15.7355 11.505C15.8667 11.6363 15.9405 11.8143 15.9405 11.9999C15.9405 12.1855 15.8667 12.3635 15.7355 12.4948L10.9356 17.2947M14.251 11.9999L10.9356 17.2947M9.94592 17.2948C10.0772 17.426 10.2551 17.4996 10.4407 17.4996C10.6263 17.4996 10.8043 17.4259 10.9356 17.2947M9.94592 17.2948L10.9356 17.2947M10.9356 17.2947C10.9356 17.2947 10.9356 17.2947 10.9356 17.2947M10.9356 17.2947L10.9356 17.2947" fill="#9E9E9E" stroke="#9E9E9E"/>
+                    </svg>
+                </button>
+            </li>
+            <!-- password -->
+            <li>
+                <button @click="goChangePW" class="menu_link">
+                    <h6>
+                        Password
+                    </h6>
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.251 11.9999L13.8975 12.3535L9.94592 16.305C9.9459 16.305 9.94588 16.305 9.94586 16.3051C9.81467 16.4363 9.74097 16.6143 9.74097 16.7999C9.74097 16.9855 9.81465 17.1634 9.94581 17.2947C9.94585 17.2947 9.94588 17.2948 9.94592 17.2948M14.251 11.9999L9.94592 17.2948M14.251 11.9999L13.8975 11.6463L9.94935 7.69823C9.82348 7.56651 9.7539 7.39085 9.75548 7.20857C9.75708 7.02503 9.8307 6.84946 9.96048 6.71967C10.0903 6.58989 10.2658 6.51627 10.4494 6.51467C10.6317 6.51309 10.8073 6.58267 10.939 6.70854L15.7355 11.505C15.8667 11.6363 15.9405 11.8143 15.9405 11.9999C15.9405 12.1855 15.8667 12.3635 15.7355 12.4948L10.9356 17.2947M14.251 11.9999L10.9356 17.2947M9.94592 17.2948C10.0772 17.426 10.2551 17.4996 10.4407 17.4996C10.6263 17.4996 10.8043 17.4259 10.9356 17.2947M9.94592 17.2948L10.9356 17.2947M10.9356 17.2947C10.9356 17.2947 10.9356 17.2947 10.9356 17.2947M10.9356 17.2947L10.9356 17.2947" fill="#9E9E9E" stroke="#9E9E9E"/>
+                    </svg>
+                </button>
+            </li>
+            <!-- banks -->
+            <li>
+                <button @click="goBank" class="menu_link">
+                    <h6>
+                        Banks
+                    </h6>
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.251 11.9999L13.8975 12.3535L9.94592 16.305C9.9459 16.305 9.94588 16.305 9.94586 16.3051C9.81467 16.4363 9.74097 16.6143 9.74097 16.7999C9.74097 16.9855 9.81465 17.1634 9.94581 17.2947C9.94585 17.2947 9.94588 17.2948 9.94592 17.2948M14.251 11.9999L9.94592 17.2948M14.251 11.9999L13.8975 11.6463L9.94935 7.69823C9.82348 7.56651 9.7539 7.39085 9.75548 7.20857C9.75708 7.02503 9.8307 6.84946 9.96048 6.71967C10.0903 6.58989 10.2658 6.51627 10.4494 6.51467C10.6317 6.51309 10.8073 6.58267 10.939 6.70854L15.7355 11.505C15.8667 11.6363 15.9405 11.8143 15.9405 11.9999C15.9405 12.1855 15.8667 12.3635 15.7355 12.4948L10.9356 17.2947M14.251 11.9999L10.9356 17.2947M9.94592 17.2948C10.0772 17.426 10.2551 17.4996 10.4407 17.4996C10.6263 17.4996 10.8043 17.4259 10.9356 17.2947M9.94592 17.2948L10.9356 17.2947M10.9356 17.2947C10.9356 17.2947 10.9356 17.2947 10.9356 17.2947M10.9356 17.2947L10.9356 17.2947" fill="#9E9E9E" stroke="#9E9E9E"/>
+                    </svg>
+                </button>
+            </li>
+            <!-- my purchase -->
+            <li>
+                <button @click="goMyPurchase" class="menu_link">
+                    <h6>
+                        My Purchase
+                    </h6>
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.251 11.9999L13.8975 12.3535L9.94592 16.305C9.9459 16.305 9.94588 16.305 9.94586 16.3051C9.81467 16.4363 9.74097 16.6143 9.74097 16.7999C9.74097 16.9855 9.81465 17.1634 9.94581 17.2947C9.94585 17.2947 9.94588 17.2948 9.94592 17.2948M14.251 11.9999L9.94592 17.2948M14.251 11.9999L13.8975 11.6463L9.94935 7.69823C9.82348 7.56651 9.7539 7.39085 9.75548 7.20857C9.75708 7.02503 9.8307 6.84946 9.96048 6.71967C10.0903 6.58989 10.2658 6.51627 10.4494 6.51467C10.6317 6.51309 10.8073 6.58267 10.939 6.70854L15.7355 11.505C15.8667 11.6363 15.9405 11.8143 15.9405 11.9999C15.9405 12.1855 15.8667 12.3635 15.7355 12.4948L10.9356 17.2947M14.251 11.9999L10.9356 17.2947M9.94592 17.2948C10.0772 17.426 10.2551 17.4996 10.4407 17.4996C10.6263 17.4996 10.8043 17.4259 10.9356 17.2947M9.94592 17.2948L10.9356 17.2947M10.9356 17.2947C10.9356 17.2947 10.9356 17.2947 10.9356 17.2947M10.9356 17.2947L10.9356 17.2947" fill="#9E9E9E" stroke="#9E9E9E"/>
+                    </svg>
+                </button>
+            </li>
+            <!-- my gallery -->
+            <li>
+                <button @click="goMyGallery" class="menu_link">
+                    <h6>
+                        My Gallery
+                    </h6>
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.251 11.9999L13.8975 12.3535L9.94592 16.305C9.9459 16.305 9.94588 16.305 9.94586 16.3051C9.81467 16.4363 9.74097 16.6143 9.74097 16.7999C9.74097 16.9855 9.81465 17.1634 9.94581 17.2947C9.94585 17.2947 9.94588 17.2948 9.94592 17.2948M14.251 11.9999L9.94592 17.2948M14.251 11.9999L13.8975 11.6463L9.94935 7.69823C9.82348 7.56651 9.7539 7.39085 9.75548 7.20857C9.75708 7.02503 9.8307 6.84946 9.96048 6.71967C10.0903 6.58989 10.2658 6.51627 10.4494 6.51467C10.6317 6.51309 10.8073 6.58267 10.939 6.70854L15.7355 11.505C15.8667 11.6363 15.9405 11.8143 15.9405 11.9999C15.9405 12.1855 15.8667 12.3635 15.7355 12.4948L10.9356 17.2947M14.251 11.9999L10.9356 17.2947M9.94592 17.2948C10.0772 17.426 10.2551 17.4996 10.4407 17.4996C10.6263 17.4996 10.8043 17.4259 10.9356 17.2947M9.94592 17.2948L10.9356 17.2947M10.9356 17.2947C10.9356 17.2947 10.9356 17.2947 10.9356 17.2947M10.9356 17.2947L10.9356 17.2947" fill="#9E9E9E" stroke="#9E9E9E"/>
+                    </svg>
+                </button>
+            </li>
+           </ul>
         </div>
         <!-- nested page v-show="(isMobile&&showContent)||!isMobile" -->
-        <div  class="wrapper_content">
-            <router-view ></router-view>
+        <div v-show="(isMobile&&showContent)||!isMobile" class="wrapper_content">
+            <router-view :key="$route.fullPath"></router-view>
         </div>
     </div>
     <BaseFooter/>
@@ -248,6 +346,12 @@ onUpdated(()=>{
 <style scoped>
 *{
     box-sizing: border-box;
+}
+.wrapper_menu_component{
+    display: flex;
+}
+.container_access_mobile {
+    display: none;
 }
 .wrapper_account{
     display: flex;
@@ -368,4 +472,109 @@ onUpdated(()=>{
     stroke: #26AC34;
 }
 
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_menu_component{
+        display: none;
+    }
+    .container_access_mobile{
+        display: flex;
+        width: 100%;
+        height: 60px;
+        padding: 12px 20px;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 1px 3px 0px #0000001A;
+        background-color: #fff;
+    }
+    .container_access_mobile .go_back_btn{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    .container_access_mobile h5.header{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        font-size:18px ;
+        font-weight: 700;
+        color: #212121;
+        gap: 4px;
+        justify-content: center;
+        align-items: center;
+    }
+    .container_access_mobile h5.header span{
+        width: fit-content;
+        height: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        color: #616161;
+        vertical-align: center;
+    }
+    .container_access_mobile div.empty{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        letter-spacing: 0.20000000298023224px;
+    }
+    .wrapper_account{
+        padding: 0px;
+        gap: 0px;
+    }
+    /* window menu */
+    .container_menu{
+        display: none;
+    }
+    /* mobile menu */
+    .container_menu_mobile{
+        display: flex;
+        width:100%;
+        height: fit-content;
+        flex-direction: column;
+    }
+    .container_menu_mobile ul{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-direction: column;
+    }
+    .container_menu_mobile ul li{
+        display: flex;
+        width: 100%;
+        height: 40px;
+    }
+    .container_menu_mobile button.menu_link{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
+        border: none;
+        background-color: #fff;
+        padding: 8px 12px;
+        border-top: 1px solid #EEEEEE;
+        cursor: pointer;
+    }
+    button.menu_link h6{
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: 400;
+        color: #212121;
+    }
+    button.menu_link svg{
+        width: 24px;
+        height: 24px;
+    }
+}
 </style>
