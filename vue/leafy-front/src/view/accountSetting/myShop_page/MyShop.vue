@@ -561,13 +561,14 @@ onMounted(async()=>{
     flex-direction: column;
     width: 100%;
     height: fit-content;
-    max-height: 45dvh;
+    /* max-height: 45dvh; */
     overflow-y: auto;
 }
 table{
     display: table;
     /* width: fit-content; */
     width: 100%;
+    /* height: fit-content; */
     border-collapse: collapse;
     /* flex-direction: column; */
     table-layout: fixed;
@@ -616,16 +617,21 @@ table .header{
     max-width: 100%;
 }
 .header th:nth-child(7){
+    width: min(5.833dvw,84px);
+    min-width: fit-content;
+    max-width: 100%;
+    /* width: fit-content; */
+}
+.header th:nth-child(8){
     /* width: min(5.833dvw,84px);
     min-width: fit-content;
     max-width: 100%; */
-    width: fit-content;
-}
-.header th:nth-child(8){
-    /* width: min(5.833dvw,84px); */
+    /* min-width: fit-content; */
+    width: min(5.833dvw,84px);
+    /* max-width: min(5.833dvw,84px); */
     /* min-width: fit-content;
     max-width: 100%; */
-    width: fit-content;
+    /* width: fit-content; */
 }
 td,th{
     text-align: left;
@@ -676,6 +682,9 @@ table .product_item{
 }
 .td_item{
     padding: min(1.111dvw,16px) min(0.833dvw,12px);
+}
+.td_item h6 {
+    width: fit-content;
 }
 /* image */
 
@@ -763,9 +772,12 @@ table .product_item{
     line-height: 144%;
 }
 /* price */
+/* .product_item td:nth-child(5) {
+    width: fit-content;
+} */
 .product_item td:nth-child(5) h6{
     display: flex;
-    width: fit-content;
+    width: 100%;
     height: min(1.389dvw,20px);
 }
 .product_item td:nth-child(5) h6::before{

@@ -1,5 +1,5 @@
 let ORDERSTATUSCOLOR = Object.freeze([
-    {font:'#FACC15',bg:'#FFD30014'}, //pending
+    {font:'#424242',bg:'#EEEEEE'}, //required
     {font:'#FACC15',bg:'#FFD30014'}, //pending
     {font:'#235DFF',bg:'#235DFF14'}, //in progress
     {font:'#12D18E',bg:'#17CE9214'}, //completed
