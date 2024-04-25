@@ -331,7 +331,7 @@ onBeforeMount(async () => {
 
 .bank h4 {
     display: flex;
-    width: inherit;
+    width: 100%;
     height: min(1.944dvw,28px);
     font-size: min(1.25dvw,18px);
     font-weight: 500;
@@ -459,5 +459,44 @@ onBeforeMount(async () => {
 .inportant_input::after{
     content: '*';
     color: #F75555;
+}
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_all {
+        border-radius: 0px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        /* gap: 24px; */
+    }
+    .wrapper_bank {
+        padding:20px;
+    }
+    .bank {
+        gap: 12px;
+    }
+    .bank h4 {
+        height: 24px;
+        font-size: 16px;
+    }
+    .container_bank {
+        gap: 12px;
+    }
+    .container_bank .inputs {
+        gap: 12px;
+    }
+    .input_field {
+        gap: 4px;
+    }
+    .input_field h5 {
+        height: 20px;
+        font-size: 14px;
+    }
+    .input_field .input {
+        height: 36px;
+        border: 1px solid #D1D5DB;
+        border-radius:4px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        padding: 8px 12px;
+    }
 }
 </style>
