@@ -57,22 +57,21 @@ const props=defineProps({
 
 .confirm_delete {
     display: flex;
-    width: 448px;
-    height: 148px;
+    width: min(31.111dvw,448px);
+    height: min(10.278dvw,148px);
     flex-direction: column;
     background-color: #fff;
-    padding: 32px 40px;
-    border-radius: 8px;
-    gap: 24px;
+    padding: min(2.222dvw,32px) min(2.778dvw,40px);
+    border-radius: min(0.556dvw,8px);
+    gap: min(1.667dvw,24px);
 }
 
 .confirm_delete h5 {
     display: flex;
     width: 100%;
-    height: 24px;
-    font-size: 16px;
+    height: min(1.667dvw,24px);
+    font-size: min(1.111dvw,16px);
     font-weight: 500;
-    /* text-align: center; */
     justify-content: center;
     align-items: center;
 }
@@ -81,25 +80,25 @@ const props=defineProps({
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 8px;
+    gap: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
 }
 
 .confirm_delete div button {
     display: flex;
-    width: 80px;
-    height: 36px;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
-    padding: 8px 12px;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    border-radius: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
 }
 
 .confirm_delete div button:nth-child(1) {
-    border: 1px solid;
+    border: min(0.069dvw,1px) solid;
     border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;
@@ -110,5 +109,43 @@ const props=defineProps({
     background-color: #26AC34;
     color: #fff;
     border: none;
+}
+/* mobile */
+@media (width<=432px){
+    
+    .confirm_delete {
+        display: flex;
+        width: 352px;
+        height: 108px;
+        padding: 20px;
+        border-radius: 8px;
+        gap: 20px;
+    }
+
+    .confirm_delete h5 {
+        display: flex;
+        width: 100%;
+        height: 24px;
+        font-size: 14px;
+    }
+
+    .confirm_delete div {
+        gap: 8px;
+    }
+
+    .confirm_delete div button {
+        display: flex;
+        width: 100%;
+        height: 36px;
+        border-radius: 4px;
+        padding: 8px 12px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+    }
+
+    .confirm_delete div button:nth-child(1) {
+        border: 1px solid #E0E0E0;
+
+    }
+
 }
 </style>
