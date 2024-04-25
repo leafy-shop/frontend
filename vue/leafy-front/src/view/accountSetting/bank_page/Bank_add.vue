@@ -5,6 +5,7 @@ import fetch from '../../../JS/api'
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
 import bankList from '../../../JS/enum/bankAccount.js'
+import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue'
 
 // link
 const myRouter = useRouter()
@@ -285,14 +286,15 @@ onBeforeMount(async () => {
             </div>
         </div>
         <!-- submit -->
-        <div class="submit">
+        <!-- <div class="submit">
             <button @click="goBanks()">
                 Cancel
             </button>
             <button @click="bankSubmit()" :disabled="isSubmitTime" id="submit_payment" :class="[isSubmitTime?'submit_deactive':'']">
                 Save
             </button>
-        </div>
+        </div> -->
+        <BaseSubmit name="bank_add" :disabled="isSubmitTime"  @goBack="goBanks()" @submit="bankSubmit()" />
     </div>
 </template>
 <style scoped>
@@ -380,7 +382,7 @@ onBeforeMount(async () => {
     padding: min(0.556dvw,8px) 12px;
 }
 
-
+/* 
 .submit {
     display: flex;
     width: 100%;
@@ -443,7 +445,6 @@ onBeforeMount(async () => {
     font-style: normal;
     font-weight: 400;
     line-height: 136%;
-    /* 16.32px */
     letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
@@ -454,7 +455,7 @@ onBeforeMount(async () => {
     background-color: #BDBDBD !important;
     cursor: not-allowed !important;
     border-color: transparent !important;
-}
+} */
 .inportant_input::after{
     content: '*';
     color: #F75555;

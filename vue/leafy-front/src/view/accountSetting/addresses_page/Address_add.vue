@@ -5,6 +5,7 @@ import fetch from '../../../JS/api'
 import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
 import BaseAlert from '../../../components/BaseAlert.vue'
+import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue'
 // common attribute
 const { params } = useRoute()
 const addressId = ref('')
@@ -444,14 +445,15 @@ onBeforeMount(async () => {
         </div>
         </div>
         <!-- submit -->
-        <div class="submit">
+        <!-- <div class="submit">
             <button @click="goAddress()">
                 Cancel
             </button>
             <button @click="AddressSubmit()" :disabled="isSubmitTime" id="submit_address" :class="[isSubmitTime?'submit_deactive':'']">
                 Save
             </button>
-        </div>
+        </div> -->
+        <BaseSubmit name="address_add" :disabled="isSubmitTime" @goBack="goAddress" @submit="AddressSubmit()" />
         <BaseAlert name="order_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
     </div>
 </template>
@@ -541,7 +543,7 @@ onBeforeMount(async () => {
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
 }
 
-
+/* 
 .submit {
     display: flex;
     width: 100%;
@@ -604,7 +606,6 @@ onBeforeMount(async () => {
     font-style: normal;
     font-weight: 400;
     line-height: 136%;
-    /* 16.32px */
     letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
@@ -614,9 +615,9 @@ onBeforeMount(async () => {
     background-color: #BDBDBD !important;
     cursor: not-allowed !important;
     border-color: transparent !important;
-}
+}*/
 .important_input::after{
     content: "*";
     color: #F75555;
-}
+} 
 </style>

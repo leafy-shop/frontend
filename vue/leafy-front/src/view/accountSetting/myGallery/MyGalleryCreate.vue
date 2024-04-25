@@ -772,6 +772,7 @@ onBeforeMount(async()=>{
     height: auto;
     background-position: center;
 }
+/* 
 .submit {
     display: flex;
     width: 100%;
@@ -813,5 +814,5 @@ onBeforeMount(async()=>{
     border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
-}
+} */
 </style>
