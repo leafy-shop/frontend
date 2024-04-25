@@ -579,9 +579,11 @@ onBeforeMount(async () => {
                     </div>
                     <!-- <BaseShowErrorInput name="cover_img_profile"/> -->
                 </div>
+                
             </div>
             <!-- submit --> 
             <BaseSubmit name="profile_info" :disabled="!isChangeProfileInfo" @goBack="profileClear(), profileClearStatus()" @submit="profileSubmit" />
+            
             <!-- <div v-show="isChangeProfileInfo || refreshPageS" class="submit">
                 <button v-show="!refreshPageS" @click="profileClear(), profileClearStatus()">
                     Cancel
@@ -615,7 +617,8 @@ onBeforeMount(async () => {
                             </h5>
                             <input v-model="firstName" type="text" maxlength="50">
                             <!-- worning -->
-                            <div v-show="firstNameS" class="wrapper_errorMsg">
+                            <BaseShowErrorInput name="first_name" :show="firstNameS" :msg="firstNameM" />
+                            <!-- <div v-show="firstNameS" class="wrapper_errorMsg">
                                 <div>
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -627,7 +630,7 @@ onBeforeMount(async () => {
                                         {{ firstNameM }}
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- last name -->
                         <div class="info_item">
@@ -636,7 +639,8 @@ onBeforeMount(async () => {
                             </h5>
                             <input v-model="lastName" type="text" maxlength="50">
                             <!-- worning -->
-                            <div v-show="lastNameS" class="wrapper_errorMsg">
+                            <BaseShowErrorInput name="last_name" :show="lastNameS" :msg="lastNameM" />
+                            <!-- <div v-show="lastNameS" class="wrapper_errorMsg">
                                 <div>
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -648,7 +652,7 @@ onBeforeMount(async () => {
                                         {{ lastNameM }}
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
@@ -661,7 +665,8 @@ onBeforeMount(async () => {
                             </h5>
                             <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com">
                             <!-- worning -->
-                            <div v-show="emailS" class="wrapper_errorMsg">
+                            <BaseShowErrorInput name="email_user" :show="emailS" :msg="emailM" />
+                            <!-- <div v-show="emailS" class="wrapper_errorMsg">
                                 <div>
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -673,7 +678,7 @@ onBeforeMount(async () => {
                                         {{ emailM }}
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- phone number -->
                         <div class="info_item">
@@ -682,7 +687,8 @@ onBeforeMount(async () => {
                             </h5>
                             <input v-model="phoneNumber" type="text" maxlength="11">
                             <!-- worning -->
-                            <div v-show="phoneNumberS" class="wrapper_errorMsg">
+                            <BaseShowErrorInput name="phone_number" :show="phoneNumberS" :msg="phoneNumberM" />
+                            <!-- <div v-show="phoneNumberS" class="wrapper_errorMsg">
                                 <div>
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -694,13 +700,15 @@ onBeforeMount(async () => {
                                         {{ phoneNumberM }}
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
+                
             </div>
             <!-- submit -->
             <BaseSubmit  name="change_personal_info" :disabled="!isChangePersonalInfo" @goBack="personalInfoClear(), personalInfoClearStatus()" @submit="personalInfoSubmit" />
+            
             <!-- <div v-show="isChangePersonalInfo || (firstNameS || lastNameS || emailS || phoneNumberS)" class="submit">
                 <button @click="personalInfoClear(), personalInfoClearStatus()">
                     Cancel
@@ -720,6 +728,9 @@ onBeforeMount(async () => {
 }
 
 .wrapper_all {
+    display: flex;
+    width: 100%;
+    height: fit-content;
     overflow: hidden;
     border: none;
     border-radius: min(0.556dvw,8px);
@@ -729,8 +740,8 @@ onBeforeMount(async () => {
 
 .wrapper_profile {
     display: flex;
-    width: inherit;
-    height: inherit;
+    width: 100%;;
+    height: fit-content;
     flex-direction: column;
     /* padding: 20px; */
     gap: min(1.667dvw,24px);
@@ -738,8 +749,8 @@ onBeforeMount(async () => {
 
 .wrapper_profile>div {
     display: flex;
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: fit-content;
     flex-direction: column;
     /* padding: 20px; */
     background-color: #fff;
@@ -779,7 +790,7 @@ onBeforeMount(async () => {
 
 .title p {
     display: flex;
-    width: inherit;
+    width: fit-content;
     height: min(1.389dvw,20px);
     font-weight: 400;
     font-size: min(0.833dvw,12px);
@@ -861,8 +872,8 @@ onBeforeMount(async () => {
     width: min(8.264dvw,119px);
     height: min(8.264dvw,119px);
     border: none;
-    /* border-radius: 50%; */
-    /* overflow: hidden; */
+    border-radius: 50%;
+    overflow: hidden;
     background-position: center;
     background-color: #fff;
     justify-content: center;
@@ -990,8 +1001,8 @@ p.refresh_page_require{
     /* background-position: center; */
 
 }
-
-.submit {
+/* submit */
+/* .submit {
     display: flex;
     width: 100%;
     height: min(4.167dvw,60px);
@@ -1033,7 +1044,7 @@ p.refresh_page_require{
     background-color: #26AC34;
     color: #fff;
 }
-
+ */
 .container_info {
     display: flex;
     width: 100%;
@@ -1043,11 +1054,11 @@ p.refresh_page_require{
     gap: min(1.667dvw,24px);
 }
 
+
 .info_item {
     display: flex;
-    /* width: min(25.833dvw,372px); */
     width: 100%;
-    height: inherit;
+    height: fit-content;
     flex-direction: column;
     gap: min(0.278dvw,4px);
 }
@@ -1059,7 +1070,6 @@ p.refresh_page_require{
     line-height: 144%;
     font-weight: 500;
 }
-
 .importen_input::after {
     content: "*";
     color: #F75555;
@@ -1081,7 +1091,7 @@ p.refresh_page_require{
     font-weight: 400;
     color: #212121;
 }
-
+/* 
 .wrapper_errorMsg {
     display: flex;
     width: 100%;
@@ -1112,10 +1122,137 @@ p.refresh_page_require{
     font-style: normal;
     font-weight: 400;
     line-height: 136%;
-    /* 16.32px */
     letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
+} */
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_all {
+        border-radius:0px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    }
+    .wrapper_profile {
+        gap: 8px;
+    }
+    /* .wrapper_profile>div {
+    } */
+    .wrapper_info {
+        padding: 20px;
+        gap: 20px;
+    }
+    .title{
+        gap: 4px;
+    }
+    .title >h4{
+        height: 24px;
+        font-size: 16px;
+    }
+    .title >p{
+        display: none;
+    }
+    .input_item {
+        gap: 12px;
+    }
+    .profile_item {
+        gap: 4px;
+    }
+    .profile_item h5 {
+        height: 20px;
+        font-size:14px;
+    }
+    .username input {
+        height: 36px;
+        padding: 8px 12px;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    .about_me textarea {
+        height: 100px;
+        min-height: 36px;
+        max-height: 200px;
+        resize: vertical;
+        padding: 8px 12px;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        font-weight: 400;
+        font-size: 14px;
+    }
+    .about_me p {
+        height: 20px;
+        margin-top: 8px;
+        font-size: 14px;
+    }
+    .image>div {
+        gap: 20px;
+    }
+    .image>div div {
+        display: flex;
+        width: 119px;
+        height: 119px;
+    }
+    .image>div label {
+        height: 36px;
+        padding: 8px 12px;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        font-size: 14px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    p.refresh_page_require{
+        font-size: 12px;
+    }
+    .img_cover .no_img{
+        height: 140px;
+        border: 2px dashed #E0E0E0;
+        border-radius: 4px;
+    }
+    .img_cover .has_img{
+        height: 140px;
+    }
+    .img_cover>div label {
+        gap: 4px;
+    }
+    .img_cover>div label div {
+        width: 48px;
+        height: 48px;
+    }
+    .img_cover>div label div svg {
+        width: 36px;
+        height: 36px;
+    }
+    .img_cover>div label h6 {
+        height: 20px;
+        font-size: 14px;
+    }
+    .img_cover>div label p {
+        height: 16px;
+        font-size: 12px;
+    }
+
+    .container_info {
+        gap: 12px;
+        flex-direction: column;
+    }
+    .info_item {
+        gap: 4px;
+    }
+    .info_item h5 {
+        height: 20px;
+        font-size: 14px;
+    }
+    .info_item input {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #D1D5DB;
+        border-radius: 4px;
+        padding: 8px 12px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        font-size: 14px;
+    }
 }
+
 </style>
