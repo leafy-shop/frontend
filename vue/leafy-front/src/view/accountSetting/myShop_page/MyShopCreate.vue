@@ -6,6 +6,7 @@ import vaidation from '../../../JS/validation'
 import { useRoute, useRouter } from 'vue-router';
 import productEnum from '../../../JS/enum/product'
 import { v4 as uuidv4 } from 'uuid';
+import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue';
 
 // link
 const myRouter = useRouter()
@@ -804,14 +805,15 @@ onUpdated(async () => {
                 </div>
 
                 <!-- submit -->
-                <div v-show="isEdit" class="submit">
+                <!-- <div v-show="isEdit" class="submit">
                     <button @click="goBack()">
                         Cancel
                     </button>
                     <button @click="updateProduct()">
                         Save
                     </button>
-                </div>
+                </div> -->
+                <BaseSubmit name="my_shop_create" @goBack="goBack" @submit="updateProduct()" />
             </div>
             <!-- <div class="wrapper_all"> -->
             <!-- product style -->
@@ -1001,14 +1003,15 @@ onUpdated(async () => {
                             </div>
                         </div>
                         <!-- submit -->
-                        <div v-show="true" class="submit">
+                        <!-- <div v-show="true" class="submit">
                             <button @click="showStyleInput = false">
                                 Cancel
                             </button>
                             <button @click="styleModeSelection()">
                                 Save
                             </button>
-                        </div>
+                        </div> -->
+                        <BaseSubmit name="my_shop_create" @goBack="showStyleInput = false" @submit="styleModeSelection()" />
                     </div>
 
                     <!-- product list -->
@@ -1804,7 +1807,7 @@ onUpdated(async () => {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+/* 
 .submit {
     display: flex;
     width: 100%;
@@ -1835,5 +1838,5 @@ onUpdated(async () => {
     border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
-}
+} */
 </style>
