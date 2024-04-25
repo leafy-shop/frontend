@@ -13,7 +13,7 @@ const props=defineProps({
 </script>
 <template>
     <!-- submit -->
-    <div class="submit">
+    <div :id="name" class="submit">
         <button @click="$emit('goBack')">
             Cancel
         </button>
@@ -37,7 +37,8 @@ const props=defineProps({
     height: min(4.167dvw,60px);
     padding: min(0.833dvw,12px) min(1.389dvw,20px);
     gap: min(0.556dvw,8px);
-    justify-content: end;
+    justify-content: end !important;
+    align-items: center !important;
     background-color: #FAFAFA;
 }
 
@@ -63,4 +64,21 @@ const props=defineProps({
     color: #fff;
 }
 
+/* mobile */
+@media (width<=432px){
+    .submit {
+        height: fit-content;
+        padding: 0px 20px 20px 20px;
+        gap: 8px;
+        justify-content: end;
+    }
+    .submit button {
+        width: 100%;
+        height: 36px;
+        border: 1px solid;
+        padding: 8px 12px;
+        border-radius: 4px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+    }
+}
 </style>
