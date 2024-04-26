@@ -49,8 +49,8 @@ const props=defineProps({
 
 .wrapper_errorMsg div {
     display: flex;
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: fit-content;
     gap: min(0.278dvw, 4px);
 }
 
@@ -70,6 +70,33 @@ const props=defineProps({
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media (width<=432px){
+
+    .wrapper_errorMsg {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-direction: column;
+        padding: 8px 12px;
+        font-size:  12px;
+        border-radius: 4px;
+        gap:8px;
+    }
+    .wrapper_errorMsg div {
+        gap: 4px;
+    }
+    .wrapper_errorMsg div svg {
+        width: 15px;
+        height: 15px;
+    }
+    .wrapper_errorMsg div p {
+        font-size: 12px;
+    }
+
+
+
 }
 
 </style>
