@@ -7,6 +7,7 @@ import validation from '../../../JS/validation'
 import BaseBankItem from '../../../components/bank/BaseBankItem.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
 import BaseEmptyList from '../../../components/BaseEmptyList.vue';
+import BaseConfirm from '../../../components/BaseConfirm.vue';
 // link
 const myRouter =useRouter()
 const goAdd=()=>myRouter.push({name:'Address_AS_add',params:{method:'new-address'}})
@@ -159,7 +160,7 @@ onBeforeMount(async()=>{
                 <!-- <BaseBankItemList name="address_default" :dataList="[addressDefault]" :isDefault="true" @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultAddress="setDefaultAddress" /> -->
                 <div v-if="addressDefault!=undefined" class="wrapper_address_component">
                     <BaseBankItem name="address_default"  :item-name="addressDefault.addressname" :item-id="addressDefault.addressId" :item-description="`${addressDefault.address} ${addressDefault.province} ${addressDefault.distrinct} ${addressDefault.subDistrinct} ${addressDefault.postalCode}`"
-                    :item-number="addressDefault.phone" :is-default="true" :show-set-d-btn="false" :show-bin-btn="false" :showDefaultIcon="true" />
+                    :item-number="addressDefault.phone" :is-default="true" :show-set-d-btn="false" :show-bin-btn="false" :showDefaultIcon="true" @goUpdate="goUpdate" />
                 </div>
                 
                 <!-- address list -->
@@ -169,10 +170,20 @@ onBeforeMount(async()=>{
                     :item-number="address.phone" :is-default="true"  @showConfirm="showConfirm" @goUpdate="goUpdate" @setDefaultBank="setDefaultAddress" />
                 </div> 
                 <BaseEmptyList name="address_list" title="You don’t have address yet." :showEmpty="getDataStatus" />
-
+                <!-- create new -->
+                <div class="create_new_mobile">
+                    <button @click="goAdd">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M5 0C5.26522 0 5.51957 0.105357 5.70711 0.292893C5.89464 0.48043 6 0.734784 6 1V4H9C9.26522 4 9.51957 4.10536 9.70711 4.29289C9.89464 4.48043 10 4.73478 10 5C10 5.26522 9.89464 5.51957 9.70711 5.70711C9.51957 5.89464 9.26522 6 9 6H6V9C6 9.26522 5.89464 9.51957 5.70711 9.70711C5.51957 9.89464 5.26522 10 5 10C4.73478 10 4.48043 9.89464 4.29289 9.70711C4.10536 9.51957 4 9.26522 4 9V6H1C0.734784 6 0.48043 5.89464 0.292893 5.70711C0.105357 5.51957 0 5.26522 0 5C0 4.73478 0.105357 4.48043 0.292893 4.29289C0.48043 4.10536 0.734784 4 1 4H4V1C4 0.734784 4.10536 0.48043 4.29289 0.292893C4.48043 0.105357 4.73478 0 5 0Z"
+                                fill="white" />
+                        </svg>
+                        New Address
+                    </button>
+                </div>
             </div>   
-
-            <div v-show="isDelete" class="wrapper_confirm_delete">
+            <BaseConfirm name="address_list_confirm" header-confirm="Do you want to delete the current address?" submit-title="Delete" :show-confirm="isDelete" @cancel="confirmAddress()" @submit="confirmAddress(true)" /> 
+            <!-- <div v-show="isDelete" class="wrapper_confirm_delete">
                 <div class="confirm_delete">
                     <h5>
                         Do you want to delete the current address?
@@ -187,7 +198,7 @@ onBeforeMount(async()=>{
                     </div>
                     
                 </div>
-            </div> 
+            </div>  -->
         </div>
         <BaseAlert name="address_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
@@ -227,18 +238,22 @@ onBeforeMount(async()=>{
 .header_address{
     display: flex;
     width: 100%;
-    height: min(2.5dvw,36px);
+    height: fit-content;
     justify-content: space-between;
     align-items: center;
 }
 .header_address >h4{
     display: flex;
+    width: 100%;
     /* width: inherit; */
     height: min(1.944dvw,28px);
     font-size: min(1.25dvw,18px);
     font-weight: 500;
     color: #212121;
     align-items: center;
+}
+.create_new_mobile{
+    display: none;
 }
 .header_address >button{
     display: flex;
@@ -268,6 +283,64 @@ onBeforeMount(async()=>{
     height: fit-content;
     flex-direction: column;
 }
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_all{
+        border-radius: 0px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
+    }
+    .wrapper_address{
+        padding: 20px;
+        border-radius: 0px;
+    }
+    .address{
+        gap: 24px;
+    }
+    /* .header_address{
+    } */
+    .header_address >h4{
+        height: 24px;
+        font-size: 16px;
+    }
+    /* old button */
+    .header_address >button{
+        display:none;
+    }
+    
+    /* create new mobile */
+    .create_new_mobile{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-direction: column;
+    }
+    .create_new_mobile >button{
+        display: flex;
+        width: 100%;
+        height: 36px;
+        border-radius: 4px;
+        border: none;
+        padding: 8px 12px 8px 8px;
+        gap: 4px;
+        background-color: #26AC34;
+        color: #fff;
+        font-size: 14px;
+        line-height: 144%;
+        font-weight: 500;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        white-space: nowrap
+    }
+    .create_new_mobile >button >svg {
+        width: 10px;
+        height: 10px;
+        margin: 5px;
+    }
+}
+
 /* start */
 /* .container_address{
     display: flex;
@@ -349,7 +422,7 @@ onBeforeMount(async()=>{
     color: #616161;
 } */
 /* end */
-.wrapper_confirm_delete{
+/* .wrapper_confirm_delete{
     display: flex;
     position: fixed;
     width: 100%;
@@ -358,7 +431,6 @@ onBeforeMount(async()=>{
     top: 0;
     left: 0;
     z-index: 999;
-    /* opacity: 25%; */
     justify-content: center;
     align-items: center;
 }
@@ -378,7 +450,6 @@ onBeforeMount(async()=>{
     height: min(1.667dvw,24px);
     font-size: min(1.111dvw,16px);
     font-weight: 500;
-    /* text-align: center; */
     justify-content: center;
     align-items: center;
 }
@@ -412,5 +483,5 @@ onBeforeMount(async()=>{
     background-color: #26AC34;
     color: #fff;
     border: none;
-}
+} */
 </style>
