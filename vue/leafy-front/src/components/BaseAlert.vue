@@ -117,7 +117,6 @@ const closeAlertNow=()=>{
     /* background-color: #121212; */
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
     align-items: center;
-
 }
 .alert_box p{
     display: flex;
@@ -151,5 +150,22 @@ const closeAlertNow=()=>{
 }
 .alert_warining p{
     color: #91991b;
+}
+
+/* mobile */
+@media (width<=432px){
+    .overlay_alert{
+        padding: 50px;
+    }
+    .alert_box{
+        min-width: 344px;
+        border-radius: 6px;
+        padding: 16px;
+        gap: 12px;
+        box-shadow: 0px 1px 2px 0px #0000000F;
+    }
+    .alert_box p{
+        font-size: 14px;
+    }
 }
 </style>
