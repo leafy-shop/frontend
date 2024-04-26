@@ -314,4 +314,26 @@ onMounted(()=>{
     fill: #FFF;
 }
 
+/* mobile */
+@media (width<=432px){
+    .gallery_sort{
+        height: v-bind('props.isSetting==true?'36px':'fit-content'');
+        border-radius: 0px;
+        background-color:transparent;
+        padding: 20px;
+    }
+    .sort_btn {
+        font-size: 14px;
+    }
+    .container_sort{
+        gap: 12px;
+    }
+    .container_sort button{
+        height: 36px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        border-radius: 4px;
+        padding: 8px 12px;
+        gap: 8px;
+    }
+}
 </style>
