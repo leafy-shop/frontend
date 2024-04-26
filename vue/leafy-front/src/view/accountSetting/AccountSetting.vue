@@ -68,8 +68,10 @@ const goBackController=()=>{
         if(currentLinkName.value=="AccountSetting"){
             goShopList()
         }else
-        if(currentLinkName.value=="Address_AS_add"||
-        currentLinkName.value=="Bank_AS_add"){
+        if(
+            currentLinkName.value=="Address_AS_add"||
+            currentLinkName.value=="Bank_AS_add"||
+            currentLinkName.value=="MyPurchaseDetail"){
             goBack()
         }else{
             goSetting()
