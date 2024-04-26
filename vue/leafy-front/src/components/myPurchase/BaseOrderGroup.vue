@@ -299,7 +299,8 @@ const cencelOrder=async()=>{
     }
     .order_detail{
         height: 60px;
-        gap:20px;
+        /* gap:20px; */
+        justify-content: space-between;
         padding: 12px 20px;
     }
     .order_detail .order_info{
