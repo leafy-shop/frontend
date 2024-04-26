@@ -55,8 +55,8 @@ const props=defineProps({
     <div class="gallery_item">
         <!-- img -->
         <div class="gallery_item_img">
-            <img v-if="props.projectImg!=undefined" :src="`${origin}/api/image/gallery/${props.projectId} `" alt="gallery_img">
-            <img  v-else src="../../assets/vue.svg" alt="gallery_img">
+            <img v-if="props.projectImg!=undefined" :src="`${origin}/api/image/gallery/${props.projectId} `" :alt="`${props.projectName}_gallery_img`" loading="lazy">
+            <img  v-else src="../../assets/default_image.png" alt="default_img"  draggable="false">
         </div>
         <!-- cart detail -->
         <div class="container_gallery_card_detail">
@@ -72,8 +72,8 @@ const props=defineProps({
                         <!-- img -->
                         <div>   
                             <!-- <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/gallery/${props.createrImg}`" alt="creater_name"> -->
-                            <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/users/${props.createrId}`" alt="creater_name">
-                            <img v-else src="../../assets/vue.svg" alt="creater_name">
+                            <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/users/${props.createrId}`" alt="creater_name" draggable="false" loading="lazy">
+                            <img v-else src="../../assets/icon/unknow_user_icon.png" draggable="false" alt="creater_name">
                         </div>
                         <!--  name -->
                         <h6>
