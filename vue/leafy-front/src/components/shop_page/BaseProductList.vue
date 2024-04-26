@@ -54,8 +54,8 @@ const goProductDetail=(p)=>{
             <button @click="goProductDetail(product.itemId)" v-for="(product,index) of productList" :key="index" class="grid_item">
                 <div class="product_item">
                     <div class="product_img">
-                        <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name">
-                        <img v-else src="../../assets/shop_p/shop_title.jpg" :alt="product.name" loading="lazy">
+                        <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="product.name" loading="lazy">
+                        <img v-else src="../../assets/default_image.png" :alt="product.name" >
                         <div v-show="soldOut" class="sold_out">
                             Sold Out
                         </div>
