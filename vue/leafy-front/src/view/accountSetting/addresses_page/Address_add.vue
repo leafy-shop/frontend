@@ -543,6 +543,44 @@ onBeforeMount(async () => {
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
 }
 
+/* mobile */
+@media (width<=432px){
+    .wrapper_all {
+        border-radius:8px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
+    }
+    .wrapper_address {
+        padding: 20px;
+    }
+    .address {
+        gap: 20px;
+    }
+    .address h4 {
+        height: 24px;
+        font-size: 16px;
+    }
+    .container_address {
+        gap: 12px;
+    }
+    .container_address .inputs {
+        gap: 12px;
+        flex-direction: column;
+    }
+    .input_field {
+        gap: 4px;
+    }
+    .input_field h5 {
+        height: 20px;
+        font-size: 14px;
+    }
+    .input_field .input {
+        height: 36px;
+        border: 1px solid #D1D5DB;
+        border-radius: 4px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        padding: 8px 12px;
+    }
+}
 /* 
 .submit {
     display: flex;
