@@ -73,6 +73,25 @@ onUpdated(()=>{
         width: min(v-bind(changeSize(1.389,'dvw')),v-bind(changeSize(20))); 
         height: min(v-bind(changeSize(1.389,'dvw')), v-bind(changeSize(20)));
     }
+/* mobile */
+@media (width<=432px){
+    .star_list_gap{
+        display: flex;
+        /* justify-content: center; */
+        /* flex-direction: row; */
+        /* gap: v-bind("props.isGap==true?'min(0.278dvw, 4px)':'0px'") ; */
+        gap: min(v-bind(changeSize(0.926,'dvw')), v-bind(changeSize(4))) !important;
+    }
+    .star_list_no_gap{
+        display: flex;
+        justify-content: center;
+        gap: 0px !important;
+    }
+    .star{
+        width: min(v-bind(changeSize(4.63,'dvw')),v-bind(changeSize(20))); 
+        height: min(v-bind(changeSize(4.63,'dvw')), v-bind(changeSize(20)));
+    }
+}
 /* @media(width<=744px){
     .star_list_gap{
         gap: min(v-bind(changeSize(0.538,'dvw')),v-bind(changeSize(4)));
