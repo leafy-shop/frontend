@@ -332,8 +332,8 @@ onMounted(async()=>{
                     <!-- image -->
                     <td>
                         <div>
-                            <img v-if="product.image==undefined" src="../../../assets/home_p/home_design_content_english.png" alt="product_img">
-                            <img v-else :src="`${origin}/api/image/products/${product.itemId}`" alt="product_img">
+                            <img v-if="product.image==undefined" src="../../../assets/default_image.png" alt="product_img">
+                            <img v-else :src="`${origin}/api/image/products/${product.itemId}`" alt="product_img" loading="lazy">
                         </div>
                     </td>
                     <!-- SKU -->
