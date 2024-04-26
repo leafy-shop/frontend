@@ -292,4 +292,41 @@ const cencelOrder=async()=>{
     border-color: #E0E0E0;
     background-color: transparent;
 }
+/* mobile */
+@media (width<=432px){
+    .wrapper_order_group{
+    border-radius: 0px;
+    }
+    .order_detail{
+        height: 60px;
+        gap:20px;
+        padding: 12px 20px;
+    }
+    .order_detail .order_info{
+        height: 20px;
+        gap: 8px;
+    }
+    .order_info p{
+        font-size: 12px;
+    }
+    .order_info h6{
+        font-size: 14px;
+    }
+    /* container button */
+    .container_btn{
+        gap: min(0.556dvw,8px);
+    }
+    .container_btn button{
+        height: 36px;
+        font-size:14px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        border-radius: 4px;
+        padding: 8px 12px;
+    }
+    .container_btn .view_my_rating{
+        border: min(0.069dvw,1px) solid #E0E0E0;
+    }
+}
+
+
 </style>
