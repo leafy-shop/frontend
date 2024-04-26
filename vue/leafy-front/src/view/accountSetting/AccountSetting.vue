@@ -16,6 +16,7 @@ const goMyGallery=()=>myRouter.push({name:'MyGallery_AS'})
 const goSignIn=()=>myRouter.push({name:'SignIn'})
 const goSetting=()=>myRouter.push({name:"AccountSetting"})
 const goShopList=()=>myRouter.push({name:"Shop"})
+const goBack=()=>myRouter.go(-1)
 //common attribute
 const userRole=ref('')
 const isShowNested=ref(false) //show nested link my shop
@@ -66,8 +67,13 @@ const goBackController=()=>{
     if(window.innerWidth<=432){
         if(currentLinkName.value=="AccountSetting"){
             goShopList()
+        }else
+        if(currentLinkName.value=="Address_AS_add"||
+        currentLinkName.value=="Bank_AS_add"){
+            goBack()
         }else{
             goSetting()
+            // goBack()
         }
     }
 }
@@ -114,7 +120,7 @@ const linkSelected=()=>{
 }
 
 onMounted(()=>{
-    checkWidth() // for check window size
+    // checkWidth() // for check window size
     linkSelected()
     
 })
@@ -133,6 +139,8 @@ onBeforeMount(()=>{
 })
 onUpdated(()=>{
     // linkSelected()
+    checkWidth() // for check window size
+
 })
 </script>
 <template>
