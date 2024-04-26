@@ -17,7 +17,7 @@ const myRouter=useRouter()
 const goCart=()=>myRouter.push({name:"CartList"})
 const goConfirmPayment=()=>myRouter.push({name:"ConfirmPayment",params:{id:validation.encrypt(props.orderId)}})
 // common attribute
-const emit=defineEmits(['refreshData'])
+const emit=defineEmits(['refreshData','goPurchaseDetail'])
 const props=defineProps({
     name:{
         type:String,
@@ -300,6 +300,15 @@ const goBackReview=()=>{ //close all review
     SSStar.value=0
     dsStar.value=0
 }
+// review moblie 
+const goBackReviewController=()=>{
+    if(!isUpdateReview.value){
+        showReviewOverlay.value=false
+    }else{
+        goBackReview()
+    }
+}
+
 // submit
 const submitReview=async()=>{
     clearStatusReview()
@@ -463,8 +472,8 @@ const getShowAlertChange=(input)=>{
             <button @click="$emit('goPurchaseDetail',props.orderId)" v-if="props.orderDetail.length!=0" v-for="(product,index) of props.orderDetail" :disabled="props.isDisabled" class="product_item">
                 <!-- img -->
                 <div class="product_img">
-                    <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img">
-                    <img v-else src="../../assets/vue.svg" :id="`default_product_img_${product.itemId}`" alt="product_img">
+                    <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img" loading="lazy" draggable="false">
+                    <img v-else src="../../assets/default_image.png" :id="`default_product_img_${product.itemId}`" alt="product_img" draggable="false">
                 </div>
                 <!-- info -->
                 <div class="product_info">
@@ -592,7 +601,7 @@ const getShowAlertChange=(input)=>{
                 </button>
                 <!-- view mt rating -->
                 <button  @click="showReviewOverlay=true" class="view_my_rating">
-                    View My Rating
+                    Ratting
                 </button>
             </div>
             <!-- calcel  set -->
@@ -602,9 +611,9 @@ const getShowAlertChange=(input)=>{
                     Buy Again
                 </button>
                 <!-- view mt rating -->
-                <button  @click="$emit('goPurchaseDetail',props.orderId)" class="view_my_rating">
+                <!-- <button  @click="$emit('goPurchaseDetail',props.orderId)" class="view_my_rating">
                     View Cancellation Details
-                </button>
+                </button> -->
             </div>
         </div>
         <!-- review -->
@@ -612,7 +621,7 @@ const getShowAlertChange=(input)=>{
             <!-- mobile -->
             <div class="container_access_mobile menu">
                 <!-- back -->
-                <button @click="showReviewOverlay=false" class="go_back_btn">
+                <button @click="goBackReviewController" class="go_back_btn">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -635,8 +644,8 @@ const getShowAlertChange=(input)=>{
                     <div v-for="(product,index) of props.orderDetail" :key="index" class="review_item">
                         <!-- img -->
                         <div class="product_img">
-                            <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img">
-                            <img v-else src="../../assets/vue.svg" :id="`default_product_img_${product.itemId}`" alt="product_img">
+                            <img v-if="product.image!=undefined" :src="`${origin}/api/image/products/${product.itemId}`" :id="`product_img_${product.itemId}`" alt="product_img" draggable="false" oading="lazy">
+                            <img v-else src="../../assets/default_image.png" :id="`default_product_img_${product.itemId}`" draggable="false" alt="product_img">
                 
                         </div>
                         <!-- name -->
@@ -694,8 +703,8 @@ const getShowAlertChange=(input)=>{
                             <div class="product_item">
                                 <!-- img -->
                                 <div class="product_item_image">
-                                    <img v-if="productDetail.image!=undefined" :src="`${origin}/api/image/products/${productDetail.itemId}`" :id="`product_img_${productDetail.itemId}`" alt="product_img">
-                                    <img v-else src="../../assets/vue.svg" :id="`default_product_img_${productDetail.itemId}`" alt="product_img">
+                                    <img v-if="productDetail.image!=undefined" :src="`${origin}/api/image/products/${productDetail.itemId}`" :id="`product_img_${productDetail.itemId}`" alt="product_img" draggable="false" loading="lazy">
+                                    <img v-else src="../../assets/default_image.png" :id="`default_product_img_${productDetail.itemId}`" alt="product_img">
                                 </div>
                                 <!-- product info -->
                                 <div class="product_item_detail">
@@ -714,7 +723,7 @@ const getShowAlertChange=(input)=>{
                                         Product Quality
                                     </h6>
                                     <div>
-                                        <input v-model="pqStar" type="number" min="1" max="5">
+                                        <input v-model="pqStar" type="number" maxlength="1" min="1"  max="5" >
                                         <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                     </div>
                                 </div>
@@ -751,7 +760,7 @@ const getShowAlertChange=(input)=>{
                                         Seller Service
                                     </h6>
                                     <div>
-                                        <input v-model="SSStar" type="number" min="1" max="5">
+                                        <input v-model="SSStar" type="number" maxlength="1" min="1"  max="5" pattern="[1-5]{1}">
                                         <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                     </div>
                                 </div>
@@ -764,7 +773,7 @@ const getShowAlertChange=(input)=>{
                                         Delivery Service
                                     </h6>
                                     <div>
-                                        <input v-model="dsStar" type="number" min="1" max="5">
+                                        <input v-model="dsStar" type="number" maxlength="1" min="1"  max="5" pattern="[1-5]{1}">
                                         <!-- <BaseStarInput name="product_qty" :isGap="false" :size="100" :rating="4" /> -->
                                     </div>
                                 </div>
@@ -936,11 +945,12 @@ const getShowAlertChange=(input)=>{
     overflow: hidden;
     border: none;
     border-radius: min(0.278dvw,4px);
-    background-color: #212121;
+    background-color: transparent;
 }
 .product_item .product_img img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 /* informatoin */
 .product_item .product_info_mobile{
@@ -1058,7 +1068,8 @@ const getShowAlertChange=(input)=>{
     height: min(4.167dvw,60px);
     justify-content: end;
     align-items: center;
-    gap: min(1.389dvw,20px);
+    /* gap: min(1.389dvw,20px); */
+    justify-content: space-between;
     padding: min(0.833dvw,12px) min(1.389dvw,20px);
 }
 .order_detail .order_info{
@@ -1339,7 +1350,7 @@ const getShowAlertChange=(input)=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: min(0.833dvw,12px);
+    gap: min(1.667dvw,24px);
     flex-direction: column;
 }
 .container_product .product_item{
@@ -1360,7 +1371,8 @@ const getShowAlertChange=(input)=>{
 }
 .product_item .product_item_image img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 /* name */
 .product_item .product_item_detail{
@@ -1400,6 +1412,7 @@ const getShowAlertChange=(input)=>{
     gap:min(0.278dvw,4px);
 }
 /* product_quantity */
+
 .container_product .product_quantity{
     display: flex;
     width: 100%;
@@ -1867,14 +1880,85 @@ const getShowAlertChange=(input)=>{
     /* make review */
     .wrapper_review_input{
         display: flex;
-        width: 544px;
+        width: 100%;
         border-radius: 0px;
         box-shadow: 0px 1px 2px 0px #0000000F;
     }
     /* detail */
     .wrapper_review_input .container_review_input{
-        padding: 32px;
-        gap: 24px;
+        padding: 20px;
+        gap: 20px;
+    }
+    /* back btn */
+    .container_review_input .header_edit{
+        display: none;
+    }
+    /* review input */
+    .review_input{
+        gap: 20px;
+    }
+    .container_product .product_item{
+        gap: 20px;
+    }
+    /* img */
+    .product_item .product_item_image{
+        width: 52px;
+        height: 52px;
+        border-radius: 4px;
+    }
+    /* name */
+    .product_item .product_item_detail{
+        padding: 6px 12px;
+        gap: 4px;
+    }
+    .product_item_detail h6{
+        font-size: 14px;
+    }
+    .product_item_detail p{
+        font-size: 12px;
+    }
+    .container_input{
+        gap:4px;
+    }
+    /* product_quantity */
+    /* .container_product .product_quantity{
+    } */
+    .container_product .product_quantity h6{
+        height: 20px;
+        font-size: 14px;
+    }
+    /* description */
+    .container_product .product_input_desc{
+        height:52px;
+        min-height: 36px;
+        max-height: 100px;
+        padding: 12px;
+        border: 1px solid #D1D5DB;
+        border-radius: 4px;
+        resize: vertical;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+    }
+    /* service */
+    .review_input .container_service{
+        gap: 12px;
+    }
+    /* header */
+    .container_service .header_service{
+        font-size: 16px;
+    }
+    /* sellery */
+    .container_service .seller_service{
+        height: 20px;
+    }
+    .container_service .seller_service h6{
+        font-size: 14px;
+    }
+    /* delivery */
+    .container_service .deliver_service{
+        height: 20px;
+    }
+    .container_service .deliver_service h6{
+        font-size: 14px;
     }
 
 }
