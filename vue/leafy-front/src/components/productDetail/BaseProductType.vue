@@ -352,29 +352,33 @@ onUpdated(() => {
             <button v-if="selectedStyle.stock" @click="selectedImage(idx)">
               <img
                 v-if="selectedStyle.images.length == 0"
-                src="../../assets/vue.svg"
+                src="../../assets/default_image.png"
                 alt="image_style"
                 draggable="false"
+                loading="lazy"
               />
               <img
                 v-else
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`"
                 alt="image_style"
                 draggable="false"
+                loading="lazy"
               />
             </button>
             <button v-else @click="selectedImage(idx)">
               <img
                 v-if="selectedStyle.images.length == 0"
-                src="../../assets/vue.svg"
+                src="../../assets/default_image.png"
                 alt="image_style"
                 draggable="false"
+                loading="lazy"
               />
               <img
                 v-else
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${selectedStyle.style}/${value}`"
                 alt="image_style"
                 draggable="false"
+                loading="lazy"
               />
             </button>
           </li>
@@ -388,6 +392,7 @@ onUpdated(() => {
           alt="image_style"
           id="show_image_selected"
           draggable="false"
+                loading="lazy"
         />
         <!-- <img
           v-if="selectedStyle.images && selectedStyle.images.length"
@@ -397,7 +402,7 @@ onUpdated(() => {
         /> -->
         <!-- <img v-else-if="productStyle.image && selectedStyle.images" :src="`${origin}/api/image/products/${productStyle.itemId}/${productStyle.image}`" alt="image_style"> -->
         <!-- <img v-else-if="selectedStyle.images && selectedStyle.images.length === 0" src="../../assets/vue.svg" alt="image_style"> -->
-        <img v-else src="../../assets/vue.svg" alt="image_style" draggable="false" />
+        <img v-else src="../../assets/default_image.png" alt="image_style" draggable="false" loading="lazy" />
         <!-- {{ productStyle }} -->
         <div
           v-show="
@@ -533,7 +538,7 @@ onUpdated(() => {
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`"
                 alt="product_style" draggable="false"
               />
-              <img v-else src="../../assets/vue.svg" alt="product_style" draggable="false" />
+              <img v-else src="../../assets/default_image.png" alt="product_style" draggable="false" loading="lazy" />
             </div>
             <!-- {{ style }} -->
           </button>
@@ -651,7 +656,7 @@ onUpdated(() => {
   justify-content: center;
   align-items: center;
   border-radius: min(0.278dvw, 4px);
-  background-color: rgb(50, 50, 50);
+  background-color: transparent;
   overflow: hidden;
 }
 
