@@ -217,8 +217,8 @@ onBeforeMount(async()=>{
                     <div v-for="(gallery,index) of myGalleryList" :key="index" class="gallery_item">
                         <!-- img -->
                         <div class="gallery_img img_detail">
-                            <img v-if="gallery.image!=undefined" :src="`${origin}/api/image/gallery/${gallery.contentId}`" alt="gallery_img">
-                            <img v-else src="../../../assets/home_p/home_design_content_tropical.png" alt="gallery_img">
+                            <img v-if="gallery.image!=undefined" :src="`${origin}/api/image/gallery/${gallery.contentId}`" alt="gallery_img" draggable="false" loading="lazy">
+                            <img v-else src="../../../assets/default_image.png" alt="gallery_img" draggable="false" >
                         </div>
                         <!-- name -->
                         <div class="gallery_name">
