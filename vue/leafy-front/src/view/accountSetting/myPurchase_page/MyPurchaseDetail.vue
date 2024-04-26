@@ -412,10 +412,12 @@ onBeforeMount(async()=>{
 }
 .back_btn h6{
     width: fit-content;
+    max-width: 100%;
     height: fit-content;
     font-size: 14px;
     font-weight: 500;
     color:#212121;
+    /* white-space: ; */
 }
 /* order id */
 .header_transition .container_order_id_stauts{
@@ -610,5 +612,97 @@ onBeforeMount(async()=>{
     font-size: 14px;
     font-weight: 400;
     color:#616161;
+}
+/* mobile */
+@media (width<=432px){
+    .container_purchase_detail{
+        gap: 8px;
+    }
+    .purchase_transition{
+        border-radius: 0px;
+        gap: 20px;
+        padding: 12px;
+    }    
+    /* header */
+    .purchase_transition .header_transition{
+        height: 36px;
+        padding-bottom: 0px;
+        border-bottom: 1px solid #EEEEEE;
+        justify-content: start;
+    }
+    /* back button */
+    .header_transition .back_btn{
+        display: none;
+    }
+    /* order id */
+    .header_transition .container_order_id_stauts{
+        height: 20px;
+        gap: 12px;
+    }
+    .container_order_id_stauts >h6{
+        max-width: 100%;
+        padding-right: 12px;
+        border-right: 0px;
+        font-size: 14px;
+        gap: 4px;
+    }
+    /* detail step icon*/
+    .purchase_transition .transition_detail{
+        width: 100%;
+        gap: 12px;
+    }
+    /* .transition_detail .step_list{
+    } */
+    /* .step_list .step_item{
+    } */
+    .step_list .step_item .circle{
+        width: 36px;
+        height: 36px;
+    }
+    .line_step{
+        display: flex;
+        width: 40px;
+        height: 2px;
+        border: none;
+        background-color: #E0E0E0;
+    }
+    .transition_detail .step_detail{
+        gap: 25px;
+    }
+    .step_detail .step_item{
+        display: flex;
+        width: 50px;
+        height: fit-content;
+        /* flex-direction: column; */
+    }
+    .step_item >div h6{
+        display: none;
+    }
+    
+    .step_item >div p{
+        font-size: 8px;
+    }
+    /* cancel transition */
+    .purchase_transition .transition_detail_calcel{
+        gap: 4px;
+    }
+    .transition_detail_calcel >h6{
+        font-size: 16px;
+    }
+    .transition_detail_calcel >p{
+        font-size: 14px;
+    }
+    /* deliver address */
+    .deliver_address{
+        border-radius: 0px;
+        padding: 20px;
+        gap: 8px;
+    }
+    .deliver_address .header_address{
+        font-size: 18px;
+    }
+    .deliver_address > p{
+        font-size: 14px;
+    }
 }
 </style>
