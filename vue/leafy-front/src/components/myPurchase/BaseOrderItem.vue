@@ -609,6 +609,23 @@ const getShowAlertChange=(input)=>{
         </div>
         <!-- review -->
         <div v-if="showReviewOverlay" :id="`${props.name}`" class="overlay_review">
+            <!-- mobile -->
+            <div class="container_access_mobile menu">
+                <!-- back -->
+                <button @click="showReviewOverlay=false" class="go_back_btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 19L3 12M3 12L10 5M3 12H21" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </button>
+                <!-- header -->
+                <h5 class="header">
+                 Rate Product
+                </h5>
+                <!-- empty  -->
+                <div class="empty">
+
+                </div>
+            </div>
             <!-- list -->
             <div v-if="!isUpdateReview" class="wrapper_review">
                 <h5 class="header_review_list">
@@ -778,6 +795,11 @@ const getShowAlertChange=(input)=>{
 .money_bath::before{
     content:"฿"
 }
+/* access layer */
+.container_access_mobile{
+  display: none;
+}
+/* shop */
 .shop_item{
     display:flex;
     width:100%;
@@ -1165,7 +1187,8 @@ const getShowAlertChange=(input)=>{
 }
 .product_img img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 /* name */
 .review_item .product_name{
@@ -1691,9 +1714,169 @@ const getShowAlertChange=(input)=>{
         text-align: end;
     }
     /* order detail */
-    /* .order_detail{
-        display: none
-    } */
+    .order_detail{
+        height: 60px;
+        gap: 20px;
+        padding: 12px 20px;
+    }
+    .order_detail .order_info{
+        height: 20px;
+        gap: 8px;
+    }
+    .order_info p{
+        font-size: 12px;
+    }
+    .order_info h6{
+        font-size: 14px;
+    }
+    /* button */
+    .order_detail .container_btn{
+        gap: 8px;
+    }
+    
+    .container_btn button{
+        height: 36px;
+        font-size: 14px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        border-radius: 4px;
+        padding: 8px 12px;
+    }
+    .container_btn .view_my_rating{
+        border: min(0.069dvw,1px) solid #E0E0E0;
+    }
+    /* access */
+    .container_access_mobile{
+        display: flex;
+        width: 100%;
+        height: 60px;
+        padding: 12px 20px;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 1px 3px 0px #0000001A;
+        background-color: #fff;
+    }
+    .container_access_mobile .go_back_btn{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    .container_access_mobile h5.header{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        font-size:18px ;
+        font-weight: 700;
+        color: #212121;
+        gap: 4px;
+        justify-content: center;
+        align-items: center;
+    }
+    .container_access_mobile h5.header span{
+        width: fit-content;
+        height: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        color: #616161;
+        vertical-align: center;
+    }
+    .container_access_mobile div.empty{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        letter-spacing: 0.20000000298023224px;
+    }
+    /* review */
+    .overlay_review{
+        display: flex;
+        position: fixed;
+        width: 100%;
+        height: 100dvh;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        justify-content: start;
+        align-items: start;
+        background-color: #fff;
+        flex-direction: column;
+    }
+    .wrapper_review{
+        width: 100%;
+        border-radius: 0px;
+        padding: 0px;
+        gap: 20px;
+        box-shadow: 0px 1px 2px 0px #0000000F;
+    }
+    .wrapper_review .header_review_list{
+        display: none;
+        /* font-size: 16px; */
+    }
+    /* list */
+    .review_list{
+        display: flex;
+        width: 100%;
+        height:fit-content ;
+        max-height: 50dvh;
+        flex-direction: column;
+        overflow-y: auto;
+        padding: 20px;
+    }
+    .review_item{
+        height: 64px;
+        padding:12px 0px;
+        border-bottom: 0px;
+        align-items: center;
+    }
+    /* img */
+    .review_item .product_img{
+        width: 52px;
+        height: 52px;
+        border-radius: 4px;
+    }
+    /* name */
+    .review_item .product_name{
+        display: flex;
+        width: 228px;
+        padding: 6px 12px;
+    }
+    .product_name > h6{
+        font-size: 14px;
+    }
+    .product_name> p{
+        font-size: 12px;
+    }
+    /* star */
+    .review_item .product_star{
+        width: 84px;
+    }
+    /* operator */
+    .review_item .product_operation{
+        width: 28px;
+    }
+    .product_operation button{
+        width: 16px;
+        height: 16px;
+    }
+    .close_review_list{
+        display: none;
+    }   
+    /* make review */
+    .wrapper_review_input{
+        display: flex;
+        width: 544px;
+        border-radius: 0px;
+        box-shadow: 0px 1px 2px 0px #0000000F;
+    }
+    /* detail */
+    .wrapper_review_input .container_review_input{
+        padding: 32px;
+        gap: 24px;
+    }
+
 }
 
 </style>
