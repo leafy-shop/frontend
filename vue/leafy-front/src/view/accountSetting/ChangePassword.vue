@@ -5,6 +5,8 @@ import cookie from '../../JS/cookie';
 import fetch from '../../JS/api'
 import validation from '../../JS/validation'
 import BaseAlert from '../../components/BaseAlert.vue';
+import BaseSubmit from '../../components/accountSetting/BaseSubmit.vue';
+import BaseShowErrorInput from '../../components/accountSetting/BaseShowErrorInput.vue'
 const myRouter = useRouter()
 // const goNewPW=()=>myRouter.push({name:"NewPW_AS"})
 const userName = ref('')
@@ -259,7 +261,8 @@ onBeforeMount(() => {
                         Forgot Password ?
                     </button> -->
                     <!-- worning -->
-                    <div v-show="oldPasswordS" class="wrapper_errorMsg">
+                    <BaseShowErrorInput name="old_pw_error" :show="oldPasswordS" :msg="oldPasswordM" />
+                    <!-- <div v-show="oldPasswordS" class="wrapper_errorMsg">
                         <div>
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -271,7 +274,7 @@ onBeforeMount(() => {
                                 {{ oldPasswordM }}
                             </p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- New -->
                 <div v-else-if="isChangePassword" class="new_PW">
@@ -307,7 +310,8 @@ onBeforeMount(() => {
                             Make your password short and easy to guess.
                         </p>
                         <!-- worning -->
-                        <div v-show="newPasswordS" class="wrapper_errorMsg">
+                        <BaseShowErrorInput name="new_pw_error" :show="newPasswordS" :msg="newPasswordM" />
+                        <!-- <div v-show="newPasswordS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -319,7 +323,7 @@ onBeforeMount(() => {
                                     {{ newPasswordM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="input_item">
                         <h5>
@@ -353,7 +357,8 @@ onBeforeMount(() => {
                             Make your password short and easy to guess.
                         </p>
                         <!-- worning -->
-                        <div v-show="newPasswordConfirmS" class="wrapper_errorMsg">
+                        <BaseShowErrorInput name="confirm_pw_error" :show="newPasswordConfirmS" :msg="newPasswordConfirmM" />
+                        <!-- <div v-show="newPasswordConfirmS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -365,7 +370,7 @@ onBeforeMount(() => {
                                     {{ newPasswordConfirmM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     
                 </div>
@@ -373,15 +378,24 @@ onBeforeMount(() => {
             
             <BaseAlert name="change_password_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
         </div>
-    </div><!-- submit -->
-        <div class="submit">
+    </div>
+    <!-- submit -->
+    <div v-if="!isChangePassword" class="check_pw_btn">
+        <button @click="submitChangePasswrod()">
+            Next
+        </button>
+    </div>
+    <div v-else-if="isChangePassword">
+        <BaseSubmit name="change_password_submit" :disabled="false" @goBack="cancelChangePassword" @submit="submitChangePasswrod()" />
+    </div>
+        <!-- <div class="submit">
             <button @click="cancelChangePassword()">
                 Cancel
             </button>
             <button @click="submitChangePasswrod()">
                 Next
             </button>
-        </div>
+        </div> -->
     </div>
 </template>
 <style scoped>
@@ -550,7 +564,28 @@ onBeforeMount(() => {
     flex-direction: column;
     gap: min(1.667dvw,24px);
 }
-
+div.check_pw_btn{
+    display: flex;
+    height: fit-content;
+    padding: 12px 20px;
+    justify-content: end;
+    align-items: center;
+}
+.check_pw_btn >button{
+    display: flex;
+    width: fit-content;
+    height: 36px;
+    padding: 8px 12px;
+    background-color: #26AC34;
+    color: #fff;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* 
 
 .submit {
     display: flex;
@@ -618,10 +653,88 @@ onBeforeMount(() => {
     font-style: normal;
     font-weight: 400;
     line-height: 136%;
-    /* 16.32px */
     letter-spacing: min(0.014dvw,0.2px);
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
+} */
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_all {
+        border-radius: 0px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
+    }
+    .wrapper_change_PW {
+        padding: 20px;
+        gap: 20px;
+    }
+    .change_PW {
+        gap: 12px;
+    }
+    .header_change_PW {
+        display: none;
+    }
+    /* .inputs {
+    } */
+    .input_item {
+        gap: 8px;
+    }
+    .input_item h5 {
+        height: 20px;
+        font-size: 14px;
+    }
+    .input_item .input_field {
+        display: flex;
+        width: 100%;
+        height: 36px;
+        border: 1px solid #D1D5DB;
+        border-radius: 4px;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        padding-right: 12px;
+    }
+    .input_item .input_field input {
+        padding: 8px 0px 8px 12px;
+    }
+    /* .input_item .input_field button{} */
+    .input_item .input_field button svg {
+        width: 20px;
+        height: 20px;
+    }
+    .input_item button {
+        height: 20px;
+        font-weight: 14px;
+    }
+    .input_item p {
+        height: 20px;
+        font-size: 14px;
+    }
+    .new_PW {
+        gap: 24px;
+    }
+    /* button next */
+    div.check_pw_btn{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        padding: 0px 20px 20px 20px;
+        justify-content: center;
+        align-items: center;
+
+    }
+    .check_pw_btn >button{
+        display: flex;
+        width: 100%;
+        height: 36px;
+        padding: 8px 12px;
+        background-color: #26AC34;
+        color: #fff;
+        box-shadow: 0px 1px 2px 0px #0000000D;
+        border: none;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 }
 </style>
