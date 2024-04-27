@@ -7,6 +7,7 @@ import fetch from '../../../JS/api';
 import validation from '../../../JS/validation'
 import BaseAlert from '../../../components/BaseAlert.vue';
 import BaseEmptyList from '../../../components/BaseEmptyList.vue';
+import BaseConfirm from '../../../components/BaseConfirm.vue';
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 const myRouter=useRouter()
@@ -18,7 +19,7 @@ const goMyGalleryUpdate=(galleryId)=>{
 }
 // common attribute
 const myGalleryList=ref([])
-
+const myGalleryId=ref('')
 // filter
 const itemFilter=ref(undefined)
 // move page
@@ -30,7 +31,8 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
-
+// for display confirm delete
+const isDelete = ref(false)
 // get status
 const getDataStatus=ref(undefined)
 
@@ -81,11 +83,13 @@ const deleteGallery=async(galleryId)=>{
     if(await status){
         console.log('delete successful')
         await getMyGallery()
+        isDelete.value=false
     }else{
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
         alertTime.value=10
+        isDelete.value=false
     }
 }
 
@@ -122,7 +126,28 @@ const getShowAlertChange=(input)=>{
     alertTime.value=2
 }
 
+// confirm delete
+const showConfirm = (id) => {
+    isDelete.value = true
+    myGalleryId.value = id
+}
+const confirmBank = async (input = false) => {
+    if (!input) isDelete.value = false;
+    else {
 
+        // delete api
+        // console.log("delete function")
+        if (myGalleryId.value.length != 0) {
+            await deleteGallery(myGalleryId.value);
+            // console.log(addressId.value)
+        }
+        else {
+            isDelete.value = false
+            console.log("close overlay")
+
+        }
+    }
+}
 
 onBeforeMount(async()=>{
     // await getMyGallery()
@@ -255,7 +280,7 @@ onBeforeMount(async()=>{
                                 </svg>
                             </button>
                             <!-- delete -->
-                            <button @click="deleteGallery(gallery.contentId)">
+                            <button @click="showConfirm(gallery.contentId)">
                                 <!-- <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.33398 8.16667V13.1667M9.66732 8.16667V13.1667M1.33398 4.83333H14.6673M13.834 4.83333L13.1115 14.9517C13.0816 15.3722 12.8934 15.7657 12.5849 16.053C12.2764 16.3403 11.8705 16.5 11.449 16.5H4.55232C4.13077 16.5 3.72487 16.3403 3.41639 16.053C3.1079 15.7657 2.91975 15.3722 2.88982 14.9517L2.16732 4.83333H13.834ZM10.5007 4.83333V2.33333C10.5007 2.11232 10.4129 1.90036 10.2566 1.74408C10.1003 1.5878 9.88833 1.5 9.66732 1.5H6.33398C6.11297 1.5 5.90101 1.5878 5.74473 1.74408C5.58845 1.90036 5.50065 2.11232 5.50065 2.33333V4.83333H10.5007Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg> -->
@@ -268,6 +293,7 @@ onBeforeMount(async()=>{
                 </div>
             </div>
         </div>
+        <BaseConfirm name="my_gallery_list" header-confirm="Do you want to delete the current content?" submit-title="Delete" :show-confirm="isDelete"  @cancel="confirmBank()" @submit="confirmBank(true)"  />
         <BaseMovePage v-if="getDataStatus==true" name="my_gallery" :current-page="currentPage" :total-amount-item="allItem" @next-page="nextPage" @previous-page="previousPage" />
         <BaseAlert name="my_gallery_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
 
