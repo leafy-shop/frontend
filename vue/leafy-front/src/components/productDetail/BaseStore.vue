@@ -148,8 +148,8 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
 .container_store{
     display: flex;
     width: 100%;
-    height: min(8.333dvw, 120px);
-    
+    /* height: min(8.333dvw, 120px); */
+    height: fit-content;
     gap: min(1.389dvw, 20px);
     /* background-color: #fff; */
     /* border-radius: min(0.556dvw, 8px); */
@@ -169,8 +169,10 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
     align-items: center;
 }
 .store_img img {
-    width: min(5dvw,72px);
-    height: min(5dvw,72px);
+    /* width: min(5dvw,72px); */
+    /* height: min(5dvw,72px); */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 .store {
@@ -209,13 +211,13 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
     background: #fff;
     color: #212121;
     border: min(0.069dvw, 1px) solid;
-    border-color: #212121;
+    border-color: #E0E0E0;
     border-radius: min(0.278dvw, 4px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 .wrapper_chat_shop button:nth-child(1):hover {
-    background: #26AC34;
-    color: #fff;
+    border-color: #26AC34;
+    color: #26AC34;
 }
 .wrapper_chat_shop button:nth-child(1):active {
     border-color: #58d264;
