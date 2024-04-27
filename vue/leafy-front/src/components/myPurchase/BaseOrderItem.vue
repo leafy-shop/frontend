@@ -460,7 +460,7 @@ const getShowAlertChange=(input)=>{
                     </svg>
                 </div>
                 <h6 :style="[`color:${validation.calculateStatusStepColor(orderStatus).font};`]">
-                    {{ props.orderStatus }}
+                    {{ validation.calculateStatusStepDisplay(props.orderStatus) }}
                     <!-- To Ship -->
                 </h6>
 
