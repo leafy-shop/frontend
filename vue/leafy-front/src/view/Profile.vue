@@ -14,7 +14,7 @@ import pMode from '../JS/enum/profileMode'
 import sortTypeArr from '../JS/enum/product'
 import BaseStar from '../components/productDetail/BaseStar.vue'
 import BaseAlert from '../components/BaseAlert.vue';
-
+import BaseEmptyList from '../components/BaseEmptyList.vue';
 // link
 const myRouter=useRouter()
 const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
@@ -61,7 +61,9 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
-
+// get status
+const getDataStatus=ref(undefined)
+const getDataStatusRecommend=ref(undefined)
 
 const changeMode=()=>{
     let includeMode=pMode.map(x=>x.mode==owner.value.role?true:false) //check role for select mode
@@ -129,11 +131,21 @@ const getStore =async()=>{
     
 }
 const getProductRecommend=async()=>{
+    getDataStatusRecommend.value=undefined
     let {status,data} = await fetch.getAllRecommendProduct(1, 4)
-    recommendProduct.value = data.list
-    // console.log(data)
-    console.log(recommendProduct.value,'TESTIng')
-    // totalPage.value=10
+    if(await status){
+        recommendProduct.value = await data.list
+        // console.log(data)
+        console.log(recommendProduct.value,'TESTIng')
+        // totalPage.value=10
+        if(recommendProduct.value.length!=0){
+            getDataStatusRecommend.value=true
+        }else{
+            getDataStatusRecommend.value=false
+        }
+    }else{
+        getDataStatusRecommend.value=false
+    }
 }
 // check image
 const checkImage=async()=>{
@@ -154,6 +166,7 @@ const checkCoverImage =async()=>{
 }
 
 const getProduct = async (page) => {
+    getDataStatus.value=undefined
     // console.log(categoryFilter.value.join())
     // console.log(minFilter.value)
     // console.log(maxFilter.value)
@@ -186,8 +199,13 @@ const getProduct = async (page) => {
         outStockList.value = await data.outStock
         allItems.value = await data.allItems
         totalPage.value = await data.allPage
-
+        if(productList.value.length!=0){
+            getDataStatus.value=true
+        }else{
+            getDataStatus.value=false
+        }
     }else{
+        getDataStatus.value=false
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
@@ -490,9 +508,10 @@ onUpdated(() => {
                     <h5 class="header">
                         Recommended for You
                     </h5>
-                    <div class="wrapper_recommendation_component">
+                    <div v-if="getDataStatusRecommend" class="wrapper_recommendation_component">
                         <BaseProductList :product-list="recommendProduct" :gridColumn="4" />
                     </div>
+                    <BaseEmptyList name="profile_recommend_list" title="Sorry, we don't have any products available for purchase. 😊" :showEmpty="getDataStatusRecommend" />
                 </div>
             </div>
             
@@ -507,13 +526,15 @@ onUpdated(() => {
                         <Basesortitem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
                             @moveLeft="moveLeft" @moveRight="moveRight"
                             :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
-                        <BaseProductList :product-list="productList" :gridColumn="3" />
+                        <BaseProductList v-if="getDataStatus" :product-list="productList" :gridColumn="3" />
+                        <BaseEmptyList name="profile_list" title="Sorry, we don't have any products available for purchase. 😊" :showEmpty="getDataStatus" />
+
                     </div>
 
                     <BaseSelectPage name="profile_not_me" :total-page="totalPage" :current-page="currentPage"
                     @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
 
-                    <div class="product_sold_out">
+                    <div v-if="outStockList.length!=0" class="product_sold_out">
                         <h5 class="header">
                             Sold Out
                         </h5>
@@ -538,7 +559,7 @@ onUpdated(() => {
                     <div class="img_me">
                         <!-- <img  src="../assets/home_p/home_design_content_tropical.png" alt="product_img"> -->
                         <img v-if="product.image" :src="`${origin}/api/image/products/${product.itemId}`" :alt="`product_img_${product.name}`">
-                        <img v-else src="../assets/vue.svg" alt="product_img">
+                        <img v-else src="../assets/default_image.png" alt="product_img">
                         
                     </div>
                     <!-- info -->
@@ -585,12 +606,12 @@ onUpdated(() => {
                             
                             <!-- discription -->
                             <p class="discription_me">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur odio fugiat aspernatur voluptate enim, autem tempora delectus sit fuga facere! Facere beatae sit iusto rem eius exercitationem placeat deserunt, corrupti, praesentium dolore similique ea dignissimos consequuntur saepe eum quasi error? Asperiores sunt numquam illo consectetur quia nobis excepturi officiis est. Sed enim doloremque molestiae. Iste adipisci labore animi corrupti optio sequi eum tempora est at ipsa modi natus nobis repudiandae minima iusto sunt cum assumenda quibusdam ducimus, quam sapiente. Laudantium similique perferendis dicta necessitatibus impedit delectus, mollitia debitis facere veritatis recusandae minima ea hic. Necessitatibus quasi ipsum magnam deleniti explicabo voluptatem cum quidem culpa ullam consectetur omnis eaque illo, nostrum non qui iure. Doloremque modi laboriosam, nam nostrum debitis eos rem quod. Dignissimos hic earum error obcaecati minus voluptates suscipit soluta unde, ducimus quae sequi placeat eligendi veritatis maxime nihil molestiae deleniti, a sunt laborum delectus mollitia vero debitis culpa?
+                                {{ product.description }}
                             </p>
                         </div>
                         <!-- stock -->
                         <div class="stock_me">
-                            <div>
+                            <!-- <div>
                                 <h5>
                                     Stocks
                                 </h5>
@@ -598,7 +619,7 @@ onUpdated(() => {
                                     13
                                     pieces available
                                 </h6>
-                            </div>
+                            </div> -->
                             <h6>
                                 {{product.sold}}
                                 sold
@@ -608,6 +629,7 @@ onUpdated(() => {
                     </div>
                 </div>
             </div>
+            <BaseEmptyList name="profile_me_list" title="It seems like you don't have any products available at the moment." :showEmpty="getDataStatusRecommend" />
             <!-- select page -->
             <BaseSelectPage name="profile_me" :total-page="totalPage" :current-page="currentPage"
                     @changePage="changePage" @move-left="moveLeft" @move-right="moveRight"/>
@@ -1077,6 +1099,7 @@ onUpdated(() => {
     color: #212121;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* operation */
@@ -1135,7 +1158,7 @@ onUpdated(() => {
     display: flex;
     width: 100%;
     height: min(1.389dvw,20px);
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
 }
 .stock_me >div{
