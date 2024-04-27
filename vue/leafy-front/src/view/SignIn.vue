@@ -461,7 +461,7 @@ h4 > span{
     
 }
 
-@media (width <=376px){
+@media (width <=432px){
     .signIn{
         padding: min(26.596dvw,100px) 0px min(39.894dvw,150px) 0px;
     }
