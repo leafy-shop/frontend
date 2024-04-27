@@ -64,6 +64,9 @@ onBeforeMount(()=>{
     </div>
 </template>
 <style scoped>
+*{
+    box-sizing: border-box;
+}
 .wrapper_recommend{
     display: flex;
     width: 100%;
@@ -92,5 +95,17 @@ onBeforeMount(()=>{
     width: 100%;
     height: fit-content;
     justify-content: center;
+}
+
+/* mobile */
+@media (width<=432px){
+    .wrapper_recommend{
+        gap: 20px;
+    }
+    .wrapper_recommend h5{
+        height: 24px;
+        font-weight: 500;
+        font-size: 16px;
+    }
 }
 </style>
