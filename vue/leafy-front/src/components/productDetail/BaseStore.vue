@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import validation from '../../JS/validation'
 const myRouter=useRouter()
+let origin = `${import.meta.env.VITE_BASE_URL}`;
 let props = defineProps({
     owner: {
         type: Object,
@@ -16,7 +17,8 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         <div class="container_store">
             <!-- for show img -->
             <div class="store_img">
-                <img src="../../assets/shop_p/avatar_userProfile.png" alt="supplier_img">
+                <img v-if="props.owner.image!=undefined" :src="`${origin}/api/image/users/${owner.userId}`" alt="supplier_img" loading="lazy" draggable="false">
+                <img v-else src="../../assets/shop_p/avatar_userProfile.png" alt="supplier_img">
             </div>
             <!-- click to chat or view shop profile -->
             <div class="store">
@@ -162,13 +164,18 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
     height: min(5dvw,72px);
     background-color: #FAFAFA;
     border-radius: 50%;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
 }
 .store_img img {
     width: min(5dvw,72px);
     height: min(5dvw,72px);
+    object-fit: cover;
 }
 .store {
     display: flex;
+    flex-shrink: 3;
     flex-direction: column;
     width: min(19.444dvw, 280px);
     height: min(5.556dvw, 80px);
@@ -243,6 +250,7 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
 } 
 .about_me{
     display: flex;
+    flex-shrink: 5;
     flex-direction: row;
     /* width: min(19.444dvw, 280px); */
     width: 100%;
@@ -257,6 +265,7 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
     display: flex;
     width: 100%;
     height: 52px;
+    
     flex-direction: column;
     /* gap: min(0.833dvw, 12px); */
     width: 100%;
