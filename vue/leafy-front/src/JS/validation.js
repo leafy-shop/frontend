@@ -1,6 +1,7 @@
 import cryptoJs from 'crypto-js';
 import ORDERSTATUS from './enum/order';
 import ORDERSTATUSCOLOR from './enum/orderStatusColor';
+import ORDERSTATUSDISPLAY from './enum/orderDisplayWord'
 const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
 
  const ft ={
@@ -168,6 +169,18 @@ const key=`${import.meta.env.VITE_BASE_INFORMATION_KEY}`
                 return {font:'gray',bg:'gray'}
             }else{
                 return ORDERSTATUSCOLOR[indexCurrent]
+            }
+        }
+    
+    },
+    calculateStatusStepDisplay(currentStatus){
+        if(currentStatus!=undefined){
+            let statusValue = Object.values(ORDERSTATUS)
+            let indexCurrent =statusValue.indexOf(currentStatus)
+            if(ORDERSTATUSDISPLAY[indexCurrent]==undefined){
+                return "To Pay"
+            }else{
+                return ORDERSTATUSDISPLAY[indexCurrent]
             }
         }
     
