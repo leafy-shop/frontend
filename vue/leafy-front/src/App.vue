@@ -16,6 +16,9 @@
     top: 0;
     z-index: 999;
 }
-
+.inportant_input::after{
+    content: '*';
+    color: #F75555;
+}
 </style>
 
