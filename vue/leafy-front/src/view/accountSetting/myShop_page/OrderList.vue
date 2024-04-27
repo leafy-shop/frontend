@@ -296,9 +296,13 @@ const getAllStatusCount=async()=>{
 }
 
 onBeforeMount(async()=>{
-    // assign username
-    uesrName.value=cookie.decrypt().username
-    // await getAllOrder()
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
+        // assign username
+        uesrName.value=cookie.decrypt().username
+        // await getAllOrder()    
+    }
+    
     
 })
 onMounted(async()=>{
@@ -825,6 +829,7 @@ onMounted(async()=>{
     height: fit-content;
     flex-direction: column;
     gap: min(1.667dvw,24px);
+    animation: show_element ease-in 1.5s;
 }
 .header_orders{
     display: flex;
