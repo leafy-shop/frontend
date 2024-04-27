@@ -10,6 +10,7 @@ import BaseSelectPage from '../../../components/BaseSelectPage.vue';
 import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
 import BaseEmptyList from '../../../components/BaseEmptyList.vue';
+import BaseConfirm from '../../../components/BaseConfirm.vue';
 // link
 const myRouter=useRouter()
 const goAdd=()=>myRouter.push({name:'Shop_AS_add'})
@@ -18,7 +19,7 @@ const goEdit=(id)=>myRouter.push({name:'Shop_AS_add',params: {id: id }})
 const userName=ref('')
 const productList=ref([])
 let origin = `${import.meta.env.VITE_BASE_URL}`;
-
+const productId =ref('')
 // filter attribute
 const filterObj=ref(undefined)
 const filterValuePosition=ref(0) //ตำแหน่งของค่า Filter ที่มีมากว่า 1 (0 default)
@@ -37,7 +38,8 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
-
+// confirm attribute
+const isDelete=ref(false)
 // get status
 const getDataStatus=ref(undefined)
 
@@ -109,13 +111,16 @@ const deleteProduct=async(id)=>{
     if(await status){
         console.log('delete success')
         await getProduct()
+        isDelete.value = false
     }else
     if(await msg=='400'){// error
         isShowAlert.value=true
         alertType.value=2
         alertDetail.value='The product cannot be deleted because the product has already been purchased.'
         alertTime.value=10
+        isDelete.value = false
     }else{
+        isDelete.value = false
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
@@ -196,7 +201,28 @@ const getShowAlertChange=(input)=>{
     alertDetail.value=''
     alertTime.value=2
 }
+const showConfirm = (id) => {
+    isDelete.value = true
+    productId.value = id
+}
+// confirm
+const confirmBank = async (input = false) => {
+    if (!input) isDelete.value = false;
+    else {
 
+        // delete api
+        // console.log("delete function")
+        if (productId.value.length != 0) {
+            await deleteProduct(productId.value);
+            // console.log(addressId.value)
+        }
+        else {
+            isDelete.value = false
+            console.log("close overlay")
+
+        }
+    }
+}
 
 onBeforeMount(async()=>{
     userName.value=cookie.decrypt().username
@@ -394,7 +420,7 @@ onMounted(async()=>{
                                 </svg>
                             </button>
                             <!-- delete -->
-                            <button @click="deleteProduct(product.itemId)">
+                            <button @click="showConfirm(product.itemId)">
                                 <!-- <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.3335 8.16667V13.1667M9.66683 8.16667V13.1667M1.3335 4.83333H14.6668M13.8335 4.83333L13.111 14.9517C13.0811 15.3722 12.8929 15.7657 12.5844 16.053C12.2759 16.3403 11.87 16.5 11.4485 16.5H4.55183C4.13028 16.5 3.72439 16.3403 3.4159 16.053C3.10742 15.7657 2.91926 15.3722 2.88933 14.9517L2.16683 4.83333H13.8335ZM10.5002 4.83333V2.33333C10.5002 2.11232 10.4124 1.90036 10.2561 1.74408C10.0998 1.5878 9.88784 1.5 9.66683 1.5H6.3335C6.11248 1.5 5.90052 1.5878 5.74424 1.74408C5.58796 1.90036 5.50016 2.11232 5.50016 2.33333V4.83333H10.5002Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg> -->
@@ -413,6 +439,7 @@ onMounted(async()=>{
 
     </div>
     <!-- move page -->
+    <BaseConfirm name="my_shop_confirm"  header-confirm="Do you want to delete the current product?" submit-title="Delete" :show-confirm="isDelete"  @cancel="confirmBank()" @submit="confirmBank(true)"  />
     <!-- <BaseSelectPage @current-page="" @total-page="10" /> -->
     <BaseMovePage v-show="getDataStatus==true" name="my_shop" :current-page="currentPage" :total-amount-item="totalAmountItem" @previousPage="previousPage()" @nextPage="nextPage()" />
     <BaseAlert name="shop_list" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
