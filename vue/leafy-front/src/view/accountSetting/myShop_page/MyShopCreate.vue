@@ -7,10 +7,12 @@ import { useRoute, useRouter } from 'vue-router';
 import productEnum from '../../../JS/enum/product'
 import { v4 as uuidv4 } from 'uuid';
 import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue';
-
+import BaseAlert from '../../../components/BaseAlert.vue';
+// import BaseConfirm from '../../../components/BaseConfirm.vue'
+import BaseShowErrorInput from '../../../components/accountSetting/BaseShowErrorInput.vue';
 // link
 const myRouter = useRouter()
-const goBack = () => myRouter.go(-1)
+const goBack = () => myRouter.push({name:"Shop_AS"})
 const goEdit = () => myRouter.push({ name: 'Shop_AS_add', params: { id: productId.value } })
 // common attribute
 const { params } = useRoute()
@@ -54,6 +56,15 @@ const errProdS = ref(false)
 const errProdM = ref("")
 const errSkuS = ref(false)
 const errSkuM = ref("")
+
+// alert attribute
+const isShowAlert=ref(false)
+const alertType=ref(0)
+const alertDetail=ref('')
+const alertTime=ref(2)
+
+// confirm attribute
+const isDelete=ref(false)
 
 // for set format input data
 const formDataProduct = computed(() => {
@@ -225,6 +236,11 @@ const getProductDetail = async (itemId) => {
         tagText.value = data.tag != undefined ? data.tag.join() : ''
         // style
         productStyleList.value = data.styles
+    }else{
+        alertType.value=1
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        isShowAlert.value=true
+        alertTime.value=10
     }
 }
 
@@ -233,55 +249,85 @@ const addProduct = async () => {
 
     let { productStatus, productData } = formDataProduct.value //เป็นแม่แบบสำหรับดึงข้อมูลและตรวจสอบค่าที่ใส่เข้าไป
 
-    if (productStatus) {
-        let { status, msg, data } = await fetch.addProduct(productData)
-        if (status) {
-            let { itemId } = data
-            productId.value = itemId
-            console.log(status, msg, itemId)
-            await getProductDetail(productId.value)
-            // isEdit.value=true
-            if (coverImage.value != undefined) {//add new img
-                await addImg()
+    if (productStatus){
+        if(coverImage.value != undefined&&styleImgList.value.length != 0){//check img
+            let { status, msg, data } = await fetch.addProduct(productData)
+            if (await status) {
+                let { itemId } = data
+                productId.value = itemId
+                console.log(status, msg, itemId)
+                await getProductDetail(productId.value)
+                // isEdit.value=true
+                // if (coverImage.value != undefined) {//add new img
+                    await addImg()
+                // }
+                // if (styleImgList.value.length != 0) {
+                    await addStyleImg()
+                // }
+                goEdit()
+                productClear()
+            } else {
+                // console.log('error data invalid')
+                console.log(msg)
+                errProdS.value = true
+                errProdM.value = msg
+                alertType.value=1
+                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                isShowAlert.value=true
+                alertTime.value=10
             }
-            if (styleImgList.value.length != 0) {
-                await addStyleImg()
-            }
-            goEdit()
-            productClear()
-        } else {
-            console.log('error data invalid')
-            console.log(msg)
-            errProdS.value = true
-            errProdM.value = msg
+        }else{
+            isShowAlert.value=true
+            alertType.value=2
+            alertDetail.value="The system requires an image to be displayed for the user"
+            alertTime.value=10
         }
     }
 }
 // edit product
 const updateProduct = async () => {
     let { productStatus, productData } = formDataProduct.value
-
-    if (productStatus && isProductChange.value) {
-        let { status, msg } = await fetch.updateProduct(productId.value, productData)
-        if (status) {
-            console.log('update product successful')
-            if (coverImage.value != undefined) {
-                await addImg()
+    if(coverImageS.value||coverImage.value!=undefined){
+        if (productStatus && isProductChange.value) {
+            let { status, msg } = await fetch.updateProduct(productId.value, productData)
+            if (status) {
+                console.log('update product successful')
+                // if (coverImage.value != undefined) {
+                    await addImg()
+                // }
+                alertType.value=0
+                alertDetail.value="Update complete!"
+                isShowAlert.value=true
+                alertTime.value=2
+                productClear()
+            } else {
+                console.log('can not update product')
+                errProdS.value = true
+                errProdM.value = msg
+                alertType.value=1
+                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                isShowAlert.value=true
+                alertTime.value=10
             }
-            productClear()
-        } else {
-            console.log('can not update product')
-            errProdS.value = true
-            errProdM.value = msg
         }
+    }else{
+        isShowAlert.value=true
+        alertType.value=2
+        alertDetail.value="The system requires an cover image to be displayed for the user"
+        alertTime.value=10
     }
 }
 
 // add product img
 const addImg = async () => {
     let { status } = await fetch.addImage(coverImage.value, 'products', productId.value)
-    if (status) {
+    if (await status) {
         console.log('upload images successful')
+    }else{
+        alertType.value=2
+        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+        isShowAlert.value=true
+        alertTime.value=10
     }
 }
 
@@ -291,46 +337,67 @@ const addStyle = async () => {
     styleVarianceS.value = false
 
     let { productStatus, productStyle } = formDataProduct.value
-    console.log(productStatus, styleVarianceS.value, styleNameS.value)
-    console.log(isStyleEdit.value, isEdit.value)
+    // console.log(productStatus, styleVarianceS.value, styleNameS.value)
+    // console.log(isStyleEdit.value, isEdit.value)
     if (isStyleEdit.value && isEdit.value && !styleVarianceS.value && !styleNameS.value) { //this edit mode of style??
-        // edit style
-        let { status, msg } = await fetch.updateProductStyle(productId.value, styleName.value, productStyle)
-        if (status) {
-            console.log('update style successful')
+        if(styleImgList.value.length != 0){
+            // edit style
+            let { status, msg } = await fetch.updateProductStyle(productId.value, styleName.value, productStyle)
+            if (status) {
+                console.log('update style successful')
 
-            styleStatusClear()
-
-        } else {
-            console.log('can not update style')
-            errS.value = true
-            errM.value = msg
-        }
-        //upload img not care about data 
-        if (styleImgList.value.length != 0) {
-            await addStyleImg()
+                styleStatusClear()
+                //upload img not care about data 
+                // if (styleImgList.value.length != 0) {
+                    await addStyleImg()
+                // }
+            } else {
+                console.log('can not update style')
+                errS.value = true
+                errM.value = msg
+                alertType.value=1
+                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                isShowAlert.value=true
+                alertTime.value=10
+            }
+        }else{
+            isShowAlert.value=true
+            alertType.value=2
+            alertDetail.value="The system requires an image to be displayed for the user"
+            alertTime.value=10
         }
     } else {
         // add style
         if (productStatus && !styleVarianceS.value && !styleNameS.value) {
-            let { status, msg } = await fetch.addProductStyle(productId.value, productStyle)
-            if (status) {
-                console.log('add successful')
-                if (styleImgList.value.length != 0) {
+            if(styleImgList.value.length != 0){
+                let { status, msg } = await fetch.addProductStyle(productId.value, productStyle)
+                if (await status) {
+                    console.log('add successful')
+                    // if (styleImgList.value.length != 0) {
                     await addStyleImg()
+                    // }
+                    await getProductDetail(productId.value)
+                    isEdit.value = true
+                    // await addStyleImg()
+                    styleClear()
+                    styleStatusClear()
+
+
+                } else {
+                    // error
+                    console.log('can not add')
+                    errS.value = true
+                    errM.value = msg
+                    alertType.value=1
+                    alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                    isShowAlert.value=true
+                    alertTime.value=10
                 }
-                await getProductDetail(productId.value)
-                isEdit.value = true
-                // await addStyleImg()
-                styleClear()
-                styleStatusClear()
-
-
-            } else {
-                // error
-                console.log('can not add')
-                errS.value = true
-                errM.value = msg
+            }else{
+                isShowAlert.value=true
+                alertType.value=2
+                alertDetail.value="The system requires an style image to be displayed for the user"
+                alertTime.value=10
             }
         }
     }
@@ -384,6 +451,8 @@ const updateStyle = async (sku) => { //assign value to input after selected
 
 }
 
+
+
 // delete style
 const deleteStyle = async (skuId = '') => {
     if (skuId.length != 0) {
@@ -393,10 +462,16 @@ const deleteStyle = async (skuId = '') => {
             styleStatusClear()
             removeImgStyle(styleImgList.value.indexOf(skuId))
             await getProductDetail(productId.value)
+            isDelete.value=false
         } else {
-            console.log('cannot delete style')
-            errSkuS.value = true
-            errSkuM.value = msg
+            isDelete.value=false
+            // console.log('cannot delete style')
+            // errSkuS.value = true
+            // errSkuM.value = msg
+            alertType.value=2
+            alertDetail.value="The product must have at least 1 sku"
+            isShowAlert.value=true
+            alertTime.value=10
         }
     }
 }
@@ -526,7 +601,7 @@ const styleClear = () => {
 // const imgTesting=ref(undefined)
 const checkMainImage = async () => {
     let { status, data, msg } = await fetch.getImage('products', productId.value)
-    if (status) {
+    if (await status) {
         coverImageS.value = true
         // blob function
         // console.log(data,'blob data')
@@ -589,7 +664,11 @@ const uploadStyleImage = async (event) => {
             }
             // previewCoverImage(file, "cover-preview")
         } else {
-            console.log('file too big')
+            // console.log('file too big')
+            alertType.value=2
+            alertDetail.value="The image is too big, over 1 MB in size!"
+            isShowAlert.value=true
+            alertTime.value=10
         }
     }
 }
@@ -619,7 +698,11 @@ const uploadCoverImage = (event) => {
             else coverImage.value = file;
             previewCoverImage(file, "cover-preview")
         } else {
-            console.log('file too big')
+            // console.log('file too big')
+            alertType.value=2
+            alertDetail.value="The image is too big, over 1 MB in size!"
+            isShowAlert.value=true
+            alertTime.value=10
         }
 
     }
@@ -660,6 +743,14 @@ const dropStyleHandle = (event) => {
 }
 const dragover = (event) => {
     event.preventDefault()
+}
+
+// reset show alert status
+const getShowAlertChange=(input)=>{
+    isShowAlert.value=input
+    alertType.value=0
+    alertDetail.value=''
+    alertTime.value=2
 }
 
 onBeforeMount(async () => {
@@ -706,7 +797,7 @@ onUpdated(async () => {
                     <div class="container_input">
                         <!-- name -->
                         <div class="input_field">
-                            <h5>
+                            <h5 class="inportant_input">
                                 Name
                             </h5>
                             <input v-model="productName" class="input" type="text">
@@ -721,7 +812,7 @@ onUpdated(async () => {
                         </div>
                         <!-- cover photo -->
                         <div class="img_cover input_field">
-                            <h5>
+                            <h5 class="inportant_input">
                                 Cover Photo
                             </h5>
                             <!-- <div class="input_img">
@@ -770,7 +861,7 @@ onUpdated(async () => {
                         <div class="input_list">
                             <!-- category -->
                             <div class="input_field">
-                                <h5>
+                                <h5 class="inportant_input">
                                     Category
                                 </h5>
                                 <select v-model="productCategory" class="input">
@@ -784,7 +875,7 @@ onUpdated(async () => {
                                 <h5>
                                     Tag
                                 </h5>
-                                <input v-model="tagText" type="text" class="input">
+                                <input v-model="tagText" type="text" placeholder="tag1,tag2..." class="input">
                             </div>
                         </div>
                     </div>
@@ -813,7 +904,9 @@ onUpdated(async () => {
                         Save
                     </button>
                 </div> -->
-                <BaseSubmit name="my_shop_create" @goBack="goBack" @submit="updateProduct()" />
+                <!-- <div > -->
+                    <BaseSubmit v-if="isEdit" name="my_shop_create"  @goBack="goBack" @submit="updateProduct()" />
+                <!-- </div> -->
             </div>
             <!-- <div class="wrapper_all"> -->
             <!-- product style -->
@@ -839,10 +932,11 @@ onUpdated(async () => {
                     <div v-show="showStyleInput" class="container_input">
                         <!-- sku/name -->
                         <div class="input_field">
-                            <h5>
+                            <h5 class="inportant_input">
                                 SKU / Name of Style
                             </h5>
                             <input v-model="styleName" type="text" class="input" :disabled="isStyleEdit">
+                            <!-- <BaseShowErrorInput name="sku_name_error" :show="" :msg="" />  -->
                         </div>
                         <!-- color and size
                             <div class="input_list">
@@ -857,7 +951,7 @@ onUpdated(async () => {
                             </div> -->
                         <!-- photo Style-->
                         <div class="input_field">
-                            <h5>
+                            <h5 class="inportant_input">
                                 Photo Style
                             </h5>
                             <!-- <div class="input_img">
@@ -934,14 +1028,14 @@ onUpdated(async () => {
                             <div v-for="(variance, index) of styleVariance" :key="index" class="input_list">
                                 <!-- size-->
                                 <div class="input_field">
-                                    <h5>
+                                    <h5 class="inportant_input">
                                         Variation
                                     </h5>
                                     <input v-model="variance.size" type="text" class="input">
                                 </div>
                                 <!-- price -->
                                 <div class="input_field">
-                                    <h5>
+                                    <h5 class="inportant_input">
                                         Price
                                     </h5>
                                     <div class="input input_price">
@@ -953,7 +1047,7 @@ onUpdated(async () => {
                                 </div>
                                 <!-- stock -->
                                 <div class="input_field">
-                                    <h5>
+                                    <h5 class="inportant_input">
                                         Stock
                                     </h5>
                                     <input v-model.number="variance.stock" type="number" class="input">
@@ -1021,7 +1115,7 @@ onUpdated(async () => {
                             <!-- img -->
                             <div class="product_img">
                                 <img v-if="!styleItem.images || styleItem.images.length == 0"
-                                    src="../../../assets/vue.svg" id="testing_img" alt="product_img">
+                                    src="../../../assets/default_image.png" id="testing_img" alt="product_img">
                                 <img v-else
                                     :src="`${origin}/api/image/products/${productId}/${styleItem.style}/${styleItem.images[0]}`"
                                     id="testing_img" alt="product_img">
@@ -1114,6 +1208,7 @@ onUpdated(async () => {
             </div>
             <!-- </div> -->
         </div>
+        <BaseAlert name="my_shop_create_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange" />
     </div>
 </template>
 <style scoped>
