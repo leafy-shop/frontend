@@ -9,6 +9,8 @@ import validation from '../JS/validation'
 import BaseSummary from "../components/cartList/BaseSummary.vue";
 import BaseAlert from "../components/BaseAlert.vue";
 import BaseConfirm from "../components/BaseConfirm.vue";
+import BaseEmptyList from '../components/BaseEmptyList.vue';
+import BaseProductList from "../components/productDetail/BaseRecommendation.vue";
 //link
 const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
@@ -22,6 +24,8 @@ const count = ref(0);
 const qty = ref(0);
 const addressDefaultId=ref('')
 const userName=ref('')
+const recommendProduct = ref([])
+
 // alert attribute
 const isShowAlert=ref(false)
 const alertType=ref(0)
@@ -29,14 +33,17 @@ const alertDetail=ref('')
 const alertTime=ref(2)
 // show confirm
 const showConfirm=ref(false)
-
+// get status
+const getDataStatus=ref(undefined)
+const getDataStatusRecommend=ref(undefined)
 const getCarts = async () => {
-  let cartList = await fetch.getCart();
-  if(await cartList.status){
+  getDataStatus.value=undefined
+  let {status,data} = await fetch.getCart();
+  if(await status){
     let cartCount = await fetch.getCartCount();
-    carts.value = cartList.data;
+    carts.value = await data;
     carts.value.isAllSelected = false;
-    carts.value.carts = cartList.data.carts.map((cart) => {
+    carts.value.carts = await data.carts.map((cart) => {
       cart.isGroupSelected = false;
       cart.cartOwner = cart.cartOwner.map((cartDetail) => {
         cartDetail.isSelected = false;
@@ -46,7 +53,13 @@ const getCarts = async () => {
     });
     count.value = cartCount.data.count;
     console.log(carts.value);
+    if(carts.value.carts.length!=0){
+      getDataStatus.value=true
+    }else{
+      getDataStatus.value=false
+    }
   }else{//error
+    getDataStatus.value=false
     isShowAlert.value=true
     alertType.value=1
     alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
@@ -360,8 +373,24 @@ const addQty = async (cartId, qty) => {
     alertTime.value=10
   }
 };
-
-
+// recommend
+const getProductRecommend=async()=>{
+    getDataStatusRecommend.value=undefined
+    let {status,data} = await fetch.getAllRecommendProduct(1, 4)
+    if(await status){
+        recommendProduct.value = await data.list
+        // console.log(data)
+        console.log(recommendProduct.value,'TESTIng')
+        // totalPage.value=10
+        if(recommendProduct.value.length!=0){
+            getDataStatusRecommend.value=true
+        }else{
+            getDataStatusRecommend.value=false
+        }
+    }else{
+        getDataStatusRecommend.value=false
+    }
+}
 
 // reset show alert status
 const getShowAlertChange=(input)=>{
@@ -375,6 +404,7 @@ onBeforeMount(async() => {
   userName.value=cookie.decrypt().username
   await getAddress()
   await getCarts();
+  await getProductRecommend()
 });
 </script>
 <template>
@@ -437,7 +467,7 @@ onBeforeMount(async() => {
   <!-- content -->
   <div class="wrapper_cart">
     <!-- cart -->
-    <div class="cart">
+    <div v-if="getDataStatus" class="cart">
       <!-- header -->
       <div class="header_cart">
         <!-- amount of shop -->
@@ -462,7 +492,7 @@ onBeforeMount(async() => {
         </div>
       </div>
       <!-- shop list -->
-      <div class="shop_list">
+      <div  class="shop_list">
         <div
           v-for="(shop, index) of carts.carts"
           :key="index"
@@ -727,8 +757,15 @@ onBeforeMount(async() => {
         submit
         <button @click="checkOrder">Check Out ({{ countCheckOut }})</button>
       </div> -->
-    </div>
+    </div> 
+    <BaseEmptyList name="cart_list" title="It seems like your cart is empty." :showEmpty="getDataStatus" />
     <BaseAlert name="cart_list_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
+    <div  class="recommedation">
+        <div v-if="getDataStatusRecommend" class="wrapper_recommendation_component">
+            <BaseProductList :product-list="recommendProduct" :gridColumn="4" />
+        </div>
+        <BaseEmptyList name="profile_recommend_list" title="Sorry, we don't have any products available for purchase. 😊" :showEmpty="getDataStatusRecommend" />
+    </div>
   </div>
   <BaseConfirm name="cart_list_confirm" header-confirm="Do you want to remove this item?" submit-title="Delete" :show-confirm="showConfirm" @submit="confirmFunction(cartQtyDetail)" @cancel="clearAllValue()" />
 
@@ -1241,6 +1278,15 @@ onBeforeMount(async() => {
   align-items: center;
 }
 
+.recommedation {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height: fit-content;
+
+}
+
+
 /* mobile */
 @media (width<=432px){
   .wrapper_menu_component{
@@ -1556,7 +1602,12 @@ onBeforeMount(async() => {
   .product_item div.container_info_price {
     display: none;
   }
-
+  /* recommendatino */
+   .recommedation{
+    gap: 8px;
+    padding: 0px 20px;
+  }
+  
 }
 
 /* .wrapper_summary {
