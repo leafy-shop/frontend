@@ -532,13 +532,13 @@ onUpdated(() => {
             :id="`item_style_${index}`"
             :key="index" :disabled="(style.sizes.length==1)&&(style.sizes[0].stock==0)" :style="[(style.sizes.length==1)&&(style.sizes[0].stock==0)?'background-color:#00000066;cursor:not-allowed;':'']"
           >
-            <div class="product_img">
+            <div class="product_img" :style="[(style.sizes.length==1)&&(style.sizes[0].stock==0)?'border:1px solid #FF5E65;':'']">
               <img
                 v-if="style.images && style.images.length" :style="[(style.sizes.length==1)&&(style.sizes[0].stock==0)?'filter: grayscale(90%);':'']"
                 :src="`${origin}/api/image/products/${productStyle.itemId}/${style.style}/${style.images[0]}`"
-                alt="product_style" draggable="false"
+                alt="product_style" draggable="false" loading="lazy"
               />
-              <img v-else src="../../assets/default_image.png" alt="product_style" draggable="false" loading="lazy" />
+              <img v-else src="../../assets/default_image.png" alt="product_style" draggable="false" loading="lazy"   />
             </div>
             <!-- {{ style }} -->
           </button>
@@ -1061,7 +1061,7 @@ onUpdated(() => {
   .styles ul {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: fit-content;
     height: fit-content;
     gap: 8px;
     padding: 0px 20px;
