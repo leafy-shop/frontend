@@ -356,6 +356,7 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async()=>{
+    validation.navigationTo()
     // cookie
     rawData.value=validation.decrypt(params.cartList) //raw data
     console.log(validation.decrypt(params.cartList))
@@ -772,6 +773,7 @@ onBeforeMount(async()=>{
 <style scoped>
 *{
     box-sizing: border-box;
+    /* animation: show_element ease-in 0.7s; */
 }
 /* access layer */
 .container_access_mobile{
@@ -787,6 +789,7 @@ onBeforeMount(async()=>{
   padding: 0px min(11.111dvw, 160px);
   align-items: center;
   gap: min(1.111dvw, 16px);
+  
 }
 
 .container_access svg:nth-child(1) {
@@ -827,6 +830,7 @@ onBeforeMount(async()=>{
     align-items: start;
     background-color:  #f5f5f5;
     padding: min(1.389dvw,20px) min(11.111dvw,160px);
+    animation: show_element ease-in 1s;
 }
 .payment{
   display: flex;
