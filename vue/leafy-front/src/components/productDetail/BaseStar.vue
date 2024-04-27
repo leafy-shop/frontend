@@ -88,8 +88,8 @@ onUpdated(()=>{
         gap: 0px !important;
     }
     .star{
-        width: min(v-bind(changeSize(4.63,'dvw')),v-bind(changeSize(20))); 
-        height: min(v-bind(changeSize(4.63,'dvw')), v-bind(changeSize(20)));
+        width: min(v-bind(changeSize(3.704,'dvw')),v-bind(changeSize(16))); 
+        height: min(v-bind(changeSize(3.704,'dvw')), v-bind(changeSize(16)));
     }
 }
 /* @media(width<=744px){
