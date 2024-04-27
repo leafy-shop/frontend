@@ -449,11 +449,15 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async () => {
-    userId.value = cookie.decrypt().id
-    // console.log('cookie descrypt ',cookie.decrypt())
-    // userId.value=validation.decrypt(params.id)
-    await getUserInfo()
-    // console.log(validation.decrypt(params.id))
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
+        userId.value = cookie.decrypt().id
+        // console.log('cookie descrypt ',cookie.decrypt())
+        // userId.value=validation.decrypt(params.id)
+        await getUserInfo()
+        // console.log(validation.decrypt(params.id))    
+    }
+    
 })
 // onUpdated(()=>console.log(aboutMe.value))
 </script>
@@ -663,7 +667,7 @@ onBeforeMount(async () => {
                             <h5 class="importen_input">
                                 Email address
                             </h5>
-                            <input v-model="emailUser" type="text" maxlength="100" placeholder="apple@gmail.com">
+                            <input v-model="emailUser" type="text" maxlength="50" placeholder="apple@gmail.com">
                             <!-- worning -->
                             <BaseShowErrorInput name="email_user" :show="emailS" :msg="emailM" />
                             <!-- <div v-show="emailS" class="wrapper_errorMsg">
@@ -736,6 +740,7 @@ onBeforeMount(async () => {
     border-radius: min(0.556dvw,8px);
     box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     /* gap: 24px; */
+    animation: show_element ease-in 2s;
 }
 
 .wrapper_profile {

@@ -9,7 +9,10 @@
 <style>
 *{
     box-sizing:border-box;
+    /* animation: show_element ease-in 0.5s; */
 }
+
+
 /* @custom-media --narrow-window (max-width: 30em); */
 .menu {
     position: sticky;
@@ -19,6 +22,17 @@
 .inportant_input::after{
     content: '*';
     color: #F75555;
+}
+@keyframes show_element {
+  0% {
+    opacity: 0;
+  }
+  30%{
+    opacity: 80;
+  }
+  100% {
+    opacity: 100;
+  }
 }
 </style>
 

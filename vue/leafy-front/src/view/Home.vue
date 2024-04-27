@@ -9,7 +9,7 @@ import BasePlantInspo from '../components/home_page/BasePlantInspo.vue'
 import BaseFooter from '../components/BaseFooter.vue'
 import BaseReview from '../components/home_page/BaseReview.vue'
 import BaseChat from '../components/BaseChat.vue'
-import {ref,onMounted} from 'vue'
+import {ref,onMounted,onBeforeMount} from 'vue'
 import {useRouter} from 'vue-router'
 import validation from '../JS/validation'
 import cookie from '../JS/cookie'
@@ -19,19 +19,24 @@ const goShop=()=>myRouter.push({name:'Shop'})
 
 
 // let searchItem = ref("")
-onMounted(()=>{
+// onMounted(()=>{
+    
+// })
+onBeforeMount(()=>{
     validation.navigationTo()
 })
 </script>
 <template>
     <BaseMenu class="menu" />
-    <BaseInfomation/>
-    <BaseSolution/>
-    <BaseRandDesigner/>
-    <BaseHistory/>
-    <BaseLandScapeDesign/>
-    <BasePlantInspo/>
-    <BaseReview/>
+    <div class="wrapper_content">
+        <BaseInfomation/>
+        <BaseSolution/>
+        <BaseRandDesigner/>
+        <BaseHistory/>
+        <BaseLandScapeDesign/>
+        <BasePlantInspo/>
+        <BaseReview/>
+    </div>
     <BaseFooter/>
     <!-- <button class="chat">
         <img src="../assets/icon/chat_icon.svg" alt="chat_icon">
@@ -40,7 +45,9 @@ onMounted(()=>{
     <!-- <BaseChat/> -->
 </template>
 <style >
-
+.wrapper_content{
+    animation: show_element ease-in 1s;
+}
 /* .chat{
     display: flex;
     position: fixed;

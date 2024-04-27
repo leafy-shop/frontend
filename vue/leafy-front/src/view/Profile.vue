@@ -279,6 +279,7 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async() => {
+    validation.navigationTo()
     // param
     
     id.value=params.id
@@ -651,11 +652,11 @@ onUpdated(() => {
 * {
     box-sizing: border-box;
 }
-.menu{
+/* .menu{
     position: sticky;
     top: 0;
     z-index: 999;
-}
+} */
 .wrapper_profile {
     display: flex;
     flex-direction: column;
@@ -667,6 +668,8 @@ onUpdated(() => {
     background-color: #F5F5F5;
     justify-content: start;
     align-items: center;
+    animation: show_element  ease-in 1s ;
+    /* transition: all 4s ease-in ; */
 }
 
 .container_user_info {
@@ -1197,35 +1200,35 @@ onUpdated(() => {
 
 @media (width<=432px){
     .wrapper_profile {
-        gap:  12px;
+        gap:  min(2.778dvw,12px);
     }
     .container_user_info {
-        height: 225px;
+        height: min(52.083dvw,225px);
         
     }
     .big_image {
-        height: 128px;
+        height: min(29.63dvw,128px);
     }
     .wrapper_user {
         height: fit-content;
-        padding: 0px 20px;
+        padding: 0px min(4.63dvw,20px);
         flex-direction: column;
-        gap: 20px;
+        gap: min(4.63dvw,20px);
     }
     .user {
-        gap:  20px;
+        gap:  min(4.63dvw,20px);
     }
     .user .user_img {
-        width: 96px;
-        height: 96px;
+        width: min(22.222dvw,96px);
+        height:min(22.222dvw,96px);
     }
     /* info */
     .user_info{
         gap: 0px;
     }
     .user_info >h5{
-        height: 36px;
-        font-size: 24px;
+        height: min(8.333dvw,36px);
+        font-size: min(5.556dvw,24px);
     }
     .user_info > div{
         display: none;
@@ -1235,22 +1238,22 @@ onUpdated(() => {
         width: 100%;
         height: fit-content;
         overflow: auto;
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .container_btn_mobile button{
         display: flex;
         /* width: min(8.611dvw, 124px); */
         width: 100%;
         min-width: fit-content;
-        height: 36px;
-        font-size: 14px;
+        height: min(8.333dvw,36px);
+        font-size: min(3.241dvw,14px);
         font-weight: 500;
         border: 1px solid;
         border-color: #26AC34;
         color: #26AC34;
         background-color: #FFF;
-        border-radius: 4px;
-        padding: 8px 12px;
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         justify-content: center;
         align-items: center;
         cursor: pointer;
@@ -1258,16 +1261,16 @@ onUpdated(() => {
     }
     .container_btn_mobile .new_product_btn{
         white-space: nowrap;
-        gap: 4px;
+        gap:  min(0.926dvw,4px);
         color: #fff;
         background-color: #26AC34 ;
     }
     .container_btn_mobile .new_product_btn svg{
-        width: 12px;
+        width: min(2.778dvw,12px);
         height: auto;
     }
     .container_btn_mobile .new_product_btn span{
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
         font-weight: 500;
     }
     .follow_btn:hover{
@@ -1289,7 +1292,7 @@ onUpdated(() => {
     }
     .wrapper_details .container_details{
         /* padding: 0px 20px; */
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     .wrapper_details .suplier_details{
         display: none;
@@ -1297,23 +1300,23 @@ onUpdated(() => {
     .wrapper_details .suplier_details_mobile{
         display: flex;
         width: 100%;
-        height: 40px;
+        height: min(9.259dvw,40px);
         justify-content: space-between;
         align-items: center;
-        padding: 12px 20px;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
         background-color: #fff;
     }
     .suplier_details_mobile >div{
         display: flex;
         width: fit-content;
         height: fit-content;
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     .suplier_details_mobile >div .header{
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);;
         font-weight: 400;
         color: #9E9E9E;
         white-space: nowrap;
@@ -1324,7 +1327,7 @@ onUpdated(() => {
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);;
         font-weight: 500;
         color: #26AC34;
         white-space: nowrap;
@@ -1335,13 +1338,13 @@ onUpdated(() => {
     /* recommendatino */
     .container_details .recommedation{
         gap: 8px;
-        padding: 0px 20px;
+        padding: 0px min(4.63dvw,20px);
     }
     .recommedation .header{
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        font-size: 18px;
+        font-size: min(4.167dvw,18px);
         font-weight: 700;
         color: #252525;
         white-space: nowrap;
@@ -1357,9 +1360,9 @@ onUpdated(() => {
         width: 100%;
         height: fit-content;
         justify-content: center;
-        padding-bottom: 20px;
-        gap: 32px;
-        padding: 20px;
+        padding-bottom: min(4.63dvw,20px);
+        gap: min(7.407dvw,32px);
+        padding: min(4.63dvw,20px);
     }
     .container_product .product_sold_out{
         display: flex;
@@ -1370,7 +1373,7 @@ onUpdated(() => {
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        font-size: 18px;
+        font-size: min(4.167dvw,18px);
         font-weight: 700;
         color: #252525;
         white-space: nowrap;
@@ -1381,8 +1384,8 @@ onUpdated(() => {
 
     /* is me */
     .container_product_me{
-        gap: 12px;
-        padding: 0px 20px 20px 20px;
+        gap: min(2.778dvw,12px);
+        padding: 0px min(4.63dvw,20px) min(4.63dvw,20px) min(4.63dvw,20px);
     }
     .container_product_me .filter_me{
         display:flex;
@@ -1391,29 +1394,29 @@ onUpdated(() => {
         flex-direction:column;
     }
     .product_list_me{
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .product_item_me{
-        border-radius: 4px;
+        border-radius: min(0.926dvw,4px);
     }
     /* img */
     .product_item_me .img_me{
-        width: 92px;
-        height: 92px;
+        width: min(21.296dvw,92px);
+        height:  min(21.296dvw,92px);
     }
     .product_item_me .detail_me{
-        width:300px;
-        height: 92px;
+        width:min(69.444dvw,300px);
+        height:  min(21.296dvw,92px);
         /* gap:4px; */
         justify-content: space-between;
         flex-direction: column;
-        padding: 8px;
+        padding: min(1.852dvw,8px);
         box-shadow: 0px 1px 2px 0px #0000000F;
     }
     /* info */
     .info_me{
         
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     /* .info_me .name_me {
     } */
@@ -1421,59 +1424,59 @@ onUpdated(() => {
     /* name and star */
     .info_me .name_me>div:nth-child(1){
         display: flex;
-        width: 284px;
-        height: 16px;
-        gap:8px;
+        width: min(65.741dvw,284px);
+        height: min(3.704dvw,16px);
+        gap: min(1.852dvw,8px);
     }
     .info_me .name_me>div:nth-child(1) h5{
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
     }
     /* operation */
     .info_me .name_me>div:nth-child(2){
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .info_me .name_me>div:nth-child(2) button{
-        width: 16px;
-        height: 16px;
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
 
     }
     .info_me .name_me>div:nth-child(2) button svg{
-        width: 11px;
+        width: min(2.546dvw,11px);
         height: auto;
     }
     .info_me .price_me{
-        height: 16px;
-        font-size: 12px;
+        height: min(3.704dvw,16px);
+        font-size: min(2.778dvw,12px);
     }
     .info_me .discription_me{
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        width: 200px;
+        width: min(46.296dvw,200px);
         max-width: 100%;
         height: fit-content;
-        max-height: 20px;
+        max-height: min(4.63dvw,20px);
         overflow: hidden;
         /* word-wrap: keep-all; */
         font-weight: 400;
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
         color: #212121;
     }
     /* stock */
     .stock_me{
-        height: 12px;
+        height: min(2.778dvw,12px);
     }
     .stock_me >div{
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .stock_me >div >h5{
-        font-size: 10px;
+        font-size: min(2.315dvw,10px);
     }
     .stock_me >div >h6{
-        font-size: 10px;
+        font-size: min(2.315dvw,10px);
     }
     .stock_me >h6{
-        font-size: 8px;
+        font-size:min(1.852dvw,8px);
     }
 }
 

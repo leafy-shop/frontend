@@ -211,9 +211,13 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(() => {
-    let { username } = cookie.decrypt()
-    userName.value = username
-    console.log(userName.value)
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
+        let { username } = cookie.decrypt()
+        userName.value = username
+        console.log(userName.value)        
+    }
+
 })
 </script>
 <template>
@@ -235,7 +239,7 @@ onBeforeMount(() => {
                         Current password
                     </h5>
                     <div class="input_field">
-                        <input v-model="oldPassword" type="password" @keyup.enter="submitChangePasswrod()">
+                        <input v-model="oldPassword" type="password" @keyup.enter="submitChangePasswrod()" maxlength="100">
                         <button @click="showPassword(0)">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -283,7 +287,7 @@ onBeforeMount(() => {
                             New password
                         </h5>
                         <div class="input_field">
-                            <input v-model="newPassword" type="password">
+                            <input v-model="newPassword" type="password" maxlength="100">
                             <button @click="showPassword(0)">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -330,7 +334,7 @@ onBeforeMount(() => {
                             Confirm new password
                         </h5>
                         <div class="input_field">
-                            <input v-model="newPasswordConfirm" type="password">
+                            <input v-model="newPasswordConfirm" type="password" maxlength="100">
                             <button @click="showPassword(1)">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -407,6 +411,7 @@ onBeforeMount(() => {
     border: none;
     border-radius: min(0.556dvw,8px);
     box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
+    animation: show_element ease-in 2s;
 }
 .wrapper_change_PW {
     display: flex;

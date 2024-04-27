@@ -15,7 +15,7 @@ import ProductDetail from '../view/ProductDetail.vue'
 import ServerError from '../view/ServerError.vue'
 import Payment from '../view/Payment.vue'
 import ConfirmPayment from '../view/ConfirmPayment.vue'
-
+import ComingSoon from '../view/ComingSoon.vue'
 // account setting
 import AccountSetting from '../view/accountSetting/AccountSetting.vue'
 import Profile_AS from '../view/accountSetting/Profile.vue'
@@ -175,13 +175,17 @@ const routes=[
         name:'ServerError',
         component:ServerError
     },
-
-    // use demo only
     {
-        path:'/chat',
-        name:'Chat',
-        component:Chat
+        path:'/coming-soon',
+        name:'ComingSoon',
+        component:ComingSoon
     },
+    // use demo only
+    // {
+    //     path:'/chat',
+    //     name:'Chat',
+    //     component:Chat
+    // },
 ]
 const router=createRouter({history,routes})
 
@@ -243,8 +247,51 @@ router.beforeEach(async (to, from, next) => {
                     next({ name: "CartList" });
                 } else {
                     next(); // Call next() to allow navigation
-                }
+                }   
                 break;
+            case "MyGallery_AS_add":
+                if (window.innerWidth<=432) {
+                    next({name:"ComingSoon"});
+                } else {
+                    next();
+                }
+                break; 
+            case "MyGallery_AS":
+                if (window.innerWidth<=432) {
+                    next({name:"ComingSoon"});
+                } else {
+                    next();
+                }
+                break;   
+            case "Order_AS":
+                if (window.innerWidth<=432) {
+                    next({name:"ComingSoon"});
+                }else 
+                if (cookie.decrypt().role=="user") {
+                    next({name:"Profile_AS"});
+                } else {
+                    next();
+                }
+                break;   
+            case "Shop_AS_add":
+                if (window.innerWidth<=432) {
+                    next({name:"ComingSoon"});
+                }else 
+                if (cookie.decrypt().role=="user") {
+                    next({name:"Profile_AS"});
+                } else {
+                    next();
+                }
+            case "Shop_AS":
+                if (window.innerWidth<=432) {
+                    next({name:"ComingSoon"});
+                }else 
+                if (cookie.decrypt().role=="user") {
+                    next({name:"Profile_AS"});
+                } else {
+                    next();
+                }
+                break; 
             default:
                 next(); // Call next() to allow navigation for other routes
         }

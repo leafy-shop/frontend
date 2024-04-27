@@ -184,17 +184,21 @@ const checkBtn=()=>{
 }
 
 onBeforeMount(async () => {
-    //get username
-    let { username } = cookie.decrypt()
-    userName.value = username
-    // check params
-    if (params.id != undefined && params.id.length != 0) {
-        paymentId.value = validation.decrypt(params.id)
-        // console.log(validation.decrypt(params.id))
-        isEditMode.value = true
-        // console.log(params.id,'param')
-        await getPaymentById()
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
+        //get username
+        let { username } = cookie.decrypt()
+        userName.value = username
+        // check params
+        if (params.id != undefined && params.id.length != 0) {
+            paymentId.value = validation.decrypt(params.id)
+            // console.log(validation.decrypt(params.id))
+            isEditMode.value = true
+            // console.log(params.id,'param')
+            await getPaymentById()
+        }    
     }
+    
 })
 // onMounted(()=>{
 //     checkBtn()
@@ -238,7 +242,7 @@ onBeforeMount(async () => {
                         <h5 class="inportant_input">
                             Account number
                         </h5>
-                        <input v-model="accountNumber" class="input" type="text" maxlength="15">
+                        <input v-model="accountNumber" class="input" type="text" maxlength="16">
                         <!-- worning -->
                         <div v-show="accountNumberS" class="wrapper_errorMsg">
                             <div>
@@ -261,7 +265,7 @@ onBeforeMount(async () => {
                             Bank name
                         </h5>
                         <!-- <input v-model="bankName" class="input" type="text"> -->
-                        <select v-model="bankName" class="input" name="bank_name" id="bank_name">
+                        <select v-model="bankName" class="input" name="bank_name" id="bank_name" >
                             <option value="" selected disabled>Select your bank account</option>
                             <option v-for="(bank, index) of  bankList" :key="index" :value="bank.value">
                                 {{ bank.name }}
@@ -317,6 +321,7 @@ onBeforeMount(async () => {
     align-items: center;
     padding: min(1.389dvw,20px);
     background-color: #fff;
+    animation: show_element ease-in 1.5s;
 }
 
 .bank {

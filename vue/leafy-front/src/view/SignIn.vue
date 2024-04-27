@@ -1,5 +1,5 @@
 <script setup>
-import{computed, ref}from 'vue'
+import{computed, ref,onBeforeMount}from 'vue'
 import {useRouter} from 'vue-router'
 import Another from '../components/authorization/Another.vue'
 import fetch from '../JS/api'
@@ -76,7 +76,9 @@ const getShowAlertChange=(input)=>{
     alertDetail.value=''
     alertTime.value=2
 }
-
+onBeforeMount(()=>{
+    validation.navigationTo()
+})
 </script>
 <template>
     <BaseMenu/>
@@ -159,6 +161,7 @@ const getShowAlertChange=(input)=>{
     flex-direction: column;
     gap: min(1.111dvw,16px);
     margin: auto;
+    animation: show_element ease-in 1s;
 }
 .container_signIn h3 {
     width: inherit;

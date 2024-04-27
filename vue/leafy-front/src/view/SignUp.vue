@@ -175,7 +175,7 @@ onMounted(()=>{
                     <h5 class="inportant_input">
                         Username
                     </h5>
-                    <input :style="[userNS==true?'border-color:red;':'']" type="text"   maxlength="50" v-model="userN">
+                    <input :style="[userNS==true?'border-color:red;':'']" type="text"   maxlength="20" v-model="userN">
                     <h6>
                         You can only set a username once.
                     </h6>
@@ -224,7 +224,7 @@ onMounted(()=>{
                     <h5 class="inportant_input">
                         Email
                     </h5>
-                    <input :style="[emailS==true?'border-color:red;':'']" type="email" placeholder="you@example.com" maxlength="100" v-model="email">
+                    <input :style="[emailS==true?'border-color:red;':'']" type="email" placeholder="you@example.com" maxlength="50" v-model="email">
                     <div v-show="emailS" class="wrapper_errorMsg">
                         <div >
                             <img src="../assets/icon/error_icon.png" alt="error_icon">
@@ -241,7 +241,7 @@ onMounted(()=>{
                     </h5>
                     <label for="password_1">
                         <div :style="[passwordS==true?'border-color:red;':'']">
-                            <input :type="showPassword" id="password_1" maxlength="20" v-model="password">
+                            <input :type="showPassword" id="password_1" maxlength="100" v-model="password">
                             <button @click="showPasswordStatus=!showPasswordStatus">
                                 <!-- <img src="../assets/icon/close_eye_icon.svg" alt="close_eye_icon"> -->
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -267,7 +267,7 @@ onMounted(()=>{
                     </h5>
                     <label for="password_2">
                         <div :style="[confirmPS==true?'border-color:red;':'']">
-                            <input :type="showPassword" id="password_2"  maxlength="20" v-model="confirmP">
+                            <input :type="showPassword" id="password_2"  maxlength="100" v-model="confirmP">
                             <button @click="showPasswordStatus=!showPasswordStatus">
                                 <!-- <img src="../assets/icon/close_eye_icon.svg" alt="close_eye_icon"> -->
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -340,13 +340,15 @@ onMounted(()=>{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 .container_sign_up{
     display: flex;
     width: min(28.889dvw,416px);
     height: fit-content;
     flex-direction: column;
-    gap: min(1.111dvw,16px) 
+    gap: min(1.111dvw,16px) ;
+    animation: show_element ease-in 1s;
 }
 .container_sign_up h4{
     width: inherit;

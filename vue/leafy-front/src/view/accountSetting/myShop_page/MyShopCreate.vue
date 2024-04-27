@@ -754,6 +754,7 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async () => {
+    validation.navigationTo()
     // console.log(params.id)
     if (params.id == undefined || params.id == '') { // add mode
         isEdit.value = false
@@ -800,14 +801,14 @@ onUpdated(async () => {
                             <h5 class="inportant_input">
                                 Name
                             </h5>
-                            <input v-model="productName" class="input" type="text">
+                            <input v-model="productName" class="input" type="text" maxlength="100">
                         </div>
                         <!-- description -->
                         <div class="input_field">
                             <h5>
                                 Description
                             </h5>
-                            <textarea v-model="productDes" class="input_description"
+                            <textarea v-model="productDes" class="input_description" maxlength="5000"
                                 placeholder="Something about product."></textarea>
                         </div>
                         <!-- cover photo -->
@@ -875,7 +876,7 @@ onUpdated(async () => {
                                 <h5>
                                     Tag
                                 </h5>
-                                <input v-model="tagText" type="text" placeholder="tag1,tag2..." class="input">
+                                <input v-model="tagText" type="text" placeholder="tag1,tag2..." class="input" maxlength="500">
                             </div>
                         </div>
                     </div>
@@ -935,7 +936,7 @@ onUpdated(async () => {
                             <h5 class="inportant_input">
                                 SKU / Name of Style
                             </h5>
-                            <input v-model="styleName" type="text" class="input" :disabled="isStyleEdit">
+                            <input v-model="styleName" type="text" class="input" :disabled="isStyleEdit" maxlength="20">
                             <!-- <BaseShowErrorInput name="sku_name_error" :show="" :msg="" />  -->
                         </div>
                         <!-- color and size
@@ -1031,7 +1032,7 @@ onUpdated(async () => {
                                     <h5 class="inportant_input">
                                         Variation
                                     </h5>
-                                    <input v-model="variance.size" type="text" class="input">
+                                    <input v-model="variance.size" type="text" class="input" maxlength="50">
                                 </div>
                                 <!-- price -->
                                 <div class="input_field">
@@ -1039,7 +1040,7 @@ onUpdated(async () => {
                                         Price
                                     </h5>
                                     <div class="input input_price">
-                                        <input v-model.number="variance.price" type="number" placeholder="฿ 0.00">
+                                        <input v-model.number="variance.price" type="number" placeholder="฿ 0.00" >
                                         <h6>
                                             THB
                                         </h6>
@@ -1050,7 +1051,7 @@ onUpdated(async () => {
                                     <h5 class="inportant_input">
                                         Stock
                                     </h5>
-                                    <input v-model.number="variance.stock" type="number" class="input">
+                                    <input v-model.number="variance.stock" type="number" class="input" >
                                 </div>
                                 <!--  -->
                                 <div class="remove_variance" v-if="styleVariance.length > 1">
@@ -1225,6 +1226,7 @@ onUpdated(async () => {
     overflow: hidden;
     /* border: none; */
     gap: min(1.667dvw, 24px);
+    animation: show_element ease-in 1.5s;
 }
 
 .wrapper_shop {

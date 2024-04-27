@@ -252,7 +252,7 @@ onUpdated(()=>{
     color: #212121;
 }
 .move_to button:hover {
-    background: #26AC34;
+    background: #26AC34 !important;
 }
 .move_to button svg{
     display: flex;

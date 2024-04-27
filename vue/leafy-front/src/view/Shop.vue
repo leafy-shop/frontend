@@ -208,6 +208,7 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(() => {
+    validation.navigationTo()
     getProduct(currentPage.value)
 })
 onMounted(() => {
@@ -290,6 +291,7 @@ onMounted(() => {
 * {
     box-sizing: border-box;
     /* position: relative; */
+    /* animation: show_element ease-in 1s; */
 }
 
 .shop_title {
@@ -302,7 +304,7 @@ onMounted(() => {
     align-items: center;
     overflow: hidden;
     /* z-index: 1; */
-
+    animation: show_element ease-in 1s;
 }
 
 .shop_title h3 {
@@ -335,6 +337,8 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     background-color: #F5F5F5;
+    animation: show_element ease-in 1s;
+    
 }
 
 .wrapper_content {
@@ -355,6 +359,7 @@ onMounted(() => {
     height: inherit;
     flex-direction: column;
     gap: min(1.389dvw, 20px);
+    
 }
 
 .menu {

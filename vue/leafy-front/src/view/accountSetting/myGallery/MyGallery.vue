@@ -150,7 +150,8 @@ const confirmBank = async (input = false) => {
 }
 
 onBeforeMount(async()=>{
-    // await getMyGallery()
+    validation.navigationTo()
+    await getMyGallery()
 })
 </script>
 <template>
@@ -381,6 +382,7 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
+    
 }
 /* header */
 .wrapper_content .header_gallery{
@@ -413,6 +415,7 @@ onBeforeMount(async()=>{
     height: fit-content;
     overflow: auto;
     flex-direction: column;
+    animation: show_element ease-in 0.7s;
 }
 .gallery_item{
     display: grid;

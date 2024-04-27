@@ -143,6 +143,7 @@ const getShowAlertChange=(input)=>{
 
 
 onBeforeMount(async()=>{
+    validation.navigationTo()
     // await getOrders()
 })
 onMounted(async()=>{
@@ -285,6 +286,7 @@ onMounted(async()=>{
     height: fit-content;
     flex-direction: column;
     gap: min(1.111dvw,16px);
+    animation: show_element ease-in 1.5s;
 }
 /* header */
 .header_purchase{

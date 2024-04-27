@@ -3,6 +3,7 @@ import {useRoute,useRouter} from 'vue-router'
 import BaseMenu from '../components/BaseMenu.vue';
 import BaseFooter from '../components/BaseFooter.vue';
 import BaseAlert from '../components/BaseAlert.vue';
+import validation from '../JS/validation'
 import {ref,onBeforeMount,computed,onBeforeUpdate} from 'vue'
 import fetch from '../JS/api';
 // link
@@ -54,6 +55,7 @@ onBeforeUpdate(()=>{
     element.innerHTML=galleryDesc.value
 })
 onBeforeMount(async()=>{
+    validation.navigationTo()
     galleryContentId.value = params.id
    await getGalleryDetail()
 })
@@ -214,6 +216,7 @@ onBeforeMount(async()=>{
     align-items: center;
     flex-direction: column;
     padding: min(4.167dvw,60px) min(22.222dvw,320px);
+    animation: show_element ease-in 2.5s;
 }
 .wrapper_gallery_detail .gallery_detail{
     display: flex;

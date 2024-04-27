@@ -7,12 +7,12 @@ const goHome=()=>myRouter.push({name:'Home'})
        <div class="wrapper_server_error">
         <div class="server_error">
             <div class="text_detail">
-                <img src="../assets/500.png" alt="500_img">
+                <img src="../assets/coming_soon.png" alt="coming_soon_img">
                 <h5>
-                    Oops!
+                    Coming Soon
                 </h5>
                 <p>
-                    Internal Server Error -Lost Among the Trees
+                    Currently only desktop devices are supported.
                 </p>
             </div>
             <div>
@@ -43,6 +43,7 @@ const goHome=()=>myRouter.push({name:'Home'})
     justify-content: center;
     align-items: center;
     gap: min(2.778dvw,40px);
+    animation: show_element ease-in 1s;
 }
 .text_detail {
     display: flex;

@@ -4,6 +4,7 @@ import BaseFooter from '../../components/BaseFooter.vue';
 import {useRouter,useRoute} from 'vue-router'
 import {onMounted, onUpdated, ref,onBeforeMount,computed} from 'vue'
 import cookie from '../../JS/cookie';
+import validation from '../../JS/validation'
 const myRouter =useRouter()
 const goProfile=()=>myRouter.push({name:'Profile_AS'})
 const goAddress=()=>myRouter.push({name:'Address_AS'})
@@ -127,14 +128,14 @@ onMounted(()=>{
     
 })
 onBeforeMount(()=>{
-    if(cookie.decrypt()!=undefined){
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
         userRole.value=cookie.decrypt().role
         if( userRole.value=='supplier'){
             isSupplier.value=true
         }
-    }else{
-        goSignIn()
     }
+    
     checkWidth() // for check window size
 
     //  console.log(cookie.decrypt().role,'lsdfjlkasdf')
@@ -536,6 +537,7 @@ onUpdated(()=>{
     .wrapper_account{
         padding: 0px;
         gap: 0px;
+        animation: show_element ease-in 1.5s;
     }
     /* window menu */
     .container_menu{
