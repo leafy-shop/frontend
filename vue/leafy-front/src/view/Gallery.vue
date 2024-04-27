@@ -9,6 +9,7 @@ import BaseGallerySort from '../components/gallery/BaseGallerySort.vue'
 import fetch from '../JS/api';
 import BaseSelectPage from '../components/BaseSelectPage.vue';
 import BaseAlert from '../components/BaseAlert.vue';
+import BaseEmptyList from '../components/BaseEmptyList.vue';
 // import validation from '../JS/validation'
 // link
 let origin = `${import.meta.env.VITE_BASE_URL}`;
@@ -31,8 +32,13 @@ const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
 
+// get status
+const getDataStatus=ref(undefined)
+
 // get gallery content
 const getGallery=async()=>{
+    getDataStatus.value=undefined
+
     let inputData={
         page:currentPage.value
     }
@@ -52,7 +58,14 @@ const getGallery=async()=>{
         console.log(await data)
         galleryList.value=await data.list
         allPage.value=await data.allPage
+        if( galleryList.value.length!=0){
+            getDataStatus.value=true
+
+        }else{
+            getDataStatus.value=false
+        }
     }else{
+        getDataStatus.value=false
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
@@ -102,12 +115,13 @@ onBeforeMount(async()=>{
         <div class="gallery">
             <BaseGallerySort name="gallery_list_sort" @getStyleFilter="galleryFilter" @nextPage="changeCurrentPage" @previousPage="changeCurrentPage" :currentPage="currentPage" :allPage="allPage" />
             <!-- gallery list -->
-            <div class="gallery_list">
+            <div v-if="getDataStatus" class="gallery_list">
                 <div v-if="galleryList!=undefined" v-for="(gallery,index) of galleryList" :key="index" class="wrapper_gallery_item">
                     <BaseGalleryCard @click="goGalleryDetail(gallery.contentId)" :name="`gallery_list_${index}`" :projectId="String(gallery.contentId)" :projectImg="gallery.image" :projectName="gallery.name"
                      :createrImg="gallery.icon" :creater-id="String(gallery.userId)" :createrName="gallery.contentOwner"   :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
                 </div>
             </div>
+            <BaseEmptyList name="gallery_list" title="Hey there! Looks like we're currently out of gallery content. Sorry about that! 😊" :showEmpty="getDataStatus" />
             <BaseSelectPage name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
         </div>
         <BaseAlert name="gallery_list_all_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
@@ -192,7 +206,7 @@ onBeforeMount(async()=>{
         font-size: 24px;
     }
     .wrapper_gallery{
-        padding: 0px 20px;
+        padding: 0px 0px 12px 0px;
     }
     .gallery{
         gap: 8px;
@@ -202,6 +216,7 @@ onBeforeMount(async()=>{
         display: grid;
         grid-template-columns: repeat(2,1fr);
         gap: 8px;
+        padding: 0px 20px 12px 20px;
     }
     .wrapper_gallery_item{
         width: 192px;
