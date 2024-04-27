@@ -9,7 +9,6 @@
 <style>
 *{
     box-sizing:border-box;
-    /* animation: show_element ease-in 0.5s; */
 }
 
 

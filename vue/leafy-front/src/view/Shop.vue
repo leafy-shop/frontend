@@ -290,8 +290,7 @@ onMounted(() => {
 <style scoped>
 * {
     box-sizing: border-box;
-    /* position: relative; */
-    /* animation: show_element ease-in 1s; */
+
 }
 
 .shop_title {
