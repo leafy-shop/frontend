@@ -148,7 +148,7 @@ const goSignIn=()=>myRouter.push({name:'SignIn'})
         font-size: min(1.882dvw,14px);
     }
 }
-@media (width <=376px){
+@media (width <=432px){
     .wrapper_other_login h4{
         height: min(5.319dvw,20px);
         font-size: min(3.723dvw,14px);
