@@ -76,6 +76,7 @@ const payOrder=async()=>{
     }
 }
 onBeforeMount(async()=>{
+    validation.navigationTo()
     // assign id
     if(validation.decrypt(params.id)!=undefined){
         orderId.value=validation.decrypt(params.id)
@@ -326,7 +327,8 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     gap: min(1.667dvw,24px);
-    flex-direction: column
+    flex-direction: column;
+    animation: show_element ease-in 2.5s;
 }
 /* header */
 .header_confirm_payment{
