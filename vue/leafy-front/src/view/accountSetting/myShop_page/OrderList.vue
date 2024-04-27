@@ -9,6 +9,7 @@ import BaseMovePage from '../../../components/accountSetting/BaseMovePage.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
 import BaseEmptyList from '../../../components/BaseEmptyList.vue';
 // common attribute
+const origin = `${import.meta.env.VITE_BASE_URL}`;
 const date=ref('')
 const uesrName=ref('')
 const orderList=ref([])
@@ -94,6 +95,8 @@ const getShowAlertChange=(input)=>{
 // get all order for supplier
 const getAllOrder=async()=>{
     getDataStatus.value=undefined
+    closeAllDetail()
+    
     let inputData={
         page:currentPage.value, //current page
         status:filterStatus.value, // status
@@ -149,6 +152,15 @@ const showDetail=(id)=>{
     // console.log(detailElement)
     detailElement.classList.toggle('order_detail_on')
     // detailElement.setAttribute('style','display:flex')
+}
+// close detail
+const closeAllDetail=()=>{
+    const allElement = document.getElementsByClassName("detail_order")
+    // if(allElement!=undefined){
+        for(let element of allElement){
+            element.style="display:none;"
+        }
+    // }
 }
 
 // filter order
@@ -412,11 +424,10 @@ onMounted(async()=>{
 
         <!-- order list -->
         <!-- <div class="wrapper_content_orders"> -->
-            <div class="content_orders">
-                <BaseEmptyList name="order_list" title="You don’t have order yet." :showEmpty="getDataStatus" />
+            <div v-if="getDataStatus" class="content_orders">
 
                 <!-- <table> -->
-                    <div v-if="getDataStatus==true" class="title_orders">
+                    <div  class="title_orders">
                         <div class="order_number">
                             <h5>
                             # 
@@ -555,12 +566,12 @@ onMounted(async()=>{
                                         selected
                                         hidden
                                         >
-                                            {{order.status}}
+                                            {{validation.calculateStatusStepDisplay(order.status)}}
                                         </option>
                                         <option v-show="calculateStatusStep(order.status).length!=0" v-for="(status,index) of calculateStatusStep(order.status)" 
                                         :style="[`background-color:${validation.calculateStatusStepColor(status).bg};color:${validation.calculateStatusStepColor(status).font};`]" 
                                         :key="index" :value="status" >
-                                            {{status}}
+                                            {{validation.calculateStatusStepDisplay(status)}}
                                         </option>
                                     </select>
                                     <!-- drop down -->
@@ -574,7 +585,7 @@ onMounted(async()=>{
                             </div>
                         </div>
                         <!-- detail -->
-                        <div :id="`order_detail_${order.orderId}`" class="detail_order ">
+                        <div :id="`order_detail_${order.orderId}`" class="detail_order">
                             <div class="detail_table">
                                 <!-- <table> -->
                                     <div class="header_detail">
@@ -620,7 +631,8 @@ onMounted(async()=>{
                                         <!-- img -->
                                         <div class="detail_product_number">
                                             <div>
-                                                <img src="../../../assets/home_p/home_design_content_europe.png" alt="item_img">
+                                                <img v-if="detail.image==undefined" src="../../../assets/default_image.png" alt="product_img" draggable="false">
+                                                <img v-else :src="`${origin}/api/image/products/${detail.itemId}`" alt="product_img" loading="lazy">
                                             </div>
                                         </div>
                                         <!-- sku -->
@@ -717,6 +729,15 @@ onMounted(async()=>{
                                         {{ order.customerName}}
                                     </p>
                                 </div>
+                                <!-- phone -->
+                                <div>
+                                    <h6>
+                                        Phone:
+                                    </h6>
+                                    <p>
+                                        {{ order.phone}}
+                                    </p>
+                                </div>
                                 <!-- address -->
                                 <div>
                                     <h6>
@@ -732,6 +753,8 @@ onMounted(async()=>{
                     </div>
                 <!-- </table> -->
             </div>
+            <BaseEmptyList name="order_list" title="You don’t have order yet." :showEmpty="getDataStatus" />
+
         <!-- </div> -->
         <!-- select page -->
         <BaseMovePage name="order_list" :current-page="currentPage" :total-amount-item="orderAmount" @returnCalculatePage="getCalculatePageInfo" @previousPage="previousPage" @nextPage="nextPage" />
