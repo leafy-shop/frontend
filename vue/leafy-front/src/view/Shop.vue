@@ -10,10 +10,11 @@ import fetch from '../JS/api';
 import { useRoute } from 'vue-router'
 import validation from '../JS/validation'
 import BaseAlert from '../components/BaseAlert.vue';
-
+import BaseEmptyList from '../components/BaseEmptyList.vue';
 const myRoute = useRoute()
 //category list
 const categoryFilter = ref([])
+
 //price
 const minFilter = ref(undefined)
 const maxFilter = ref(undefined)
@@ -42,6 +43,9 @@ const isShowAlert=ref(false)
 const alertType=ref(0)
 const alertDetail=ref('')
 const alertTime=ref(2)
+
+// get status
+const getDataStatus=ref(undefined)
 
 const sortTypeArr = [
     { name: "Popular", value: { name: "popular", type: 'desc' } },
@@ -86,6 +90,7 @@ const getSearchItem = async (text) => {
 // }
 
 const getProduct = async (page) => {
+    getDataStatus.value=undefined
     console.log(page)
     console.log(searchItem.value)
     console.log(categoryFilter.value.join())
@@ -115,7 +120,13 @@ const getProduct = async (page) => {
         productList.value = await data.list
         allItems.value = await data.allItems
         totalPage.value = await data.allPage
+        if(productList.value.length!=0){
+            getDataStatus.value=true
+        }else{
+            getDataStatus.value=false
+        }
     }else{
+        getDataStatus.value=false
         isShowAlert.value=true
         alertType.value=1
         alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
@@ -227,7 +238,8 @@ onMounted(() => {
                 <BaseSortItem @showFilter="showFilterItem" :is-show-filter="isShowFilter" @sortItem="getSortItem"
                     @moveLeft="moveLeft" @moveRight="moveRight"
                     :change-page="{ currentPage: currentPage, totalPage: totalPage }" />
-                <BaseProductList :productList="productList" :size="100" :gridColumn="3" />
+                <BaseProductList v-if="getDataStatus==true" :productList="productList" :size="100" :gridColumn="3" />
+                <BaseEmptyList name="shop_list" title="Sorry, we don't have any products available for purchase. 😊" :showEmpty="getDataStatus" />
 
                 <!-- <div class="link_page_container">
                     <ul>
