@@ -87,6 +87,8 @@ const getBank = async () => {
             }
             
             // console.log(indexD)
+        }else{
+            getDataStatus.value=false
         }
         
         
@@ -144,7 +146,7 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async () => {
-
+    validation.navigationTo()
     // console.log(userName.value)
     await getBank()
 })
@@ -241,6 +243,7 @@ onBeforeMount(async () => {
     justify-content: center;
     align-items: center;
     background-color: #FFFFFF;
+    animation: show_element ease-in 1.5s;
 }
 
 .bank {
