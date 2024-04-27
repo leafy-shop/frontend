@@ -25,7 +25,6 @@ const showStyleFilter=ref(false)
 
 // choose style
 const selectFilter=(name,styleFilter,isStyle=false)=>{
-    if(styleFilter!=undefined){
         let element=document.getElementById(name)
         let allElement=document.getElementsByClassName("sort_btn")
         // clear first
@@ -35,6 +34,7 @@ const selectFilter=(name,styleFilter,isStyle=false)=>{
         element.classList.add('sort_btn_active')
         showStyleFilter.value=false
         // console.log(styleFilter)
+    if(styleFilter!=undefined){
         if(isStyle){
             return emit("getStyleFilter",{style:styleFilter})
         }else{
@@ -54,7 +54,8 @@ const previousPage=()=>{
 }
 
 onMounted(()=>{
-    selectFilter('all_design','all')
+    // selectFilter('all_design','all')
+    selectFilter('all_design')
 })
 </script>
 <template>
@@ -236,6 +237,7 @@ onMounted(()=>{
     justify-content: center;
     align-items: start;
     flex-direction: column;
+    z-index: 99;
     /* cursor: pointer; */
     /* gap */
 }
