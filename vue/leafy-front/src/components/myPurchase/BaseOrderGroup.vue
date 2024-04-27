@@ -228,7 +228,8 @@ const cencelOrder=async()=>{
     height: min(4.167dvw,60px);
     justify-content: end;
     align-items: center;
-    gap: min(1.389dvw,20px);
+    /* gap: min(1.389dvw,20px); */
+    justify-content: space-between;
     padding: min(0.833dvw,12px) min(1.389dvw,20px);
 }
 .order_detail .order_info{
