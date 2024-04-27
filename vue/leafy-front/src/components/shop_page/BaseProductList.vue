@@ -138,14 +138,18 @@ const goProductDetail=(p)=>{
     /* height: min(23.333dvw,336px); */
     height: fit-content;
     border-radius: min(v-bind(changeSize(0.556,'dvw')),v-bind(changeSize(8)));
-    border: min(v-bind(changeSize(0.069,'dvw')),v-bind(changeSize(1))) solid;
-    border-color: #FFFFFF;
+    /* border: min(v-bind(changeSize(0.069,'dvw')),v-bind(changeSize(1))) solid; */
+    /* border-color: #FFFFFF; */
     box-sizing: border-box;
     overflow: hidden;
+    border: none;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000F;
+    cursor: pointer;
 }
 .product_item:hover {
-    border-color: #26AC34;
-    box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08);
+    /* border-color: #26AC34; */
+    border: min(0.069dvw,1px) solid #26AC34;
+    /* box-shadow: 0px 4px 40px 0px rgba(4, 6, 15, 0.08); */
 }
 .product_item:active {
     border-color: #58d264;
