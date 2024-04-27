@@ -102,13 +102,69 @@ const submitGallery=async()=>{
     if(submitStatus){
         if(isEdit.value){ //this edit
             if(galleryFormData.value.isChange){
-                let fetchStatus=true
+                if(galleryOrigin.value.image!=undefined){
+                    let fetchStatus=true
 
-                let{status,msg}= await fetch.updateGallery(galleryContentId.value,galleryFormData.value.data)
+                    let{status,msg}= await fetch.updateGallery(galleryContentId.value,galleryFormData.value.data)
+                    if(await status){
+                        console.log("update data successful")
+                        await getGallery()
+                        fetchStatus=true
+                        if(galleryCoverImg.value!=undefined){// start to upload
+                            let{status,msg}=await fetch.addImage(galleryCoverImg.value,'gallery',galleryContentId.value)
+                            if(status){
+                                console.log('add main img successful')
+                                fetchStatus=true
+                            }else{
+                                isShowAlert.value=true
+                                alertType.value=1
+                                alertDetail.value="Oops! It seems like there's a server error preventing image uploads at the moment. "
+                                alertTime.value=10
+                                fetchStatus=false
+                            }
+                        }
+                    }else{
+                        isShowAlert.value=true
+                        alertType.value=1
+                        alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                        alertTime.value=10
+                        fetchStatus=false
+                    }
+
+                    
+                    if(fetchStatus){ // all status true
+                        goMyGallery()
+                    }
+                }else{
+                    isShowAlert.value=true
+                    alertType.value=2
+                    alertDetail.value="The system requires an content image to be displayed for the user"
+                    alertTime.value=10
+                }
+            }else{
+                // error
+            }
+        }else{ //this create
+            if(galleryCoverImg.value!=undefined){
+                let fetchStatus=true
+                let{status,msg,data}= await fetch.addGallery(galleryFormData.value.data)
                 if(await status){
-                    console.log("update data successful")
-                    await getGallery()
+                    console.log("create data successfull")
+                    galleryContentId.value=data.contentId
                     fetchStatus=true
+                        if(galleryCoverImg.value!=undefined){// start to upload
+                        let{status,msg}=await fetch.addImage(galleryCoverImg.value,'gallery',galleryContentId.value)
+                        if(await status){
+                            console.log('add main img successful')
+                            fetchStatus=true
+                        }else{
+                            isShowAlert.value=true
+                            alertType.value=1
+                            alertDetail.value="Oops! It seems like there's a server error preventing image uploads at the moment. "
+                            alertTime.value=10
+                            fetchStatus=false
+                        }
+                    }
                 }else{
                     isShowAlert.value=true
                     alertType.value=1
@@ -117,56 +173,16 @@ const submitGallery=async()=>{
                     fetchStatus=false
                 }
 
-                if(galleryCoverImg.value!=undefined){// start to upload
-                    let{status,msg}=await fetch.addImage(galleryCoverImg.value,'gallery',galleryContentId.value)
-                    if(status){
-                        console.log('add main img successful')
-                        fetchStatus=true
-                    }else{
-                        isShowAlert.value=true
-                        alertType.value=1
-                        alertDetail.value="Oops! It seems like there's a server error preventing image uploads at the moment. "
-                        alertTime.value=10
-                        fetchStatus=false
-                    }
-                }
-                if(fetchStatus){ // all status true
+                
+
+                if(fetchStatus){
                     goMyGallery()
                 }
             }else{
-                // error
-            }
-        }else{ //this create
-            let fetchStatus=true
-            let{status,msg,data}= await fetch.addGallery(galleryFormData.value.data)
-            if(await status){
-                console.log("create data successfull")
-                galleryContentId.value=data.contentId
-                fetchStatus=true
-            }else{
                 isShowAlert.value=true
-                alertType.value=1
-                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                alertType.value=2
+                alertDetail.value="The system requires an content image to be displayed for the user"
                 alertTime.value=10
-                fetchStatus=false
-            }
-
-            if(galleryCoverImg.value!=undefined){// start to upload
-                let{status,msg}=await fetch.addImage(galleryCoverImg.value,'gallery',galleryContentId.value)
-                if(await status){
-                    console.log('add main img successful')
-                    fetchStatus=true
-                }else{
-                    isShowAlert.value=true
-                    alertType.value=1
-                    alertDetail.value="Oops! It seems like there's a server error preventing image uploads at the moment. "
-                    alertTime.value=10
-                    fetchStatus=false
-                }
-            }
-
-            if(fetchStatus){
-                goMyGallery()
             }
         }
     }
@@ -342,7 +358,7 @@ onBeforeMount(async()=>{
             <div class="wrapper_input">
                 <!-- name-->
                 <div class="input_field">
-                    <h6>
+                    <h6 class="inportant_input">
                         Name
                     </h6>
                     <input v-model="galleryName" type="text" class="input">
@@ -350,7 +366,7 @@ onBeforeMount(async()=>{
                 </div>
                 <!-- description-->
                 <div class="input_field">
-                    <h6>
+                    <h6 class="inportant_input">
                         Description
                     </h6>
                     <textarea v-model="galleryDesc" placeholder="Something about product." maxlength="5000"></textarea>
@@ -358,7 +374,7 @@ onBeforeMount(async()=>{
                 </div>
                 <!-- cover photo -->
                 <div class="img_cover input_field">
-                    <h5>
+                    <h5 class="inportant_input">
                         Cover Photo
                     </h5>
                     <!-- <div class="input_img">
@@ -402,7 +418,7 @@ onBeforeMount(async()=>{
                 <div class="container_input">
                     <!-- Garden style -->
                     <div class="input_field">
-                        <h6>
+                        <h6 class="inportant_input">
                             Garden style
                         </h6>
                         <select v-model="galleryStyle" name="" id="" class="input">
