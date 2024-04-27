@@ -208,6 +208,7 @@ const getCountCartStatus=(input)=>{
 }
 
 onBeforeMount(async() => {
+    validation.navigationTo()
    await getProductDetail(productId)
     // console.log(productId,'product id')
 })
@@ -264,6 +265,7 @@ onMounted(()=>{
 <style scoped>
 *{
     box-sizing: border-box;
+    
 }
 .container_access{
     display: flex;
@@ -275,6 +277,7 @@ onMounted(()=>{
     padding: 0px min(11.111dvw, 160px);
     align-items: center;
     gap: min(1.111dvw, 16px);
+    
 }
 .container_access svg:nth-child(1){
     width: min(1.667dvw, 24px);
@@ -306,6 +309,7 @@ onMounted(()=>{
     padding: min(1.389dvw, 20px) min(11.111dvw, 160px);
     gap: min(1.389dvw, 20px);
     background-color: #F5F5F5;
+    animation: show_element ease-in 1s;
 }
 
 .container_review{
