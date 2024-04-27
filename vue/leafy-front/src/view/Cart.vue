@@ -16,6 +16,8 @@ const myRouter = useRouter();
 const goHome = () => myRouter.push({ name: "Home" });
 const goPayment=(list)=>myRouter.push({name:'Payment',params:{cartList:validation.encrypt(list)}})
 const goBack=()=>myRouter.go(-1)
+const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
+
 let origin = `${import.meta.env.VITE_BASE_URL}`;
 
 // common attribute
@@ -401,10 +403,14 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async() => {
-  userName.value=cookie.decrypt().username
-  await getAddress()
-  await getCarts();
-  await getProductRecommend()
+  validation.navigationTo()
+  if(cookie.checkKeyPass()){
+    userName.value=cookie.decrypt().username
+    await getAddress()
+    await getCarts();
+    await getProductRecommend()  
+  }
+  
 });
 </script>
 <template>
@@ -507,7 +513,7 @@ onBeforeMount(async() => {
                 @click="makeGroupSelection(shop.itemOwner)"
               />
             </div>
-            <div class="name_shop">
+            <div @click="goProfile(shop.itemOwner)" class="name_shop">
               <h5>
                 <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea aut unde saepe nam, facere recusandae iure fugit. Enim esse consectetur, quaerat veniam possimus qui commodi neque, dolorem at quibusdam nulla temporibus eveniet atque provident praesentium illum sint dicta, alias fuga dolores? Fuga impedit itaque incidunt unde repudiandae vero quaerat, iste facilis asperiores numquam debitis, minus nostrum dignissimos dolorum iusto ea qui dolore alias temporibus? Omnis accusamus autem quisquam corporis, nemo quia amet quos hic necessitatibus magni eos perspiciatis nulla alias voluptas quae aspernatur eum voluptates, modi eveniet! Fuga ullam, alias incidunt excepturi vel quos molestiae unde aspernatur natus vero eveniet ipsa? Blanditiis qui harum illo ex quia. Et qui, perspiciatis sed dolore voluptas excepturi tempora facere accusantium facilis eos, cumque est. Aspernatur, est? Velit recusandae quo in! Ullam, itaque a. Praesentium fuga numquam rerum, nam obcaecati optio adipisci eligendi ad delectus quae mollitia placeat iste illo sit voluptates eaque accusamus? -->
                 {{ shop.itemOwner }}
@@ -829,6 +835,7 @@ onBeforeMount(async() => {
   padding: min(1.389dvw,20px) min(11.111dvw, 160px);
   gap: min(1.389dvw,20px);
   background-color: #f5f5f5;
+  animation: show_element ease-in 1s;
 }
 
 .cart {
@@ -1006,6 +1013,7 @@ onBeforeMount(async() => {
   height: fit-content;
   gap: min(0.278dvw,4px);
   align-items: center;
+  cursor: pointer;
 }
 
 /* product list */
