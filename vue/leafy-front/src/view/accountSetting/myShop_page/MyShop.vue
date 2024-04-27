@@ -225,7 +225,12 @@ const confirmBank = async (input = false) => {
 }
 
 onBeforeMount(async()=>{
-    userName.value=cookie.decrypt().username
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
+        userName.value=cookie.decrypt().username
+
+    }
+    
     // console.log(userName.value)
     // await getProduct() 
     
@@ -456,7 +461,7 @@ onMounted(async()=>{
     border: none;
     border-radius: min(0.556dvw,8px);
     box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
-    /* gap: 24px; */
+    animation: show_element ease-in 2s;
 }
 .wrapper_my_shop{
     display: flex;
