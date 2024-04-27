@@ -253,7 +253,9 @@ onMounted(()=>{
                 @move-left="moveLeftR" @move-right="moveRightR" @change-page="changePageR"/>
             </div>
         </div>
-        <BaseRecommedation  />
+        <div class="wrapper_recommendation_component">
+            <BaseRecommedation />
+        </div>
         <BaseAlert name="product_detail_main_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"  />
 
     </div>
@@ -346,6 +348,13 @@ onMounted(()=>{
         gap: 0px;
         border-radius: 0px;
         padding: 12px 20px;
+    }
+    .wrapper_recommendation_component{
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-direction: column;
+        padding: 0px 20px;
     }
     
 
