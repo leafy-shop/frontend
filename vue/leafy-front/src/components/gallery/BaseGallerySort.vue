@@ -242,6 +242,7 @@ onMounted(()=>{
 .drop_down_sort .style_sort{
     display: flex;
     width: 100%;
+    height: fit-content;
     cursor: pointer;
     border-radius: 0px;
     box-shadow: none;
@@ -250,6 +251,7 @@ onMounted(()=>{
     line-height: 144%;
     letter-spacing: min(0.014dvw,0.2px);
     color: #212121;
+    white-space: nowrap;
 }
 .drop_down_sort .style_sort:hover{
     background-color: #26AC34;
@@ -326,14 +328,46 @@ onMounted(()=>{
         font-size: 14px;
     }
     .container_sort{
-        gap: 12px;
+        gap: 0px;
+        justify-content: space-around;
     }
     .container_sort button{
+        width: 90px;
         height: 36px;
         box-shadow: 0px 1px 2px 0px #0000000D;
         border-radius: 4px;
         padding: 8px 12px;
         gap: 8px;
+    }
+    .container_sort button >div{
+        width: 20px;
+        height: 20px;
+    }
+    .container_sort button >div svg{
+        width: 10px;
+        height: auto;
+    }
+    .container_sort .drop_down_sort{
+        display: flex;
+        position: absolute;
+        width: 120px;
+        height: fit-content;
+        background-color: #fff;
+        color: #212121;
+        /* bottom: min(19.444dvw,-280px); */
+        top: 40px;
+        right: 0px;
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        padding: 8px 0px;
+        box-shadow: 0px 4px 6px -2px #0000000D;
+    }
+    .drop_down_sort .style_sort{
+        font-size: 14px;
+        padding: 8px;
+    }
+    .container_move{
+        display: none;
     }
 }
 </style>
