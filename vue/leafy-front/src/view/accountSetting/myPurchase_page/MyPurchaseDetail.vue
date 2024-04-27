@@ -128,9 +128,12 @@ onMounted(()=>{
 })
 
 onBeforeMount(async()=>{
-    orderId.value=params.id
-    
-    await getOrderDetail()
+    validation.navigationTo()
+    if(params.id!=undefined){
+        orderId.value=params.id
+        await getOrderDetail()
+                
+    }
 
     
 })
@@ -348,6 +351,7 @@ onBeforeMount(async()=>{
     height: fit-content;
     justify-content: center;
     align-items: center;
+    animation: show_element ease-in 2s;
 }
 .container_purchase_detail{
     display: flex;
