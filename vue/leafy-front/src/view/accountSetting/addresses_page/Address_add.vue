@@ -243,17 +243,21 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async () => {
-    //get username
-    let { username } = cookie.decrypt()
-    userName.value = username
-    // check params
-    if (params.id != undefined && params.id.length != 0) {
-        addressId.value = validation.decrypt(params.id)
-        isEditMode.value = true
-        console.log(params.id)
-        await getAddressById()
+    validation.navigationTo()
+    if(cookie.checkKeyPass()){
+        //get username
+        let { username } = cookie.decrypt()
+        userName.value = username
+        // check params
+        if (params.id != undefined && params.id.length != 0) {
+            addressId.value = validation.decrypt(params.id)
+            isEditMode.value = true
+            console.log(params.id)
+            await getAddressById()
+        }
+        // console.log(isEditMode.value)
+
     }
-    // console.log(isEditMode.value)
 
 })
 </script>
@@ -342,7 +346,7 @@ onBeforeMount(async () => {
                         <h5 class="important_input">
                             Province
                         </h5>
-                        <input v-model="addressProvince" class="input" type="text" maxlength="50">
+                        <input v-model="addressProvince" class="input" type="text" maxlength="20">
                         <!-- <select class="input" name="province" >
                         <option value="" selected>select your ...</option>
                     </select> -->
@@ -367,7 +371,7 @@ onBeforeMount(async () => {
                         <h5 class="important_input">
                             District
                         </h5>
-                        <input v-model="addressDistrinct" class="input" type="text" maxlength="50">
+                        <input v-model="addressDistrinct" class="input" type="text" maxlength="20">
                         <!-- <select class="input" name="district" >
                         <option value="" selected>select your ...</option>
                     </select> -->
@@ -395,7 +399,7 @@ onBeforeMount(async () => {
                         <h5 class="important_input">
                             Sub district
                         </h5>
-                        <input v-model="addressSubDistrinct" class="input" type="text" maxlength="50">
+                        <input v-model="addressSubDistrinct" class="input" type="text" maxlength="20">
                         <!-- <select class="input" name="sub_district" >
                         <option value="" selected>select your ...</option>
                     </select> -->
@@ -477,6 +481,7 @@ onBeforeMount(async () => {
     align-items: center;
     padding: min(1.389dvw,20px);
     background-color: #fff;
+    animation: show_element ease-in 1.5s;
 }
 
 .address {
