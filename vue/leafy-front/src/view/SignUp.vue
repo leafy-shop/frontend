@@ -172,7 +172,7 @@ onMounted(()=>{
             <div class="input_list">
                 <!-- username -->
                 <div class="input_item">
-                    <h5>
+                    <h5 class="inportant_input">
                         Username
                     </h5>
                     <input :style="[userNS==true?'border-color:red;':'']" type="text"   maxlength="50" v-model="userN">
@@ -190,7 +190,7 @@ onMounted(()=>{
                 </div>
                 <!-- first name -->
                 <div class="input_item">
-                    <h5>
+                    <h5 class="inportant_input">
                         First name
                     </h5>
                     <input :style="[firstNS==true?'border-color:red;':'']" type="text"   maxlength="50" v-model="firstN">
@@ -205,7 +205,7 @@ onMounted(()=>{
                 </div>
                 <!-- last name -->
                 <div class="input_item">
-                    <h5>
+                    <h5 class="inportant_input">
                         Last name
                     </h5>
                     <input :style="[lastNS==true?'border-color:red;':'']" type="text"   maxlength="50" v-model="lastN">
@@ -221,7 +221,7 @@ onMounted(()=>{
                 
                 <!-- email -->
                 <div class="input_item">
-                    <h5>
+                    <h5 class="inportant_input">
                         Email
                     </h5>
                     <input :style="[emailS==true?'border-color:red;':'']" type="email" placeholder="you@example.com" maxlength="100" v-model="email">
@@ -236,7 +236,7 @@ onMounted(()=>{
                 </div>
                 <!-- password -->
                 <div class=" input_password">
-                    <h5>
+                    <h5 class="inportant_input">
                         Password
                     </h5>
                     <label for="password_1">
@@ -262,7 +262,7 @@ onMounted(()=>{
                 </div>
                 <!-- confirm password -->
                 <div class="input_password">
-                    <h5>
+                    <h5 class="inportant_input">
                         Confirm password
                     </h5>
                     <label for="password_2">
@@ -288,7 +288,7 @@ onMounted(()=>{
                 </div>
                 <!-- Phone Number -->
                 <div class="input_item">
-                    <h5>
+                    <h5 class="inportant_input">
                         Phone number
                     </h5>
                     <input :style="[phoneNumberS==true?'border-color:red;':'']" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" type="tel" placeholder="000-000-0000" maxlength="11" v-model="phoneNumber">
@@ -596,7 +596,7 @@ onMounted(()=>{
     }
     
 }
-@media (width<=376px){
+@media (width<=432px){
     .wrapper_sign_up{
         padding: min(10.638dvw,40px) 0px ;
     }
