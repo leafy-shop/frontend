@@ -354,6 +354,7 @@ onBeforeMount(async()=>{
     align-items: center;
 }
 .project_description p{
+    text-indent: 50px;
     display: flex;
     width: 100%;
     height: fit-content;
@@ -362,6 +363,9 @@ onBeforeMount(async()=>{
     font-weight: 400;
     color:#212121;
 }
+/* .project_description p br::before{
+    white-space: pre;
+} */
 
 /* mobile */
 @media (width<=432px){
