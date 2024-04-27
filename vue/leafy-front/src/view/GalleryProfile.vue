@@ -5,7 +5,7 @@ import BaseGalleryCard from '../components/gallery/BaseGalleryCard.vue';
 import BaseGallerySort from '../components/gallery/BaseGallerySort.vue';
 import fetch from '../JS/api';
 import cookie from '../JS/cookie';
-import {ref,onBeforeMount,onBeforeUpdate} from 'vue'
+import {ref,onBeforeMount,onBeforeUpdate,onMounted} from 'vue'
 import {useRoute,useRouter} from 'vue-router'
 import validation from '../JS/validation'
 import BaseAlert from '../components/BaseAlert.vue';
@@ -165,6 +165,9 @@ const getShowAlertChange=(input)=>{
     alertType.value=0
     alertDetail.value=''
     alertTime.value=2
+    if(getDataStatus.value==true){
+        getGallery()
+    }
 }
 
 // confirm delete
@@ -189,8 +192,11 @@ const confirmBank = async (input = false) => {
         }
     }
 }
-
+onMounted(async()=>{
+    // await getGallery()
+})
 onBeforeMount(async()=>{
+    validation.navigationTo()
     // param
     id.value=params.id
     // id.value=validation.decrypt(params.id)
@@ -410,6 +416,7 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
+    animation: show_element ease-in 1s;
 }
 .container_user_info {
     display: flex;
