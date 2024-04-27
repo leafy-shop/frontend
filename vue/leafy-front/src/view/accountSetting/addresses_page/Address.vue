@@ -59,12 +59,12 @@ const getAddress=async()=>{
     userName.value=username
     let {status,msg,data}=await fetch.getAllAddress(username)
     if(await status){
-        // console.log(data)
+        console.log(data)
         
         let indexD= data.findIndex(x=>{
             return x.isDefault==true
         })
-        console.log(indexD)
+        // console.log(indexD)
         if(data[indexD]!=undefined){
             if(await data.length==0){
                 getDataStatus.value=false
@@ -78,6 +78,8 @@ const getAddress=async()=>{
             }
             
             // console.log(indexD)
+        }else{
+            getDataStatus.value=false
         }
         // // addressList.value=data
         // console.log(addressList.value)
@@ -137,6 +139,7 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async()=>{
+    validation.navigationTo()
     // console.log(userName.value)
     await getAddress()
 })
@@ -225,6 +228,7 @@ onBeforeMount(async()=>{
     align-items: center;
     border-radius: min(0.556dvw,8px);
     background-color: #FFFFFF;
+    animation: show_element ease-in 1.5s;
 }
 .address{
     display: flex;
@@ -270,6 +274,7 @@ onBeforeMount(async()=>{
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     align-items: center;
     justify-content: start;
+    white-space: nowrap;
     cursor: pointer;
 }
 .header_address> button >svg{
