@@ -80,9 +80,11 @@ const showEmpty=computed(()=>props.showEmpty)
   .wrapper_empty{
       height: 200px;
       border-radius: 0px;
+      padding: 20px;
   }
   .wrapper_empty > h4{
     font-size: 14px;
+    text-align: center
   }
   .loader {
     width: 64px;
