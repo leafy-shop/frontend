@@ -7,6 +7,7 @@ import BaseGalleryCard from '../components/gallery/BaseGalleryCard.vue'
 import BaseGallerySort from '../components/gallery/BaseGallerySort.vue'
 // import BaseMovePage from '../components/accountSetting/BaseMovePage.vue';
 import fetch from '../JS/api';
+import validation from '../JS/validation'
 import BaseSelectPage from '../components/BaseSelectPage.vue';
 import BaseAlert from '../components/BaseAlert.vue';
 import BaseEmptyList from '../components/BaseEmptyList.vue';
@@ -96,12 +97,13 @@ const getShowAlertChange=(input)=>{
 }
 
 onBeforeMount(async()=>{
+    validation.navigationTo()
     await getGallery()
 })
 </script>
 <template>
     <!-- this gallery {{params.search}} -->
-    <BaseMenu />
+    <BaseMenu class="menu" />
     <!-- header title -->
     <div class="shop_title">
         <h3>
@@ -173,6 +175,7 @@ onBeforeMount(async()=>{
     flex-direction: column;
     align-items: center;
     justify-content: start;
+    animation: show_element ease-in 2.5s;
 }
 .gallery{
     display: flex;
