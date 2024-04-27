@@ -335,7 +335,8 @@ onUpdated(async()=>{
 })
 
 onBeforeMount(async()=>{
-    console.log(params.id)
+    validation.navigationTo()
+    // console.log(params.id)
     if(params.id==undefined||params.id.length==0){
         isEdit.value=false
     }else{ //is edit
@@ -361,7 +362,7 @@ onBeforeMount(async()=>{
                     <h6 class="inportant_input">
                         Name
                     </h6>
-                    <input v-model="galleryName" type="text" class="input">
+                    <input v-model="galleryName" type="text" class="input" maxlength="100">
                     <BaseShowErrorInput name="gallery_name" :show="galleryNameS" :msg="galleryNameM" />
                 </div>
                 <!-- description-->
@@ -473,6 +474,7 @@ onBeforeMount(async()=>{
     border-radius: min(0.556dvw,8px);
     box-shadow: 0px min(0.069dvw,1px) min(0.208dvw,3px) 0px #0000001A;
     overflow: hidden;
+    animation: show_element ease-in 1.5s;
 }
 .my_gallery_add{
     display: flex;
