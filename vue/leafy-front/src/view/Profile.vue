@@ -1316,7 +1316,7 @@ onUpdated(() => {
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        font-size: min(2.778dvw,12px);;
+        font-size: min(2.778dvw,12px);
         font-weight: 400;
         color: #9E9E9E;
         white-space: nowrap;
