@@ -572,23 +572,28 @@ onBeforeMount(() => {
 div.check_pw_btn{
     display: flex;
     height: fit-content;
-    padding: 12px 20px;
+    padding: min(0.833dvw,12px) min(1.389dvw,20px);
     justify-content: end;
     align-items: center;
+    text-align: center;
 }
 .check_pw_btn >button{
     display: flex;
-    width: fit-content;
-    height: 36px;
-    padding: 8px 12px;
+    width: min(5.556dvw,80px);
+    height: min(2.5dvw,36px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     background-color: #26AC34;
     color: #fff;
-    box-shadow: 0px 1px 2px 0px #0000000D;
+    box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     border: none;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
+    border-radius: min(0.278dvw,4px);
     cursor: pointer;
+    font-weight: 500;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
 }
 /* 
 
@@ -730,16 +735,20 @@ div.check_pw_btn{
     .check_pw_btn >button{
         display: flex;
         width: 100%;
-        height: 36px;
-        padding: 8px 12px;
+        height: min(8.333dvw,36px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         background-color: #26AC34;
         color: #fff;
-        box-shadow: 0px 1px 2px 0px #0000000D;
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
         border: none;
         justify-content: center;
         align-items: center;
-        border-radius: 4px;
+        border-radius: min(0.926dvw,4px);
         cursor: pointer;
+        font-weight: 500;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
+        letter-spacing: min(0.046dvw,0.2px);
     }
 }
 </style>
