@@ -75,7 +75,7 @@ const applyFilter = (cf) => {
         sortBy: sortBy.value
     })
     console.log(categoryArr)
-    validation.navigationTo(top)
+    // validation.navigationTo(top)
     
 }
 
