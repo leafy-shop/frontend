@@ -309,7 +309,7 @@ text
         height: min(38.889dvw,168px);
     }
     .container_gallery_card_detail{
-        height: min(24.074dvw,104p)x;
+        height: min(24.074dvw,104px);
     }
     /* detail */
     .gallery_card_detail{
@@ -340,7 +340,7 @@ text
     /* .create_date{
     } */
     .create_date h6{
-        font-size: 1min(2.315dvw,10px);
+        font-size: min(2.315dvw,10px);
         font-weight: 400;
     }
 }
