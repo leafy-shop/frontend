@@ -41,6 +41,7 @@ const showEmpty=computed(()=>props.showEmpty)
   background-color:#fff;
   border: none;
   border-radius: min(0.278dvw,4px);
+  z-index: 1000;
 }
 .wrapper_empty > h4{
   width: fit-content;
@@ -78,22 +79,22 @@ const showEmpty=computed(()=>props.showEmpty)
 /* mobile */
 @media (width<=432px){
   .wrapper_empty{
-      height: 200px;
+      height: min(46.296dvw,200px);
       border-radius: 0px;
-      padding: 20px;
+      padding: min(4.63dvw,20px);
   }
   .wrapper_empty > h4{
-    font-size: 14px;
+    font-size: min(3.241dvw,14px);
     text-align: center
   }
   .loader {
-    width: 64px;
-    height: 28px;
+    width: min(14.815dvw,64px);
+    height: min(6.481dvw,28px);
   }
   .loader:before {
     content: "";
     position: absolute;
-    border-radius: 50px;
+    border-radius: min(11.574dvw,50px);
     box-shadow: 0 0 0 3px inset #26AC34;
     /* animation: l3 0.75s infinite alternate; */
   }
