@@ -596,7 +596,7 @@ object-fit: cover;
     font-weight: 500;
 }
 .container_btn .back{
-    border: 1px solid #E0E0E0;
+    border: min(0.069dvw,1px) solid #E0E0E0;
     background-color: #fff;
     color: #212121;
 }

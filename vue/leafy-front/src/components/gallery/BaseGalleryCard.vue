@@ -298,49 +298,49 @@ text
 
 @media (width<=432px){
     .gallery_item{
-        height: 272px;
-        border-radius: 8px;
+        height: min(62.963dvw,272px);
+        border-radius: min(1.852dvw,8px);
         box-shadow: 0px 1px 2px 0px #0000000F;
     }
     .gallery_item:hover{
-        border: 1px solid #26AC34;
+        border: min(0.231dvw,1px) solid #26AC34;
     }
     .gallery_item .gallery_item_img{
-        height: 168px;
+        height: min(38.889dvw,168px);
     }
     .container_gallery_card_detail{
-        height: 104px;
+        height: min(24.074dvw,104p)x;
     }
     /* detail */
     .gallery_card_detail{
-        gap: 12px;
-        padding: 12px;
+        gap: min(2.778dvw,12px);
+        padding: min(2.778dvw,12px);
     }
     .gallery_card_detail h5{
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
     }
     .gallery_card_detail .container_creater{
-        height: 20px;
-        gap: 4px;
+        height: min(4.63dvw,20px);
+        gap: min(0.926dvw,4px);
     }
     .container_creater .creater{
         height: 100%;
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     /* img */
     .container_creater .creater  >div{
-        width: 24px;
-        height: 24px;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
     }
     .container_creater .creater h6{
-        max-width: 86px;
-        font-size: 10px;
+        max-width: min(19.907dvw,86px) ;
+        font-size: min(2.315dvw,10px);
         font-weight: 400;
     }
     /* .create_date{
     } */
     .create_date h6{
-        font-size: 10px;
+        font-size: 1min(2.315dvw,10px);
         font-weight: 400;
     }
 }

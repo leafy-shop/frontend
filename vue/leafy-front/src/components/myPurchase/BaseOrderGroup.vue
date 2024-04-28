@@ -299,31 +299,31 @@ const cencelOrder=async()=>{
     border-radius: 0px;
     }
     .order_detail{
-        height: 60px;
+        height: min(13.889dvw,60px);
         /* gap:20px; */
         justify-content: space-between;
-        padding: 12px 20px;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
     }
     .order_detail .order_info{
-        height: 20px;
-        gap: 8px;
+        height: min(4.63dvw,20px);
+        gap: min(1.852dvw,8px);
     }
     .order_info p{
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
     }
     .order_info h6{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
     /* container button */
     .container_btn{
         gap: min(0.556dvw,8px);
     }
     .container_btn button{
-        height: 36px;
-        font-size:14px;
+        height: min(8.333dvw,36px);
+        font-size: min(3.241dvw,14px);
         box-shadow: 0px 1px 2px 0px #0000000D;
-        border-radius: 4px;
-        padding: 8px 12px;
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
     }
     .container_btn .view_my_rating{
         border: min(0.069dvw,1px) solid #E0E0E0;

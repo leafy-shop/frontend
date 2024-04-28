@@ -112,6 +112,7 @@ const myRouter = useRouter()
 const goHome = () => myRouter.push({ name: 'Home' })
 const goSignin = () => myRouter.push({ name: 'SignIn' })
 const goSignUp = () => myRouter.push({ name: 'SignUp' })
+const goMyPurchase=()=>myRouter.push({name:'MyPurchase'})
 const goShop = () => {
     console.log(search.value)
     console.log(isShopPage.value)
@@ -285,6 +286,9 @@ onUpdated(async()=>{
                         <button @click="goProfile(keyPass.id)">
                             My Profile
                         </button>
+                        <button @click="goMyPurchase()">
+                            My Purchase
+                        </button>
                         <button @click="goSetting(keyPass.id)">
                             Settings
                         </button>
@@ -373,7 +377,7 @@ onUpdated(async()=>{
 
                 <div class="service_container_2">
                     <div v-if="keyPass != undefined" class="service_with_keyPass">
-                        <div class="user_2">
+                        <div @click="goProfile(keyPass.id)" class="user_2">
                             <div class="icon_2">
                                 <img v-if="imageS" :src="`${origin}/api/image/users/${keyPass.id}`" alt="user_icon">
                                 <img v-else src="../assets/shop_p/avatar_userProfile.png" alt="user_icon">
@@ -389,13 +393,16 @@ onUpdated(async()=>{
                                 </h5>
                             </div>
                         </div>
-                        <button @click="goProfile(keyPass.id)" class="account_bt">
+                        <!-- <button @click="goProfile(keyPass.id)" class="account_bt">
                             My profile
+                        </button> -->
+                        <button @click="goMyPurchase()" class="account_bt">
+                            My Purchase
                         </button>
-
                         <button @click="goSetting" class="account_bt">
                             Settings
                         </button>
+                        
                         <button class="signOut" @click="signOut">
                             Sign out
                         </button>
@@ -627,7 +634,8 @@ onUpdated(async()=>{
     flex-direction: column;
     /* width: min(9.722dvw,140px); */
     width: fit-content;
-    height: min(8.611dvw, 124px);
+    /* height: min(8.611dvw, 124px); */
+    height: fit-content;
     padding: min(0.556dvw, 8px) 0px;
     right: 0;
     top: min(3.056dvw, 44px);
@@ -753,7 +761,7 @@ svg:hover path:nth-child(2) {
     .main_menu_container {
         height: 100%;
 
-        z-index: 1001;
+        z-index: 220;
         align-items: center;
     }
 
@@ -764,7 +772,7 @@ svg:hover path:nth-child(2) {
         position: absolute;
         top: min(10.753dvw, 80px);
         flex-direction: column;
-        z-index: 1000;
+        z-index: 200;
     }
 
     .action_area {
@@ -773,7 +781,7 @@ svg:hover path:nth-child(2) {
         position: relative;
         background-color: black;
         opacity: 0.5;
-        z-index: 998;
+        z-index: 208;
     }
 
     .container_link_2 {
@@ -785,7 +793,7 @@ svg:hover path:nth-child(2) {
         padding: min(3.763dvw, 28px) min(4.301dvw, 32px) min(4.301dvw, 32px) min(4.301dvw, 32px);
         box-sizing: border-box;
         gap: min(3.763dvw, 28px);
-        z-index: 999;
+        z-index: 209;
     }
 
     .link_list {
@@ -914,6 +922,7 @@ svg:hover path:nth-child(2) {
         flex-direction: row;
         gap: min(1.613dvw, 12px);
         padding: 0px min(1.613dvw, 12px) min(1.075dvw, 8px) min(1.613dvw, 12px);
+        cursor: pointer;
     }
 
     .icon_2 {
@@ -1278,7 +1287,7 @@ svg:hover path:nth-child(2) {
         padding: min(3.191dvw, 12px) min(1.064dvw, 4px) min(4.255dvw,16px) min(1.064dvw, 4px);
         box-sizing: border-box;
         gap: min(4.255dvw,16px);
-        z-index: 999;
+        z-index: 209;
     }
     
     

@@ -302,16 +302,17 @@ onBeforeMount(async()=>{
     .address{
         gap: min(5.556dvw,24px);
     }
-    /* .header_address{
+    .header_address{
+        display: none
+    }
+    /* .header_address >h4{
+        height: 24px;
+        font-size: 16px;
     } */
-    .header_address >h4{
-        height: min(5.556dvw,24px);
-        font-size: min(3.704dvw,16px);
-    }
     /* old button */
-    .header_address >button{
+    /* .header_address >button{
         display:none;
-    }
+    } */
     
     /* create new mobile */
     .create_new_mobile{

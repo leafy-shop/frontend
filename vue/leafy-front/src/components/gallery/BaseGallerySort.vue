@@ -321,52 +321,52 @@ onMounted(()=>{
 /* mobile */
 @media (width<=432px){
     .gallery_sort{
-        height: v-bind('props.isSetting==true?'36px':'fit-content'');
+        height: v-bind('props.isSetting==true?'min(8.333dvw,36px)':'fit-content'');
         border-radius: 0px;
         background-color:transparent;
-        padding: 20px;
+        padding: min(4.63dvw,20px);
     }
     .sort_btn {
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
     .container_sort{
         gap: 0px;
         justify-content: space-around;
     }
     .container_sort button{
-        width: 90px;
-        height: 36px;
+        width: min(20.833dvw,90px);
+        height: min(8.333dvw,36px);
         box-shadow: 0px 1px 2px 0px #0000000D;
-        border-radius: 4px;
-        padding: 8px 12px;
-        gap: 8px;
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        gap: min(1.852dvw,8px);
     }
     .container_sort button >div{
-        width: 20px;
-        height: 20px;
+        width: min(4.63dvw,20px);
+        height: min(4.63dvw,20px);
     }
     .container_sort button >div svg{
-        width: 10px;
+        width: min(2.315dvw,10px);
         height: auto;
     }
     .container_sort .drop_down_sort{
         display: flex;
         position: absolute;
-        width: 120px;
+        width: min(27.778dvw,120px);
         height: fit-content;
         background-color: #fff;
         color: #212121;
         /* bottom: min(19.444dvw,-280px); */
-        top: 40px;
+        top: min(9.259dvw,40px);
         right: 0px;
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
-        padding: 8px 0px;
+        border: min(0.231dvw,1px) solid #E0E0E0;
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) 0px;
         box-shadow: 0px 4px 6px -2px #0000000D;
     }
     .drop_down_sort .style_sort{
-        font-size: 14px;
-        padding: 8px;
+        font-size: min(3.241dvw,14px);
+        padding: min(1.852dvw,8px);
     }
     .container_move{
         display: none;

@@ -80,7 +80,7 @@ const props=defineProps({
         height: fit-content;
         flex-direction: column;
         padding: min(1.852dvw,8px) min(2.778dvw,12px);
-        font-size: min(2.778dvw,12px);
+        font-size:  min(2.778dvw,12px);
         border-radius: min(0.926dvw,4px);
         gap: min(1.852dvw,8px);
     }

@@ -251,6 +251,9 @@ onMounted(()=>{
                             </button>
                         </div>
                     </label>
+                    <h6>
+                        Use 8-20 characters
+                    </h6>
                     <div v-show="passwordS" class="wrapper_errorMsg">
                         <div >
                             <img src="../assets/icon/error_icon.png" alt="error_icon">
@@ -405,6 +408,14 @@ onMounted(()=>{
     height: fit-content;
     flex-direction: column;
     gap: min(0.278dvw,4px);
+}
+.input_password h6{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    color: #9E9E9E;
+    font-size: 14px;
+    font-weight: 400;
 }
 .input_password h5{
     font-size: min(1.111dvw,16px);

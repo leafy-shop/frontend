@@ -1142,9 +1142,7 @@ const fetch = {
                 validation.function_Status('update user info', true, `updated user info successful.`)
                 returnData.status = true
                 returnData.data = res.data
-            } else {
-                validation.function_Status('update user info', false, `cannot update user `)
-            }
+            } 
             return returnData
         } catch (error) {
             validation.function_Status('update user info', false, error)
@@ -1152,9 +1150,15 @@ const fetch = {
                 returnData.msg = "Server Error try again later"
                 returnData.status = false
                 return returnData
-            }
-            else {
-
+            }else
+            if (error.response.status == 400 ){
+                returnData.msg = error.response.data.error
+                returnData.status = false
+                return returnData
+            }else {
+                returnData.msg = error.response.data.error
+                returnData.status = false
+                return returnData
             }
         }
     },
@@ -1178,7 +1182,8 @@ const fetch = {
                 return returnData
             }
             else {
-
+                returnData.status = false
+                return returnData
             }
         }
     },
@@ -1203,7 +1208,8 @@ const fetch = {
                 return returnData
             }
             else {
-
+                returnData.status = false
+                return returnData
             }
         }
     },

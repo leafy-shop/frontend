@@ -273,17 +273,25 @@ const personalInfoSubmit = async () => {
 
             console.log(inputData)
             let { status, msg } = await fetch.updataUserInfo(inputData)
-            if (status) {
+            if (await status) {
                 await fetch.getRefresh()
                 personalInfoClear()
                 await getUserInfo()
+            }else
+            if(await msg.includes("duplicated")){
+                // error
+                isShowAlert.value=true
+                alertType.value=2
+                alertDetail.value= msg
+                alertTime.value=10
             } else {
                 // error
                 isShowAlert.value=true
                 alertType.value=1
-                alertDetail.value="Oops! It seems like there's a server error at the moment. Please try again later."
+                alertDetail.value="sadfasdOops! It seems like there's a server error at the moment. Please try again later."
                 alertTime.value=10
             }
+            console.log(msg)
         }
 
     }
@@ -1140,123 +1148,124 @@ p.refresh_page_require{
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
     }
     .wrapper_profile {
-        gap: 8px;
+        gap: mins(1.852dvw,8px);
     }
     /* .wrapper_profile>div {
     } */
     .wrapper_info {
-        padding: 20px;
-        gap: 20px;
+        padding: min(4.63dvw,20px);
+        gap: min(4.63dvw,20px);
     }
     .title{
-        gap: 4px;
+        display: none;
+        gap: min(0.926dvw,4px);
     }
-    .title >h4{
+    /* .title >h4{
         height: 24px;
         font-size: 16px;
     }
     .title >p{
         display: none;
-    }
+    } */
     .input_item {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .profile_item {
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .profile_item h5 {
-        height: 20px;
-        font-size:14px;
+        height: min(4.63dvw,20px);
+        font-size:min(3.241dvw,14px);
     }
     .username input {
-        height: 36px;
-        padding: 8px 12px;
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
-        font-size: 14px;
+        height: min(8.333dvw,36px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        border: min(0.231dvw,1px) solid #E0E0E0;
+        border-radius: min(0.926dvw,4px);
+        font-size: min(3.241dvw,14px);
     }
     .about_me textarea {
-        height: 100px;
-        min-height: 36px;
-        max-height: 200px;
+        height: min(23.148dvw,100px);
+        min-height: min(8.333dvw,36px);
+        max-height: min(46.296dvw,200px);
         resize: vertical;
-        padding: 8px 12px;
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        border: min(0.231dvw,1px) solid #E0E0E0;
+        border-radius: min(0.926dvw,4px);
         font-weight: 400;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
     .about_me p {
         height: 20px;
-        margin-top: 8px;
-        font-size: 14px;
+        margin-top: min(1.852dvw,8px);
+        font-size: min(3.241dvw,14px);
     }
     .image>div {
-        gap: 20px;
+        gap: min(4.63dvw,20px);
     }
     .image>div div {
         display: flex;
-        width: 119px;
-        height: 119px;
+        width: min(27.546dvw,119px);
+        height: min(27.546dvw,119px);
     }
     .image>div label {
-        height: 36px;
-        padding: 8px 12px;
+        height: min(8.333dvw,36px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         border: 1px solid #E0E0E0;
-        border-radius: 4px;
-        font-size: 14px;
+        border-radius: min(0.926dvw,4px);
+        font-size: min(3.241dvw,14px);
         box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     }
     p.refresh_page_require{
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
     }
     .img_cover .no_img{
-        height: 140px;
-        border: 2px dashed #E0E0E0;
-        border-radius: 4px;
+        height: min(32.407dvw,140px);
+        border: min(0.463dvw,2px) dashed #E0E0E0;
+        border-radius: min(0.926dvw,4px);
     }
     .img_cover .has_img{
-        height: 140px;
+        height:min(32.407dvw,140px);
     }
     .img_cover>div label {
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .img_cover>div label div {
-        width: 48px;
-        height: 48px;
+        width: min(11.111dvw,48px);
+        height: min(11.111dvw,48px);
     }
     .img_cover>div label div svg {
-        width: 36px;
-        height: 36px;
+        width: min(8.333dvw,36px);
+        height: min(8.333dvw,36px);
     }
     .img_cover>div label h6 {
-        height: 20px;
-        font-size: 14px;
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
     }
     .img_cover>div label p {
-        height: 16px;
-        font-size: 12px;
+        height: min(3.704dvw,16px);
+        font-size: min(2.778dvw,12px);
     }
 
     .container_info {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
         flex-direction: column;
     }
     .info_item {
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .info_item h5 {
-        height: 20px;
-        font-size: 14px;
+        height: min(4.63dvw,20px);
+        font-size:min(3.241dvw,14px);
     }
     .info_item input {
         width: 100%;
-        height: 36px;
-        border: 1px solid #D1D5DB;
-        border-radius: 4px;
-        padding: 8px 12px;
+        height: min(8.333dvw,36px);
+        border: min(0.231dvw,1px) solid #D1D5DB;
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         box-shadow: 0px 1px 2px 0px #0000000D;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
 }
 

@@ -535,29 +535,31 @@ onBeforeMount(async () => {
 /* mobile */
 @media (width<=432px){
     .wrapper_all {
-        border-radius: 8px;
+        border-radius: min(1.852dvw,8px);
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
     }
     .wrapper_bank {
         min-width: none;
-        padding: 20px;
+        padding: min(4.63dvw,20px);
     }
     .bank {
-        gap: 24px;
+        gap: min(5.556dvw,24px);
     }
     .header_bank {
-        gap: 20px;
+        display: none;
+        gap: min(4.63dvw,20px);
     }
-    .header_bank .header_detail {
+    /* .header_bank .header_detail {
+        display: none;
         gap: 4px;
-    }
-    .header_bank .header_detail > h4 {
+    } */
+    /* .header_bank .header_detail > h4 {
         height: 24px;
         font-size: 16px;
-    }
-    .header_bank .header_detail >p {
+    } */
+    /* .header_bank .header_detail >p {
         display: none;
-    }
+    } */
     /* button */
     .header_bank >button{
         display: none;
@@ -573,14 +575,14 @@ onBeforeMount(async () => {
     .create_new_mobile >button{
         display: flex;
         width: 100%;
-        height: 36px;
-        border-radius: 4px;
+        height: min(8.333dvw,36px);
+        border-radius: min(0.926dvw,4px);
         border: none;
-        padding: 8px 12px 8px 8px;
-        gap: 4px;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px) min(1.852dvw,8px) min(1.852dvw,8px);
+        gap: min(0.926dvw,4px);
         background-color: #26AC34;
         color: #fff;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
         line-height: 144%;
         font-weight: 500;
         box-shadow: 0px 1px 2px 0px #0000000D;
@@ -590,9 +592,9 @@ onBeforeMount(async () => {
         white-space: nowrap
     }
     .create_new_mobile >button >svg {
-        width: 10px;
-        height: 10px;
-        margin: 5px;
+        width: min(2.315dvw,10px);
+        height: min(2.315dvw,10px);
+        margin: min(1.157dvw,5px);
     }
 }
 </style>

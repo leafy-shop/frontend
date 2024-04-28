@@ -100,12 +100,12 @@ onBeforeMount(()=>{
 /* mobile */
 @media (width<=432px){
     .wrapper_recommend{
-        gap: 20px;
+        gap: min(4.63dvw,20px);
     }
     .wrapper_recommend h5{
-        height: 24px;
+        height: min(5.556dvw,24px);
         font-weight: 500;
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
     }
 }
 </style>

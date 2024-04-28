@@ -301,13 +301,13 @@ const isShowSetDBtn=computed(()=>props.showSetDBtn)
 /* mobile */
 @media (width<=432px){
     .bank_item{
-        border-top: v-bind('isShowEditBtn==true?'1px solid':'none'')  ;
+        border-top: v-bind('isShowEditBtn==true?'min(0.231dvw,1px) solid':'none'')  ;
         border-color: #E0E0E0;
-        padding-top: v-bind('isShowEditBtn==true?'12px':'none'');
+        padding-top: v-bind('isShowEditBtn==true?'min(2.778dvw,12px)':'none'');
         gap: min(0.926dvw,4px);
     } 
     .title {
-        height: min(5.556dvw,24px);
+        height:min(5.556dvw,24px);
     }
     .title .info {
         width: 100%;
@@ -316,7 +316,7 @@ const isShowSetDBtn=computed(()=>props.showSetDBtn)
     .info h5 {
         font-size: min(3.704dvw,16px);
         font-weight: 500;
-        padding-right: min(1.852dvw,8px);
+        padding-right:min(1.852dvw,8px);
         border-right: min(0.231dvw,1px) solid #E0E0E0;;
     }
     .info p{
@@ -345,17 +345,17 @@ const isShowSetDBtn=computed(()=>props.showSetDBtn)
         border: min(0.231dvw,1px) solid #E0E0E0;
         padding: min(0.926dvw,4px) min(2.778dvw,12px);
         box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
-        border-radius: min(0.926dvw,4px);
+        border-radius:min(0.926dvw,4px);
         font-size: min(2.778dvw,12px);
         font-weight: 500;
         white-space: nowrap;
     }
     .default_icon{
-        width:min(13.889dvw,60px);
+        width: min(13.889dvw,60px);
         height: min(4.63dvw,20px);
         padding: min(0.926dvw,4px) min(2.778dvw,12px);
         border: min(0.231dvw,1px) solid #26AC34;
-        border-radius: min(0.926dvw,4px);
+        border-radius:min(0.926dvw,4px);
         color: #26AC34;
         box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
         font-size: min(2.315dvw,10px);

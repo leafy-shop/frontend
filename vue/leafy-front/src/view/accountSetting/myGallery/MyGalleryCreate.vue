@@ -382,9 +382,9 @@ onBeforeMount(async()=>{
                         
 
                     </div> -->
-                    <div v-show="galleryCoverImg == undefined && galleryCoverImgS == false" class="input_img" @drop="dropCoverHandle" @dragover="dragover">
+                    <div v-show="galleryCoverImg == undefined && galleryCoverImgS == false" class="input_img no_img" @drop="dropCoverHandle" @dragover="dragover" >
                         <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
-                        <label  for="cover_image">
+                        <label  for="cover_image" >
                             <div>
                                 <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M21 5H5C3.93913 5 2.92172 5.42143 2.17157 6.17157C1.42143 6.92172 1 7.93913 1 9V29M1 29V33C1 34.0609 1.42143 35.0783 2.17157 35.8284C2.92172 36.5786 3.93913 37 5 37H29C30.0609 37 31.0783 36.5786 31.8284 35.8284C32.5786 35.0783 33 34.0609 33 33V25M1 29L10.172 19.828C10.9221 19.0781 11.9393 18.6569 13 18.6569C14.0607 18.6569 15.0779 19.0781 15.828 19.828L21 25M33 17V25M33 25L29.828 21.828C29.0779 21.0781 28.0607 20.6569 27 20.6569C25.9393 20.6569 24.9221 21.0781 24.172 21.828L21 25M21 25L25 29M29 5H37M33 1V9M21 13H21.02" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -403,8 +403,8 @@ onBeforeMount(async()=>{
                         </label>
                         
                     </div>
-                    <div v-show="galleryCoverImg != undefined || galleryCoverImgS == true" @drop="dropCoverHandle" @dragover="dragover">
-                        <label for="cover_image">
+                    <div v-show="galleryCoverImg != undefined || galleryCoverImgS == true" @drop="dropCoverHandle" @dragover="dragover" class="has_img">
+                        <label for="cover_image" class="cover_img_result">
                             <!-- รูปที่จะเพิ่ม -->
                             <img v-show="galleryCoverImg != undefined" src="#" draggable="false" alt="preview_image"
                                 id="cover-preview">
@@ -716,7 +716,7 @@ onBeforeMount(async()=>{
     font-size: 14px;
     color: #212121;
 } */
-.img_cover>div {
+.img_cover .img_cover {
     display: flex;
     width: 100%;
     height: min(9.722dvw,140px);
@@ -785,11 +785,27 @@ onBeforeMount(async()=>{
     height: 100%;
     overflow: hidden;
 } */
-.img_cover>div label img {
-    width: 100%;
-    height: auto;
-    background-position: center;
+.img_cover .has_img{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: min(9.722dvw,140px);
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
 }
+.img_cover .cover_img_result{
+    
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.img_cover >div .cover_img_result img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* 
 .submit {
     display: flex;

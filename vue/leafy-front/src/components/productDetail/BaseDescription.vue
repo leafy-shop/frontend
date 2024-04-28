@@ -84,15 +84,15 @@ onBeforeUpdate(()=>{
 /* mobile */
 @media (width<=432px){
     .wrapper_description{
-        padding: 12px 20px;
-        border-radius:  9px;
-        gap: 8px;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
+        border-radius:  min(1.852dvw,8px);
+        gap: min(1.852dvw,8px);
     }
     .wrapper_description h5 {
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
     }
     .description p{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
     br::before{
         white-space: pre-line;

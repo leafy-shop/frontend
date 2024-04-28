@@ -41,6 +41,31 @@ const isMobile=ref(false)
 const showContent =ref(false)
 const showMenuContent=ref(false)
 const currentLinkName=ref("")
+const titleMenu=computed(()=>{
+    if(window.innerWidth<=432){
+        if(useRoute().name=="AccountSetting"){
+            return "Settings"
+        }else
+        if(useRoute().name=="Profile_AS"){
+            return "Profile"
+        }else
+        if(useRoute().name=="Address_AS"||useRoute().name=="Address_AS_add"){
+            return "Address"
+        }
+        else
+        if(useRoute().name=="Bank_AS"||useRoute().name=="Bank_AS_add"){
+            return "Bank"
+        }
+        else
+        if(useRoute().name=="MyPurchase"||useRoute().name=="MyPurchaseDetail"){
+            return "My Purchase"
+        }
+        else
+        if(useRoute().name=="ChangePW_AS"){
+            return "Change Password"
+        }
+    }
+})
 const checkWidth=()=>{
     if(window.innerWidth<=432){ // is mobile
         // console.log(window.innerWidth)
@@ -161,7 +186,8 @@ onUpdated(()=>{
         </button>
         <!-- header -->
         <h5 class="header">
-            Settings
+            <!-- Settings -->
+            {{ titleMenu }}
         </h5>
         <!-- empty  -->
         <div class="empty">
@@ -492,8 +518,8 @@ onUpdated(()=>{
     .container_access_mobile{
         display: flex;
         width: 100%;
-        height: 60px;
-        padding: 12px 20px;
+        height: min(13.889dvw,60px);
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
         justify-content: space-between;
         align-items: center;
         box-shadow: 0px 1px 3px 0px #0000001A;
@@ -501,8 +527,8 @@ onUpdated(()=>{
     }
     .container_access_mobile .go_back_btn{
         display: flex;
-        width: 24px;
-        height: 24px;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
         justify-content: center;
         align-items: center;
         border: none;
@@ -513,25 +539,25 @@ onUpdated(()=>{
         display: flex;
         width: fit-content;
         height: fit-content;
-        font-size:18px ;
+        font-size: min(4.167dvw,18px) ;
         font-weight: 700;
         color: #212121;
-        gap: 4px;
+        gap: min(0.926dvw,4px);
         justify-content: center;
         align-items: center;
     }
     .container_access_mobile h5.header span{
         width: fit-content;
         height: fit-content;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
         font-weight: 400;
         color: #616161;
         vertical-align: center;
     }
     .container_access_mobile div.empty{
         display: flex;
-        width: 24px;
-        height: 24px;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
         letter-spacing: 0.20000000298023224px;
     }
     .wrapper_account{
@@ -569,8 +595,8 @@ onUpdated(()=>{
         align-items: center;
         border: none;
         background-color: #fff;
-        padding: 8px 12px;
-        border-top: 1px solid #EEEEEE;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        border-top: min(0.231dvw,1px) solid #EEEEEE;
         cursor: pointer;
     }
     button.menu_link h6{
@@ -580,13 +606,13 @@ onUpdated(()=>{
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
         font-weight: 400;
         color: #212121;
     }
     button.menu_link svg{
-        width: 24px;
-        height: 24px;
+        width: min(5.556dvw,24px);
+        height: min(5.556dvw,24px);
     }
 }
 </style>

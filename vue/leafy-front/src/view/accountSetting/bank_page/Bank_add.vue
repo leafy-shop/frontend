@@ -6,6 +6,7 @@ import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
 import bankList from '../../../JS/enum/bankAccount.js'
 import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue'
+import BaseShowErrorInput from '../../../components/accountSetting/BaseShowErrorInput.vue'
 
 // link
 const myRouter = useRouter()
@@ -222,7 +223,8 @@ onBeforeMount(async () => {
                         </h5>
                         <input v-model="paymentName" class="input" type="text" maxlength="50">
                         <!-- worning -->
-                        <div v-show="paymentNameS" class="wrapper_errorMsg">
+                        <BaseShowErrorInput name="name" :show="paymentNameS" :msg="paymentNameM" />
+                        <!-- <div v-show="paymentNameS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -234,7 +236,7 @@ onBeforeMount(async () => {
                                     {{ paymentNameM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- Account_number -->
@@ -244,7 +246,8 @@ onBeforeMount(async () => {
                         </h5>
                         <input v-model="accountNumber" class="input" type="text" maxlength="16">
                         <!-- worning -->
-                        <div v-show="accountNumberS" class="wrapper_errorMsg">
+                        <BaseShowErrorInput name="account_number" :show="accountNumberS" :msg="accountNumberM"/>
+                        <!-- <div v-show="accountNumberS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -256,7 +259,7 @@ onBeforeMount(async () => {
                                     {{ accountNumberM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- Bank name -->
@@ -271,8 +274,9 @@ onBeforeMount(async () => {
                                 {{ bank.name }}
                             </option>
                         </select>
+                        <BaseShowErrorInput name="bank name" :show="bankNameS" :msg="bankNameM" />
                         <!-- worning -->
-                        <div v-show="bankNameS" class="wrapper_errorMsg">
+                        <!-- <div v-show="bankNameS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +288,7 @@ onBeforeMount(async () => {
                                     {{ bankNameM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -425,7 +429,7 @@ onBeforeMount(async () => {
     color: #fff;
 } */
 
-.wrapper_errorMsg {
+/* .wrapper_errorMsg {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -459,7 +463,7 @@ onBeforeMount(async () => {
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+} */
 
 /* .submit_deactive{
     background-color: #BDBDBD !important;

@@ -202,27 +202,27 @@ onBeforeMount(async()=>{
 /* mobile */
 @media (width<=432px){
     .shop_title {
-        height: 116px;
+        height: min(26.852dvw,116px);
     }
     .shop_title h3 {
-        padding: 40px 20px;
-        font-size: 24px;
+        padding: min(9.259dvw,40px) min(4.63dvw,20px);
+        font-size: min(5.556dvw,24px);
     }
     .wrapper_gallery{
-        padding: 0px 0px 12px 0px;
+        padding: 0px 0px min(2.778dvw,12px) 0px;
     }
     .gallery{
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     /* gallery list */
     .gallery_list{
         display: grid;
         grid-template-columns: repeat(2,1fr);
-        gap: 8px;
-        padding: 0px 20px 12px 20px;
+        gap: min(1.852dvw,8px);
+        padding: 0px min(4.63dvw,20px) min(2.778dvw,12px) min(4.63dvw,20px);
     }
     .wrapper_gallery_item{
-        width: 192px;
+        width: min(44.444dvw,192px);
     }
 }
 

@@ -582,7 +582,8 @@ onBeforeMount(async () => {
     }
     .input_field h5 {
         height: min(4.63dvw,20px);
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
     }
     .input_field .input {
         height: min(8.333dvw,36px);
