@@ -9,7 +9,7 @@
 <style>
 *{
     box-sizing:border-box;
-    color: #212121;
+    /* color: #212121; */
 }
 
 
