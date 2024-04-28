@@ -546,6 +546,12 @@ onBeforeMount(async () => {
     border-color: #D1D5DB;
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     padding: min(0.556dvw,8px) min(0.833dvw,12px);
+    font-style: normal;
+    font-weight: 400;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
+    /* color: #9E9E9E; */
 }
 
 /* mobile */
@@ -584,6 +590,9 @@ onBeforeMount(async () => {
         border-radius: 4px;
         box-shadow: 0px 1px 2px 0px #0000000D;
         padding: 8px 12px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
+        letter-spacing: min(0.046dvw,0.2px);
     }
 }
 /* 
