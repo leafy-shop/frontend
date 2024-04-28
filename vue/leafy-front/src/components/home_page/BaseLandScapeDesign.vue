@@ -113,15 +113,18 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
 .content_item {
     display: flex;
     /* width: min(24.444dvw, 352px); */
-    width: 1005;
+    width: 100%;
     /* height: min(23.611dvw, 340px);  */
-    height: fit-content;
+    height:fit-content;
+    /* max-height: 100%; */
     /* width: 100%; */
     flex-direction: column;
     justify-content: center;
     /* overflow: hidden; */
     /* width: fit-content; */
     /* height: fit-content; */
+    
+    overflow: hidden;
     cursor: pointer;
     gap: min(0.833dvw, 12px);
 }
@@ -140,6 +143,8 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
     /* background-color: gray; */
 }
 .content_item h4{
+    width: 100%;
+    height: fit-content;
     text-transform: capitalize;
     font-weight: 700;
     font-size: min(1.25dvw, 18px);
@@ -161,9 +166,9 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
         gap: min(2.151dvw, 16px);
     }
     .container_content{
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr 1fr;
         /* width: min(88.172, 656px); */
-        width: auto;
+        width: 100%;
         gap: min(2.151dvw, 16px);
     }
     .wrapper_content h3{
@@ -177,14 +182,19 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
         height: 280px; */
         /* width: fit-content;
         height: fit-content; */
+        display: flex;
+        width: 100%;
         gap: min(1.075dvw, 8px);
     }
-    .content_item img{
-        width: min(43.011dvw, 320px);
+    .content_item >div {
+        height: min(32.258dvw 144px);
+
+    }
+    /* .content_item img{
+        width: 100%;
         height: min(32.258dvw, 240px);
         border-radius: min(1.075dvw, 8px);
-        /* max-width: 50%; */
-    }
+    } */
     .content_item h4{
         /* height: 40px; */
         font-size: min(2.151dvw, 16px);
@@ -209,18 +219,18 @@ const goGallery =(search="")=>myRouter.push({name:"Gallery",params:{search:searc
     .content_item{
         gap: min(0.926dvw,4px);
     }
-    .content_item img{
+    /* .content_item img{
         width: min(44.444dvw, 192px);
         height: min(33.333dvw, 144px);
         border-radius: min(0.926dvw,4px);
-    }
+    } */
     .content_item h4{
         font-size: min(2.778dvw,12px);
         letter-spacing: min(0.046dvw, 0.2px);
     }
 }
-
-/* @media (width <=376px){
+/* width <=376px */
+/* @media (width <=432px){
     .wrapper_content{
         padding: min(6.383dvw, 24px) min(4.255dvw, 16px) min(7.713dvw, 28px) min(4.255dvw, 16px);
         gap: min(2.128dvw, 8px);

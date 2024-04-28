@@ -124,7 +124,7 @@ onBeforeMount(async()=>{
                 </div>
             </div>
             <BaseEmptyList name="gallery_list_loading" title="Hey there! Looks like we're currently out of gallery content. Sorry about that! 😊" :showEmpty="getDataStatus" />
-            <BaseSelectPage name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
+            <BaseSelectPage  name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
         </div>
         <BaseAlert name="gallery_list_all_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
     </div>
