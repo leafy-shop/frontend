@@ -98,7 +98,7 @@ const closeAlertNow=()=>{
     background-color:#00000040;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: 1000;
     justify-content: center;
     align-items: start;
     padding: min(3.472dvw,50px);
