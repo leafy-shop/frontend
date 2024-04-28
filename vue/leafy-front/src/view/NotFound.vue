@@ -93,4 +93,33 @@ const goHome=()=>myRouter.push({name:'Home'})
 .btn_home:active {
     background-color: #58d264;
 }
+/* mobile */
+@media (width<=432px){
+    /* .wrapper_not_found{
+    } */
+    .not_found{
+        display: flex;
+        width: min(92.593dvw,400px);
+        gap: min(9.259dvw,40px);
+    }
+    /* .text_detail {
+    } */
+    /* .text_detail img {
+    } */
+    .text_detail h5 {
+        font-size: min(11.111dvw,48px);
+    }
+    .text_detail p {
+        font-size: min(4.167dvw,18px);
+    }
+    .btn_home {
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        height: min(9.259dvw,40px);
+        background: #26AC34;
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) rgba(0, 0, 0, 0.05);
+        border-radius: min(0.926dvw,4px);
+        font-size: min(3.704dvw,16px);
+        letter-spacing: min(0.046dvw,0.2px);
+    }
+}
 </style>
