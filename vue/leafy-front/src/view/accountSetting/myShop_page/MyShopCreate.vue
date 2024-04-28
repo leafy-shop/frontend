@@ -550,7 +550,7 @@ const addVariance = () => {
 const showInputFiel = () => {
     // styleClear()
     styleImgList.value = []
-    showStyleInput.value = !showStyleInput.value
+    showStyleInput.value = true
     styleClear()
     addVariance()//initail variance obj
     isStyleEdit.value = false
@@ -762,8 +762,10 @@ onBeforeMount(async () => {
     // console.log(params.id)
     if (params.id == undefined || params.id == '') { // add mode
         isEdit.value = false
+        showStyleInput.value = true
     } else {// edit mode
         isEdit.value = true
+        showStyleInput.value = false
         productId.value = params.id
         await getProductDetail(productId.value)
         await checkMainImage()
@@ -923,7 +925,7 @@ onUpdated(async () => {
                         <h4>
                             Product Style
                         </h4>
-                        <button @click="showInputFiel" v-if="productStyleList.length < maxVariance">
+                        <button v-show="isEdit" @click="showInputFiel" v-if="productStyleList.length < maxVariance">
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -1083,7 +1085,7 @@ onUpdated(async () => {
                                     </svg>
                                 </div>
                                 <h6>
-                                    new variation
+                                    New Variation
                                 </h6>
                             </button>
                         </div>
@@ -1446,7 +1448,7 @@ onUpdated(async () => {
     border-radius: min(0.278dvw, 4px);
     padding: min(0.556dvw, 8px) min(0.833dvw, 12px);
     gap: min(0.278dvw, 4px);
-    background-color: #BDBDBD;
+    background-color: #26AC34;
     box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
     cursor: pointer;
 }
@@ -1456,8 +1458,8 @@ onUpdated(async () => {
     height: fit-content;
     font-size: min(0.972dvw, 14px);
     line-height: 144%;
-    font-weight: 100;
     color: #fff;
+    font-weight: 500;
 }
 
 .new_variance div {
@@ -1469,7 +1471,7 @@ onUpdated(async () => {
 }
 
 .new_variance:hover {
-    background-color: #26AC34;
+    background-color: #168a22;
 }
 
 .img_cover>div {
