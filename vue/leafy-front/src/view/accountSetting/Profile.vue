@@ -396,8 +396,9 @@ const uploadCoverImage = (event) => {
             file = event
             console.log('drop')
         }
-        const fSize = Math.round((file.size / 100000))
-        const maxFileSize = 10
+        // const fSize = Math.round((file.size / 100000))
+        const fSize = file.size
+        const maxFileSize = 2 * 1024 * 1024
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
         console.log('file size :', fSize)
         if (maxFileSize >= fSize) {
@@ -408,7 +409,7 @@ const uploadCoverImage = (event) => {
         } else {
             isShowAlert.value=true
             alertType.value=2
-            alertDetail.value="The image is too big, over 1 MB in size!"
+            alertDetail.value="The image is too big, over 2 MB in size!"
             alertTime.value=3
         }
 
