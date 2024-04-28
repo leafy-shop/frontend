@@ -707,7 +707,33 @@ onUpdated(() => {
         font-size: min(2.315dvw,10px);
         font-weight: 400;
     }
+    .wrapper_like {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        justify-content: start;
+        align-items: end;
+        text-align: start;
+        flex-direction: row;
+        gap: min(0.926dvw,4px);
+    }
+    .wrapper_like svg {
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
+    }
 
+    .wrapper_like button {
+        display: flex;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    .wrapper_like h6 {
+        width: fit-content;
+        font-size: min(2.778dvw,12px);
+        font-weight: 400;
+        color: #9E9E9E;
+    }
 }
 
 
