@@ -324,41 +324,41 @@ onMounted(()=>{
 }
 @media (width<=432px){
     .container_access{
-        height: 36px;
-        border-bottom: 1px solid #EEEEEE;
-        padding: 0px 20px;
-        gap: 8px;
+        height: min(8.333dvw,36px);
+        border-bottom: min(0.231dvw,1px) solid #EEEEEE;
+        padding: 0px min(4.63dvw,20px);
+        gap: min(1.852dvw,8px);
     }
     .container_access svg:nth-child(1){
-        width: 12px;
-        height: 12px;
+        width: min(2.778dvw,12px);
+        height: min(2.778dvw,12px);
     }
     .right_arrow{
         display: flex;
-        width: 16px;
-        height: 36px;
+        width: min(3.704dvw,16px);
+        height: min(8.333dvw,36px);
     }
     .link{
-        font-size: 10px;
+        font-size: min(2.315dvw,10px);
         font-weight: 500;
     }
 
     .wrapper_content{
-        padding: 0px 0px 16px 0px;
-        gap: 8px;
+        padding: 0px 0px min(3.704dvw,16px) 0px;
+        gap: min(1.852dvw,8px);
     }
     .container_review{
         
         gap: 0px;
         border-radius: 0px;
-        padding: 12px 20px;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
     }
     .wrapper_recommendation_component{
         display: flex;
         width: 100%;
         height: fit-content;
         flex-direction: column;
-        padding: 0px 20px;
+        padding: 0px min(4.63dvw,20px);
     }
     
 
