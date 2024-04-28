@@ -112,7 +112,7 @@ const bankSubmit = async () => {
         paymentNameM.value = "Your payment' name invalid"
         console.log('submit')
     }
-    if (!validation.number(accountNumber.value) || !validation.textRange(accountNumber.value, 15, 12)) {
+    if (!validation.number(accountNumber.value) || !validation.textRange(accountNumber.value, 15, 10)) {
         submitStatus = false
         accountNumberS.value = true
         accountNumberM.value = "Your account number invalid"
@@ -244,7 +244,7 @@ onBeforeMount(async () => {
                         <h5 class="inportant_input">
                             Account number
                         </h5>
-                        <input v-model="accountNumber" class="input" type="text" maxlength="16">
+                        <input v-model="accountNumber" class="input" type="text" maxlength="15">
                         <!-- worning -->
                         <BaseShowErrorInput name="account_number" :show="accountNumberS" :msg="accountNumberM"/>
                         <!-- <div v-show="accountNumberS" class="wrapper_errorMsg">
