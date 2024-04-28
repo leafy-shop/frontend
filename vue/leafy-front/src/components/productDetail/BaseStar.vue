@@ -1,10 +1,11 @@
 <script setup>
 import validation from '../../JS/validation'
-import {onUpdated,onMounted,computed,onBeforeMount} from 'vue'
+import {onUpdated,onMounted,computed,onBeforeUpdate} from 'vue'
 /*
 ติดปัญหาเกี่ยวกับการรันตัวเลขเดี๋ยวต้องจัดการทีหลัง
 */
 const props =defineProps({
+
     rating:{
         type:Number,
         required:true,
@@ -12,7 +13,8 @@ const props =defineProps({
     },
     name:{
         type:String,
-        required:true
+        required:true,
+        default:''
     },
     isGap:{
         type:Boolean,
@@ -43,7 +45,7 @@ onMounted(()=>{
 onUpdated(()=>{
     validation.ratingStar(ratingF.value,`star_item_${props.name}`)
 })
-onBeforeMount(()=>{
+onBeforeUpdate(()=>{
     validation.ratingStar(ratingF.value,`star_item_${props.name}`)
 
 })

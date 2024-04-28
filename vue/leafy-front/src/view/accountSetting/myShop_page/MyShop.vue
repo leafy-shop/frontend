@@ -359,7 +359,7 @@ onMounted(async()=>{
                     </th>
                 </tr>
                 <!-- product list -->
-                <tr v-for="(product,index) of productList" :kay="index" class="product_item">
+                <tr v-for="(product,index) of productList" :kay="`product_item_${index}`" class="product_item">
                     <!-- image -->
                     <td>
                         <div>
@@ -409,7 +409,7 @@ onMounted(async()=>{
                     <!-- rate -->
                     <td>
                         <div>
-                            <BaseStar :rating="parseInt(product.totalRating)" :isGap="false" :size="60" name="myShop" />
+                            <BaseStar :name="`star_${index}`" :rating="parseInt(product.totalRating)" :isGap="false" :size="60" name="myShop" />
                         </div>
                     </td>
                     <!-- operation -->
