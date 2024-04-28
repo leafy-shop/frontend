@@ -1039,7 +1039,7 @@ onUpdated(() => {
 @media (width<=432px){
   .wrapper_Product_type {
     padding: 0px;
-    gap: 8px;
+    gap: min(1.852dvw,8px);
     border-radius: 0px;
     flex-direction: column;
   }
@@ -1049,7 +1049,7 @@ onUpdated(() => {
     /* width: min(27.5dvw, 396px); */
     width: auto;
     height: fit-content;
-    gap: 8px;
+    gap: min(1.852dvw,8px);
     flex-direction: column-reverse;
   }
   /* img list of style */
@@ -1063,12 +1063,12 @@ onUpdated(() => {
     flex-direction: row;
     width: fit-content;
     height: fit-content;
-    gap: 8px;
-    padding: 0px 20px;
+    gap: min(1.852dvw,8px);
+    padding: 0px min(4.63dvw,20px);
   }
   .styles ul li {
-    width: 52px;
-    height: 52px;
+    width: min(12.037dvw,52px);
+    height: min(12.037dvw,52px);
   }
   .styles ul li button {
     display: flex;
@@ -1078,12 +1078,12 @@ onUpdated(() => {
     justify-content: center;
     align-items: center;
     border: none;
-    border-radius: 4px;
+    border-radius: min(0.926dvw,4px);
   }
   .show_image {
     display: flex;
     width: 100%;
-    height: 380px;
+    height: min(87.963dvw,380px);
     position: relative;
     justify-content: center;
     align-items: center;
@@ -1095,7 +1095,7 @@ onUpdated(() => {
     display: flex;
     width: 100%;
     height: 100%;
-    padding: 12px;
+    padding: min(2.778dvw,12px);
     position: absolute;
     /* gap: min(0.556dvw, 8px); */
     justify-content: space-between;
@@ -1105,25 +1105,25 @@ onUpdated(() => {
   }
   .show_image div button {
     display: flex;
-    width: 36px;
-    height: 36px;
+    width: min(8.333dvw,36px);
+    height: min(8.333dvw,36px);
     border-radius: 50%;
     border: none;
   }
   .show_image div button svg {
-    width: 24px;
-    height: 24px;
+    width: min(5.556dvw,24px);
+    height: min(5.556dvw,24px);
     object-fit: cover;
   }
   /* product detail info */
   .container_information {
-    gap: 12px;
-    padding: 8px 12px;
+    gap: min(2.778dvw,12px);
+    padding: min(1.852dvw,8px) min(2.778dvw,12px);
   }
   /* .information_header {
   } */
   .information_header h4 {
-    font-size: 16px;
+    font-size: min(3.704dvw,16px);
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
@@ -1134,40 +1134,40 @@ onUpdated(() => {
     display: none;
   }
   .information_details {
-    gap: 8px;
+    gap: min(1.852dvw,8px);
   }
   .rating_list {
-    gap: 8px;
-    font-size: 10px;
+    gap: min(1.852dvw,8px);
+    font-size: min(2.315dvw,10px);
   }
   .rating_item {
-    gap: 4px;
-    padding-right:  8px;
-    border-right:  1px solid #E0E0E0;
-    font-size:  10px;
+    gap: min(0.926dvw,4px);
+    padding-right:   min(1.852dvw,8px);
+    border-right: min(0.231dvw,1px) solid #E0E0E0;
+    font-size:  min(2.315dvw,10px);
   }
   .rating_item p {
-    font-size: 10px;
+    font-size: min(2.315dvw,10px);
   }
   .price {
     width: 100%;
-    height: 32px;
+    height: min(7.407dvw,32px);
   }
   .price h3 {
-    font-size:  20px;
+    font-size:  min(4.63dvw,20px);
   }
   .grid_container {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     height: fit-content;
-    gap: 4px;
+    gap: min(0.926dvw,4px);
   }
   .grid_item {
-    width: 60px;
-    height: 60px;
+    width: min(13.889dvw,60px);
+    height: min(13.889dvw,60px);
     flex-direction: column;
-    border-radius: 4px;
+    border-radius: min(0.926dvw,4px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   }
   .product_img {
@@ -1177,84 +1177,84 @@ onUpdated(() => {
   }
   .stocks {
     height: fit-content;
-    gap: 8px;
+    gap: min(1.852dvw,8px);
   }
   .stocks h6 {
-    width: 60px;
-    font-size: 12px;
+    width: min(13.889dvw,60px);
+    font-size: min(2.778dvw,12px);
   }
   .stocks p {
-    font-size: 10px;
+    font-size: min(2.315dvw,10px);
   }
   .stocks_list {
-    height: 24px;
-    border-radius: 4px;
+    height: min(5.556dvw,24px);
+    border-radius: min(0.926dvw,4px);
     overflow: hidden;
     /* border: 1px solid #E0E0E0; */
   }
   .stocks_list input {
     
-    min-width: 24px;
-    max-width: 60px;
-    height: 24px;
-    border: 1px solid #e0e0e0;
-    padding: 4px 8px;
-    font-size: 12px;
+    min-width: min(5.556dvw,24px);
+    max-width: min(13.889dvw,60px);
+    height: min(5.556dvw,24px);
+    border: min(0.231dvw,1px) solid #e0e0e0;
+    padding: min(0.926dvw,4px) min(1.852dvw,8px);
+    font-size: min(2.778dvw,12px);
   }
   .stocks_list button {
-    width: 24px;
-    height: 24px;
-    padding: 4px 8px;
-    border: 1px solid #e0e0e0;
-    font-size: 12px;
+    width: min(5.556dvw,24px);
+    height: min(5.556dvw,24px);
+    padding: min(0.926dvw,4px) min(1.852dvw,8px);
+    border: min(0.231dvw,1px) solid #e0e0e0;
+    font-size: min(2.778dvw,12px);
   }
 
   .stocks_list .reduce {
-    border-radius: 4px 0px 0px 4px;
+    border-radius: min(0.926dvw,4px) 0px 0px min(0.926dvw,4px);
   }
   .stocks_list .add {
-    border-radius: 0px 4px 4px 0px;
+    border-radius: 0px min(0.926dvw,4px) min(0.926dvw,4px) 0px;
   } 
   .sizes {
     width: 100%;
     height: fit-content;
     justify-content: start;
-    gap: 8px;
+    gap:min(1.852dvw,8px);
   }
   .sizes h6 {
-    width: 60px;
-    font-size: 12px;
+    width: min(13.889dvw,60px);
+    font-size: min(2.778dvw,12px);
     font-weight: 400;
   }
   .sizes ul {
-    gap: 8px;
+    gap: min(1.852dvw,8px);
     flex-wrap: wrap;
   }
   .sizes li {
-    gap: 8px;
+    gap: min(1.852dvw,8px);
   }
   .sizes li button {
-    height: 28px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-size: 12px;
+    height: min(6.481dvw,28px);
+    border: min(0.231dvw,1px) solid #e0e0e0;
+    border-radius: min(0.926dvw,4px);
+    padding: min(0.926dvw,4px)  min(1.852dvw,8px);
+    font-size: min(2.778dvw,12px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   }
   .wrapper_apply_buy {
-    gap: 8px;
+    gap:min(1.852dvw,8px);
   }
   
   .wrapper_apply_buy button {
-    height: 36px;
-    border: 1px solid #26ac34;
-    border-radius: 4px;
-    font-size: 12px;
+    height: min(8.333dvw,36px);
+    border: min(0.231dvw,1px) solid #26ac34;
+    border-radius: min(0.926dvw,4px);
+    font-size: min(2.778dvw,12px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   }
   .wrapper_apply_buy button:nth-child(1){
-    border: 1px solid #26ac34;
-    border-radius: 4px;
+    border: min(0.231dvw,1px) solid #26ac34;
+    border-radius: min(0.926dvw,4px);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   }
 
