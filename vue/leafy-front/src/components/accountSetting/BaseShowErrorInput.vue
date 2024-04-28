@@ -79,20 +79,20 @@ const props=defineProps({
         width: 100%;
         height: fit-content;
         flex-direction: column;
-        padding: 8px 12px;
-        font-size:  12px;
-        border-radius: 4px;
-        gap:8px;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        font-size:  min(2.778dvw,12px);
+        border-radius: min(0.926dvw,4px);
+        gap: min(1.852dvw,8px);
     }
     .wrapper_errorMsg div {
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .wrapper_errorMsg div svg {
-        width: 15px;
-        height: 15px;
+        width: min(3.472dvw,15px);
+        height: min(3.472dvw,15px);
     }
     .wrapper_errorMsg div p {
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
     }
 
 
