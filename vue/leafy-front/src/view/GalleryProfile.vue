@@ -774,37 +774,37 @@ onBeforeMount(async()=>{
 @media (width<=432px){
 
     .wrapper_gallery_profile {
-        gap:  12px;
-        padding-bottom: 20px;
+        gap:  min(2.778dvw,12px);
+        padding-bottom: min(4.63dvw,20px);
     }
     .container_user_info {
-        height: 225px;
+        height: min(52.083dvw,225px);
         
     }
     .big_image {
-        height: 128px;
+        height: min(29.63dvw,128px);
     }
     .wrapper_user {
         height: fit-content;
-        padding: 0px 20px;
+        padding: 0px min(4.63dvw,20px);
         position: absolute;
         flex-direction: column;
-        gap: 20px;
+        gap: min(4.63dvw,20px);
     }
     .user {
-        gap:  20px;
+        gap:  min(4.63dvw,20px);
     }
     .user .user_img {
-        width: 96px;
-        height: 96px;
+        width: min(22.222dvw,96px);
+        height: min(22.222dvw,96px);
     }
     /* info */
     .user_info{
         gap: 0px;
     }
     .user_info >h5{
-        height: 36px;
-        font-size: 24px;
+        height: min(8.333dvw,36px);
+        font-size: min(5.556dvw,24px);
     }
     .user_info > div{
         display: none;
@@ -814,22 +814,22 @@ onBeforeMount(async()=>{
         width: 100%;
         height: fit-content;
         overflow: auto;
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .container_btn_mobile button{
         display: flex;
         /* width: min(8.611dvw, 124px); */
         width: 100%;
         min-width: fit-content;
-        height: 36px;
-        font-size: 14px;
+        height: min(8.333dvw,36px);
+        font-size: min(3.241dvw,14px);
         font-weight: 500;
         border: 1px solid;
         border-color: #26AC34;
         color: #26AC34;
         background-color: #FFF;
-        border-radius: 4px;
-        padding: 8px 12px;
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         justify-content: center;
         align-items: center;
         cursor: pointer;
@@ -837,16 +837,16 @@ onBeforeMount(async()=>{
     }
     .container_btn_mobile .new_product_btn{
         white-space: nowrap;
-        gap: 4px;
+        gap: min(0.926dvw,4px);
         color: #fff;
         background-color: #26AC34 ;
     }
     .container_btn_mobile .new_product_btn svg{
-        width: 12px;
+        width: min(2.778dvw,12px);
         height: auto;
     }
     .container_btn_mobile .new_product_btn span{
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
         font-weight: 500;
     }
     .follow_btn:hover{
@@ -862,7 +862,7 @@ onBeforeMount(async()=>{
     /* people see */
     .container_gallery{
         width: 100%;
-        gap: 12px;
+        gap: min(2.778dvw,12px);
         padding: 0px;
 
     }
@@ -872,29 +872,29 @@ onBeforeMount(async()=>{
         width: 100%;
         height: fit-content;
         grid-template-columns: repeat(2,1fr);
-        gap: 8px;
-        padding: 0px 20px;
+        gap: min(1.852dvw,8px);
+        padding: 0px min(4.63dvw,20px);
     }
     /* .gallery_list .wrapper_gallery_item{
     } */
 
     /* is me */
     .container_gallery_me{
-        gap: 12px;
-        padding: 20px ;
+        gap: min(2.778dvw,12px);
+        padding: min(4.63dvw,20px) ;
     }
     .gallery_list_me{
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .container_gallery_me .gallery_item{
-        height:92px;
-        border-radius: 8px;
+        height: min(21.296dvw,92px);
+        border-radius: min(1.852dvw,8px);
         box-shadow: 0px 1px 2px 0px #0000000F;
     }
     /* img */
     .gallery_img_me{
         display: flex;
-        width: 100px;
+        width: min(23.148dvw,100px);
         height: 100%;
         justify-content: center;
         align-items: center;
@@ -902,8 +902,8 @@ onBeforeMount(async()=>{
     }
     /* detail */
     .gallery_item .wrapper_gallery_detail_me{
-        width: 292px;
-        padding: 8px;
+        width: min(67.593dvw,292px);
+        padding: min(1.852dvw,8px);
         gap: 0px;
         /* align-items: ; */
         justify-content: space-between;
@@ -912,45 +912,45 @@ onBeforeMount(async()=>{
         height: 100%;
         height: 100%;
         min-height: fit-content;
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .container_detail_me .header_detail_me{
-        height:24px;
+        height: min(5.556dvw,24px);
     }
     .header_detail_me h6{
-        max-width: 200px;
-        font-size: 14px;
+        max-width: min(46.296dvw,200px);
+        font-size: min(3.241dvw,14px);
     }
     .header_detail_me >div{
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .header_detail_me >div button{
-        width: 16px;
-        height: 16px;
+        width: min(3.704dvw,16px);
+        height: min(3.704dvw,16px);
     }
     .header_detail_me >div button svg{
-        width: 11px;
+        width: min(2.546dvw,11px);
         height: auto;
     }
     /* description */
     .project_description_me{
         display: -webkit-box;
         width: fit-content;
-        max-width: 200px;
+        max-width: min(46.296dvw,200px);
         height: fit-content;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        font-size: 10px;
+        font-size: min(2.315dvw,10px);
         overflow: hidden
     }
     .container_project_like{
-        height: 12px;
+        height: min(2.778dvw,12px);
         gap: 0px;
     }
     .container_project_like >div{
-        min-width: 84px;
+        min-width: min(19.444dvw,84px);
         max-width: 100%;
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .container_project_like >div div{
         display: none;
@@ -958,7 +958,7 @@ onBeforeMount(async()=>{
         height: 12px; */
     }
     .container_project_like >div h6{
-        font-size: 8px;
+        font-size:min(1.852dvw,8px) ;
     }
 
 }
