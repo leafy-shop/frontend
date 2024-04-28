@@ -6,6 +6,7 @@ import validation from '../../../JS/validation'
 import cookie from '../../../JS/cookie'
 import bankList from '../../../JS/enum/bankAccount.js'
 import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue'
+import BaseShowErrorInput from '../../../components/accountSetting/BaseShowErrorInput.vue'
 
 // link
 const myRouter = useRouter()
@@ -222,7 +223,8 @@ onBeforeMount(async () => {
                         </h5>
                         <input v-model="paymentName" class="input" type="text" maxlength="50">
                         <!-- worning -->
-                        <div v-show="paymentNameS" class="wrapper_errorMsg">
+                        <BaseShowErrorInput name="name" :show="paymentNameS" :msg="paymentNameM" />
+                        <!-- <div v-show="paymentNameS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -234,7 +236,7 @@ onBeforeMount(async () => {
                                     {{ paymentNameM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- Account_number -->
@@ -244,7 +246,8 @@ onBeforeMount(async () => {
                         </h5>
                         <input v-model="accountNumber" class="input" type="text" maxlength="16">
                         <!-- worning -->
-                        <div v-show="accountNumberS" class="wrapper_errorMsg">
+                        <BaseShowErrorInput name="account_number" :show="accountNumberS" :msg="accountNumberM"/>
+                        <!-- <div v-show="accountNumberS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -256,7 +259,7 @@ onBeforeMount(async () => {
                                     {{ accountNumberM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- Bank name -->
@@ -271,8 +274,9 @@ onBeforeMount(async () => {
                                 {{ bank.name }}
                             </option>
                         </select>
+                        <BaseShowErrorInput name="bank name" :show="bankNameS" :msg="bankNameM" />
                         <!-- worning -->
-                        <div v-show="bankNameS" class="wrapper_errorMsg">
+                        <!-- <div v-show="bankNameS" class="wrapper_errorMsg">
                             <div>
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +288,7 @@ onBeforeMount(async () => {
                                     {{ bankNameM }}
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -425,7 +429,7 @@ onBeforeMount(async () => {
     color: #fff;
 } */
 
-.wrapper_errorMsg {
+/* .wrapper_errorMsg {
     display: flex;
     width: 100%;
     height: fit-content;
@@ -459,7 +463,7 @@ onBeforeMount(async () => {
     color: #F75555;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+} */
 
 /* .submit_deactive{
     background-color: #BDBDBD !important;
@@ -479,34 +483,34 @@ onBeforeMount(async () => {
         /* gap: 24px; */
     }
     .wrapper_bank {
-        padding:20px;
+        padding:min(4.63dvw,20px);
     }
     .bank {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .bank h4 {
-        height: 24px;
-        font-size: 16px;
+        height: min(5.556dvw,24px);
+        font-size: min(3.704dvw,16px);
     }
     .container_bank {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .container_bank .inputs {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .input_field {
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .input_field h5 {
-        height: 20px;
-        font-size: 14px;
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
     }
     .input_field .input {
-        height: 36px;
-        border: 1px solid #D1D5DB;
-        border-radius:4px;
+        height: min(8.333dvw,36px);
+        border: min(0.231dvw,1px) solid #D1D5DB;
+        border-radius:min(0.926dvw,4px);
         box-shadow: 0px 1px 2px 0px #0000000D;
-        padding: 8px 12px;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         font-size: min(3.241dvw,14px);
         line-height: 144%;
         letter-spacing: min(0.046dvw,0.2px);
