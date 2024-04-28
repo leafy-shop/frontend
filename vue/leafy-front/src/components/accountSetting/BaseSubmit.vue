@@ -83,6 +83,10 @@ const props=defineProps({
         padding: min(1.852dvw,8px) min(2.778dvw,12px);
         border-radius: min(0.926dvw,4px);
         box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
+        font-weight: 500;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
+        letter-spacing: min(0.046dvw,0.2px);
     }
 }
 </style>
