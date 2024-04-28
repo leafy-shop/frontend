@@ -291,10 +291,11 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         flex-direction: column;
         padding: min(2.778dvw,12px) min(4.63dvw,20px);
         border-radius:0px;
+        gap: min(2.778dvw,12px);
     }
     .container_store{
         width: 100%;
-        height: min(22.222dvw,96px);
+        height: fit-content;
         gap: min(2.778dvw,12px);
         
     }
@@ -309,8 +310,8 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
     }
     .store {
         width: 100%;
-        height: min(18.519dvw,80px);
-        gap: min(2.778dvw,12px);
+        height: fit-content;
+        gap: min(0.926dvw,4px);
         padding-right:  0px;
         border-right: 0px;
         /* justify-content: space-between; */
@@ -344,7 +345,7 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         width: 100%;
         height: fit-content;
         gap: min(1.852dvw,8px);
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center
     }
     .store_detail_mobile div.detail_item{
