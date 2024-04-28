@@ -115,35 +115,35 @@ const props=defineProps({
     
     .confirm_delete {
         display: flex;
-        width: 352px;
-        height: 108px;
-        padding: 20px;
-        border-radius: 8px;
-        gap: 20px;
+        width: min(81.481dvw,352px);
+        height: min(25dvw,108px);
+        padding: min(4.63dvw,20px);
+        border-radius: min(1.852dvw,8px);
+        gap: min(4.63dvw,20px);
     }
 
     .confirm_delete h5 {
         display: flex;
         width: 100%;
-        height: 24px;
-        font-size: 14px;
+        height: min(5.556dvw,24px);
+        font-size: min(3.241dvw,14px);
     }
 
     .confirm_delete div {
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
 
     .confirm_delete div button {
         display: flex;
         width: 100%;
-        height: 36px;
-        border-radius: 4px;
-        padding: 8px 12px;
+        height: min(8.333dvw,36px);
+        border-radius: min(0.926dvw,4px);
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         box-shadow: 0px 1px 2px 0px #0000000D;
     }
 
     .confirm_delete div button:nth-child(1) {
-        border: 1px solid #E0E0E0;
+        border: min(0.231dvw,1px) solid #E0E0E0;
 
     }
 
