@@ -258,7 +258,7 @@ onUpdated(()=>{
 
 @media (width<=432px){
     div.link_page_container{
-        height: 24px;
+        height: min(5.556dvw,24px);
     }
     .link_page_container > ul{
         gap: min(2.778dvw,12px);
