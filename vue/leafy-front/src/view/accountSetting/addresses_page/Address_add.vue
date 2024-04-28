@@ -557,39 +557,39 @@ onBeforeMount(async () => {
 /* mobile */
 @media (width<=432px){
     .wrapper_all {
-        border-radius:8px;
+        border-radius:min(1.852dvw,8px);
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     }
     .wrapper_address {
-        padding: 20px;
+        padding: min(4.63dvw,20px);
     }
     .address {
-        gap: 20px;
+        gap: min(4.63dvw,20px);
     }
     .address h4 {
-        height: 24px;
-        font-size: 16px;
+        height: min(5.556dvw,24px);
+        font-size: min(3.704dvw,16px);
     }
     .container_address {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .container_address .inputs {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
         flex-direction: column;
     }
     .input_field {
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .input_field h5 {
-        height: 20px;
-        font-size: 14px;
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
     }
     .input_field .input {
-        height: 36px;
-        border: 1px solid #D1D5DB;
-        border-radius: 4px;
+        height: min(8.333dvw,36px);
+        border: min(0.231dvw,1px) solid #D1D5DB;
+        border-radius: min(0.926dvw,4px);
         box-shadow: 0px 1px 2px 0px #0000000D;
-        padding: 8px 12px;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
         font-size: min(3.241dvw,14px);
         line-height: 144%;
         letter-spacing: min(0.046dvw,0.2px);
