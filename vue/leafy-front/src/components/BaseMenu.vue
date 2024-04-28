@@ -1047,9 +1047,9 @@ svg:hover path:nth-child(2) {
         gap: min(2.151dvw, 16px);
         margin: 0px;
     }
-
+    /* remove search */
     .service_container_search {
-        display: block;
+        display: none;
         background-color: inherit;
         width: fit-content;
         height: fit-content;
@@ -1084,7 +1084,7 @@ svg:hover path:nth-child(2) {
     }
 
     .search_icon_2 {
-        display: block;
+        display: none;
         width: min(3.226dvw, 24px);
         height: min(3.226dvw, 24px);
         margin: auto 0px auto 0px;
