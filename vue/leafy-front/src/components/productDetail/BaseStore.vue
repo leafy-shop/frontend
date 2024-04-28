@@ -289,28 +289,28 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         width: 100%;
         height: fit-content;
         flex-direction: column;
-        padding: 12px 20px;
+        padding: min(2.778dvw,12px) min(4.63dvw,20px);
         border-radius:0px;
     }
     .container_store{
         width: 100%;
-        height: 96px;
-        gap: 12px;
+        height: min(22.222dvw,96px);
+        gap: min(2.778dvw,12px);
         
     }
     .store_img {
-        width: 44px;
-        height: 44px;
+        width: min(10.185dvw,44px);
+        height: min(10.185dvw,44px);
         border-radius: 50%;
     }
     .store_img img {
-        width: 44px;
-        height: 44px;
+        width: min(10.185dvw,44px);
+        height: min(10.185dvw,44px);
     }
     .store {
         width: 100%;
-        height: 80px;
-        gap: 12px;
+        height: min(18.519dvw,80px);
+        gap: min(2.778dvw,12px);
         padding-right:  0px;
         border-right: 0px;
         /* justify-content: space-between; */
@@ -319,18 +319,18 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         align-items: start;
     }
     .store h5 {
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
     }
     .wrapper_chat_shop > button {
-        height: 24px;
+        height: min(5.556dvw,24px);
         /* border: 1px solid #26AC34; */
         
-        font-size:  12px;
+        font-size:  min(2.778dvw,12px);
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     }
     .wrapper_chat_shop > button:nth-child(1) {
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
+        border: min(0.231dvw,1px) solid #E0E0E0;
+        border-radius: min(0.926dvw,4px);
         
     }
     
@@ -343,7 +343,7 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         display: flex;
         width: 100%;
         height: fit-content;
-        gap: 8px;
+        gap: min(1.852dvw,8px);
         justify-content: space-around;
         align-items: center
     }
@@ -352,14 +352,14 @@ const goProfile =(email)=>myRouter.push({name:"Profile",params:{id:email}})
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        gap: 8px;
+        gap:min(1.852dvw,8px);
     }
     .store_detail_mobile div.detail_item >p{
         display: flex;
         width: fit-content;
         max-width: 100%;
         height: fit-content;
-        font-size: 12px;
+        font-size: min(2.778dvw,12px);
         font-weight:500 ;
         color: #9E9E9E;
     }
