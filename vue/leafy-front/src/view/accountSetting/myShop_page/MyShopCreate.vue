@@ -1112,7 +1112,7 @@ onUpdated(async () => {
                                 Save
                             </button>
                         </div> -->
-                        <BaseSubmit name="my_shop_create" @goBack="showStyleInput = false" @submit="styleModeSelection()" />
+                        <BaseSubmit name="my_shop_create" @goBack="isEdit?showStyleInput = false:''" @submit="styleModeSelection()" />
                     </div>
 
                     <!-- product list -->
