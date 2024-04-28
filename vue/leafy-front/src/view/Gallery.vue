@@ -167,8 +167,8 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    max-height: 100%;
     min-height: 90dvh;
+    max-height: 100%;
     /* gap: 32px; */
     padding: min(1.389dvw,20px) min(11.111dvw, 160px);
     background-color: #F5F5F5;
@@ -181,7 +181,7 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    max-height: 100%;
+    /* max-height: 100%; */
     gap: min(1.389dvw,20px);
     flex-direction: column;
 }
@@ -196,8 +196,8 @@ onBeforeMount(async()=>{
     gap: min(2.222dvw,32px);
 }
 .wrapper_gallery_item{
-    display: flex;
-    width: 100%;
+    /* display: flex; */
+    width: auto;
     height: fit-content;
     max-height: 100%;
     justify-content: center;
