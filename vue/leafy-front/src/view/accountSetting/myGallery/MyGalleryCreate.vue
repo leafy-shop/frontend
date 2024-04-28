@@ -276,6 +276,12 @@ const uploadCoverImage = (event) => {
         const maxFileSize = 5 * 1024 * 1024
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
         console.log('file size :', fSize)
+        if(!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else
         if (maxFileSize >= fSize) {
             console.log('nice file')
             if (event.target != undefined) galleryCoverImg.value = file;
@@ -304,7 +310,13 @@ const dropCoverHandle = (event) => {
 
                 uploadCoverImage(event.dataTransfer.items[0].getAsFile())
 
-        } else {
+        }else
+        if(event.dataTransfer.items&&!['image/jpeg', 'image/jpg', 'image/png'].includes(event.dataTransfer.items[0].getAsFile())){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else {
             alertType.value=2
             alertDetail.value="Please upload only one file."
             isShowAlert.value=true
@@ -385,7 +397,7 @@ onBeforeMount(async()=>{
 
                     </div> -->
                     <div v-show="galleryCoverImg == undefined && galleryCoverImgS == false" class="input_img no_img" @drop="dropCoverHandle" @dragover="dragover" >
-                        <input @change="uploadCoverImage"  id="cover_image" type="file" accept="image/*">
+                        <input @change="uploadCoverImage"  id="cover_image" type="file" accept=".jpeg, .jpg, .png">
                         <label  for="cover_image" >
                             <div>
                                 <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">

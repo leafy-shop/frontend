@@ -655,6 +655,12 @@ const uploadStyleImage = async (event) => {
         const maxFileSize = 10
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
         console.log('file size :', fSize)
+        if(file && !['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else
         if (maxFileSize >= fSize) {
             console.log('nice file')
             if (styleImgList.value.length < maxStyleImgList) {
@@ -696,6 +702,12 @@ const uploadCoverImage = (event) => {
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
         console.log(maxFileSize)
         console.log('file size :', fSize)
+        if(!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else
         if (maxFileSize >= fSize) {
             console.log('nice file')
             if (event.target != undefined) coverImage.value = file;
@@ -725,8 +737,17 @@ const dropCoverHandle = (event) => {
 
             uploadCoverImage(event.dataTransfer.items[0].getAsFile())
 
-        } else {
-            console.log('please 1 file and image only')
+        }else
+        if(event.dataTransfer.items&&!['image/jpeg', 'image/jpg', 'image/png'].includes(event.dataTransfer.items[0].getAsFile())){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else {
+            alertType.value=2
+            alertDetail.value="Please upload only one file."
+            isShowAlert.value=true
+            alertTime.value=10
         }
     }
 }
@@ -740,8 +761,17 @@ const dropStyleHandle = (event) => {
 
             console.log(event.dataTransfer.items[0].getAsFile())
             uploadStyleImage(event.dataTransfer.items[0].getAsFile())
-        } else {
-            console.log('please 1 file and image only')
+        }else
+        if(event.dataTransfer.items&&!['image/jpeg', 'image/jpg', 'image/png'].includes(event.dataTransfer.items[0].getAsFile())){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else {
+            alertType.value=2
+            alertDetail.value="Please upload only one file."
+            isShowAlert.value=true
+            alertTime.value=10
         }
     }
 }
@@ -828,7 +858,7 @@ onUpdated(async () => {
                             </div> -->
                             <div v-show="coverImage == undefined && coverImageS == false" class="input_img"
                                 @drop="dropCoverHandle" @dragover="dragover">
-                                <input @change="uploadCoverImage" id="cover_image" type="file" accept="image/*">
+                                <input @change="uploadCoverImage" id="cover_image" type="file" accept=".jpeg, .jpg, .png">
                                 <label for="cover_image">
                                     <div>
                                         <svg width="38" height="38" viewBox="0 0 38 38" fill="none"
@@ -966,7 +996,7 @@ onUpdated(async () => {
                                 </div> -->
                             <div v-show="styleImgList.length == 0" @drop="dropStyleHandle" @dragover="dragover"
                                 class="input_img">
-                                <input @change="uploadStyleImage" id="style_image" type="file" accept="image/*">
+                                <input @change="uploadStyleImage" id="style_image" type="file" accept=".jpeg, .jpg, .png">
                                 <label for="style_image">
                                     <div>
                                         <svg width="38" height="38" viewBox="0 0 38 38" fill="none"

@@ -367,6 +367,12 @@ const uploadImage = (event) => {
         const maxFileSize = 10
         // เอามาตรวจสอบว่ามีขนาดเกิน 5 MB ?
         console.log('file size :', fSize)
+        if(file && !['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else
         if (maxFileSize >= fSize) {
             console.log('nice file')
             userImage.value = file;
@@ -401,6 +407,12 @@ const uploadCoverImage = (event) => {
         const maxFileSize = 2 * 1024 * 1024
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
         console.log('file size :', fSize)
+        if(file && !['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else
         if (maxFileSize >= fSize) {
             console.log('nice file')
             if (event.target != undefined) coverImage.value = file;
@@ -428,8 +440,17 @@ const dropHandle = (event) => {
 
             console.log(event.dataTransfer.items[0].getAsFile())
             uploadCoverImage(event.dataTransfer.items[0].getAsFile())
-        } else {
-            console.log('please 1 file and image only')
+        } else
+        if(event.dataTransfer.items&&!['image/jpeg', 'image/jpg', 'image/png'].includes(event.dataTransfer.items[0].getAsFile())){
+            alertType.value=2
+            alertDetail.value="Please select a valid JPEG, JPG, or PNG file."
+            isShowAlert.value=true
+            alertTime.value=10
+        }else {
+            alertType.value=2
+            alertDetail.value="Please upload only one file."
+            isShowAlert.value=true
+            alertTime.value=10
         }
 
 
@@ -535,7 +556,7 @@ onBeforeMount(async () => {
                                 <img v-show="userImage == undefined && userImageS == true"
                                     :src="`${origin}/api/image/users/${userId}`" id="user_preview" alt="user_image">
                             </div>
-                            <input @change="uploadImage" id="user_image" type="file" accept="image/*">
+                            <input @change="uploadImage" id="user_image" type="file" accept=".jpeg, .jpg, .png">
                             <label for="user_image">
                                 Add
                             </label>
@@ -552,7 +573,7 @@ onBeforeMount(async () => {
                             
                         </h5>
                         <div v-show="coverImage == undefined && coverImageS == false" @drop="dropHandle" @dragover="dragover" class="no_img">
-                            <input @change="uploadCoverImage" id="cover_image" type="file" accept="image/*">
+                            <input @change="uploadCoverImage" id="cover_image" type="file" accept=".jpeg, .jpg, .png">
                             <label for="cover_image">
                                 <div>
                                     <svg width="38" height="38" viewBox="0 0 38 38" fill="none"
