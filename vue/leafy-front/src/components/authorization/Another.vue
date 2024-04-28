@@ -150,29 +150,29 @@ const goSignIn=()=>myRouter.push({name:'SignIn'})
 }
 @media (width <=432px){
     .wrapper_other_login h4{
-        height: min(5.319dvw,20px);
-        font-size: min(3.723dvw,14px);
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
     }
     .other_login{
-        height: min(10.638dvw,40px);
-        gap: min(4.255dvw,16px);
+        height: min(9.259dvw,40px);
+        gap: min(3.704dvw,16px);
     }
     .other_login button{
-        width: min(43.617dvw,164px);
-        height:  min(10.638dvw,40px);
+        width: min(37.963dvw,164px);
+        height: min(9.259dvw,40px);
     }
     .other_login button img{
         width:  min(6.383dvw,24px);
         height:  min(6.383dvw,24px);
     }
     .account_operation{
-        height: min(4.255dvw,16px);
-        font-size: min(3.191dvw,12px);
-        gap: min(3.191dvw,12px);
+        height: min(3.704dvw,16px);
+        font-size: min(2.778dvw,12px);
+        gap: min(2.778dvw,12px);
     }
     .account_operation div h4, 
     .account_operation button h4{
-        font-size: min(3.191dvw,12px);
+        font-size: min(2.778dvw,12px);
     }
 }
 </style>
