@@ -874,8 +874,8 @@ onBeforeMount(async () => {
 
 .image>div div {
     display: flex;
-    width: min(8.264dvw,119px);
-    height: min(8.264dvw,119px);
+    width: min(3.333dvw,48px);
+    height: min(3.333dvw,48px);
     border: none;
     border-radius: 50%;
     overflow: hidden;
