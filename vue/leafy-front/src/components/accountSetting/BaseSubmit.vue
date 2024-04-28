@@ -50,6 +50,10 @@ const props=defineProps({
     border-radius: min(0.278dvw,4px);
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
+    font-weight: 500;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
 }
 
 .submit button:nth-child(1) {
