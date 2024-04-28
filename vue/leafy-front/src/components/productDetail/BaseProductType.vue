@@ -656,7 +656,7 @@ onUpdated(() => {
   justify-content: center;
   align-items: center;
   border-radius: min(0.278dvw, 4px);
-  background-color: transparent;
+  background-color: #E0E0E0;
   overflow: hidden;
 }
 
