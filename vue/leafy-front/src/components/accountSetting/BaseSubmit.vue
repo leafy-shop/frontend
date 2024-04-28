@@ -72,17 +72,17 @@ const props=defineProps({
 @media (width<=432px){
     .submit {
         height: fit-content;
-        padding: 0px 20px 20px 20px;
-        gap: 8px;
+        padding: 0px min(4.63dvw,20px) min(4.63dvw,20px) min(4.63dvw,20px);
+        gap: min(1.852dvw,8px);
         justify-content: end;
     }
     .submit button {
         width: 100%;
-        height: 36px;
-        border: 1px solid;
-        padding: 8px 12px;
-        border-radius: 4px;
-        box-shadow: 0px 1px 2px 0px #0000000D;
+        height: min(8.333dvw,36px);
+        border: min(0.231dvw,1px) solid;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px);
+        border-radius: min(0.926dvw,4px);
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
     }
 }
 </style>
