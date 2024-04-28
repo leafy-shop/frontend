@@ -1,6 +1,6 @@
 <script setup>
 import validation from '../../JS/validation'
-import {onUpdated,onMounted,computed} from 'vue'
+import {onUpdated,onMounted,computed,onBeforeMount} from 'vue'
 /*
 ติดปัญหาเกี่ยวกับการรันตัวเลขเดี๋ยวต้องจัดการทีหลัง
 */
@@ -42,6 +42,10 @@ onMounted(()=>{
 })
 onUpdated(()=>{
     validation.ratingStar(ratingF.value,`star_item_${props.name}`)
+})
+onBeforeMount(()=>{
+    validation.ratingStar(ratingF.value,`star_item_${props.name}`)
+
 })
 </script>
 <template>
