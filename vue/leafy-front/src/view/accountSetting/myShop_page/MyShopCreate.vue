@@ -1359,7 +1359,7 @@ onUpdated(async () => {
     border-radius: min(0.278dvw, 4px);
     border-color: #D1D5DB;
     box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
-
+    font-size: min(0.972dvw, 14px);
 }
 
 .input:focus-within {
@@ -1378,6 +1378,7 @@ onUpdated(async () => {
     border-color: #D1D5DB;
     background-color: #fff;
     box-shadow: 0px min(0.069dvw, 1px) min(0.139dvw, 2px) 0px #0000000D;
+    font-size: min(0.972dvw, 14px);
 }
 
 .input_field .input_price {
@@ -1389,6 +1390,7 @@ onUpdated(async () => {
     height: fit-content;
     border: none;
     outline: none;
+    font-size: min(0.972dvw, 14px);
 }
 
 .input_field .input_price h6 {

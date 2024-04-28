@@ -9,6 +9,7 @@
 <style>
 *{
     box-sizing:border-box;
+    color: 212121;
 }
 
 

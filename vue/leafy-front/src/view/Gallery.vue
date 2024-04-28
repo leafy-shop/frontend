@@ -181,6 +181,7 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
+    max-height: 100%;
     gap: min(1.389dvw,20px);
     flex-direction: column;
 }
@@ -212,6 +213,7 @@ onBeforeMount(async()=>{
         padding: 0px 0px min(2.778dvw,12px) 0px;
     }
     .gallery{
+
         gap: min(1.852dvw,8px);
     }
     /* gallery list */
