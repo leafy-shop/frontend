@@ -8,6 +8,7 @@ import productEnum from '../../../JS/enum/product'
 import { v4 as uuidv4 } from 'uuid';
 import BaseSubmit from '../../../components/accountSetting/BaseSubmit.vue';
 import BaseAlert from '../../../components/BaseAlert.vue';
+import validation from '../.././../JS/validation'
 // import BaseConfirm from '../../../components/BaseConfirm.vue'
 import BaseShowErrorInput from '../../../components/accountSetting/BaseShowErrorInput.vue';
 // link
@@ -688,9 +689,12 @@ const uploadCoverImage = (event) => {
             file = event
             console.log('drop')
         }
-        const fSize = Math.round((file.size / 100000))
-        const maxFileSize = 10
+        // const fSize = Math.round((file.size / 100000))
+        const fSize = file.size
+        // const maxFileSize = 20
+        const maxFileSize = 2 * 1024 * 1024
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
+        console.log(maxFileSize)
         console.log('file size :', fSize)
         if (maxFileSize >= fSize) {
             console.log('nice file')
@@ -700,7 +704,7 @@ const uploadCoverImage = (event) => {
         } else {
             // console.log('file too big')
             alertType.value=2
-            alertDetail.value="The image is too big, over 1 MB in size!"
+            alertDetail.value="The image is too big, over 2 MB in size!"
             isShowAlert.value=true
             alertTime.value=10
         }
