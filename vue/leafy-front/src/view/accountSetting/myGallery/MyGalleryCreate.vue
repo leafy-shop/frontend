@@ -375,9 +375,9 @@ onBeforeMount(async()=>{
                 </div>
                 <!-- cover photo -->
                 <div class="img_cover input_field">
-                    <h5 class="inportant_input">
+                    <h6 class="inportant_input">
                         Cover Photo
-                    </h5>
+                    </h6>
                     <!-- <div class="input_img">
                         
 
