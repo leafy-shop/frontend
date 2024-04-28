@@ -102,7 +102,7 @@ const submitGallery=async()=>{
     if(submitStatus){
         if(isEdit.value){ //this edit
             if(galleryFormData.value.isChange){
-                if(galleryOrigin.value.image!=undefined){
+                if(galleryCoverImg.value!=undefined){
                     let fetchStatus=true
 
                     let{status,msg}= await fetch.updateGallery(galleryContentId.value,galleryFormData.value.data)
@@ -270,8 +270,10 @@ const uploadCoverImage = (event) => {
             file = event
             console.log('drop')
         }
-        const fSize = Math.round((file.size / 100000))
-        const maxFileSize = 10
+        // const fSize = Math.round((file.size / 100000))
+        const fSize = file.size
+        // const maxFileSize = 50
+        const maxFileSize = 5 * 1024 * 1024
         // เอามาตรวจสอบว่ามีขนาดเกิน 10 MB ?
         console.log('file size :', fSize)
         if (maxFileSize >= fSize) {
@@ -281,7 +283,7 @@ const uploadCoverImage = (event) => {
             previewCoverImage(file, "cover-preview")
         } else {
             alertType.value=2
-            alertDetail.value="The image is too big, over 1 MB in size!"
+            alertDetail.value="The image is too big, over 5 MB in size!"
             isShowAlert.value=true
             alertTime.value=10
         }
@@ -353,7 +355,7 @@ onBeforeMount(async()=>{
         <div class="my_gallery_add">
             <!-- header -->
             <h6 class="header_my_gallery_add">
-                Add New Project
+                Gallery
             </h6>
             <!-- container -->
             <div class="wrapper_input">
