@@ -155,17 +155,17 @@ const closeAlertNow=()=>{
 /* mobile */
 @media (width<=432px){
     .overlay_alert{
-        padding: 50px;
+        padding: min(11.574dvw,50px);
     }
     .alert_box{
-        min-width: 344px;
-        border-radius: 6px;
-        padding: 16px;
-        gap: 12px;
+        min-width: min(79.63dvw,344px);
+        border-radius: min(1.389dvw,6px);
+        padding: min(3.704dvw,16px);
+        gap: min(2.778dvw,12px);
         box-shadow: 0px 1px 2px 0px #0000000F;
     }
     .alert_box p{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
 }
 </style>
