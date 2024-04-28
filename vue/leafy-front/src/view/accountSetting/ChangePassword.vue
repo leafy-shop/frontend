@@ -240,7 +240,7 @@ onBeforeMount(() => {
                     </h5>
                     <div class="input_field">
                         <input v-model="oldPassword" type="password" @keyup.enter="submitChangePasswrod()" maxlength="100">
-                        <button @click="showPassword(0)">
+                        <button @click="showPassword(0)" >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -384,13 +384,13 @@ onBeforeMount(() => {
         </div>
     </div>
     <!-- submit -->
-    <div v-if="!isChangePassword" class="check_pw_btn">
-        <button @click="submitChangePasswrod()">
+    <div v-if="!isChangePassword" class="check_pw_btn" >
+        <button @click="submitChangePasswrod()" :class="[oldPassword.length==0?'btn_disable':'']" :disabled="oldPassword.length==0">
             Next
         </button>
     </div>
     <div v-else-if="isChangePassword">
-        <BaseSubmit name="change_password_submit" :disabled="false" @goBack="cancelChangePassword" @submit="submitChangePasswrod()" />
+        <BaseSubmit name="change_password_submit" :disabled="newPasswordConfirm.length==0&&newPassword.length==0" @goBack="cancelChangePassword" @submit="submitChangePasswrod()" />
     </div>
         <!-- <div class="submit">
             <button @click="cancelChangePassword()">
@@ -405,6 +405,11 @@ onBeforeMount(() => {
 <style scoped>
 * {
     box-sizing: border-box;
+}
+.btn_disable{
+    cursor: not-allowed !important;
+    background-color: #BDBDBD !important;
+    border: none !important;
 }
 .wrapper_all {
     overflow: hidden;
@@ -676,11 +681,11 @@ div.check_pw_btn{
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     }
     .wrapper_change_PW {
-        padding: 20px;
-        gap: 20px;
+        padding: min(4.63dvw,20px);
+        gap: min(4.63dvw,20px);
     }
     .change_PW {
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     .header_change_PW {
         display: none;
@@ -688,46 +693,46 @@ div.check_pw_btn{
     /* .inputs {
     } */
     .input_item {
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     .input_item h5 {
-        height: 20px;
-        font-size: 14px;
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
     }
     .input_item .input_field {
         display: flex;
         width: 100%;
-        height: 36px;
-        border: 1px solid #D1D5DB;
-        border-radius: 4px;
+        height: min(8.333dvw,36px);
+        border: min(0.231dvw,1px) solid #D1D5DB;
+        border-radius: min(0.926dvw,4px);
         box-shadow: 0px 1px 2px 0px #0000000D;
-        padding-right: 12px;
+        padding-right: min(2.778dvw,12px);
     }
     .input_item .input_field input {
-        padding: 8px 0px 8px 12px;
+        padding: min(1.852dvw,8px) 0px min(1.852dvw,8px) min(2.778dvw,12px);
     }
     /* .input_item .input_field button{} */
     .input_item .input_field button svg {
-        width: 20px;
-        height: 20px;
+        width: min(4.63dvw,20px);
+        height: min(4.63dvw,20px);
     }
     .input_item button {
-        height: 20px;
-        font-weight: 14px;
+        height: min(4.63dvw,20px);
+        font-weight: min(3.241dvw,14px);
     }
     .input_item p {
-        height: 20px;
-        font-size: 14px;
+        height: min(4.63dvw,20px);
+        font-size: min(3.241dvw,14px);
     }
     .new_PW {
-        gap: 24px;
+        gap: min(5.556dvw,24px);
     }
     /* button next */
     div.check_pw_btn{
         display: flex;
         width: 100%;
         height: fit-content;
-        padding: 0px 20px 20px 20px;
+        padding: 0px min(4.63dvw,20px) min(4.63dvw,20px) min(4.63dvw,20px);
         justify-content: center;
         align-items: center;
 
