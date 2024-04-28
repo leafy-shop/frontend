@@ -304,59 +304,61 @@ const isShowSetDBtn=computed(()=>props.showSetDBtn)
         border-top: v-bind('isShowEditBtn==true?'1px solid':'none'')  ;
         border-color: #E0E0E0;
         padding-top: v-bind('isShowEditBtn==true?'12px':'none'');
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     } 
     .title {
-        height:24px;
+        height: min(5.556dvw,24px);
     }
     .title .info {
         width: 100%;
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     .info h5 {
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
         font-weight: 500;
-        padding-right:8px;
-        border-right: 1px solid #E0E0E0;;
+        padding-right: min(1.852dvw,8px);
+        border-right: min(0.231dvw,1px) solid #E0E0E0;;
     }
     .info p{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
         font-weight: 400;
     }
     .title .operation {
-        width: 48px;
-        gap: 8px;
+        width: min(11.111dvw,48px);
+        gap: min(1.852dvw,8px);
     }
     .operation button{
-        width: 20px;
-        height: 20px;
+        width: min(4.63dvw,20px);
+        height: min(4.63dvw,20px);
     }
     /* .bank_item .discription{} */
     .discription p{
         width: fit-content;
         max-width: 100%;
         font-weight: 400;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
     }
     .discription button{
-        height: 24px;
-        border: 1px solid #E0E0E0;
-        padding: 4px 12px;
-        box-shadow: 0px 1px 2px 0px #0000000D;
-        border-radius:4px;
-        font-size: 12px;
+        height: min(5.556dvw,24px);
+        border: min(0.231dvw,1px) solid #E0E0E0;
+        padding: min(0.926dvw,4px) min(2.778dvw,12px);
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
+        border-radius: min(0.926dvw,4px);
+        font-size: min(2.778dvw,12px);
         font-weight: 500;
         white-space: nowrap;
     }
     .default_icon{
-        width: 60px;
-        height: 20px;
-        padding: 4px 12px;
-        border: 1px solid #26AC34;
-        border-radius:4px;
+        width:min(13.889dvw,60px);
+        height: min(4.63dvw,20px);
+        padding: min(0.926dvw,4px) min(2.778dvw,12px);
+        border: min(0.231dvw,1px) solid #26AC34;
+        border-radius: min(0.926dvw,4px);
         color: #26AC34;
-        box-shadow: 0px 1px 2px 0px #0000000D;
-        font-size: 10px;
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
+        font-size: min(2.315dvw,10px);
     }
 }
 </style>
