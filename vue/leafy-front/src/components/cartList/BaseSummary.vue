@@ -203,11 +203,11 @@ const props=defineProps({
 @media (width<=432px){
   .wrapper_summary {
     border-radius: none;
-    padding: 12px 20px;
-    gap: 12px;
+    padding: min(2.778dvw,12px) min(4.63dvw,20px);
+    gap: min(2.778dvw,12px);
   }
   .summary {
-    gap: min(0.833dvw,12px);
+    gap: min(2.778dvw,12px);
   }
   .summary .header_summary{
     display: none;
@@ -218,15 +218,15 @@ const props=defineProps({
   .summary .total{
     display: flex;
     width: 100%;
-    height: 32px;
+    height: min(7.407dvw,32px);
     padding: 0px;
     border-top: none;
     justify-content: end;
     align-items: center;
-    gap: 12px;
+    gap: min(2.778dvw,12px);
   }
   .total h6 {
-    font-size: 14px;
+    font-size: min(3.241dvw,14px);
     font-weight: 400;
   }
 
@@ -235,16 +235,16 @@ const props=defineProps({
     max-width: 100%;
     /* min-width: 62px; */
     height: fit-content;
-    font-size: 14px;
+    font-size: min(3.241dvw,14px);
     font-weight: 400;
   }
   /* submit btn */
   .wrapper_summary > button {
-    height:40px;
-    border-radius: 4px;
-    padding: 8px 12px;
+    height:min(9.259dvw,40px);
+    border-radius: min(0.926dvw,4px);
+    padding: min(1.852dvw,8px) min(2.778dvw,12px);
     box-shadow: 0px 1px 2px 0px #0000000d;
-    font-size: 16px;
+    font-size: min(3.704dvw,16px);
 
   }
   .wrapper_summary > button:hover {
