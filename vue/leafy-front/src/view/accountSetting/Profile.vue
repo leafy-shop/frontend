@@ -1205,8 +1205,8 @@ p.refresh_page_require{
     }
     .image>div div {
         display: flex;
-        width: min(27.546dvw,119px);
-        height: min(27.546dvw,119px);
+        width: min(11.111dvw,48px);
+        height: min(11.111dvw,48px);
     }
     .image>div label {
         height: min(8.333dvw,36px);
