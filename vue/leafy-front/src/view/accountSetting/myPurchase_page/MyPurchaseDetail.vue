@@ -357,7 +357,7 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 16px;
+    gap: min(1.111dvw,16px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -369,9 +369,9 @@ onBeforeMount(async()=>{
     height: fit-content;
     background-color: #fff;
     border: none;
-    border-radius: 8px;
-    gap: 20px;
-    padding: 20px;
+    border-radius: min(0.556dvw,8px);
+    gap: min(1.389dvw,20px);
+    padding:  min(1.389dvw,20px);
     box-shadow: 0px 1px 2px 0px #0000000F;
     flex-direction: column;
     align-items: center;
@@ -380,9 +380,9 @@ onBeforeMount(async()=>{
 .purchase_transition .header_transition{
     display: flex;
     width: 100%;
-    height: 56px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid;
+    height: min(3.889dvw,56px);
+    padding-bottom: min(1.389dvw,20px);
+    border-bottom: min(0.069dvw,1px) solid;
     border-color: #EEEEEE;
     align-items: center;
     justify-content: space-between;
@@ -391,12 +391,12 @@ onBeforeMount(async()=>{
 .header_transition .back_btn{
     display: flex;
     width: fit-content;
-    height: 36px;
-    border: 1px solid;
-    border-radius: 4px;
+    height: min(2.5dvw,36px);
+    border: min(0.069dvw,1px) solid;
+    border-radius: min(0.278dvw,4px);
     border-color: #E0E0E0;
-    gap: 4px;
-    padding: 8px 12px;
+    gap: min(0.278dvw,4px);
+    padding: min(0.556dvw,8px) min(0.833dvw,12px);
     justify-content: center;
     align-items: center;
     box-shadow: 0px 1px 2px 0px #0000000D;
@@ -405,20 +405,20 @@ onBeforeMount(async()=>{
 }
 .back_btn> div{
     display: flex;
-    width: 20px ;
-    height: 20px;
+    width: min(1.389dvw,20px) ;
+    height: min(1.389dvw,20px);
     justify-content: center;
     align-items: center;
 }
 .back_btn >div svg{
-    width: 6px;
+    width: min(0.417dvw,6px);
     height: auto;
 }
 .back_btn h6{
     width: fit-content;
     max-width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 500;
     color:#212121;
     /* white-space: ; */
@@ -427,8 +427,8 @@ onBeforeMount(async()=>{
 .header_transition .container_order_id_stauts{
     display: flex;
     width: fit-content;
-    height: 20px;
-    gap: 12px;
+    height: min(1.389dvw,20px);
+    gap: min(0.833dvw,12px);
     justify-content: end;
     align-items: center;
 }
@@ -437,12 +437,12 @@ onBeforeMount(async()=>{
     width: fit-content;
     max-width: 40dvw;
     height: fit-content;
-    padding-right: 12px;
-    border-right: 1px solid #E0E0E0;
-    font-size: 14px;
+    padding-right:  min(0.833dvw,12px);
+    border-right: min(0.069dvw,1px) solid #E0E0E0;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #212121;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -452,39 +452,39 @@ onBeforeMount(async()=>{
     display: flex;
     width: fit-content;
     height: 100%;
-    gap: 6px;
-    padding: 2px 10px 2px 8px;
+    gap: min(0.417dvw,6px);
+    padding: min(0.139dvw,2px) min(0.694dvw,10px) min(0.139dvw,2px) min(0.556dvw,8px);
     border: none;
-    border-radius: 10px;
+    border-radius: min(0.694dvw,10px);
     justify-content: center;
     align-items: center;
     background-color: #E0E0E0;
 }
 .container_order_id_stauts >div> div{
     display: flex;
-    width: 8px;
-    height: 8px;
+    width: min(0.556dvw,8px);
+    height: min(0.556dvw,8px);
     justify-content: center;
     align-items: center;
 }
 .container_order_id_stauts >div> div svg{
-    width:6px;
+    width:min(0.417dvw,6px);
     height: auto;
 }
 .container_order_id_stauts >div> div h6{
     width: fit-content;
     height: fit-content;
     color: #212121;
-    font-size: 12px;
+    font-size: min(0.833dvw,12px);
     font-weight: 500;
 }
 /* detail step icon*/
 .purchase_transition .transition_detail{
     display: flex;
-    width: 816px;
+    width: min(56.667dvw,816px);
     height: fit-content;
     flex-direction: column;
-    gap: 20px;
+    gap: min(1.389dvw,20px);
 }
 .transition_detail .step_list{
     display: flex;
@@ -505,8 +505,8 @@ onBeforeMount(async()=>{
 
 .step_list .step_item .circle{
     display: flex;
-    width: 44px;
-    height: 44px;
+    width: min(3.056dvw,44px);
+    height: min(3.056dvw,44px);
     justify-content: center;
     align-items: center;
     border-radius: 50%;
@@ -522,8 +522,8 @@ onBeforeMount(async()=>{
 /* line step */
 .line_step{
     display: flex;
-    width: 130px;
-    height: 2px;
+    width: min(9.028dvw,130px);
+    height: min(0.139dvw,2px);
     border: none;
     background-color: #E0E0E0;
 }
@@ -532,14 +532,14 @@ onBeforeMount(async()=>{
     display: flex;
     width: 100%;
     height: fit-content;
-    gap: 40px;
+    gap: min(2.778dvw,40px);
     align-items: center;
     justify-content: center;
 }
 .step_detail .step_item{
     display: flex;
-    width: 132px;
-    height: 40px;
+    width: min(9.167dvw,132px);
+    height: min(2.778dvw,40px);
     /* flex-direction: column; */
 }
 .step_item >div{
@@ -553,7 +553,7 @@ onBeforeMount(async()=>{
 .step_item >div h6{
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 500;
     color:#212121;
     white-space: nowrap;
@@ -561,7 +561,7 @@ onBeforeMount(async()=>{
 .step_item >div p{
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color:#9E9E9E;
     white-space: nowrap;
@@ -572,12 +572,12 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     flex-direction: column;
-    gap: 4px;
+    gap: min(0.278dvw,4px);
 }
 .transition_detail_calcel >h6{
     width: fit-content;
     height: fit-content;
-    font-size: 18px;
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color:#26AC34;
     white-space: nowrap;
@@ -585,7 +585,7 @@ onBeforeMount(async()=>{
 .transition_detail_calcel >p{
     width: fit-content;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color: #212121;
     white-space: nowrap;
@@ -596,42 +596,42 @@ onBeforeMount(async()=>{
     width: 100%;
     height: fit-content;
     border: none;
-    border-radius: 8px;
-    padding: 20px;
+    border-radius: min(0.556dvw,8px);
+    padding: min(1.389dvw,20px);
     background-color: #fff;
     flex-direction: column;
-    gap: 8px;
+    gap:min(0.556dvw,8px);
 }
 .deliver_address .header_address{
     display: flex;
     width: fit-content;
     height:fit-content;
-    font-size: 18px;
+    font-size: min(1.25dvw,18px);
     font-weight: 500;
     color:#212121;
 }
 .deliver_address > p{
     width: 100%;
     height: fit-content;
-    font-size: 14px;
+    font-size: min(0.972dvw,14px);
     font-weight: 400;
     color:#616161;
 }
 /* mobile */
 @media (width<=432px){
     .container_purchase_detail{
-        gap: 8px;
+        gap: min(1.852dvw,8px);
     }
     .purchase_transition{
         border-radius: 0px;
-        gap: 20px;
-        padding: 12px;
+        gap: min(4.63dvw,20px);
+        padding: min(2.778dvw,12px);
     }    
     /* header */
     .purchase_transition .header_transition{
-        height: 36px;
+        height: min(8.333dvw,36px);
         padding-bottom: 0px;
-        border-bottom: 1px solid #EEEEEE;
+        border-bottom: min(0.231dvw,1px) solid #EEEEEE;
         justify-content: start;
     }
     /* back button */
@@ -640,42 +640,42 @@ onBeforeMount(async()=>{
     }
     /* order id */
     .header_transition .container_order_id_stauts{
-        height: 20px;
-        gap: 12px;
+        height: min(4.63dvw,20px);
+        gap: min(2.778dvw,12px);
     }
     .container_order_id_stauts >h6{
         max-width: 100%;
-        padding-right: 12px;
+        padding-right: min(2.778dvw,12px);
         border-right: 0px;
-        font-size: 14px;
-        gap: 4px;
+        font-size: min(3.241dvw,14px);
+        gap: min(0.926dvw,4px);
     }
     /* detail step icon*/
     .purchase_transition .transition_detail{
         width: 100%;
-        gap: 12px;
+        gap: min(2.778dvw,12px);
     }
     /* .transition_detail .step_list{
     } */
     /* .step_list .step_item{
     } */
     .step_list .step_item .circle{
-        width: 36px;
-        height: 36px;
+        width: min(8.333dvw,36px);
+        height: min(8.333dvw,36px);
     }
     .line_step{
         display: flex;
-        width: 40px;
-        height: 2px;
+        width: min(9.259dvw,40px);
+        height: in(0.463dvw,2px);
         border: none;
         background-color: #E0E0E0;
     }
     .transition_detail .step_detail{
-        gap: 25px;
+        gap: min(5.787dvw,25px);
     }
     .step_detail .step_item{
         display: flex;
-        width: 50px;
+        width: min(11.574dvw,50px);
         height: fit-content;
         /* flex-direction: column; */
     }
@@ -684,29 +684,29 @@ onBeforeMount(async()=>{
     }
     
     .step_item >div p{
-        font-size: 8px;
+        font-size: min(1.852dvw,8px);
     }
     /* cancel transition */
     .purchase_transition .transition_detail_calcel{
-        gap: 4px;
+        gap: min(0.926dvw,4px);
     }
     .transition_detail_calcel >h6{
-        font-size: 16px;
+        font-size: min(3.704dvw,16px);
     }
     .transition_detail_calcel >p{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
     /* deliver address */
     .deliver_address{
         border-radius: 0px;
-        padding: 20px;
-        gap: 8px;
+        padding: min(4.63dvw,20px);
+        gap: min(1.852dvw,8px);
     }
     .deliver_address .header_address{
-        font-size: 18px;
+        font-size: min(4.167dvw,18px);
     }
     .deliver_address > p{
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
     }
 }
 </style>
