@@ -856,7 +856,7 @@ onUpdated(async () => {
                                 
 
                             </div> -->
-                            <div v-show="coverImage == undefined && coverImageS == false" class="input_img"
+                            <div v-show="coverImage == undefined && coverImageS == false" class="input_img no_img"
                                 @drop="dropCoverHandle" @dragover="dragover">
                                 <input @change="uploadCoverImage" id="cover_image" type="file" accept=".jpeg, .jpg, .png">
                                 <label for="cover_image">
@@ -883,8 +883,8 @@ onUpdated(async () => {
 
                             </div>
                             <div v-show="coverImage != undefined || coverImageS == true" @drop="dropCoverHandle"
-                                @dragover="dragover">
-                                <label for="cover_image">
+                                @dragover="dragover" class="has_img">
+                                <label for="cover_image" class="cover_img_result">
                                     <!-- รูปที่จะเพิ่ม -->
                                     <img v-show="coverImage != undefined" src="#" draggable="false" alt="preview_image"
                                         id="cover-preview">
@@ -1568,6 +1568,15 @@ onUpdated(async () => {
     color: #6B7280;
 }
 
+.img_cover .has_img{
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    height: min(9.722dvw,140px);
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
 /* .cover_preview{
     width: 100%;
     height: 100%;
@@ -1578,6 +1587,17 @@ onUpdated(async () => {
     height: auto;
     background-position: center;
 
+}
+.img_cover .cover_img_result{
+    
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.img_cover >div .cover_img_result img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 .input_img>input {
