@@ -384,7 +384,12 @@ onBeforeMount(async () => {
     border-radius: min(0.278dvw,4px);
     border-color: #D1D5DB;
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
-    padding: min(0.556dvw,8px) 12px;
+    padding: min(0.556dvw,8px) min(2.778dvw,12px);
+    font-style: normal;
+    font-weight: 400;
+    font-size: min(0.972dvw,14px);
+    line-height: 144%;
+    letter-spacing: min(0.014dvw,0.2px);
 }
 
 /* 
@@ -396,9 +401,9 @@ onBeforeMount(async () => {
     gap: min(0.556dvw,8px);
     justify-content: end;
     background-color: #FAFAFA;
-}
+} */
 
-.submit button {
+/* .submit button {
     width: min(5.556dvw,80px);
     height: min(2.5dvw,36px);
     border: min(0.069dvw,1px) solid;
@@ -406,19 +411,19 @@ onBeforeMount(async () => {
     border-radius: min(0.278dvw,4px);
     box-shadow: 0px min(0.069dvw,1px) min(0.139dvw,2px) 0px #0000000D;
     cursor: pointer;
-}
+} */
 
-.submit button:nth-child(1) {
+/* .submit button:nth-child(1) {
     border-color: #E0E0E0;
     background-color: #fff;
     color: #212121;
-}
+} */
 
-.submit button:nth-child(2) {
+/* .submit button:nth-child(2) {
     border-color: #26AC34;
     background-color: #26AC34;
     color: #fff;
-}
+} */
 
 .wrapper_errorMsg {
     display: flex;
@@ -456,15 +461,15 @@ onBeforeMount(async () => {
     text-overflow: ellipsis;
 }
 
-.submit_deactive{
+/* .submit_deactive{
     background-color: #BDBDBD !important;
     cursor: not-allowed !important;
     border-color: transparent !important;
-} */
+}
 .inportant_input::after{
     content: '*';
     color: #F75555;
-}
+} */
 
 /* mobile */
 @media (width<=432px){
@@ -502,6 +507,9 @@ onBeforeMount(async () => {
         border-radius:4px;
         box-shadow: 0px 1px 2px 0px #0000000D;
         padding: 8px 12px;
+        font-size: min(3.241dvw,14px);
+        line-height: 144%;
+        letter-spacing: min(0.046dvw,0.2px);
     }
 }
 </style>
