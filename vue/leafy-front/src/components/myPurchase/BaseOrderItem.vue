@@ -1600,7 +1600,7 @@ const getShowAlertChange=(input)=>{
     /* image */
     .product_item .product_img{
         width: min(12.037dvw,52px);
-        height: 5min(12.037dvw,52px);
+        height: min(12.037dvw,52px);
         border-radius: min(0.926dvw,4px);
     }
     /* informatoin */
@@ -1750,7 +1750,7 @@ const getShowAlertChange=(input)=>{
     .container_btn button{
         height: min(8.333dvw,36px);
         font-size: min(3.241dvw,14px);
-        box-shadow: 0px 1px 2px 0px #0000000D;
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
         border-radius: min(0.926dvw,4px);
         padding: min(1.852dvw,8px) min(2.778dvw,12px);
     }
@@ -1761,11 +1761,11 @@ const getShowAlertChange=(input)=>{
     .container_access_mobile{
         display: flex;
         width: 100%;
-        height: 60px;
+        height: min(13.889dvw,60px);
         padding: min(2.778dvw,12px) min(4.63dvw,20px);
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0px 1px 3px 0px #0000001A;
+        box-shadow: 0px min(0.231dvw,1px) min(0.694dvw,3px) 0px #0000001A;
         background-color: #fff;
     }
     .container_access_mobile .go_back_btn{
