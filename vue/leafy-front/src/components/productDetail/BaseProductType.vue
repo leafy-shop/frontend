@@ -711,7 +711,7 @@ onUpdated(() => {
 }
 .information_header h4 {
   width: inherit;
-  height: inherit;
+  height: fit-content;
   font-size: min(1.667dvw, 24px);
   text-overflow: ellipsis;
   overflow: hidden;
@@ -927,7 +927,8 @@ onUpdated(() => {
   display: flex;
   width: fit-content;
   max-width: 100%;
-  height: min(2.5dvw,36px);
+  /* height: min(2.5dvw,36px); */
+  height: fit-content;
   gap: min(0.556dvw,8px);
   justify-content: center;
   align-items: center;
