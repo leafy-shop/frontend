@@ -137,6 +137,7 @@ const signUp=async()=>{
             isShowE.value=true
             // console.log(msg)
             errorMSG.value='This account is already in our system!'
+            // errorMSG.value=msg
         }else{
             isShowAlert.value=true
             alertType.value=1
