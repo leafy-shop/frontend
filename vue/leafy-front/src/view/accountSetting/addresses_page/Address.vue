@@ -296,22 +296,23 @@ onBeforeMount(async()=>{
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px min(0.069dvw,1px) min(0.139dvw,2px) rgba(0, 0, 0, 0.06);
     }
     .wrapper_address{
-        padding: 20px;
+        padding: min(4.63dvw,20px);
         border-radius: 0px;
     }
     .address{
-        gap: 24px;
+        gap: min(5.556dvw,24px);
     }
-    /* .header_address{
-    } */
-    .header_address >h4{
+    .header_address{
+        display: none
+    }
+    /* .header_address >h4{
         height: 24px;
         font-size: 16px;
-    }
+    } */
     /* old button */
-    .header_address >button{
+    /* .header_address >button{
         display:none;
-    }
+    } */
     
     /* create new mobile */
     .create_new_mobile{
@@ -323,14 +324,14 @@ onBeforeMount(async()=>{
     .create_new_mobile >button{
         display: flex;
         width: 100%;
-        height: 36px;
-        border-radius: 4px;
+        height: min(8.333dvw,36px);
+        border-radius: min(0.926dvw,4px);
         border: none;
-        padding: 8px 12px 8px 8px;
-        gap: 4px;
+        padding: min(1.852dvw,8px) min(2.778dvw,12px) min(1.852dvw,8px) min(1.852dvw,8px);
+        gap: min(0.926dvw,4px);
         background-color: #26AC34;
         color: #fff;
-        font-size: 14px;
+        font-size: min(3.241dvw,14px);
         line-height: 144%;
         font-weight: 500;
         box-shadow: 0px 1px 2px 0px #0000000D;
@@ -340,9 +341,9 @@ onBeforeMount(async()=>{
         white-space: nowrap
     }
     .create_new_mobile >button >svg {
-        width: 10px;
-        height: 10px;
-        margin: 5px;
+        width: min(2.315dvw,10px);
+        height: min(2.315dvw,10px);
+        margin: min(1.157dvw,5px);
     }
 }
 
