@@ -324,22 +324,22 @@ onMounted(()=>{
         height: v-bind('props.isSetting==true?'min(8.333dvw,36px)':'fit-content'');
         border-radius: 0px;
         background-color:transparent;
-        padding: min(4.63dvw,20px);
+        padding: min(4.63dvw,20px) min(4.63dvw,20px) min(2.778dvw,12px) min(4.63dvw,20px);
     }
     .sort_btn {
         font-size: min(3.241dvw,14px);
     }
     .container_sort{
-        gap: 0px;
-        justify-content: space-around;
+        gap: min(1.852dvw,8px);
+        justify-content: start;
     }
     .container_sort button{
         width: min(20.833dvw,90px);
         height: min(8.333dvw,36px);
-        box-shadow: 0px 1px 2px 0px #0000000D;
+        box-shadow: 0px min(0.231dvw,1px) min(0.463dvw,2px) 0px #0000000D;
         border-radius: min(0.926dvw,4px);
         padding: min(1.852dvw,8px) min(2.778dvw,12px);
-        gap: min(1.852dvw,8px);
+        /* gap: min(1.852dvw,8px); */
     }
     .container_sort button >div{
         width: min(4.63dvw,20px);
