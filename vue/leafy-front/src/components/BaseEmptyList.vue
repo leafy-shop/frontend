@@ -41,7 +41,7 @@ const showEmpty=computed(()=>props.showEmpty)
   background-color:#fff;
   border: none;
   border-radius: min(0.278dvw,4px);
-  z-index: 1000;
+  
 }
 .wrapper_empty > h4{
   width: fit-content;
