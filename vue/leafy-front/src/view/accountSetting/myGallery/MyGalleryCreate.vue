@@ -102,7 +102,7 @@ const submitGallery=async()=>{
     if(submitStatus){
         if(isEdit.value){ //this edit
             if(galleryFormData.value.isChange){
-                if(galleryCoverImg.value!=undefined){
+                // if(galleryCoverImg.value!=undefined){
                     let fetchStatus=true
 
                     let{status,msg}= await fetch.updateGallery(galleryContentId.value,galleryFormData.value.data)
@@ -135,12 +135,12 @@ const submitGallery=async()=>{
                     if(fetchStatus){ // all status true
                         goMyGallery()
                     }
-                }else{
-                    isShowAlert.value=true
-                    alertType.value=2
-                    alertDetail.value="The system requires an content image to be displayed for the user"
-                    alertTime.value=10
-                }
+                // }else{
+                //     isShowAlert.value=true
+                //     alertType.value=2
+                //     alertDetail.value="The system requires an content image to be displayed for the user"
+                //     alertTime.value=10
+                // }
             }else{
                 // error
             }

@@ -125,7 +125,7 @@ onBeforeMount(async()=>{
                     <!-- img -->
                     <div class="creater_img">
                         <img v-if="galleryDetail.icon!=undefined" :src="`${origin}/api/image/users/${galleryDetail.userId}`" alt="creater_img" draggable="false">
-                        <img v-else src="../assets/icon/unknow_user_icon.png" alt="creater_img" draggable="false" >
+                        <img v-else src="../assets/icon/user_icon.png" alt="creater_img" draggable="false" >
                     </div>
                     <!-- name -->
                     <div class="creater_name">

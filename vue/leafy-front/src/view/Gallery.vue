@@ -59,7 +59,7 @@ const getGallery=async()=>{
         console.log(await data)
         galleryList.value=await data.list
         allPage.value=await data.allPage
-        if( galleryList.value.length!=0){
+        if( await data.list!=0){
             getDataStatus.value=true
 
         }else{
@@ -123,7 +123,7 @@ onBeforeMount(async()=>{
                      :createrImg="gallery.icon" :creater-id="String(gallery.userId)" :createrName="gallery.contentOwner"   :likeCount="gallery.like" :commentCount="0" :createAt="gallery.createdAt" />
                 </div>
             </div>
-            <BaseEmptyList name="gallery_list" title="Hey there! Looks like we're currently out of gallery content. Sorry about that! 😊" :showEmpty="getDataStatus" />
+            <BaseEmptyList name="gallery_list_loading" title="Hey there! Looks like we're currently out of gallery content. Sorry about that! 😊" :showEmpty="getDataStatus" />
             <BaseSelectPage name="gallery_list_move_page" :totalPage="allPage" :currentPage="currentPage" @moveLeft="changeCurrentPage" @moveRight="changeCurrentPage" @changePage="changeCurrentPage" /> 
         </div>
         <BaseAlert name="gallery_list_all_alert" :show-alert="isShowAlert" :alert-detail="alertDetail" :alert-status="alertType" :second="alertTime" @getShowAlertChange="getShowAlertChange"/>
@@ -188,6 +188,9 @@ onBeforeMount(async()=>{
 /* gallery list */
 .gallery_list{
     display: grid;
+    width: 100%;
+    height: fit-content;
+    max-height: 100%;
     grid-template-columns: repeat(4,1fr);
     justify-content: center;
     gap: min(2.222dvw,32px);
@@ -195,7 +198,8 @@ onBeforeMount(async()=>{
 .wrapper_gallery_item{
     display: flex;
     width: 100%;
-    height: 100%;
+    height: fit-content;
+    max-height: 100%;
     justify-content: center;
     align-items: center;
 }

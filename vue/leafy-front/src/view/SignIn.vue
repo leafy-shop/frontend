@@ -146,11 +146,16 @@ onBeforeMount(()=>{
     box-sizing: border-box;
 }
 .signIn{
+    display: flex;
     width: auto;
     height: fit-content;
-    padding: min(13.889dvw,200px) 0px;
+    min-height: 90dvh;
+    max-height: 100%;
+    /* padding: min(13.889dvw,200px) 0px; */
     /* box-sizing: border-box; */
     background-color: #F5F5F5;
+    justify-content: center;
+    align-items: center;
 }
 
 .container_signIn{

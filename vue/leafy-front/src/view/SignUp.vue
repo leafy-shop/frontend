@@ -339,6 +339,8 @@ onMounted(()=>{
     display: flex;
     width: auto;
     height: fit-content;
+    max-height: 100%;
+    min-height: 90dvh;
     padding: min(3.472dvw,50px) 0px ;
     background-color: #F5F5F5;
     flex-direction: column;

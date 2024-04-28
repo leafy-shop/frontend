@@ -73,7 +73,7 @@ const props=defineProps({
                         <div>   
                             <!-- <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/gallery/${props.createrImg}`" alt="creater_name"> -->
                             <img v-if="props.createrImg!=undefined" :src="`${origin}/api/image/users/${props.createrId}`" alt="creater_name" draggable="false" loading="lazy">
-                            <img v-else src="../../assets/icon/unknow_user_icon.png" draggable="false" alt="creater_name">
+                            <img v-else src="../../assets/icon/user_icon.png" draggable="false" alt="creater_name">
                         </div>
                         <!--  name -->
                         <h6>
