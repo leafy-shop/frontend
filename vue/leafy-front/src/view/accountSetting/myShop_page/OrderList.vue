@@ -570,12 +570,14 @@ onMounted(async()=>{
                                         selected
                                         hidden
                                         >
-                                            {{validation.calculateStatusStepDisplay(order.status)}}
+                                            <!-- {{validation.calculateStatusStepDisplay(order.status)}} -->
+                                            {{order.status}}
                                         </option>
                                         <option v-show="calculateStatusStep(order.status).length!=0" v-for="(status,index) of calculateStatusStep(order.status)" 
                                         :style="[`background-color:${validation.calculateStatusStepColor(status).bg};color:${validation.calculateStatusStepColor(status).font};`]" 
                                         :key="index" :value="status" >
-                                            {{validation.calculateStatusStepDisplay(status)}}
+                                            <!-- {{validation.calculateStatusStepDisplay(status)}} -->
+                                            {{status}}
                                         </option>
                                     </select>
                                     <!-- drop down -->
