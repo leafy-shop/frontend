@@ -250,6 +250,9 @@ router.beforeEach(async (to, from, next) => {
                 }   
                 break;
             case "MyGallery_AS_add":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else
                 if (window.innerWidth<=432) {
                     next({name:"ComingSoon"});
                 } else {
@@ -257,6 +260,9 @@ router.beforeEach(async (to, from, next) => {
                 }
                 break; 
             case "MyGallery_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else
                 if (window.innerWidth<=432) {
                     next({name:"ComingSoon"});
                 } else {
@@ -264,6 +270,9 @@ router.beforeEach(async (to, from, next) => {
                 }
                 break;   
             case "Order_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else
                 if (window.innerWidth<=432) {
                     next({name:"ComingSoon"});
                 }else 
@@ -274,6 +283,9 @@ router.beforeEach(async (to, from, next) => {
                 }
                 break;   
             case "Shop_AS_add":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else
                 if (window.innerWidth<=432) {
                     next({name:"ComingSoon"});
                 }else 
@@ -282,7 +294,11 @@ router.beforeEach(async (to, from, next) => {
                 } else {
                     next();
                 }
+                break;
             case "Shop_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                } else
                 if (window.innerWidth<=432) {
                     next({name:"ComingSoon"});
                 }else 
@@ -292,6 +308,62 @@ router.beforeEach(async (to, from, next) => {
                     next();
                 }
                 break; 
+            case "MyPurchaseDetail":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "MyPurchase":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "Bank_AS_add":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "Bank_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "ChangePW_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "Address_AS_add":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "Address_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break; 
+            case "Profile_AS":
+                if (!isAuthenticated) {
+                    next({ name: "SignIn" });
+                }else {
+                    next();
+                }
+                break;
             default:
                 next(); // Call next() to allow navigation for other routes
         }
